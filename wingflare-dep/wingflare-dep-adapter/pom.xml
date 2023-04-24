@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>wingflare-dep</artifactId>
+        <groupId>com.wingflare</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>wingflare-dep-adapter</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-cloud-tencent</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-gateway-nosql-redis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-module-auth-nosql-redis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-module-base-nosql-redis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-module-user-nosql-redis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-spring-server-web</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

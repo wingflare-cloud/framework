@@ -1,0 +1,41 @@
+package ${pkg.ConvertDb}
+
+import ${package.Entity}.${entity};
+import ${pkg.Bo}.${Bo};
+import ${pkg.Dto}.${Dto};
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+
+/**
+ * <p>
+ * ${table.comment} 类型转换器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper
+public interface ${Convert} extends ${pkg.Convert}.${Convert} {
+
+    ${Convert} convert = Mappers.getMapper(${Convert}.class);
+
+    ${Bo} doToBo(${entity} $StringUtil.uncapitalize(${entity}));
+
+    ${Dto} doToDto(${entity} $StringUtil.uncapitalize(${entity}));
+
+    ${entity} boToDo(${Bo} $StringUtil.uncapitalize(${Bo}));
+
+    ${entity} dtoToDo(${Dto} $StringUtil.uncapitalize(${Dto}));
+
+    List<${Bo}> doToBoList(List<${entity}> $StringUtil.uncapitalize(${entity})List);
+
+    List<${Dto}> doToDtoList(List<${entity}> $StringUtil.uncapitalize(${entity})List);
+
+    List<${entity}> boToDoList(List<${Bo}> $StringUtil.uncapitalize(${Bo})List);
+
+    List<${entity}> dtoToDoList(List<${Dto}> $StringUtil.uncapitalize(${Dto})List);
+
+}

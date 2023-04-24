@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.base.mapper.DictMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `dict_id`,
+        `system_code`,
+        `state`,
+        `dict_type`,
+        `dict_code`,
+        `dict_name`,
+        `dict_value`,
+        `dict_text`,
+        `sort`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `sys_dict`.`dict_id`,
+        `sys_dict`.`system_code`,
+        `sys_dict`.`state`,
+        `sys_dict`.`dict_type`,
+        `sys_dict`.`dict_code`,
+        `sys_dict`.`dict_name`,
+        `sys_dict`.`dict_value`,
+        `sys_dict`.`dict_text`,
+        `sys_dict`.`sort`,
+        `sys_dict`.`created_time`,
+        `sys_dict`.`updated_time`,
+        `sys_dict`.`create_user`,
+        `sys_dict`.`create_user_id`,
+        `sys_dict`.`update_user`,
+        `sys_dict`.`update_user_id`,
+        `sys_dict`.`is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="DictDo" id="DictResult">
+        <result property="dictId" column="dict_id"/>
+        <result property="systemCode" column="system_code"/>
+        <result property="state" column="state"/>
+        <result property="dictType" column="dict_type"/>
+        <result property="dictCode" column="dict_code"/>
+        <result property="dictName" column="dict_name"/>
+        <result property="dictValue" column="dict_value"/>
+        <result property="dictText" column="dict_text"/>
+        <result property="sort" column="sort"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="version" column="version"/>
+    </resultMap>
+</mapper>

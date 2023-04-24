@@ -1,0 +1,299 @@
+#if($chainModel)
+    #set($returnVal = $SearchBo)
+#else
+    #set($returnVal = 'void')
+#end
+package ${pkg.SearchBo};
+
+
+import com.wingflare.lib.standard.BaseSearchBo;
+#if($entityLombokModel)
+import lombok.Getter;
+import lombok.Setter;
+    #if($chainModel)
+import lombok.experimental.Accessors;
+    #end
+#end
+#foreach ($pkg in $table.importPackages)
+    #if(!$StringUtil.startsWithIgnoreCase($pkg, "com.baomidou.mybatisplus.annotation") && !$StringUtil.startsWithIgnoreCase($pkg, "com.wingflare.lib.mybatis.plus.base.BaseDoAbstract"))
+import ${pkg};
+    #end
+#end
+
+/**
+ * <p>
+ * ${table.comment} 查询对象
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if($entityLombokModel)
+@Getter
+@Setter
+    #if($chainModel)
+@Accessors(chain = true)
+    #end
+#end
+public class ${SearchBo} extends BaseSearchBo
+{
+#foreach($field in $table.fields)
+    #if(!$field.versionField && !$field.logicDeleteField)
+        
+    private ${field.propertyType} eq_${field.propertyName};
+
+    private ${field.propertyType} neq_${field.propertyName};
+        #if($field.propertyType == 'String' && $field.propertyName != $primaryfield.propertyName)
+
+    private ${field.propertyType} like_${field.propertyName};
+
+    private ${field.propertyType} liker_${field.propertyName};
+
+    private ${field.propertyType} likel_${field.propertyName};
+
+    private ${field.propertyType} notlike_${field.propertyName};
+
+    private ${field.propertyType} notliker_${field.propertyName};
+
+    private ${field.propertyType} notlikel_${field.propertyName};
+        #end
+        #if($field.propertyType != 'String' && $field.propertyName != $primaryfield.propertyName)
+
+    private ${field.propertyType} gt_${field.propertyName};
+
+    private ${field.propertyType} lt_${field.propertyName};
+
+    private ${field.propertyType} egt_${field.propertyName};
+
+    private ${field.propertyType} elt_${field.propertyName};
+
+    private String between_${field.propertyName};
+
+    private String notbetween_${field.propertyName};
+        #end
+
+    private String in_${field.propertyName};
+
+    private String notin_${field.propertyName};
+    #end
+#end
+#if(!$entityLombokModel)
+    #foreach($field in $table.fields)
+        #if(!$field.versionField && !$field.logicDeleteField)
+
+    public ${field.propertyType} getEq_${field.propertyName}()
+    {
+        return eq_${field.propertyName};
+    }
+
+    public ${returnVal} setEq_${field.propertyName}(${field.propertyType} eq_${field.propertyName})
+    {
+        this.eq_${field.propertyName} = eq_${field.propertyName};
+            #if($chainModel)
+        return this;
+            #end
+    }
+
+    public ${field.propertyType} getNeq_${field.propertyName}()
+    {
+        return neq_${field.propertyName};
+    }
+
+    public ${returnVal} setNeq_${field.propertyName}(${field.propertyType} neq_${field.propertyName})
+    {
+        this.neq_${field.propertyName} = neq_${field.propertyName};
+            #if($chainModel)
+        return this;
+            #end
+    }
+        #if($field.propertyType == 'String' && $field.propertyName != $pkfield.propertyName)
+
+    public ${field.propertyType} getLike_${field.propertyName}()
+    {
+        return like_${field.propertyName};
+    }
+
+    public ${returnVal} setLike_${field.propertyName}(${field.propertyType} like_${field.propertyName})
+    {
+        this.like_${field.propertyName} = like_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getLiker_${field.propertyName}()
+    {
+        return liker_${field.propertyName};
+     }
+
+    public ${returnVal} setLiker_${field.propertyName}(${field.propertyType} liker_${field.propertyName})
+    {
+        this.liker_${field.propertyName} = liker_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getLikel_${field.propertyName}()
+    {
+        return likel_${field.propertyName};
+    }
+
+    public ${returnVal} setLikel_${field.propertyName}(${field.propertyType} likel_${field.propertyName})
+    {
+        this.likel_${field.propertyName} = likel_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getNotlike_${field.propertyName}()
+    {
+        return notlike_${field.propertyName};
+    }
+
+    public ${returnVal} setNotlike_${field.propertyName}(${field.propertyType} notlike_${field.propertyName})
+    {
+        this.notlike_${field.propertyName} = notlike_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getNotliker_${field.propertyName}()
+    {
+        return notliker_${field.propertyName};
+    }
+
+    public ${returnVal} setNotliker_${field.propertyName}(${field.propertyType} notliker_${field.propertyName})
+    {
+        this.notliker_${field.propertyName} = notliker_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getNotlikel_${field.propertyName}()
+    {
+        return notlikel_${field.propertyName};
+    }
+
+    public ${returnVal} setNotlikel_${field.propertyName}(${field.propertyType} notlikel_${field.propertyName})
+    {
+        this.notlikel_${field.propertyName} = notlikel_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+            #end
+            #if($field.propertyType != 'String')
+
+    public ${field.propertyType} getGt_${field.propertyName}()
+    {
+         return gt_${field.propertyName};
+    }
+
+    public ${returnVal} setGt_${field.propertyName}(${field.propertyType} gt_${field.propertyName})
+    {
+        this.gt_${field.propertyName} = gt_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getLt_${field.propertyName}()
+    {
+        return lt_${field.propertyName};
+    }
+
+    public ${returnVal} setLt_${field.propertyName}(${field.propertyType} lt_${field.propertyName})
+    {
+        this.lt_${field.propertyName} = lt_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getEgt_${field.propertyName}()
+    {
+        return egt_${field.propertyName};
+    }
+
+    public ${returnVal} setEgt_${field.propertyName}(${field.propertyType} egt_${field.propertyName})
+    {
+        this.egt_${field.propertyName} = egt_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public ${field.propertyType} getElt_${field.propertyName}()
+    {
+        return elt_${field.propertyName};
+    }
+
+    public ${returnVal} setElt_${field.propertyName}(${field.propertyType} elt_${field.propertyName})
+    {
+        this.elt_${field.propertyName} = elt_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public String getBetween_${field.propertyName}()
+    {
+        return between_${field.propertyName};
+    }
+
+    public ${returnVal} setBetween_${field.propertyName}(String between_${field.propertyName})
+    {
+        this.between_${field.propertyName} = between_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+
+    public String getNotbetween_${field.propertyName}()
+    {
+        return notbetween_${field.propertyName};
+    }
+
+    public ${returnVal} setNotbetween_${field.propertyName}(String notbetween_${field.propertyName})
+    {
+        this.notbetween_${field.propertyName} = notbetween_${field.propertyName};
+                #if($chainModel)
+        return this;
+                #end
+    }
+            #end
+
+    public String getIn_${field.propertyName}()
+    {
+        return in_${field.propertyName};
+    }
+
+    public ${returnVal} setIn_${field.propertyName}(String in_${field.propertyName})
+    {
+        this.in_${field.propertyName} = in_${field.propertyName};
+            #if($chainModel)
+        return this;
+            #end
+    }
+
+    public String getNotin_${field.propertyName}()
+    {
+        return notin_${field.propertyName};
+    }
+
+    public ${returnVal} setNotin_${field.propertyName}(String notin_${field.propertyName})
+    {
+        this.notin_${field.propertyName} = notin_${field.propertyName};
+            #if($chainModel)
+        return this;
+            #end
+    }
+        #end
+    #end
+#end
+
+}

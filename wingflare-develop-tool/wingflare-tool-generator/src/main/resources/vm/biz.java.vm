@@ -1,0 +1,63 @@
+package ${pkg.Biz};
+
+#if($controllerMethods.hasMethod)
+import com.wingflare.lib.standard.PageDto;
+import com.wingflare.lib.standard.bo.IdBo;
+import ${pkg.Dto}.${Dto};
+import ${pkg.Bo}.${Bo};
+import ${pkg.SearchBo}.${SearchBo};
+import com.wingflare.lib.core.validation.Create;
+import com.wingflare.lib.core.validation.Update;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
+#end
+
+/**
+ * <p>
+ * ${table.comment} 业务接口
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if($controllerMethods.hasMethod)
+@Validated
+#end
+#if($kotlin)
+interface ${Biz}
+#else
+public interface ${Biz} {
+    #if($controllerMethods.hasMethod)
+        #if($controllerMethods.list)
+
+    PageDto<${Dto}> list(@Valid ${SearchBo} bo);
+        #end
+        #if($controllerMethods.get)
+
+    ${Dto} get(@Valid @NotNull IdBo bo);
+        #end
+        #if($controllerMethods.getOnlyOne)
+
+    ${Dto} getOnlyOne(@Valid @NotNull ${SearchBo} bo);
+        #end
+        #if($controllerMethods.create)
+
+    @Validated({Default.class, Create.class})
+    ${Dto} create(@Valid @NotNull ${Bo} bo);
+        #end
+        #if($controllerMethods.update)
+
+    @Validated({Default.class, Update.class})
+    ${Dto} update(@Valid @NotNull ${Bo} bo);
+        #end
+        #if($controllerMethods.delete)
+
+    ${Dto} delete(@Valid @NotNull IdBo bo);
+        #end
+
+    #end
+}
+#end

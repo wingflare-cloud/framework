@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.wingflare</groupId>
+        <artifactId>cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>wingflare-lib-core</module>
+        <module>wingflare-lib-spring</module>
+        <module>wingflare-lib-security</module>
+        <module>wingflare-lib-redis</module>
+        <module>wingflare-lib-jwt</module>
+        <module>wingflare-lib-rabbitmq</module>
+        <module>wingflare-lib-mybatis-plus</module>
+        <module>wingflare-lib-datascope</module>
+        <module>wingfalre-lib-standard</module>
+        <module>wingflare-lib-captcha</module>
+        <module>wingflare-lib-captcha-support</module>
+    </modules>
+
+    <artifactId>wingflare-lib</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        wingflare-lib通用类库
+    </description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-dep-all</artifactId>
+                <version>${project.parent.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

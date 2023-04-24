@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.user.mapper.OrgDepartmentMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `department_id`,
+        `state`,
+        `org_id`,
+        `parent_department_id`,
+        `department_name`,
+        `role_id`,
+        `user_id`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `base_org_department`.`department_id`,
+        `base_org_department`.`state`,
+        `base_org_department`.`org_id`,
+        `base_org_department`.`parent_department_id`,
+        `base_org_department`.`department_name`,
+        `base_org_department`.`role_id`,
+        `base_org_department`.`user_id`,
+        `base_org_department`.`created_time`,
+        `base_org_department`.`updated_time`,
+        `base_org_department`.`create_user`,
+        `base_org_department`.`create_user_id`,
+        `base_org_department`.`update_user`,
+        `base_org_department`.`update_user_id`,
+        `base_org_department`.`is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="OrgDepartmentDo" id="OrgDepartmentResult">
+        <result property="departmentId" column="department_id"/>
+        <result property="state" column="state"/>
+        <result property="orgId" column="org_id"/>
+        <result property="parentDepartmentId" column="parent_department_id"/>
+        <result property="departmentName" column="department_name"/>
+        <result property="roleId" column="role_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="version" column="version"/>
+    </resultMap>
+</mapper>

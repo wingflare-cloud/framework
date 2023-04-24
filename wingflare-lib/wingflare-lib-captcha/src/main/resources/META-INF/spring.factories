@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wingflare.lib.captcha.service.CaptchaServer,\
+  com.wingflare.lib.captcha.properties.CaptchaProperties

@@ -1,0 +1,32 @@
+package ${pkg.Bootstarp};
+
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+#foreach($pkgItem in $allBizPkg)
+    #foreach($item in $pkgItem)
+import ${item};
+    #end
+#end
+
+/**
+ * <p>
+ * 模块业务自动装载文件
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Configuration
+@MapperScan("${basePackage}.business.${moduleNamePkg}.mapper}")
+@Import({
+#foreach($pkgItem in $allBizPkg)
+    #foreach($item in $pkgItem)
+        #set($lastIndex = $item.lastIndexOf('.')+1)
+    ${item.substring($lastIndex)}.class,
+    #end
+#end
+})
+public class Bootstarp {
+}

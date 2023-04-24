@@ -1,0 +1,140 @@
+package ${package.Controller};
+
+
+#if($restControllerStyle)
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if($superControllerClassPackage)
+import ${superControllerClassPackage};
+#end
+import org.springframework.web.bind.annotation.RequestMapping;
+#if($controllerMethods.hasMethod)
+import com.wingflare.lib.standard.PageDto;
+import com.wingflare.lib.standard.bo.IdBo;
+import ${pkg.BizImpl}.${BizImpl};
+import ${pkg.Dto}.${Dto};
+import ${pkg.Bo}.${Bo};
+import ${pkg.SearchBo}.${SearchBo};
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
+#end
+
+
+/**
+ * <p>
+ * ${table.comment} http控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if($restControllerStyle)
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("${tableBusinessName}")
+#if($kotlin)
+class ${table.controllerName}#if($superControllerClass) : ${superControllerClass}()#end
+#else
+    #if($superControllerClass)
+public class ${table.controllerName} extends ${superControllerClass} {
+    #else
+public class ${table.controllerName} {
+    #end
+    #if($controllerMethods.hasMethod)
+        #set($bizImpl = $StringUtil.uncapitalize(${BizImpl}))
+
+    @Resource
+    private ${BizImpl} $bizImpl;
+        #if($controllerMethods.list)
+
+    @RequestMapping(value="/list", method={RequestMethod.GET})
+    @ResponseBody
+    public PageDto<${Dto}> list(${SearchBo} bo)
+    {
+        return ${bizImpl}.list(bo);
+    }
+        #end
+        #if($controllerMethods.get)
+
+            #if($restControllerStyle)
+    @RequestMapping(value="/get/{id}", method={RequestMethod.GET})
+    public ${Dto} get(@PathVariable("id") String id)
+            #else
+    @RequestMapping(value="/get", method={RequestMethod.GET})
+    @ResponseBody
+    public ${Dto} get(IdBo bo)
+            #end
+    {
+                #if($restControllerStyle)
+        IdBo bo = new IdBo().setId(id);
+                #end
+        return ${bizImpl}.get(bo);
+    }
+        #end
+        #if($controllerMethods.getOnlyOne)
+
+            #if($restControllerStyle)
+    @RequestMapping(value="/getOnlyOne", method={RequestMethod.GET})
+            #else
+    @RequestMapping(value="/getOnlyOne", method={RequestMethod.GET})
+    @ResponseBody
+            #end
+    public ${Dto} getOnlyOne(${SearchBo} bo)
+    {
+        return ${bizImpl}.getOnlyOne(bo);
+    }
+        #end
+        #if($controllerMethods.create)
+
+            #if($restControllerStyle)
+    @RequestMapping(value="/create", method={RequestMethod.POST})
+            #else
+    @RequestMapping(value="/create", method={RequestMethod.POST})
+    @ResponseBody
+            #end
+    public ${Dto} create(@RequestBody ${Bo} bo)
+    {
+         return ${bizImpl}.create(bo);
+    }
+        #end
+        #if($controllerMethods.update)
+
+            #if($restControllerStyle)
+    @RequestMapping(value="/update", method={RequestMethod.PUT})
+            #else
+    @RequestMapping(value="/update", method={RequestMethod.PUT})
+    @ResponseBody
+            #end
+    public ${Dto} update(@RequestBody ${Bo} bo)
+    {
+        return ${bizImpl}.update(bo);
+    }
+        #end
+        #if($controllerMethods.delete)
+
+            #if($restControllerStyle)
+    @RequestMapping(value="/delete/{id}", method={RequestMethod.DELETE})
+    public ${Dto} delete(@PathVariable("id") String id)
+            #else
+    @RequestMapping(value="/delete", method={RequestMethod.DELETE})
+    @ResponseBody
+    public ${Dto} delete(IdBo bo)
+            #end
+    {
+            #if($restControllerStyle)
+        IdBo bo = new IdBo().setId(id);
+            #end
+        return ${bizImpl}.delete(bo);
+    }
+        #end
+
+    #end
+}
+#end

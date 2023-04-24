@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.auth.mapper.LoginInfoMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `login_id`,
+        `system_code`,
+        `user_id`,
+        `org_id`,
+        `identity_id`,
+        `refresh_token`,
+        `user_agent`,
+        `ipaddr`,
+        `expire_time`,
+        `created_time`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `sys_login_info`.`login_id`,
+        `sys_login_info`.`system_code`,
+        `sys_login_info`.`user_id`,
+        `sys_login_info`.`org_id`,
+        `sys_login_info`.`identity_id`,
+        `sys_login_info`.`refresh_token`,
+        `sys_login_info`.`user_agent`,
+        `sys_login_info`.`ipaddr`,
+        `sys_login_info`.`expire_time`,
+        `created_time`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="LoginInfoDo" id="LoginInfoResult">
+        <result property="loginId" column="login_id"/>
+        <result property="systemCode" column="system_code"/>
+        <result property="userId" column="user_id"/>
+        <result property="orgId" column="org_id"/>
+        <result property="identityId" column="identity_id"/>
+        <result property="refreshToken" column="refresh_token"/>
+        <result property="userAgent" column="user_agent"/>
+        <result property="ipaddr" column="ipaddr"/>
+        <result property="expireTime" column="expire_time"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cloud</artifactId>
+        <groupId>com.wingflare</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>wingflare-adapter</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>wingflare-adapter-cloud-alibaba</module>
+        <module>wingflare-adapter-cloud-tencent</module>
+        <module>wingflare-adapter-gateway-nosql-redis</module>
+        <module>wingflare-adapter-module-auth-nosql-redis</module>
+        <module>wingflare-adapter-module-user-nosql-redis</module>
+        <module>wingflare-adapter-module-base-nosql-redis</module>
+        <module>wingflare-adapter-spring-server-web</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-dep-all</artifactId>
+                <version>${project.parent.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

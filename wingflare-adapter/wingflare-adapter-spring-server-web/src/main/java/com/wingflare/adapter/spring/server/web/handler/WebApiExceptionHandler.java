@@ -1,0 +1,289 @@
+package com.wingflare.adapter.spring.server.web.handler;
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wingflare.lib.core.exceptions.BusinessLogicException;
+import com.wingflare.lib.core.exceptions.DataNotFoundException;
+import com.wingflare.lib.core.exceptions.NoException;
+import com.wingflare.lib.core.exceptions.NoPermissionException;
+import com.wingflare.lib.core.exceptions.ServerInternalException;
+import com.wingflare.lib.spring.utils.ApiHelperUtil;
+import com.wingflare.lib.standard.R;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+
+/**
+ * @author naizui_ycx
+ * @email chenxi2511@qq.com
+ * @description web api服务异常处理器
+ */
+@ControllerAdvice
+public class WebApiExceptionHandler {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Resource
+    private ObjectMapper objectMapper;
+
+    /**
+     * 业务异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BusinessLogicException.class)
+    public ModelAndView businessExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
+        if (logger.isDebugEnabled()) {
+            logger.warn("业务异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.warn(ExceptionUtils.getStackTrace(e));
+        }
+
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail(e.getData(), e.getMessage()));
+        return modelAndView;
+    }
+
+    /**
+     * 无异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.OK)
+    @ExceptionHandler(NoException.class)
+    public ModelAndView noExceptionHandler(HttpServletRequest req, NoException e) {
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.ok(e.getData(), e.getMessage()));
+        return modelAndView;
+    }
+
+    /**
+     * 无权限异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    @ExceptionHandler(NoPermissionException.class)
+    public Object noPermissionExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
+        ApiHelperUtil.setOriginalResp(true);
+        if (logger.isDebugEnabled()) {
+            logger.warn("未授权访问: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.warn(ExceptionUtils.getStackTrace(e));
+        }
+
+        return "";
+    }
+
+    /**
+     * 服务未找到异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ModelAndView noHandlerFoundExceptionHandler(HttpServletRequest req, NoHandlerFoundException e) {
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail(DataNotFoundException.defaultMessage));
+        return modelAndView;
+    }
+
+    /**
+     * 405异常处理
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ModelAndView httpRequestMethodNotSupportedExceptionHandler(
+            HttpServletRequest req, HttpRequestMethodNotSupportedException e) {
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail("request.method.notSupported"));
+        return modelAndView;
+    }
+
+    /**
+     * 415异常处理
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ModelAndView httpMediaTypeNotSupportedExceptionHandler(
+            HttpServletRequest req, HttpRequestMethodNotSupportedException e) {
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail("request.mediaType.notSupported"));
+        return modelAndView;
+    }
+
+    /**
+     * 兜底异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Throwable.class)
+    public ModelAndView baseExceptionHandler(
+            HttpServletRequest req, Throwable e) {
+        logger.error("服务异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+        logger.error(ExceptionUtils.getStackTrace(e));
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail(ServerInternalException.defaultMessage));
+        return modelAndView;
+    }
+
+    /**
+     * 参数格式无法解析
+     *
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ModelAndView argumentFormatExceptionHandler(
+            HttpServletRequest req, HttpMessageNotReadableException e) {
+
+        if (logger.isDebugEnabled()) {
+            logger.error("参数解析异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.error(ExceptionUtils.getStackTrace(e));
+        }
+
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail("request.argumentFormatException"));
+        return modelAndView;
+    }
+
+    /**
+     * 断言（非法参数）
+     */
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ModelAndView illegalArgumentExceptionHandler(IllegalArgumentException e){
+        if (logger.isDebugEnabled()) {
+            logger.warn("逻辑异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.warn(ExceptionUtils.getStackTrace(e));
+        }
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail(e.getMessage()));
+        return modelAndView;
+    }
+
+    /**
+     * 参数验证失败异常
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ModelAndView methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
+        if (logger.isDebugEnabled()) {
+            logger.warn("参数验证失败: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.warn(ExceptionUtils.getStackTrace(e));
+        }
+
+        R<Object> r;
+        List<String> errMsgList = e.getBindingResult().getAllErrors().stream()
+                .map(ObjectError::getDefaultMessage)
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (errMsgList.size() == 1) {
+            r = R.fail(errMsgList.get(0));
+        } else {
+            r = R.fail(errMsgList, "biz.business.paramErr");
+        }
+
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(r);
+        return modelAndView;
+    }
+
+    /**
+     * 参数验证失败异常
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ModelAndView constraintViolationExceptionHandler(ConstraintViolationException e){
+        if (logger.isDebugEnabled()) {
+            logger.warn("参数验证失败: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.warn(ExceptionUtils.getStackTrace(e));
+        }
+
+        R<Object> r;
+        Set<ConstraintViolation<?>> violationSet = e.getConstraintViolations();
+        AtomicReference<String> path = new AtomicReference<>("");
+        violationSet.stream().findFirst().ifPresent(v -> path.set(v.getPropertyPath().toString()));
+
+        if (path.get().split("\\.").length == 2) {
+            r = R.fail("sys.business.paramNull");
+        } else {
+            List<String> errMsgList = violationSet.stream()
+                    .map(ConstraintViolation::getMessage)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            if (errMsgList.size() == 1) {
+                r = R.fail(errMsgList.get(0));
+            } else {
+                r = R.fail(errMsgList, "biz.business.paramErr");
+            }
+        }
+
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(r);
+        return modelAndView;
+    }
+
+}

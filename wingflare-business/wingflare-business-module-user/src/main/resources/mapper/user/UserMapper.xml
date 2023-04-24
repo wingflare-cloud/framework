@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.user.mapper.UserMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `user_id`,
+        `super_administrator`,
+        `ban_state`,
+        `sex`,
+        `user_channel`,
+        `account_type`,
+        `user_name`,
+        `avatar`,
+        `user_account`,
+        `user_phone`,
+        `user_email`,
+        `user_passwd`,
+        `last_login_ip`,
+        `last_login_time`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `sys_user`.`user_id`,
+        `sys_user`.`super_administrator`,
+        `sys_user`.`ban_state`,
+        `sys_user`.`sex`,
+        `sys_user`.`user_channel`,
+        `sys_user`.`account_type`,
+        `sys_user`.`user_name`,
+        `sys_user`.`avatar`,
+        `sys_user`.`user_account`,
+        `sys_user`.`user_phone`,
+        `sys_user`.`user_email`,
+        `sys_user`.`user_passwd`,
+        `sys_user`.`last_login_ip`,
+        `sys_user`.`last_login_time`,
+        `sys_user`.`created_time`,
+        `sys_user`.`updated_time`,
+        `sys_user`.`create_user`,
+        `sys_user`.`create_user_id`,
+        `sys_user`.`update_user`,
+        `sys_user`.`update_user_id`,
+        `sys_user`.`is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="UserDo" id="UserResult">
+        <result property="userId" column="user_id"/>
+        <result property="superAdministrator" column="super_administrator"/>
+        <result property="banState" column="ban_state"/>
+        <result property="sex" column="sex"/>
+        <result property="userChannel" column="user_channel"/>
+        <result property="accountType" column="account_type"/>
+        <result property="userName" column="user_name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="userAccount" column="user_account"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userPasswd" column="user_passwd"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="version" column="version"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,62 @@
+package ${package.ServiceImpl};
+
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+#if($isGenServer)
+    #if($table.serviceInterface)
+import ${package.Service}.${table.serviceName};
+    #end
+#end
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
+#if($table.havePrimaryKey)
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+#end
+
+/**
+ * <p>
+ * ${table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if($kotlin)
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>()#if($isGenServer), ${table.serviceName}#end {
+
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}>#if($isGenServer) implements ${table.serviceName}#end {
+    #if($table.havePrimaryKey)
+    #set($doName = $StringUtil.uncapitalize(${entity}))
+
+    /**
+     * 获取${tableBusinessName}Map
+     *
+     * wrapper 查询参数
+     * @return 结果
+     */
+    public Map<String, ${entity}> getMap(QueryWrapper<${entity}> wrapper)
+    {
+        List<${entity}> list = list(wrapper);
+
+        if (list == null || list.isEmpty()) {
+		    return new HashMap<>();
+	    }
+
+        Map<String, ${entity}> ${doName}Map = new HashMap<>(list.size());
+
+        for (${entity} ${doName} : list) {
+            ${doName}Map.put(${doName}.get${primaryField.capitalName}(), ${doName});
+        }
+
+        return ${doName}Map;
+    }
+
+    #end
+#end
+}

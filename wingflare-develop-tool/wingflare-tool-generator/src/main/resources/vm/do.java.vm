@@ -1,0 +1,182 @@
+#if($chainModel)
+    #set($returnVal = $entity)
+#else
+    #set($returnVal = 'void')
+#end
+package ${package.Entity};
+
+#foreach ($pkg in $table.importPackages)
+import ${pkg};
+#end
+#if($entityLombokModel)
+import lombok.Getter;
+import lombok.Setter;
+    #if($chainModel)
+import lombok.experimental.Accessors;
+    #end
+#end
+
+/**
+ * <p>
+ * ${table.comment} 数据对象
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if($entityLombokModel)
+@Getter
+@Setter
+    #if($chainModel)
+@Accessors(chain = true)
+    #end
+#end
+#if($table.convert)
+@TableName("${table.name}")
+#end
+#if($superEntityClass != '')
+public class ${entity} extends ${superEntityClass}#if($activeRecord)<${entity}>#end {
+#elseif($activeRecord)
+public class ${entity} extends Model<${entity}> {
+#elseif($entitySerialVersionUID)
+public class ${entity} implements Serializable {
+#else
+public class ${entity} {
+#end
+#if($entitySerialVersionUID)
+
+    private static final long serialVersionUID = 1L;
+#end
+#foreach($field in $table.fields)
+
+    #if($field.comment != '')
+    /**
+     * ${field.comment} #if($field.keyFlag)(表主键)#end
+     */
+    #end
+    #if($field.keyFlag)
+        #if($field.keyIdentityFlag)
+    @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
+        #elseif($idType)
+    @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
+        #elseif($field.convert)
+    @TableId("${field.annotationColumnName}")
+        #end
+    #elseif($field.fill)
+            #if($field.convert){
+    @TableField(value = "${field.annotationColumnName}", fill = FieldFill.${field.fill})
+            #else
+    @TableField(fill = FieldFill.${field.fill})
+            #end
+    #elseif($field.convert)
+    @TableField("${field.annotationColumnName}")
+    #end
+    #if($field.versionField)
+    @Version
+    #end
+    #if($field.logicDeleteField)
+    @TableLogic
+    #end
+    private ${field.propertyType} ${field.propertyName};
+#end
+#if($superEntityClass == 'BaseDoAbstract' && $table.havePrimaryKey)
+
+    #if($isOverride)@Override#end
+    public $returnVal setPk(${primaryField.propertyType} ${primaryField.propertyName})
+    {
+        set${primaryField.capitalName}(${primaryField.propertyName});
+        #if($chainModel)return this;#end
+    }
+
+    #if($isOverride)@Override#end
+    public ${primaryField.propertyType} getPk()
+    {
+        return get${primaryField.capitalName}();
+    }
+#end
+#if(!$entityLombokModel)
+    #foreach($field in $table.fields)
+        #if($field.propertyType=='boolean')
+            #set($getprefix = 'is')
+        #else
+            #set($getprefix = 'get')
+        #end
+
+    public ${field.propertyType} ${getprefix}${field.capitalName}() {
+        return ${field.propertyName};
+    }
+
+    public ${returnVal} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+        #if($superEntityClass == 'BaseDoAbstract')
+        addNewField("${field.propertyName}");
+        #end
+        this.${field.propertyName} = ${field.propertyName};
+        #if($chainModel)
+        return this;
+        #end
+    }
+    #end
+#end
+#if($superEntityClass == 'BaseDoAbstract' && $table.havePrimaryKey)
+
+    #if($isOverride)@Override#end
+    public ${returnVal} clearNullNewField() {
+    #foreach ($field in $table.fields)
+
+        #if($field.propertyType=='boolean')
+            #set($getprefix = 'is')
+        #else
+            #set($getprefix = 'get')
+        #end
+	    if (${getprefix}${field.capitalName}() == null) {
+            removeNewField("${field.propertyName}");
+        }
+    #end
+    #if($chainModel)
+
+        return this;
+    #end
+    }
+
+    public ${entity} setOnNew(${entity} newDo)
+    {
+        ${entity} oldFieldObj = new $entity();
+    #foreach ($field in $table.fields)
+	    #if($field.propertyType=='boolean')
+            #set($getprefix = 'is')
+        #else
+            #set($getprefix = 'get')
+        #end
+        #if(!$setOnNewIgnoreFields.contains($field.columnName))
+
+        if (newDo.${getprefix}${field.capitalName}() != null && !newDo.${getprefix}${field.capitalName}().equals(${getprefix}${field.capitalName}())) {
+            oldFieldObj.set${field.capitalName}(${getprefix}${field.capitalName}());
+            set${field.capitalName}(newDo.${getprefix}${field.capitalName}());
+        }
+        #end
+    #end
+
+        if (!oldFieldObj.hasNewField()) {
+            return null;
+        }
+
+        return oldFieldObj;
+    }
+#end
+#if(!$entityLombokModel)
+
+    #if($isOverride)@Override#end
+    public String toString() {
+        return "${entity}{" +
+        #foreach($field in $table.fields)
+            #if($foreach.index==0)
+        "${field.propertyName} = " + ${field.propertyName} +
+            #else
+        ", ${field.propertyName} = " + ${field.propertyName} +
+            #end
+        #end
+        "}";
+    }
+#end
+
+}

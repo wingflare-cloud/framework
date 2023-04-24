@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wingflare.adapter.spring.server.web.configure.ConfigArgumentResolvers,\
+  com.wingflare.adapter.spring.server.web.MicroservicePackageImport

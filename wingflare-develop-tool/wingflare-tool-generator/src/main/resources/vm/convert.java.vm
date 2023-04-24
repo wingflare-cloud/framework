@@ -1,0 +1,31 @@
+package ${pkg.Convert}
+
+import ${pkg.Bo}.${Bo};
+import ${pkg.Dto}.${Dto};
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * <p>
+ * ${table.comment} bo dto类型转换器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper
+public interface ${Convert} {
+
+    ${Convert} convert = Mappers.getMapper(${Convert}.class);
+
+    ${Bo} dtoToBo(${Dto} $StringUtil.uncapitalize(${Dto}));
+
+    ${Dto} boToDto(${Bo} $StringUtil.uncapitalize($Bo));
+
+    List<${Bo}> dtoToBoList(List<${Dto}> $StringUtil.uncapitalize(${Dto})List);
+
+    List<${Dto}> boToDtoList(List<${Bo}> $StringUtil.uncapitalize($Bo)List);
+
+}

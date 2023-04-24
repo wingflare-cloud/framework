@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wingflare.lib.redis.configure.RedisConfig,\
+  com.wingflare.lib.redis.service.RedisService,\
+  com.wingflare.lib.redis.configure.RedissonAutoConfiguration,\
+  com.wingflare.lib.redis.utils.SystemSettingUtil

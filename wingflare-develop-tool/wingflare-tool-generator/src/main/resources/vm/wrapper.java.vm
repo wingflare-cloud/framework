@@ -1,0 +1,262 @@
+package ${pkg.Wrapper};
+
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
+import com.wingflare.lib.core.utils.StringUtil;
+import com.wingflare.lib.mybatis.plus.utils.WrapperUtil;
+import ${package.Entity}.${entity};
+import ${pkg.SearchBo}.${SearchBo};
+
+#foreach ($field in $table.fields)
+        #if($field.logicDeleteField)
+            #if($field.propertyType=='boolean')
+                #set($delgetprefix = 'is')
+            #else
+                #set($delgetprefix = 'get')
+            #end
+            #set($softDelField = $field)
+        #end
+#end
+/**
+ * ${table.comment} Wrapper
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public class ${Wrapper}
+{
+
+	/**
+     * 获取QueryWrapper
+     *
+     * @param bo 查询条件
+     */
+    public static QueryWrapper<${entity}> getQueryWrapper(${SearchBo} bo) {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper();
+
+        if (bo == null) {
+            return queryWrapper;
+        }
+
+        #if($softDelField)
+        // 设置数据范围
+        WrapperUtils.setDataScope(queryWrapper, bo.getDataScope());
+        #end
+
+        #foreach ($field in $table.fields)
+                #if($field.propertyType=='boolean')
+                        #set($getprefix = 'is')
+                #else
+                        #set($getprefix = 'get')
+                #end
+                #if(!$field.versionField && !$field.logicDeleteField)
+        // ${field.annotationColumnName} 开始
+        if (bo.getEq_${field.propertyName}() != null) {
+            queryWrapper.eq("${field.annotationColumnName}", bo.getEq_${field.propertyName}());
+        }
+        if (bo.getNeq_${field.propertyName}() != null) {
+            queryWrapper.ne("${field.annotationColumnName}", bo.getNeq_${field.propertyName}());
+        }
+                        #if($field.propertyType == 'String' && $field.propertyName != $primaryfield.propertyName)
+        if (StringUtil.isNotEmpty(bo.getLike_${field.propertyName}())) {
+            queryWrapper.like("${field.annotationColumnName}", bo.getLike_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getLiker_${field.propertyName}())) {
+            queryWrapper.likeRight("${field.annotationColumnName}", bo.getLiker_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getLikel_${field.propertyName}())) {
+            queryWrapper.likeLeft("${field.annotationColumnName}", bo.getLikel_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotlike_${field.propertyName}())) {
+            queryWrapper.notLike("${field.annotationColumnName}", bo.getNotlike_${field.propertyName}());
+        }
+                        #end
+                        #if($field.propertyType != 'String')
+        if (bo.getGt_${field.propertyName}() != null) {
+            queryWrapper.gt("${field.annotationColumnName}", bo.getGt_${field.propertyName}());
+        }
+        if (bo.getLt_${field.propertyName}() != null) {
+            queryWrapper.lt("${field.annotationColumnName}", bo.getLt_${field.propertyName}());
+        }
+        if (bo.getEgt_${field.propertyName}() != null) {
+            queryWrapper.ge("${field.annotationColumnName}", bo.getEgt_${field.propertyName}());
+        }
+        if (bo.getElt_${field.propertyName}() != null) {
+            queryWrapper.le("${field.annotationColumnName}", bo.getElt_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getBetween_${field.propertyName}())) {
+            WrapperUtils.between(queryWrapper, "${field.annotationColumnName}", bo.getBetween_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotbetween_${field.propertyName}())) {
+            WrapperUtils.notBetween(queryWrapper, "${field.annotationColumnName}", bo.getNotbetween_${field.propertyName}());
+        }
+                        #end
+        if (StringUtil.isNotEmpty(bo.getIn_${field.propertyName}())) {
+            WrapperUtils.in(queryWrapper, "${field.annotationColumnName}", bo.getIn_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotin_${field.propertyName}())) {
+            WrapperUtils.notIn(queryWrapper, "${field.annotationColumnName}", bo.getNotin_${field.propertyName}());
+        }
+                #end
+        #end
+
+        return queryWrapper;
+    }
+	
+	/**
+     * 获取LambdaQueryWrapper
+     *
+     * @param bo 查询条件
+     */
+	public static LambdaQueryWrapper<${entity}> getLambdaQueryWrapper(${SearchBo} bo) {
+        LambdaQueryWrapper<${entity}> queryWrapper = new LambdaQueryWrapper();
+
+        if (bo == null) {
+            return queryWrapper;
+        }
+
+        #if($softDelField)
+        // 设置数据范围
+        WrapperUtils.setDataScope(queryWrapper, ${entity}::${delgetprefix}${softDelField.capitalName}, bo.getDataScope());
+        #end
+
+        #foreach ($column in $columns)
+                #if($field.propertyType=='boolean')
+                        #set($getprefix = 'is')
+                #else
+                        #set($getprefix = 'get')
+                #end
+                #if(!$field.versionField && !$field.logicDeleteField)
+        // ${field.annotationColumnName} 开始
+        if (bo.getEq_${field.propertyName}() != null) {
+            queryWrapper.eq(${entity}::${getprefix}${field.capitalName}, bo.getEq_${field.propertyName}());
+        }
+        if (bo.getNeq_${field.propertyName}() != null) {
+            queryWrapper.ne(${entity}::${getprefix}${field.capitalName}, bo.getNeq_${field.propertyName}());
+        }
+                        #if($field.propertyType == 'String' && $field.propertyName != $primaryfield.propertyName)
+        if (StringUtil.isNotEmpty(bo.getLike_${field.propertyName}())) {
+            queryWrapper.like(${entity}::${getprefix}${field.capitalName}, bo.getLike_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getLiker_${field.propertyName}())) {
+            queryWrapper.likeRight(${entity}::${getprefix}${field.capitalName}, bo.getLiker_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getLikel_${field.propertyName}())) {
+            queryWrapper.likeLeft(${entity}::${getprefix}${field.capitalName}, bo.getLikel_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotlike_${field.propertyName}())) {
+            queryWrapper.notLike(${entity}::${getprefix}${field.capitalName}, bo.getNotlike_${field.propertyName}());
+        }
+                        #end
+                        #if($field.propertyType != 'String')
+        if (bo.getGt_${field.propertyName}() != null) {
+            queryWrapper.gt(${entity}::${getprefix}${field.capitalName}, bo.getGt_${field.propertyName}());
+        }
+        if (bo.getLt_${field.propertyName}() != null) {
+            queryWrapper.lt(${entity}::${getprefix}${field.capitalName}, bo.getLt_${field.propertyName}());
+        }
+        if (bo.getEgt_${field.propertyName}() != null) {
+            queryWrapper.ge(${entity}::${getprefix}${field.capitalName}, bo.getEgt_${field.propertyName}());
+        }
+        if (bo.getElt_${field.propertyName}() != null) {
+            queryWrapper.le(${entity}::${getprefix}${field.capitalName}, bo.getElt_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getBetween_${field.propertyName}())) {
+            WrapperUtils.between(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getBetween_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotbetween_${field.propertyName}())) {
+            WrapperUtils.notBetween(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotbetween_${field.propertyName}());
+        }
+                        #end
+        if (StringUtil.isNotEmpty(bo.getIn_${field.propertyName}())) {
+            WrapperUtils.in(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getIn_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotin_${field.propertyName}())) {
+            WrapperUtils.notIn(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotin_${field.propertyName}());
+        }
+                #end
+        #end
+
+        return queryWrapper;
+    }
+
+	/**
+     * 获取JoinLambdaQueryWrapper
+     *
+     * @param bo 查询条件
+     */
+	 public static JoinLambdaQueryWrapper<${entity}> getJoinLambdaQueryWrapper(${SearchBo} bo) {
+        JoinLambdaQueryWrapper<${entity}> queryWrapper = new JoinLambdaQueryWrapper();
+
+        if (bo == null) {
+            return queryWrapper;
+        }
+
+        #if($softDelField)
+        // 设置数据范围
+        WrapperUtils.setDataScope(queryWrapper, ${entity}::${delgetprefix}${softDelField.capitalName}, bo.getDataScope());
+        #end
+
+        #foreach ($column in $columns)
+                #if($field.propertyType=='boolean')
+                        #set($getprefix = 'is')
+                #else
+                        #set($getprefix = 'get')
+                #end
+                #if(!$field.versionField && !$field.logicDeleteField)
+        // ${field.annotationColumnName} 开始
+        if (bo.getEq_${field.propertyName}() != null) {
+            queryWrapper.eq(${entity}::${getprefix}${field.capitalName}, bo.getEq_${field.propertyName}());
+        }
+        if (bo.getNeq_${field.propertyName}() != null) {
+            queryWrapper.ne(${entity}::${getprefix}${field.capitalName}, bo.getNeq_${field.propertyName}());
+        }
+                        #if($field.propertyType == 'String' && $field.propertyName != $primaryfield.propertyName)
+        if (StringUtil.isNotEmpty(bo.getLike_${field.propertyName}())) {
+            queryWrapper.like(${entity}::${getprefix}${field.capitalName}, bo.getLike_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getLiker_${field.propertyName}())) {
+            queryWrapper.likeRight(${entity}::${getprefix}${field.capitalName}, bo.getLiker_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getLikel_${field.propertyName}())) {
+            queryWrapper.likeLeft(${entity}::${getprefix}${field.capitalName}, bo.getLikel_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotlike_${field.propertyName}())) {
+            queryWrapper.notLike(${entity}::${getprefix}${field.capitalName}, bo.getNotlike_${field.propertyName}());
+        }
+                        #end
+                        #if($field.propertyType != 'String')
+        if (bo.getGt_${field.propertyName}() != null) {
+            queryWrapper.gt(${entity}::${getprefix}${field.capitalName}, bo.getGt_${field.propertyName}());
+        }
+        if (bo.getLt_${field.propertyName}() != null) {
+            queryWrapper.lt(${entity}::${getprefix}${field.capitalName}, bo.getLt_${field.propertyName}());
+        }
+        if (bo.getEgt_${field.propertyName}() != null) {
+            queryWrapper.ge(${entity}::${getprefix}${field.capitalName}, bo.getEgt_${field.propertyName}());
+        }
+        if (bo.getElt_${field.propertyName}() != null) {
+            queryWrapper.le(${entity}::${getprefix}${field.capitalName}, bo.getElt_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getBetween_${field.propertyName}())) {
+            WrapperUtils.between(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getBetween_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotbetween_${field.propertyName}())) {
+            WrapperUtils.notBetween(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotbetween_${field.propertyName}());
+        }
+                        #end
+        if (StringUtil.isNotEmpty(bo.getIn_${field.propertyName}())) {
+            WrapperUtils.in(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getIn_${field.propertyName}());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotin_${field.propertyName}())) {
+            WrapperUtils.notIn(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotin_${field.propertyName}());
+        }
+                #end
+        #end
+
+        return queryWrapper;
+    }
+
+}

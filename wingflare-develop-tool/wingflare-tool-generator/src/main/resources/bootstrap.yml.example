@@ -1,0 +1,165 @@
+# Tomcat
+server:
+  port: 9202
+# Spring
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wingflare?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    # 应用名称
+    name: wingflare-tool-generator
+  profiles:
+    # 环境配置
+    active: dev
+generator:
+  basePackage: com.wingflare
+  jdbcUrl: ${spring.datasource.url}
+  username: ${spring.datasource.username}
+  password: ${spring.datasource.password}
+  schemaName: MYSQL
+  IdType: ASSIGN_ID
+  genServer: true
+  setOnNewIgnoreFields:
+    - is_delete
+    - update_user_id
+    - update_user
+    - create_user_id
+    - create_user
+    - updated_time
+    - created_time
+  default:
+    outputFileInfos:
+      - builtIn: true
+        fileType: Do
+        outputLocation: db
+        templateName: do.java.vm
+        pkgSuffix: business
+        templatePath: vm/do.java.vm
+
+      - builtIn: true
+        fileType: Mapper.xml
+        outputLocation: resources:mapper
+        templateName: mapper.xml.vm
+        templatePath: vm/mapper.xml.vm
+
+      - builtIn: true
+        fileType: Mapper.java
+        outputLocation: mapper
+        templateName: mapper.java.vm
+        pkgSuffix: business
+        templatePath: vm/mapper.java.vm
+
+      - builtIn: true
+        fileType: Service
+        outputLocation: service
+        templateName: server.java.vm
+        pkgSuffix: business
+        templatePath: vm/server.java.vm
+
+      - builtIn: true
+        fileType: ServiceImpl
+        outputLocation: service.impl
+        templateName: serverimpl.java.vm
+        pkgSuffix: business
+        templatePath: vm/serverimpl.java.vm
+
+      - builtIn: false
+        fileType: Bo
+        outputLocation: bo
+        templateName: bo.java.vm
+        pkgSuffix: facade
+        templatePath: vm/bo.java.vm
+
+      - builtIn: false
+        fileType: Dto
+        outputLocation: dto
+        templateName: dto.java.vm
+        pkgSuffix: facade
+        templatePath: vm/dto.java.vm
+
+      - builtIn: false
+        fileType: Convert
+        outputLocation: convert
+        templateName: convert.java.vm
+        pkgSuffix: facade
+        templatePath: vm/convert.java.vm
+
+      - builtIn: false
+        fileType: SearchBo
+        outputLocation: bo
+        templateName: searchbo.java.vm
+        pkgSuffix: facade
+        templatePath: vm/searchbo.java.vm
+
+      - builtIn: false
+        fileType: Wrapper
+        outputLocation: wrapper
+        templateName: wrapper.java.vm
+        pkgSuffix: business
+        templatePath: vm/wrapper.java.vm
+
+      - builtIn: false
+        fileType: ConvertDb
+        fileSuffix: Convert
+        outputLocation: convert
+        templateName: convertdb.java.vm
+        pkgSuffix: business
+        templatePath: vm/convertdb.java.vm
+
+      - builtIn: false
+        fileType: Bootstarp
+        hidePrefix: true
+        templateName: bootstarp.java.vm
+        pkgSuffix: business
+        templatePath: vm/bootstarp.java.vm
+
+      - builtIn: false
+        fileType: Biz
+        outputLocation: biz
+        templateName: biz.java.vm
+        pkgSuffix: facade
+        templatePath: vm/biz.java.vm
+
+      - builtIn: false
+        fileType: BizImpl
+        outputLocation: biz
+        templateName: bizimpl.java.vm
+        pkgSuffix: business
+        templatePath: vm/bizimpl.java.vm
+
+      - builtIn: true
+        fileType: Controller
+        outputLocation: controller
+        templateName: controller.java.vm
+        pkgSuffix: module
+        templatePath: vm/controller.java.vm
+
+    strategies:
+      - fileType: Do
+        properties:
+          superDoClass: com.wingflare.lib.mybatis.plus.base.BaseDoAbstract
+          logicDeleteFieldName: is_delete
+          versionFieldName: version
+          tableFills:
+            - created_time:insert
+            - updated_time:insert_update
+            - create_user:insert
+            - create_user_id:insert
+            - update_user_id:insert_update
+            - is_delete:insert
+            - version:insert
+
+      - fileType: Mapper.java
+        properties:
+          superMapperClass: com.wingflare.lib.mybatis.plus.base.CustomMapper
+          baseResultMap: true
+          baseColumnList: true
+
+      - fileType: Service
+        properties:
+          superServiceImplClass: com.wingflare.lib.mybatis.plus.base.BaseService

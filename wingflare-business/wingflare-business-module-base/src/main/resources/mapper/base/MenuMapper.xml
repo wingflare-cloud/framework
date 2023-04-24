@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.base.mapper.MenuMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `menu_id`,
+        `parent_menu_id`,
+        `state`,
+        `menu_type`,
+        `system_code`,
+        `permission_code`,
+        `menu_name`,
+        `menu_icon`,
+        `menu_path`,
+        `menu_code`,
+        `href`,
+        `sort`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `sys_menu`.`menu_id`,
+        `sys_menu`.`parent_menu_id`,
+        `sys_menu`.`state`,
+        `sys_menu`.`menu_type`,
+        `sys_menu`.`system_code`,
+        `sys_menu`.`permission_code`,
+        `sys_menu`.`menu_name`,
+        `sys_menu`.`menu_icon`,
+        `sys_menu`.`menu_path`,
+        `sys_menu`.`menu_code`,
+        `sys_menu`.`href`,
+        `sys_menu`.`sort`,
+        `sys_menu`.`created_time`,
+        `sys_menu`.`updated_time`,
+        `sys_menu`.`create_user`,
+        `sys_menu`.`create_user_id`,
+        `sys_menu`.`update_user`,
+        `sys_menu`.`update_user_id`,
+        `sys_menu`.`is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="MenuDo" id="MenuResult">
+        <result property="menuId" column="menu_id"/>
+        <result property="parentMenuId" column="parent_menu_id"/>
+        <result property="state" column="state"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="systemCode" column="system_code"/>
+        <result property="permissionCode" column="permission_code"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="menuIcon" column="menu_icon"/>
+        <result property="menuPath" column="menu_path"/>
+        <result property="menuCode" column="menu_code"/>
+        <result property="href" column="href"/>
+        <result property="sort" column="sort"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="version" column="version"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.user.mapper.JobLevelMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `job_level_id`,
+        `level_name`,
+        `level`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `base_job_level`.`job_level_id`,
+        `base_job_level`.`level_name`,
+        `base_job_level`.`level`,
+        `base_job_level`.`created_time`,
+        `base_job_level`.`updated_time`,
+        `base_job_level`.`create_user`,
+        `base_job_level`.`create_user_id`,
+        `base_job_level`.`update_user`,
+        `base_job_level`.`update_user_id`,
+        `base_job_level`.`is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="JobLevelDo" id="JobLevelResult">
+        <result property="jobLevelId" column="job_level_id"/>
+        <result property="levelName" column="level_name"/>
+        <result property="level" column="level"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="version" column="version"/>
+    </resultMap>
+</mapper>

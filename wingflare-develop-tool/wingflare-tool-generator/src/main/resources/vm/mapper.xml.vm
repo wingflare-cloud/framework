@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+    #if($enableCache)
+
+    <!-- 开启二级缓存 -->
+    <cache type="${cacheClassName}"/>
+    #end
+    #if($baseResultMap)
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="${package.Entity}.${entity}">
+        #if($table.havePrimaryKey)
+        <id column="${primaryField.name}" property="${primaryField.propertyName}" />
+        #end
+        #foreach($field in $table.commonFields){ %>
+        <result column="${field.name}" property="${field.propertyName}" />
+        #end
+        #foreach($field in $table.fields)
+            #if(!$field.keyFlag)
+        <result column="${field.name}" property="${field.propertyName}" />
+            #end
+        #end
+    </resultMap>
+    #end
+    #if($baseColumnList)
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        #foreach($field in $table.commonFields)
+        `${field.columnName}`,
+        #end
+        #foreach($field in $table.fields)
+            #if($foreach.hasNext)
+        `${field.columnName}`,
+            #else
+        `${field.columnName}`
+            #end
+        #end
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        #foreach($field in $table.commonFields)
+        `${field.columnName}`,
+        #end
+        #foreach($field in $table.fields)
+            #if($foreach.hasNext)
+        `${table.name}`.`${field.columnName}`,
+            #else
+        `${table.name}`.`${field.columnName}`
+            #end
+        #end
+    </sql>
+    #end
+
+</mapper>
