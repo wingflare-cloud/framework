@@ -88,23 +88,27 @@ public class DataSecretAspect implements ApplicationContextAware {
                     Object o = point.getArgs()[i];
                     if (indexMap.containsKey(i)) {
                         if (isDecrypt) {
-                            String type = indexMap.get(i).getDecryptType();
-                            if (StringUtil.isNotEmpty(type)) {
-                                if (getDataSecretMap().get(type) != null) {
-                                    if (o instanceof String) {
-                                        args[i] = getDataSecretMap().get(type)
-                                                .decrypt((String) o);
-                                    } else if (BeanUtil.isBean(o.getClass())) {
-                                        beanPropertyDecrypt(o);
-                                        args[i] = o;
+                            Info info = indexMap.get(i);
+                            if (info != null) {
+                                String type = info.getDecryptType();
+                                if (StringUtil.isNotEmpty(type)) {
+                                    if (getDataSecretMap().get(type) != null) {
+                                        if (o instanceof String) {
+                                            args[i] = getDataSecretMap().get(type)
+                                                    .decrypt((String) o);
+                                        } else if (BeanUtil.isBean(o.getClass())) {
+                                            beanPropertyDecrypt(o);
+                                            args[i] = o;
+                                        } else {
+                                            throw new ServerInternalException("sec.dataSecret.unsupportedParamDataType",
+                                                    o.getClass().getName());
+                                        }
                                     } else {
-                                        throw new ServerInternalException("sec.dataSecret.unsupportedParamDataType",
-                                                o.getClass().getName());
+                                        throw new ServerInternalException("sec.dataSecret.driveNotFound", type);
                                     }
-                                } else {
-                                    throw new ServerInternalException("sec.dataSecret.driveNotFound", type);
                                 }
                             } else {
+                                beanPropertyDecrypt(o);
                                 args[i] = o;
                             }
                         } else {
