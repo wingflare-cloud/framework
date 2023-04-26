@@ -87,33 +87,31 @@ public class DataSecretAspect implements ApplicationContextAware {
                 for (int i = 0; i < point.getArgs().length; i++) {
                     Object o = point.getArgs()[i];
                     if (indexMap.containsKey(i)) {
+                        Info info = indexMap.get(i);
                         if (isDecrypt) {
-                            Info info = indexMap.get(i);
                             if (info != null) {
                                 String type = info.getDecryptType();
-                                if (StringUtil.isNotEmpty(type)) {
-                                    if (getDataSecretMap().get(type) != null) {
-                                        if (o instanceof String) {
-                                            args[i] = getDataSecretMap().get(type)
-                                                    .decrypt((String) o);
-                                        } else if (BeanUtil.isBean(o.getClass())) {
-                                            beanPropertyDecrypt(o);
-                                            args[i] = o;
-                                        } else {
-                                            throw new ServerInternalException("sec.dataSecret.unsupportedParamDataType",
-                                                    o.getClass().getName());
-                                        }
+                                if (getDataSecretMap().get(type) != null) {
+                                    if (o instanceof String) {
+                                        args[i] = getDataSecretMap().get(type)
+                                                .decrypt((String) o);
+                                    } else if (BeanUtil.isBean(o.getClass())) {
+                                        beanPropertyDecrypt(o);
+                                        args[i] = o;
                                     } else {
-                                        throw new ServerInternalException("sec.dataSecret.driveNotFound", type);
+                                        throw new ServerInternalException("sec.dataSecret.unsupportedParamDataType",
+                                                o.getClass().getName());
                                     }
+                                } else {
+                                    throw new ServerInternalException("sec.dataSecret.driveNotFound", type);
                                 }
                             } else {
                                 beanPropertyDecrypt(o);
                                 args[i] = o;
                             }
                         } else {
-                            String type = indexMap.get(i).getEncryptionType();
-                            if (StringUtil.isNotEmpty(type)) {
+                            if (info != null) {
+                                String type = info.getEncryptionType();
                                 if (getDataSecretMap().get(type) != null) {
                                     if (o instanceof String) {
                                         args[i] = getDataSecretMap().get(type)
@@ -129,6 +127,7 @@ public class DataSecretAspect implements ApplicationContextAware {
                                     throw new ServerInternalException("sec.dataSecret.driveNotFound", type);
                                 }
                             } else {
+                                beanPropertyEncryption(o);
                                 args[i] = o;
                             }
                         }
