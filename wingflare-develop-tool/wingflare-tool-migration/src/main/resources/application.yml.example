@@ -1,0 +1,13 @@
+# Spring
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wingflare?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456!
+  application:
+    # 应用名称
+    name: wingflare-module-migration
+  profiles:
+    # 环境配置
+    active: dev
