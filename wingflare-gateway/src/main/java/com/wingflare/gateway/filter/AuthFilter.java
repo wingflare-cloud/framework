@@ -17,6 +17,7 @@ import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -34,6 +35,9 @@ import javax.annotation.Resource;
  * @description 身份认证过滤器
  */
 @Component
+@ConditionalOnBean({
+        UserAuthUtil.class
+})
 public class AuthFilter implements GlobalFilter, Ordered {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthFilter.class);
