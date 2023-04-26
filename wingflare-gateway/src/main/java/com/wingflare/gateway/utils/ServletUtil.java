@@ -1,7 +1,11 @@
 package com.wingflare.gateway.utils;
 
-import com.alibaba.fastjson.JSONObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wingflare.lib.spring.utils.SpringUtil;
 import com.wingflare.lib.standard.R;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +20,8 @@ import reactor.core.publisher.Mono;
  */
 public class ServletUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(ServletUtil.class);
+
     /**
      * 设置webflux模型响应
      *
@@ -24,7 +30,7 @@ public class ServletUtil {
      * @return Mono<Void>
      */
     public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, Object value) {
-        return webFluxResponseWriter(response, HttpStatus.OK, value, R.RET_NO_ERR);
+        return webFluxResponseWriter(response, response.getStatusCode(), value, R.RET_NO_ERR);
     }
 
     /**
@@ -36,7 +42,7 @@ public class ServletUtil {
      * @return Mono<Void>
      */
     public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, Object value, int code) {
-        return webFluxResponseWriter(response, HttpStatus.OK, value, code);
+        return webFluxResponseWriter(response, response.getStatusCode(), value, code);
     }
 
     /**
@@ -74,12 +80,27 @@ public class ServletUtil {
      * @param value       响应内容
      * @return Mono<Void>
      */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatus status, Object value, int code) {
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType,
+                                                   HttpStatus status, Object value, int code) {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
-        R<?> result = R.fail(code, value.toString());
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
-        return response.writeWith(Mono.just(dataBuffer));
+        ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
+        Object result;
+
+        if (value instanceof R) {
+            result = value;
+        } else {
+            result = R.ok(code, value.toString());
+        }
+
+        try {
+            DataBuffer dataBuffer = response.bufferFactory().wrap(objectMapper.writeValueAsBytes(result));
+            return response.writeWith(Mono.just(dataBuffer));
+        } catch (Throwable e) {
+            logger.error("数据转换异常: [{}], {}", e.getClass().getName(), e.getMessage());
+        }
+
+        return response.writeWith(Mono.empty());
     }
 
 }
