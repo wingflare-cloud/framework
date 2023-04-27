@@ -3,6 +3,7 @@ package com.wingflare.adapter.spring.server.web.aspect;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wingflare.adapter.spring.server.web.properties.AccessLogProperties;
 import org.aspectj.lang.JoinPoint;
@@ -82,11 +83,15 @@ public class AccessLogAspect {
      * @param ret
      */
     @AfterReturning(returning = "ret", pointcut = "pointcut()")
-    public void doAfterReturning(Object ret) throws Throwable {
+    public void doAfterReturning(Object ret) {
         if (accessLogProperties.isEnable()) {
             if (ObjectUtil.isNotEmpty(ret)) {
                 if (BeanUtil.isBean(ret.getClass())) {
-                    logger.info("response: {}", objectMapper.writeValueAsString(ret));
+                    try {
+                        logger.info("response: {}", objectMapper.writeValueAsString(ret));
+                    } catch (JsonProcessingException e) {
+                        logger.error("参数序列化异常: {}", e.getMessage());
+                    }
                 } else {
                     logger.info("response: {}", ret);
                 }
@@ -122,12 +127,22 @@ public class AccessLogAspect {
             String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
             int i = 0;
             for (Object o : oArr) {
-                String key = "request-param-" + paramNames[i];
-                if (o instanceof MultipartFile) {
-                    MultipartFile file = (MultipartFile) o;
-                    paramMap.put(key, "FILE_NAME{" + file.getOriginalFilename() + "}");
-                } else {
-                    paramMap.put(key, o);
+                if (o != null) {
+                    String key = "request-param-" + paramNames[i];
+                    if (o instanceof MultipartFile) {
+                        MultipartFile file = (MultipartFile) o;
+                        paramMap.put(key, "FILE_NAME{" + file.getOriginalFilename() + "}");
+                    } else {
+                        if (BeanUtil.isBean(o.getClass())) {
+                            try {
+                                paramMap.put(key, objectMapper.writeValueAsString(o));
+                            } catch (JsonProcessingException e) {
+                                logger.error("参数序列化异常: {}", e.getMessage());
+                            }
+                        } else {
+                            paramMap.put(key, o);
+                        }
+                    }
                 }
                 i++;
             }
