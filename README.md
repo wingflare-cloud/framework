@@ -13,7 +13,7 @@
 * 引入组件化的思想实现高内聚低耦合并且高度可配置化
 * 适配spring-cloud-tencent & spring-cloud-alibaba，支持平滑切换。默认为alibaba
 
-### 工程结构
+## 工程结构
 
 ~~~
 project-root
@@ -78,7 +78,7 @@ project-root
         └── wingflare-starter-secuirty      // 安全库自启器
 ~~~
 
-### 交流以及反馈
+## 交流以及反馈
 * 欢迎提交ISSUS，请写清楚问题的具体原因，重现步骤和环境(上下文)
 * 个人博客：http://blog.wingflare.com
 * 官网（在建）：http://www.wingflare.com
@@ -86,7 +86,7 @@ project-root
 * QQ群：280079415
 * wechat: wingflare-cloud
 
-### 后期计划
+## 后期计划
 * 目前框架基本功能大概完成70%左右，后面会持续更新，计划23年年内完成全部基本功能
 * 第一阶段，增加分布式任务调度中心、基本功能前端开发（完结全部基础功能）
 * 第二阶段，增加多租户功能、工作流、以及开放平台应用接入功能
@@ -95,6 +95,6 @@ project-root
 * 第五阶段，可能会分享部分已经在多家公司生产环境实践过的框架配套自动化运维方案。（包含打版部署策略、网络安全策略、服务网络规划策略等）
 * 第六阶段，增加业务规则引擎、以及基于基础框架开发一些 商城/OA/ERP项目丰富框架生态
 
-### 📃 License
+## 📃 License
 
 Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
