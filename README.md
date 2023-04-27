@@ -95,5 +95,6 @@ project-root
 * 第五阶段，可能会分享部分已经在多家公司生产环境实践过的框架配套自动化运维方案。（包含打版部署策略、网络安全策略、服务网络规划策略等）
 * 第六阶段，增加业务规则引擎、以及基于基础框架开发一些 商城/OA/ERP项目丰富框架生态
 
-### 关于版权
-本项目原则上是基于MIT协议发行的，可免费商用或者修改后署名来源后二次分发。
+### 📃 License
+
+Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
