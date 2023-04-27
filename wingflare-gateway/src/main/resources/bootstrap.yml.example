@@ -1,0 +1,27 @@
+# Tomcat
+server:
+  port: 80
+
+# Spring
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    # 应用名称
+    name: wingflare-gateway
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: localhost:8848
+      config:
+        # 配置中心地址
+        server-addr: localhost:8848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
