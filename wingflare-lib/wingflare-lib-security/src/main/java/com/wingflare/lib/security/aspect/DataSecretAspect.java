@@ -5,8 +5,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.wingflare.lib.core.exceptions.ServerInternalException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.security.properties.ApiProperties;
 import com.wingflare.lib.security.standard.DataSecret;
+import com.wingflare.lib.spring.utils.PointUtil;
 import com.wingflare.lib.standard.annotation.security.Decrypt;
 import com.wingflare.lib.standard.annotation.security.Encryption;
 import com.wingflare.lib.standard.annotation.security.Secret;
@@ -25,10 +25,8 @@ import javax.annotation.Resource;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,13 +39,7 @@ import java.util.Map;
 public class DataSecretAspect implements ApplicationContextAware {
 
     @Resource
-    private ApiProperties apiProperties;
-
-    private List<Class<? extends Annotation>> apiAnnotationClassList = null;
-
-    private List<Class<?>> apiBaseClassList = null;
-
-    private final Map<String, Boolean> apiTargetCache = new HashMap<>();
+    private PointUtil pointUtil;
 
     private static final Logger logger = LoggerFactory.getLogger(DataSecretAspect.class);
 
@@ -215,101 +207,14 @@ public class DataSecretAspect implements ApplicationContextAware {
         }
     }
 
-    private List<Class<? extends Annotation>> getApiAnnotationClass() {
-        if (apiAnnotationClassList == null) {
-            synchronized (this) {
-                if (apiAnnotationClassList == null) {
-                    List<String> annNames = apiProperties.getAnnotationClasses();
-                    apiAnnotationClassList = new ArrayList<>();
-                    if (!CollectionUtil.isEmpty(annNames)) {
-                        annNames.forEach(className -> {
-                            try {
-                                apiAnnotationClassList.add((Class<? extends Annotation>) Class.forName(className));
-                            } catch (Throwable e) {
-                                logger.warn("class [{}] notfound or not api annotation.", className);
-                            }
-                        });
-                    }
-                }
-            }
-        }
-
-        return apiAnnotationClassList;
-    }
-
-    private List<Class<?>> getApiBaseClass() {
-        if (apiBaseClassList == null) {
-            synchronized (this) {
-                if (apiBaseClassList == null) {
-                    List<String> classNames = apiProperties.getBaseClasses();
-                    apiBaseClassList = new ArrayList<>();
-                    if (!CollectionUtil.isEmpty(classNames)) {
-                        classNames.forEach(className -> {
-                            try {
-                                apiBaseClassList.add(Class.forName(className));
-                            } catch (Throwable e) {
-                                logger.warn("api base class [{}] notfound.", className);
-                            }
-                        });
-                    }
-                }
-            }
-        }
-
-        return apiBaseClassList;
-    }
-
     private boolean isCallDecrypt(ProceedingJoinPoint point) {
-        return !isApiClient(point);
+        return !pointUtil.isApiClient(point);
     }
 
     private boolean isReturnDecrypt(ProceedingJoinPoint point) {
-        return isApiClient(point);
+        return pointUtil.isApiClient(point);
     }
 
-    /**
-     * 判断是否为api客户端调用
-     *
-     * @param point
-     * @return
-     */
-    private boolean isApiClient(ProceedingJoinPoint point) {
-        String name = point.getSignature().getDeclaringTypeName();
-
-        if (apiTargetCache.containsKey(name)) {
-            return apiTargetCache.get(name);
-        }
-
-        synchronized (apiTargetCache) {
-            if (!apiTargetCache.containsKey(name)) {
-                List<Class<? extends Annotation>> annClasses = getApiAnnotationClass();
-                List<Class<?>> classes = getApiBaseClass();
-                Annotation annotation = null;
-                boolean ret = false;
-
-                for (Class<?> clz : classes) {
-                    if (point.getTarget().getClass().isAssignableFrom(clz)) {
-                        ret = true;
-                        break;
-                    }
-                }
-
-                if (!ret) {
-                    for (Class<? extends Annotation> annClass : annClasses) {
-                        annotation = point.getSignature().getDeclaringType().getAnnotation(annClass);
-                        if (annotation != null) {
-                            ret = true;
-                            break;
-                        }
-                    }
-                }
-
-                apiTargetCache.put(name, ret);
-            }
-
-            return apiTargetCache.get(name);
-        }
-    }
 
     private void intBeanSecretFieldsName(Class clz) throws NoSuchFieldException {
         if (decryptFieldNameCache.containsKey(clz.getName())) {

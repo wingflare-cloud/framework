@@ -1,4 +1,4 @@
-package com.wingflare.lib.security.properties;
+package com.wingflare.lib.spring.configure.properties;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

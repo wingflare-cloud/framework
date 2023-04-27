@@ -100,6 +100,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
 
             requestTemplate.header(Wf.SYS_FROM_KEY, systemCode);
             ApiHelperUtil.setRequestAutoHeader(false);
+            ApiHelperUtil.setRequestHeaderPenetration(false);
         }
     }
 
