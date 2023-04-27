@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wingflare.adapter.spring.server.web.properties.AccessLogProperties;
+import com.wingflare.lib.spring.utils.PointUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,7 +16,6 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +33,6 @@ import java.util.Map;
  * @email chenxi2511@qq.com
  */
 @Aspect
-@RefreshScope
 public class AccessLogAspect {
 
     @Resource
@@ -45,12 +44,11 @@ public class AccessLogAspect {
     @Resource
     private AccessLogProperties accessLogProperties;
 
+    @Resource
+    private PointUtil pointUtil;
+
 
     private Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
-    /**
-     * 保证每个线程都有一个单独的实例
-     */
-    private ThreadLocal<Long> threadLocal = new ThreadLocal<>();
 
 
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
@@ -59,9 +57,7 @@ public class AccessLogAspect {
 
     @Before("pointcut()")
     public void doBefore(JoinPoint joinPoint) {
-        threadLocal.set(System.currentTimeMillis());
-
-        if (accessLogProperties.isEnable()) {
+        if (accessLogProperties.isEnable() && !pointUtil.isApiClient(joinPoint)) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes();
 
@@ -74,7 +70,6 @@ public class AccessLogAspect {
                 logger.info(stringBuilder.toString());
             }
         }
-
     }
 
     /**
@@ -82,9 +77,9 @@ public class AccessLogAspect {
      *
      * @param ret
      */
-    @AfterReturning(returning = "ret", pointcut = "pointcut()")
-    public void doAfterReturning(Object ret) {
-        if (accessLogProperties.isEnable()) {
+    @AfterReturning(returning = "ret", pointcut = "pointcut()", argNames = "joinPoint,ret")
+    public void doAfterReturning(JoinPoint joinPoint, Object ret) {
+        if (accessLogProperties.isEnable() && !pointUtil.isApiClient(joinPoint)) {
             if (ObjectUtil.isNotEmpty(ret)) {
                 if (BeanUtil.isBean(ret.getClass())) {
                     try {
@@ -96,8 +91,6 @@ public class AccessLogAspect {
                     logger.info("response: {}", ret);
                 }
             }
-
-            logger.info("time-cost: {}{}", System.currentTimeMillis() - threadLocal.get(), "ms");
         }
     }
 
