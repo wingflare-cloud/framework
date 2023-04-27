@@ -4,6 +4,7 @@ package com.wingflare.adapter.spring.server.web.aspect;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wingflare.adapter.spring.server.web.properties.AccessLogProperties;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -40,8 +41,8 @@ public class AccessLogAspect {
     @Value("${spring.application.name:}")
     private String applicationName;
 
-    @Value("${wf.accessLog.enable:false}")
-    private Boolean enableAccessLog;
+    @Resource
+    private AccessLogProperties accessLogProperties;
 
 
     private Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
@@ -59,7 +60,7 @@ public class AccessLogAspect {
     public void doBefore(JoinPoint joinPoint) {
         threadLocal.set(System.currentTimeMillis());
 
-        if (enableAccessLog) {
+        if (accessLogProperties.isEnable()) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes();
 
@@ -82,7 +83,7 @@ public class AccessLogAspect {
      */
     @AfterReturning(returning = "ret", pointcut = "pointcut()")
     public void doAfterReturning(Object ret) throws Throwable {
-        if (enableAccessLog) {
+        if (accessLogProperties.isEnable()) {
             if (ObjectUtil.isNotEmpty(ret)) {
                 if (BeanUtil.isBean(ret.getClass())) {
                     logger.info("response: {}", objectMapper.writeValueAsString(ret));
