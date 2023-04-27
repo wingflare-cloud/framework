@@ -56,7 +56,7 @@ public class AccessLogAspect {
     }
 
     @Before("pointcut()")
-    public void doBefore(JoinPoint joinPoint) throws Exception {
+    public void doBefore(JoinPoint joinPoint) {
         threadLocal.set(System.currentTimeMillis());
 
         if (enableAccessLog) {
@@ -82,16 +82,16 @@ public class AccessLogAspect {
      */
     @AfterReturning(returning = "ret", pointcut = "pointcut()")
     public void doAfterReturning(Object ret) throws Throwable {
-        if (ObjectUtil.isNotEmpty(ret)) {
-            if (BeanUtil.isBean(ret.getClass())) {
-                logger.info("response: {}", objectMapper.writeValueAsString(ret));
-            } else {
-                logger.info("response: {}", ret);
+        if (enableAccessLog) {
+            if (ObjectUtil.isNotEmpty(ret)) {
+                if (BeanUtil.isBean(ret.getClass())) {
+                    logger.info("response: {}", objectMapper.writeValueAsString(ret));
+                } else {
+                    logger.info("response: {}", ret);
+                }
             }
-        }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("time-cost: {}{}", System.currentTimeMillis() - threadLocal.get(), "ms");
+            logger.info("time-cost: {}{}", System.currentTimeMillis() - threadLocal.get(), "ms");
         }
     }
 
