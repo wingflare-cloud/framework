@@ -133,17 +133,17 @@ public class ${BizImpl} implements ${Biz}
     @Validated({Default.class, Update.class})
     public ${Dto} update(@Valid @NotNull ${Bo} bo)
     {
-        ${entity} old${doName} = ${serName}.getById(bo.get${primaryField.capitalName}());
+        ${entity} old${entity} = ${serName}.getById(bo.get${primaryField.capitalName}());
 
-        if (old${doName} == null) {
+        if (old${entity} == null) {
             throw new DataNotFoundException("${tableBusinessName}.data.notfound");
         }
 
         ${entity} ${doName} = ${Convert}.convert.boToDo(bo);
-        ${entity} oldField = old${doName}.setOnNew(${doName});
+        ${entity} oldField = old${entity}.setOnNew(${doName});
 
         if (oldField != null) {
-            ${serName}.updateById(old${doName});
+            ${serName}.updateById(old${entity});
         }
 
         return ${Convert}.convert.doToDto(${doName});
