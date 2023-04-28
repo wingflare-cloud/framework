@@ -38,8 +38,7 @@ import javax.validation.groups.Default;
  */
 @Component
 @Validated
-public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
-{
+public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz {
 
     @Resource
     private JobLevelClassifyServer jobLevelClassifyServer;
@@ -47,45 +46,41 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
     /**
      * 查询jobLevelClassify列表
      */
-    public PageDto<JobLevelClassifyDto> list(@Valid JobLevelClassifySearchBo bo)
-    {
+    public PageDto<JobLevelClassifyDto> list(@Valid JobLevelClassifySearchBo bo) {
         IPage<JobLevelClassifyDo> iPage = jobLevelClassifyServer.page(
-            jobLevelClassifyServer.createPage(bo),
-            JobLevelClassifyWrapper.getQueryWrapper(bo)
+                jobLevelClassifyServer.createPage(bo),
+                JobLevelClassifyWrapper.getQueryWrapper(bo)
         );
         return PageUtil.convertIPage(iPage,
-            JobLevelClassifyConvert.convert.doToDtoList(iPage.getRecords()));
+                JobLevelClassifyConvert.convert.doToDtoList(iPage.getRecords()));
     }
 
     /**
      * 查询${functionName}详情
      */
-	@Override
-    public JobLevelClassifyDto get(@Valid @NotNull IdBo bo)
-    {
+    @Override
+    public JobLevelClassifyDto get(@Valid @NotNull IdBo bo) {
         return JobLevelClassifyConvert.convert.doToDto(jobLevelClassifyServer.getById(bo.getId()));
     }
 
     /**
      * 通过条件查询单个jobLevelClassify详情
      */
-	@Override
-    public JobLevelClassifyDto getOnlyOne(@Valid @NotNull JobLevelClassifySearchBo bo)
-    {
+    @Override
+    public JobLevelClassifyDto getOnlyOne(@Valid @NotNull JobLevelClassifySearchBo bo) {
         return JobLevelClassifyConvert.convert.doToDto(jobLevelClassifyServer.getOne(JobLevelClassifyWrapper.getQueryWrapper(bo)));
     }
 
     /**
      * 删除jobLevelClassify
      */
-	@Override
-    public JobLevelClassifyDto delete(@Valid @NotNull IdBo bo)
-    {
+    @Override
+    public JobLevelClassifyDto delete(@Valid @NotNull IdBo bo) {
         JobLevelClassifyDo jobLevelClassifyDo = jobLevelClassifyServer.getById(bo.getId());
 
         if (jobLevelClassifyDo != null) {
             jobLevelClassifyServer.removeById(bo.getId());
-		    return JobLevelClassifyConvert.convert.doToDto(jobLevelClassifyDo);
+            return JobLevelClassifyConvert.convert.doToDto(jobLevelClassifyDo);
         }
 
         return null;
@@ -94,10 +89,9 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
     /**
      * 新增jobLevelClassify
      */
-	@Override
+    @Override
     @Validated({Default.class, Create.class})
-    public JobLevelClassifyDto create(@Valid @NotNull JobLevelClassifyBo bo)
-    {
+    public JobLevelClassifyDto create(@Valid @NotNull JobLevelClassifyBo bo) {
         checkJobLevelCanSave(bo, null);
         JobLevelClassifyDo jobLevelClassifyDo = JobLevelClassifyConvert.convert.boToDo(bo);
         jobLevelClassifyServer.save(jobLevelClassifyDo);
@@ -107,10 +101,9 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
     /**
      * 更新jobLevelClassify
      */
-	@Override
+    @Override
     @Validated({Default.class, Update.class})
-    public JobLevelClassifyDto update(@Valid @NotNull JobLevelClassifyBo bo)
-    {
+    public JobLevelClassifyDto update(@Valid @NotNull JobLevelClassifyBo bo) {
         JobLevelClassifyDo oldJobLevelClassifyDo = jobLevelClassifyServer.getById(bo.getLevelClassifyId());
 
         if (oldJobLevelClassifyDo == null) {
@@ -137,9 +130,9 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
     private void checkJobLevelCanSave(JobLevelClassifyBo bo, JobLevelClassifyDo oldDo) {
         LambdaQueryWrapper<JobLevelClassifyDo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.nested(q -> q.eq(StringUtil.isNotEmpty(bo.getClassifyName()), JobLevelClassifyDo::getClassifyName,
-                        bo.getClassifyName())
-                .or()
-                .eq(StringUtil.isNotEmpty(bo.getClassifyCode()), JobLevelClassifyDo::getClassifyCode, bo.getClassifyCode()))
+                                bo.getClassifyName())
+                        .or()
+                        .eq(StringUtil.isNotEmpty(bo.getClassifyCode()), JobLevelClassifyDo::getClassifyCode, bo.getClassifyCode()))
                 .ne(oldDo != null, JobLevelClassifyDo::getLevelClassifyId, oldDo.getLevelClassifyId());
 
         Assert.isTrue(jobLevelClassifyServer.has(queryWrapper), ErrorCode.SYS_JOB_LEVEL_CLASSIFY_EXISTENT);

@@ -220,8 +220,7 @@ public class RoleGroupBizImpl implements RoleGroupBiz {
      * @param bo 查询参数
      * @return 系统角色分组表
      */
-    public boolean has(RoleGroupSearchBo bo)
-    {
+    public boolean has(RoleGroupSearchBo bo) {
         return roleGroupServer.has(
                 RoleGroupWrapper.getQueryWrapper(bo)
         );

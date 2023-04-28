@@ -122,8 +122,7 @@ public class OrgBizImpl implements OrgBiz {
      * @param bo 查询参数
      * @return 组织机构
      */
-    public boolean has(OrgSearchBo bo)
-    {
+    public boolean has(OrgSearchBo bo) {
         return orgServer.has(
                 OrgWrapper.getQueryWrapper(bo)
         );

@@ -148,8 +148,7 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * @param bo 查询参数
      * @return 职级
      */
-    public boolean has(JobLevelSearchBo bo)
-    {
+    public boolean has(JobLevelSearchBo bo) {
         return jobLevelServer.has(
                 JobLevelWrapper.getQueryWrapper(bo)
         );

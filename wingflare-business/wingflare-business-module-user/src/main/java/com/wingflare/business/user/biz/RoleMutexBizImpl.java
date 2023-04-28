@@ -107,7 +107,7 @@ public class RoleMutexBizImpl implements RoleMutexBiz {
         RoleMutexDo oldRoleMutexDo = roleMutexServer.getById(bo.getId());
 
         if (oldRoleMutexDo == null) {
-            throw new DataNotFoundException("roleMutex.data.notfound" );
+            throw new DataNotFoundException("roleMutex.data.notfound");
         }
 
         RoleMutexDo roleMutexDo = RoleMutexConvert.convert.boToDo(bo);
@@ -122,8 +122,7 @@ public class RoleMutexBizImpl implements RoleMutexBiz {
      * @param bo 查询参数
      * @return 系统角色互斥关系
      */
-    public boolean has(RoleMutexSearchBo bo)
-    {
+    public boolean has(RoleMutexSearchBo bo) {
         return roleMutexServer.has(
                 RoleMutexWrapper.getQueryWrapper(bo)
         );

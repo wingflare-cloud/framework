@@ -429,8 +429,7 @@ public class UserBizImpl implements UserBiz {
      * @param bo 查询参数
      * @return 系统用户
      */
-    public boolean has(UserSearchBo bo)
-    {
+    public boolean has(UserSearchBo bo) {
         return userServer.has(
                 UserWrapper.getQueryWrapper(bo)
         );

@@ -201,8 +201,7 @@ public class IdentityBizImpl implements IdentityBiz {
      * @param bo 查询参数
      * @return 岗位身份
      */
-    public boolean has(IdentitySearchBo bo)
-    {
+    public boolean has(IdentitySearchBo bo) {
         return identityServer.has(
                 IdentityWrapper.getQueryWrapper(bo)
         );

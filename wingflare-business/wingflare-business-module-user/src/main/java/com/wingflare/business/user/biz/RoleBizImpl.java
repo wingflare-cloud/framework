@@ -160,7 +160,7 @@ public class RoleBizImpl implements RoleBiz {
             RoleDto roleDto = null;
 
             if (oldRoleDo == null) {
-                throw new DataNotFoundException("role.data.notfound" );
+                throw new DataNotFoundException("role.data.notfound");
             }
 
             checkRoleCanSave(bo, oldRoleDo);

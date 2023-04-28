@@ -107,7 +107,7 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
         RolePermissionDo oldRolePermissionDo = rolePermissionServer.getById(bo.getId());
 
         if (oldRolePermissionDo == null) {
-            throw new DataNotFoundException("rolePermission.data.notfound" );
+            throw new DataNotFoundException("rolePermission.data.notfound");
         }
 
         RolePermissionDo rolePermissionDo = RolePermissionConvert.convert.boToDo(bo);
