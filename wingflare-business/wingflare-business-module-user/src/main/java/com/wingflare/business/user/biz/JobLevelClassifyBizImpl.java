@@ -1,7 +1,9 @@
 package com.wingflare.business.user.biz;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.business.user.ErrorCode;
 import com.wingflare.facade.module.user.biz.JobLevelClassifyBiz;
 import com.wingflare.business.user.db.JobLevelClassifyDo;
 import com.wingflare.business.user.service.JobLevelClassifyServer;
@@ -10,6 +12,8 @@ import com.wingflare.facade.module.user.bo.JobLevelClassifyBo;
 import com.wingflare.facade.module.user.dto.JobLevelClassifyDto;
 import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBo;
 import com.wingflare.business.user.wrapper.JobLevelClassifyWrapper;
+import com.wingflare.lib.core.Assert;
+import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.standard.PageDto;
@@ -94,6 +98,7 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
     @Validated({Default.class, Create.class})
     public JobLevelClassifyDto create(@Valid @NotNull JobLevelClassifyBo bo)
     {
+        checkJobLevelCanSave(bo, null);
         JobLevelClassifyDo jobLevelClassifyDo = JobLevelClassifyConvert.convert.boToDo(bo);
         jobLevelClassifyServer.save(jobLevelClassifyDo);
         return JobLevelClassifyConvert.convert.doToDto(jobLevelClassifyDo);
@@ -112,6 +117,7 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
             throw new DataNotFoundException("jobLevelClassify.data.notfound");
         }
 
+        checkJobLevelCanSave(bo, oldJobLevelClassifyDo);
         JobLevelClassifyDo jobLevelClassifyDo = JobLevelClassifyConvert.convert.boToDo(bo);
         JobLevelClassifyDo oldField = oldJobLevelClassifyDo.setOnNew(jobLevelClassifyDo);
 
@@ -129,7 +135,17 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
      * @param oldDo
      */
     private void checkJobLevelCanSave(JobLevelClassifyBo bo, JobLevelClassifyDo oldDo) {
+        LambdaQueryWrapper<JobLevelClassifyDo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.nested(q -> q.eq(StringUtil.isNotEmpty(bo.getClassifyName()), JobLevelClassifyDo::getClassifyName,
+                        bo.getClassifyName())
+                .or()
+                .eq(StringUtil.isNotEmpty(bo.getClassifyCode()), JobLevelClassifyDo::getClassifyCode, bo.getClassifyCode()));
 
+        if (oldDo != null) {
+            queryWrapper.ne(JobLevelClassifyDo::getLevelClassifyId, oldDo.getLevelClassifyId());
+        }
+
+        Assert.isTrue(jobLevelClassifyServer.has(queryWrapper), ErrorCode.SYS_JOB_LEVEL_CLASSIFY_EXISTENT);
     }
 
 }
