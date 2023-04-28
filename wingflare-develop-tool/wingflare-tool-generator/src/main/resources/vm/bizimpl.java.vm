@@ -133,7 +133,7 @@ public class ${BizImpl} implements ${Biz}
     @Validated({Default.class, Update.class})
     public ${Dto} update(@Valid @NotNull ${Bo} bo)
     {
-        ${entity} old${doName} = ${serName}.getById(bo.get${pkColumn.capJavaField}());
+        ${entity} old${doName} = ${serName}.getById(bo.get${primaryField.capitalName}());
 
         if (old${doName} == null) {
             throw new DataNotFoundException("${tableBusinessName}.data.notfound");
