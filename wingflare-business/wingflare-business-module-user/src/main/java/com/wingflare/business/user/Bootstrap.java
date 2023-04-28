@@ -11,6 +11,7 @@ import com.wingflare.business.user.biz.RoleMutexBizImpl;
 import com.wingflare.business.user.biz.RolePermissionBizImpl;
 import com.wingflare.business.user.biz.UserBizImpl;
 import com.wingflare.business.user.service.IdentityServer;
+import com.wingflare.business.user.service.JobLevelClassifyServer;
 import com.wingflare.business.user.service.JobLevelServer;
 import com.wingflare.business.user.service.OrgDepartmentServer;
 import com.wingflare.business.user.service.OrgServer;
@@ -43,6 +44,7 @@ import org.springframework.context.annotation.Import;
         OrgDepartmentServer.class,
         OrgServer.class,
         UserRoleServer.class,
+        JobLevelClassifyServer.class,
 
         RoleBizImpl.class,
         RoleGroupBizImpl.class,
@@ -53,6 +55,7 @@ import org.springframework.context.annotation.Import;
         JobLevelBizImpl.class,
         OrgDepartmentBizImpl.class,
         OrgBizImpl.class,
+        JobLevelBizImpl.class,
 })
 public class Bootstrap {
 }

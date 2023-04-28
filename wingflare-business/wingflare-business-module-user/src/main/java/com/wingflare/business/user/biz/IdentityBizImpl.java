@@ -183,6 +183,8 @@ public class IdentityBizImpl implements IdentityBiz {
         if (StringUtil.isNotEmpty(bo.getDepartmentId())) {
             Assert.isTrue(orgDepartmentServer.hasById(bo.getDepartmentId()), ErrorCode.SYS_PARENT_DEPARTMENT_NON_EXISTENT);
             searchBo.setEq_departmentId(bo.getDepartmentId());
+        } else if (StringUtil.isNotEmpty(bo.getOrgId())) {
+            searchBo.setEq_orgId(bo.getOrgId());
         }
 
         if (StringUtil.isNotEmpty(bo.getJobLevelId())) {

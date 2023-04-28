@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.JobLevelConvert;
 import com.wingflare.business.user.db.JobLevelDo;
+import com.wingflare.business.user.service.JobLevelClassifyServer;
 import com.wingflare.business.user.service.JobLevelServer;
 import com.wingflare.business.user.wrapper.JobLevelWrapper;
 import com.wingflare.facade.module.user.biz.JobLevelBiz;
@@ -40,6 +41,9 @@ public class JobLevelBizImpl implements JobLevelBiz {
 
     @Resource
     private JobLevelServer jobLevelServer;
+
+    @Resource
+    private JobLevelClassifyServer jobLevelClassifyServer;
 
     /**
      * 查询职级列表
@@ -131,14 +135,10 @@ public class JobLevelBizImpl implements JobLevelBiz {
                 .setEq_levelName(bo.getLevelName());
 
         if (oldDo != null) {
-            Assert.isFalse(has(new JobLevelSearchBo()
-                    .setEq_levelName(bo.getLevelName())), ErrorCode.SYS_JOB_LEVEL_NAME_REPEAT);
-        } else {
-            Assert.isFalse(has(new JobLevelSearchBo()
-                    .setEq_levelName(bo.getLevelName())
-                    .setNeq_jobLevelId(oldDo.getJobLevelId())), ErrorCode.SYS_JOB_LEVEL_NAME_REPEAT);
+            searchBo.setNeq_jobLevelId(oldDo.getJobLevelId());
         }
 
+        Assert.isTrue(jobLevelClassifyServer.hasById(bo.getLevelClassifyId()), ErrorCode.SYS_JOB_LEVEL_CLASSIFY_NON_EXISTENT);
         Assert.isFalse(has(searchBo), ErrorCode.SYS_JOB_LEVEL_NAME_REPEAT);
     }
 

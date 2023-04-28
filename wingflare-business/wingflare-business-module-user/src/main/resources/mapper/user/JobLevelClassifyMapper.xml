@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.user.mapper.JobLevelClassifyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wingflare.business.user.db.JoblevelclassifyDo">
+        <id column="level_classify_id" property="levelClassifyId" />
+        <result column="classify_name" property="classifyName" />
+        <result column="classify_code" property="classifyCode" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="is_delete" property="isDelete" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `level_classify_id`,
+        `classify_name`,
+        `classify_code`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `base_job_level_classify`.`level_classify_id`,
+        `base_job_level_classify`.`classify_name`,
+        `base_job_level_classify`.`classify_code`,
+        `base_job_level_classify`.`created_time`,
+        `base_job_level_classify`.`updated_time`,
+        `base_job_level_classify`.`create_user`,
+        `base_job_level_classify`.`create_user_id`,
+        `base_job_level_classify`.`update_user`,
+        `base_job_level_classify`.`update_user_id`,
+        `base_job_level_classify`.`is_delete`,
+        `base_job_level_classify`.`version`
+    </sql>
+
+</mapper>

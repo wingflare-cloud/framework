@@ -178,4 +178,9 @@ public interface ErrorCode {
      */
     String SYS_JOB_LEVEL_NON_EXISTENT = "sys.jobLevel.nonExistent";
 
+    /**
+     * 职级分类不存在
+     */
+    String SYS_JOB_LEVEL_CLASSIFY_NON_EXISTENT = "sys.jobLevelClassify.nonExistent";
+
 }
