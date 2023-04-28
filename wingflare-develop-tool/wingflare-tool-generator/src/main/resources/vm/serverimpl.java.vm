@@ -1,6 +1,7 @@
 package ${package.ServiceImpl};
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 #if($isGenServer)
