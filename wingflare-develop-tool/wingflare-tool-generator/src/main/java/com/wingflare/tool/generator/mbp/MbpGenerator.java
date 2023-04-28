@@ -3,36 +3,28 @@ package com.wingflare.tool.generator.mbp;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.IFill;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.INameConvert;
 import com.baomidou.mybatisplus.generator.config.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.config.builder.BaseBuilder;
-import com.baomidou.mybatisplus.generator.config.builder.Controller;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
-import com.baomidou.mybatisplus.generator.config.builder.Entity;
-import com.baomidou.mybatisplus.generator.config.builder.Mapper;
-import com.baomidou.mybatisplus.generator.config.builder.Service;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.fill.Column;
-import com.wingflare.tool.generator.configurer.GeneratorConfig;
+import com.google.common.collect.Maps;
 import com.wingflare.tool.generator.ProjectPathResolver;
 import com.wingflare.tool.generator.common.ServiceException;
+import com.wingflare.tool.generator.configurer.GeneratorConfig;
 import com.wingflare.tool.generator.dto.Constant;
 import com.wingflare.tool.generator.dto.GenSetting;
 import com.wingflare.tool.generator.dto.OutputFileInfo;
 import com.wingflare.tool.generator.dto.UserConfig;
 import com.wingflare.tool.generator.service.UserConfigStore;
-import com.wingflare.tool.generator.strategy.*;
+import com.wingflare.tool.generator.strategy.Strategy;
+import com.wingflare.tool.generator.strategy.StrategyHandle;
 import com.wingflare.tool.generator.util.PathUtil;
-import com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -42,7 +34,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -109,13 +100,13 @@ public class MbpGenerator implements ApplicationContextAware {
                             .disableSqlFilter()
                             .enableSkipView();
                     // 配置entity的生成信息
-                    configStrategy(builder.entityBuilder(), userConfig.getStrategies(), genSetting.isOverride());
+                    configStrategy(builder.entityBuilder(), userConfig.getStrategies(), genSetting.isOverrideFile());
                     // 配置mapper和mapper-xml
-                    configStrategy(builder.mapperBuilder(), userConfig.getStrategies(), genSetting.isOverride());
+                    configStrategy(builder.mapperBuilder(), userConfig.getStrategies(), genSetting.isOverrideFile());
                     // 配置service
-                    configStrategy(builder.serviceBuilder(), userConfig.getStrategies(), genSetting.isOverride());
+                    configStrategy(builder.serviceBuilder(), userConfig.getStrategies(), genSetting.isOverrideFile());
                     // 配置Controller
-                    configStrategy(builder.controllerBuilder(), userConfig.getStrategies(), genSetting.isOverride());
+                    configStrategy(builder.controllerBuilder(), userConfig.getStrategies(), genSetting.isOverrideFile());
                 }).execute();
     }
 
@@ -207,6 +198,7 @@ public class MbpGenerator implements ApplicationContextAware {
         Map<String, List<String>> allBizPkg = new LinkedHashMap<>();
         baseInfoMap.put("allBizPkg", allBizPkg);
         baseInfoMap.put("pkg", pkgMap);
+        baseInfoMap.put("isOverrideMethod", genSetting.isOverrideMethod());
 
         String serPkgSuffix = null;
         String serOutputPackage = null;
@@ -230,7 +222,8 @@ public class MbpGenerator implements ApplicationContextAware {
         if (StrUtil.isNotEmpty(serPkgSuffix) && StrUtil.isNotEmpty(serOutputPackage)) {
             for (String table : tables) {
                 String serName;
-                String tableName = (new NameConverter(){}).tableNameConvert(table);
+                String tableName = (new NameConverter() {
+                }).tableNameConvert(table);
                 if (generatorConfig.isGenServer()) {
                     serName = tableName + "Server";
                 } else {
@@ -247,7 +240,8 @@ public class MbpGenerator implements ApplicationContextAware {
 
         if (bizOutputFileInfo != null) {
             for (String table : tables) {
-                String tableName = (new NameConverter(){}).tableNameConvert(table);
+                String tableName = (new NameConverter() {
+                }).tableNameConvert(table);
                 String bizName = tableName + "BizImpl";
                 String pkg = PathUtil.joinPackage(genSetting.getBasePackage(), bizOutputFileInfo.getPkgSuffix(),
                         genSetting.getModuleName(), bizOutputFileInfo.getOutputPackage(), bizName);
@@ -275,7 +269,7 @@ public class MbpGenerator implements ApplicationContextAware {
                 fileBuilder.fileName(fileName);
                 fileBuilder.templatePath(outputFileInfo.getTemplatePath());
                 fileBuilder.packageName(pkg);
-                if (genSetting.isOverride()) {
+                if (genSetting.isOverrideFile()) {
                     fileBuilder.enableFileOverride();
                 }
                 pkgMap.put(outputFileInfo.getFileType(), pkg);
@@ -315,7 +309,7 @@ public class MbpGenerator implements ApplicationContextAware {
             vars.put("controllerMethods", controllerMethodsVar);
 
             if (!StrUtil.isEmpty(generatorConfig.getSchemaName())) {
-                vars.put("schemaName", generatorConfig.getSchemaName() + "." );
+                vars.put("schemaName", generatorConfig.getSchemaName() + ".");
             }
 
             if (tableInfo.isHavePrimaryKey()) {
@@ -345,7 +339,7 @@ public class MbpGenerator implements ApplicationContextAware {
 
     private void checkGenSetting(GenSetting genSetting) {
         if (StrUtil.isEmpty(genSetting.getRootPath())) {
-            throw new ServiceException("目标项目根目录不能为空" );
+            throw new ServiceException("目标项目根目录不能为空");
         }
 
         genSetting.setRootPath(projectPathResolver.getUTF8String(genSetting.getRootPath()));

@@ -88,7 +88,9 @@ public class ${Dto} {
         #end
     #end
 
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
 	public String toString() {
         return "${entity}{" +
     #set($foreachOne = false)

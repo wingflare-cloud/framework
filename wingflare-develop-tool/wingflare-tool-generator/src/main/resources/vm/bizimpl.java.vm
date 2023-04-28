@@ -47,7 +47,9 @@ public class ${BizImpl} implements ${Biz}
     /**
      * 查询${tableBusinessName}列表
      */
-        #if($isOverride)@Override#end
+    #if($isOverrideMethodMethod)
+	@Override
+	#end
     public PageDto<${Dto}> list(@Valid ${SearchBo} bo)
     {
         IPage<${entity}> iPage = ${serName}.page(
@@ -63,7 +65,9 @@ public class ${BizImpl} implements ${Biz}
     /**
      * 查询${functionName}详情
      */
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public ${Dto} get(@Valid @NotNull IdBo bo)
     {
         return ${Convert}.convert.doToDto(${serName}.getById(bo.getId()));
@@ -74,7 +78,9 @@ public class ${BizImpl} implements ${Biz}
     /**
      * 通过条件查询单个${tableBusinessName}详情
      */
-        #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public ${Dto} getOnlyOne(@Valid @NotNull ${SearchBo} bo)
     {
         return ${Convert}.convert.doToDto(${serName}.getOne(${Wrapper}.getQueryWrapper(bo)));
@@ -85,7 +91,9 @@ public class ${BizImpl} implements ${Biz}
     /**
      * 删除${tableBusinessName}
      */
-        #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public ${Dto} delete(@Valid @NotNull IdBo bo)
     {
         ${entity} ${doName} = ${serName}.getById(bo.getId());
@@ -103,7 +111,9 @@ public class ${BizImpl} implements ${Biz}
     /**
      * 新增${tableBusinessName}
      */
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     @Validated({Default.class, Create.class})
     public ${Dto} create(@Valid @NotNull ${Bo} bo)
     {
@@ -117,7 +127,9 @@ public class ${BizImpl} implements ${Biz}
     /**
      * 更新${tableBusinessName}
      */
-    @Override
+    #if($isOverrideMethod)
+	@Override
+	#end
     @Validated({Default.class, Update.class})
     public ${Dto} update(@Valid @NotNull ${Bo} bo)
     {

@@ -16,7 +16,12 @@ public class GenSetting {
     /**
      * 文件存在时是否覆盖
      */
-    private boolean override;
+    private boolean overrideFile;
+
+    /**
+     * 方法覆写注解
+     */
+    private boolean overrideMethod;
 
     /**
      * 注释的作者
@@ -52,12 +57,20 @@ public class GenSetting {
         this.choosedOutputFiles = choosedOutputFiles;
     }
 
-    public boolean isOverride() {
-        return override;
+    public boolean isOverrideFile() {
+        return overrideFile;
     }
 
-    public void setOverride(boolean override) {
-        this.override = override;
+    public void setOverrideFile(boolean overrideFile) {
+        this.overrideFile = overrideFile;
+    }
+
+    public boolean isOverrideMethod() {
+        return overrideMethod;
+    }
+
+    public void setOverrideMethod(boolean overrideMethod) {
+        this.overrideMethod = overrideMethod;
     }
 
     public String getAuthor() {

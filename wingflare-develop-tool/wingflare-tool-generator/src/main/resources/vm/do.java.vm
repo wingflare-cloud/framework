@@ -81,13 +81,17 @@ public class ${entity} {
 #end
 #if($superEntityClass == 'BaseDoAbstract' && $table.havePrimaryKey)
 
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public void setPk(${primaryField.propertyType} ${primaryField.propertyName})
     {
         set${primaryField.capitalName}(${primaryField.propertyName});
     }
 
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public ${primaryField.propertyType} getPk()
     {
         return get${primaryField.capitalName}();
@@ -118,7 +122,9 @@ public class ${entity} {
 #end
 #if($superEntityClass == 'BaseDoAbstract' && $table.havePrimaryKey)
 
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public void clearNullNewField() {
     #foreach ($field in $table.fields)
 
@@ -160,7 +166,9 @@ public class ${entity} {
 #end
 #if(!$entityLombokModel)
 
-    #if($isOverride)@Override#end
+    #if($isOverrideMethod)
+	@Override
+	#end
     public String toString() {
         return "${entity}{" +
         #foreach($field in $table.fields)

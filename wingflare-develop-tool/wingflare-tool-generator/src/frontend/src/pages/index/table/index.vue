@@ -91,7 +91,10 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="存在同名文件时是否覆盖">
-          <el-switch v-model="genSetting.override"></el-switch>
+          <el-switch v-model="genSetting.overrideFile"></el-switch>
+        </el-form-item>
+        <el-form-item label="方法复写注解">
+          <el-switch v-model="genSetting.overrideMethod"></el-switch>
         </el-form-item>
         <el-form-item prop="rootPath" label="代码保存目录">
           <el-input
@@ -155,7 +158,8 @@ export default {
         author: "",
         basePackage: "",
         choosedOutputFiles: [],
-        override: false,
+        overrideFile: false,
+        overrideMethod: true,
         moduleName: "",
         choosedControllerMethods: [],
         rootPath: "",

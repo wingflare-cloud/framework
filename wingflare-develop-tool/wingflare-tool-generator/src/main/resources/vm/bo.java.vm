@@ -92,8 +92,10 @@ public class ${Bo} {
         #end
     #end
 
-    #if($isOverride)@Override#end
-    public String toString() {
+	#if($isOverrideMethod)
+	@Override
+	#end
+	public String toString() {
         return "${entity}{" +
     #set($foreachOne = false)
     #foreach($field in $table.fields)

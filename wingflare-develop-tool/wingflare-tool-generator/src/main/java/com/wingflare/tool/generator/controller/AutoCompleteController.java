@@ -1,6 +1,6 @@
 package com.wingflare.tool.generator.controller;
 
-import com.wingflare.tool.generator.ProjectPathResolver;
+
 import com.wingflare.tool.generator.common.Result;
 import com.wingflare.tool.generator.common.ResultGenerator;
 import com.wingflare.tool.generator.service.AutoCompleteService;

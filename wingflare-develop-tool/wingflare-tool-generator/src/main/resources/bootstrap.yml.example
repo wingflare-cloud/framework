@@ -143,6 +143,7 @@ generator:
       - fileType: Do
         properties:
           superDoClass: com.wingflare.lib.mybatis.plus.base.BaseDoAbstract
+          entityBuilderModel: true
           logicDeleteFieldName: is_delete
           versionFieldName: version
           tableFills:
