@@ -56,7 +56,7 @@ public class ${BizImpl} implements ${Biz}
             ${serName}.createPage(bo),
             ${Wrapper}.getQueryWrapper(bo)
         );
-        return  PageUtil.convertIPage(iPage,
+        return PageUtil.convertIPage(iPage,
             ${Convert}.convert.doToDtoList(iPage.getRecords()));
     }
     #end
