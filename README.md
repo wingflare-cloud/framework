@@ -95,6 +95,9 @@ project-root
 * 第五阶段，可能会分享部分已经在多家公司生产环境实践过的框架配套自动化运维方案。（包含打版部署策略、网络安全策略、服务网络规划策略等）
 * 第六阶段，增加业务规则引擎、以及基于基础框架开发一些 商城/OA/ERP项目丰富框架生态
 
+## 其他说明
+* wingflare-tool-generator工具代码源于 [mybatis-plus-generator-ui](https://github.com/davidfantasy/mybatis-plus-generator-ui) 项目
+
 ## 📃 License
 
 Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
