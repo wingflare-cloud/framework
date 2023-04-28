@@ -11,15 +11,11 @@ public interface NameConverter {
     /**
      * 自定义Entity.java的类名称（文件名等于类名加固定后缀）
      *
-     * @param tableName 表名称
+     * @param entityName 实体名
      * @return 转换后的实体类名称
      */
-    default String doNameConvert(String tableName) {
-        if (Strings.isNullOrEmpty(tableName)) {
-            return "";
-        }
-        tableName = tableName.substring(tableName.indexOf(StrUtil.UNDERLINE) + 1);
-        return StrUtil.upperFirst(StrUtil.toCamelCase(tableName.toLowerCase())) + "Do";
+    default String doNameConvert(String entityName) {
+        return entityName + "Do";
     }
 
     /**

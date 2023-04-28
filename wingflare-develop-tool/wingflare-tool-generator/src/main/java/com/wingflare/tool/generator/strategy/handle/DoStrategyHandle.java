@@ -122,6 +122,7 @@ public class DoStrategyHandle implements StrategyHandle<Entity.Builder> {
         }
 
         builder.idType(generatorConfig.getIdType());
+        builder.convertFileName(nameConverter::doNameConvert);
     }
 
     @Override
