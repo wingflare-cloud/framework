@@ -84,10 +84,9 @@ public class SettingDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public SettingDo setPk(String settingId)
+	public void setPk(String settingId)
 	{
 		setSettingId(settingId);
-		return this;
 	}
 
 	@Override
@@ -278,7 +277,7 @@ public class SettingDo extends BaseDoAbstract
     }
 
 	@Override
-	public SettingDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getSettingId() == null) {
@@ -340,8 +339,6 @@ public class SettingDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public SettingDo setOnNew(SettingDo newDo)

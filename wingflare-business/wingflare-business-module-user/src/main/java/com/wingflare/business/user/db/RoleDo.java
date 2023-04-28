@@ -84,10 +84,9 @@ public class RoleDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public RoleDo setPk(String roleId)
+	public void setPk(String roleId)
 	{
 		setRoleId(roleId);
-		return this;
 	}
 
 	@Override
@@ -278,7 +277,7 @@ public class RoleDo extends BaseDoAbstract
     }
 
 	@Override
-	public RoleDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getRoleId() == null) {
@@ -340,8 +339,6 @@ public class RoleDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public RoleDo setOnNew(RoleDo newDo)

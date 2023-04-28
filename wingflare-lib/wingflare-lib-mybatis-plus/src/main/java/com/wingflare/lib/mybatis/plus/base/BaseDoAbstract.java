@@ -18,15 +18,13 @@ public abstract class BaseDoAbstract implements BaseDo {
     protected Set<String> newField = new HashSet<>();
 
     @Override
-    public BaseDoAbstract addNewField(String field) {
+    public void addNewField(String field) {
         newField.add(field);
-        return this;
     }
 
     @Override
-    public BaseDoAbstract removeNewField(String field) {
+    public void removeNewField(String field) {
         newField.remove(field);
-        return this;
     }
 
     @Override
@@ -45,9 +43,8 @@ public abstract class BaseDoAbstract implements BaseDo {
     }
 
     @Override
-    public BaseDoAbstract clearNewField() {
+    public void clearNewField() {
         newField.clear();
-        return this;
     }
 
 }

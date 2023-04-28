@@ -44,10 +44,9 @@ public class LoginTokenDo extends BaseDoAbstract
     private Date createdTime;
 
 	@Override
-	public LoginTokenDo setPk(String tokenId)
+	public void setPk(String tokenId)
 	{
 		setTokenId(tokenId);
-		return this;
 	}
 
 	@Override
@@ -118,7 +117,7 @@ public class LoginTokenDo extends BaseDoAbstract
     }
 
 	@Override
-	public LoginTokenDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getTokenId() == null) {
@@ -140,8 +139,6 @@ public class LoginTokenDo extends BaseDoAbstract
 		if (getCreatedTime() == null) {
 			removeNewField("createdTime");
 		}
-
-		return this;
 	}
 
 	public LoginTokenDo setOnNew(LoginTokenDo newDo)

@@ -2,172 +2,162 @@ package com.wingflare.facade.module.user.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
 
 /**
- * 职级Dto
- * 
+ * <p>
+ * 职级表 输出对象
+ * </p>
+ *
  * @author naizui_ycx
- * @date Fri Mar 10 15:42:34 CST 2023
+ * @since 2023-04-28
  */
-public class JobLevelDto
-{
-	
+public class JobLevelDto {
+
     private String jobLevelId;
-	
-	/**
-     * 职级名称
+
+    /**
+     * 职级分类id 
+     */
+    private String levelClassifyId;
+
+    /**
+     * 职级名称 
      */
     private String levelName;
-	
-	/**
-     * 职级数值
+
+    /**
+     * 职级全局数值 
      */
-    private Long level;
-	
+    private Integer rootLevel;
+
+    /**
+     * 职级分类数值 
+     */
+    private Integer classifyLevel;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
-	
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedTime;
-	
-    private String createUser;
-	
-    private String createUserId;
-	
-    private String updateUser;
-	
-    private String updateUserId;
-	
-    private Integer version;
-	
-    public JobLevelDto setJobLevelId(String jobLevelId)
-    {
-        this.jobLevelId = jobLevelId;
-        return this;
-    }
 
-    public String getJobLevelId()
-    {
+    private String createUser;
+
+    private String createUserId;
+
+    private String updateUser;
+
+    private String updateUserId;
+
+    private Integer version;
+
+    public String getJobLevelId() {
         return jobLevelId;
     }
-	
-    public JobLevelDto setLevelName(String levelName)
-    {
-        this.levelName = levelName;
-        return this;
+
+    public void setJobLevelId(String jobLevelId) {
+        this.jobLevelId = jobLevelId;
     }
 
-    public String getLevelName()
-    {
+    public String getLevelClassifyId() {
+        return levelClassifyId;
+    }
+
+    public void setLevelClassifyId(String levelClassifyId) {
+        this.levelClassifyId = levelClassifyId;
+    }
+
+    public String getLevelName() {
         return levelName;
     }
-	
-    public JobLevelDto setLevel(Long level)
-    {
-        this.level = level;
-        return this;
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 
-    public Long getLevel()
-    {
-        return level;
-    }
-	
-    public JobLevelDto setCreatedTime(Date createdTime)
-    {
-        this.createdTime = createdTime;
-        return this;
+    public Integer getRootLevel() {
+        return rootLevel;
     }
 
-    public Date getCreatedTime()
-    {
+    public void setRootLevel(Integer rootLevel) {
+        this.rootLevel = rootLevel;
+    }
+
+    public Integer getClassifyLevel() {
+        return classifyLevel;
+    }
+
+    public void setClassifyLevel(Integer classifyLevel) {
+        this.classifyLevel = classifyLevel;
+    }
+
+    public Date getCreatedTime() {
         return createdTime;
     }
-	
-    public JobLevelDto setUpdatedTime(Date updatedTime)
-    {
-        this.updatedTime = updatedTime;
-        return this;
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public Date getUpdatedTime()
-    {
+    public Date getUpdatedTime() {
         return updatedTime;
     }
-	
-    public JobLevelDto setCreateUser(String createUser)
-    {
-        this.createUser = createUser;
-        return this;
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
-    public String getCreateUser()
-    {
+    public String getCreateUser() {
         return createUser;
     }
-	
-    public JobLevelDto setCreateUserId(String createUserId)
-    {
-        this.createUserId = createUserId;
-        return this;
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
-    public String getCreateUserId()
-    {
+    public String getCreateUserId() {
         return createUserId;
     }
-	
-    public JobLevelDto setUpdateUser(String updateUser)
-    {
-        this.updateUser = updateUser;
-        return this;
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
     }
 
-    public String getUpdateUser()
-    {
+    public String getUpdateUser() {
         return updateUser;
     }
-	
-    public JobLevelDto setUpdateUserId(String updateUserId)
-    {
-        this.updateUserId = updateUserId;
-        return this;
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
     }
 
-    public String getUpdateUserId()
-    {
+    public String getUpdateUserId() {
         return updateUserId;
     }
-	
-    public JobLevelDto setVersion(Integer version)
-    {
-        this.version = version;
-        return this;
+
+    public void setUpdateUserId(String updateUserId) {
+        this.updateUserId = updateUserId;
     }
 
-    public Integer getVersion()
-    {
+    public Integer getVersion() {
         return version;
     }
-	
-	@Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("jobLevelId", getJobLevelId())
-            .append("levelName", getLevelName())
-            .append("level", getLevel())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
-	
+
+	public String toString() {
+        return "JoblevelDo{" +
+        "jobLevelId = " + jobLevelId +
+        ", levelClassifyId = " + levelClassifyId +
+        ", levelName = " + levelName +
+        ", rootLevel = " + rootLevel +
+        ", classifyLevel = " + classifyLevel +
+        ", version = " + version +
+        "}";
+    }
+
 }

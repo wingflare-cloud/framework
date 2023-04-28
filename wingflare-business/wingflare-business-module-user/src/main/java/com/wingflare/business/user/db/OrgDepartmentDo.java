@@ -84,10 +84,9 @@ public class OrgDepartmentDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public OrgDepartmentDo setPk(String departmentId)
+	public void setPk(String departmentId)
 	{
 		setDepartmentId(departmentId);
-		return this;
 	}
 
 	@Override
@@ -278,7 +277,7 @@ public class OrgDepartmentDo extends BaseDoAbstract
     }
 
 	@Override
-	public OrgDepartmentDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getDepartmentId() == null) {
@@ -340,8 +339,6 @@ public class OrgDepartmentDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public OrgDepartmentDo setOnNew(OrgDepartmentDo newDo)

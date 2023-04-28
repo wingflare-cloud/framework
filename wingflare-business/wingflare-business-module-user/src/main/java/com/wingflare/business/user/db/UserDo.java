@@ -120,10 +120,9 @@ public class UserDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public UserDo setPk(String userId)
+	public void setPk(String userId)
 	{
 		setUserId(userId);
-		return this;
 	}
 
 	@Override
@@ -398,7 +397,7 @@ public class UserDo extends BaseDoAbstract
     }
 
 	@Override
-	public UserDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getUserId() == null) {
@@ -488,8 +487,6 @@ public class UserDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public UserDo setOnNew(UserDo newDo)

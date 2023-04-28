@@ -64,10 +64,9 @@ public class RoleGroupDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public RoleGroupDo setPk(String roleGroupId)
+	public void setPk(String roleGroupId)
 	{
 		setRoleGroupId(roleGroupId);
-		return this;
 	}
 
 	@Override
@@ -210,7 +209,7 @@ public class RoleGroupDo extends BaseDoAbstract
     }
 
 	@Override
-	public RoleGroupDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getRoleGroupId() == null) {
@@ -257,7 +256,6 @@ public class RoleGroupDo extends BaseDoAbstract
 			removeNewField("version");
 		}
 
-		return this;
 	}
 
 	public RoleGroupDo setOnNew(RoleGroupDo newDo)

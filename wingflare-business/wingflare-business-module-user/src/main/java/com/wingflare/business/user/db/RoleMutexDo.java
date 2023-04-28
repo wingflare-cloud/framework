@@ -44,10 +44,9 @@ public class RoleMutexDo extends BaseDoAbstract
     private Integer isDelete;
 
 	@Override
-	public RoleMutexDo setPk(String id)
+	public void setPk(String id)
 	{
 		setId(id);
-		return this;
 	}
 
 	@Override
@@ -142,7 +141,7 @@ public class RoleMutexDo extends BaseDoAbstract
     }
 
 	@Override
-	public RoleMutexDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getId() == null) {
@@ -172,8 +171,6 @@ public class RoleMutexDo extends BaseDoAbstract
 		if (getIsDelete() == null) {
 			removeNewField("isDelete");
 		}
-
-		return this;
 	}
 
 	public RoleMutexDo setOnNew(RoleMutexDo newDo)

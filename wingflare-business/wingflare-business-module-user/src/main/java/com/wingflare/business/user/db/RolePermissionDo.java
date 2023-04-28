@@ -41,10 +41,9 @@ public class RolePermissionDo extends BaseDoAbstract
     private String createUserId;
 
 	@Override
-	public RolePermissionDo setPk(String id)
+	public void setPk(String id)
 	{
 		setId(id);
-		return this;
 	}
 
 	@Override
@@ -139,7 +138,7 @@ public class RolePermissionDo extends BaseDoAbstract
     }
 
 	@Override
-	public RolePermissionDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getId() == null) {
@@ -169,8 +168,6 @@ public class RolePermissionDo extends BaseDoAbstract
 		if (getCreateUserId() == null) {
 			removeNewField("createUserId");
 		}
-
-		return this;
 	}
 
 	public RolePermissionDo setOnNew(RolePermissionDo newDo)

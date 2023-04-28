@@ -1,126 +1,119 @@
 package com.wingflare.facade.module.user.bo;
 
 
-import com.wingflare.lib.core.Regexp;
-import com.wingflare.lib.core.validation.Update;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 /**
- * 岗位身份Bo
- * 
+ * <p>
+ * 岗位身份数据表 业务对象
+ * </p>
+ *
  * @author naizui_ycx
- * @date Sun Apr 02 10:29:44 CST 2023
+ * @since 2023-04-28
  */
-public class IdentityBo
-{
+public class IdentityBo {
 
-    @NotBlank(message = "org.identityId.notBlank", groups = Update.class)
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "org.identityId.formatError", groups = Update.class)
     private String identityId;
 
-	/**
-     * 组织机构id
+    /**
+     * 身份代码 
+     */
+    private String identityCode;
+
+    /**
+     * 组织机构id 
      */
     private String orgId;
 
-	/**
-     * 部门id
+    /**
+     * 部门id 
      */
     private String departmentId;
 
-	/**
-     * 岗位名称
+    /**
+     * 岗位名称 
      */
     private String identityName;
 
-	/**
-     * 职级id
+    /**
+     * 职级id 
      */
     private String jobLevelId;
 
     private Integer version;
-    
-	public IdentityBo setIdentityId(String identityId)
-    {
+
+    public String getIdentityId() {
+        return identityId;
+    }
+
+    public IdentityBo setIdentityId(String identityId) {
         this.identityId = identityId;
         return this;
     }
 
-    public String getIdentityId()
-    {
-        return identityId;
+    public String getIdentityCode() {
+        return identityCode;
     }
-    
-	public IdentityBo setOrgId(String orgId)
-    {
+
+    public IdentityBo setIdentityCode(String identityCode) {
+        this.identityCode = identityCode;
+        return this;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public IdentityBo setOrgId(String orgId) {
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
-    {
-        return orgId;
+    public String getDepartmentId() {
+        return departmentId;
     }
-    
-	public IdentityBo setDepartmentId(String departmentId)
-    {
+
+    public IdentityBo setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
         return this;
     }
 
-    public String getDepartmentId()
-    {
-        return departmentId;
+    public String getIdentityName() {
+        return identityName;
     }
-    
-	public IdentityBo setIdentityName(String identityName)
-    {
+
+    public IdentityBo setIdentityName(String identityName) {
         this.identityName = identityName;
         return this;
     }
 
-    public String getIdentityName()
-    {
-        return identityName;
+    public String getJobLevelId() {
+        return jobLevelId;
     }
-    
-	public IdentityBo setJobLevelId(String jobLevelId)
-    {
+
+    public IdentityBo setJobLevelId(String jobLevelId) {
         this.jobLevelId = jobLevelId;
         return this;
     }
 
-    public String getJobLevelId()
-    {
-        return jobLevelId;
+    public Integer getVersion() {
+        return version;
     }
-    
-	public IdentityBo setVersion(Integer version)
-    {
+
+    public IdentityBo setVersion(Integer version) {
         this.version = version;
         return this;
     }
 
-    public Integer getVersion()
-    {
-        return version;
+	@Override
+	public String toString() {
+        return "IdentityDo{" +
+        "identityId = " + identityId +
+        ", identityCode = " + identityCode +
+        ", orgId = " + orgId +
+        ", departmentId = " + departmentId +
+        ", identityName = " + identityName +
+        ", jobLevelId = " + jobLevelId +
+        ", version = " + version +
+        "}";
     }
 
-	@Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("identityId", getIdentityId())
-            .append("orgId", getOrgId())
-            .append("departmentId", getDepartmentId())
-            .append("identityName", getIdentityName())
-            .append("jobLevelId", getJobLevelId())
-            .append("version", getVersion())
-            .toString();
-    }
-	
 }

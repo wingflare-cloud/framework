@@ -18,7 +18,7 @@ public interface BaseDo extends Serializable {
      *
      * @return
      */
-    public BaseDo setPk(String pk);
+    public void setPk(String pk);
 
     /**
      * 获取主键
@@ -32,7 +32,7 @@ public interface BaseDo extends Serializable {
      *
      * @return
      */
-    public BaseDo clearNullNewField();
+    public void clearNullNewField();
 
     /**
      * 添加一个需要更新的字段
@@ -40,7 +40,7 @@ public interface BaseDo extends Serializable {
      * @param field 字段名
      * @return
      */
-    public BaseDo addNewField(String field);
+    public void addNewField(String field);
 
     /**
      * 删除一个需要更新的字段
@@ -48,7 +48,7 @@ public interface BaseDo extends Serializable {
      * @param field 字段名
      * @return
      */
-    public BaseDo removeNewField(String field);
+    public void removeNewField(String field);
 
     /**
      * 判断当前实体是否存在需要更新的字段
@@ -78,6 +78,6 @@ public interface BaseDo extends Serializable {
      *
      * @return
      */
-    public BaseDo clearNewField();
+    public void clearNewField();
 
 }

@@ -1,13 +1,18 @@
 package com.wingflare.business.user.db;
 
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.util.Date;
-
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.Date;
 
 /**
  * 岗位身份Do
@@ -69,10 +74,9 @@ public class IdentityDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public IdentityDo setPk(String identityId)
+	public void setPk(String identityId)
 	{
 		setIdentityId(identityId);
-		return this;
 	}
 
 	@Override
@@ -239,7 +243,7 @@ public class IdentityDo extends BaseDoAbstract
     }
 
 	@Override
-	public IdentityDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getIdentityId() == null) {
@@ -293,8 +297,6 @@ public class IdentityDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public IdentityDo setOnNew(IdentityDo newDo)

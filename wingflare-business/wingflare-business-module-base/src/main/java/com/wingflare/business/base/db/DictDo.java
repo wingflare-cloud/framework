@@ -91,10 +91,9 @@ public class DictDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public DictDo setPk(String dictId)
+	public void setPk(String dictId)
 	{
 		setDictId(dictId);
-		return this;
 	}
 
 	@Override
@@ -309,7 +308,7 @@ public class DictDo extends BaseDoAbstract
     }
 
 	@Override
-	public DictDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getDictId() == null) {
@@ -379,8 +378,6 @@ public class DictDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public DictDo setOnNew(DictDo newDo)

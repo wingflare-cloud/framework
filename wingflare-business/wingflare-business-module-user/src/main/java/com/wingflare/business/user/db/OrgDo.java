@@ -94,10 +94,9 @@ public class OrgDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public OrgDo setPk(String orgId)
+	public void setPk(String orgId)
 	{
 		setOrgId(orgId);
-		return this;
 	}
 
 	@Override
@@ -312,7 +311,7 @@ public class OrgDo extends BaseDoAbstract
     }
 
 	@Override
-	public OrgDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getOrgId() == null) {
@@ -382,8 +381,6 @@ public class OrgDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public OrgDo setOnNew(OrgDo newDo)

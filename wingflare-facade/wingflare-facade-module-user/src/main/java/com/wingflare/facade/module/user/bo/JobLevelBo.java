@@ -1,90 +1,104 @@
 package com.wingflare.facade.module.user.bo;
 
 
-import com.wingflare.lib.core.validation.Update;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 /**
- * 职级Bo
- * 
+ * <p>
+ * 职级表 业务对象
+ * </p>
+ *
  * @author naizui_ycx
- * @date Fri Mar 10 15:42:34 CST 2023
+ * @since 2023-04-28
  */
-public class JobLevelBo
-{
+public class JobLevelBo {
 
-    @NotBlank(message = "org.jobLevelId.notBlank", groups = Update.class)
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "org.jobLevelId.formatError", groups = Update.class)
     private String jobLevelId;
 
-	/**
-     * 职级名称
+    /**
+     * 职级分类id 
+     */
+    private String levelClassifyId;
+
+    /**
+     * 职级名称 
      */
     private String levelName;
 
-	/**
-     * 职级数值
+    /**
+     * 职级全局数值 
      */
-    private Long level;
+    private Integer rootLevel;
+
+    /**
+     * 职级分类数值 
+     */
+    private Integer classifyLevel;
 
     private Integer version;
-    
-	public JobLevelBo setJobLevelId(String jobLevelId)
-    {
+
+    public String getJobLevelId() {
+        return jobLevelId;
+    }
+
+    public JobLevelBo setJobLevelId(String jobLevelId) {
         this.jobLevelId = jobLevelId;
         return this;
     }
 
-    public String getJobLevelId()
-    {
-        return jobLevelId;
+    public String getLevelClassifyId() {
+        return levelClassifyId;
     }
-    
-	public JobLevelBo setLevelName(String levelName)
-    {
+
+    public JobLevelBo setLevelClassifyId(String levelClassifyId) {
+        this.levelClassifyId = levelClassifyId;
+        return this;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public JobLevelBo setLevelName(String levelName) {
         this.levelName = levelName;
         return this;
     }
 
-    public String getLevelName()
-    {
-        return levelName;
+    public Integer getRootLevel() {
+        return rootLevel;
     }
-    
-	public JobLevelBo setLevel(Long level)
-    {
-        this.level = level;
+
+    public JobLevelBo setRootLevel(Integer rootLevel) {
+        this.rootLevel = rootLevel;
         return this;
     }
 
-    public Long getLevel()
-    {
-        return level;
+    public Integer getClassifyLevel() {
+        return classifyLevel;
     }
-    
-	public JobLevelBo setVersion(Integer version)
-    {
+
+    public JobLevelBo setClassifyLevel(Integer classifyLevel) {
+        this.classifyLevel = classifyLevel;
+        return this;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public JobLevelBo setVersion(Integer version) {
         this.version = version;
         return this;
     }
 
-    public Integer getVersion()
-    {
-        return version;
+	@Override
+	public String toString() {
+        return "JoblevelDo{" +
+        "jobLevelId = " + jobLevelId +
+        ", levelClassifyId = " + levelClassifyId +
+        ", levelName = " + levelName +
+        ", rootLevel = " + rootLevel +
+        ", classifyLevel = " + classifyLevel +
+        ", version = " + version +
+        "}";
     }
 
-	@Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("jobLevelId", getJobLevelId())
-            .append("levelName", getLevelName())
-            .append("level", getLevel())
-            .append("version", getVersion())
-            .toString();
-    }
-	
 }

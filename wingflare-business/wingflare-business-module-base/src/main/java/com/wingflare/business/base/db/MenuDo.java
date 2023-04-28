@@ -127,10 +127,9 @@ public class MenuDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public MenuDo setPk(String menuId)
+	public void setPk(String menuId)
 	{
 		setMenuId(menuId);
-		return this;
 	}
 
 	@Override
@@ -381,7 +380,7 @@ public class MenuDo extends BaseDoAbstract
     }
 
 	@Override
-	public MenuDo clearNullNewField()
+	public void clearNullNewField()
 	{
 
 		if (getMenuId() == null) {
@@ -463,8 +462,6 @@ public class MenuDo extends BaseDoAbstract
 		if (getVersion() == null) {
 			removeNewField("version");
 		}
-
-		return this;
 	}
 
 	public MenuDo setOnNew(MenuDo newDo)

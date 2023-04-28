@@ -3,20 +3,21 @@ package com.wingflare.business.user.wrapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.user.db.JobLevelDo;
-import com.wingflare.facade.module.user.bo.JobLevelSearchBo;
+import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.WrapperUtil;
-import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
+import com.wingflare.business.user.db.JobLevelDo;
+import com.wingflare.facade.module.user.bo.JobLevelSearchBo;
 
 /**
- * 职级Wrapper
+ * 职级表 Wrapper
  *
  * @author naizui_ycx
- * @date Fri Mar 10 15:42:34 CST 2023
+ * @date ${datetime}
  */
 public class JobLevelWrapper
 {
+
 	/**
      * 获取QueryWrapper
      *
@@ -39,11 +40,48 @@ public class JobLevelWrapper
         if (bo.getNeq_jobLevelId() != null) {
             queryWrapper.ne("job_level_id", bo.getNeq_jobLevelId());
         }
+        if (StringUtil.isNotEmpty(bo.getLike_jobLevelId())) {
+            queryWrapper.like("job_level_id", bo.getLike_jobLevelId());
+        }
+        if (StringUtil.isNotEmpty(bo.getLiker_jobLevelId())) {
+            queryWrapper.likeRight("job_level_id", bo.getLiker_jobLevelId());
+        }
+        if (StringUtil.isNotEmpty(bo.getLikel_jobLevelId())) {
+            queryWrapper.likeLeft("job_level_id", bo.getLikel_jobLevelId());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotlike_jobLevelId())) {
+            queryWrapper.notLike("job_level_id", bo.getNotlike_jobLevelId());
+        }
         if (StringUtil.isNotEmpty(bo.getIn_jobLevelId())) {
             WrapperUtil.in(queryWrapper, "job_level_id", bo.getIn_jobLevelId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_jobLevelId())) {
             WrapperUtil.notIn(queryWrapper, "job_level_id", bo.getNotin_jobLevelId());
+        }
+        // level_classify_id 开始
+        if (bo.getEq_levelClassifyId() != null) {
+            queryWrapper.eq("level_classify_id", bo.getEq_levelClassifyId());
+        }
+        if (bo.getNeq_levelClassifyId() != null) {
+            queryWrapper.ne("level_classify_id", bo.getNeq_levelClassifyId());
+        }
+        if (StringUtil.isNotEmpty(bo.getLike_levelClassifyId())) {
+            queryWrapper.like("level_classify_id", bo.getLike_levelClassifyId());
+        }
+        if (StringUtil.isNotEmpty(bo.getLiker_levelClassifyId())) {
+            queryWrapper.likeRight("level_classify_id", bo.getLiker_levelClassifyId());
+        }
+        if (StringUtil.isNotEmpty(bo.getLikel_levelClassifyId())) {
+            queryWrapper.likeLeft("level_classify_id", bo.getLikel_levelClassifyId());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotlike_levelClassifyId())) {
+            queryWrapper.notLike("level_classify_id", bo.getNotlike_levelClassifyId());
+        }
+        if (StringUtil.isNotEmpty(bo.getIn_levelClassifyId())) {
+            WrapperUtil.in(queryWrapper, "level_classify_id", bo.getIn_levelClassifyId());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotin_levelClassifyId())) {
+            WrapperUtil.notIn(queryWrapper, "level_classify_id", bo.getNotin_levelClassifyId());
         }
         // level_name 开始
         if (bo.getEq_levelName() != null) {
@@ -70,36 +108,67 @@ public class JobLevelWrapper
         if (StringUtil.isNotEmpty(bo.getNotin_levelName())) {
             WrapperUtil.notIn(queryWrapper, "level_name", bo.getNotin_levelName());
         }
-        // level 开始
-        if (bo.getEq_level() != null) {
-            queryWrapper.eq("level", bo.getEq_level());
+        // root_level 开始
+        if (bo.getEq_rootLevel() != null) {
+            queryWrapper.eq("root_level", bo.getEq_rootLevel());
         }
-        if (bo.getNeq_level() != null) {
-            queryWrapper.ne("level", bo.getNeq_level());
+        if (bo.getNeq_rootLevel() != null) {
+            queryWrapper.ne("root_level", bo.getNeq_rootLevel());
         }
-        if (bo.getGt_level() != null) {
-            queryWrapper.gt("level", bo.getGt_level());
+        if (bo.getGt_rootLevel() != null) {
+            queryWrapper.gt("root_level", bo.getGt_rootLevel());
         }
-        if (bo.getLt_level() != null) {
-            queryWrapper.lt("level", bo.getLt_level());
+        if (bo.getLt_rootLevel() != null) {
+            queryWrapper.lt("root_level", bo.getLt_rootLevel());
         }
-        if (bo.getEgt_level() != null) {
-            queryWrapper.ge("level", bo.getEgt_level());
+        if (bo.getEgt_rootLevel() != null) {
+            queryWrapper.ge("root_level", bo.getEgt_rootLevel());
         }
-        if (bo.getElt_level() != null) {
-            queryWrapper.le("level", bo.getElt_level());
+        if (bo.getElt_rootLevel() != null) {
+            queryWrapper.le("root_level", bo.getElt_rootLevel());
         }
-        if (StringUtil.isNotEmpty(bo.getBetween_level())) {
-            WrapperUtil.between(queryWrapper, "level", bo.getBetween_level());
+        if (StringUtil.isNotEmpty(bo.getBetween_rootLevel())) {
+            WrapperUtil.between(queryWrapper, "root_level", bo.getBetween_rootLevel());
         }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_level())) {
-            WrapperUtil.notBetween(queryWrapper, "level", bo.getNotbetween_level());
+        if (StringUtil.isNotEmpty(bo.getNotbetween_rootLevel())) {
+            WrapperUtil.notBetween(queryWrapper, "root_level", bo.getNotbetween_rootLevel());
         }
-        if (StringUtil.isNotEmpty(bo.getIn_level())) {
-            WrapperUtil.in(queryWrapper, "level", bo.getIn_level());
+        if (StringUtil.isNotEmpty(bo.getIn_rootLevel())) {
+            WrapperUtil.in(queryWrapper, "root_level", bo.getIn_rootLevel());
         }
-        if (StringUtil.isNotEmpty(bo.getNotin_level())) {
-            WrapperUtil.notIn(queryWrapper, "level", bo.getNotin_level());
+        if (StringUtil.isNotEmpty(bo.getNotin_rootLevel())) {
+            WrapperUtil.notIn(queryWrapper, "root_level", bo.getNotin_rootLevel());
+        }
+        // classify_level 开始
+        if (bo.getEq_classifyLevel() != null) {
+            queryWrapper.eq("classify_level", bo.getEq_classifyLevel());
+        }
+        if (bo.getNeq_classifyLevel() != null) {
+            queryWrapper.ne("classify_level", bo.getNeq_classifyLevel());
+        }
+        if (bo.getGt_classifyLevel() != null) {
+            queryWrapper.gt("classify_level", bo.getGt_classifyLevel());
+        }
+        if (bo.getLt_classifyLevel() != null) {
+            queryWrapper.lt("classify_level", bo.getLt_classifyLevel());
+        }
+        if (bo.getEgt_classifyLevel() != null) {
+            queryWrapper.ge("classify_level", bo.getEgt_classifyLevel());
+        }
+        if (bo.getElt_classifyLevel() != null) {
+            queryWrapper.le("classify_level", bo.getElt_classifyLevel());
+        }
+        if (StringUtil.isNotEmpty(bo.getBetween_classifyLevel())) {
+            WrapperUtil.between(queryWrapper, "classify_level", bo.getBetween_classifyLevel());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotbetween_classifyLevel())) {
+            WrapperUtil.notBetween(queryWrapper, "classify_level", bo.getNotbetween_classifyLevel());
+        }
+        if (StringUtil.isNotEmpty(bo.getIn_classifyLevel())) {
+            WrapperUtil.in(queryWrapper, "classify_level", bo.getIn_classifyLevel());
+        }
+        if (StringUtil.isNotEmpty(bo.getNotin_classifyLevel())) {
+            WrapperUtil.notIn(queryWrapper, "classify_level", bo.getNotin_classifyLevel());
         }
         // created_time 开始
         if (bo.getEq_createdTime() != null) {
@@ -282,237 +351,6 @@ public class JobLevelWrapper
         // 设置数据范围
         WrapperUtil.setDataScope(queryWrapper, JobLevelDo::getIsDelete, bo.getDataScope());
 
-        // job_level_id 开始
-        if (bo.getEq_jobLevelId() != null) {
-            queryWrapper.eq(JobLevelDo::getJobLevelId, bo.getEq_jobLevelId());
-        }
-        if (bo.getNeq_jobLevelId() != null) {
-            queryWrapper.ne(JobLevelDo::getJobLevelId, bo.getNeq_jobLevelId());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_jobLevelId())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getJobLevelId, bo.getIn_jobLevelId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_jobLevelId())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getJobLevelId, bo.getNotin_jobLevelId());
-        }
-        // level_name 开始
-        if (bo.getEq_levelName() != null) {
-            queryWrapper.eq(JobLevelDo::getLevelName, bo.getEq_levelName());
-        }
-        if (bo.getNeq_levelName() != null) {
-            queryWrapper.ne(JobLevelDo::getLevelName, bo.getNeq_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_levelName())) {
-            queryWrapper.like(JobLevelDo::getLevelName, bo.getLike_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_levelName())) {
-            queryWrapper.likeRight(JobLevelDo::getLevelName, bo.getLiker_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_levelName())) {
-            queryWrapper.likeLeft(JobLevelDo::getLevelName, bo.getLikel_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_levelName())) {
-            queryWrapper.notLike(JobLevelDo::getLevelName, bo.getNotlike_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_levelName())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getLevelName, bo.getIn_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_levelName())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getLevelName, bo.getNotin_levelName());
-        }
-        // level 开始
-        if (bo.getEq_level() != null) {
-            queryWrapper.eq(JobLevelDo::getLevel, bo.getEq_level());
-        }
-        if (bo.getNeq_level() != null) {
-            queryWrapper.ne(JobLevelDo::getLevel, bo.getNeq_level());
-        }
-        if (bo.getGt_level() != null) {
-            queryWrapper.gt(JobLevelDo::getLevel, bo.getGt_level());
-        }
-        if (bo.getLt_level() != null) {
-            queryWrapper.lt(JobLevelDo::getLevel, bo.getLt_level());
-        }
-        if (bo.getEgt_level() != null) {
-            queryWrapper.ge(JobLevelDo::getLevel, bo.getEgt_level());
-        }
-        if (bo.getElt_level() != null) {
-            queryWrapper.le(JobLevelDo::getLevel, bo.getElt_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getBetween_level())) {
-            WrapperUtil.between(queryWrapper, JobLevelDo::getLevel, bo.getBetween_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_level())) {
-            WrapperUtil.notBetween(queryWrapper, JobLevelDo::getLevel, bo.getNotbetween_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_level())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getLevel, bo.getIn_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_level())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getLevel, bo.getNotin_level());
-        }
-        // created_time 开始
-        if (bo.getEq_createdTime() != null) {
-            queryWrapper.eq(JobLevelDo::getCreatedTime, bo.getEq_createdTime());
-        }
-        if (bo.getNeq_createdTime() != null) {
-            queryWrapper.ne(JobLevelDo::getCreatedTime, bo.getNeq_createdTime());
-        }
-        if (bo.getGt_createdTime() != null) {
-            queryWrapper.gt(JobLevelDo::getCreatedTime, bo.getGt_createdTime());
-        }
-        if (bo.getLt_createdTime() != null) {
-            queryWrapper.lt(JobLevelDo::getCreatedTime, bo.getLt_createdTime());
-        }
-        if (bo.getEgt_createdTime() != null) {
-            queryWrapper.ge(JobLevelDo::getCreatedTime, bo.getEgt_createdTime());
-        }
-        if (bo.getElt_createdTime() != null) {
-            queryWrapper.le(JobLevelDo::getCreatedTime, bo.getElt_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getBetween_createdTime())) {
-            WrapperUtil.between(queryWrapper, JobLevelDo::getCreatedTime, bo.getBetween_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_createdTime())) {
-            WrapperUtil.notBetween(queryWrapper, JobLevelDo::getCreatedTime, bo.getNotbetween_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_createdTime())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getCreatedTime, bo.getIn_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_createdTime())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getCreatedTime, bo.getNotin_createdTime());
-        }
-        // updated_time 开始
-        if (bo.getEq_updatedTime() != null) {
-            queryWrapper.eq(JobLevelDo::getUpdatedTime, bo.getEq_updatedTime());
-        }
-        if (bo.getNeq_updatedTime() != null) {
-            queryWrapper.ne(JobLevelDo::getUpdatedTime, bo.getNeq_updatedTime());
-        }
-        if (bo.getGt_updatedTime() != null) {
-            queryWrapper.gt(JobLevelDo::getUpdatedTime, bo.getGt_updatedTime());
-        }
-        if (bo.getLt_updatedTime() != null) {
-            queryWrapper.lt(JobLevelDo::getUpdatedTime, bo.getLt_updatedTime());
-        }
-        if (bo.getEgt_updatedTime() != null) {
-            queryWrapper.ge(JobLevelDo::getUpdatedTime, bo.getEgt_updatedTime());
-        }
-        if (bo.getElt_updatedTime() != null) {
-            queryWrapper.le(JobLevelDo::getUpdatedTime, bo.getElt_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getBetween_updatedTime())) {
-            WrapperUtil.between(queryWrapper, JobLevelDo::getUpdatedTime, bo.getBetween_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_updatedTime())) {
-            WrapperUtil.notBetween(queryWrapper, JobLevelDo::getUpdatedTime, bo.getNotbetween_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_updatedTime())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getUpdatedTime, bo.getIn_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_updatedTime())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getUpdatedTime, bo.getNotin_updatedTime());
-        }
-        // create_user 开始
-        if (bo.getEq_createUser() != null) {
-            queryWrapper.eq(JobLevelDo::getCreateUser, bo.getEq_createUser());
-        }
-        if (bo.getNeq_createUser() != null) {
-            queryWrapper.ne(JobLevelDo::getCreateUser, bo.getNeq_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_createUser())) {
-            queryWrapper.like(JobLevelDo::getCreateUser, bo.getLike_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_createUser())) {
-            queryWrapper.likeRight(JobLevelDo::getCreateUser, bo.getLiker_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_createUser())) {
-            queryWrapper.likeLeft(JobLevelDo::getCreateUser, bo.getLikel_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_createUser())) {
-            queryWrapper.notLike(JobLevelDo::getCreateUser, bo.getNotlike_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_createUser())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getCreateUser, bo.getIn_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_createUser())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getCreateUser, bo.getNotin_createUser());
-        }
-        // create_user_id 开始
-        if (bo.getEq_createUserId() != null) {
-            queryWrapper.eq(JobLevelDo::getCreateUserId, bo.getEq_createUserId());
-        }
-        if (bo.getNeq_createUserId() != null) {
-            queryWrapper.ne(JobLevelDo::getCreateUserId, bo.getNeq_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_createUserId())) {
-            queryWrapper.like(JobLevelDo::getCreateUserId, bo.getLike_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_createUserId())) {
-            queryWrapper.likeRight(JobLevelDo::getCreateUserId, bo.getLiker_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_createUserId())) {
-            queryWrapper.likeLeft(JobLevelDo::getCreateUserId, bo.getLikel_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_createUserId())) {
-            queryWrapper.notLike(JobLevelDo::getCreateUserId, bo.getNotlike_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_createUserId())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getCreateUserId, bo.getIn_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_createUserId())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getCreateUserId, bo.getNotin_createUserId());
-        }
-        // update_user 开始
-        if (bo.getEq_updateUser() != null) {
-            queryWrapper.eq(JobLevelDo::getUpdateUser, bo.getEq_updateUser());
-        }
-        if (bo.getNeq_updateUser() != null) {
-            queryWrapper.ne(JobLevelDo::getUpdateUser, bo.getNeq_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_updateUser())) {
-            queryWrapper.like(JobLevelDo::getUpdateUser, bo.getLike_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_updateUser())) {
-            queryWrapper.likeRight(JobLevelDo::getUpdateUser, bo.getLiker_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_updateUser())) {
-            queryWrapper.likeLeft(JobLevelDo::getUpdateUser, bo.getLikel_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_updateUser())) {
-            queryWrapper.notLike(JobLevelDo::getUpdateUser, bo.getNotlike_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_updateUser())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getUpdateUser, bo.getIn_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_updateUser())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getUpdateUser, bo.getNotin_updateUser());
-        }
-        // update_user_id 开始
-        if (bo.getEq_updateUserId() != null) {
-            queryWrapper.eq(JobLevelDo::getUpdateUserId, bo.getEq_updateUserId());
-        }
-        if (bo.getNeq_updateUserId() != null) {
-            queryWrapper.ne(JobLevelDo::getUpdateUserId, bo.getNeq_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_updateUserId())) {
-            queryWrapper.like(JobLevelDo::getUpdateUserId, bo.getLike_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_updateUserId())) {
-            queryWrapper.likeRight(JobLevelDo::getUpdateUserId, bo.getLiker_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_updateUserId())) {
-            queryWrapper.likeLeft(JobLevelDo::getUpdateUserId, bo.getLikel_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_updateUserId())) {
-            queryWrapper.notLike(JobLevelDo::getUpdateUserId, bo.getNotlike_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_updateUserId())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getUpdateUserId, bo.getIn_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_updateUserId())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getUpdateUserId, bo.getNotin_updateUserId());
-        }
 
         return queryWrapper;
     }
@@ -532,237 +370,6 @@ public class JobLevelWrapper
         // 设置数据范围
         WrapperUtil.setDataScope(queryWrapper, JobLevelDo::getIsDelete, bo.getDataScope());
 
-        // job_level_id 开始
-        if (bo.getEq_jobLevelId() != null) {
-            queryWrapper.eq(JobLevelDo::getJobLevelId, bo.getEq_jobLevelId());
-        }
-        if (bo.getNeq_jobLevelId() != null) {
-            queryWrapper.ne(JobLevelDo::getJobLevelId, bo.getNeq_jobLevelId());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_jobLevelId())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getJobLevelId, bo.getIn_jobLevelId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_jobLevelId())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getJobLevelId, bo.getNotin_jobLevelId());
-        }
-        // level_name 开始
-        if (bo.getEq_levelName() != null) {
-            queryWrapper.eq(JobLevelDo::getLevelName, bo.getEq_levelName());
-        }
-        if (bo.getNeq_levelName() != null) {
-            queryWrapper.ne(JobLevelDo::getLevelName, bo.getNeq_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_levelName())) {
-            queryWrapper.like(JobLevelDo::getLevelName, bo.getLike_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_levelName())) {
-            queryWrapper.likeRight(JobLevelDo::getLevelName, bo.getLiker_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_levelName())) {
-            queryWrapper.likeLeft(JobLevelDo::getLevelName, bo.getLikel_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_levelName())) {
-            queryWrapper.notLike(JobLevelDo::getLevelName, bo.getNotlike_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_levelName())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getLevelName, bo.getIn_levelName());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_levelName())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getLevelName, bo.getNotin_levelName());
-        }
-        // level 开始
-        if (bo.getEq_level() != null) {
-            queryWrapper.eq(JobLevelDo::getLevel, bo.getEq_level());
-        }
-        if (bo.getNeq_level() != null) {
-            queryWrapper.ne(JobLevelDo::getLevel, bo.getNeq_level());
-        }
-        if (bo.getGt_level() != null) {
-            queryWrapper.gt(JobLevelDo::getLevel, bo.getGt_level());
-        }
-        if (bo.getLt_level() != null) {
-            queryWrapper.lt(JobLevelDo::getLevel, bo.getLt_level());
-        }
-        if (bo.getEgt_level() != null) {
-            queryWrapper.ge(JobLevelDo::getLevel, bo.getEgt_level());
-        }
-        if (bo.getElt_level() != null) {
-            queryWrapper.le(JobLevelDo::getLevel, bo.getElt_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getBetween_level())) {
-            WrapperUtil.between(queryWrapper, JobLevelDo::getLevel, bo.getBetween_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_level())) {
-            WrapperUtil.notBetween(queryWrapper, JobLevelDo::getLevel, bo.getNotbetween_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_level())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getLevel, bo.getIn_level());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_level())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getLevel, bo.getNotin_level());
-        }
-        // created_time 开始
-        if (bo.getEq_createdTime() != null) {
-            queryWrapper.eq(JobLevelDo::getCreatedTime, bo.getEq_createdTime());
-        }
-        if (bo.getNeq_createdTime() != null) {
-            queryWrapper.ne(JobLevelDo::getCreatedTime, bo.getNeq_createdTime());
-        }
-        if (bo.getGt_createdTime() != null) {
-            queryWrapper.gt(JobLevelDo::getCreatedTime, bo.getGt_createdTime());
-        }
-        if (bo.getLt_createdTime() != null) {
-            queryWrapper.lt(JobLevelDo::getCreatedTime, bo.getLt_createdTime());
-        }
-        if (bo.getEgt_createdTime() != null) {
-            queryWrapper.ge(JobLevelDo::getCreatedTime, bo.getEgt_createdTime());
-        }
-        if (bo.getElt_createdTime() != null) {
-            queryWrapper.le(JobLevelDo::getCreatedTime, bo.getElt_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getBetween_createdTime())) {
-            WrapperUtil.between(queryWrapper, JobLevelDo::getCreatedTime, bo.getBetween_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_createdTime())) {
-            WrapperUtil.notBetween(queryWrapper, JobLevelDo::getCreatedTime, bo.getNotbetween_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_createdTime())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getCreatedTime, bo.getIn_createdTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_createdTime())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getCreatedTime, bo.getNotin_createdTime());
-        }
-        // updated_time 开始
-        if (bo.getEq_updatedTime() != null) {
-            queryWrapper.eq(JobLevelDo::getUpdatedTime, bo.getEq_updatedTime());
-        }
-        if (bo.getNeq_updatedTime() != null) {
-            queryWrapper.ne(JobLevelDo::getUpdatedTime, bo.getNeq_updatedTime());
-        }
-        if (bo.getGt_updatedTime() != null) {
-            queryWrapper.gt(JobLevelDo::getUpdatedTime, bo.getGt_updatedTime());
-        }
-        if (bo.getLt_updatedTime() != null) {
-            queryWrapper.lt(JobLevelDo::getUpdatedTime, bo.getLt_updatedTime());
-        }
-        if (bo.getEgt_updatedTime() != null) {
-            queryWrapper.ge(JobLevelDo::getUpdatedTime, bo.getEgt_updatedTime());
-        }
-        if (bo.getElt_updatedTime() != null) {
-            queryWrapper.le(JobLevelDo::getUpdatedTime, bo.getElt_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getBetween_updatedTime())) {
-            WrapperUtil.between(queryWrapper, JobLevelDo::getUpdatedTime, bo.getBetween_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotbetween_updatedTime())) {
-            WrapperUtil.notBetween(queryWrapper, JobLevelDo::getUpdatedTime, bo.getNotbetween_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_updatedTime())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getUpdatedTime, bo.getIn_updatedTime());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_updatedTime())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getUpdatedTime, bo.getNotin_updatedTime());
-        }
-        // create_user 开始
-        if (bo.getEq_createUser() != null) {
-            queryWrapper.eq(JobLevelDo::getCreateUser, bo.getEq_createUser());
-        }
-        if (bo.getNeq_createUser() != null) {
-            queryWrapper.ne(JobLevelDo::getCreateUser, bo.getNeq_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_createUser())) {
-            queryWrapper.like(JobLevelDo::getCreateUser, bo.getLike_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_createUser())) {
-            queryWrapper.likeRight(JobLevelDo::getCreateUser, bo.getLiker_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_createUser())) {
-            queryWrapper.likeLeft(JobLevelDo::getCreateUser, bo.getLikel_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_createUser())) {
-            queryWrapper.notLike(JobLevelDo::getCreateUser, bo.getNotlike_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_createUser())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getCreateUser, bo.getIn_createUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_createUser())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getCreateUser, bo.getNotin_createUser());
-        }
-        // create_user_id 开始
-        if (bo.getEq_createUserId() != null) {
-            queryWrapper.eq(JobLevelDo::getCreateUserId, bo.getEq_createUserId());
-        }
-        if (bo.getNeq_createUserId() != null) {
-            queryWrapper.ne(JobLevelDo::getCreateUserId, bo.getNeq_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_createUserId())) {
-            queryWrapper.like(JobLevelDo::getCreateUserId, bo.getLike_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_createUserId())) {
-            queryWrapper.likeRight(JobLevelDo::getCreateUserId, bo.getLiker_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_createUserId())) {
-            queryWrapper.likeLeft(JobLevelDo::getCreateUserId, bo.getLikel_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_createUserId())) {
-            queryWrapper.notLike(JobLevelDo::getCreateUserId, bo.getNotlike_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_createUserId())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getCreateUserId, bo.getIn_createUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_createUserId())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getCreateUserId, bo.getNotin_createUserId());
-        }
-        // update_user 开始
-        if (bo.getEq_updateUser() != null) {
-            queryWrapper.eq(JobLevelDo::getUpdateUser, bo.getEq_updateUser());
-        }
-        if (bo.getNeq_updateUser() != null) {
-            queryWrapper.ne(JobLevelDo::getUpdateUser, bo.getNeq_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_updateUser())) {
-            queryWrapper.like(JobLevelDo::getUpdateUser, bo.getLike_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_updateUser())) {
-            queryWrapper.likeRight(JobLevelDo::getUpdateUser, bo.getLiker_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_updateUser())) {
-            queryWrapper.likeLeft(JobLevelDo::getUpdateUser, bo.getLikel_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_updateUser())) {
-            queryWrapper.notLike(JobLevelDo::getUpdateUser, bo.getNotlike_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_updateUser())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getUpdateUser, bo.getIn_updateUser());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_updateUser())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getUpdateUser, bo.getNotin_updateUser());
-        }
-        // update_user_id 开始
-        if (bo.getEq_updateUserId() != null) {
-            queryWrapper.eq(JobLevelDo::getUpdateUserId, bo.getEq_updateUserId());
-        }
-        if (bo.getNeq_updateUserId() != null) {
-            queryWrapper.ne(JobLevelDo::getUpdateUserId, bo.getNeq_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_updateUserId())) {
-            queryWrapper.like(JobLevelDo::getUpdateUserId, bo.getLike_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_updateUserId())) {
-            queryWrapper.likeRight(JobLevelDo::getUpdateUserId, bo.getLiker_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_updateUserId())) {
-            queryWrapper.likeLeft(JobLevelDo::getUpdateUserId, bo.getLikel_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_updateUserId())) {
-            queryWrapper.notLike(JobLevelDo::getUpdateUserId, bo.getNotlike_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_updateUserId())) {
-            WrapperUtil.in(queryWrapper, JobLevelDo::getUpdateUserId, bo.getIn_updateUserId());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_updateUserId())) {
-            WrapperUtil.notIn(queryWrapper, JobLevelDo::getUpdateUserId, bo.getNotin_updateUserId());
-        }
 
         return queryWrapper;
     }
