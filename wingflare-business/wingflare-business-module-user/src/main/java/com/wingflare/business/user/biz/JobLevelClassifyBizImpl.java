@@ -139,11 +139,8 @@ public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz
         queryWrapper.nested(q -> q.eq(StringUtil.isNotEmpty(bo.getClassifyName()), JobLevelClassifyDo::getClassifyName,
                         bo.getClassifyName())
                 .or()
-                .eq(StringUtil.isNotEmpty(bo.getClassifyCode()), JobLevelClassifyDo::getClassifyCode, bo.getClassifyCode()));
-
-        if (oldDo != null) {
-            queryWrapper.ne(JobLevelClassifyDo::getLevelClassifyId, oldDo.getLevelClassifyId());
-        }
+                .eq(StringUtil.isNotEmpty(bo.getClassifyCode()), JobLevelClassifyDo::getClassifyCode, bo.getClassifyCode()))
+                .ne(oldDo != null, JobLevelClassifyDo::getLevelClassifyId, oldDo.getLevelClassifyId());
 
         Assert.isTrue(jobLevelClassifyServer.has(queryWrapper), ErrorCode.SYS_JOB_LEVEL_CLASSIFY_EXISTENT);
     }
