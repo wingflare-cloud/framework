@@ -45,7 +45,7 @@ public class ${BizImpl} implements ${Biz}
     #if($controllerMethods.list)
 
     /**
-     * 查询${tableBusinessName}列表
+     * 查询${table.comment}列表
      */
     #if($isOverrideMethodMethod)
 	@Override
@@ -63,7 +63,7 @@ public class ${BizImpl} implements ${Biz}
     #if($controllerMethods.get)
 
     /**
-     * 查询${functionName}详情
+     * 查询${table.comment}详情
      */
     #if($isOverrideMethod)
 	@Override
@@ -76,7 +76,7 @@ public class ${BizImpl} implements ${Biz}
     #if($controllerMethods.getOnlyOne)
 
     /**
-     * 通过条件查询单个${tableBusinessName}详情
+     * 通过条件查询单个${table.comment}详情
      */
     #if($isOverrideMethod)
 	@Override
@@ -89,7 +89,7 @@ public class ${BizImpl} implements ${Biz}
     #if($controllerMethods.delete)
 
     /**
-     * 删除${tableBusinessName}
+     * 删除${table.comment}
      */
     #if($isOverrideMethod)
 	@Override
@@ -109,7 +109,7 @@ public class ${BizImpl} implements ${Biz}
     #if($controllerMethods.create)
 
     /**
-     * 新增${tableBusinessName}
+     * 新增${table.comment}
      */
     #if($isOverrideMethod)
 	@Override
@@ -125,7 +125,7 @@ public class ${BizImpl} implements ${Biz}
     #if($controllerMethods.update)
 
     /**
-     * 更新${tableBusinessName}
+     * 更新${table.comment}
      */
     #if($isOverrideMethod)
 	@Override
