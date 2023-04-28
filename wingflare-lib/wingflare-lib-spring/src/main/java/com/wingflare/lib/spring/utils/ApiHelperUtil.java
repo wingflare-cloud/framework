@@ -18,6 +18,9 @@ import java.util.function.Supplier;
  */
 public class ApiHelperUtil {
 
+    /**
+     * 系统上下文key
+     */
     private final static List<String> systemCxtKeys = new ArrayList<String>(){{
         add(Wf.INTERNAL_API_AUTH_CONTEXT_KEY);
         add(Wf.PERMISSION_RESULT_CONTEXT_KEY);
@@ -29,6 +32,7 @@ public class ApiHelperUtil {
         add(Wf.FUNC_MARK_CONTEXT_KEY);
         add(Ctx.AUTH_MODE_CONTEXT);
         add(Ctx.CONTEXT_KEY_CHECK_USER_OK);
+        add(Wf.REQUEST_HEADER_PENETRATION_CONTEXT_KEY);
     }};
 
     /**
