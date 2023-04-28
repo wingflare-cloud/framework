@@ -82,10 +82,9 @@ public class ${entity} {
 #if($superEntityClass == 'BaseDoAbstract' && $table.havePrimaryKey)
 
     #if($isOverride)@Override#end
-    public $returnVal setPk(${primaryField.propertyType} ${primaryField.propertyName})
+    public void setPk(${primaryField.propertyType} ${primaryField.propertyName})
     {
         set${primaryField.capitalName}(${primaryField.propertyName});
-        #if($chainModel)return this;#end
     }
 
     #if($isOverride)@Override#end
@@ -120,7 +119,7 @@ public class ${entity} {
 #if($superEntityClass == 'BaseDoAbstract' && $table.havePrimaryKey)
 
     #if($isOverride)@Override#end
-    public ${returnVal} clearNullNewField() {
+    public void clearNullNewField() {
     #foreach ($field in $table.fields)
 
         #if($field.propertyType=='boolean')
@@ -131,10 +130,6 @@ public class ${entity} {
 	    if (${getprefix}${field.capitalName}() == null) {
             removeNewField("${field.propertyName}");
         }
-    #end
-    #if($chainModel)
-
-        return this;
     #end
     }
 

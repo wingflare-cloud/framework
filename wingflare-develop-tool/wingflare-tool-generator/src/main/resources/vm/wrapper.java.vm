@@ -42,7 +42,7 @@ public class ${Wrapper}
 
         #if($softDelField)
         // 设置数据范围
-        WrapperUtils.setDataScope(queryWrapper, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, bo.getDataScope());
         #end
 
         #foreach ($field in $table.fields)
@@ -87,17 +87,17 @@ public class ${Wrapper}
             queryWrapper.le("${field.annotationColumnName}", bo.getElt_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_${field.propertyName}())) {
-            WrapperUtils.between(queryWrapper, "${field.annotationColumnName}", bo.getBetween_${field.propertyName}());
+            WrapperUtil.between(queryWrapper, "${field.annotationColumnName}", bo.getBetween_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_${field.propertyName}())) {
-            WrapperUtils.notBetween(queryWrapper, "${field.annotationColumnName}", bo.getNotbetween_${field.propertyName}());
+            WrapperUtil.notBetween(queryWrapper, "${field.annotationColumnName}", bo.getNotbetween_${field.propertyName}());
         }
                         #end
         if (StringUtil.isNotEmpty(bo.getIn_${field.propertyName}())) {
-            WrapperUtils.in(queryWrapper, "${field.annotationColumnName}", bo.getIn_${field.propertyName}());
+            WrapperUtil.in(queryWrapper, "${field.annotationColumnName}", bo.getIn_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_${field.propertyName}())) {
-            WrapperUtils.notIn(queryWrapper, "${field.annotationColumnName}", bo.getNotin_${field.propertyName}());
+            WrapperUtil.notIn(queryWrapper, "${field.annotationColumnName}", bo.getNotin_${field.propertyName}());
         }
                 #end
         #end
@@ -119,7 +119,7 @@ public class ${Wrapper}
 
         #if($softDelField)
         // 设置数据范围
-        WrapperUtils.setDataScope(queryWrapper, ${entity}::${delgetprefix}${softDelField.capitalName}, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, ${entity}::${delgetprefix}${softDelField.capitalName}, bo.getDataScope());
         #end
 
         #foreach ($column in $columns)
@@ -164,17 +164,17 @@ public class ${Wrapper}
             queryWrapper.le(${entity}::${getprefix}${field.capitalName}, bo.getElt_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_${field.propertyName}())) {
-            WrapperUtils.between(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getBetween_${field.propertyName}());
+            WrapperUtil.between(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getBetween_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_${field.propertyName}())) {
-            WrapperUtils.notBetween(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotbetween_${field.propertyName}());
+            WrapperUtil.notBetween(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotbetween_${field.propertyName}());
         }
                         #end
         if (StringUtil.isNotEmpty(bo.getIn_${field.propertyName}())) {
-            WrapperUtils.in(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getIn_${field.propertyName}());
+            WrapperUtil.in(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getIn_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_${field.propertyName}())) {
-            WrapperUtils.notIn(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotin_${field.propertyName}());
+            WrapperUtil.notIn(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotin_${field.propertyName}());
         }
                 #end
         #end
@@ -196,7 +196,7 @@ public class ${Wrapper}
 
         #if($softDelField)
         // 设置数据范围
-        WrapperUtils.setDataScope(queryWrapper, ${entity}::${delgetprefix}${softDelField.capitalName}, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, ${entity}::${delgetprefix}${softDelField.capitalName}, bo.getDataScope());
         #end
 
         #foreach ($column in $columns)
@@ -241,17 +241,17 @@ public class ${Wrapper}
             queryWrapper.le(${entity}::${getprefix}${field.capitalName}, bo.getElt_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_${field.propertyName}())) {
-            WrapperUtils.between(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getBetween_${field.propertyName}());
+            WrapperUtil.between(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getBetween_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_${field.propertyName}())) {
-            WrapperUtils.notBetween(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotbetween_${field.propertyName}());
+            WrapperUtil.notBetween(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotbetween_${field.propertyName}());
         }
                         #end
         if (StringUtil.isNotEmpty(bo.getIn_${field.propertyName}())) {
-            WrapperUtils.in(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getIn_${field.propertyName}());
+            WrapperUtil.in(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getIn_${field.propertyName}());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_${field.propertyName}())) {
-            WrapperUtils.notIn(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotin_${field.propertyName}());
+            WrapperUtil.notIn(queryWrapper, ${entity}::${getprefix}${field.capitalName}, bo.getNotin_${field.propertyName}());
         }
                 #end
         #end
