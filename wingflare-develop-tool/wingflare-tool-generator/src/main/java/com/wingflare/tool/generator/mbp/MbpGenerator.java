@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.generator.config.builder.BaseBuilder;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.google.common.collect.Maps;
+import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.tool.generator.ProjectPathResolver;
 import com.wingflare.tool.generator.common.ServiceException;
 import com.wingflare.tool.generator.configurer.GeneratorConfig;
@@ -327,7 +328,7 @@ public class MbpGenerator implements ApplicationContextAware {
             vars.put("tableBusinessName", (new NameConverter() {
                 @Override
                 public String tableNameConvert(String tableName) {
-                    return NameConverter.super.tableNameConvert(tableName);
+                    return StringUtil.uncapitalize(NameConverter.super.tableNameConvert(tableName));
                 }
             }).tableNameConvert(tableInfo.getName()));
 

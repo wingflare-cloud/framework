@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class DoStrategyHandle implements StrategyHandle<Entity.Builder> {
@@ -123,7 +122,6 @@ public class DoStrategyHandle implements StrategyHandle<Entity.Builder> {
         }
 
         builder.idType(generatorConfig.getIdType());
-        builder.convertFileName(nameConverter::doNameConvert);
     }
 
     @Override
