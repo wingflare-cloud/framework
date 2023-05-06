@@ -106,9 +106,11 @@ public class PreAuthorizeAspect implements Ordered {
      * Method对象进行注解检查
      */
     public void checkMethodAnnotation(Signature signature) {
+        // 获取认证模式
         AuthMode authMode = getAuthMode(signature);
+        // 获取当前上下文中的功能标记代码
         String funcMark = ApiHelperUtil.getFuncMark();
-
+        // 如果方法注解上指定了认证模式则使用方法上的鉴权模式，否则默认为用户鉴权模式
         if (authMode != null) {
             ContextHolder.set(Ctx.AUTH_MODE_CONTEXT, authMode.value());
         } else {
@@ -130,7 +132,7 @@ public class PreAuthorizeAspect implements Ordered {
             RequiresLogin requiresLogin = getRequiresLogin(signature);
 
             if (requiresLogin != null) {
-                if (AuthType.USER.equals(SecurityUtil.getAutMode())) {
+                if (AuthType.USER.equals(SecurityUtil.getAuthMode())) {
                     userAuthUtil.checkUser();
                 } else {
                     applicationAuthUtil.checkApp();
@@ -247,6 +249,6 @@ public class PreAuthorizeAspect implements Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 1;
+        return Ordered.HIGHEST_PRECEDENCE + 2;
     }
 }

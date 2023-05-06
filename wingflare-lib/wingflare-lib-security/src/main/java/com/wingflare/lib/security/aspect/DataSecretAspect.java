@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.Ordered;
 
 import javax.annotation.Resource;
 import java.beans.PropertyDescriptor;
@@ -36,7 +37,7 @@ import java.util.Map;
  * @email chenxi@qq.com
  */
 @Aspect
-public class DataSecretAspect implements ApplicationContextAware {
+public class DataSecretAspect implements ApplicationContextAware, Ordered {
 
     @Resource
     private PointUtil pointUtil;
@@ -352,6 +353,11 @@ public class DataSecretAspect implements ApplicationContextAware {
         Collection<DataSecret> dataSecrets = applicationContext.getBeansOfType(DataSecret.class)
                 .values();
         dataSecrets.forEach(item -> dataSecretMap.put(item.type(), item));
+    }
+
+    @Override
+    public int getOrder() {
+        return HIGHEST_PRECEDENCE + 1;
     }
 
     class Info {

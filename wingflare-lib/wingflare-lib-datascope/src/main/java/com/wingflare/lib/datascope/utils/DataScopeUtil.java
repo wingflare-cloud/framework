@@ -99,8 +99,8 @@ public class DataScopeUtil {
             return;
         }
 
-        if (SecurityUtil.getAutMode() != null) {
-            if (SecurityUtil.getAutMode().equals(AuthType.USER)) {
+        if (SecurityUtil.getAuthMode() != null) {
+            if (SecurityUtil.getAuthMode().equals(AuthType.USER)) {
                 // 判断登录用户是否为超管，超管不用做数据权限处理
                 Boolean isSuperAdmin = userAuthUtil.getUser() != null ? userAuthUtil.getUser().isSuperAdmin() : Boolean.FALSE;
                 if (Boolean.TRUE.equals(isSuperAdmin)) {
@@ -172,7 +172,7 @@ public class DataScopeUtil {
         String systemCode = SecurityUtil.getBusinessSystem();
         String str;
 
-        if (SecurityUtil.getAutMode().equals(AuthType.USER)) {
+        if (SecurityUtil.getAuthMode().equals(AuthType.USER)) {
             str = "user:" + SecurityUtil.getUserId();
         } else {
             str = "app:" + SecurityUtil.getAppId();

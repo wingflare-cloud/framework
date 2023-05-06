@@ -118,7 +118,7 @@ public class AuthUtil {
      * @return 用户是否具备某权限
      */
     public boolean hasPermission(String businessSystem, String permission) {
-        if (AuthType.USER.equals(SecurityUtil.getAutMode())) {
+        if (AuthType.USER.equals(SecurityUtil.getAuthMode())) {
             UserAuth user = userAuthUtil.getUser();
             if (user != null) {
                 if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
@@ -132,7 +132,7 @@ public class AuthUtil {
 
                 return true;
             }
-        } else if (AuthType.APP.equals(SecurityUtil.getAutMode())) {
+        } else if (AuthType.APP.equals(SecurityUtil.getAuthMode())) {
             ApplicationAuth app = applicationAuthUtil.getApp();
             boolean parentPer = true;
             if (app != null) {

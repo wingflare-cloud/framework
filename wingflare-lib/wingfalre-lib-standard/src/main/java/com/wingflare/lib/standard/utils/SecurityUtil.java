@@ -30,7 +30,7 @@ public class SecurityUtil {
     /**
      * 获取当前认证模式
      */
-    public static AuthType getAutMode() {
+    public static AuthType getAuthMode() {
         return ContextHolder.get(Ctx.AUTH_MODE_CONTEXT, AuthType.class);
     }
 
