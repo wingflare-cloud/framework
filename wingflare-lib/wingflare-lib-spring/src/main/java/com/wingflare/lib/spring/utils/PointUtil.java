@@ -5,6 +5,7 @@ import com.wingflare.lib.spring.configure.properties.ApiProperties;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
@@ -17,6 +18,9 @@ import java.util.Map;
  * 判断切面对象是否为api bean，还是普通bean
  *
  */
+@ConditionalOnBean({
+        ApiProperties.class
+})
 public class PointUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(PointUtil.class);

@@ -2,9 +2,10 @@ package com.wingflare.gateway.filter;
 
 
 import com.wingflare.gateway.ErrorCode;
+import com.wingflare.gateway.R;
 import com.wingflare.gateway.configure.properties.IgnoreWhiteProperties;
 import com.wingflare.gateway.utils.MutateUtil;
-import com.wingflare.gateway.utils.ServletUtil;
+import com.wingflare.gateway.utils.WebFluxRespUtil;
 import com.wingflare.lib.core.exceptions.NoException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
@@ -156,7 +157,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
-        return ServletUtil.webFluxResponseWriter(exchange.getResponse(), HttpStatus.UNAUTHORIZED, msg);
+        return WebFluxRespUtil.writeJSON(
+                exchange.getResponse(), HttpStatus.UNAUTHORIZED, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
     }
 
     /**

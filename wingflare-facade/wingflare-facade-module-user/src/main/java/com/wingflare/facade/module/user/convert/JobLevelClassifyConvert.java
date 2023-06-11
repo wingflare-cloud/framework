@@ -1,4 +1,4 @@
-package com.wingflare.facade.module.user.convert
+package com.wingflare.facade.module.user.convert;
 
 import com.wingflare.facade.module.user.bo.JobLevelClassifyBo;
 import com.wingflare.facade.module.user.dto.JobLevelClassifyDto;

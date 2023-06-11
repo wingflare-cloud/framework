@@ -3,6 +3,7 @@ package com.wingflare.business.user;
 
 import com.wingflare.business.user.biz.IdentityBizImpl;
 import com.wingflare.business.user.biz.JobLevelBizImpl;
+import com.wingflare.business.user.biz.JobLevelClassifyBizImpl;
 import com.wingflare.business.user.biz.OrgBizImpl;
 import com.wingflare.business.user.biz.OrgDepartmentBizImpl;
 import com.wingflare.business.user.biz.RoleBizImpl;
@@ -56,6 +57,7 @@ import org.springframework.context.annotation.Import;
         OrgDepartmentBizImpl.class,
         OrgBizImpl.class,
         JobLevelBizImpl.class,
+        JobLevelClassifyBizImpl.class
 })
 public class Bootstrap {
 }

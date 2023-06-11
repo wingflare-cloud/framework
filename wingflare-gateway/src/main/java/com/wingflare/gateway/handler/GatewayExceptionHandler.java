@@ -1,7 +1,9 @@
 package com.wingflare.gateway.handler;
 
 
-import com.wingflare.gateway.utils.ServletUtil;
+import com.wingflare.gateway.R;
+import com.wingflare.gateway.exceptions.OpenApiSignException;
+import com.wingflare.gateway.utils.WebFluxRespUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -9,7 +11,7 @@ import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.http.MediaType;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -31,7 +33,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             return Mono.error(ex);
         }
 
-        String msg;
+        String msg = ex.getMessage();
 
         if (ex instanceof ResponseStatusException) {
 
@@ -44,13 +46,20 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             if (logger.isDebugEnabled()) {
                 logger.debug("响应非200状态码: {} {}", ((ResponseStatusException) ex).getStatus(), ex.getMessage());
             }
+        } else if (ex instanceof OpenApiSignException) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("开放平台签名异常");
+            }
+
+            return WebFluxRespUtil.webFluxResponseWriter(exchange.getResponse(), MediaType.APPLICATION_JSON_VALUE);
         } else {
             msg = "server.exception";
             logger.error("[网关异常处理]请求路径:{},异常信息:{}, 异常类: {}",
                     exchange.getRequest().getPath(), ex.getMessage(), ex.getClass().getName());
         }
 
-        return ServletUtil.webFluxResponseWriter(exchange.getResponse(), msg);
+        return WebFluxRespUtil.writeJSON(
+                exchange.getResponse(), R.fail(HttpStatus.SERVICE_UNAVAILABLE.value(), msg));
     }
 
 }

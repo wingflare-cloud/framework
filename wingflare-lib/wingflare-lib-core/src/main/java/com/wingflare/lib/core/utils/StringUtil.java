@@ -4,6 +4,7 @@ import com.wingflare.lib.core.AntPathMatcher;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -551,6 +552,57 @@ public class StringUtil extends StringUtils {
     public static boolean isMatch(String pattern, String url) {
         AntPathMatcher matcher = new AntPathMatcher();
         return matcher.match(pattern, url);
+    }
+
+    public static String httpBuildQuery(Map<String, Object> map, boolean sort) throws UnsupportedEncodingException {
+        String reString = "";
+        reString = paramBuild(map, "", true, sort);
+        reString = URLEncoder.encode(reString, "utf-8");
+        reString = reString.replace("%3D", "=")
+                .replace("%26", "&");
+        reString = removeEnd(reString, "&");
+        return reString;
+    }
+
+    private static String paramBuild(Object object, String parentStr, boolean first, boolean sort) {
+        StringBuilder sb = new StringBuilder();
+        if (object instanceof Map) {
+            List<Map.Entry<String, Object>> list = new ArrayList<>(((Map<String, Object>) object).entrySet());
+            //按照map的key排序
+            if (sort) {
+                //升序排序
+                list.sort(Map.Entry.comparingByKey());
+            }
+
+            for (Map.Entry<String, Object> mapping : list) {
+                String key = mapping.getKey();
+                Object value = mapping.getValue();
+                if (first) {
+                    sb.append(paramBuild(value, key, false, sort));
+                } else {
+                    sb.append(paramBuild(value, parentStr + "[" + key + "]", false, sort));
+                }
+
+            }
+
+        } else if (object.getClass().isArray()) {
+            int length = Array.getLength(object);
+
+            for (int i = 0; i < length; i++) {
+                sb.append(paramBuild(Array.get(object, i), parentStr + "[" + i + "]", false, sort));
+            }
+        } else if (object instanceof List) {
+            for (int i = 0; i < ((List) object).size(); i++) {
+                sb.append(paramBuild(((List) object).get(i), parentStr + "[" + i + "]", false, sort));
+            }
+        } else if (object instanceof String || object instanceof Number) {
+            sb.append(parentStr)
+                    .append("=")
+                    .append(object)
+                    .append("&");
+        }
+
+        return sb.toString();
     }
 
 }
