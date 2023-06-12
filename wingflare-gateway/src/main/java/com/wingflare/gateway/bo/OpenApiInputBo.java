@@ -19,7 +19,7 @@ public class OpenApiInputBo {
     /**
      * 子应用授权token
      */
-    @Pattern(regexp = "^$|^[0-9a-zA-Z_\\-=]{1,128}$", message = "openApi.appAuthToken.formatError")
+    @Pattern(regexp = "^$|^[0-9a-zA-Z_\\-=]{8,256}$", message = "openApi.appAuthToken.formatError")
     private String appAuthToken;
 
     /**
@@ -44,13 +44,13 @@ public class OpenApiInputBo {
      * 参数签名值
      */
     @NotNull(message = "openApi.sign.notEmpty")
-    @Pattern(regexp = "")
+    @Pattern(regexp = "^[0-9A-Z]{32}$", message = "openApi.sign.formatError")
     private String sign;
 
     /**
      * 随机字符串
      */
-    @Pattern(regexp = "")
+    @Pattern(regexp = "^[0-9a-zA-Z]$", message = "openApi.nonceStr.formatError")
     private String nonceStr;
 
 

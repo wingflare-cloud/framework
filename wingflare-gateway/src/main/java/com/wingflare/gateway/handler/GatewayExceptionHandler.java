@@ -2,6 +2,8 @@ package com.wingflare.gateway.handler;
 
 
 import com.wingflare.gateway.R;
+import com.wingflare.gateway.bo.OpenApiOutputBo;
+import com.wingflare.gateway.exceptions.OpenApiException;
 import com.wingflare.gateway.exceptions.OpenApiSignException;
 import com.wingflare.gateway.utils.WebFluxRespUtil;
 import org.slf4j.Logger;
@@ -11,10 +13,11 @@ import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.Date;
 
 /**
  * @author naizui_ycx
@@ -33,7 +36,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             return Mono.error(ex);
         }
 
-        String msg = ex.getMessage();
+        String msg;
 
         if (ex instanceof ResponseStatusException) {
 
@@ -46,12 +49,17 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             if (logger.isDebugEnabled()) {
                 logger.debug("响应非200状态码: {} {}", ((ResponseStatusException) ex).getStatus(), ex.getMessage());
             }
-        } else if (ex instanceof OpenApiSignException) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("开放平台签名异常");
+        } else if (ex instanceof OpenApiException) {
+            if (ex instanceof OpenApiSignException) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("开放平台签名异常");
+                }
             }
 
-            return WebFluxRespUtil.webFluxResponseWriter(exchange.getResponse(), MediaType.APPLICATION_JSON_VALUE);
+            OpenApiOutputBo outputBo = new OpenApiOutputBo();
+            outputBo.setCode(ex.getMessage());
+            outputBo.setTimestamp(new Date());
+            return WebFluxRespUtil.writeJSON(exchange.getResponse(), outputBo);
         } else {
             msg = "server.exception";
             logger.error("[网关异常处理]请求路径:{},异常信息:{}, 异常类: {}",
