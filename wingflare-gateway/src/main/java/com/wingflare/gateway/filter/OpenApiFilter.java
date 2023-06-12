@@ -4,12 +4,15 @@ package com.wingflare.gateway.filter;
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wingflare.gateway.ErrorCode;
+import com.wingflare.gateway.exceptions.OpenApiException;
 import com.wingflare.gateway.exceptions.OpenApiSignException;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.standard.OpenApiInputBo;
-import com.wingflare.lib.standard.OpenApiOutputBo;
+import com.wingflare.gateway.bo.OpenApiInputBo;
+import com.wingflare.gateway.bo.OpenApiOutputBo;
 import com.wingflare.lib.standard.R;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +102,6 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
             CompletableFuture.supplyAsync(() -> {
                 try {
                     OpenApiInputBo bo = objectMapper.readValue(objectMapper.writeValueAsString(queryParams), OpenApiInputBo.class);
-
                     if (checkSign(bo, methodName, path, secretKey)) {
                         Map<String, Object> params = objectMapper.readValue(bo.getBizContent(), Map.class);
                         newRequest.set(request.mutate().uri(UriComponentsBuilder.fromUri(request.getURI())
@@ -107,19 +109,22 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
                                 .build(true)
                                 .toUri()).build());
                     } else {
-                        throw new OpenApiSignException();
+                        throw new OpenApiSignException(ErrorCode.OPEN_API_SIGNATURE_ERR);
                     }
-                } catch (JsonProcessingException | UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
+                } catch (JsonProcessingException | UnsupportedEncodingException | OpenApiException e) {
+                    if (e instanceof OpenApiException) {
+                        throw (OpenApiException) e;
+                    } else {
+                        throw new OpenApiException(e.getMessage());
+                    }
                 }
-
                 return null;
             }).exceptionally(e -> {
-                if (e instanceof OpenApiSignException) {
-                    throw (OpenApiSignException) e;
+                if (e instanceof OpenApiException) {
+                    throw (OpenApiException) e;
                 } else {
-                    logger.error("开放平台参数解码异常: {}", e.getMessage());
-                    throw new RuntimeException(e);
+                    logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+                    throw new OpenApiException(e.getMessage());
                 }
             });
         } else {
@@ -134,22 +139,23 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
                                 if (checkSign(bo, methodName, path, secretKey)) {
                                     return bo.getBizContent();
                                 } else {
-                                    throw new OpenApiSignException();
+                                    throw new OpenApiSignException(ErrorCode.OPEN_API_SIGNATURE_ERR);
                                 }
-                            } catch (JsonProcessingException | OpenApiSignException e) {
-                                if (e instanceof OpenApiSignException) {
-                                    throw (OpenApiSignException) e;
+                            } catch (JsonProcessingException | OpenApiException e) {
+                                if (e instanceof OpenApiException) {
+                                    throw (OpenApiException) e;
                                 } else {
-                                    throw new RuntimeException(e);
+                                    logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+                                    throw new OpenApiException(e.getMessage());
                                 }
                             }
                         }).thenAccept(newBody::set)
                         .exceptionally(e -> {
-                            if (e instanceof OpenApiSignException) {
-                                throw (OpenApiSignException) e;
+                            if (e instanceof OpenApiException) {
+                                throw (OpenApiException) e;
                             } else {
-                                logger.error("开放平台参数解码异常: {}", e.getMessage());
-                                throw new RuntimeException(e);
+                                logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+                                throw new OpenApiException(e.getMessage());
                             }
                         });
 
@@ -208,7 +214,7 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
                             // 释放掉内存
                             DataBufferUtils.release(join);
                             String responseResult = new String(content, StandardCharsets.UTF_8);
-                            byte[] newContent = null;
+                            byte[] newContent;
                             try {
                                 R r = objectMapper.readValue(responseResult, R.class);
                                 OpenApiOutputBo bo = new OpenApiOutputBo();

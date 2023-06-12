@@ -48,4 +48,9 @@ public interface ErrorCode {
      */
     String CAPTCHA_GENERATE_ERROR = "gateway.captcha.generateError";
 
+    /**
+     * 开放平台签名错误
+     */
+    String OPEN_API_SIGNATURE_ERR = "openApi.signature.err";
+
 }

@@ -1,5 +1,7 @@
-package com.wingflare.lib.standard;
+package com.wingflare.gateway.bo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
@@ -10,21 +12,27 @@ public class OpenApiInputBo {
     /**
      * 应用id
      */
+    @NotNull(message = "openApi.appId.notEmpty")
+    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "openApi.appId.formatError")
     private String appId;
 
     /**
      * 子应用授权token
      */
+    @Pattern(regexp = "^$|^[0-9a-zA-Z_\\-=]{1,128}$", message = "openApi.appAuthToken.formatError")
     private String appAuthToken;
 
     /**
      * 发送请求的时间
      */
+    @NotNull(message = "openApi.timestamp.notEmpty")
     private Date timestamp;
 
     /**
      * 回调通知url
      */
+    @Pattern(regexp = "^(https?://)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([/\\w\\.\\-_]*)*/?$",
+            message = "openApi.notifyUrl.formatError")
     private String notifyUrl;
 
     /**
@@ -35,11 +43,14 @@ public class OpenApiInputBo {
     /**
      * 参数签名值
      */
+    @NotNull(message = "openApi.sign.notEmpty")
+    @Pattern(regexp = "")
     private String sign;
 
     /**
      * 随机字符串
      */
+    @Pattern(regexp = "")
     private String nonceStr;
 
 

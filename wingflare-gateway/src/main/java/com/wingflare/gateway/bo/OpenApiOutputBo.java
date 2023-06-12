@@ -1,4 +1,4 @@
-package com.wingflare.lib.standard;
+package com.wingflare.gateway.bo;
 
 import java.util.Date;
 
