@@ -59,6 +59,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 开放平台api过滤器
+ * @author naizui
  */
 @Component
 public class OpenApiFilter implements GlobalFilter, Ordered {
