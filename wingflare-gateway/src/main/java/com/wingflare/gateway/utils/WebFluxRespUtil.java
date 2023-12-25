@@ -11,11 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.MonoSink;
 
 import java.nio.charset.StandardCharsets;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * @author naizui_ycx
@@ -38,40 +35,30 @@ public class WebFluxRespUtil {
     }
 
     public static <T> Mono<Void> writeJSON(ServerHttpResponse response, HttpStatus httpStatus, T value) {
-        return write(response, MediaType.APPLICATION_JSON_VALUE, httpStatus,
-                () -> monoSink -> {
-                    try {
-                        ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
-                        DataBuffer dataBuffer = response.bufferFactory().wrap(objectMapper.writeValueAsBytes(value));
-                        monoSink.success(dataBuffer);
-                    } catch (Throwable e) {
-                        monoSink.error(e);
-                    }
-                });
+        response.setStatusCode(httpStatus);
+        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return response.writeWith(Mono.create(monoSink -> {
+            try {
+                ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
+                DataBuffer dataBuffer = response.bufferFactory().wrap(objectMapper.writeValueAsBytes(value));
+                monoSink.success(dataBuffer);
+            } catch (Throwable e) {
+                monoSink.error(e);
+            }
+        }));
     }
 
     public static Mono<Void> write(ServerHttpResponse response, String mediaType, Object value) {
         return write(response, mediaType, response.getStatusCode(), value.toString());
     }
 
-    public static <T> Mono<Void> write(ServerHttpResponse response, String mediaType, Supplier<Consumer<MonoSink<T>>> callback) {
-        return write(response, mediaType, response.getStatusCode(), callback);
-    }
-
-    public static <T> Mono<Void> write(ServerHttpResponse response, String mediaType, HttpStatus status,
-                                       Supplier<Consumer<MonoSink<T>>> callback) {
-        response.setStatusCode(status);
-        response.getHeaders().set(HttpHeaders.CONTENT_TYPE, mediaType);
-        return response.writeWith(Mono.create(MonoSink -> callback.get()));
-    }
-
     /**
      * 设置webflux模型响应
      *
-     * @param response    ServerHttpResponse
+     * @param response  ServerHttpResponse
      * @param mediaType mediaType
-     * @param status      http状态码
-     * @param body        响应内容
+     * @param status    http状态码
+     * @param body      响应内容
      * @return Mono<Void>
      */
     public static Mono<Void> write(ServerHttpResponse response, String mediaType, HttpStatus status, String body) {

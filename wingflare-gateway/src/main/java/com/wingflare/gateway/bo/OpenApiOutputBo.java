@@ -1,5 +1,7 @@
 package com.wingflare.gateway.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -15,6 +17,7 @@ public class OpenApiOutputBo {
     /**
      * 响应时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date timestamp;
 
     /**

@@ -5,11 +5,12 @@ import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wingflare.gateway.ErrorCode;
+import com.wingflare.gateway.bo.OpenApiInputBo;
+import com.wingflare.gateway.bo.OpenApiOutputBo;
 import com.wingflare.gateway.exceptions.OpenApiException;
 import com.wingflare.gateway.exceptions.OpenApiSignException;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.gateway.bo.OpenApiInputBo;
-import com.wingflare.gateway.bo.OpenApiOutputBo;
+import com.wingflare.lib.core.utils.ValidationUtil;
 import com.wingflare.lib.standard.R;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -54,11 +55,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 开放平台api过滤器
+ *
+ * @author naizui
  */
 @Component
 public class OpenApiFilter implements GlobalFilter, Ordered {
@@ -68,11 +69,9 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
 
     private final Logger logger = LoggerFactory.getLogger(OpenApiFilter.class);
 
-    private final List<String> respBodyContentTypes = new ArrayList<String>(){{
+    private final List<String> respBodyContentTypes = new ArrayList<String>() {{
         add("application/json");
-        add("application/xml");
         add("text/json");
-        add("text/xml");
         add("text/plain");
     }};
 
@@ -81,10 +80,44 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
         return handle(exchange, chain);
     }
 
+    private OpenApiInputBo getApiInputBo(String string) {
+        try {
+            return objectMapper.readValue(string, OpenApiInputBo.class);
+        } catch (JsonProcessingException e) {
+            logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+            throw new OpenApiException(e.getMessage());
+        }
+    }
+
+    private OpenApiInputBo getApiInputBo(Map<String, String> queryParams) {
+        try {
+            return objectMapper.readValue(objectMapper.writeValueAsString(queryParams), OpenApiInputBo.class);
+        } catch (JsonProcessingException e) {
+            logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+            throw new OpenApiException(e.getMessage());
+        }
+    }
+
+    private <T> T getBizVal(String content, Class<T> valueType) {
+        try {
+            return objectMapper.readValue(content, valueType);
+        } catch (JsonProcessingException e) {
+            logger.error("开放平台业务参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+            throw new OpenApiException(e.getMessage());
+        }
+    }
+
+    private String httpBuildQuery(Map<String, Object> map, boolean sort) {
+        try {
+            return StringUtil.httpBuildQuery(map, sort);
+        } catch (UnsupportedEncodingException e) {
+            logger.error("开放平台参数拼接错误: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
+            throw new OpenApiException(e.getMessage());
+        }
+    }
+
     public Mono<Void> handle(ServerWebExchange exchange, GatewayFilterChain chain) {
-        AtomicReference<ServerHttpRequest> newRequest =  new AtomicReference<>();
         ServerHttpRequest request = exchange.getRequest();
-        newRequest.set(request);
         HttpMethod method = request.getMethod();
 
         if (method == null) {
@@ -99,98 +132,57 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
         if (HttpMethod.GET.name().equalsIgnoreCase(methodName)) {
             Map<String, String> queryParams = exchange.getRequest()
                     .getQueryParams().toSingleValueMap();
-            CompletableFuture.supplyAsync(() -> {
-                try {
-                    OpenApiInputBo bo = objectMapper.readValue(objectMapper.writeValueAsString(queryParams), OpenApiInputBo.class);
-                    if (checkSign(bo, methodName, path, secretKey)) {
-                        Map<String, Object> params = objectMapper.readValue(bo.getBizContent(), Map.class);
-                        newRequest.set(request.mutate().uri(UriComponentsBuilder.fromUri(request.getURI())
-                                .replaceQuery(StringUtil.httpBuildQuery(params, true))
-                                .build(true)
-                                .toUri()).build());
-                    } else {
-                        throw new OpenApiSignException(ErrorCode.OPEN_API_SIGNATURE_ERR);
-                    }
-                } catch (JsonProcessingException | UnsupportedEncodingException | OpenApiException e) {
-                    if (e instanceof OpenApiException) {
-                        throw (OpenApiException) e;
-                    } else {
-                        throw new OpenApiException(e.getMessage());
-                    }
-                }
-                return null;
-            }).exceptionally(e -> {
-                if (e instanceof OpenApiException) {
-                    throw (OpenApiException) e;
-                } else {
-                    logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
-                    throw new OpenApiException(e.getMessage());
-                }
-            });
-        } else {
-            List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
-            ServerRequest serverRequest = ServerRequest.create(exchange, messageReaders);
-            AtomicReference<String> newBody = new AtomicReference<>("");
-            // 处理请求参数
-            Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
-                CompletableFuture.supplyAsync(() -> {
-                            try {
-                                OpenApiInputBo bo = objectMapper.readValue(body, OpenApiInputBo.class);
-                                if (checkSign(bo, methodName, path, secretKey)) {
-                                    return bo.getBizContent();
-                                } else {
-                                    throw new OpenApiSignException(ErrorCode.OPEN_API_SIGNATURE_ERR);
-                                }
-                            } catch (JsonProcessingException | OpenApiException e) {
-                                if (e instanceof OpenApiException) {
-                                    throw (OpenApiException) e;
-                                } else {
-                                    logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
-                                    throw new OpenApiException(e.getMessage());
-                                }
-                            }
-                        }).thenAccept(newBody::set)
-                        .exceptionally(e -> {
-                            if (e instanceof OpenApiException) {
-                                throw (OpenApiException) e;
-                            } else {
-                                logger.error("开放平台参数解码异常: {}, ex: {}", e.getMessage(), ExceptionUtils.getStackTrace(e));
-                                throw new OpenApiException(e.getMessage());
-                            }
-                        });
+            OpenApiInputBo bo = getApiInputBo(queryParams);
 
-                return Mono.just(newBody.get());
-            });
-
-            //创建BodyInserter修改请求体
-            BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters
-                    .fromPublisher(modifiedBody, String.class);
-            HttpHeaders headers = new HttpHeaders();
-            headers.putAll(exchange.getRequest().getHeaders());
-            headers.remove(HttpHeaders.CONTENT_LENGTH);
-            CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
-
-            return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
-                ServerHttpRequestDecorator decoratedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
-                    @Override
-                    public Flux<DataBuffer> getBody() {
-                        return outputMessage.getBody();
-                    }
-                };
-
+            if (checkSign(bo, methodName, path, secretKey)) {
+                Map<String, Object> params = getBizVal(bo.getBizContent(), Map.class);
                 return chain.filter(
                         exchange.mutate()
-                                .request(decoratedRequest)
+                                .request(request.mutate().uri(UriComponentsBuilder.fromUri(request.getURI())
+                                        .replaceQuery(httpBuildQuery(params, true))
+                                        .build(true)
+                                        .toUri()).build())
                                 .response(handleResponse(exchange, methodName, path, secretKey))
                                 .build());
-            }));
+            } else {
+                throw new OpenApiSignException(ErrorCode.OPEN_API_SIGNATURE_ERR);
+            }
         }
 
-        return chain.filter(
-                exchange.mutate()
-                        .request(newRequest.get())
-                        .response(handleResponse(exchange, methodName, path, secretKey))
-                        .build());
+        List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
+        ServerRequest serverRequest = ServerRequest.create(exchange, messageReaders);
+        // 处理请求参数
+        Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
+            OpenApiInputBo bo = getApiInputBo(body);
+            if (checkSign(bo, methodName, path, secretKey)) {
+                return Mono.just(bo.getBizContent());
+            } else {
+                throw new OpenApiSignException(ErrorCode.OPEN_API_SIGNATURE_ERR);
+            }
+        });
+
+        //创建BodyInserter修改请求体
+        BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters
+                .fromPublisher(modifiedBody, String.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.putAll(exchange.getRequest().getHeaders());
+        headers.remove(HttpHeaders.CONTENT_LENGTH);
+        CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
+
+        return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
+            ServerHttpRequestDecorator decoratedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+                @Override
+                public Flux<DataBuffer> getBody() {
+                    return outputMessage.getBody();
+                }
+            };
+
+            return chain.filter(
+                    exchange.mutate()
+                            .request(decoratedRequest)
+                            .response(handleResponse(exchange, methodName, path, secretKey))
+                            .build());
+        }));
     }
 
     private ServerHttpResponseDecorator handleResponse(ServerWebExchange exchange, String methodName, String path, String secretKey) {
@@ -260,10 +252,10 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
      * 验证签名
      *
      * @param
-     *
      * @return
      */
     private boolean checkSign(OpenApiInputBo bo, String method, String path, String secretKey) {
+        ValidationUtil.validateBo(bo, true);
         Map<String, Object> data = BeanUtil.beanToMap(bo);
         return signature(data, method, path, secretKey).equals(bo.getSign());
     }
@@ -274,7 +266,6 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
      * @param data
      * @param method
      * @param path
-     *
      * @return
      */
     private String signature(Map<String, Object> data, String method, String path, String secretKey) {

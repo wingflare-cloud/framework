@@ -39,7 +39,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
         String msg;
 
         if (ex instanceof ResponseStatusException) {
-
             if (ex instanceof NotFoundException) {
                 msg = "gateway.serverNotFound";
             } else {
