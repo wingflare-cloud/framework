@@ -12,7 +12,6 @@
     <artifactId>wingflare-develop-tool</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>wingflare-tool-migration</module>
         <module>wingflare-tool-generator</module>
     </modules>
 
