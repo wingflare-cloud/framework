@@ -25,7 +25,7 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.HttpMessageReader;
+import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.FormFieldPart;
 import org.springframework.http.codec.multipart.Part;
@@ -37,7 +37,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.server.HandlerStrategies;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -69,7 +68,8 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
     private final Logger logger = LoggerFactory.getLogger(AccessLogFilter.class);
 
-    private final List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
+    @Resource
+    private ServerCodecConfigurer codecConfigurer;
 
     @Override
     public int getOrder() {
@@ -188,7 +188,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
                     ServerHttpRequest mutatedRequest = requestDataBuffer(exchange, dataBuffer);
 
-                    return messageReaders.stream()
+                    return codecConfigurer.getReaders().stream()
                             .filter(reader -> reader.canRead(resolvableType, mutatedRequest.getHeaders().getContentType()))
                             .findFirst()
                             .orElseThrow(() -> new IllegalStateException("no suitable HttpMessageReader."))
@@ -254,7 +254,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
      */
     @SuppressWarnings("unchecked")
     private Mono writeBodyLog(ServerWebExchange exchange, GatewayFilterChain chain, GatewayLogBo gatewayLog) {
-        ServerRequest serverRequest = ServerRequest.create(exchange, messageReaders);
+        ServerRequest serverRequest = ServerRequest.create(exchange, codecConfigurer.getReaders());
         Mono<String> modifiedBody = serverRequest.bodyToMono(String.class)
                 .flatMap(body -> {
                     gatewayLog.setReqBody(body);
