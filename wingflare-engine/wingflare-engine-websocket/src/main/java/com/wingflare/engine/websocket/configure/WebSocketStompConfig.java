@@ -1,20 +1,10 @@
 package com.wingflare.engine.websocket.configure;
 
 
-import com.wingflare.lib.core.Assert;
-import com.wingflare.lib.standard.Ctx;
-import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.jwt.utils.JwtUtil;
-import com.wingflare.lib.redis.service.RedisService;
+import com.wingflare.engine.websocket.interceptor.WebSocketInterceptor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.messaging.simp.stomp.StompCommand;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -22,15 +12,16 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import javax.annotation.Resource;
 
 
+/**
+ * Created by XiuYin.Cui on 2018/5/2.
+ */
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 
     @Resource
-    private RedisService redisService;
-
-    @Resource
-    private JwtUtil jwtUtil;
+    private WebSocketInterceptor webSocketInterceptor;
 
     /**
      * 将 "/stomp" 注册为一个 STOMP 端点。这个路径与之前发送和接收消息的目的地路径有所
@@ -54,8 +45,7 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         //基于内存的STOMP消息代理
-        registry.enableSimpleBroker("/queue", "/topic");
-
+        registry.enableSimpleBroker("/topic");
         //基于RabbitMQ 的STOMP消息代理
 /*        registry.enableStompBrokerRelay("/queue", "/topic")
                 .setRelayHost(host)
@@ -63,33 +53,14 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
                 .setClientLogin(userName)
                 .setClientPasscode(password);*/
 
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.setApplicationDestinationPrefixes("/system");
         registry.setUserDestinationPrefix("/user");
     }
 
 
-    /**
-     * 1、设置拦截器
-     * 2、首次连接的时候，获取其Header信息，利用Header里面的信息进行权限认证
-     * 3、通过认证的用户，使用 accessor.setUser(user); 方法，将登陆信息绑定在该 StompHeaderAccessor 上，在Controller方法上可以获取 StompHeaderAccessor 的相关信息
-     *
-     * @param registration
-     */
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new ChannelInterceptor() {
-            @Override
-            public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-                Assert.isFalse(accessor == null, "auth error");
-                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-                    String token = accessor.getFirstNativeHeader(Ctx.AUTHENTICATION);
-                    boolean hasToken = StringUtil.isNotEmpty(token);
-                }
-                //不是首次连接，已经登陆成功
-                return message;
-            }
-
-        });
+        registration.interceptors(webSocketInterceptor);
     }
+
 }

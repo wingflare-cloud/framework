@@ -17,18 +17,6 @@
     </properties>
 
     <dependencies>
-        <!-- SpringCloud Alibaba Nacos -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
-        <!-- SpringCloud Alibaba Nacos Config -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -37,6 +25,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-sleuth-perfect</artifactId>
         </dependency>
 
         <dependency>
@@ -50,9 +43,24 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <scope>provided</scope>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-spring</artifactId>
+        </dependency>
+
+        <!-- Hibernate Validator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-server-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-security</artifactId>
         </dependency>
 
         <dependency>
@@ -62,14 +70,50 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-jwt</artifactId>
+            <artifactId>wingflare-lib-mybatis-plus</artifactId>
         </dependency>
 
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>cloud-alibaba</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
+                </dependency>
+            </dependencies>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>cloud-tencent</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-adapter-cloud-tencent</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>nosql-redis</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-adapter-module-user-nosql-redis</artifactId>
+                </dependency>
+            </dependencies>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+    </profiles>
 
 </project>
