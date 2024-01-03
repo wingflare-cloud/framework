@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 
 /**
  * Stomp配置文件
+ * @author naizui_ycx
  */
 
 @Configuration
@@ -76,7 +77,7 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        String[] destinationPrefixes = new String[]{"/t", "/q", "/st", "/sq", "/at", "/aq"};
+        String[] destinationPrefixes = new String[]{"/t", "/q"};
         WebSocketProperties.StompProxy stompProxy = webSocketProperties.getProxy();
 
         if (webSocketProperties.getProxy() != null

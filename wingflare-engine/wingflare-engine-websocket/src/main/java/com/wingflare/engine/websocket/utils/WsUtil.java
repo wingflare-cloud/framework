@@ -1,10 +1,10 @@
 package com.wingflare.engine.websocket.utils;
 
 
-import com.wingflare.engine.websocket.bo.Terminal;
 import com.wingflare.lib.core.utils.MapUtil;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
+import com.wingflare.facade.engine.websocket.bo.Terminal;
 
 import java.io.IOException;
 import java.util.HashMap;

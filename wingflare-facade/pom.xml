@@ -15,6 +15,7 @@
         <module>wingflare-facade-module-user</module>
         <module>wingflare-facade-module-auth</module>
         <module>wingflare-facade-module-base</module>
+        <module>wingflare-facade-engine-websocket</module>
     </modules>
 
     <properties>

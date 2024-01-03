@@ -1,10 +1,10 @@
-package com.wingflare.engine.websocket.bo;
+package com.wingflare.facade.engine.websocket.bo;
 
 import java.security.Principal;
 
 /**
  * 终端
- * ycx
+ * @author naizui
  */
 public class Terminal implements Principal {
 

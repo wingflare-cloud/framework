@@ -30,6 +30,12 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-abstraction-engine-websocket</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

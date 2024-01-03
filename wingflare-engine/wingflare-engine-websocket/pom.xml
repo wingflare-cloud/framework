@@ -47,6 +47,11 @@
             <artifactId>wingflare-lib-spring</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-abstraction-engine-websocket</artifactId>
+        </dependency>
+
         <!-- Hibernate Validator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
