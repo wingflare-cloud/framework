@@ -2,8 +2,12 @@ package com.wingflare.lib.core.utils;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author naizui_ycx
@@ -33,6 +37,41 @@ public class MapUtil {
             }
         }
         return map;
+    }
+
+    /**
+     * 通过元素获取首个key
+     *
+     * @param map
+     * @param val
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> K findFirstKeyByValue(Map<K, V> map, V val) {
+        return map.entrySet()
+                .stream()
+                .filter(e -> val.equals(e.getValue()))
+                .findFirst()
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+    /**
+     * 通过元素获取key
+     *
+     * @param map
+     * @param val
+     * @param <K>
+     * @param <V>
+     * @return
+     */
+    public static <K, V> List<K> findKeyByValue(Map<K, V> map, V val) {
+        return map.entrySet()
+                .stream()
+                .filter(e -> val.equals(e.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
 }

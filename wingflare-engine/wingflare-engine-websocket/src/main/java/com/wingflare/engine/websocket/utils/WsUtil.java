@@ -1,6 +1,8 @@
 package com.wingflare.engine.websocket.utils;
 
 
+import com.wingflare.engine.websocket.bo.Terminal;
+import com.wingflare.lib.core.utils.MapUtil;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -13,6 +15,7 @@ public class WsUtil {
     static {
         sessions = new HashMap<>();
         sessionMapping = new HashMap<>();
+        mapping = new HashMap<>();
     }
 
     /**
@@ -23,7 +26,12 @@ public class WsUtil {
     /**
      * session映射信息
      */
-    private static final Map<String, Map<String, String>> sessionMapping;
+    private static final  Map<String, String> sessionMapping;
+
+    /**
+     * 一级映射信息
+     */
+    private static final Map<String, String> mapping;
 
     /**
      * 保存session关系数据
@@ -33,7 +41,10 @@ public class WsUtil {
     public static void addSession(WebSocketSession session) {
         synchronized (sessions) {
             if (!sessions.containsKey(session.getId())) {
+                Terminal terminal = WsCtxUtil.getTerminal();
                 sessions.put(session.getId(), session);
+                sessionMapping.put(terminal.getPoint(), session.getId());
+                mapping.put(terminal.getPoint(), terminal.getSn());
             }
         }
     }
@@ -58,8 +69,12 @@ public class WsUtil {
         synchronized (sessions) {
             WebSocketSession session = sessions.get(sid);
             if (session != null) {
+                String mappingKey = MapUtil.findFirstKeyByValue(sessionMapping, session.getId());
+                String mappingMappingKey = MapUtil.findFirstKeyByValue(mapping, mappingKey);
                 session.close(closeStatus);
                 sessions.remove(sid);
+                mapping.remove(mappingMappingKey);
+                sessionMapping.remove(mappingKey);
             }
         }
     }
