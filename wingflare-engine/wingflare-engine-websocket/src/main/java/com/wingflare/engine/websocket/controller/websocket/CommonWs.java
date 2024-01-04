@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 /**
  * @author naizui_ycx
  * @className CommonWs
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2024/01/03
  * @description 通用ws控制器
  */

@@ -12,7 +12,7 @@ import java.util.ServiceLoader;
 /**
  * @author naizui_ycx
  * @className CaptchaServiceFactoryFactory
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2023/04/20
  * @description 验证码工厂工厂
  */

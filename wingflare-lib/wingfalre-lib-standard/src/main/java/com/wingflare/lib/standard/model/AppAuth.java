@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author naizui_ycx
  * @className AppAuth
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2023/06/13
  * @description 认证应用类
  */

@@ -6,7 +6,7 @@ import java.util.Properties;
 /**
  * @author naizui_ycx
  * @interfaceName CaptchaServiceFactory
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2023/04/20
  * @description 验证码服务工厂
  */

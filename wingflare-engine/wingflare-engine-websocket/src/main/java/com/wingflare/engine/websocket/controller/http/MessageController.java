@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author naizui_ycx
  * @className MessageController
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2024/01/03
  * @description 消息相关
  */

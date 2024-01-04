@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author naizui_ycx
  * @className DESDataSecret
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2023/04/04/18
  * @description DES数据加密
  */

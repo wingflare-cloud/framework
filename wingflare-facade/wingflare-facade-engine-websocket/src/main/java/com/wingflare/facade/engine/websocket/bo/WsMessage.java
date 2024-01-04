@@ -5,16 +5,16 @@ import java.util.List;
 /**
  * @author naizui_ycx
  * @className WsMessage
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2024/01/03
  * @description ws消息
  */
 public class WsMessage<T> {
 
     /**
-     * 终端名
+     * 终端sid
      */
-    private List<String> names;
+    private List<String> sids;
 
     /**
      * 终端
@@ -37,12 +37,12 @@ public class WsMessage<T> {
     private T body;
 
 
-    public List<String> getNames() {
-        return names;
+    public List<String> getSids() {
+        return sids;
     }
 
-    public void setNames(List<String> names) {
-        this.names = names;
+    public void setSids(List<String> sids) {
+        this.sids = sids;
     }
 
     public List<Terminal> getTerminals() {

@@ -3,7 +3,7 @@ package com.wingflare.facade.engine.websocket.bo;
 /**
  * @author naizui_ycx
  * @className CallbackServerInfo
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2024/01/03
  * @description 回调服务信息
  */

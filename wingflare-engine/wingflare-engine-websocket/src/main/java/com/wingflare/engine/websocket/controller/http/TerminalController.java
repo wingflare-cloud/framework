@@ -1,6 +1,7 @@
 package com.wingflare.engine.websocket.controller.http;
 
 import com.wingflare.abstraction.engine.websocket.WsAuthServerInterface;
+import com.wingflare.facade.engine.websocket.bo.RegTerminal;
 import com.wingflare.facade.engine.websocket.bo.Terminal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,7 @@ import javax.annotation.Resource;
 /**
  * @author naizui_ycx
  * @className OpenApiController
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2024/01/03
  * @description 终端相关开放接口
  */
@@ -27,11 +28,11 @@ public class TerminalController {
     /**
      * 注册终端
      *
-     * @param terminal
+     * @param regTerminal
      * @return
      */
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
-    public String regTerminal(Terminal terminal) {
+    public String regTerminal(RegTerminal regTerminal) {
         return "success";
     }
 
@@ -51,8 +52,8 @@ public class TerminalController {
      *
      * @return
      */
-    @RequestMapping(value = "/close/name/{name}", method = RequestMethod.POST)
-    public String closeTerminalByName(@PathVariable("name") String name) {
+    @RequestMapping(value = "/close/sid/{sid}", method = RequestMethod.POST)
+    public String closeTerminalBySid(@PathVariable("sid") String sid) {
         return "success";
     }
 

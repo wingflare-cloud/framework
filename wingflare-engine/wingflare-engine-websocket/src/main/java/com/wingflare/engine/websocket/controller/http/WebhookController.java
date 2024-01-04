@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author naizui_ycx
  * @className WebhookController
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2024/01/03
  * @description webhook相关开放接口
  */

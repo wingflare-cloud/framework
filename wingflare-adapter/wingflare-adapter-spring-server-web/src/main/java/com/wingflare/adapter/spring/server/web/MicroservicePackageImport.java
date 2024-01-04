@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 /**
  * @author naizui_ycx
  * @className MicroserviceModeImport
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2023/04/04/23
  * @description 微服务组件导入
  */

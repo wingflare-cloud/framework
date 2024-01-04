@@ -21,7 +21,7 @@ import java.util.Properties;
  *
  * @author naizui_ycx
  * @className KaptchaServer
- * @email chenxi2511@qqq.com
+ * @email chenxi2511@qq.com
  * @date 2023/04/20
  */
 public class KaptchaGenerateServer implements CaptchaGenerateServer<String> {
