@@ -58,6 +58,11 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-mybatis-plus</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>

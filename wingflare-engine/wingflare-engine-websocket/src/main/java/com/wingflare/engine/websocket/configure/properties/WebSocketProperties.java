@@ -41,6 +41,15 @@ public class WebSocketProperties {
      */
     private List<String> terminalWhiteList = new ArrayList<>();
 
+    /**
+     * 白名单终端秘钥
+     */
+    private String whiteListSecretKey = "wingflare-could-ws-secret";
+
+    /**
+     * sid盐值
+     */
+    private String sidSalt = "wingflare-could-ws-salt";
 
     /**
      * broker消息有序发布
@@ -80,6 +89,22 @@ public class WebSocketProperties {
 
     public void setTerminalWhiteList(List<String> terminalWhiteList) {
         this.terminalWhiteList = terminalWhiteList;
+    }
+
+    public String getWhiteListSecretKey() {
+        return whiteListSecretKey;
+    }
+
+    public void setWhiteListSecretKey(String whiteListSecretKey) {
+        this.whiteListSecretKey = whiteListSecretKey;
+    }
+
+    public String getSidSalt() {
+        return sidSalt;
+    }
+
+    public void setSidSalt(String sidSalt) {
+        this.sidSalt = sidSalt;
     }
 
     public boolean isBrokerPreservePublishOrder() {

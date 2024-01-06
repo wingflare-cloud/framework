@@ -8,4 +8,9 @@ public interface ErrorCode {
      */
     String AUTH_EXPIRATION = "websocket.auth.expiration";
 
+    /**
+     * 终端注册失败
+     */
+    String REGISTER_TERMINAL_EXPIRATION = "websocket.register.expiration";
+
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.engine.websocket.mapper.WsTopicBindInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wingflare.engine.websocket.db.WsTopicBindInfoDo">
+        <id column="bind_id" property="bindId" />
+        <result column="topic" property="topic" />
+        <result column="topic_type" property="topicType" />
+        <result column="terminal_sn" property="terminalSn" />
+        <result column="permission_num" property="permissionNum" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="is_delete" property="isDelete" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `bind_id`,
+        `topic`,
+        `topic_type`,
+        `terminal_sn`,
+        `permission_num`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `wf_ws_topic_bind_info`.`bind_id`,
+        `wf_ws_topic_bind_info`.`topic`,
+        `wf_ws_topic_bind_info`.`topic_type`,
+        `wf_ws_topic_bind_info`.`terminal_sn`,
+        `wf_ws_topic_bind_info`.`permission_num`,
+        `wf_ws_topic_bind_info`.`created_time`,
+        `wf_ws_topic_bind_info`.`updated_time`,
+        `wf_ws_topic_bind_info`.`create_user`,
+        `wf_ws_topic_bind_info`.`create_user_id`,
+        `wf_ws_topic_bind_info`.`update_user`,
+        `wf_ws_topic_bind_info`.`update_user_id`,
+        `wf_ws_topic_bind_info`.`is_delete`,
+        `wf_ws_topic_bind_info`.`version`
+    </sql>
+
+</mapper>

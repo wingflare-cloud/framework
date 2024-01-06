@@ -242,6 +242,24 @@ public class StringUtil extends StringUtils {
     }
 
     /**
+     * 按长度分割字符串
+     *
+     * @param text
+     * @param n
+     * @return
+     */
+    public static List<String> splitForLen(String text, int n) {
+        List<String> results = new ArrayList<>();
+        int length = text.length();
+
+        for (int i = 0; i < length; i += n) {
+            results.add(text.substring(i, Math.min(length, i + n)));
+        }
+
+        return results;
+    }
+
+    /**
      * 驼峰转蛇形
      *
      * @param str

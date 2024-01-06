@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.engine.websocket.mapper.WsSessionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wingflare.engine.websocket.db.WsSessionDo">
+        <id column="id" property="id" />
+        <result column="sid" property="sid" />
+        <result column="terminal_sn" property="terminalSn" />
+        <result column="point" property="point" />
+        <result column="ws_serv" property="wsServ" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="is_delete" property="isDelete" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `id`,
+        `sid`,
+        `terminal_sn`,
+        `point`,
+        `ws_serv`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `wf_ws_session`.`id`,
+        `wf_ws_session`.`sid`,
+        `wf_ws_session`.`terminal_sn`,
+        `wf_ws_session`.`point`,
+        `wf_ws_session`.`ws_serv`,
+        `wf_ws_session`.`created_time`,
+        `wf_ws_session`.`updated_time`,
+        `wf_ws_session`.`create_user`,
+        `wf_ws_session`.`create_user_id`,
+        `wf_ws_session`.`update_user`,
+        `wf_ws_session`.`update_user_id`,
+        `wf_ws_session`.`is_delete`,
+        `wf_ws_session`.`version`
+    </sql>
+
+</mapper>

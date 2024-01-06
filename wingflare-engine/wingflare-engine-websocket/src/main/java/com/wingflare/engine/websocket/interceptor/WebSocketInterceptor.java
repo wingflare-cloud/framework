@@ -34,7 +34,7 @@ public class WebSocketInterceptor implements ChannelInterceptor {
         Assert.isTrue(accessor.getUser() != null, ErrorCode.AUTH_EXPIRATION);
 
         if (!webSocketProperties.getTerminalWhiteList().contains(accessor.getUser().getName())) {
-            Terminal terminal = wsAuthServer.getTerminalByUserName(accessor.getUser().getName());
+            Terminal terminal = wsAuthServer.getTerminalBySid(accessor.getUser().getName());
             Assert.isTrue(terminal != null, ErrorCode.AUTH_EXPIRATION);
         }
 

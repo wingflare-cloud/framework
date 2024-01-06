@@ -24,6 +24,11 @@ public class CallbackServerInfo {
      */
     private String topics;
 
+    /**
+     * 是否开启ssl证书
+     */
+    private boolean enableSSL = false;
+
 
     public String getServerName() {
         return serverName;
@@ -47,5 +52,13 @@ public class CallbackServerInfo {
 
     public void setTopics(String topics) {
         this.topics = topics;
+    }
+
+    public boolean isEnableSSL() {
+        return enableSSL;
+    }
+
+    public void setEnableSSL(boolean enableSSL) {
+        this.enableSSL = enableSSL;
     }
 }

@@ -17,7 +17,7 @@ public interface WsAuthServerInterface {
      * @param sid
      * @return
      */
-    public Terminal getTerminalByUserName(String sid);
+    public Terminal getTerminalBySid(String sid);
 
     /**
      * 注册终端
@@ -26,13 +26,6 @@ public interface WsAuthServerInterface {
      * @param terminal
      */
     public void regTerminal(String sid, Terminal terminal);
-
-    /**
-     * 关闭终端链接
-     *
-     * @param terminal
-     */
-    public void closeTerminal(Terminal terminal);
 
     /**
      * 通过sid关闭终端链接

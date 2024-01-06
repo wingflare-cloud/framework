@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.engine.websocket.mapper.WebhookMapper">
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `id`,
+        `server_name`,
+        `path`,
+        `topic`,
+        `enable_ssl`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `created_time`,
+        `updated_time`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `wf_ws_webhook`.`id`,
+        `wf_ws_webhook`.`server_name`,
+        `wf_ws_webhook`.`path`,
+        `wf_ws_webhook`.`topic`,
+        `wf_ws_webhook`.`enable_ssl`,
+        `wf_ws_webhook`.`create_user`,
+        `wf_ws_webhook`.`create_user_id`,
+        `wf_ws_webhook`.`update_user`,
+        `wf_ws_webhook`.`update_user_id`,
+        `wf_ws_webhook`.`created_time`,
+        `wf_ws_webhook`.`updated_time`,
+        `wf_ws_webhook`.`is_delete`,
+        `wf_ws_webhook`.`version`
+    </sql>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap type="WebhookDo" id="WebhookResult">
+        <result property="id" column="id"/>
+        <result property="serverName" column="server_name"/>
+        <result property="path" column="path"/>
+        <result property="topic" column="topic"/>
+        <result property="enableSsl" column="enable_ssl"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="version" column="version"/>
+    </resultMap>
+</mapper>

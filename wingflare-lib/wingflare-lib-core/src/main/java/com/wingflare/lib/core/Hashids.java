@@ -1,6 +1,9 @@
 package com.wingflare.lib.core;
 
 
+import com.wingflare.lib.core.utils.ConvertUtil;
+import com.wingflare.lib.core.utils.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -86,8 +89,8 @@ public class Hashids {
             }
         }
 
-        alphabet = alphabet.replaceAll("\\s+" , "");
-        seps = seps.replaceAll("\\s+" , "");
+        alphabet = alphabet.replaceAll("\\s+", "");
+        seps = seps.replaceAll("\\s+", "");
         seps = Hashids.consistentShuffle(seps, this.salt);
 
         if ((seps.isEmpty()) || (((float) alphabet.length() / seps.length()) > SEP_DIV)) {
@@ -303,7 +306,7 @@ public class Hashids {
                 final char lottery = hashBreakdown.charAt(0);
 
                 hashBreakdown = hashBreakdown.substring(1);
-                hashBreakdown = hashBreakdown.replaceAll("[" + this.seps + "]" , " ");
+                hashBreakdown = hashBreakdown.replaceAll("[" + this.seps + "]", " ");
                 hashArray = hashBreakdown.split(" ");
 
                 String subHash, buffer;
@@ -373,6 +376,38 @@ public class Hashids {
         }
 
         return number;
+    }
+
+    /**
+     * 大数字转数组
+     *
+     * @param data
+     * @return
+     */
+    public static long[] dePack(long data) {
+        if (data > MAX_NUMBER) {
+            String str = ConvertUtil.toStr(data);
+            List<String> strings = StringUtil.splitForLen(str, 15);
+            long[] nums = new long[strings.size()];
+
+            for (int i = 0; i < strings.size(); i++) {
+                nums[i] = ConvertUtil.toLong(strings.get(i));
+            }
+
+            return nums;
+        }
+
+        return new long[]{data};
+    }
+
+    public static long enPack(long... nums) {
+        StringBuilder sb = new StringBuilder();
+
+        for (long num : nums) {
+            sb.append(num);
+        }
+
+        return ConvertUtil.toLong(sb.toString());
     }
 
 }
