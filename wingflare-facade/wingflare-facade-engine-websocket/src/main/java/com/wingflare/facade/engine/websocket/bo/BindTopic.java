@@ -26,12 +26,7 @@ public class BindTopic {
     /**
      * 设备编号
      */
-    private List<String> terminalSnList;
-
-    /**
-     * 设备sid
-     */
-    private List<String> terminalSidList;
+    private String terminalSn;
 
     public List<String> getReadOnlyTopics() {
         return readOnlyTopics;
@@ -57,19 +52,11 @@ public class BindTopic {
         this.topics = topics;
     }
 
-    public List<String> getTerminalSnList() {
-        return terminalSnList;
+    public String getTerminalSn() {
+        return terminalSn;
     }
 
-    public void setTerminalSnList(List<String> terminalSnList) {
-        this.terminalSnList = terminalSnList;
-    }
-
-    public List<String> getTerminalSidList() {
-        return terminalSidList;
-    }
-
-    public void setTerminalSidList(List<String> terminalSidList) {
-        this.terminalSidList = terminalSidList;
+    public void setTerminalSn(String terminalSn) {
+        this.terminalSn = terminalSn;
     }
 }

@@ -60,6 +60,16 @@ public class WsUtil {
     }
 
     /**
+     * 批量关闭当前session
+     *
+     * @param sids
+     * @throws IOException
+     */
+    public static void closeSession(String... sids) throws IOException {
+        closeSession(CloseStatus.POLICY_VIOLATION, sids);
+    }
+
+    /**
      * 关闭当前session
      *
      * @param sid
@@ -67,15 +77,34 @@ public class WsUtil {
      */
     public static void closeSession(String sid, CloseStatus closeStatus) throws IOException {
         synchronized (sessions) {
-            WebSocketSession session = sessions.get(sid);
-            if (session != null) {
-                String mappingKey = MapUtil.findFirstKeyByValue(sessionMapping, session.getId());
-                String mappingMappingKey = MapUtil.findFirstKeyByValue(mapping, mappingKey);
-                session.close(closeStatus);
-                sessions.remove(sid);
-                mapping.remove(mappingMappingKey);
-                sessionMapping.remove(mappingKey);
+            removeSession(closeStatus, sid);
+        }
+    }
+
+    /**
+     * 批量关闭session
+     *
+     * @param closeStatus
+     * @param sids
+     * @throws IOException
+     */
+    public static void closeSession(CloseStatus closeStatus, String... sids) throws IOException {
+        synchronized (sessions) {
+            for (String sid : sids) {
+                removeSession(closeStatus, sid);
             }
+        }
+    }
+
+    private static void removeSession(CloseStatus closeStatus, String sid) throws IOException {
+        WebSocketSession session = sessions.get(sid);
+        if (session != null) {
+            String mappingKey = MapUtil.findFirstKeyByValue(sessionMapping, session.getId());
+            String mappingMappingKey = MapUtil.findFirstKeyByValue(mapping, mappingKey);
+            session.close(closeStatus);
+            sessions.remove(sid);
+            mapping.remove(mappingMappingKey);
+            sessionMapping.remove(mappingKey);
         }
     }
 

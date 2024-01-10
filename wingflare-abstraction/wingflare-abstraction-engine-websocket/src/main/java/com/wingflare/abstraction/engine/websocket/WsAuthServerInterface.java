@@ -2,6 +2,8 @@ package com.wingflare.abstraction.engine.websocket;
 
 import com.wingflare.facade.engine.websocket.bo.Terminal;
 
+import java.util.Map;
+
 /**
  * @author naizui_ycx
  * @interfaceName WsAuthInterface
@@ -18,6 +20,14 @@ public interface WsAuthServerInterface {
      * @return
      */
     public Terminal getTerminalBySid(String sid);
+
+    /**
+     * 获取sn下全部终端
+     *
+     * @param sn
+     * @return
+     */
+    public Map<String, Terminal> getTerminalBySn(String sn);
 
     /**
      * 注册终端
