@@ -13,4 +13,9 @@ public interface ErrorCode {
      */
     String REGISTER_TERMINAL_EXPIRATION = "websocket.register.expiration";
 
+    /**
+     * 频道绑定异常
+     */
+    String TOPIC_BIND_EXPIRATION = "websocket.topic.bind.expiration";
+
 }

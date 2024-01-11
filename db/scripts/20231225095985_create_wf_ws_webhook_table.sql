@@ -3,7 +3,8 @@
 CREATE TABLE `wf_ws_webhook`
 (
     `id`           varchar(32)  NOT NULL,
-    `server_name`  varchar(32)  NOT NULL DEFAULT '' COMMENT '主机名',
+    `server_name`  varchar(32)  NOT NULL DEFAULT '' COMMENT '服务名',
+    `host`         varchar(256)  NOT NULL DEFAULT '' COMMENT '主机',
     `path`         varchar(256) NOT NULL DEFAULT '' COMMENT '请求路径',
     `topic`        varchar(256) NOT NULL DEFAULT '' COMMENT '频道名',
     `enable_ssl`   tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否启用ssl',

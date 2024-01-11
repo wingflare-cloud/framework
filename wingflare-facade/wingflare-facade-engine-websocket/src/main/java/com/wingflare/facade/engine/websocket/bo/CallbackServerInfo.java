@@ -10,9 +10,14 @@ package com.wingflare.facade.engine.websocket.bo;
 public class CallbackServerInfo {
 
     /**
-     * 服务名，内外服务时必填
+     * 服务名，内网服务时必填
      */
     private String serverName;
+
+    /**
+     * 主机名
+     */
+    private String host;
 
     /**
      * 回调路径
@@ -22,7 +27,7 @@ public class CallbackServerInfo {
     /**
      * 监听的频道
      */
-    private String topics;
+    private String topic;
 
     /**
      * 是否开启ssl证书
@@ -38,6 +43,14 @@ public class CallbackServerInfo {
         this.serverName = serverName;
     }
 
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     public String getPath() {
         return path;
     }
@@ -46,12 +59,12 @@ public class CallbackServerInfo {
         this.path = path;
     }
 
-    public String getTopics() {
-        return topics;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setTopics(String topics) {
-        this.topics = topics;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public boolean isEnableSSL() {

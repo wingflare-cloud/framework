@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.business.mapper.WsWebhookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wingflare.business.db.WsWebhookDo">
+        <id column="id" property="id" />
+        <result column="server_name" property="serverName" />
+        <result column="host" property="host" />
+        <result column="path" property="path" />
+        <result column="topic" property="topic" />
+        <result column="enable_ssl" property="enableSsl" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="is_delete" property="isDelete" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        `id`,
+        `server_name`,
+        `host`,
+        `path`,
+        `topic`,
+        `enable_ssl`,
+        `created_time`,
+        `updated_time`,
+        `create_user`,
+        `create_user_id`,
+        `update_user`,
+        `update_user_id`,
+        `is_delete`,
+        `version`
+    </sql>
+
+    <!-- 通用查询结果列，带表明前缀 -->
+    <sql id="Base_Column_List_Table_Prefix">
+        `wf_ws_webhook`.`id`,
+        `wf_ws_webhook`.`server_name`,
+        `wf_ws_webhook`.`host`,
+        `wf_ws_webhook`.`path`,
+        `wf_ws_webhook`.`topic`,
+        `wf_ws_webhook`.`enable_ssl`,
+        `wf_ws_webhook`.`created_time`,
+        `wf_ws_webhook`.`updated_time`,
+        `wf_ws_webhook`.`create_user`,
+        `wf_ws_webhook`.`create_user_id`,
+        `wf_ws_webhook`.`update_user`,
+        `wf_ws_webhook`.`update_user_id`,
+        `wf_ws_webhook`.`is_delete`,
+        `wf_ws_webhook`.`version`
+    </sql>
+
+</mapper>

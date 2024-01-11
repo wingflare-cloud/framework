@@ -53,7 +53,7 @@ public class TopicBindBiz {
                         .build()));
             }
 
-            Assert.isTrue(wsTopicBindInfoServer.saveBatch(wsTopicBindInfoDos), ErrorCode.REGISTER_TERMINAL_EXPIRATION);
+            Assert.isTrue(wsTopicBindInfoServer.saveBatch(wsTopicBindInfoDos), ErrorCode.TOPIC_BIND_EXPIRATION);
         }
     }
 

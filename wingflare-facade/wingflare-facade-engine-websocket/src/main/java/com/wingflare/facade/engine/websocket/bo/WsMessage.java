@@ -1,6 +1,7 @@
 package com.wingflare.facade.engine.websocket.bo;
 
 import java.util.List;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author naizui_ycx
@@ -12,14 +13,9 @@ import java.util.List;
 public class WsMessage<T> {
 
     /**
-     * 终端sid
-     */
-    private List<String> sids;
-
-    /**
      * 终端
      */
-    private List<Terminal> terminals;
+    private List<String> terminalSnList;
 
     /**
      * 频道
@@ -34,23 +30,15 @@ public class WsMessage<T> {
     /**
      * 消息体
      */
-    private T body;
+    private String body;
 
 
-    public List<String> getSids() {
-        return sids;
+    public List<String> getTerminalSnList() {
+        return terminalSnList;
     }
 
-    public void setSids(List<String> sids) {
-        this.sids = sids;
-    }
-
-    public List<Terminal> getTerminals() {
-        return terminals;
-    }
-
-    public void setTerminals(List<Terminal> terminals) {
-        this.terminals = terminals;
+    public void setTerminalSnList(List<String> terminalSnList) {
+        this.terminalSnList = terminalSnList;
     }
 
     public List<String> getTopics() {
@@ -69,11 +57,15 @@ public class WsMessage<T> {
         this.msgId = msgId;
     }
 
-    public T getBody() {
+    public String getBody() {
         return body;
     }
 
-    public void setBody(T body) {
+    public void setBody(String body) {
         this.body = body;
+    }
+
+    public void setContent(T content) {
+        setBody(JSONObject.toJSONString(content));
     }
 }

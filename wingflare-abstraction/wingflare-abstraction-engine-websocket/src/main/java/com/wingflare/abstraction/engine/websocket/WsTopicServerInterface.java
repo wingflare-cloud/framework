@@ -23,10 +23,9 @@ public interface WsTopicServerInterface {
     /**
      * 终端解绑频道
      *
+     * @param terminalSn
      * @param topics
-     * @param terminalSnList
-     * @param terminalSidList
      */
-    public void unbindTopic(List<String> topics, List<String> terminalSnList, List<String> terminalSidList);
+    public void unbindTopic(String terminalSn, List<String> topics);
 
 }

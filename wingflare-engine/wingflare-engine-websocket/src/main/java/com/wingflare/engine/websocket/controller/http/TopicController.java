@@ -38,6 +38,9 @@ public class TopicController {
     @Resource
     private TopicBindBiz topicBindBiz;
 
+    @Resource
+    private WsTopicBindInfoServer wsTopicBindInfoServer;
+
     /**
      * 频道绑定终端
      *
@@ -57,8 +60,13 @@ public class TopicController {
      * @return
      */
     @RequestMapping(value = "/unbind/terminal", method = RequestMethod.POST)
-    public String unbindTopic(BindTopic bindTopic) {
-        return "";
+    public R<Boolean> unbindTopic(BindTopic bindTopic) {
+        wsTopicBindInfoServer.remove(wsTopicBindInfoServer.lambdaQuery()
+                .eq(WsTopicBindInfoDo::getTerminalSn, bindTopic.getTerminalSn())
+                .in(WsTopicBindInfoDo::getTopic, bindTopic.getTopics())
+        );
+        wsTopicServerInterface.unbindTopic(bindTopic.getTerminalSn(), bindTopic.getTopics());
+        return R.ok(true);
     }
 
 }

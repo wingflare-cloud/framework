@@ -16,4 +16,13 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
 </project>
