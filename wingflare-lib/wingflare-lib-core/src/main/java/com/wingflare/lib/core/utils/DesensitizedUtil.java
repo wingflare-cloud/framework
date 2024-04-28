@@ -5,7 +5,7 @@ package com.wingflare.lib.core.utils;
  * @author naizui_ycx
  * @email chenxi2511@qq.com
  */
-public class DesensitizedUtils {
+public class DesensitizedUtil {
 
     /**
      * 【银行卡号】数据脱敏

@@ -3,7 +3,7 @@ package com.wingflare.lib.security.aspect;
 
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.utils.ConvertUtil;
-import com.wingflare.lib.core.utils.DesensitizedUtils;
+import com.wingflare.lib.core.utils.DesensitizedUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.annotation.Desensitize;
 import com.wingflare.lib.security.annotation.DesensitizeGroups;
@@ -121,29 +121,29 @@ public class SensitiveDataAspect implements Ordered {
 
         switch (type) {
             case CHINESE_NAME: {
-                return DesensitizedUtils.chineseName(strVal);
+                return DesensitizedUtil.chineseName(strVal);
             }
             case ID_CARD: {
-                return DesensitizedUtils.idCardNum(strVal);
+                return DesensitizedUtil.idCardNum(strVal);
             }
             case MOBILE_PHONE: {
-                return DesensitizedUtils.mobilePhone(strVal);
+                return DesensitizedUtil.mobilePhone(strVal);
             }
             case ADDRESS: {
-                return DesensitizedUtils.address(strVal);
+                return DesensitizedUtil.address(strVal);
             }
             case EMAIL: {
-                return DesensitizedUtils.email(strVal);
+                return DesensitizedUtil.email(strVal);
             }
             case BANK_CARD: {
-                return DesensitizedUtils.bankCard(strVal);
+                return DesensitizedUtil.bankCard(strVal);
             }
             case PASSWD: {
-                return DesensitizedUtils.passwd(strVal);
+                return DesensitizedUtil.passwd(strVal);
             }
             case NONE:
             default:
-                return DesensitizedUtils.none(strVal);
+                return DesensitizedUtil.none(strVal);
         }
     }
 
