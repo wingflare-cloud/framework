@@ -20,13 +20,18 @@ public class DataScopeHandle implements com.wingflare.lib.datascope.DataScopeHan
     }
 
     @Override
-    public Map<String, List<String>> getBlacklist(String key) {
+    public Map<String, List<String>> getDPList(String key) {
         return cacheService.getCacheMap(key);
     }
 
     @Override
-    public Map<String, List<String>> getWhitelist(String key) {
-        return cacheService.getCacheMap(key);
+    public List<Map<String, List<String>>> multiGetDPList(List<String> keys) {
+        return cacheService.getCacheListObject(keys);
+    }
+
+    @Override
+    public List<String> getPriorityExpression() {
+        return cacheService.getCacheList(com.wingflare.lib.datascope.DataScopeHandle.PRIORITY_EXPRESSION_KEY);
     }
 
 }

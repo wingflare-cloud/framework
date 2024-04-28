@@ -8,9 +8,9 @@ import com.alibaba.fastjson.JSONObject;
  * @className WsMessage
  * @email chenxi2511@qq.com
  * @date 2024/01/03
- * @description ws消息
+ * @description 消息发送Bo
  */
-public class WsMessage<T> {
+public class MessageSendBo<T> {
 
     /**
      * 终端

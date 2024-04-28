@@ -1,11 +1,15 @@
 package com.wingflare.lib.datascope.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wingflare.lib.core.exceptions.BusinessLogicException;
+import com.wingflare.lib.datascope.DPInfo;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.core.utils.CollectionUtil;
+import com.wingflare.lib.standard.utils.CtxUtil;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.datascope.DataScopeHandle;
@@ -36,7 +40,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -110,7 +116,7 @@ public class DataScopeUtil {
 
             DataPermissionData dataPermissionData = new DataPermissionData();
             setCondition(dpBindingDataList, dataPermissionData);
-            setWhiteListAndBlackList(dataPermissionData);
+            setDPInfo(dataPermissionData);
 
             // 将数据权限数据放入线程上下文数据中
             ContextHolder.set(Ctx.DATA_PERMISSION_CONTEXT, dataPermissionData);
@@ -168,30 +174,189 @@ public class DataScopeUtil {
      *
      * @param dataPermissionData 数据权限数据对象
      */
-    private void setWhiteListAndBlackList(DataPermissionData dataPermissionData) {
-        String systemCode = SecurityUtil.getBusinessSystem();
-        String str;
+    private void setDPInfo(DataPermissionData dataPermissionData) {
+        List<String> priorityExpression = dataScopeHandle.getPriorityExpression();
 
-        if (SecurityUtil.getAuthMode().equals(AuthType.USER)) {
-            str = "user:" + SecurityUtil.getUserId();
+        if (CollectionUtil.isNotEmpty(priorityExpression)) {
+            DPInfo dpInfo = null;
+            for (String exp : priorityExpression) {
+                if (dpInfo == null) {
+                    dpInfo = getExpressionDPInfo(exp);
+                } else {
+                    DPInfo subDPInfo = getExpressionDPInfo(exp);
+                    calculateDPInfo(dpInfo, subDPInfo);
+                    mergeDPInfo(dpInfo.getWhitelist(), subDPInfo.getWhitelist());
+                    mergeDPInfo(dpInfo.getBlacklist(), subDPInfo.getBlacklist());
+                }
+            }
+
+            if (dpInfo != null) {
+                dataPermissionData.setWhitelists(dpInfo.getWhitelist());
+                dataPermissionData.setBlacklists(dpInfo.getBlacklist());
+            }
         } else {
-            str = "app:" + SecurityUtil.getAppId();
+            dataPermissionData.setWhitelists(getDPInfo(true));
+            dataPermissionData.setBlacklists(getDPInfo(false));
+        }
+    }
+
+    /**
+     * 通过表达式获取数据权限信息
+     *
+     * @param expression
+     * @return
+     */
+    private DPInfo getExpressionDPInfo(String expression) {
+        if (StringUtil.isBlank(expression)) {
+            throw new BusinessLogicException("dp.expression.option.err");
         }
 
-        Map<String, List<String>> whitelists = dataScopeHandle.getWhitelist(
-                String.format(
-                        "%s:%s:whiteList:%s",
-                        systemCode, Ctx.PREFIX_DATA_PERMISSION_KEY, str)
-        );
+        String subType = expression;
+        Object subId = null;
+        DPInfo dpInfo = new DPInfo();
+        int expIndex = expression.indexOf(":");
 
-        Map<String, List<String>> blacklists = dataScopeHandle.getWhitelist(
-                String.format(
-                        "%s:%s:blackList:%s",
-                        systemCode, Ctx.PREFIX_DATA_PERMISSION_KEY, str)
-        );
+        if (expIndex != -1) {
+            String[] strings = expression.split(":", 2);
+            subType = strings[1];
+            switch (strings[0]) {
+                case "ctx":
+                    subId = ContextHolder.get(subType);
+            }
+        }
 
-        dataPermissionData.setWhitelists(whitelists);
-        dataPermissionData.setBlacklists(blacklists);
+        if (ObjectUtil.isEmpty(subId)) {
+            dpInfo.setWhitelist(getDPInfo(true, subType, null));
+            dpInfo.setBlacklist(getDPInfo(false, subType, null));
+        } else if (subId instanceof String) {
+            dpInfo.setWhitelist(getDPInfo(true, subType, (String) subId));
+            dpInfo.setBlacklist(getDPInfo(false, subType, (String) subId));
+        } else if (subId instanceof List) {
+            List<String> list = (List<String>) subId;
+            List<Map<String, List<String>>> whitelists = getDPInfoList(true, subType, list);
+            List<Map<String, List<String>>> blacklists = getDPInfoList(false, subType, list);
+            Map<String, List<String>> whitelist = whitelists.get(0);
+            Map<String, List<String>> blacklist = blacklists.get(0);
+
+            for (int i = 1; i < whitelist.size(); i++) {
+                mergeDPInfo(whitelist, whitelists.get(i));
+            }
+
+            for (int i = 1; i < whitelist.size(); i++) {
+                mergeDPInfo(blacklist, blacklists.get(i));
+            }
+
+            dpInfo.setWhitelist(whitelist);
+            dpInfo.setBlacklist(blacklist);
+        }
+
+        return dpInfo;
+    }
+
+    /**
+     * 父子集黑白名单数据对冲（实现子集白名单数据权限覆盖父级黑名单数据）
+     *
+     * @param dpInfo
+     * @param subDpInfo
+     */
+    private void calculateDPInfo(DPInfo dpInfo, DPInfo subDpInfo) {
+        if (CollectionUtil.isEmpty(dpInfo.getBlacklist()) || CollectionUtil.isEmpty(subDpInfo.getWhitelist())) {
+            return;
+        }
+
+        Map<String, List<String>> whitelist = subDpInfo.getWhitelist();
+
+        for (Map.Entry<String, List<String>> dp : dpInfo.getBlacklist().entrySet()) {
+            if (whitelist.containsKey(dp.getKey())) {
+                dp.getValue().removeAll(whitelist.get(dp.getKey()));
+            }
+        }
+    }
+
+    /**
+     * 合并同类型数据权限
+     *
+     * @param dp1
+     * @param dp2
+     */
+    private void mergeDPInfo(Map<String, List<String>> dp1, Map<String, List<String>> dp2) {
+        List<String> processedKeys = new ArrayList<>();
+
+        for (Map.Entry<String, List<String>> dp : dp1.entrySet()) {
+            processedKeys.add(dp.getKey());
+
+            if (dp2.containsKey(dp.getKey())) {
+                dp1.get(dp.getKey()).addAll(dp2.get(dp.getKey()));
+                dp1.put(dp.getKey(), new ArrayList<>(new HashSet<>(dp1.get(dp.getKey()))));
+            }
+        }
+
+        for (Map.Entry<String, List<String>> dp : dp2.entrySet()) {
+            if (processedKeys.contains(dp.getKey())) {
+                break;
+            }
+
+            dp1.put(dp.getKey(), dp.getValue());
+        }
+    }
+
+    /**
+     * 获取数据权限信息
+     *
+     * @param isWhitelist 是否白名单
+     * @param type        数据权限类型
+     * @param typeId      数据权限业务id
+     * @return
+     */
+    private Map<String, List<String>> getDPInfo(boolean isWhitelist, String type, String typeId) {
+        String lastStr = String.format(":%s:%s", SecurityUtil.getAuthMode().toString(), SecurityUtil.getAuthMainId());
+
+        if (StringUtil.isBlank(type)) {
+            if (StringUtil.isBlank(typeId)) {
+                lastStr = String.format(":%s:%s", type, typeId);
+            } else {
+                lastStr = String.format(":%s", type);
+            }
+        }
+
+        return dataScopeHandle.getDPList(
+                String.format(
+                        "%s:%s:%s:%s",
+                        SecurityUtil.getBusinessSystem(),
+                        Ctx.PREFIX_DATA_PERMISSION_KEY,
+                        isWhitelist ? "whiteList" : "blackList",
+                        lastStr
+                )
+        );
+    }
+
+    private Map<String, List<String>> getDPInfo(boolean isWhitelist) {
+        return getDPInfo(isWhitelist, null, null);
+    }
+
+    /**
+     * 批量获取数据权限信息
+     *
+     * @param isWhitelist
+     * @param type
+     * @param typeIdList
+     * @return
+     */
+    private List<Map<String, List<String>>> getDPInfoList(boolean isWhitelist, String type, List<String> typeIdList) {
+        List<String> keys = new ArrayList<>();
+
+        for (String typeId : typeIdList) {
+            keys.add(String.format(
+                    "%s:%s:%s:%s:%s",
+                    SecurityUtil.getBusinessSystem(),
+                    Ctx.PREFIX_DATA_PERMISSION_KEY,
+                    isWhitelist ? "whiteList" : "blackList",
+                    type,
+                    typeId
+            ));
+        }
+
+        return dataScopeHandle.multiGetDPList(keys);
     }
 
     private Condition parseJsonToCondition(JSONObject jsonObject) {

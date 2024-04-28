@@ -1,6 +1,8 @@
 package com.wingflare.engine.websocket.controller.http;
 
-import com.wingflare.facade.engine.websocket.bo.WsMessage;
+import com.wingflare.facade.engine.websocket.bo.MessageSendBo;
+import com.wingflare.facade.engine.websocket.bo.WsMsg;
+import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.R;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -27,14 +29,21 @@ public class MessageController {
     /**
      * 发送消息
      *
-     * @param wsMessage
+     * @param messageSendBo
      * @return
      */
     @RequestMapping(value = "/sendTo", method = RequestMethod.POST)
-    public R<Boolean> sendTo(WsMessage wsMessage) {
+    public R<Boolean> sendTo(MessageSendBo messageSendBo) {
 
-        if (CollectionUtil.isNotEmpty(wsMessage.getTerminalSnList())) {
-            wsMessage.getTerminalSnList().forEach(sn -> {});
+        WsMsg wsMsg = Builder.of(WsMsg::new)
+                .with(WsMsg::setMsgId, messageSendBo.getMsgId())
+                .with(WsMsg::setBody, messageSendBo.getBody())
+                .build();
+
+        if (CollectionUtil.isNotEmpty(messageSendBo.getTerminalSnList())) {
+            messageSendBo.getTerminalSnList().forEach(sn -> {
+
+            });
         }
 
         return R.ok(true);

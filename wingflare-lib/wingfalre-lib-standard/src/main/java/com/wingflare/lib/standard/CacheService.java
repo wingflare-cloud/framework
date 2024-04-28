@@ -75,6 +75,14 @@ public interface CacheService {
     <T> T getCacheObject(final String key);
 
     /**
+     * 批量获取缓存对象数据。
+     *
+     * @param keys 缓存键值
+     * @return 缓存键值对应的数据
+     */
+    <T> List<T> getCacheListObject(final Collection<String> keys);
+
+    /**
      * 获取并删除缓存对象
      *
      * @param key 缓存键值

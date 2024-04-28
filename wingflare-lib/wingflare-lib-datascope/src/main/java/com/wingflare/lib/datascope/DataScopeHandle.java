@@ -12,25 +12,37 @@ import java.util.Map;
 public interface DataScopeHandle {
 
     /**
+     * 数据权限表达式设置存储KEY
+     */
+    String PRIORITY_EXPRESSION_KEY = "wf:PRIORITY_EXPRESSION_OPTION";
+
+    /**
      * 获数据取权限表达式
      *
      * @param key
      * @return
      */
-    public String getCondition(String key);
+    String getCondition(String key);
 
     /**
-     * 获取黑名单权限
+     * 获取权限列表
      *
      * @param key
      */
-    Map<String, List<String>> getBlacklist(String key);
+    Map<String, List<String>> getDPList(String key);
 
     /**
-     * 获取白名单权限
+     * 批量获取权限列表
      *
-     * @param key
+     * @param keys
      */
-    Map<String, List<String>> getWhitelist(String key);
+    List<Map<String, List<String>>> multiGetDPList(List<String> keys);
+
+    /**
+     * 获取权限优先级表达式
+     *
+     * @return
+     */
+    List<String> getPriorityExpression();
 
 }

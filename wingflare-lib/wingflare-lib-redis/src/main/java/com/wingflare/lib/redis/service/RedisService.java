@@ -121,6 +121,13 @@ public class RedisService implements CacheService {
         return operation.get(key);
     }
 
+    @Override
+    public <T> List<T> getCacheListObject(final Collection<String> keys)
+    {
+        ValueOperations<String, T> operation = redisTemplate.opsForValue();
+        return operation.multiGet(keys);
+    }
+
     /**
      * 获取并删除缓存对象
      *

@@ -3,6 +3,7 @@ package com.wingflare.lib.standard.utils;
 
 import com.wingflare.lib.core.constants.DateFormat;
 import com.wingflare.lib.core.context.ContextHolder;
+import com.wingflare.lib.core.exceptions.NoAuthException;
 import com.wingflare.lib.core.utils.DateUtil;
 import com.wingflare.lib.core.utils.ObjectUtil;
 import com.wingflare.lib.core.utils.SerializationUtil;
@@ -86,6 +87,22 @@ public class SecurityUtil {
             return claimsMap.get(Ctx.AUTH_JSON_SIGN_KEY).equals(claimsMapSign(claimsMap, secret));
         }
         return false;
+    }
+
+    /**
+     * 获取认证主体ID
+     *
+     * @return
+     */
+    public static String getAuthMainId() {
+        switch (getAuthMode()) {
+            case USER:
+                return getUserId();
+            case APP:
+                return getAppId();
+            default:
+                throw new NoAuthException();
+        }
     }
 
     /**
