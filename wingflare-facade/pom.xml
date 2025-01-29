@@ -15,12 +15,13 @@
         <module>wingflare-facade-module-user</module>
         <module>wingflare-facade-module-auth</module>
         <module>wingflare-facade-module-base</module>
+        <module>wingflare-facade-gateway</module>
         <module>wingflare-facade-engine-websocket</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencyManagement>

@@ -12,8 +12,8 @@
     <artifactId>wingflare-dep-lib</artifactId>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <QLExpress.version>3.3.1</QLExpress.version>
         <easyexcel.version>3.2.1</easyexcel.version>
     </properties>
