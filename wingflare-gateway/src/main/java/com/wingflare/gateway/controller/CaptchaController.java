@@ -39,7 +39,6 @@ import javax.annotation.Resource;
 @ConditionalOnProperty(name = "security.captcha.enable", havingValue = "true")
 public class CaptchaController {
 
-
     @Resource
     private CaptchaServer captchaServer;
 

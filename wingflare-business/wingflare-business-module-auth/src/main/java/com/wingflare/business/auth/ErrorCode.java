@@ -14,6 +14,11 @@ public interface ErrorCode {
     String USER_LOGIN_ABNORMAL = "sys.auth.user.abnormal";
 
     /**
+     * 用户登录过期时间超过限制
+     */
+    String USER_LOGIN_EXPIRE_TIME_OVER_LIMIT = "sys.auth.user.login.expireTimeOverLimit";
+
+    /**
      * 重复登录
      */
     String AUTH_REPEAT_LOGIN = "sys.auth.repeatLogin";
@@ -29,22 +34,12 @@ public interface ErrorCode {
     String USER_BAN = "sys.auth.user.ban";
 
     /**
-     * token生成错误
-     */
-    String TOKEN_GENERATE_ERR = "sys.token.generateErr";
-
-    /**
-     * token生成异常
-     */
-    String TOKEN_GENERATE_WRONG = "sys.token.generateWrong";
-
-    /**
      * 无组织机构权限
      */
     String ORG_NO_PERMISSION = "sys.auth.orgNoPermission";
 
     /**
-     * 无组身份权限
+     * 无组织身份权限
      */
     String ORG_NO_IDENTITY = "sys.auth.orgNoIdentity";
 

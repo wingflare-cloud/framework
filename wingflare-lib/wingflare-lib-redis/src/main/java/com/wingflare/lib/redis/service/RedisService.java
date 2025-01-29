@@ -3,17 +3,13 @@ package com.wingflare.lib.redis.service;
 
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.standard.CacheService;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import com.wingflare.lib.standard.PageResult;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -551,6 +547,43 @@ public class RedisService implements CacheService {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         return operations.increment(key, num);
+    }
+
+    /**
+     * 扫描指定key前缀
+     *
+     * @param prefix
+     * @param pageSize
+     * @param startIndex
+     * @return
+     */
+    @Override
+    public PageResult scanKey(String prefix, long pageSize, long startIndex) {
+        ScanOptions options = ScanOptions.scanOptions().match(prefix + "*").count(pageSize).build();
+
+        return (PageResult) redisTemplate.execute((RedisCallback<PageResult>) connection -> {
+            Cursor<byte[]> cursor = connection.scan(options);
+
+            // 如果提供了起始游标ID，则跳过前面的记录直到达到给定的游标
+            while (cursor.getPosition() < startIndex && cursor.hasNext()) {
+                cursor.next();
+            }
+
+            List<String> keysList = new ArrayList<>();
+
+            while (cursor.hasNext()) {
+                keysList.add(new String(cursor.next()));
+            }
+
+            // 获取下一个游标值
+            long nextCursorId = cursor.getPosition();
+
+            return new PageResult(String.valueOf(nextCursorId), keysList, keysList.size() == pageSize);
+        });
+    }
+
+    public PageResult scanKey(String prefix, long pageSize) {
+        return scanKey(prefix, pageSize, 0);
     }
 
 }

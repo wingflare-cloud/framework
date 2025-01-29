@@ -14,16 +14,16 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <commons.io.version>2.11.0</commons.io.version>
+        <commons.io.version>2.14.0</commons.io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <okhttp3.version>4.10.0</okhttp3.version>
-        <fastjson.version>2.0.25</fastjson.version>
+        <fastjson.version>2.0.53</fastjson.version>
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
         <commons-codec.version>1.15</commons-codec.version>
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <snack3.version>3.2.62</snack3.version>
+        <snack3.version>3.2.123</snack3.version>
     </properties>
 
     <dependencies>

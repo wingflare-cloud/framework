@@ -5,7 +5,7 @@ import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.annotation.HeaderPenetration;
 import com.wingflare.lib.spring.annotation.RequestAutoHeader;
-import com.wingflare.lib.spring.configure.properties.SystemInternalProperties;
+import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
 import com.wingflare.lib.spring.constants.Wf;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.ContextSource;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class FeignRequestInterceptor implements RequestInterceptor {
 
     @Resource
-    private SystemInternalProperties systemInternalProperties;
+    private SystemContextProperties systemInternalProperties;
 
     @Autowired(required = false)
     private ContextSource ctxSource;
@@ -57,7 +57,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             if (ctxSource != null) {
                 try {
                     Map<String, String> ctxAll = ctxSource.all();
-                    for (String key : systemInternalProperties.getCtxWhitelist()) {
+                    for (String key : systemInternalProperties.getTransferCtx()) {
                         String value = ctxAll.get(key);
                         if (StringUtil.isNotEmpty(value)) {
                             requestTemplate.header(key, value);
@@ -69,7 +69,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
         }
 
         if (ApiHelperUtil.checkRequestAutoHeader()) {
-            for (Map.Entry<String, String> key : systemInternalProperties.getCtx().entrySet()) {
+            for (Map.Entry<String, String> key : systemInternalProperties.getGlobalCtx().entrySet()) {
                 String name;
                 if (StringUtil.isNotBlank(key.getValue())) {
                     name = key.getValue();
@@ -94,8 +94,8 @@ public class FeignRequestInterceptor implements RequestInterceptor {
                 }
             }
 
-            if (!systemInternalProperties.getContexts().isEmpty()) {
-                systemInternalProperties.getContexts().forEach(requestTemplate::header);
+            if (!systemInternalProperties.getAutoCtx().isEmpty()) {
+                systemInternalProperties.getAutoCtx().forEach(requestTemplate::header);
             }
 
             requestTemplate.header(Wf.SYS_FROM_KEY, systemCode);

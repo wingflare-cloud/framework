@@ -137,9 +137,14 @@ public interface Ctx {
     String PREFIX_ACCESS_TOKEN = "login_tokens";
 
     /**
-     * refreshToken存储前缀
+     * 登录token id前缀
      */
-    String PREFIX_REFRESH_TOKEN = "refresh_tokens";
+    String PREFIX_ACCESS_TOKEN_ID = "id_tokens";
+
+    /**
+     * 登录token用户标识前缀
+     */
+    String PREFIX_ACCESS_TOKEN_MARK = "user_mark";
 
     /**
      * 登录数据SECRET

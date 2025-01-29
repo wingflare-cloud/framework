@@ -1,9 +1,12 @@
 package com.wingflare.facade.module.auth.biz;
 
 
+import com.wingflare.facade.module.auth.bo.GetLoginUsersBo;
 import com.wingflare.facade.module.auth.bo.LoginBo;
 import com.wingflare.facade.module.auth.bo.RefreshTokenBo;
 import com.wingflare.facade.module.auth.dto.TokenDto;
+import com.wingflare.lib.standard.CacheService;
+import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.model.UserAuth;
 import org.springframework.validation.annotation.Validated;
@@ -36,13 +39,13 @@ public interface LoginBiz {
     UserAuth logout(@Valid @NotNull IdBo bo);
 
     /**
-     * 获取登陆用户信息
+     * 获取用户登录信息
      *
      * @param bo token id bo
      *
      * @return
      */
-    UserAuth getLoginUser(@Valid @NotNull IdBo bo);
+    UserAuth getUserLoginInfo(@Valid @NotNull IdBo bo);
 
     /**
      * 刷新token
@@ -52,5 +55,21 @@ public interface LoginBiz {
      * @return
      */
     TokenDto refreshToken(@Valid @NotNull RefreshTokenBo bo);
+
+    /**
+     * 获取登录用户信息列表
+     *
+     * @param bo
+     * @return
+     */
+    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBo bo);
+
+    /**
+     * 获取指定用户登录用户信息列表
+     *
+     * @param bo
+     * @return
+     */
+    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBo bo);
 
 }

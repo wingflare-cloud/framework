@@ -2,6 +2,7 @@ package com.wingflare.lib.spring.annotation;
 
 import com.wingflare.lib.spring.aspect.InternalApiAuthAspect;
 import com.wingflare.lib.spring.aspect.OriginalRespAspect;
+import com.wingflare.lib.spring.configure.properties.ApiProperties;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;
@@ -20,6 +21,7 @@ import java.lang.annotation.Target;
 @Documented
 @Import({
         com.wingflare.lib.spring.MicroserviceMode.class,
+        ApiProperties.class,
         OriginalRespAspect.class,
         InternalApiAuthAspect.class
 })

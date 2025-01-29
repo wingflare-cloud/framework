@@ -4,11 +4,12 @@ package com.wingflare.lib.security.utils;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
+import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.model.UserAuth;
-import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.constants.SecurityErrorCode;
 import com.wingflare.lib.security.standard.SecurityCheckUser;
+import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -53,28 +54,11 @@ public class UserAuthUtil {
      * 移除登陆token
      */
     public UserAuth removeToken(String tokenId) {
-        String tokenKey = null;
         UserAuth userAuth = null;
 
         if (StringUtil.isNotBlank(tokenId)) {
-            tokenKey = SecurityUtil.getTokenKey(SecurityUtil.getTokenId());
-        }
-
-        if (StringUtil.isNotBlank(tokenKey)) {
-            userAuth = removeTokenByKey(tokenKey);
-        }
-
-        return userAuth;
-    }
-
-    /**
-     * 移除登陆token
-     */
-    public UserAuth removeTokenByKey(String tokenKey) {
-        UserAuth userAuth = getUserByTokenKey(tokenKey);
-
-        if (userAuth != null) {
-            securityCheck.removeUserByTokenKey(tokenKey);
+            userAuth = getUser(tokenId);
+            securityCheck.removeUser(userAuth);
         }
 
         return userAuth;
@@ -89,43 +73,42 @@ public class UserAuthUtil {
         }
 
         if (StringUtil.isNotBlank(tokenId)) {
-            return securityCheck.getUserByTokenKey(SecurityUtil.getTokenKey(tokenId));
+            return securityCheck.getUserByTokenId(tokenId);
         }
 
         return null;
     }
 
     /**
-     * 获取登录用户信息
+     * 获取当前系统的登录用户
+     *
+     * @param pageSize
+     * @param startIndex
+     * @return
      */
-    public UserAuth getUserByTokenKey(String tokenKey) {
-        if (StringUtil.isBlank(tokenKey)) {
-            tokenKey = SecurityUtil.getTokenKey(SecurityUtil.getTokenId());
-        }
+    public PageResult<UserAuth> getLoginUsers(long pageSize, long startIndex) {
+        return securityCheck.getLoginUsers(pageSize, startIndex);
+    }
 
-        if (StringUtil.isNotBlank(tokenKey)) {
-            return securityCheck.getUserByTokenKey(tokenKey);
-        }
-
-        return null;
+    /**
+     * 获取指定用户的登录信息
+     *
+     * @param userId
+     * @param pageSize
+     * @param startIndex
+     * @return
+     */
+    public PageResult<UserAuth> getUserLoginInfos(String userId, long pageSize, long startIndex) {
+        return securityCheck.getUserAllLoginInfo(userId, pageSize, startIndex);
     }
 
     /**
      * 设置登陆用户
      *
-     * @param tokenId
      * @param userAuth
      */
-    public void setUser(String tokenId, UserAuth userAuth, final Long timeout, final TimeUnit timeUnit) {
-        String tokenKey = null;
-
-        if (StringUtil.isNotBlank(tokenId)) {
-            tokenKey = SecurityUtil.getTokenKey(tokenId);
-        }
-
-        if (StringUtil.isNotBlank(tokenKey)) {
-            securityCheck.setUser(tokenKey, userAuth, timeout, timeUnit);
-        }
+    public void setUser(UserAuth userAuth, final Long timeout, final TimeUnit timeUnit) {
+        securityCheck.setUser(userAuth, timeout, timeUnit);
     }
 
     /**

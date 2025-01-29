@@ -5,7 +5,7 @@ import com.wingflare.gateway.R;
 import com.wingflare.gateway.bo.OpenApiOutputBo;
 import com.wingflare.gateway.exceptions.OpenApiException;
 import com.wingflare.gateway.exceptions.OpenApiSignException;
-import com.wingflare.gateway.utils.WebFluxRespUtil;
+import com.wingflare.gateway.utils.WebFluxUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -58,14 +58,14 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             OpenApiOutputBo outputBo = new OpenApiOutputBo();
             outputBo.setCode(ex.getMessage());
             outputBo.setTimestamp(new Date());
-            return WebFluxRespUtil.writeJSON(exchange.getResponse(), outputBo);
+            return WebFluxUtil.writeJSON(exchange.getResponse(), outputBo);
         } else {
             msg = "server.exception";
             logger.error("[网关异常处理]请求路径:{},异常信息:{}, 异常类: {}",
                     exchange.getRequest().getPath(), ex.getMessage(), ex.getClass().getName());
         }
 
-        return WebFluxRespUtil.writeJSON(
+        return WebFluxUtil.writeJSON(
                 exchange.getResponse(), R.fail(HttpStatus.SERVICE_UNAVAILABLE.value(), msg));
     }
 

@@ -4,7 +4,7 @@ package com.wingflare.adapter.spring.server.web.interceptor;
 import com.wingflare.adapter.spring.server.web.utils.ServletUtil;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
-import com.wingflare.lib.spring.configure.properties.SystemInternalProperties;
+import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.utils.CtxUtil;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
 
 
     @Resource
-    private SystemInternalProperties systemInternalProperties;
+    private SystemContextProperties systemContextProperties;
 
 
     private final Logger logger = LoggerFactory.getLogger(HeaderInterceptor.class);
@@ -41,7 +41,7 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        CtxUtil.cxtSetter(systemInternalProperties.getCtx(), key -> ServletUtil.getHeader(request, key));
+        CtxUtil.cxtSetter(systemContextProperties.getGlobalCtx(), key -> ServletUtil.getHeader(request, key));
         return true;
     }
 
@@ -52,23 +52,24 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
             Object handler,
             Exception ex
     ) {
+        if (ex != null || logger.isDebugEnabled()) {
+            Map<String, Object> contextMap = ContextHolder.getLocalMap();
 
-        Map<String, Object> contextMap = ContextHolder.getLocalMap();
+            if (CollectionUtil.isNotEmpty(contextMap)) {
+                StringBuilder builder = new StringBuilder();
+                contextMap.forEach((k, v) -> {
+                    if (!ApiHelperUtil.getSystemCxtKeys().contains(k)) {
+                        builder.append(k)
+                                .append("=")
+                                .append(v)
+                                .append("&");
+                    }
+                });
 
-        if (CollectionUtil.isNotEmpty(contextMap)) {
-            StringBuilder builder = new StringBuilder();
-            contextMap.forEach((k, v) -> {
-                if (!ApiHelperUtil.getSystemCxtKeys().contains(k)) {
-                    builder.append(k)
-                            .append("=")
-                            .append(v)
-                            .append("&");
+                if (builder.length() > 0) {
+                    builder.deleteCharAt(builder.length() - 1);
+                    logger.info("ctx: {}", builder);
                 }
-            });
-
-            if (builder.length() > 0) {
-                builder.deleteCharAt(builder.length() - 1);
-                logger.info("ctx: {}", builder);
             }
         }
 

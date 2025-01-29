@@ -30,6 +30,18 @@ public enum SensitiveType {
      */
     PASSWD,
     /**
+     * AES加密
+     */
+    SECRET_AES,
+    /**
+     * DES加密
+     */
+    SECRET_DES,
+    /**
+     * RSA加密
+     */
+    SECRET_RSA,
+    /**
      * 置空
      */
     NONE

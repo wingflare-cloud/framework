@@ -1,6 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wingflare.lib.mybatis.plus.DefaultInnerInterceptorRegister,\
-  com.wingflare.lib.mybatis.plus.plugin.handler.SoftDeleteSelectWhereHandler,\
-  com.wingflare.lib.mybatis.plus.plugin.handler.DmlHandler,\
-  com.wingflare.lib.mybatis.plus.config.MyBatisPlusConfig,\
-  com.wingflare.lib.mybatis.plus.processor.OverrideExistsBeanProcessor

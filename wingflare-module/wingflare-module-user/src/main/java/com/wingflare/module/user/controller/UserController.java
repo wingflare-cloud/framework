@@ -7,6 +7,7 @@ import com.wingflare.facade.module.user.bo.UserBindRoleBo;
 import com.wingflare.facade.module.user.bo.UserBo;
 import com.wingflare.facade.module.user.bo.UserSearchBo;
 import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.bo.IdBo;
@@ -90,6 +91,7 @@ public class UserController
 	 */
 	@RequestMapping(value = "/getUserByLoginName", method = {RequestMethod.GET})
 	@ResponseBody
+	@InternalApi
 	public UserDto getUserByLoginName(String loginName)
 	{
 		return userBiz.getUserByLoginName(loginName);
@@ -121,6 +123,7 @@ public class UserController
 	 */
 	@RequestMapping(value = "/getAttribute", method = {RequestMethod.GET})
 	@ResponseBody
+	@InternalApi
 	public Map<String, Object> getAttribute(IdBo bo)
 	{
 		return new HashMap<>();

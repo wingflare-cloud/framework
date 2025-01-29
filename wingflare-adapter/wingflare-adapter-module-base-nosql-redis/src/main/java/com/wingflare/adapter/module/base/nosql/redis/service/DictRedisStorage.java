@@ -29,25 +29,16 @@ public class DictRedisStorage implements DictStorage {
     private final RedisScript<Long> REFRESH_ALL_LIST_LUA_SCRIPT = RedisScript.of(
             "local delRet = redis.call('DEL', KEYS[1])\n"
                     + "if (delRet ~= false) then\n"
-                    + "local params = {}\n"
-                    + "params[1] = 'LSET'\n"
-                    + "params[2] = KEYS[1]\n"
-                    + "for i=1, #(ARGV) do\n"
-                    + "params[2+i] = ARGV[i] end\n"
-                    + "return redis.call(unpack(params)) end\n"
+                    + "  return redis.call('LSET', KEYS[1], unpack(ARGV)) end\n"
                     + "return 0",
             Long.class
     );
 
     @Override
     public Long save(String systemCode, SimpleDictDto... simpleDictDtos) {
-        return (Long) redisTemplate.execute(
-                REFRESH_ALL_LIST_LUA_SCRIPT,
-                new ArrayList<String>() {{
-                    add(String.format("%s:%s", Base.DICT_CACHE_KEY, systemCode));
-                }},
-                simpleDictDtos
-        );
+        redisTemplate.delete(String.format("%s:%s", Base.DICT_CACHE_KEY, systemCode));
+        return redisTemplate.opsForList()
+                .leftPushAll(String.format("%s:%s", Base.DICT_CACHE_KEY, systemCode), simpleDictDtos);
     }
 
 }

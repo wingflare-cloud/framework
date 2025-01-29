@@ -19,6 +19,11 @@ public interface ErrorCode {
     String TOKEN_LOGIN_EXPIRATION = "gateway.login.expiration";
 
     /**
+     * token过期
+     */
+    String TOKEN_EXPIRATION = "gateway.token.expiration";
+
+    /**
      * 禁止访问
      */
     String NO_ACCESS = "gateway.noAccess";

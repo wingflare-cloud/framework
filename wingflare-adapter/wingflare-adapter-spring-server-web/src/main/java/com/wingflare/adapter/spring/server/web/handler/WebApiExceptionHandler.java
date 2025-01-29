@@ -2,11 +2,7 @@ package com.wingflare.adapter.spring.server.web.handler;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wingflare.lib.core.exceptions.BusinessLogicException;
-import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.core.exceptions.NoException;
-import com.wingflare.lib.core.exceptions.NoPermissionException;
-import com.wingflare.lib.core.exceptions.ServerInternalException;
+import com.wingflare.lib.core.exceptions.*;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.R;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -54,11 +50,32 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.OK)
     @ExceptionHandler(BusinessLogicException.class)
     public ModelAndView businessExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
         if (logger.isDebugEnabled()) {
             logger.warn("业务异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
+            logger.warn(ExceptionUtils.getStackTrace(e));
+        }
+
+        MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
+        view.setExtractValueFromSingleKeyModel(true);
+        ModelAndView modelAndView = new ModelAndView(view);
+        modelAndView.addObject(R.fail(e.getData(), e.getMessage()));
+        return modelAndView;
+    }
+
+    /**
+     * 数据错误异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DataException.class)
+    public ModelAndView dataExceptionHandler(HttpServletRequest req, DataException e) {
+        if (logger.isDebugEnabled()) {
+            logger.warn("数据异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
             logger.warn(ExceptionUtils.getStackTrace(e));
         }
 

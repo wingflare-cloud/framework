@@ -2,7 +2,9 @@ package com.wingflare.gateway.configure;
 
 
 import com.wingflare.gateway.configure.properties.CorsProperties;
+import com.wingflare.gateway.configure.properties.SafeProperties;
 import com.wingflare.lib.core.constants.HttpHeader;
+import com.wingflare.lib.core.utils.StringUtil;
 import org.springframework.cloud.sleuth.CurrentTraceContext;
 import org.springframework.cloud.sleuth.TraceContext;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +32,9 @@ public class GlobalsConfiguration {
 
     @Resource
     private CorsProperties corsProperties;
+
+    @Resource
+    private SafeProperties safeProperties;
 
     @Resource
     private CurrentTraceContext currentTraceContext;
@@ -63,6 +68,18 @@ public class GlobalsConfiguration {
                 if (request.getMethod() == HttpMethod.OPTIONS) {
                     response.setStatusCode(HttpStatus.OK);
                     return Mono.empty();
+                }
+
+                if (StringUtil.urlMatches(request.getURI().getPath(), safeProperties.getUrlPattern())) {
+                    return ctx.getSession()
+                            .flatMap(session -> {
+                                if (!session.isStarted()) {
+                                    response.setStatusCode(HttpStatus.FAILED_DEPENDENCY);
+                                    return Mono.empty();
+                                }
+
+                                return chain.filter(ctx);
+                            });
                 }
             }
 

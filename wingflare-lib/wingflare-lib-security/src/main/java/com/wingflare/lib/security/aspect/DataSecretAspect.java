@@ -2,6 +2,7 @@ package com.wingflare.lib.security.aspect;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import com.wingflare.lib.core.exceptions.DataException;
 import com.wingflare.lib.core.exceptions.ServerInternalException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
@@ -11,6 +12,7 @@ import com.wingflare.lib.standard.annotation.security.Decrypt;
 import com.wingflare.lib.standard.annotation.security.Encryption;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.enums.SecretType;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -174,18 +176,21 @@ public class DataSecretAspect implements ApplicationContextAware, Ordered {
      * 对象字段解密
      *
      * @param o
-     * @throws NoSuchFieldException
      */
-    private void beanPropertyDecrypt(Object o) throws NoSuchFieldException {
-        Map<String, String> fieldsName = getBeanDecryptFieldsName(o.getClass());
-        for (Map.Entry<String, String> fieldName : fieldsName.entrySet()) {
-            if (getDataSecretMap().containsKey(fieldName.getValue())) {
-                String value = (String) BeanUtil.getFieldValue(o, fieldName.getKey());
-                if (StringUtil.isNotEmpty(value)) {
-                    BeanUtil.setFieldValue(o, fieldName.getKey(), getDataSecretMap()
-                            .get(fieldName.getValue()).decrypt(value));
+    private void beanPropertyDecrypt(Object o) {
+        try {
+            Map<String, String> fieldsName = getBeanDecryptFieldsName(o.getClass());
+            for (Map.Entry<String, String> fieldName : fieldsName.entrySet()) {
+                if (getDataSecretMap().containsKey(fieldName.getValue())) {
+                    String value = (String) BeanUtil.getFieldValue(o, fieldName.getKey());
+                    if (StringUtil.isNotEmpty(value)) {
+                        BeanUtil.setFieldValue(o, fieldName.getKey(), getDataSecretMap()
+                                .get(fieldName.getValue()).decrypt(value));
+                    }
                 }
             }
+        } catch (Throwable t) {
+            throw new DataException(DataException.defaultMessage, t);
         }
     }
 
@@ -193,18 +198,21 @@ public class DataSecretAspect implements ApplicationContextAware, Ordered {
      * 对象字段加密
      *
      * @param o
-     * @throws NoSuchFieldException
      */
-    private void beanPropertyEncryption(Object o) throws NoSuchFieldException {
-        Map<String, String> fieldsName = getBeanEncryptionFieldsName(o.getClass());
-        for (Map.Entry<String, String> fieldName : fieldsName.entrySet()) {
-            if (getDataSecretMap().containsKey(fieldName.getValue())) {
-                String value = (String) BeanUtil.getFieldValue(o, fieldName.getKey());
-                if (StringUtil.isNotEmpty(value)) {
-                    BeanUtil.setFieldValue(o, fieldName.getKey(), getDataSecretMap()
-                            .get(fieldName.getValue()).encryption(value));
+    private void beanPropertyEncryption(Object o) {
+        try {
+            Map<String, String> fieldsName = getBeanEncryptionFieldsName(o.getClass());
+            for (Map.Entry<String, String> fieldName : fieldsName.entrySet()) {
+                if (getDataSecretMap().containsKey(fieldName.getValue())) {
+                    String value = (String) BeanUtil.getFieldValue(o, fieldName.getKey());
+                    if (StringUtil.isNotEmpty(value)) {
+                        BeanUtil.setFieldValue(o, fieldName.getKey(), getDataSecretMap()
+                                .get(fieldName.getValue()).encryption(value));
+                    }
                 }
             }
+        } catch (Throwable t) {
+            throw new DataException(DataException.defaultMessage, t);
         }
     }
 

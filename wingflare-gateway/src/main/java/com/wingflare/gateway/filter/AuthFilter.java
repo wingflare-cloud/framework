@@ -3,9 +3,9 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.gateway.ErrorCode;
 import com.wingflare.gateway.R;
-import com.wingflare.gateway.configure.properties.IgnoreWhiteProperties;
+import com.wingflare.gateway.configure.properties.AuthProperties;
 import com.wingflare.gateway.utils.MutateUtil;
-import com.wingflare.gateway.utils.WebFluxRespUtil;
+import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.exceptions.NoException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
@@ -18,7 +18,6 @@ import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -29,6 +28,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author naizui_ycx
@@ -36,15 +36,15 @@ import javax.annotation.Resource;
  * @description 身份认证过滤器
  */
 @Component
-@ConditionalOnBean({
+/*@ConditionalOnBean({
         UserAuthUtil.class
-})
+})*/
 public class AuthFilter implements GlobalFilter, Ordered {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthFilter.class);
 
     @Resource
-    private IgnoreWhiteProperties ignoreWhite;
+    private AuthProperties authProperties;
 
     @Resource
     private UserAuthUtil userAuthUtil;
@@ -54,9 +54,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) throws RuntimeException {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpRequest.Builder mutate = request.mutate();
+        Date now = new Date();
 
         Throwable throwable = null;
 
@@ -90,6 +91,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
                 setUserCtxHeader(mutate, tokenId, userAuth);
 
+                if (now.getTime() > userAuth.getTokenExpireTime()) {
+                    throw new NoException(ErrorCode.TOKEN_EXPIRATION);
+                }
+
                 return chain.filter(exchange.mutate().request(mutate.build()).build());
             }
         } catch (Throwable e) {
@@ -100,9 +105,22 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
 
         if (throwable != null) {
-            // 如果访问地址需要验证登录状态
-            if (!StringUtil.urlMatches(request.getURI().getPath(), ignoreWhite.getWhites())) {
-                return unauthorizedResponse(exchange, throwable.getMessage());
+            if (throwable instanceof NoException) {
+                NoException noException = (NoException) throwable;
+                // 如果访问地址需要验证登录状态
+                if (!StringUtil.urlMatches(request.getURI().getPath(), authProperties.getWhites())) {
+                    if (StringUtil.equals(noException.getMessage(), ErrorCode.TOKEN_EXPIRATION)) {
+                        if (StringUtil.isNotEmpty(authProperties.getRefreshTokenUrl()) && !StringUtil.isMatch(authProperties.getRefreshTokenUrl(), request.getURI().getPath())) {
+                            return unauthorizedResponse(exchange, throwable.getMessage());
+                        }
+                    } else {
+                        return loginLostResponse(exchange, throwable.getMessage());
+                    }
+                }
+            } else if (throwable instanceof RuntimeException) {
+                throw (RuntimeException) throwable;
+            } else {
+                throw new RuntimeException(throwable);
             }
         }
 
@@ -157,8 +175,13 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
-        return WebFluxRespUtil.writeJSON(
+        return WebFluxUtil.writeJSON(
                 exchange.getResponse(), HttpStatus.UNAUTHORIZED, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
+    }
+
+    private Mono<Void> loginLostResponse(ServerWebExchange exchange, String msg) {
+        return WebFluxUtil.writeJSON(
+                exchange.getResponse(), HttpStatus.PAYMENT_REQUIRED, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
     }
 
     /**
@@ -166,10 +189,12 @@ public class AuthFilter implements GlobalFilter, Ordered {
      */
     private String getToken(ServerHttpRequest request) {
         String token = request.getHeaders().getFirst(Ctx.AUTHENTICATION);
+
         // 如果前端设置了令牌前缀，则裁剪掉前缀
-        if (StringUtil.isNotEmpty(token) && token.startsWith(Ctx.AUTHENTICATION_PREFIX)) {
-            token = token.replaceFirst(Ctx.AUTHENTICATION_PREFIX, StringUtil.EMPTY);
+        if (StringUtil.isNotEmpty(token) && token.startsWith(authProperties.getAuthenticationPrefix())) {
+            token = token.replaceFirst(authProperties.getAuthenticationPrefix(), StringUtil.EMPTY);
         }
+
         return token;
     }
 

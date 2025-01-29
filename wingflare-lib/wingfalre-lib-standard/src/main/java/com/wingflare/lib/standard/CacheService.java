@@ -17,7 +17,7 @@ public interface CacheService {
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *
-     * @param key 缓存的键值
+     * @param key   缓存的键值
      * @param value 缓存的值
      */
     <T> void setCacheObject(final String key, final T value);
@@ -25,9 +25,9 @@ public interface CacheService {
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *
-     * @param key 缓存的键值
-     * @param value 缓存的值
-     * @param timeout 时间
+     * @param key      缓存的键值
+     * @param value    缓存的值
+     * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
     <T> void setCacheObject(final String key, final T value, final Long timeout, final TimeUnit timeUnit);
@@ -35,7 +35,7 @@ public interface CacheService {
     /**
      * 设置有效时间
      *
-     * @param key Redis键
+     * @param key     Redis键
      * @param timeout 超时时间
      * @return true=设置成功；false=设置失败
      */
@@ -44,12 +44,13 @@ public interface CacheService {
     /**
      * 设置有效时间
      *
-     * @param key Redis键
+     * @param key     Redis键
      * @param timeout 超时时间
-     * @param unit 时间单位
+     * @param unit    时间单位
      * @return true=设置成功；false=设置失败
      */
     Boolean expire(final String key, final long timeout, final TimeUnit unit);
+
     /**
      * 获取有效时间
      *
@@ -92,6 +93,7 @@ public interface CacheService {
 
     /**
      * 原子自增
+     *
      * @param key 缓存key
      * @return Long 自增后的值
      * @author lixuan
@@ -128,7 +130,7 @@ public interface CacheService {
     /**
      * 缓存List数据
      *
-     * @param key 缓存的键值
+     * @param key      缓存的键值
      * @param dataList 待缓存的List数据
      * @return 缓存的对象
      */
@@ -168,7 +170,6 @@ public interface CacheService {
      * @param key
      * @param value
      * @param <T>
-     *
      * @return
      */
     <T> Long listLastIndexOf(String key, T value);
@@ -179,7 +180,7 @@ public interface CacheService {
      * @param key 缓存key
      * @return
      */
-    <T> T listRightPop(String key) ;
+    <T> T listRightPop(String key);
 
     /**
      * 列表左出
@@ -204,7 +205,6 @@ public interface CacheService {
      * @param key
      * @param value
      * @param <T>
-     *
      * @return
      */
     <T> Long listLeftPush(String key, T value);
@@ -245,7 +245,6 @@ public interface CacheService {
      * @param key
      * @param value
      * @param <T>
-     *
      * @return
      */
     <T> Long listRightPush(String key, T value);
@@ -283,7 +282,7 @@ public interface CacheService {
     /**
      * 缓存Set
      *
-     * @param key 缓存键值
+     * @param key     缓存键值
      * @param dataSet 缓存的数据
      * @return
      */
@@ -313,7 +312,6 @@ public interface CacheService {
      *
      * @param key
      * @param value
-     *
      * @return
      */
     Boolean isMember(final String key, String value);
@@ -345,8 +343,8 @@ public interface CacheService {
     /**
      * 往Hash中存入数据
      *
-     * @param key Redis键
-     * @param hKey Hash键
+     * @param key   Redis键
+     * @param hKey  Hash键
      * @param value 值
      */
     <T> void setCacheMapValue(final String key, final String hKey, final T value);
@@ -354,7 +352,7 @@ public interface CacheService {
     /**
      * 删除redis指定map key
      *
-     * @param key Redis键
+     * @param key  Redis键
      * @param hKey Hash键
      */
     <T> void delCacheMapValue(final String key, final String hKey);
@@ -362,7 +360,7 @@ public interface CacheService {
     /**
      * 获取Hash中的数据
      *
-     * @param key Redis键
+     * @param key  Redis键
      * @param hKey Hash键
      * @return Hash中的对象
      */
@@ -371,7 +369,7 @@ public interface CacheService {
     /**
      * 获取多个Hash中的数据
      *
-     * @param key Redis键
+     * @param key   Redis键
      * @param hKeys Hash键集合
      * @return Hash对象集合
      */
@@ -393,5 +391,15 @@ public interface CacheService {
      * @return
      */
     Long atomic(String key, long num);
+
+    /**
+     * 扫描指定前缀key数据
+     *
+     * @param pattern
+     * @param pageSize
+     * @param startIndex
+     * @return
+     */
+    PageResult<String> scanKey(final String pattern, final long pageSize, final long startIndex);
 
 }

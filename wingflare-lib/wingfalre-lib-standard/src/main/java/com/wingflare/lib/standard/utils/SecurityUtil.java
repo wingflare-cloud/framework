@@ -12,11 +12,14 @@ import com.wingflare.lib.standard.enums.AuthType;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author naizui_ycx
@@ -36,26 +39,6 @@ public class SecurityUtil {
     }
 
     /**
-     * 获取用户登录token存储key
-     *
-     * @param id
-     * @return
-     */
-    public static String getTokenKey(String id) {
-        return String.format("%s:%s", Ctx.PREFIX_ACCESS_TOKEN, id);
-    }
-
-    /**
-     * 获取refresh token存储key
-     *
-     * @param id
-     * @return
-     */
-    public static String getRefreshTokenKey(String id) {
-        return String.format("%s:%s", Ctx.PREFIX_REFRESH_TOKEN, id);
-    }
-
-    /**
      * 获取getClaimsMap
      */
     public static Map<String, Object> getClaimsMap(String id, Date date, String secret) {
@@ -68,15 +51,27 @@ public class SecurityUtil {
         }};
     }
 
+    private static String mapToQueryString(Map<String, Object> map) {
+        return map.entrySet().stream()
+                .map(entry -> {
+                    try {
+                        String key = URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8.toString());
+                        String value = URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8.toString());
+                        return key + "=" + value;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.joining("&"));
+    }
+
     /**
      * claimsMap信息签名
      */
     public static String claimsMapSign(Map<String, Object> claimsMap, String secret) {
-        return DigestUtils.sha256Hex(String.format("%s=%s&%s=%s&%s=%s&%s=%s&%s=%s",
-                "time", claimsMap.get("time"), "id", claimsMap.get(Ctx.HEADER_KEY_TOKEN_ID),
-                "dam", claimsMap.get("dam"), "dah",
-                claimsMap.get("dah"), "secret", secret
-        ));
+        claimsMap.remove(Ctx.AUTH_JSON_SIGN_KEY);
+        claimsMap.put("secret", secret);
+        return DigestUtils.sha256Hex(mapToQueryString(claimsMap));
     }
 
     /**
@@ -85,6 +80,25 @@ public class SecurityUtil {
     public static boolean checkClaimsMapSign(Map<String, Object> claimsMap, String secret) {
         if (claimsMap.get(Ctx.AUTH_JSON_SIGN_KEY) != null) {
             return claimsMap.get(Ctx.AUTH_JSON_SIGN_KEY).equals(claimsMapSign(claimsMap, secret));
+        }
+        return false;
+    }
+
+    /**
+     * 验证token数据
+     *
+     * @param claimsMap
+     * @param secret
+     * @return
+     */
+    public static boolean checkTokenClaimsMap(Map<String, Object> claimsMap, String secret) {
+        if (claimsMap.containsKey(Ctx.HEADER_KEY_TOKEN_ID) && claimsMap.containsKey("time") && claimsMap.containsKey("dam")
+                && claimsMap.containsKey("dah")) {
+            String time = claimsMap.get("time").toString();
+            String tokenId = claimsMap.get(Ctx.HEADER_KEY_TOKEN_ID).toString();
+            String dam = DigestUtils.md5Hex(tokenId + time + secret);
+            String dah = DigestUtils.sha256Hex(tokenId + time + secret);
+            return claimsMap.get("dam").equals(dam) && claimsMap.get("dah").equals(dah);
         }
         return false;
     }

@@ -1,3 +1,4 @@
+/*
 package com.wingflare.gateway.filter;
 
 
@@ -56,11 +57,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+*/
 /**
  * 开放平台api过滤器
  *
  * @author naizui
- */
+ *//*
+
 @Component
 public class OpenApiFilter implements GlobalFilter, Ordered {
 
@@ -248,26 +251,30 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
         return false;
     }
 
-    /**
+    */
+/**
      * 验证签名
      *
      * @param
      * @return
-     */
+     *//*
+
     private boolean checkSign(OpenApiInputBo bo, String method, String path, String secretKey) {
         ValidationUtil.validateBo(bo, true);
         Map<String, Object> data = BeanUtil.beanToMap(bo);
         return signature(data, method, path, secretKey).equals(bo.getSign());
     }
 
-    /**
+    */
+/**
      * 签名方法
      *
      * @param data
      * @param method
      * @param path
      * @return
-     */
+     *//*
+
     private String signature(Map<String, Object> data, String method, String path, String secretKey) {
         data.remove("sign");
         data.put("method", method);
@@ -301,4 +308,4 @@ public class OpenApiFilter implements GlobalFilter, Ordered {
     public int getOrder() {
         return HIGHEST_PRECEDENCE + 2;
     }
-}
+}*/

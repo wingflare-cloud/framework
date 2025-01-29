@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wingflare.adapter.module.base.nosql.redis.service.DictRedisStorage

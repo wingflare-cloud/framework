@@ -1,5 +1,7 @@
 package com.wingflare.facade.module.auth.bo;
 
+import com.wingflare.lib.standard.annotation.security.Decrypt;
+
 /**
  * @ClassName LoginBo
  * @Author naizui_ycx
@@ -12,6 +14,7 @@ public class LoginBo {
 
     private String loginName;
 
+    @Decrypt(type = "RSA")
     private String passwd;
 
     private String orgId;
@@ -21,6 +24,10 @@ public class LoginBo {
     private String userAgent;
 
     private String ipaddr;
+
+    private Long expireTime;
+
+    private String clientType;
 
     public String getSystemCode() {
         return systemCode;
@@ -78,4 +85,19 @@ public class LoginBo {
         this.ipaddr = ipaddr;
     }
 
+    public Long getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Long expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public String getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
+    }
 }

@@ -4,6 +4,7 @@ package com.wingflare.module.base.controller;
 import com.wingflare.facade.module.base.biz.DictBiz;
 import com.wingflare.facade.module.base.bo.DictBo;
 import com.wingflare.facade.module.base.bo.DictSearchBo;
+import com.wingflare.facade.module.base.bo.SystemCodeBo;
 import com.wingflare.facade.module.base.dto.DictDto;
 import com.wingflare.facade.module.base.dto.SimpleDictDto;
 import com.wingflare.lib.standard.PageDto;
@@ -66,7 +67,7 @@ public class DictController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
-	public void delete(IdBo bo)
+	public void delete(@RequestBody IdBo bo)
 	{
 		dictBiz.delete(bo);
 	}
@@ -96,9 +97,9 @@ public class DictController
 	 */
 	@RequestMapping(value = "/refresh", method = {RequestMethod.POST})
 	@ResponseBody
-	public void refresh(String systemCode)
+	public void refresh(@RequestBody SystemCodeBo bo)
 	{
-		dictBiz.refresh(systemCode);
+		dictBiz.refresh(bo.getSystemCode());
 	}
 
 	/**
@@ -106,9 +107,9 @@ public class DictController
 	 */
 	@RequestMapping(value = "/getAll", method = {RequestMethod.GET})
 	@ResponseBody
-	public List<SimpleDictDto> getAll(String systemCode)
+	public List<SimpleDictDto> getAll(SystemCodeBo bo)
 	{
-		return dictBiz.getAllDictByCache(systemCode);
+		return dictBiz.getAllDictByCache(bo.getSystemCode());
 	}
 	
 }

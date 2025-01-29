@@ -28,7 +28,6 @@ import java.lang.annotation.Target;
 @Inherited
 @Import({
         DataSecretProperties.class,
-        ApiProperties.class,
         DESDataSecret.class,
         AESDataSecret.class,
         RSADataSecret.class,

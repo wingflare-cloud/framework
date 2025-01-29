@@ -1,6 +1,7 @@
 package com.wingflare.lib.security.standard;
 
 
+import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.model.UserAuth;
 
 import java.util.concurrent.TimeUnit;
@@ -21,26 +22,46 @@ public interface SecurityCheckUser {
     boolean hasPermission(String businessSystem, String key, UserAuth user, String permissionCode);
 
     /**
-     * 通过token key获取登陆用户信息
+     * 通过token id获取登陆用户信息
      *
-     * @param tokenKey
+     * @param tokenId
      * @return
      */
-    UserAuth getUserByTokenKey(String tokenKey);
+    UserAuth getUserByTokenId(String tokenId);
 
     /**
-     * 删除用户通过token key
+     * 删除登录用户
      *
-     * @param tokenKey
+     * @param user
      */
-    void removeUserByTokenKey(String tokenKey);
+    void removeUser(UserAuth user);
 
     /**
      * 保存登陆用户信息
      *
-     * @param tokenKey
      * @param user
      */
-    void setUser(String tokenKey, UserAuth user, final Long timeout, final TimeUnit timeUnit);
+    void setUser(UserAuth user, final Long timeout, final TimeUnit timeUnit);
+
+    /**
+     * 获取登录用户列表
+     *
+     * @param pageSize
+     * @param startIndex
+     *
+     * @return
+     */
+    PageResult<UserAuth> getLoginUsers(final long pageSize, final long startIndex);
+
+    /**
+     * 获取指定用户全部登录信息
+     *
+     * @param userId
+     * @param pageSize
+     * @param startIndex
+     *
+     * @return
+     */
+    PageResult<UserAuth> getUserAllLoginInfo(final String userId, final long pageSize, final long startIndex);
 
 }

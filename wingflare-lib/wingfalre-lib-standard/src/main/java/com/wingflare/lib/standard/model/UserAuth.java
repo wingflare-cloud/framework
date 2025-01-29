@@ -1,6 +1,7 @@
 package com.wingflare.lib.standard.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,11 @@ public class UserAuth implements Serializable
      * 用户名id
      */
     private String userId;
+
+    /**
+     * tokenId
+     */
+    private String tokenId;
 
     /**
      * 用户名
@@ -38,6 +44,16 @@ public class UserAuth implements Serializable
      * 过期时间
      */
     private Long expireTime;
+
+    /**
+     * token过期时间
+     */
+    private Long tokenExpireTime;
+
+    /**
+     * 客户端类型
+     */
+    private String clientType;
 
     /**
      * 登录IP地址
@@ -80,6 +96,16 @@ public class UserAuth implements Serializable
     private String currentOrg;
 
     /**
+     * 刷新id
+     */
+    private String refreshId;
+
+    /**
+     * 登录用户代理
+     */
+    private String userAgent;
+
+    /**
      * 其他额外属性
      */
     private Map<String, Object> attribute;
@@ -91,6 +117,14 @@ public class UserAuth implements Serializable
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 
     public String getUserName() {
@@ -123,6 +157,22 @@ public class UserAuth implements Serializable
 
     public void setExpireTime(Long expireTime) {
         this.expireTime = expireTime;
+    }
+
+    public Long getTokenExpireTime() {
+        return tokenExpireTime;
+    }
+
+    public void setTokenExpireTime(Long tokenExpireTime) {
+        this.tokenExpireTime = tokenExpireTime;
+    }
+
+    public String getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
     }
 
     public String getIpAddress() {
@@ -187,6 +237,22 @@ public class UserAuth implements Serializable
 
     public void setCurrentOrg(String currentOrg) {
         this.currentOrg = currentOrg;
+    }
+
+    public String getRefreshId() {
+        return refreshId;
+    }
+
+    public void setRefreshId(String refreshId) {
+        this.refreshId = refreshId;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
     }
 
     public Map<String, Object> getAttribute() {

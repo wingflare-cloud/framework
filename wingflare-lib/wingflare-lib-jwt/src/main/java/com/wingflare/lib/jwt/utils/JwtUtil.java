@@ -4,10 +4,12 @@ package com.wingflare.lib.jwt.utils;
 import com.wingflare.lib.core.utils.ConvertUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Map;
 public class JwtUtil {
 
 
-    @Value("${jwt.secret:abcdefghijklmnopqrstuvwxyz}")
+    @Value("${jwt.secret:sxxfXHW1s6baG6JcFmQ0c7NKE07RZFNkdJmKeybKpbN2HtZGr6SMMhDPhnA7jFE3HPHtfPdBhyRRDHKZkHnEb3Y3C9nBETKmwi7YXQCwHsG0denDjH3Yjap2FM3Efs4p58aYCKXh7iynJNPY6bR61wYrcQWy9aRzhtyA0zXbwKcjEWnSmHn2Yx55dncha78kSp0jrb6RyspjWBDic2jjCbypcsD27xsWK04p0Ba2Q0FWscHsXwf3ct6kKEW08FG8}")
     private String secret;
 
     /**
@@ -31,8 +33,8 @@ public class JwtUtil {
     public String createToken(Map<String, Object> claims)
     {
         return Jwts.builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .claims(claims)
+                .signWith(getSecret(), Jwts.SIG.HS512)
                 .compact();
     }
 
@@ -45,9 +47,10 @@ public class JwtUtil {
     public Claims parseToken(String token)
     {
         return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
+                .verifyWith(getSecret())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     /**
@@ -67,8 +70,8 @@ public class JwtUtil {
      *
      * @return
      */
-    public String getSecret() {
-        return secret;
+    public SecretKey getSecret() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
 }

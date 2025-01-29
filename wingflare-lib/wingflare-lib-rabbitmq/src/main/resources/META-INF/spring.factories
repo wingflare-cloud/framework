@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wingflare.lib.rabbitmq.aspect.AmqpAspect,\
-  com.wingflare.lib.rabbitmq.configure.RabbitMQConfigure
