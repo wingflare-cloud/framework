@@ -9,10 +9,6 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ######################################################################
-# IDE
-
-
-######################################################################
 # config
 **/bootstrap.yml
 **/application.yml
@@ -31,6 +27,9 @@ target/
 *.iws
 *.iml
 *.ipr
+
+### VScode ###
+setting.json
 
 ### frontend
 .vscode
