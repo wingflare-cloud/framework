@@ -3,13 +3,13 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.gateway.ErrorCode;
 import com.wingflare.gateway.R;
-import com.wingflare.gateway.configure.properties.AuthProperties;
 import com.wingflare.gateway.utils.MutateUtil;
 import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.exceptions.NoException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.utils.JwtUtil;
+import com.wingflare.lib.security.properties.AuthProperties;
 import com.wingflare.lib.security.utils.UserAuthUtil;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.model.UserAuth;

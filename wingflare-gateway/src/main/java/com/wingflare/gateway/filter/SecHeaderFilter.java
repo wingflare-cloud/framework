@@ -46,7 +46,7 @@ public class SecHeaderFilter implements GlobalFilter, Ordered {
         }
 
         if (!skipRemoveHeader) {
-            // 全局上下文信息内但不在外部上下文信息白名单的上下文信息全部移除，防止客户端伪造上下文信息引发安全问题
+            // 在全局上下文信息内但不在客户端可以传递上下文信息白名单的上下文信息全部移除，防止客户端伪造上下文信息引发安全问题
             for (Map.Entry<String, String> key : systemContextProperties.getGlobalCtx().entrySet()) {
                 if (!systemContextProperties.getClientTransferCtx().contains(key.getKey())) {
                     MutateUtil.removeHeader(mutate, key.getKey());

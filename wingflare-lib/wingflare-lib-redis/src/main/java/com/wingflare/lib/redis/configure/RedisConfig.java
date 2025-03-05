@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableCaching
+@EnableTransactionManagement
 public class RedisConfig extends CachingConfigurerSupport
 {
 
@@ -50,6 +52,8 @@ public class RedisConfig extends CachingConfigurerSupport
         template.setHashValueSerializer(jsonSerializer);
 
         template.afterPropertiesSet();
+        template.setEnableTransactionSupport(true);
         return template;
     }
+
 }

@@ -1,10 +1,10 @@
 package com.wingflare.gateway.configure;
 
 
-import com.wingflare.gateway.configure.properties.CorsProperties;
-import com.wingflare.gateway.configure.properties.SafeProperties;
 import com.wingflare.lib.core.constants.HttpHeader;
 import com.wingflare.lib.core.utils.StringUtil;
+import com.wingflare.lib.security.properties.SafeProperties;
+import com.wingflare.lib.spring.configure.properties.CorsProperties;
 import org.springframework.cloud.sleuth.CurrentTraceContext;
 import org.springframework.cloud.sleuth.TraceContext;
 import org.springframework.context.annotation.Bean;

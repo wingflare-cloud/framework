@@ -2,7 +2,7 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.JobLevelBiz;
-import com.wingflare.facade.module.user.bo.JobLevelBo;;
+import com.wingflare.facade.module.user.bo.JobLevelBo;
 import com.wingflare.facade.module.user.bo.JobLevelSearchBo;
 import com.wingflare.facade.module.user.dto.JobLevelDto;
 import com.wingflare.lib.standard.PageDto;

@@ -1,4 +1,4 @@
-package com.wingflare.gateway.configure.properties;
+package com.wingflare.lib.security.properties;
 
 import com.wingflare.lib.standard.Ctx;
 import org.springframework.boot.context.properties.ConfigurationProperties;

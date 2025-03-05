@@ -1,8 +1,6 @@
 package com.wingflare.lib.core.utils;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -70,6 +68,38 @@ public class CollectionUtil {
             return Collections.emptyMap();
         }
         return source.stream().collect(Collectors.toMap(key, value, (k, k2) -> k));
+    }
+
+    /**
+     * 将给定的Collection按指定大小分切为多个小的Collection。
+     *
+     * @param <T>       泛型类型
+     * @param collection 输入的集合
+     * @param size      每个小集合的最大大小
+     * @return 分割后的集合列表
+     */
+    public static <T> List<Collection<T>> splitCollection(Collection<T> collection, int size) {
+        List<Collection<T>> result = new ArrayList<>();
+        if (collection == null || collection.isEmpty() || size <= 0) {
+            return result;
+        }
+
+        int totalSize = collection.size();
+        int fullChunks = totalSize / size;
+        int remainder = totalSize % size;
+
+        int start = 0;
+
+        for (int i = 0; i < fullChunks; i++) {
+            result.add(new ArrayList<>(collection).subList(start, start + size));
+            start += size;
+        }
+
+        if (remainder > 0) {
+            result.add(new ArrayList<>(collection).subList(start, start + remainder));
+        }
+
+        return result;
     }
 
 }

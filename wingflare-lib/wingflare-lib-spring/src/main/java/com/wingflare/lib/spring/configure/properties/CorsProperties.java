@@ -1,4 +1,4 @@
-package com.wingflare.gateway.configure.properties;
+package com.wingflare.lib.spring.configure.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;

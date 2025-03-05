@@ -32,7 +32,7 @@ public class SystemContextProperties {
     /**
      * 全局上下文信息
      */
-    private Map<String, String> globalCtx= new HashMap<>();
+    private Map<String, String> globalCtx = new HashMap<>();
 
     /**
      * secToken 当secToken匹配时可以跳过上下文穿透过滤机制

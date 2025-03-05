@@ -1,7 +1,6 @@
 package com.wingflare.business.auth.biz;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.wingflare.business.auth.ErrorCode;
 import com.wingflare.business.auth.SettingCode;
 import com.wingflare.facade.module.auth.biz.LoginBiz;
@@ -32,7 +31,6 @@ import com.wingflare.lib.spring.utils.SnowflakeUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import com.wingflare.lib.standard.utils.SecurityUtil;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
