@@ -28,13 +28,6 @@ public class DictBo
     @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "sys.dictId.formatError", groups = Update.class)
     private String dictId;
 
-	/**
-     * 系统代码
-     */
-    @NotBlank(message = "sys.systemCode.notBlank", groups = Create.class)
-    @Pattern(regexp = "^[a-zA-Z]{2,32}$", message = "sys.systemCode.formatError", groups = Create.class)
-    private String systemCode;
-
     /**
      * 启禁用状态
      */
@@ -94,17 +87,6 @@ public class DictBo
     public String getDictId()
     {
         return dictId;
-    }
-    
-	public DictBo setSystemCode(String systemCode)
-    {
-        this.systemCode = systemCode;
-        return this;
-    }
-
-    public String getSystemCode()
-    {
-        return systemCode;
     }
     
 	public DictBo setState(Integer state)
@@ -199,7 +181,6 @@ public class DictBo
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("dictId", getDictId())
-            .append("systemCode", getSystemCode())
             .append("state", getState())
             .append("dictType", getDictType())
             .append("dictCode", getDictCode())

@@ -4,11 +4,12 @@ package com.wingflare.module.base.controller;
 import com.wingflare.facade.module.base.biz.DictBiz;
 import com.wingflare.facade.module.base.bo.DictBo;
 import com.wingflare.facade.module.base.bo.DictSearchBo;
-import com.wingflare.facade.module.base.bo.SystemCodeBo;
 import com.wingflare.facade.module.base.dto.DictDto;
 import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.module.base.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class DictController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.DICT_VIEW)
     public PageDto<DictDto> list(DictSearchBo bo)
     {
 		return dictBiz.list(bo);
@@ -47,6 +49,7 @@ public class DictController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.DICT_VIEW)
 	public DictDto get(IdBo bo)
 	{
 		return dictBiz.get(bo);
@@ -57,6 +60,7 @@ public class DictController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.DICT_VIEW)
 	public DictDto getOnlyOne(DictSearchBo searchBo)
 	{
 		return dictBiz.getOnlyOne(searchBo);
@@ -67,6 +71,7 @@ public class DictController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.DICT_DELETE)
 	public void delete(@RequestBody IdBo bo)
 	{
 		dictBiz.delete(bo);
@@ -77,6 +82,7 @@ public class DictController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.DICT_CREATE)
 	public DictDto create(@RequestBody DictBo bo)
 	{
 		return dictBiz.create(bo);
@@ -87,6 +93,7 @@ public class DictController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.DICT_UPDATE)
 	public DictDto update(@RequestBody DictBo bo)
 	{
 		return dictBiz.update(bo);
@@ -97,9 +104,10 @@ public class DictController
 	 */
 	@RequestMapping(value = "/refresh", method = {RequestMethod.POST})
 	@ResponseBody
-	public void refresh(@RequestBody SystemCodeBo bo)
+	@RequiresPermissions(PermissionCode.DICT_CACHE_REFRESH)
+	public void refresh()
 	{
-		dictBiz.refresh(bo.getSystemCode());
+		dictBiz.refresh();
 	}
 
 	/**
@@ -107,9 +115,9 @@ public class DictController
 	 */
 	@RequestMapping(value = "/getAll", method = {RequestMethod.GET})
 	@ResponseBody
-	public List<SimpleDictDto> getAll(SystemCodeBo bo)
+	public List<SimpleDictDto> getAll()
 	{
-		return dictBiz.getAllDictByCache(bo.getSystemCode());
+		return dictBiz.getAllDictByCache();
 	}
 	
 }

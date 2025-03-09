@@ -221,19 +221,15 @@ public class SettingBizImpl implements SettingBiz {
      */
     private void checkSettingCanSave(SettingBo bo, SettingDo oldDo) {
         if (oldDo == null) {
-            Assert.isFalse(settingServer.has(
-                    new LambdaQueryWrapper<SettingDo>()
-                            .nested(q1 -> q1.eq(SettingDo::getSettingCode, bo.getSettingCode())
-                                    .eq(SettingDo::getSystemCode, bo.getSystemCode()))
-                            .or(q2 -> q2.eq(SettingDo::getSettingName, bo.getSettingName()))
+            Assert.isFalse(has(new SettingSearchBo()
+                    .setEq_settingCode(bo.getSettingCode())
+                    .setEq_systemCode(bo.getSystemCode())
             ), ErrorCode.SYS_SETTING_REPEAT);
         } else {
-            Assert.isFalse(settingServer.has(
-                    new LambdaQueryWrapper<SettingDo>()
-                            .ne(SettingDo::getSettingId, bo.getSettingId())
-                            .and(q1 -> q1.eq(SettingDo::getSettingCode, bo.getSettingCode())
-                                    .eq(SettingDo::getSystemCode, bo.getSystemCode()))
-                            .or(q2 -> q2.eq(SettingDo::getSettingName, bo.getSettingName()))
+            Assert.isFalse(has(new SettingSearchBo()
+                    .setEq_settingCode(bo.getSettingCode())
+                    .setEq_systemCode(bo.getSystemCode())
+                    .setNeq_settingId(oldDo.getSettingId())
             ), ErrorCode.SYS_SETTING_REPEAT);
         }
     }

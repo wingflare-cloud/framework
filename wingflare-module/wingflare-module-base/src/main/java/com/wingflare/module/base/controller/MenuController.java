@@ -6,6 +6,7 @@ import com.wingflare.facade.module.base.bo.MenuBo;
 import com.wingflare.facade.module.base.bo.MenuSearchBo;
 import com.wingflare.facade.module.base.dto.MenuDto;
 import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 系统菜单Controller
@@ -30,6 +33,9 @@ public class MenuController
 
 	@Resource
     private MenuBiz menuBiz;
+
+	@Resource
+	private BusinessSystemProperties properties;
 
     /**
      * 查询系统菜单列表
@@ -66,7 +72,7 @@ public class MenuController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
-	public void delete(IdBo bo)
+	public void delete(@RequestBody IdBo bo)
 	{
 		menuBiz.delete(bo);
 	}
@@ -98,6 +104,28 @@ public class MenuController
 	@ResponseBody
 	public List<SimpleMenuDto> tree(String systemCode) {
 		return menuBiz.tree(systemCode);
+	}
+
+	/**
+	 * 获取系统树形菜单
+	 */
+	@RequestMapping(value = "/allTree", method = {RequestMethod.GET})
+	@ResponseBody
+	public List<SimpleMenuDto> allTree() {
+		Set<String> names = properties.getNames();
+		List<SimpleMenuDto> list = new ArrayList<>();
+
+		for (String name : names) {
+			SimpleMenuDto dto = new SimpleMenuDto();
+			dto.setMenuType("system");
+			dto.setMenuName(name);
+			dto.setMenuId(name);
+			dto.setState(1);
+			dto.setChildren(menuBiz.tree(name));
+			list.add(dto);
+		}
+
+		return list;
 	}
 	
 }

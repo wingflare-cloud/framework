@@ -94,11 +94,6 @@ public interface ErrorCode {
     String SYS_ROLE_PARENT_NOTFOUND = "sys.role.parent.notfound";
 
     /**
-     * 存在子集角色
-     */
-    String SYS_ROLE_HAS_SUB = "sys.role.hasSub";
-
-    /**
      * 角色不存在
      */
     String SYS_ROLE_NON_EXISTENT = "sys.role.nonExistent";
@@ -112,36 +107,6 @@ public interface ErrorCode {
      * 角色禁止更新父级角色
      */
     String SYS_ROLE_UPDATE_FORBID_PARENT = "sys.role.update.forbidParent";
-
-    /**
-     * 角色分组创建失败
-     */
-    String SYS_ROLE_GROUP_CREATE_ERROR = "sys.roleGroup.createError";
-
-    /**
-     * 角色分组更新失败
-     */
-    String SYS_ROLE_GROUP_UPDATE_ERROR = "sys.roleGroup.updateError";
-
-    /**
-     * 角色分组删除失败
-     */
-    String SYS_ROLE_GROUP_DELETE_ERROR = "sys.roleGroup.deleteError";
-
-    /**
-     * 角色分组名重复
-     */
-    String SYS_ROLE_GROUP_NAME_REPEAT = "sys.roleGroup.nameRepeat";
-
-    /**
-     * 角色分组已被使用
-     */
-    String SYS_ROLE_GROUP_USED = "sys.roleGroup.used";
-
-    /**
-     * 角色分组不存在
-     */
-    String SYS_ROLE_GROUP_NOT_FOUND = "sys.roleGroup.notFound";
 
     /**
      * 职级名字重复

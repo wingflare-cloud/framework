@@ -2,6 +2,7 @@ package com.wingflare.gateway;
 
 
 import com.wingflare.lib.security.properties.AuthProperties;
+import com.wingflare.lib.security.properties.SafeProperties;
 import com.wingflare.lib.spring.configure.properties.CorsProperties;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Import({
         CorsProperties.class,
         AuthProperties.class,
+        SafeProperties.class,
 })
 @SpringBootApplication
 public class WingFlareGatewayApplication {

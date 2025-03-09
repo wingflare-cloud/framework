@@ -18,11 +18,6 @@ public class DictDto
 	
     private String dictId;
 	
-	/**
-     * 系统代码
-     */
-    private String systemCode;
-	
     private Integer state;
 	
 	/**
@@ -80,17 +75,6 @@ public class DictDto
     public String getDictId()
     {
         return dictId;
-    }
-	
-    public DictDto setSystemCode(String systemCode)
-    {
-        this.systemCode = systemCode;
-        return this;
-    }
-
-    public String getSystemCode()
-    {
-        return systemCode;
     }
 	
     public DictDto setState(Integer state)
@@ -251,7 +235,6 @@ public class DictDto
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("dictId", getDictId())
-            .append("systemCode", getSystemCode())
             .append("state", getState())
             .append("dictType", getDictType())
             .append("dictCode", getDictCode())

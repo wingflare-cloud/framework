@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict`
 (
     `dict_id`        varchar(32)  NOT NULL,
-    `system_code`    varchar(32)  NOT NULL DEFAULT '' COMMENT '系统代码',
     `state`          tinyint(1) unsigned NOT NULL DEFAULT '0',
     `dict_type`      varchar(32)  NOT NULL DEFAULT '' COMMENT '字典类型',
     `dict_code`      varchar(128) NOT NULL DEFAULT '' COMMENT '字典代码',

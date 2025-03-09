@@ -7,9 +7,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="Base_Column_List">
         `role_id`,
         `state`,
-        `role_group_id`,
-        `parent_role_id`,
-        `role_id_path`,
         `role_name`,
         `role_remark`,
         `created_time`,
@@ -26,9 +23,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="Base_Column_List_Table_Prefix">
         `sys_role`.`role_id`,
         `sys_role`.`state`,
-        `sys_role`.`role_group_id`,
-        `sys_role`.`parent_role_id`,
-        `sys_role`.`role_id_path`,
         `sys_role`.`role_name`,
         `sys_role`.`role_remark`,
         `sys_role`.`created_time`,
@@ -45,9 +39,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="RoleDo" id="RoleResult">
         <result property="roleId" column="role_id"/>
         <result property="state" column="state"/>
-        <result property="roleGroupId" column="role_group_id"/>
-        <result property="parentRoleId" column="parent_role_id"/>
-        <result property="roleIdPath" column="role_id_path"/>
         <result property="roleName" column="role_name"/>
         <result property="roleRemark" column="role_remark"/>
         <result property="createdTime" column="created_time"/>

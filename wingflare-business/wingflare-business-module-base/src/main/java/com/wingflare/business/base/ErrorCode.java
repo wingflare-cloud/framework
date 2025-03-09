@@ -9,11 +9,6 @@ package com.wingflare.business.base;
 public interface ErrorCode {
 
     /**
-     * 设置刷新失败
-     */
-    String SYS_SETTING_REFRESH_ERROR = "sys.setting.refreshError";
-
-    /**
      * 设置创建失败
      */
     String SYS_SETTING_CREATE_ERROR = "sys.setting.createError";
@@ -89,11 +84,6 @@ public interface ErrorCode {
     String SYS_MENU_UPDATE_ERROR = "sys.menu.updateError";
 
     /**
-     * 菜单代码重复
-     */
-    String SYS_MENU_CODE_REPEAT = "sys.menu.codeRepeat";
-
-    /**
      * 菜单名称重复
      */
     String SYS_MENU_NAME_REPEAT = "sys.menu.nameRepeat";
@@ -102,5 +92,10 @@ public interface ErrorCode {
      * 父级菜单不存
      */
     String SYS_MENU_PARENT_NOTFOUND = "sys.menu.parentNotFound";
+
+    /**
+     * 当前菜单不允许删除
+     */
+    String SYS_MENU_NOT_DELETE = "sys.menu.notDelete";
 
 }

@@ -20,7 +20,7 @@ public interface Ctx {
     /**
      * 授权标识
      */
-    String AUTHENTICATION_PREFIX = "Payload ";
+    String AUTHENTICATION_PREFIX = "Bearer ";
 
     /**
      * 用户id

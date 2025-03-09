@@ -1,7 +1,6 @@
 package com.wingflare.lib.security.aspect;
 
 
-import cn.hutool.core.bean.BeanUtil;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.exceptions.ServerInternalException;
 import com.wingflare.lib.core.utils.CollectionUtil;
@@ -27,7 +26,13 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -41,9 +46,9 @@ public class SensitiveDataAspect implements ApplicationContextAware, Ordered {
 
     private static final Logger logger = LoggerFactory.getLogger(SensitiveDataAspect.class);
 
-    private final Map<String, DataSecret> dataSecretMap = new HashMap<>();
+    private final Map<String, DataSecret> dataSecretMap = new ConcurrentHashMap<>();
 
-    private final Map<String, List<Desensitize>> desensitizeCache = new HashMap<>();
+    private final Map<String, List<Desensitize>> desensitizeCache = new ConcurrentHashMap<>();
 
     @Pointcut("@annotation(com.wingflare.lib.security.annotation.Desensitize)" +
             "|| @annotation(com.wingflare.lib.security.annotation.DesensitizeGroups)")
@@ -109,7 +114,7 @@ public class SensitiveDataAspect implements ApplicationContextAware, Ordered {
             }
 
             if (hit.get()) {
-                result = oNode.toObject(result.getClass());
+                result = oNode.toObject(method.getGenericReturnType());
             }
         }
 

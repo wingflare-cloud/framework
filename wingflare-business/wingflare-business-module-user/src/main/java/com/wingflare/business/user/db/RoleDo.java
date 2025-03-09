@@ -33,21 +33,6 @@ public class RoleDo extends BaseDoAbstract
     private Integer state;
 
 	/**
-     * 角色分组id
-     */
-    private String roleGroupId;
-
-	/**
-     * 父级角色id
-     */
-    private String parentRoleId;
-
-	/**
-     * 角色id层级路径
-     */
-    private String roleIdPath;
-
-	/**
      * 角色名称
      */
     private String roleName;
@@ -119,43 +104,7 @@ public class RoleDo extends BaseDoAbstract
     {
         return state;
     }
-	
-    public RoleDo setRoleGroupId(String roleGroupId)
-    {
-		addNewField("roleGroupId");
-        this.roleGroupId = roleGroupId;
-        return this;
-    }
 
-    public String getRoleGroupId()
-    {
-        return roleGroupId;
-    }
-	
-    public RoleDo setParentRoleId(String parentRoleId)
-    {
-		addNewField("parentRoleId");
-        this.parentRoleId = parentRoleId;
-        return this;
-    }
-
-    public String getParentRoleId()
-    {
-        return parentRoleId;
-    }
-	
-    public RoleDo setRoleIdPath(String roleIdPath)
-    {
-		addNewField("roleIdPath");
-        this.roleIdPath = roleIdPath;
-        return this;
-    }
-
-    public String getRoleIdPath()
-    {
-        return roleIdPath;
-    }
-	
     public RoleDo setRoleName(String roleName)
     {
 		addNewField("roleName");
@@ -288,18 +237,6 @@ public class RoleDo extends BaseDoAbstract
 			removeNewField("state");
 		}
 
-		if (getRoleGroupId() == null) {
-			removeNewField("roleGroupId");
-		}
-
-		if (getParentRoleId() == null) {
-			removeNewField("parentRoleId");
-		}
-
-		if (getRoleIdPath() == null) {
-			removeNewField("roleIdPath");
-		}
-
 		if (getRoleName() == null) {
 			removeNewField("roleName");
 		}
@@ -350,21 +287,6 @@ public class RoleDo extends BaseDoAbstract
 			setState(newDo.getState());
 		}
 
-		if (newDo.getRoleGroupId() != null && !newDo.getRoleGroupId().equals(getRoleGroupId())) {
-			oldFieldObj.setRoleGroupId(getRoleGroupId());
-			setRoleGroupId(newDo.getRoleGroupId());
-		}
-
-		if (newDo.getParentRoleId() != null && !newDo.getParentRoleId().equals(getParentRoleId())) {
-			oldFieldObj.setParentRoleId(getParentRoleId());
-			setParentRoleId(newDo.getParentRoleId());
-		}
-
-		if (newDo.getRoleIdPath() != null && !newDo.getRoleIdPath().equals(getRoleIdPath())) {
-			oldFieldObj.setRoleIdPath(getRoleIdPath());
-			setRoleIdPath(newDo.getRoleIdPath());
-		}
-
 		if (newDo.getRoleName() != null && !newDo.getRoleName().equals(getRoleName())) {
 			oldFieldObj.setRoleName(getRoleName());
 			setRoleName(newDo.getRoleName());
@@ -392,9 +314,6 @@ public class RoleDo extends BaseDoAbstract
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("roleId", getRoleId())
             .append("state", getState())
-            .append("roleGroupId", getRoleGroupId())
-            .append("parentRoleId", getParentRoleId())
-            .append("roleIdPath", getRoleIdPath())
             .append("roleName", getRoleName())
             .append("roleRemark", getRoleRemark())
             .append("createdTime", getCreatedTime())

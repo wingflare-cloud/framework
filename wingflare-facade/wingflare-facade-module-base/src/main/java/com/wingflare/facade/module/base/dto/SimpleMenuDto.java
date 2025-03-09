@@ -11,199 +11,273 @@ import java.util.List;
  */
 public class SimpleMenuDto
 {
-	
+
     private String menuId;
-	
-	/**
+
+    /**
      * 父级菜单id
      */
     private String parentMenuId;
-	
-	/**
+
+    /**
      * 启禁用状态
      */
     private Integer state;
-	
-	/**
-     * 菜单状态
+
+    /**
+     * 隐藏状态
+     */
+    private Integer hide;
+
+    /**
+     * 常量路由
+     */
+    private Integer constant;
+
+    /**
+     * 多标签页
+     */
+    private Integer multiTab;
+
+    /**
+     * 菜单类型
      */
     private String menuType;
-	
-	/**
+
+    /**
      * 系统代码
      */
     private String systemCode;
-	
-	/**
+
+    /**
      * 权限code
      */
     private String permissionCode;
-	
-	/**
+
+    /**
      * 菜单名称
      */
     private String menuName;
-	
-	/**
+
+    /**
+     * 国际化Key
+     */
+    private String langKey;
+
+    /**
      * 菜单图标
      */
     private String menuIcon;
-	
-	/**
-     * 菜单路径
+
+    /**
+     * 图标类型(iconify local)
      */
-    private String menuPath;
-	
-	/**
-     * 菜单代码
+    private String iconType;
+
+    /**
+     * 路由名称
      */
-    private String menuCode;
-	
-	/**
+    private String routeName;
+
+    /**
+     * 路由路径
+     */
+    private String routePath;
+
+    /**
+     * 组件路径
+     */
+    private String component;
+
+    /**
+     * 查询参数
+     */
+    private String query;
+
+    /**
      * 外部链接
      */
     private String href;
-	
-	/**
+
+    /**
      * 排序
      */
-    private Long sort;
+    private Integer sort;
 
     /**
      * 子菜单
      */
     private List<SimpleMenuDto> children;
-	
-    public SimpleMenuDto setMenuId(String menuId)
-    {
+
+    public String getMenuId() {
+        return menuId;
+    }
+
+    public SimpleMenuDto setMenuId(String menuId) {
         this.menuId = menuId;
         return this;
     }
 
-    public String getMenuId()
-    {
-        return menuId;
+    public String getParentMenuId() {
+        return parentMenuId;
     }
-	
-    public SimpleMenuDto setParentMenuId(String parentMenuId)
-    {
+
+    public SimpleMenuDto setParentMenuId(String parentMenuId) {
         this.parentMenuId = parentMenuId;
         return this;
     }
 
-    public String getParentMenuId()
-    {
-        return parentMenuId;
+    public Integer getState() {
+        return state;
     }
-	
-    public SimpleMenuDto setState(Integer state)
-    {
+
+    public SimpleMenuDto setState(Integer state) {
         this.state = state;
         return this;
     }
 
-    public Integer getState()
-    {
-        return state;
+    public Integer getHide() {
+        return hide;
     }
-	
-    public SimpleMenuDto setMenuType(String menuType)
-    {
+
+    public SimpleMenuDto setHide(Integer hide) {
+        this.hide = hide;
+        return this;
+    }
+
+    public Integer getConstant() {
+        return constant;
+    }
+
+    public SimpleMenuDto setConstant(Integer constant) {
+        this.constant = constant;
+        return this;
+    }
+
+    public Integer getMultiTab() {
+        return multiTab;
+    }
+
+    public SimpleMenuDto setMultiTab(Integer multiTab) {
+        this.multiTab = multiTab;
+        return this;
+    }
+
+    public String getMenuType() {
+        return menuType;
+    }
+
+    public SimpleMenuDto setMenuType(String menuType) {
         this.menuType = menuType;
         return this;
     }
 
-    public String getMenuType()
-    {
-        return menuType;
+    public String getSystemCode() {
+        return systemCode;
     }
-	
-    public SimpleMenuDto setSystemCode(String systemCode)
-    {
+
+    public SimpleMenuDto setSystemCode(String systemCode) {
         this.systemCode = systemCode;
         return this;
     }
 
-    public String getSystemCode()
-    {
-        return systemCode;
+    public String getPermissionCode() {
+        return permissionCode;
     }
-	
-    public SimpleMenuDto setPermissionCode(String permissionCode)
-    {
+
+    public SimpleMenuDto setPermissionCode(String permissionCode) {
         this.permissionCode = permissionCode;
         return this;
     }
 
-    public String getPermissionCode()
-    {
-        return permissionCode;
+    public String getMenuName() {
+        return menuName;
     }
-	
-    public SimpleMenuDto setMenuName(String menuName)
-    {
+
+    public SimpleMenuDto setMenuName(String menuName) {
         this.menuName = menuName;
         return this;
     }
 
-    public String getMenuName()
-    {
-        return menuName;
+    public String getLangKey() {
+        return langKey;
     }
-	
-    public SimpleMenuDto setMenuIcon(String menuIcon)
-    {
+
+    public SimpleMenuDto setLangKey(String langKey) {
+        this.langKey = langKey;
+        return this;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public SimpleMenuDto setMenuIcon(String menuIcon) {
         this.menuIcon = menuIcon;
         return this;
     }
 
-    public String getMenuIcon()
-    {
-        return menuIcon;
+    public String getIconType() {
+        return iconType;
     }
-	
-    public SimpleMenuDto setMenuPath(String menuPath)
-    {
-        this.menuPath = menuPath;
+
+    public SimpleMenuDto setIconType(String iconType) {
+        this.iconType = iconType;
         return this;
     }
 
-    public String getMenuPath()
-    {
-        return menuPath;
+    public String getRouteName() {
+        return routeName;
     }
-	
-    public SimpleMenuDto setMenuCode(String menuCode)
-    {
-        this.menuCode = menuCode;
+
+    public SimpleMenuDto setRouteName(String routeName) {
+        this.routeName = routeName;
         return this;
     }
 
-    public String getMenuCode()
-    {
-        return menuCode;
+    public String getRoutePath() {
+        return routePath;
     }
-	
-    public SimpleMenuDto setHref(String href)
-    {
+
+    public SimpleMenuDto setRoutePath(String routePath) {
+        this.routePath = routePath;
+        return this;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public SimpleMenuDto setComponent(String component) {
+        this.component = component;
+        return this;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public SimpleMenuDto setQuery(String query) {
+        this.query = query;
+        return this;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public SimpleMenuDto setHref(String href) {
         this.href = href;
         return this;
     }
 
-    public String getHref()
-    {
-        return href;
-    }
-	
-    public SimpleMenuDto setSort(Long sort)
-    {
-        this.sort = sort;
-        return this;
+    public Integer getSort() {
+        return sort;
     }
 
-    public Long getSort()
-    {
-        return sort;
+    public SimpleMenuDto setSort(Integer sort) {
+        this.sort = sort;
+        return this;
     }
 
     public List<SimpleMenuDto> getChildren() {

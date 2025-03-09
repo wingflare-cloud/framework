@@ -62,15 +62,14 @@ public interface DictBiz {
     /**
      * 刷新系统字典
      *
-     * @param systemCode
      */
-    void refresh(@NotBlank String systemCode);
+    void refresh();
 
     /**
      * 从缓存中取出全部字典数据
      *
      * @return
      */
-    List<SimpleDictDto> getAllDictByCache(@NotBlank String systemCode);
+    List<SimpleDictDto> getAllDictByCache();
 
 }

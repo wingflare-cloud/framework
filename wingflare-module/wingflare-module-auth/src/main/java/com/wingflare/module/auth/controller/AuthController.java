@@ -79,7 +79,6 @@ public class AuthController {
      * @param bo
      */
     @RequestMapping(value = "/kickOut", method = RequestMethod.POST)
-    @RequiresLogin
     @RequiresPermissions(PermissionCode.AUTH_KICK_OUT)
     @ResponseBody
     @Secret

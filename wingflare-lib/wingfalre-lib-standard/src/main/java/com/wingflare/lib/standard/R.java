@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @date {2021/12/13}
  * @description 通用接口数据返回类
  */
-public class R<T> implements Serializable {
+public class R<T> implements Serializable, Cloneable {
 
     public static final int RET_NO_ERR = 0;
 

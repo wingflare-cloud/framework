@@ -64,7 +64,7 @@ public class SettingController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
-	public void delete(IdBo bo)
+	public void delete(@RequestBody IdBo bo)
 	{
 		settingBiz.delete(bo);
 	}

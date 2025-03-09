@@ -12,7 +12,6 @@ import com.wingflare.lib.standard.annotation.security.Decrypt;
 import com.wingflare.lib.standard.annotation.security.Encryption;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.enums.SecretType;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,6 +30,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 保密数据处理切面
@@ -46,17 +46,17 @@ public class DataSecretAspect implements ApplicationContextAware, Ordered {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSecretAspect.class);
 
-    private final Map<String, Map<Integer, Info>> methodIndexCache = new HashMap<>();
+    private final Map<String, Map<Integer, Info>> methodIndexCache = new ConcurrentHashMap<>();
 
-    private final Map<String, Map<String, String>> decryptFieldNameCache = new HashMap<>();
+    private final Map<String, Map<String, String>> decryptFieldNameCache = new ConcurrentHashMap<>();
 
-    private final Map<String, Map<String, String>> encryptionFieldNameCache = new HashMap<>();
+    private final Map<String, Map<String, String>> encryptionFieldNameCache = new ConcurrentHashMap<>();
 
-    private final Map<String, DataSecret> dataSecretMap = new HashMap<>();
+    private final Map<String, DataSecret> dataSecretMap = new ConcurrentHashMap<>();
 
-    private final Map<String, String> resEncryptionCache = new HashMap<>();
+    private final Map<String, String> resEncryptionCache = new ConcurrentHashMap<>();
 
-    private final Map<String, String> resDecryptCache = new HashMap<>();
+    private final Map<String, String> resDecryptCache = new ConcurrentHashMap<>();
 
 
     @Around("@annotation(com.wingflare.lib.standard.annotation.security.Secret)")

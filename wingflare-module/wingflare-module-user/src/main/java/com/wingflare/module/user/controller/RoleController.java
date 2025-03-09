@@ -64,7 +64,7 @@ public class RoleController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
-	public RoleDto delete(IdBo bo)
+	public RoleDto delete(@RequestBody IdBo bo)
 	{
 		return roleBiz.delete(bo);
 	}

@@ -13,10 +13,9 @@ public interface DictStorage {
     /**
      * 批量存储系统字典
      *
-     * @param systemCode
      * @param simpleDictDtos
      * @return
      */
-    Long save(String systemCode, SimpleDictDto... simpleDictDtos);
+    Long save(SimpleDictDto... simpleDictDtos);
 
 }

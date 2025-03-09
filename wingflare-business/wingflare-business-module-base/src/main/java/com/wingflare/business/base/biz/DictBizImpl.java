@@ -119,7 +119,6 @@ public class DictBizImpl implements DictBiz {
                 if (DictTypes.DIRECTORY.getValue().equals(dictDo.getDictType())) {
                     Assert.isFalse(
                             has(new DictSearchBo()
-                                    .setEq_systemCode(dictDo.getSystemCode())
                                     .setEq_dictCode(dictDo.getDictCode())
                                     .setEq_dictType(DictTypes.ELEMENT.getValue())
                             ), ErrorCode.SYS_DICT_NOT_DELETE);
@@ -183,7 +182,6 @@ public class DictBizImpl implements DictBiz {
             Builder.of(() -> bo)
                     .with(DictBo::setDictCode, null)
                     .with(DictBo::setDictType, null)
-                    .with(DictBo::setSystemCode, null)
                     .build();
             checkDictCanSave(bo, oldDictDo);
             DictDo dictDo = DictConvert.convert.boToDo(bo);
@@ -214,14 +212,11 @@ public class DictBizImpl implements DictBiz {
 
     /**
      * 刷新系统字典
-     *
-     * @param systemCode
      */
     @Override
-    public void refresh(@NotBlank String systemCode) {
+    public void refresh() {
         List<DictDo> dictDoList = dictServer
                 .list(DictWrapper.getQueryWrapper(new DictSearchBo()
-                        .setEq_systemCode(systemCode)
                         .setEq_state(OnOffEnum.ON.getValue())
                 ));
 
@@ -249,7 +244,7 @@ public class DictBizImpl implements DictBiz {
             });
 
             simpleDictDtoList.sort((d1, d2) -> (d2.getSort() - d1.getSort()));
-            Long flag = dictStorage.save(systemCode, simpleDictDtoList.toArray(new SimpleDictDto[0]));
+            Long flag = dictStorage.save(simpleDictDtoList.toArray(new SimpleDictDto[0]));
             Assert.isTrue(flag != null && flag.compareTo(0L) > 0, ErrorCode.SYS_DICT_REFRESH_ERROR);
         }
     }
@@ -260,8 +255,8 @@ public class DictBizImpl implements DictBiz {
      * @return
      */
     @Override
-    public List<SimpleDictDto> getAllDictByCache(@NotBlank String systemCode) {
-        return cacheService.getCacheList(String.format("%s:%s" , Base.DICT_CACHE_KEY, systemCode));
+    public List<SimpleDictDto> getAllDictByCache() {
+        return cacheService.getCacheList(Base.DICT_CACHE_KEY);
     }
 
     /**
@@ -273,23 +268,27 @@ public class DictBizImpl implements DictBiz {
         if (oldDo == null) {
             Assert.isFalse(has(
                     new DictSearchBo()
-                            .setEq_systemCode(bo.getSystemCode())
                             .setEq_dictType(bo.getDictType())
                             .setEq_dictCode(bo.getDictCode())
                             .setEq_dictName(bo.getDictName())
             ), ErrorCode.SYS_DICT_NAME_REPEAT);
 
+            Assert.isFalse(has(
+                    new DictSearchBo()
+                            .setEq_dictType(bo.getDictType())
+                            .setEq_dictCode(bo.getDictCode())
+                            .setEq_dictValue(bo.getDictValue())
+            ), ErrorCode.SYS_DICT_REPEAT);
+
             if (DictTypes.DIRECTORY.getValue().equals(bo.getDictType())) {
                 Assert.isFalse(has(
                         new DictSearchBo()
-                                .setEq_systemCode(bo.getSystemCode())
                                 .setEq_dictCode(bo.getDictCode())
                                 .setEq_dictType(bo.getDictType())
                 ), ErrorCode.SYS_DICT_REPEAT);
             } else {
                 Assert.isTrue(has(
                         new DictSearchBo()
-                                .setEq_systemCode(bo.getSystemCode())
                                 .setEq_dictCode(bo.getDictCode())
                                 .setEq_dictType(DictTypes.DIRECTORY.getValue())
                 ), () -> new BusinessLogicException(ErrorCode.SYS_DICT_NOTFOUND, bo.getDictCode()));
@@ -300,12 +299,24 @@ public class DictBizImpl implements DictBiz {
                         if (!name.equals(oldDo.getDictName())) {
                             Assert.isFalse(has(
                                     new DictSearchBo()
-                                            .setEq_systemCode(oldDo.getSystemCode())
                                             .setEq_dictType(oldDo.getDictType())
                                             .setEq_dictCode(oldDo.getDictCode())
                                             .setEq_dictName(bo.getDictName())
                                             .setNeq_dictId(oldDo.getDictId())
                             ), ErrorCode.SYS_DICT_NAME_REPEAT);
+                        }
+                    });
+
+            Optional.ofNullable(bo.getDictValue())
+                    .ifPresent(value -> {
+                        if (!value.equals(oldDo.getDictValue())) {
+                            Assert.isFalse(has(
+                                    new DictSearchBo()
+                                            .setEq_dictType(oldDo.getDictType())
+                                            .setEq_dictCode(oldDo.getDictCode())
+                                            .setEq_dictValue(bo.getDictValue())
+                                            .setNeq_dictId(oldDo.getDictId())
+                            ), ErrorCode.SYS_DICT_REPEAT);
                         }
                     });
         }

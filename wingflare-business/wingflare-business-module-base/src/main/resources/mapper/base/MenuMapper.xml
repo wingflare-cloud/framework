@@ -1,20 +1,57 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wingflare.business.base.mapper.MenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wingflare.business.base.db.MenuDo">
+        <id column="menu_id" property="menuId" />
+        <result column="parent_menu_id" property="parentMenuId" />
+        <result column="state" property="state" />
+        <result column="hide" property="hide" />
+        <result column="constant" property="constant" />
+        <result column="multi_tab" property="multiTab" />
+        <result column="menu_type" property="menuType" />
+        <result column="system_code" property="systemCode" />
+        <result column="permission_code" property="permissionCode" />
+        <result column="menu_name" property="menuName" />
+        <result column="lang_key" property="langKey" />
+        <result column="menu_icon" property="menuIcon" />
+        <result column="icon_type" property="iconType" />
+        <result column="route_name" property="routeName" />
+        <result column="route_path" property="routePath" />
+        <result column="component" property="component" />
+        <result column="query" property="query" />
+        <result column="href" property="href" />
+        <result column="sort" property="sort" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="is_delete" property="isDelete" />
+        <result column="version" property="version" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         `menu_id`,
         `parent_menu_id`,
         `state`,
+        `hide`,
+        `constant`,
+        `multi_tab`,
         `menu_type`,
         `system_code`,
         `permission_code`,
         `menu_name`,
+        `lang_key`,
         `menu_icon`,
-        `menu_path`,
-        `menu_code`,
+        `icon_type`,
+        `route_name`,
+        `route_path`,
+        `component`,
+        `query`,
         `href`,
         `sort`,
         `created_time`,
@@ -32,13 +69,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         `sys_menu`.`menu_id`,
         `sys_menu`.`parent_menu_id`,
         `sys_menu`.`state`,
+        `sys_menu`.`hide`,
+        `sys_menu`.`constant`,
+        `sys_menu`.`multi_tab`,
         `sys_menu`.`menu_type`,
         `sys_menu`.`system_code`,
         `sys_menu`.`permission_code`,
         `sys_menu`.`menu_name`,
+        `sys_menu`.`lang_key`,
         `sys_menu`.`menu_icon`,
-        `sys_menu`.`menu_path`,
-        `sys_menu`.`menu_code`,
+        `sys_menu`.`icon_type`,
+        `sys_menu`.`route_name`,
+        `sys_menu`.`route_path`,
+        `sys_menu`.`component`,
+        `sys_menu`.`query`,
         `sys_menu`.`href`,
         `sys_menu`.`sort`,
         `sys_menu`.`created_time`,
@@ -48,30 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         `sys_menu`.`update_user`,
         `sys_menu`.`update_user_id`,
         `sys_menu`.`is_delete`,
-        `version`
+        `sys_menu`.`version`
     </sql>
 
-    <!-- 通用查询映射结果 -->
-    <resultMap type="MenuDo" id="MenuResult">
-        <result property="menuId" column="menu_id"/>
-        <result property="parentMenuId" column="parent_menu_id"/>
-        <result property="state" column="state"/>
-        <result property="menuType" column="menu_type"/>
-        <result property="systemCode" column="system_code"/>
-        <result property="permissionCode" column="permission_code"/>
-        <result property="menuName" column="menu_name"/>
-        <result property="menuIcon" column="menu_icon"/>
-        <result property="menuPath" column="menu_path"/>
-        <result property="menuCode" column="menu_code"/>
-        <result property="href" column="href"/>
-        <result property="sort" column="sort"/>
-        <result property="createdTime" column="created_time"/>
-        <result property="updatedTime" column="updated_time"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createUserId" column="create_user_id"/>
-        <result property="updateUser" column="update_user"/>
-        <result property="updateUserId" column="update_user_id"/>
-        <result property="isDelete" column="is_delete"/>
-        <result property="version" column="version"/>
-    </resultMap>
 </mapper>

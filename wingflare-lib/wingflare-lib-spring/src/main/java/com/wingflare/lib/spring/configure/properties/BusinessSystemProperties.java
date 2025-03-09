@@ -12,7 +12,7 @@ import java.util.Set;
  * @description 业务系统配置
  */
 @Configuration
-@ConfigurationProperties(prefix = "business.system")
+@ConfigurationProperties(prefix = "system")
 public class BusinessSystemProperties {
 
     /**

@@ -24,21 +24,6 @@ public class RoleDto
     private Integer state;
 	
 	/**
-     * 角色分组id
-     */
-    private String roleGroupId;
-	
-	/**
-     * 父级角色id
-     */
-    private String parentRoleId;
-	
-	/**
-     * 角色id层级路径
-     */
-    private String roleIdPath;
-	
-	/**
      * 角色名称
      */
     private String roleName;
@@ -84,39 +69,6 @@ public class RoleDto
     public Integer getState()
     {
         return state;
-    }
-	
-    public RoleDto setRoleGroupId(String roleGroupId)
-    {
-        this.roleGroupId = roleGroupId;
-        return this;
-    }
-
-    public String getRoleGroupId()
-    {
-        return roleGroupId;
-    }
-	
-    public RoleDto setParentRoleId(String parentRoleId)
-    {
-        this.parentRoleId = parentRoleId;
-        return this;
-    }
-
-    public String getParentRoleId()
-    {
-        return parentRoleId;
-    }
-	
-    public RoleDto setRoleIdPath(String roleIdPath)
-    {
-        this.roleIdPath = roleIdPath;
-        return this;
-    }
-
-    public String getRoleIdPath()
-    {
-        return roleIdPath;
     }
 	
     public RoleDto setRoleName(String roleName)
@@ -223,9 +175,6 @@ public class RoleDto
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("roleId", getRoleId())
             .append("state", getState())
-            .append("roleGroupId", getRoleGroupId())
-            .append("parentRoleId", getParentRoleId())
-            .append("roleIdPath", getRoleIdPath())
             .append("roleName", getRoleName())
             .append("roleRemark", getRoleRemark())
             .append("createdTime", getCreatedTime())

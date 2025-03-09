@@ -27,10 +27,6 @@ public class DictDo extends BaseDoAbstract
 	@TableId(type = IdType.ASSIGN_ID)
     private String dictId;
 
-	/**
-     * 系统代码
-     */
-    private String systemCode;
 
     private Integer state;
 
@@ -113,18 +109,6 @@ public class DictDo extends BaseDoAbstract
     public String getDictId()
     {
         return dictId;
-    }
-	
-    public DictDo setSystemCode(String systemCode)
-    {
-		addNewField("systemCode");
-        this.systemCode = systemCode;
-        return this;
-    }
-
-    public String getSystemCode()
-    {
-        return systemCode;
     }
 	
     public DictDo setState(Integer state)
@@ -315,10 +299,6 @@ public class DictDo extends BaseDoAbstract
 			removeNewField("dictId");
 		}
 
-		if (getSystemCode() == null) {
-			removeNewField("systemCode");
-		}
-
 		if (getState() == null) {
 			removeNewField("state");
 		}
@@ -384,11 +364,6 @@ public class DictDo extends BaseDoAbstract
 	{
 	    DictDo oldFieldObj = new DictDo();
 
-		if (newDo.getSystemCode() != null && !newDo.getSystemCode().equals(getSystemCode())) {
-			oldFieldObj.setSystemCode(getSystemCode());
-			setSystemCode(newDo.getSystemCode());
-		}
-
 		if (newDo.getState() != null && !newDo.getState().equals(getState())) {
 			oldFieldObj.setState(getState());
 			setState(newDo.getState());
@@ -440,7 +415,6 @@ public class DictDo extends BaseDoAbstract
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("dictId", getDictId())
-            .append("systemCode", getSystemCode())
             .append("state", getState())
             .append("dictType", getDictType())
             .append("dictCode", getDictCode())

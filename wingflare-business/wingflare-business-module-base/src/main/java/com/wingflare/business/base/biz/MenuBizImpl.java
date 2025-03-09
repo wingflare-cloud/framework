@@ -9,8 +9,10 @@ import com.wingflare.business.base.db.MenuDo;
 import com.wingflare.business.base.service.MenuServer;
 import com.wingflare.business.base.wrapper.MenuWrapper;
 import com.wingflare.facade.module.base.biz.MenuBiz;
+import com.wingflare.facade.module.base.bo.DictSearchBo;
 import com.wingflare.facade.module.base.bo.MenuBo;
 import com.wingflare.facade.module.base.bo.MenuSearchBo;
+import com.wingflare.facade.module.base.dict.DictTypes;
 import com.wingflare.facade.module.base.dto.MenuDto;
 import com.wingflare.facade.module.base.dto.SimpleMenuDto;
 import com.wingflare.lib.core.Assert;
@@ -111,6 +113,10 @@ public class MenuBizImpl implements MenuBiz {
             MenuDto menuDto = null;
 
             if (menuDo != null) {
+                Assert.isFalse(
+                        has(new MenuSearchBo()
+                                .setEq_parentMenuId(menuDo.getMenuId())
+                        ), ErrorCode.SYS_MENU_NOT_DELETE);
                 Assert.isTrue(menuServer.removeById(bo.getId()), ErrorCode.SYS_MENU_DELETE_ERROR);
                 menuDto = MenuConvert.convert.doToDto(menuDo);
                 eventUtil.publishEvent(BaseEventName.MENU_DELETE, menuDto);
@@ -251,30 +257,19 @@ public class MenuBizImpl implements MenuBiz {
         if (oldDo == null) {
             Assert.isFalse(has(new MenuSearchBo()
                     .setEq_systemCode(bo.getSystemCode())
-                    .setEq_menuCode(bo.getMenuCode())
-            ), ErrorCode.SYS_MENU_CODE_REPEAT);
-
-            Assert.isFalse(has(new MenuSearchBo()
-                    .setEq_systemCode(bo.getSystemCode())
-                    .setEq_menuCode(bo.getMenuName())
+                    .setEq_menuName(bo.getMenuName())
                     .setEq_menuType(bo.getMenuType())
                     .setEq_parentMenuId(Optional.ofNullable(bo.getParentMenuId())
                             .orElse("" ))
             ), ErrorCode.SYS_MENU_NAME_REPEAT);
 
             if (StringUtil.isNotEmpty(bo.getParentMenuId())) {
-                Assert.isTrue(menuServer.hasById(bo.getMenuId()), ErrorCode.SYS_MENU_PARENT_NOTFOUND);
+                Assert.isTrue(menuServer.hasById(bo.getParentMenuId()), ErrorCode.SYS_MENU_PARENT_NOTFOUND);
             }
         } else {
             Assert.isFalse(has(new MenuSearchBo()
                     .setEq_systemCode(oldDo.getSystemCode())
-                    .setEq_menuCode(bo.getMenuCode())
-                    .setNeq_menuId(oldDo.getMenuId())
-            ), ErrorCode.SYS_MENU_CODE_REPEAT);
-
-            Assert.isFalse(has(new MenuSearchBo()
-                    .setEq_systemCode(oldDo.getSystemCode())
-                    .setEq_menuCode(bo.getMenuName())
+                    .setEq_menuName(bo.getMenuName())
                     .setEq_menuType(oldDo.getMenuType())
                     .setEq_parentMenuId(Optional.ofNullable(oldDo.getParentMenuId())
                             .orElse("" ))

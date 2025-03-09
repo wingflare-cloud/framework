@@ -45,31 +45,6 @@ public class DictWrapper
         if (StringUtil.isNotEmpty(bo.getNotin_dictId())) {
             WrapperUtil.notIn(queryWrapper, "dict_id", bo.getNotin_dictId());
         }
-        // system_code 开始
-        if (bo.getEq_systemCode() != null) {
-            queryWrapper.eq("system_code", bo.getEq_systemCode());
-        }
-        if (bo.getNeq_systemCode() != null) {
-            queryWrapper.ne("system_code", bo.getNeq_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_systemCode())) {
-            queryWrapper.like("system_code", bo.getLike_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_systemCode())) {
-            queryWrapper.likeRight("system_code", bo.getLiker_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_systemCode())) {
-            queryWrapper.likeLeft("system_code", bo.getLikel_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_systemCode())) {
-            queryWrapper.notLike("system_code", bo.getNotlike_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_systemCode())) {
-            WrapperUtil.in(queryWrapper, "system_code", bo.getIn_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_systemCode())) {
-            WrapperUtil.notIn(queryWrapper, "system_code", bo.getNotin_systemCode());
-        }
         // state 开始
         if (bo.getEq_state() != null) {
             queryWrapper.eq("state", bo.getEq_state());
@@ -451,31 +426,6 @@ public class DictWrapper
         if (StringUtil.isNotEmpty(bo.getNotin_dictId())) {
             WrapperUtil.notIn(queryWrapper, DictDo::getDictId, bo.getNotin_dictId());
         }
-        // system_code 开始
-        if (bo.getEq_systemCode() != null) {
-            queryWrapper.eq(DictDo::getSystemCode, bo.getEq_systemCode());
-        }
-        if (bo.getNeq_systemCode() != null) {
-            queryWrapper.ne(DictDo::getSystemCode, bo.getNeq_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_systemCode())) {
-            queryWrapper.like(DictDo::getSystemCode, bo.getLike_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_systemCode())) {
-            queryWrapper.likeRight(DictDo::getSystemCode, bo.getLiker_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_systemCode())) {
-            queryWrapper.likeLeft(DictDo::getSystemCode, bo.getLikel_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_systemCode())) {
-            queryWrapper.notLike(DictDo::getSystemCode, bo.getNotlike_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_systemCode())) {
-            WrapperUtil.in(queryWrapper, DictDo::getSystemCode, bo.getIn_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_systemCode())) {
-            WrapperUtil.notIn(queryWrapper, DictDo::getSystemCode, bo.getNotin_systemCode());
-        }
         // state 开始
         if (bo.getEq_state() != null) {
             queryWrapper.eq(DictDo::getState, bo.getEq_state());
@@ -856,31 +806,6 @@ public class DictWrapper
         }
         if (StringUtil.isNotEmpty(bo.getNotin_dictId())) {
             WrapperUtil.notIn(queryWrapper, DictDo::getDictId, bo.getNotin_dictId());
-        }
-        // system_code 开始
-        if (bo.getEq_systemCode() != null) {
-            queryWrapper.eq(DictDo::getSystemCode, bo.getEq_systemCode());
-        }
-        if (bo.getNeq_systemCode() != null) {
-            queryWrapper.ne(DictDo::getSystemCode, bo.getNeq_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLike_systemCode())) {
-            queryWrapper.like(DictDo::getSystemCode, bo.getLike_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLiker_systemCode())) {
-            queryWrapper.likeRight(DictDo::getSystemCode, bo.getLiker_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getLikel_systemCode())) {
-            queryWrapper.likeLeft(DictDo::getSystemCode, bo.getLikel_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotlike_systemCode())) {
-            queryWrapper.notLike(DictDo::getSystemCode, bo.getNotlike_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getIn_systemCode())) {
-            WrapperUtil.in(queryWrapper, DictDo::getSystemCode, bo.getIn_systemCode());
-        }
-        if (StringUtil.isNotEmpty(bo.getNotin_systemCode())) {
-            WrapperUtil.notIn(queryWrapper, DictDo::getSystemCode, bo.getNotin_systemCode());
         }
         // state 开始
         if (bo.getEq_state() != null) {

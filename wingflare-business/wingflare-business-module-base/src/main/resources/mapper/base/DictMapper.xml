@@ -6,7 +6,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         `dict_id`,
-        `system_code`,
         `state`,
         `dict_type`,
         `dict_code`,
@@ -27,7 +26,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 通用查询结果列，带表明前缀 -->
     <sql id="Base_Column_List_Table_Prefix">
         `sys_dict`.`dict_id`,
-        `sys_dict`.`system_code`,
         `sys_dict`.`state`,
         `sys_dict`.`dict_type`,
         `sys_dict`.`dict_code`,
@@ -48,7 +46,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 通用查询映射结果 -->
     <resultMap type="DictDo" id="DictResult">
         <result property="dictId" column="dict_id"/>
-        <result property="systemCode" column="system_code"/>
         <result property="state" column="state"/>
         <result property="dictType" column="dict_type"/>
         <result property="dictCode" column="dict_code"/>

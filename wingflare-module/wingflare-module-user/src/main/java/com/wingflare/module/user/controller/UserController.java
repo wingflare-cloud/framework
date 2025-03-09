@@ -87,6 +87,16 @@ public class UserController
 	}
 
 	/**
+	 * 删除系统用户
+	 */
+	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
+	@ResponseBody
+	public UserDto delete(@RequestBody IdBo bo)
+	{
+		return userBiz.delete(bo);
+	}
+
+	/**
 	 * 通过登录名获取登录用户
 	 */
 	@RequestMapping(value = "/getUserByLoginName", method = {RequestMethod.GET})

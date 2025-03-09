@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author naizui_ycx
@@ -55,15 +56,15 @@ public class PreAuthorizeAspect implements Ordered {
     @Resource
     private UserAuthUtil userAuthUtil;
 
-    private final Map<String, AuthMode> authModeCache = new HashMap<>();
+    private final Map<String, AuthMode> authModeCache = new ConcurrentHashMap<>();
 
-    private final Map<String, InternalApi> internalApiCache = new HashMap<>();
+    private final Map<String, InternalApi> internalApiCache = new ConcurrentHashMap<>();
 
-    private final Map<String, RequiresLogin> requiresLoginCache = new HashMap<>();
+    private final Map<String, RequiresLogin> requiresLoginCache = new ConcurrentHashMap<>();
 
-    private final Map<String, RequiresPermissions> requiresPermissionsCache = new HashMap<>();
+    private final Map<String, RequiresPermissions> requiresPermissionsCache = new ConcurrentHashMap<>();
 
-    private final Map<String, PermissionGroups> PermissionGroupsCache = new HashMap<>();
+    private final Map<String, PermissionGroups> PermissionGroupsCache = new ConcurrentHashMap<>();
 
     private final Logger logger = LoggerFactory.getLogger(PreAuthorizeAspect.class);
 
