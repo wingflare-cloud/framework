@@ -4,6 +4,8 @@ package com.wingflare.business.user.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.user.db.RolePermissionDo;
 import com.wingflare.business.user.mapper.RolePermissionMapper;
+import com.wingflare.business.user.wrapper.RolePermissionWrapper;
+import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +44,13 @@ public class RolePermissionServer extends BaseService<RolePermissionMapper, Role
         }
 
         return rolePermissionDoMap;
+    }
+
+    /**
+     * 批量删除
+     * @param bo
+     */
+    public void batchDelete(RolePermissionSearchBo bo) {
+        baseMapper.delete(RolePermissionWrapper.getQueryWrapper(bo));
     }
 }

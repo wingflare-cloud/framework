@@ -22,6 +22,11 @@
             <artifactId>wingflare-facade-module-base</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-spring</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 

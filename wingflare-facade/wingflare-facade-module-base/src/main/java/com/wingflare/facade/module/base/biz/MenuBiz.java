@@ -3,6 +3,7 @@ package com.wingflare.facade.module.base.biz;
 
 import com.wingflare.facade.module.base.bo.MenuBo;
 import com.wingflare.facade.module.base.bo.MenuSearchBo;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
 import com.wingflare.facade.module.base.dto.MenuDto;
 import com.wingflare.facade.module.base.dto.SimpleMenuDto;
 import com.wingflare.lib.core.validation.Create;
@@ -12,7 +13,6 @@ import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.util.List;
@@ -62,9 +62,17 @@ public interface MenuBiz {
     /**
      * 获取树形结构菜单
      *
-     * @param systemCode
+     * @param searchBo
      * @return
      */
-    List<SimpleMenuDto> tree(@NotBlank String systemCode);
+    List<SimpleMenuDto> tree(@Valid @NotNull MenuSearchBo searchBo);
+
+    /**
+     * 判断权限代码是否存在
+     *
+     * @param existBo
+     * @return
+     */
+    Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBo existBo);
 
 }

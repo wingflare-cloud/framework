@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.user.biz;
 
 
+import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.facade.module.user.bo.RolePermissionBo;
 import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
+import java.util.List;
 
 
 /**
@@ -56,5 +58,20 @@ public interface RolePermissionBiz
      */
 	@Validated({Default.class, Update.class})
 	RolePermissionDto update(@Valid @NotNull RolePermissionBo bo);
+
+	/**
+	 * 保存角色权限
+	 * @param existBo
+	 * @return
+	 */
+	Boolean savePermission(@Valid @NotNull PermissionCodesExistBo existBo);
+
+	/**
+	 * 获取角色权限
+	 *
+	 * @param bo
+	 * @return
+	 */
+	List<PermissionCodesExistBo.CodesExist> permission(@Valid @NotNull IdBo bo);
 
 }

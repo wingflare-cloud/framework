@@ -7,10 +7,12 @@ import com.wingflare.facade.module.user.bo.UserBindRoleBo;
 import com.wingflare.facade.module.user.bo.UserBo;
 import com.wingflare.facade.module.user.bo.UserSearchBo;
 import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.module.user.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,7 @@ public class UserController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.USER_VIEW)
     public PageDto<UserDto> list(UserSearchBo bo)
     {
 		return userBiz.list(bo);
@@ -50,6 +53,7 @@ public class UserController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.USER_VIEW)
 	public UserDto get(IdBo bo)
 	{
 		return userBiz.get(bo);
@@ -60,6 +64,7 @@ public class UserController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.USER_VIEW)
 	public UserDto getOnlyOne(UserSearchBo searchBo)
 	{
 		return userBiz.getOnlyOne(searchBo);
@@ -71,6 +76,7 @@ public class UserController
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
 	@Secret
+	@RequiresPermissions(PermissionCode.USER_CREATE)
 	public UserDto create(@Secret @RequestBody UserBo bo)
 	{
 		return userBiz.create(bo);
@@ -81,6 +87,7 @@ public class UserController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.USER_UPDATE)
 	public UserDto update(@RequestBody UserBo bo)
 	{
 		return userBiz.update(bo);
@@ -91,6 +98,7 @@ public class UserController
 	 */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.USER_DELETE)
 	public UserDto delete(@RequestBody IdBo bo)
 	{
 		return userBiz.delete(bo);

@@ -171,12 +171,12 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
         return WebFluxUtil.writeJSON(
-                exchange.getResponse(), HttpStatus.UNAUTHORIZED, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
+                exchange.getResponse(), HttpStatus.OK, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
     }
 
     private Mono<Void> loginLostResponse(ServerWebExchange exchange, String msg) {
         return WebFluxUtil.writeJSON(
-                exchange.getResponse(), HttpStatus.PAYMENT_REQUIRED, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
+                exchange.getResponse(), HttpStatus.OK, R.fail(HttpStatus.PAYMENT_REQUIRED.value(), msg));
     }
 
     /**

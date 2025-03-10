@@ -2,11 +2,14 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.RoleBiz;
+import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
 import com.wingflare.facade.module.user.bo.RoleBo;
 import com.wingflare.facade.module.user.bo.RoleSearchBo;
 import com.wingflare.facade.module.user.dto.RoleDto;
+import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.module.user.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 系统角色Controller
@@ -34,6 +38,7 @@ public class RoleController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.ROLE_VIEW)
     public PageDto<RoleDto> list(RoleSearchBo bo)
     {
 		return roleBiz.list(bo);
@@ -44,6 +49,7 @@ public class RoleController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.ROLE_VIEW)
 	public RoleDto get(IdBo bo)
 	{
 		return roleBiz.get(bo);
@@ -54,6 +60,7 @@ public class RoleController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.ROLE_VIEW)
 	public RoleDto getOnlyOne(RoleSearchBo searchBo)
 	{
 		return roleBiz.getOnlyOne(searchBo);
@@ -64,6 +71,7 @@ public class RoleController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.ROLE_DELETE)
 	public RoleDto delete(@RequestBody IdBo bo)
 	{
 		return roleBiz.delete(bo);
@@ -74,6 +82,7 @@ public class RoleController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.ROLE_CREATE)
 	public RoleDto create(@RequestBody RoleBo bo)
 	{
 		return roleBiz.create(bo);
@@ -84,6 +93,7 @@ public class RoleController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.ROLE_UPDATE)
 	public RoleDto update(@RequestBody RoleBo bo)
 	{
 		return roleBiz.update(bo);

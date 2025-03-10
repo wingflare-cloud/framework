@@ -16,5 +16,5 @@ import org.springframework.context.annotation.Import;
 @Import({
         UserApiFallbackFactory.class
 })
-public class UserApiStarter {
+public class ApiStarter {
 }

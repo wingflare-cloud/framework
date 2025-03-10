@@ -12,6 +12,7 @@ import com.wingflare.facade.module.base.biz.MenuBiz;
 import com.wingflare.facade.module.base.bo.DictSearchBo;
 import com.wingflare.facade.module.base.bo.MenuBo;
 import com.wingflare.facade.module.base.bo.MenuSearchBo;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
 import com.wingflare.facade.module.base.dict.DictTypes;
 import com.wingflare.facade.module.base.dto.MenuDto;
 import com.wingflare.facade.module.base.dto.SimpleMenuDto;
@@ -209,16 +210,14 @@ public class MenuBizImpl implements MenuBiz {
     /**
      * 获取树形结构菜单
      *
-     * @param systemCode
+     * @param searchBo
      * @return
      */
     @Override
-    public List<SimpleMenuDto> tree(@NotBlank String systemCode) {
+    public List<SimpleMenuDto> tree(@Valid @NotNull MenuSearchBo searchBo) {
         List<SimpleMenuDto> menuTree = new ArrayList<>();
         List<MenuDo> menuDoList = menuServer
-                .list(MenuWrapper.getQueryWrapper(new MenuSearchBo()
-                        .setEq_state(OnOffEnum.ON.getValue())
-                        .setEq_systemCode(systemCode)));
+                .list(MenuWrapper.getQueryWrapper(searchBo));
 
         if (CollectionUtil.isNotEmpty(menuDoList)) {
             menuDoList.sort((m1, m2) -> (int) (m2.getSort() - m1.getSort()));
@@ -237,6 +236,25 @@ public class MenuBizImpl implements MenuBiz {
         }
 
         return menuTree;
+    }
+
+    /**
+     * 判断代码权限是否存在
+     *
+     * @param existBo
+     * @return
+     */
+    @Override
+    public Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBo existBo) {
+        for (int i = 0; i < existBo.getCodes().size(); i++) {
+            if (menuServer.count(MenuWrapper.getQueryWrapper(new MenuSearchBo().setEq_systemCode(existBo.getCodes().get(i).getSystemCode())
+                    .setIn_permissionCode(StringUtil.join(existBo.getCodes().get(i).getCodes())))) != existBo.getCodes().get(i).getCodes().size()
+            ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

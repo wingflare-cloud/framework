@@ -145,6 +145,13 @@ public class MenuWrapper
         if (StringUtil.isNotEmpty(bo.getNotin_hide())) {
             WrapperUtil.notIn(queryWrapper, "hide", bo.getNotin_hide());
         }
+        // constant 开始
+        if (bo.getEq_constant() != null) {
+            queryWrapper.eq("constant", bo.getEq_constant());
+        }
+        if (bo.getNeq_constant() != null) {
+            queryWrapper.ne("constant", bo.getNeq_component());
+        }
         // multi_tab 开始
         if (bo.getEq_multiTab() != null) {
             queryWrapper.eq("multi_tab", bo.getEq_multiTab());

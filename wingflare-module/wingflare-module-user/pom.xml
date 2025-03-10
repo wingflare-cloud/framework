@@ -44,6 +44,16 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-starter-secuirty</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-business-module-user</artifactId>
         </dependency>
 

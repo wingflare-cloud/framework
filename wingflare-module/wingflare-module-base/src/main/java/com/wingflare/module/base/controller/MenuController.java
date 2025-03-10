@@ -4,11 +4,18 @@ package com.wingflare.module.base.controller;
 import com.wingflare.facade.module.base.biz.MenuBiz;
 import com.wingflare.facade.module.base.bo.MenuBo;
 import com.wingflare.facade.module.base.bo.MenuSearchBo;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
 import com.wingflare.facade.module.base.dto.MenuDto;
+import com.wingflare.facade.module.base.dto.MenuPermissionDto;
 import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.lib.core.utils.CollectionUtil;
+import com.wingflare.lib.security.annotation.RequiresPermissions;
+import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.lib.standard.enums.OnOffEnum;
+import com.wingflare.module.base.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +49,7 @@ public class MenuController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_VIEW)
     public PageDto<MenuDto> list(MenuSearchBo bo) throws Throwable
     {
 		return menuBiz.list(bo);
@@ -52,6 +60,7 @@ public class MenuController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	public MenuDto get(IdBo bo)
 	{
 		return menuBiz.get(bo);
@@ -62,6 +71,7 @@ public class MenuController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	public MenuDto getOnlyOne(MenuSearchBo searchBo) throws Throwable
 	{
 		return menuBiz.getOnlyOne(searchBo);
@@ -72,6 +82,7 @@ public class MenuController
      */
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_DELETE)
 	public void delete(@RequestBody IdBo bo)
 	{
 		menuBiz.delete(bo);
@@ -82,6 +93,7 @@ public class MenuController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_CREATE)
 	public MenuDto create(@RequestBody MenuBo bo)
 	{
 		return menuBiz.create(bo);
@@ -92,6 +104,7 @@ public class MenuController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_UPDATE)
 	public MenuDto update(@RequestBody MenuBo bo)
 	{
 		return menuBiz.update(bo);
@@ -103,7 +116,10 @@ public class MenuController
 	@RequestMapping(value = "/tree", method = {RequestMethod.GET})
 	@ResponseBody
 	public List<SimpleMenuDto> tree(String systemCode) {
-		return menuBiz.tree(systemCode);
+		return menuBiz.tree(new MenuSearchBo()
+				.setEq_systemCode(systemCode)
+				.setEq_state(OnOffEnum.ON.getValue())
+		);
 	}
 
 	/**
@@ -111,6 +127,7 @@ public class MenuController
 	 */
 	@RequestMapping(value = "/allTree", method = {RequestMethod.GET})
 	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	public List<SimpleMenuDto> allTree() {
 		Set<String> names = properties.getNames();
 		List<SimpleMenuDto> list = new ArrayList<>();
@@ -121,11 +138,84 @@ public class MenuController
 			dto.setMenuName(name);
 			dto.setMenuId(name);
 			dto.setState(1);
-			dto.setChildren(menuBiz.tree(name));
+			dto.setChildren(menuBiz.tree(new MenuSearchBo()
+					.setEq_systemCode(name)
+					.setEq_state(OnOffEnum.ON.getValue()))
+			);
 			list.add(dto);
 		}
 
 		return list;
+	}
+
+	/**
+	 * 获取全部系统菜单权限
+	 */
+	@RequestMapping(value = "/menuPermission", method = {RequestMethod.GET})
+	@ResponseBody
+	@RequiresPermissions(PermissionCode.MENU_PERM_VIEW)
+	public List<MenuPermissionDto> menuPermission() {
+		Set<String> names = properties.getNames();
+		List<SimpleMenuDto> list = new ArrayList<>();
+
+		for (String name : names) {
+			SimpleMenuDto dto = new SimpleMenuDto();
+			dto.setMenuType("system");
+			dto.setMenuName(name);
+			dto.setMenuId(name);
+			dto.setState(1);
+			dto.setChildren(menuBiz.tree(new MenuSearchBo()
+							.setEq_systemCode(name)
+							.setEq_state(OnOffEnum.ON.getValue())
+							.setEq_constant(OnOffEnum.OFF.getValue())
+					)
+			);
+			list.add(dto);
+		}
+
+		return convertTreeToPerm(list);
+	}
+
+	/**
+	 * 判断权限代码是否存在
+	 *
+	 * @param existBo
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "/permissionCodesExist", method = {RequestMethod.GET})
+	@ResponseBody
+	@InternalApi
+	public Boolean permissionCodesExist(PermissionCodesExistBo existBo) {
+		return menuBiz.permissionCodesExist(existBo);
+	}
+
+	/**
+	 * 转换树形菜单为权限映射列表
+	 *
+	 * @param list
+	 * @return
+	 */
+	private List<MenuPermissionDto> convertTreeToPerm(List<SimpleMenuDto> list) {
+		if (CollectionUtil.isEmpty(list)) {
+			return new ArrayList<>();
+		}
+
+		List<MenuPermissionDto> permList = new ArrayList<>();
+
+		list.forEach(dto -> {
+			MenuPermissionDto perm = new MenuPermissionDto();
+			perm.setKey(dto.getMenuId());
+			perm.setName(dto.getMenuName());
+			perm.setLangKey(dto.getLangKey());
+			perm.setSystemCode(dto.getSystemCode());
+			perm.setPermissionCode(dto.getPermissionCode());
+			perm.setMenuType(dto.getMenuType());
+			perm.setChildren(convertTreeToPerm(dto.getChildren()));
+			permList.add(perm);
+		});
+
+		return permList;
 	}
 	
 }

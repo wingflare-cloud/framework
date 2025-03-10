@@ -94,6 +94,10 @@ public class MenuSearchBo extends BaseSearchBo
     private String in_hide;
 
     private String notin_hide;
+
+    private Integer eq_constant;
+
+    private Integer neq_constant;
         
     private Integer eq_multiTab;
 
@@ -932,6 +936,24 @@ public class MenuSearchBo extends BaseSearchBo
     public MenuSearchBo setNotin_hide(String notin_hide)
     {
         this.notin_hide = notin_hide;
+        return this;
+    }
+
+    public Integer getNeq_constant() {
+        return neq_constant;
+    }
+
+    public MenuSearchBo setNeq_constant(Integer neq_constant) {
+        this.neq_constant = neq_constant;
+        return this;
+    }
+
+    public Integer getEq_constant() {
+        return eq_constant;
+    }
+
+    public MenuSearchBo setEq_constant(Integer eq_constant) {
+        this.eq_constant = eq_constant;
         return this;
     }
 

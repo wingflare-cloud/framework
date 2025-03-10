@@ -2,11 +2,10 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.RolePermissionBiz;
+import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
+import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.facade.module.user.bo.RolePermissionBo;
-import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
-import com.wingflare.facade.module.user.dto.RolePermissionDto;
-import com.wingflare.lib.standard.PageDto;
+import com.wingflare.module.user.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 系统角色权限Controller
@@ -22,71 +22,33 @@ import javax.annotation.Resource;
  * @date Thu Mar 09 10:13:02 CST 2023
  */
 @Controller
-@RequestMapping("/rolePermission")
+@RequestMapping("/role/permission")
 public class RolePermissionController
 {
 
 	@Resource
     private RolePermissionBiz rolePermissionBiz;
 
-    /**
-     * 查询系统角色权限列表
-     */
-	@RequestMapping(value="/list", method={RequestMethod.GET})
-	@ResponseBody
-    public PageDto<RolePermissionDto> list(RolePermissionSearchBo bo) throws Throwable
-    {
-		return rolePermissionBiz.list(bo);
-    }
-
 	/**
-     * 查询系统角色权限详情
-     */
-	@RequestMapping(value = "/get", method = {RequestMethod.GET})
+	 * 角色权限保存
+	 */
+	@RequestMapping(value = "/save", method = {RequestMethod.POST})
 	@ResponseBody
-	public RolePermissionDto get(IdBo bo)
+	@RequiresPermissions(PermissionCode.ROLE_SAVE_PERMISSION)
+	public Boolean save(@RequestBody PermissionCodesExistBo existBo)
 	{
-		return rolePermissionBiz.get(bo);
-	}
-	
-	/**
-     * 通过条件查询单个系统角色权限详情
-     */
-	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
-	@ResponseBody
-	public RolePermissionDto getOnlyOne(RolePermissionSearchBo searchBo) throws Throwable
-	{
-		return rolePermissionBiz.getOnlyOne(searchBo);
+		return rolePermissionBiz.savePermission(existBo);
 	}
 
 	/**
-     * 删除系统角色权限
-     */
-	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
+	 * 获取角色权限
+	 */
+	@RequestMapping(value = "/all", method = {RequestMethod.GET})
 	@ResponseBody
-	public void delete(IdBo bo)
+	@RequiresPermissions(PermissionCode.ROLE_PERMISSION_VIEW)
+	public List<PermissionCodesExistBo.CodesExist> all(IdBo bo)
 	{
-		rolePermissionBiz.delete(bo);
-	}
-
-	/**
-     * 新增系统角色权限
-     */
-	@RequestMapping(value = "/create", method = {RequestMethod.POST})
-	@ResponseBody
-	public RolePermissionDto create(@RequestBody RolePermissionBo bo)
-	{
-		return rolePermissionBiz.create(bo);
-	}
-	
-	/**
-     * 更新系统角色权限
-     */
-	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
-	@ResponseBody
-	public RolePermissionDto update(@RequestBody RolePermissionBo bo)
-	{
-		return rolePermissionBiz.update(bo);
+		return rolePermissionBiz.permission(bo);
 	}
 	
 }
