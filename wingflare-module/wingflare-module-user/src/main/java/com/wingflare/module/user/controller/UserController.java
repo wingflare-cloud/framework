@@ -14,12 +14,9 @@ import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.user.PermissionCode;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,7 +107,7 @@ public class UserController
 	@RequestMapping(value = "/getUserByLoginName", method = {RequestMethod.GET})
 	@ResponseBody
 	@InternalApi
-	public UserDto getUserByLoginName(String loginName)
+	public UserDto getUserByLoginName(@RequestParam(value = "loginName") String loginName)
 	{
 		return userBiz.getUserByLoginName(loginName);
 	}

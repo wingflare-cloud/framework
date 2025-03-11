@@ -1,7 +1,7 @@
 package com.wingflare.lib.core;
 
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

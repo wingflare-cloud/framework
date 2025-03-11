@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -36,7 +37,7 @@ public class WebFluxUtil {
         return writeJSON(response, response.getStatusCode(), value);
     }
 
-    public static <T> Mono<Void> writeJSON(ServerHttpResponse response, HttpStatus httpStatus, T value) {
+    public static <T> Mono<Void> writeJSON(ServerHttpResponse response, HttpStatusCode httpStatus, T value) {
         response.setStatusCode(httpStatus);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(Mono.create(monoSink -> {
@@ -63,7 +64,7 @@ public class WebFluxUtil {
      * @param body      响应内容
      * @return Mono<Void>
      */
-    public static Mono<Void> write(ServerHttpResponse response, String mediaType, HttpStatus status, String body) {
+    public static Mono<Void> write(ServerHttpResponse response, String mediaType, HttpStatusCode status, String body) {
         response.setStatusCode(status);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, mediaType);
 

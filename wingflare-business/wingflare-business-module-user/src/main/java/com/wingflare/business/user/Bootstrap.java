@@ -1,14 +1,7 @@
 package com.wingflare.business.user;
 
 
-import com.wingflare.business.user.biz.IdentityBizImpl;
-import com.wingflare.business.user.biz.JobLevelBizImpl;
-import com.wingflare.business.user.biz.JobLevelClassifyBizImpl;
-import com.wingflare.business.user.biz.OrgBizImpl;
-import com.wingflare.business.user.biz.OrgDepartmentBizImpl;
-import com.wingflare.business.user.biz.RoleBizImpl;
-import com.wingflare.business.user.biz.RolePermissionBizImpl;
-import com.wingflare.business.user.biz.UserBizImpl;
+import com.wingflare.business.user.biz.*;
 import com.wingflare.business.user.service.IdentityServer;
 import com.wingflare.business.user.service.JobLevelClassifyServer;
 import com.wingflare.business.user.service.JobLevelServer;
@@ -44,6 +37,7 @@ import org.springframework.context.annotation.Import;
         RoleBizImpl.class,
         RolePermissionBizImpl.class,
         UserBizImpl.class,
+        UserRoleBizImpl.class,
         IdentityBizImpl.class,
         JobLevelBizImpl.class,
         OrgDepartmentBizImpl.class,

@@ -4,7 +4,7 @@ package com.wingflare.lib.mybatis.plus.generator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.wingflare.lib.spring.utils.SnowflakeUtil;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 自定义主键生成器

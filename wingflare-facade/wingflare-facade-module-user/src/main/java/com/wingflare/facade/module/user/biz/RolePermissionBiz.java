@@ -11,9 +11,9 @@ import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 import java.util.List;
 
 

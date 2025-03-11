@@ -12,7 +12,7 @@ import com.wingflare.lib.security.standard.SecurityCheckApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author naizui_ycx

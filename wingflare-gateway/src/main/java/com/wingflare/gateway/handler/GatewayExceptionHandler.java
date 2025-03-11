@@ -46,7 +46,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             }
 
             if (logger.isDebugEnabled()) {
-                logger.debug("响应非200状态码: {} {}", ((ResponseStatusException) ex).getStatus(), ex.getMessage());
+                logger.debug("响应非200状态码: {} {}", ((ResponseStatusException) ex).getStatusCode().value(), ex.getMessage());
             }
         } else if (ex instanceof OpenApiException) {
             if (ex instanceof OpenApiSignException) {

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 验证码过滤器
@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * @author naizui_ycx
  * @email chenxi2511@qq.com
  */
-@Component
+/*@Component*/
 public class CaptchaFilter implements GlobalFilter, Ordered {
 
     @Resource

@@ -14,7 +14,7 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author naizui_ycx

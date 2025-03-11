@@ -1,21 +1,18 @@
 package com.wingflare.facade.module.base.bo;
 
-import java.util.Date;
 
 import com.wingflare.facade.module.base.dict.IconTypes;
-import com.wingflare.facade.module.base.dict.MenuLayout;
 import com.wingflare.facade.module.base.dict.MenuTypes;
 import com.wingflare.lib.core.Regexp;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Enum;
 import com.wingflare.lib.core.validation.Update;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 
 /**

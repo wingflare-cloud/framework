@@ -20,7 +20,7 @@
         <module>wingfalre-lib-standard</module>
         <module>wingflare-lib-captcha</module>
         <module>wingflare-lib-captcha-support</module>
-        <module>wingflare-lib-sleuth-perfect</module>
+        <module>wingflare-lib-tracing</module>
     </modules>
 
     <artifactId>wingflare-lib</artifactId>

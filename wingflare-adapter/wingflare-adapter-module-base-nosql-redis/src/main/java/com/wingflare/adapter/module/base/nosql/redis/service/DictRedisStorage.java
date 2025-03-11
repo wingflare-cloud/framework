@@ -4,16 +4,12 @@ package com.wingflare.adapter.module.base.nosql.redis.service;
 import com.wingflare.abstraction.module.base.DictStorage;
 import com.wingflare.facade.module.base.constants.Base;
 import com.wingflare.facade.module.base.dto.SimpleDictDto;
-import com.wingflare.lib.core.utils.CollectionUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Collection;
+import jakarta.annotation.Resource;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @ClassName DictRedisStore

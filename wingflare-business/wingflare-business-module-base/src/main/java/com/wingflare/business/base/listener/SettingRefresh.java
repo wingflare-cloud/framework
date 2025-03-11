@@ -9,7 +9,7 @@ import com.wingflare.lib.standard.enums.OnOffEnum;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @ClassName SettingRefresh

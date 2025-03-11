@@ -1,12 +1,5 @@
 package com.wingflare.facade.module.user.bo;
 
-import java.util.Date;
-import com.wingflare.lib.core.validation.Update;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 
 /**
  * <p>

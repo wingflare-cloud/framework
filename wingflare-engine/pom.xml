@@ -12,7 +12,6 @@
     <artifactId>wingflare-engine</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>wingflare-engine-websocket</module>
         <module>wingflare-engine-pay</module>
         <module>wingflare-engine-task</module>
     </modules>

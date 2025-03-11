@@ -15,8 +15,8 @@ import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.cloud.gateway.support.ipresolver.XForwardedRemoteAddressResolver;
-import org.springframework.cloud.sleuth.CurrentTraceContext;
-import org.springframework.cloud.sleuth.TraceContext;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import org.springframework.core.Ordered;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -43,7 +43,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -64,7 +64,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
     private AccessLogProperties accessLogProperties;
 
     @Resource
-    private CurrentTraceContext currentTraceContext;
+    private Tracer tracer;
 
     private final Logger logger = LoggerFactory.getLogger(AccessLogFilter.class);
 
@@ -95,15 +95,15 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
         GatewayLogBo gatewayLog = new GatewayLogBo();
         gatewayLog.setSchema(request.getURI().getScheme());
-        gatewayLog.setReqMethod(request.getMethodValue());
+        gatewayLog.setReqMethod(request.getMethod().name());
         gatewayLog.setReqPath(requestPath);
         gatewayLog.setTargetServer(route.getId());
         gatewayLog.setReqTime(new Date());
         gatewayLog.setIp(ipAddress);
-        TraceContext context = currentTraceContext.context();
+        Span span = tracer.currentSpan();
 
-        if (context != null) {
-            gatewayLog.setTraceId(context.spanId());
+        if (span != null) {
+            gatewayLog.setTraceId(span.context().traceId());
         }
 
         final HttpHeaders headers = request.getHeaders();

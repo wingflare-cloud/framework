@@ -6,7 +6,7 @@ import cn.hutool.crypto.asymmetric.RSA;
 import com.wingflare.lib.security.properties.DataSecretProperties;
 import com.wingflare.lib.security.standard.DataSecret;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author naizui_ycx

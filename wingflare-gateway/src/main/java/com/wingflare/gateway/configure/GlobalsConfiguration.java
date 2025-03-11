@@ -5,8 +5,8 @@ import com.wingflare.lib.core.constants.HttpHeader;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.properties.SafeProperties;
 import com.wingflare.lib.spring.configure.properties.CorsProperties;
-import org.springframework.cloud.sleuth.CurrentTraceContext;
-import org.springframework.cloud.sleuth.TraceContext;
+import io.micrometer.tracing.Span;
+import io.micrometer.tracing.Tracer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author naizui_ycx
@@ -37,7 +37,7 @@ public class GlobalsConfiguration {
     private SafeProperties safeProperties;
 
     @Resource
-    private CurrentTraceContext currentTraceContext;
+    private Tracer tracer;
 
     @Bean
     public WebFilter corsFilter() {
@@ -45,10 +45,10 @@ public class GlobalsConfiguration {
             ServerHttpRequest request = ctx.getRequest();
             ServerHttpResponse response = ctx.getResponse();
             HttpHeaders responseHeaders = response.getHeaders();
-            TraceContext context = currentTraceContext.context();
+            Span span = tracer.currentSpan();
 
-            if (context != null) {
-                responseHeaders.add(HttpHeader.X_RESPONSE_ID, context.spanId());
+            if (span != null) {
+                responseHeaders.add(HttpHeader.X_RESPONSE_ID, span.context().traceId());
             }
 
             if (CorsUtils.isCorsRequest(request)) {

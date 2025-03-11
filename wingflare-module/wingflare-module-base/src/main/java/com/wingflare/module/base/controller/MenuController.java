@@ -17,12 +17,9 @@ import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import com.wingflare.module.base.PermissionCode;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -115,7 +112,7 @@ public class MenuController
 	 */
 	@RequestMapping(value = "/tree", method = {RequestMethod.GET})
 	@ResponseBody
-	public List<SimpleMenuDto> tree(String systemCode) {
+	public List<SimpleMenuDto> tree(@RequestParam(value = "systemCode") String systemCode) {
 		return menuBiz.tree(new MenuSearchBo()
 				.setEq_systemCode(systemCode)
 				.setEq_state(OnOffEnum.ON.getValue())

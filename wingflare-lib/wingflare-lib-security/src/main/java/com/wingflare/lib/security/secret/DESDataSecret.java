@@ -6,7 +6,7 @@ import cn.hutool.crypto.symmetric.DES;
 import com.wingflare.lib.security.properties.DataSecretProperties;
 import com.wingflare.lib.security.standard.DataSecret;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 
 /**

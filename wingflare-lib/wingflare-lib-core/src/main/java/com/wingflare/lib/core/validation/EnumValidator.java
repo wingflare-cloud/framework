@@ -2,8 +2,8 @@ package com.wingflare.lib.core.validation;
 
 import com.wingflare.lib.core.utils.StringUtil;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;

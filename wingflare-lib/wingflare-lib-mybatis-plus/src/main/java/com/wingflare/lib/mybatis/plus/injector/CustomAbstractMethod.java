@@ -27,7 +27,7 @@ public abstract class CustomAbstractMethod extends AbstractMethod {
      */
     @Override
     protected String sqlWhereEntityWrapper(boolean newLine, TableInfo table) {
-        String sqlScript = table.getAllSqlWhere(false, true, WRAPPER_ENTITY_DOT);
+        String sqlScript = table.getAllSqlWhere(false, true, true, WRAPPER_ENTITY_DOT);
         sqlScript = SqlScriptUtils.convertIf(sqlScript, String.format("%s != null", WRAPPER_ENTITY), true);
         sqlScript += NEWLINE;
         sqlScript += SqlScriptUtils.convertIf(String.format(SqlScriptUtils

@@ -2,8 +2,8 @@ package com.wingflare.facade.module.user.bo;
 
 import com.wingflare.lib.standard.annotation.security.Decrypt;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * @ClassName UpdatePasswdBo

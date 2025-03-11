@@ -2,7 +2,6 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.RoleBiz;
-import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
 import com.wingflare.facade.module.user.bo.RoleBo;
 import com.wingflare.facade.module.user.bo.RoleSearchBo;
 import com.wingflare.facade.module.user.dto.RoleDto;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
-import java.util.List;
+import jakarta.annotation.Resource;
 
 /**
  * 系统角色Controller

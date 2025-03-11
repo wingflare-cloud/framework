@@ -213,6 +213,15 @@ public class JoinQueryWrapper<T> extends AbstractWrapper<T, String, JoinQueryWra
         return typedThis;
     }
 
+
+    @Override
+    public JoinQueryWrapper<T> select(boolean condition, List<String> columns) {
+        if (CollectionUtils.isNotEmpty(columns)) {
+            selectColumns.addAll(columns);
+        }
+        return typedThis;
+    }
+
     /**
      * 设置要查询的列名和列别名
      *
@@ -780,7 +789,7 @@ public class JoinQueryWrapper<T> extends AbstractWrapper<T, String, JoinQueryWra
         return isDistinct;
     }
 
-    @Override
+
     protected String columnSqlInjectFilter(String column) {
         return StringUtils.sqlInjectionReplaceBlank(column);
     }

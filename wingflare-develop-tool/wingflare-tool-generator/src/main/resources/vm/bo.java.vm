@@ -26,8 +26,8 @@ import lombok.experimental.Accessors;
 import com.wingflare.lib.core.validation.Update;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 
 /**
