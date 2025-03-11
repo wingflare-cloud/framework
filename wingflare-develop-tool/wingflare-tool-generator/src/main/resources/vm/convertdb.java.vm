@@ -1,4 +1,4 @@
-package ${pkg.ConvertDb}
+package ${pkg.ConvertDb};
 
 import ${package.Entity}.${entity};
 import ${pkg.Bo}.${Bo};

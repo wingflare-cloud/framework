@@ -1,4 +1,4 @@
-package ${pkg.Convert}
+package ${pkg.Convert};
 
 import ${pkg.Bo}.${Bo};
 import ${pkg.Dto}.${Dto};

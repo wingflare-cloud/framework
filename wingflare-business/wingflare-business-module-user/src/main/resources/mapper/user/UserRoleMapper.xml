@@ -1,8 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wingflare.business.user.mapper.UserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.wingflare.business.user.db.UserRoleDo">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="system_code" property="systemCode" />
+        <result column="role_id" property="roleId" />
+        <result column="created_time" property="createdTime" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="is_delete" property="isDelete" />
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         `id`,
@@ -24,18 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         `sys_user_role`.`created_time`,
         `sys_user_role`.`create_user`,
         `sys_user_role`.`create_user_id`,
-        `is_delete`
+        `sys_user_role`.`is_delete`
     </sql>
 
-    <!-- 通用查询映射结果 -->
-    <resultMap type="UserRoleDo" id="UserRoleResult">
-        <result property="id" column="id"/>
-        <result property="userId" column="user_id"/>
-        <result property="systemCode" column="system_code"/>
-        <result property="roleId" column="role_id"/>
-        <result property="createdTime" column="created_time"/>
-        <result property="createUser" column="create_user"/>
-        <result property="createUserId" column="create_user_id"/>
-        <result property="isDelete" column="is_delete"/>
-    </resultMap>
 </mapper>
