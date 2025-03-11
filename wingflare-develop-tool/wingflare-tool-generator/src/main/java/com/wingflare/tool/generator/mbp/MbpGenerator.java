@@ -137,11 +137,11 @@ public class MbpGenerator implements ApplicationContextAware {
             } else if (outputFileInfo.getFileType().equals(Constant.FILE_TYPE_MAPPER)) {
                 builder.mapper(pkg);
             } else if (outputFileInfo.getFileType().equals(Constant.FILE_TYPE_SERVICE)) {
-                if (generatorConfig.isGenServer()) {
+                if (generatorConfig.isGenServerInterface()) {
                     builder.service(pkg);
                 }
             } else if (outputFileInfo.getFileType().equals(Constant.FILE_TYPE_SERVICEIMPL)) {
-                if (StrUtil.isNotEmpty(serverPkg) && !generatorConfig.isGenServer()) {
+                if (StrUtil.isNotEmpty(serverPkg) && !generatorConfig.isGenServerInterface()) {
                     builder.serviceImpl(serverPkg);
                 } else {
                     builder.serviceImpl(pkg);
@@ -178,7 +178,7 @@ public class MbpGenerator implements ApplicationContextAware {
             builder.disable(TemplateType.XML);
         }
 
-        if (!choosedFileTypes.contains(Constant.FILE_TYPE_SERVICE) || !generatorConfig.isGenServer()) {
+        if (!choosedFileTypes.contains(Constant.FILE_TYPE_SERVICE) || !generatorConfig.isGenServerInterface()) {
             builder.disable(TemplateType.SERVICE);
         }
 
@@ -204,7 +204,7 @@ public class MbpGenerator implements ApplicationContextAware {
         String serPkgSuffix = null;
         String serOutputPackage = null;
 
-        if (generatorConfig.isGenServer()) {
+        if (generatorConfig.isGenServerInterface()) {
             OutputFileInfo serOutputFileInfo = findFileConfigByType(Constant.FILE_TYPE_SERVICE, userConfig);
 
             if (serOutputFileInfo != null) {
@@ -225,7 +225,7 @@ public class MbpGenerator implements ApplicationContextAware {
                 String serName;
                 String tableName = (new NameConverter() {
                 }).tableNameConvert(table);
-                if (generatorConfig.isGenServer()) {
+                if (!generatorConfig.isGenServerInterface()) {
                     serName = tableName + "Server";
                 } else {
                     serName = tableName + "ServerImpl";
@@ -332,7 +332,7 @@ public class MbpGenerator implements ApplicationContextAware {
                 }
             }).tableNameConvert(tableInfo.getName()));
 
-            vars.put("isGenServer", generatorConfig.isGenServer());
+            vars.put("isGenServer", generatorConfig.isGenServerInterface());
 
             objectMap.putAll(vars);
         });

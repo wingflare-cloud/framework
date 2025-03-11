@@ -71,9 +71,9 @@ public class GeneratorConfig {
     private ITypeConvert typeConvert;
 
     /**
-     * 是否生成server
+     * 是否生成server接口
      */
-    private boolean genServer = true;
+    private boolean genServerInterface = true;
 
     /**
      * setOnNew中的忽略字段
@@ -192,12 +192,12 @@ public class GeneratorConfig {
         this.idType = idType;
     }
 
-    public boolean isGenServer() {
-        return genServer;
+    public boolean isGenServerInterface() {
+        return genServerInterface;
     }
 
-    public void setGenServer(boolean genServer) {
-        this.genServer = genServer;
+    public void setGenServerInterface(boolean genServerInterface) {
+        this.genServerInterface = genServerInterface;
     }
 
     public List<String> getSetOnNewIgnoreFields() {

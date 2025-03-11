@@ -1,4 +1,4 @@
-package ${pkg.Bootstarp};
+package ${pkg.Bootstrap};
 
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -19,7 +19,7 @@ import ${item};
  * @since ${date}
  */
 @Configuration
-@MapperScan("${basePackage}.business.${moduleNamePkg}.mapper}")
+@MapperScan("${basePackage}.business.${moduleNamePkg}.mapper")
 @Import({
 #foreach($pkgItem in $allBizPkg)
     #foreach($item in $pkgItem)
@@ -28,5 +28,5 @@ import ${item};
     #end
 #end
 })
-public class Bootstarp {
+public class Bootstrap {
 }

@@ -23,7 +23,7 @@ public class ServiceStrategyHandle implements StrategyHandle<Service.Builder> {
             builder.enableFileOverride();
         }
 
-        if (generatorConfig.isGenServer()) {
+        if (generatorConfig.isGenServerInterface()) {
             if (strategy.getStringProperty("superServiceClass") != null) {
                 builder.superServiceClass(strategy.getStringProperty("superServiceClass"));
             }
