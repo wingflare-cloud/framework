@@ -150,11 +150,13 @@ public class MybatisPlusInterceptor implements Interceptor {
         }
 
         Class<?> clazz = (Class<?>) parameterMap.get(Constant.CLAZZ);
+
         if (clazz == null) {
             return ms;
         }
 
         List<ResultMap> resultMaps = ms.getResultMaps();
+
         if (CollectionUtils.isNotEmpty(resultMaps) && resultMaps.get(0).getType() == JoinResultType.class) {
             return newMappedStatement(ms, clazz);
         }
@@ -215,6 +217,7 @@ public class MybatisPlusInterceptor implements Interceptor {
         if (msMap == null) {
             msMap = new ConcurrentHashMap<>(1);
         }
+
         msMap.put(originalMs.getConfiguration(), newMappedStatement);
         JOIN_MS_CACHE.put(id, msMap);
 

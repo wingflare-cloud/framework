@@ -140,7 +140,6 @@ public interface CustomMapper<T> extends BaseMapper<T> {
         return selectJoinList(clazz, null);
     }
 
-    ;
 
     /**
      * 根据Wrapper条件，查询所有符合条件的记录并分页

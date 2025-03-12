@@ -18,6 +18,9 @@ public class UserDto
 {
 	
     private String userId;
+
+
+    private String userRoleId;
 	
 	/**
      * 是否为超管
@@ -111,7 +114,15 @@ public class UserDto
     {
         return userId;
     }
-	
+
+    public String getUserRoleId() {
+        return userRoleId;
+    }
+
+    public void setUserRoleId(String userRoleId) {
+        this.userRoleId = userRoleId;
+    }
+
     public UserDto setSuperAdministrator(Integer superAdministrator)
     {
         this.superAdministrator = superAdministrator;

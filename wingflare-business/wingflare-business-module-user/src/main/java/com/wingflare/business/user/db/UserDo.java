@@ -143,7 +143,7 @@ public class UserDo extends BaseDoAbstract
     {
         return userId;
     }
-	
+    
     public UserDo setSuperAdministrator(Integer superAdministrator)
     {
 		addNewField("superAdministrator");

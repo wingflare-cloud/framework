@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.wingflare.lib.mybatis.plus.constants.Constant;
+import com.wingflare.lib.mybatis.plus.utils.ColumnCacheReaderUtil;
 import org.apache.ibatis.reflection.property.PropertyNamer;
 
 import java.util.HashMap;
@@ -88,10 +89,17 @@ public abstract class AbstractJoinLambdaWrapper<T, Children extends AbstractJoin
         LambdaMeta lambdaMeta = LambdaUtils.extract(column);
         Class<?> clazz = lambdaMeta.getInstantiatedClass();
         Map<String, ColumnCache> columnCacheMap = columnMap.get(clazz);
+
         if (columnCacheMap == null) {
             columnCacheMap = LambdaUtils.getColumnMap(clazz);
+
+            if (columnCacheMap == null) {
+                columnCacheMap = ColumnCacheReaderUtil.readColumnCaches(clazz);
+            }
+
             columnMap.put(clazz, columnCacheMap);
         }
+
         String propertyName = PropertyNamer.methodToProperty(lambdaMeta.getImplMethodName());
         return columnCacheMap.get(LambdaUtils.formatKey(propertyName));
     }
