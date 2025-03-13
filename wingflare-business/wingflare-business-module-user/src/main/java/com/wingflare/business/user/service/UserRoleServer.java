@@ -10,6 +10,8 @@ import com.wingflare.business.user.mapper.UserRoleMapper;
 import com.wingflare.facade.module.user.bo.UserSearchBo;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
+import com.wingflare.lib.security.utils.UserAuthUtil;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -27,6 +29,9 @@ import java.util.Map;
  */
 @Service
 public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDo> {
+
+    @Resource
+    private UserAuthUtil userAuthUtil;
 
     /**
      * 获取userRoleMap
@@ -54,18 +59,26 @@ public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDo> {
     /**
      * 连表查询
      *
-     * @param userSearchBo
+     * @param bo
      * @return
      */
-    public IPage<RoleUserDo> getUserList(UserSearchBo userSearchBo) {
+    public IPage<RoleUserDo> getUserList(UserSearchBo bo) {
+        JoinLambdaQueryWrapper joinLambdaQueryWrapper = new JoinLambdaQueryWrapper<>()
+                .select(UserDo::getUserId, UserDo::getUserName, UserDo::getBanState, UserDo::getLastLoginIp, UserDo::getLastLoginTime)
+                .selectAs(UserRoleDo::getId, RoleUserDo::getId)
+                .leftJoin(UserDo.class, UserDo::getUserId, UserRoleDo::getUserId)
+                .eq(UserRoleDo::getRoleId, bo.getRoleId())
+                .eq(UserDo::getIsDelete, 0)
+                .eq(UserRoleDo::getIsDelete, 0)
+                .eq(UserDo::getSuperAdministrator, 0)
+                .ne(userAuthUtil.getUser() != null,UserDo::getUserId, userAuthUtil.getUser().getUserId())
+                .eq(bo.getEq_banState() != null, UserDo::getBanState, bo.getEq_banState())
+                .like(bo.getLike_userName() != null, UserDo::getUserName, bo.getLike_userName());
+
         return getBaseMapper().selectJoinPage(
-                createPage(userSearchBo),
+                createPage(bo),
                 RoleUserDo.class,
-                new JoinLambdaQueryWrapper<>()
-                        .select(UserDo::getUserId, UserDo::getUserName, UserDo::getBanState, UserDo::getLastLoginIp, UserDo::getLastLoginTime)
-                        .selectAs(UserRoleDo::getId, RoleUserDo::getId)
-                        .leftJoin(UserDo.class, UserDo::getUserId, UserRoleDo::getUserId)
-                        .eq(UserRoleDo::getRoleId, userSearchBo.getRoleId())
+                joinLambdaQueryWrapper
         );
     }
 

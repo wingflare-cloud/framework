@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统用户Bo
@@ -85,6 +86,11 @@ public class UserBo {
      * 最后登录ip
      */
     private String lastLoginIp;
+
+    /**
+     * 用户角色
+     */
+    private List<String> userRole;
 
     /**
      * 最后登录时间
@@ -209,6 +215,15 @@ public class UserBo {
 
     public String getLastLoginIp() {
         return lastLoginIp;
+    }
+
+    public List<String> getUserRole() {
+        return userRole;
+    }
+
+    public UserBo setUserRole(List<String> userRole) {
+        this.userRole = userRole;
+        return this;
     }
 
     public UserBo setLastLoginTime(Date lastLoginTime) {

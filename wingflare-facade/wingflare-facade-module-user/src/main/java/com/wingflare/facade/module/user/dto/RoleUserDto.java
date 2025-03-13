@@ -1,6 +1,8 @@
 package com.wingflare.facade.module.user.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 
@@ -16,6 +18,7 @@ public class RoleUserDto {
 
     private String lastLoginIp;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastLoginTime;
 
     public String getId() {

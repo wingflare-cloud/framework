@@ -25,6 +25,7 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -123,7 +124,7 @@ public class CustomInterceptor extends CustomJsqlParserSupport implements InnerI
      */
     @Override
     public boolean willDoUpdate(Executor executor, MappedStatement ms, Object parameter) throws SQLException {
-        if (parameter == null) {
+        if (parameter == null || isTargetType(parameter.getClass())) {
             return true;
         }
 
@@ -145,6 +146,21 @@ public class CustomInterceptor extends CustomJsqlParserSupport implements InnerI
         }
 
         return true;
+    }
+
+    protected boolean isTargetType(Class<?> clazz) {
+        // 检查原始类型
+        if (clazz.isPrimitive()) {
+            return clazz == byte.class || clazz == short.class
+                    || clazz == int.class || clazz == long.class
+                    || clazz == float.class || clazz == double.class
+                    || clazz == char.class;
+        }
+        // 检查包装类及String
+        return clazz == Byte.class || clazz == Short.class
+                || clazz == Integer.class || clazz == Long.class
+                || clazz == Float.class || clazz == Double.class
+                || clazz == Character.class || clazz == String.class || clazz == BigInteger.class;
     }
 
     /**

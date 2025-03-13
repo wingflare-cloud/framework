@@ -40,7 +40,7 @@ public class UserRoleDo extends BaseDoAbstract {
 
     @TableField(fill = FieldFill.INSERT)
     @TableLogic
-    private Byte isDelete;
+    private Integer isDelete;
 
 	@Override
     public void setPk(String id)
@@ -124,11 +124,11 @@ public class UserRoleDo extends BaseDoAbstract {
         return this;
     }
 
-    public Byte getIsDelete() {
+    public Integer getIsDelete() {
         return isDelete;
     }
 
-    public UserRoleDo setIsDelete(Byte isDelete) {
+    public UserRoleDo setIsDelete(Integer isDelete) {
         addNewField("isDelete");
         this.isDelete = isDelete;
         return this;

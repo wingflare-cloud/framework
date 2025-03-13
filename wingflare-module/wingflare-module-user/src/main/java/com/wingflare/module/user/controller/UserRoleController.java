@@ -1,12 +1,12 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.facade.module.user.biz.UserRoleBiz;
 import com.wingflare.facade.module.user.bo.UserSearchBo;
 import com.wingflare.facade.module.user.dto.RoleUserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.wingflare.lib.standard.PageDto;
-import com.wingflare.business.user.biz.UserRoleBizImpl;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,14 +26,14 @@ import jakarta.annotation.Resource;
 public class UserRoleController {
 
     @Resource
-    private UserRoleBizImpl userRoleBizImpl;
+    private UserRoleBiz userRoleBiz;
 
 
     @RequestMapping(value="/list", method={RequestMethod.GET})
     @ResponseBody
     public PageDto<RoleUserDto> list(UserSearchBo bo)
     {
-        return userRoleBizImpl.getUserList(bo);
+        return userRoleBiz.getUserList(bo);
     }
 
 }

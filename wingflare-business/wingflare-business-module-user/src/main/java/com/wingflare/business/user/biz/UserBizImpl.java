@@ -25,6 +25,7 @@ import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
+import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
@@ -292,6 +293,21 @@ public class UserBizImpl implements UserBiz {
             bo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getUserPasswd()));
             UserDo userDo = UserConvert.convert.boToDo(bo);
             Assert.isTrue(userServer.save(userDo), ErrorCode.SYS_USER_CREATE_ERROR);
+
+            List<UserRoleDo> userRoleDoList = new ArrayList<>();
+
+            if (CollectionUtil.isNotEmpty(bo.getUserRole())) {
+                bo.getUserRole().forEach(roleId -> {
+                   userRoleDoList.add(
+                           new UserRoleDo()
+                                   .setUserId(userDo.getUserId())
+                                   .setRoleId(roleId)
+                   );
+                });
+
+                userRoleServer.saveBatch(userRoleDoList);
+            }
+
             UserDto userDto = UserConvert.convert.doToDto(userDo);
             eventUtil.publishEvent(UserEventName.USER_CREATE, bo, userDto);
             return userDto;
@@ -364,6 +380,8 @@ public class UserBizImpl implements UserBiz {
             UserDo userDo = UserConvert.convert.boToDo(bo);
             bo.setUserPasswd(null);
             bo.setSuperAdministrator(null);
+            bo.setUserEmail(null);
+            bo.setUserPhone(null);
             UserDo oldField = oldUserDo.setOnNew(userDo);
 
             if (oldField != null) {

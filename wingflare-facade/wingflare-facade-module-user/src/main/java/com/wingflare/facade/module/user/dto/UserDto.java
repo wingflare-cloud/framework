@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统用户Dto
@@ -81,6 +82,11 @@ public class UserDto
      * 最后登录ip
      */
     private String lastLoginIp;
+
+    /**
+     * 用户角色
+     */
+    private List<String> userRole;
 	
 	/**
      * 最后登录时间
@@ -254,7 +260,16 @@ public class UserDto
     {
         return lastLoginIp;
     }
-	
+
+    public List<String> getUserRole() {
+        return userRole;
+    }
+
+    public UserDto setUserRole(List<String> userRole) {
+        this.userRole = userRole;
+        return this;
+    }
+
     public UserDto setLastLoginTime(Date lastLoginTime)
     {
         this.lastLoginTime = lastLoginTime;
