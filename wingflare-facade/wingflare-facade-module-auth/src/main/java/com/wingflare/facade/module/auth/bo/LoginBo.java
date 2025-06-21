@@ -10,8 +10,6 @@ import com.wingflare.lib.standard.annotation.security.Decrypt;
  */
 public class LoginBo {
 
-    private String systemCode;
-
     private String loginName;
 
     @Decrypt(type = "RSA")
@@ -28,14 +26,6 @@ public class LoginBo {
     private Long expireTime;
 
     private String clientType;
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 
     public String getLoginName() {
         return loginName;

@@ -171,8 +171,8 @@ public class LoginBizImpl implements LoginBiz {
         TokenDto tokenDto = Builder.of(TokenDto::new)
                 .with(TokenDto::setExpiresIn, tokenExpireTime.intValue())
                 .with(TokenDto::setRefreshExpiresIn, bo.getExpireTime().intValue())
-                .with(TokenDto::setToken, tokenGen(tokenId, now))
-                .with(TokenDto::setRefreshToken, tokenGen(refreshId, now))
+                .with(TokenDto::setToken, tokenGen(SecurityUtil.getBusinessSystem(), tokenId, now))
+                .with(TokenDto::setRefreshToken, tokenGen(SecurityUtil.getBusinessSystem(), refreshId, now))
                 .build();
 
         userAuthUtil.setUser(userAuth, (long) DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())), TimeUnit.SECONDS);
@@ -266,19 +266,21 @@ public class LoginBizImpl implements LoginBiz {
      */
     @Override
     public TokenDto refreshToken(@Valid @NotNull RefreshTokenBo bo) {
-        String oldRefreshId = getRefreshIdByRefreshToken(bo.getRefreshToken());
+        Map<String, Object> oldRefreshTokenMap = parseRefreshToken(bo.getRefreshToken());
 
         UserAuth userAuth = userAuthUtil.getUser();
 
         Assert.isTrue(userAuth != null, ErrorCode.LOGIN_INFO_NOTFOUND_OR_EXPIRE);
-        Assert.isTrue(StringUtil.equals(userAuth.getRefreshId(), oldRefreshId), ErrorCode.REFRESH_TOKEN_DEFEATED);
+        Assert.isTrue(StringUtil.equals(userAuth.getRefreshId(), oldRefreshTokenMap.get(Ctx.HEADER_KEY_TOKEN_ID).toString()),
+                ErrorCode.REFRESH_TOKEN_DEFEATED);
 
         String refreshId = snowflakeUtil.nextStringId();
         Long tokenExpireTime = getTokenExpireTime();
         Date now = new Date();
+        String systemCode = oldRefreshTokenMap.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM).toString();
 
         String tokenId = snowflakeUtil.nextStringId();
-        String token = tokenGen(tokenId, now);
+        String token = tokenGen(systemCode, tokenId, now);
 
         userAuthUtil.removeToken(userAuth.getTokenId());
         userAuth.setRefreshId(refreshId);
@@ -290,25 +292,24 @@ public class LoginBizImpl implements LoginBiz {
                 .with(TokenDto::setExpiresIn, tokenExpireTime.intValue())
                 .with(TokenDto::setRefreshExpiresIn, DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())))
                 .with(TokenDto::setToken, token)
-                .with(TokenDto::setRefreshToken, tokenGen(refreshId, now))
+                .with(TokenDto::setRefreshToken, tokenGen(systemCode, refreshId, now))
                 .build();
     }
 
 
-    private String getRefreshIdByRefreshToken(String refreshToken) {
+    private Map<String, Object> parseRefreshToken(String refreshToken) {
         Map<String, Object> claimsMap = jwtUtil.parseToken(refreshToken);
 
         if (!SecurityUtil.checkTokenClaimsMap(claimsMap, secret)) {
             throw new BusinessLogicException(ErrorCode.REFRESH_TOKEN_EXCEPTION);
         }
 
-        return claimsMap.get(Ctx.HEADER_KEY_TOKEN_ID)
-                .toString();
+        return claimsMap;
     }
 
 
-    private String tokenGen(String id, Date date) {
-        return jwtUtil.createToken(SecurityUtil.getClaimsMap(id, date, secret));
+    private String tokenGen(String systemCode, String id, Date date) {
+        return jwtUtil.createToken(SecurityUtil.getClaimsMap(systemCode, id, date, secret));
     }
 
 }

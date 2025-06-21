@@ -41,13 +41,14 @@ public class SecurityUtil {
     /**
      * 获取getClaimsMap
      */
-    public static Map<String, Object> getClaimsMap(String id, Date date, String secret) {
+    public static Map<String, Object> getClaimsMap(String systemCode, String id, Date date, String secret) {
         String timeS = DateUtil.format(date, DateFormat.PATTERN_CLASSICAL);
         return new HashMap<String, Object>(4){{
             put("time", timeS);
             put(Ctx.HEADER_KEY_TOKEN_ID, id);
-            put("dam", DigestUtils.md5Hex(id + timeS + secret));
-            put("dah", DigestUtils.sha256Hex(id + timeS + secret));
+            put(Ctx.HEADER_KEY_BUSINESS_SYSTEM, systemCode);
+            put("dam", DigestUtils.md5Hex(systemCode + id + timeS + secret));
+            put("dah", DigestUtils.sha256Hex(systemCode + id + timeS + secret));
         }};
     }
 
@@ -93,11 +94,12 @@ public class SecurityUtil {
      */
     public static boolean checkTokenClaimsMap(Map<String, Object> claimsMap, String secret) {
         if (claimsMap.containsKey(Ctx.HEADER_KEY_TOKEN_ID) && claimsMap.containsKey("time") && claimsMap.containsKey("dam")
-                && claimsMap.containsKey("dah")) {
+                && claimsMap.containsKey("dah") && claimsMap.containsKey(Ctx.HEADER_KEY_BUSINESS_SYSTEM)) {
             String time = claimsMap.get("time").toString();
             String tokenId = claimsMap.get(Ctx.HEADER_KEY_TOKEN_ID).toString();
-            String dam = DigestUtils.md5Hex(tokenId + time + secret);
-            String dah = DigestUtils.sha256Hex(tokenId + time + secret);
+            String businessSystem = claimsMap.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM).toString();
+            String dam = DigestUtils.md5Hex(businessSystem + tokenId + time + secret);
+            String dah = DigestUtils.sha256Hex(businessSystem + tokenId + time + secret);
             return claimsMap.get("dam").equals(dam) && claimsMap.get("dah").equals(dah);
         }
         return false;

@@ -57,7 +57,6 @@ public class AuthController {
     public TokenDto login(@Secret @RequestBody LoginBo bo) {
         bo.setUserAgent(ServletUtil.getHeader(HttpHeader.REQUEST_USER_AGENT));
         bo.setIpaddr(ServletUtil.getClientIpAddr());
-        bo.setSystemCode(SecurityUtil.getBusinessSystem());
 
         if (bo.getExpireTime() == null) {
             bo.setExpireTime(settingUtil.get(SettingCode.LOGIN_EXPIRE_TIME,(long) (24 * 60 * 60), Long.class));

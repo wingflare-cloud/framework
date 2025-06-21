@@ -68,13 +68,24 @@ public class AuthFilter implements GlobalFilter, Ordered {
                 }
 
                 String tokenId = "";
+                String businessSystem = "";
 
                 if (claims.containsKey(Ctx.HEADER_KEY_TOKEN_ID)) {
                     tokenId = claims.get(Ctx.HEADER_KEY_TOKEN_ID, String.class);
                 }
 
-                if (StringUtil.isBlank(tokenId)) {
+                if (claims.containsKey(Ctx.HEADER_KEY_BUSINESS_SYSTEM)) {
+                    businessSystem = claims.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM, String.class);
+                }
+
+                if (StringUtil.isBlank(tokenId) || StringUtil.isBlank(businessSystem)) {
                     throw new NoException(ErrorCode.TOKEN_EXPIRATION_OR_ERROR);
+                }
+
+                String headerBusinessSystem = getBusinessSystem(request);
+
+                if (!StringUtil.contains(headerBusinessSystem, businessSystem)) {
+                    throw new NoException(ErrorCode.NO_ACCESS);
                 }
 
                 UserAuth userAuth = userAuthUtil.getUser(tokenId);
@@ -191,6 +202,13 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
 
         return token;
+    }
+
+    /**
+     * 获取请求token
+     */
+    private String getBusinessSystem(ServerHttpRequest request) {
+        return request.getHeaders().getFirst(Ctx.HEADER_KEY_BUSINESS_SYSTEM);
     }
 
     @Override
