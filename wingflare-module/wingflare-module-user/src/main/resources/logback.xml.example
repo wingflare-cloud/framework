@@ -65,6 +65,7 @@
                 </threadName>
 
                 <arguments>
+                    <includeNonStructuredArguments>false</includeNonStructuredArguments>
                     <fieldName>businessCtx</fieldName>
                     <maxDepth>5</maxDepth>
                 </arguments>
