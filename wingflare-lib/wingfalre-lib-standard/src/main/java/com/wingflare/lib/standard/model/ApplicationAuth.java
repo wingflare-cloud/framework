@@ -1,6 +1,7 @@
 package com.wingflare.lib.standard.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ public class ApplicationAuth implements Serializable {
     /**
      * 应用id
      */
-    private String appId;
+    private BigInteger appId;
 
     /**
      * 应用类型
@@ -25,17 +26,17 @@ public class ApplicationAuth implements Serializable {
     /**
      * 父级应用id
      */
-    private String parentAppId;
+    private BigInteger parentAppId;
 
     /**
      * 商户id
      */
-    private String merchantId;
+    private BigInteger merchantId;
 
     /**
      * 父级商户id
      */
-    private String parentMerchantId;
+    private BigInteger parentMerchantId;
 
     /**
      * 渠道
@@ -53,11 +54,11 @@ public class ApplicationAuth implements Serializable {
     private Map<String, Object> attribute;
 
 
-    public String getAppId() {
+    public BigInteger getAppId() {
         return appId;
     }
 
-    public void setAppId(String appId) {
+    public void setAppId(BigInteger appId) {
         this.appId = appId;
     }
 
@@ -77,27 +78,27 @@ public class ApplicationAuth implements Serializable {
         isInternalApp = internalApp;
     }
 
-    public String getParentAppId() {
+    public BigInteger getParentAppId() {
         return parentAppId;
     }
 
-    public void setParentAppId(String parentAppId) {
+    public void setParentAppId(BigInteger parentAppId) {
         this.parentAppId = parentAppId;
     }
 
-    public String getMerchantId() {
+    public BigInteger getMerchantId() {
         return merchantId;
     }
 
-    public void setMerchantId(String merchantId) {
+    public void setMerchantId(BigInteger merchantId) {
         this.merchantId = merchantId;
     }
 
-    public String getParentMerchantId() {
+    public BigInteger getParentMerchantId() {
         return parentMerchantId;
     }
 
-    public void setParentMerchantId(String parentMerchantId) {
+    public void setParentMerchantId(BigInteger parentMerchantId) {
         this.parentMerchantId = parentMerchantId;
     }
 

@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.logstash.logback.argument.StructuredArguments.e;
+
 /**
  * 判断切面对象是否为api bean，还是普通bean
  *
@@ -90,7 +92,9 @@ public class PointUtil {
                             try {
                                 apiAnnotationClassList.add((Class<? extends Annotation>) Class.forName(className));
                             } catch (Throwable e) {
-                                logger.warn("class [{}] notfound or not api annotation.", className);
+                                logger.warn("class notfound or not api annotation.", e(Map.of(
+                                        "class", className
+                                )));
                             }
                         });
                     }
@@ -112,7 +116,9 @@ public class PointUtil {
                             try {
                                 apiBaseClassList.add(Class.forName(className));
                             } catch (Throwable e) {
-                                logger.warn("api base class [{}] notfound.", className);
+                                logger.warn("api base class notfound.", e(Map.of(
+                                        "class", className
+                                )));
                             }
                         });
                     }

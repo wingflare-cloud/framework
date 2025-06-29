@@ -5,6 +5,7 @@ import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.lib.mybatis.plus.constants.Constant;
 import org.apache.ibatis.reflection.MetaObject;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -21,15 +22,15 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        String userId = SecurityUtil.getUserId();
+        BigInteger userId = SecurityUtil.getUserId();
         String username = SecurityUtil.getUsername();
         Date date = new Date();
         this.strictInsertFill(metaObject, Constant.CREATED_TIME_FIELD, Date.class, date);
         this.strictInsertFill(metaObject, Constant.UPDATED_TIME_FIELD, Date.class, date);
         this.strictInsertFill(metaObject, Constant.CREATE_USER_FIELD, String.class, username);
-        this.strictInsertFill(metaObject, Constant.CREATE_USER_ID_FIELD, String.class, userId);
+        this.strictInsertFill(metaObject, Constant.CREATE_USER_ID_FIELD, BigInteger.class, userId);
         this.strictInsertFill(metaObject, Constant.UPDATE_USER_FIELD, String.class, username);
-        this.strictInsertFill(metaObject, Constant.UPDATE_USER_ID_FIELD, String.class, userId);
+        this.strictInsertFill(metaObject, Constant.UPDATE_USER_ID_FIELD, BigInteger.class, userId);
         this.strictInsertFill(metaObject, Constant.IS_DELETE_FIELD, Integer.class, Constant.LOGIC_NOT_DELETE_VALUE);
         this.strictInsertFill(metaObject, Constant.VERSION_FIELD, Integer.class, 0);
     }
@@ -69,7 +70,7 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
             metaObject.setValue(Constant.UPDATE_USER_FIELD, null);
             metaObject.setValue(Constant.UPDATE_USER_ID_FIELD, null);
             this.strictUpdateFill(metaObject, Constant.UPDATE_USER_FIELD, String.class, SecurityUtil.getUsername());
-            this.strictUpdateFill(metaObject, Constant.UPDATE_USER_ID_FIELD, String.class, SecurityUtil.getUserId());
+            this.strictUpdateFill(metaObject, Constant.UPDATE_USER_ID_FIELD, BigInteger.class, SecurityUtil.getUserId());
         }
     }
 }

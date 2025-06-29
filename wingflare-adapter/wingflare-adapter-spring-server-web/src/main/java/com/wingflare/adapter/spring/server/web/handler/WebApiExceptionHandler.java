@@ -27,9 +27,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * @author naizui_ycx
@@ -54,8 +57,13 @@ public class WebApiExceptionHandler {
     @ExceptionHandler(BusinessLogicException.class)
     public ModelAndView businessExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
         if (logger.isDebugEnabled()) {
-            logger.warn("业务异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            logger.warn("业务异常", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
 
         MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
@@ -75,8 +83,13 @@ public class WebApiExceptionHandler {
     @ExceptionHandler(DataException.class)
     public ModelAndView dataExceptionHandler(HttpServletRequest req, DataException e) {
         if (logger.isDebugEnabled()) {
-            logger.warn("数据异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            logger.warn("数据异常", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
 
         MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
@@ -114,8 +127,13 @@ public class WebApiExceptionHandler {
     public Object noPermissionExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
         ApiHelperUtil.setOriginalResp(true);
         if (logger.isDebugEnabled()) {
-            logger.warn("未授权访问: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            logger.warn("未授权访问", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
 
         return "";
@@ -181,8 +199,13 @@ public class WebApiExceptionHandler {
     @ExceptionHandler(Throwable.class)
     public ModelAndView baseExceptionHandler(
             HttpServletRequest req, Throwable e) {
-        logger.error("服务异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-        logger.error(ExceptionUtils.getStackTrace(e));
+        logger.error("服务异常", e(Map.of(
+                "message", e.getMessage(),
+                "exception", e.getClass().getName()
+        )));
+        logger.error("异常堆栈", e(Map.of(
+                "stack", ExceptionUtils.getStackTrace(e)
+        )));
         MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
         view.setExtractValueFromSingleKeyModel(true);
         ModelAndView modelAndView = new ModelAndView(view);
@@ -203,8 +226,13 @@ public class WebApiExceptionHandler {
             HttpServletRequest req, HttpMessageNotReadableException e) {
 
         if (logger.isDebugEnabled()) {
-            logger.error("参数解析异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.error(ExceptionUtils.getStackTrace(e));
+            logger.error("参数解析异常", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.error("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
 
         MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
@@ -221,8 +249,13 @@ public class WebApiExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView illegalArgumentExceptionHandler(IllegalArgumentException e){
         if (logger.isDebugEnabled()) {
-            logger.warn("逻辑异常: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            logger.warn("逻辑异常", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
         MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
         view.setExtractValueFromSingleKeyModel(true);
@@ -240,8 +273,13 @@ public class WebApiExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ModelAndView methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
         if (logger.isDebugEnabled()) {
-            logger.warn("参数验证失败: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            logger.warn("参数验证失败", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
 
         R<Object> r;
@@ -272,8 +310,13 @@ public class WebApiExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ModelAndView constraintViolationExceptionHandler(ConstraintViolationException e){
         if (logger.isDebugEnabled()) {
-            logger.warn("参数验证失败: {}, 异常类: {}", e.getMessage(), e.getClass().getName());
-            logger.warn(ExceptionUtils.getStackTrace(e));
+            logger.warn("参数验证失败", e(Map.of(
+                    "message", e.getMessage(),
+                    "exception", e.getClass().getName()
+            )));
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
         }
 
         R<Object> r;

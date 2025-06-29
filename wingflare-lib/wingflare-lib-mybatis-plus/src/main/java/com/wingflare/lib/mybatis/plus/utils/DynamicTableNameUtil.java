@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+import static net.logstash.logback.argument.StructuredArguments.e;
+
 /**
  * 动态表名工具类
  *
@@ -67,7 +69,11 @@ public class DynamicTableNameUtil {
             statement.accept(new TablesNamesFactory(buffer.getMap()));
             return statement.toString();
         } catch (Exception e) {
-            LOGGER.error("替换表名失败, sql: {}, buffer: {}", sql, buffer, e);
+            LOGGER.error("替换表名失败", e(Map.of(
+                    "sql", sql,
+                    "buffer", buffer,
+                    "exception", e
+            )));
             return sql;
         }
     }

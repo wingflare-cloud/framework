@@ -3,6 +3,7 @@ package com.wingflare.facade.module.user.bo;
 
 import com.wingflare.lib.standard.BaseSearchBo;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -14,9 +15,9 @@ import java.util.Date;
 public class OrgDepartmentSearchBo extends BaseSearchBo
 {
 
-        private String eq_departmentId;
+        private BigInteger eq_departmentId;
 
-        private String neq_departmentId;
+        private BigInteger neq_departmentId;
 		
         private String in_departmentId;
 
@@ -42,9 +43,9 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
 
         private String notin_state;
 
-        private String eq_orgId;
+        private BigInteger eq_orgId;
 
-        private String neq_orgId;
+        private BigInteger neq_orgId;
 		
 		private String like_orgId;
 
@@ -62,9 +63,9 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
 
         private String notin_orgId;
 
-        private String eq_parentDepartmentId;
+        private BigInteger eq_parentDepartmentId;
 
-        private String neq_parentDepartmentId;
+        private BigInteger neq_parentDepartmentId;
 		
 		private String like_parentDepartmentId;
 
@@ -102,9 +103,9 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
 
         private String notin_departmentName;
 
-        private String eq_roleId;
+        private BigInteger eq_roleId;
 
-        private String neq_roleId;
+        private BigInteger neq_roleId;
 		
 		private String like_roleId;
 
@@ -122,9 +123,9 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
 
         private String notin_roleId;
 
-        private String eq_userId;
+        private BigInteger eq_userId;
 
-        private String neq_userId;
+        private BigInteger neq_userId;
 		
 		private String like_userId;
 
@@ -202,9 +203,9 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
 
         private String notin_createUser;
 
-        private String eq_createUserId;
+        private BigInteger eq_createUserId;
 
-        private String neq_createUserId;
+        private BigInteger neq_createUserId;
 		
 		private String like_createUserId;
 
@@ -242,9 +243,9 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
 
         private String notin_updateUser;
 
-        private String eq_updateUserId;
+        private BigInteger eq_updateUserId;
 
-        private String neq_updateUserId;
+        private BigInteger neq_updateUserId;
 		
 		private String like_updateUserId;
 
@@ -263,23 +264,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
         private String notin_updateUserId;
 
 
-        public String getEq_departmentId()
+        public BigInteger getEq_departmentId()
         {
             return eq_departmentId;
         }
 
-        public OrgDepartmentSearchBo setEq_departmentId(String eq_departmentId)
+        public OrgDepartmentSearchBo setEq_departmentId(BigInteger eq_departmentId)
         {
             this.eq_departmentId = eq_departmentId;
             return this;
         }
 
-        public String getNeq_departmentId()
+        public BigInteger getNeq_departmentId()
         {
             return neq_departmentId;
         }
 
-        public OrgDepartmentSearchBo setNeq_departmentId(String neq_departmentId)
+        public OrgDepartmentSearchBo setNeq_departmentId(BigInteger neq_departmentId)
         {
             this.neq_departmentId = neq_departmentId;
             return this;
@@ -415,23 +416,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
             this.notin_state = notin_state;
         }
 
-        public String getEq_orgId()
+        public BigInteger getEq_orgId()
         {
             return eq_orgId;
         }
 
-        public OrgDepartmentSearchBo setEq_orgId(String eq_orgId)
+        public OrgDepartmentSearchBo setEq_orgId(BigInteger eq_orgId)
         {
             this.eq_orgId = eq_orgId;
             return this;
         }
 
-        public String getNeq_orgId()
+        public BigInteger getNeq_orgId()
         {
             return neq_orgId;
         }
 
-        public OrgDepartmentSearchBo setNeq_orgId(String neq_orgId)
+        public OrgDepartmentSearchBo setNeq_orgId(BigInteger neq_orgId)
         {
             this.neq_orgId = neq_orgId;
             return this;
@@ -524,23 +525,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
             this.notin_orgId = notin_orgId;
         }
 
-        public String getEq_parentDepartmentId()
+        public BigInteger getEq_parentDepartmentId()
         {
             return eq_parentDepartmentId;
         }
 
-        public OrgDepartmentSearchBo setEq_parentDepartmentId(String eq_parentDepartmentId)
+        public OrgDepartmentSearchBo setEq_parentDepartmentId(BigInteger eq_parentDepartmentId)
         {
             this.eq_parentDepartmentId = eq_parentDepartmentId;
             return this;
         }
 
-        public String getNeq_parentDepartmentId()
+        public BigInteger getNeq_parentDepartmentId()
         {
             return neq_parentDepartmentId;
         }
 
-        public OrgDepartmentSearchBo setNeq_parentDepartmentId(String neq_parentDepartmentId)
+        public OrgDepartmentSearchBo setNeq_parentDepartmentId(BigInteger neq_parentDepartmentId)
         {
             this.neq_parentDepartmentId = neq_parentDepartmentId;
             return this;
@@ -742,23 +743,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
             this.notin_departmentName = notin_departmentName;
         }
 
-        public String getEq_roleId()
+        public BigInteger getEq_roleId()
         {
             return eq_roleId;
         }
 
-        public OrgDepartmentSearchBo setEq_roleId(String eq_roleId)
+        public OrgDepartmentSearchBo setEq_roleId(BigInteger eq_roleId)
         {
             this.eq_roleId = eq_roleId;
             return this;
         }
 
-        public String getNeq_roleId()
+        public BigInteger getNeq_roleId()
         {
             return neq_roleId;
         }
 
-        public OrgDepartmentSearchBo setNeq_roleId(String neq_roleId)
+        public OrgDepartmentSearchBo setNeq_roleId(BigInteger neq_roleId)
         {
             this.neq_roleId = neq_roleId;
             return this;
@@ -851,23 +852,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
             this.notin_roleId = notin_roleId;
         }
 
-        public String getEq_userId()
+        public BigInteger getEq_userId()
         {
             return eq_userId;
         }
 
-        public OrgDepartmentSearchBo setEq_userId(String eq_userId)
+        public OrgDepartmentSearchBo setEq_userId(BigInteger eq_userId)
         {
             this.eq_userId = eq_userId;
             return this;
         }
 
-        public String getNeq_userId()
+        public BigInteger getNeq_userId()
         {
             return neq_userId;
         }
 
-        public OrgDepartmentSearchBo setNeq_userId(String neq_userId)
+        public OrgDepartmentSearchBo setNeq_userId(BigInteger neq_userId)
         {
             this.neq_userId = neq_userId;
             return this;
@@ -1287,23 +1288,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
             this.notin_createUser = notin_createUser;
         }
 
-        public String getEq_createUserId()
+        public BigInteger getEq_createUserId()
         {
             return eq_createUserId;
         }
 
-        public OrgDepartmentSearchBo setEq_createUserId(String eq_createUserId)
+        public OrgDepartmentSearchBo setEq_createUserId(BigInteger eq_createUserId)
         {
             this.eq_createUserId = eq_createUserId;
             return this;
         }
 
-        public String getNeq_createUserId()
+        public BigInteger getNeq_createUserId()
         {
             return neq_createUserId;
         }
 
-        public OrgDepartmentSearchBo setNeq_createUserId(String neq_createUserId)
+        public OrgDepartmentSearchBo setNeq_createUserId(BigInteger neq_createUserId)
         {
             this.neq_createUserId = neq_createUserId;
             return this;
@@ -1505,23 +1506,23 @@ public class OrgDepartmentSearchBo extends BaseSearchBo
             this.notin_updateUser = notin_updateUser;
         }
 
-        public String getEq_updateUserId()
+        public BigInteger getEq_updateUserId()
         {
             return eq_updateUserId;
         }
 
-        public OrgDepartmentSearchBo setEq_updateUserId(String eq_updateUserId)
+        public OrgDepartmentSearchBo setEq_updateUserId(BigInteger eq_updateUserId)
         {
             this.eq_updateUserId = eq_updateUserId;
             return this;
         }
 
-        public String getNeq_updateUserId()
+        public BigInteger getNeq_updateUserId()
         {
             return neq_updateUserId;
         }
 
-        public OrgDepartmentSearchBo setNeq_updateUserId(String neq_updateUserId)
+        public OrgDepartmentSearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
         {
             this.neq_updateUserId = neq_updateUserId;
             return this;

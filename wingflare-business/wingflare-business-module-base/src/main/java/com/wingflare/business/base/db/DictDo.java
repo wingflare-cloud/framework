@@ -12,6 +12,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class DictDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String dictId;
+    private BigInteger dictId;
 
 
     private Integer state;
@@ -70,13 +71,13 @@ public class DictDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -87,26 +88,26 @@ public class DictDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String dictId)
+	public void setPk(BigInteger dictId)
 	{
 		setDictId(dictId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getDictId();
 	}
 
 	
-    public DictDo setDictId(String dictId)
+    public DictDo setDictId(BigInteger dictId)
     {
 		addNewField("dictId");
         this.dictId = dictId;
         return this;
     }
 
-    public String getDictId()
+    public BigInteger getDictId()
     {
         return dictId;
     }
@@ -231,14 +232,14 @@ public class DictDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public DictDo setCreateUserId(String createUserId)
+    public DictDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -255,14 +256,14 @@ public class DictDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public DictDo setUpdateUserId(String updateUserId)
+    public DictDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

@@ -17,6 +17,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,7 +124,7 @@ public class AuthUtil {
             UserAuth user = userAuthUtil.getUser();
             if (user != null) {
                 if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
-                    if (StringUtil.isEmpty(businessSystem) || StringUtil.isEmpty(user.getUserId())) {
+                    if (StringUtil.isEmpty(businessSystem) || user.getUserId() == null || user.getUserId().compareTo(BigInteger.ZERO) == 0) {
                         return false;
                     }
 
@@ -136,7 +138,7 @@ public class AuthUtil {
             ApplicationAuth app = applicationAuthUtil.getApp();
             boolean parentPer = true;
             if (app != null) {
-                if (StringUtil.isNotEmpty(app.getParentAppId())) {
+                if (app.getParentAppId() != null && app.getParentAppId().compareTo(BigInteger.ZERO) > 0) {
                     parentPer = appSecurityCheck.hasPermission(
                             businessSystem, Ctx.PREFIX_APP_PERMISSION_KEY,
                             applicationAuthUtil.getParentApp(), permission, true);

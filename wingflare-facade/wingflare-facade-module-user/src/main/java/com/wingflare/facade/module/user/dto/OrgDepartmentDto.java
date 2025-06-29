@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
 public class OrgDepartmentDto
 {
 	
-    private String departmentId;
+    private BigInteger departmentId;
 	
 	/**
      * 部门状态
@@ -26,12 +27,12 @@ public class OrgDepartmentDto
 	/**
      * 组织id
      */
-    private String orgId;
+    private BigInteger orgId;
 	
 	/**
      * 父级部门
      */
-    private String parentDepartmentId;
+    private BigInteger parentDepartmentId;
 	
 	/**
      * 部门名称
@@ -41,12 +42,12 @@ public class OrgDepartmentDto
 	/**
      * 部门基础角色id
      */
-    private String roleId;
+    private BigInteger roleId;
 	
 	/**
      * 部门主要负责人id
      */
-    private String userId;
+    private BigInteger userId;
 	
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
@@ -64,13 +65,13 @@ public class OrgDepartmentDto
 	
     private Integer version;
 	
-    public OrgDepartmentDto setDepartmentId(String departmentId)
+    public OrgDepartmentDto setDepartmentId(BigInteger departmentId)
     {
         this.departmentId = departmentId;
         return this;
     }
 
-    public String getDepartmentId()
+    public BigInteger getDepartmentId()
     {
         return departmentId;
     }
@@ -86,24 +87,24 @@ public class OrgDepartmentDto
         return state;
     }
 	
-    public OrgDepartmentDto setOrgId(String orgId)
+    public OrgDepartmentDto setOrgId(BigInteger orgId)
     {
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
 	
-    public OrgDepartmentDto setParentDepartmentId(String parentDepartmentId)
+    public OrgDepartmentDto setParentDepartmentId(BigInteger parentDepartmentId)
     {
         this.parentDepartmentId = parentDepartmentId;
         return this;
     }
 
-    public String getParentDepartmentId()
+    public BigInteger getParentDepartmentId()
     {
         return parentDepartmentId;
     }
@@ -119,24 +120,24 @@ public class OrgDepartmentDto
         return departmentName;
     }
 	
-    public OrgDepartmentDto setRoleId(String roleId)
+    public OrgDepartmentDto setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
 	
-    public OrgDepartmentDto setUserId(String userId)
+    public OrgDepartmentDto setUserId(BigInteger userId)
     {
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }

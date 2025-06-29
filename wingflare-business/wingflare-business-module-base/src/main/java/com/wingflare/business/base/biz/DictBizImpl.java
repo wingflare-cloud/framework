@@ -1,6 +1,7 @@
 package com.wingflare.business.base.biz;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.abstraction.module.base.DictStorage;
 import com.wingflare.business.base.ErrorCode;
@@ -77,9 +78,12 @@ public class DictBizImpl implements DictBiz {
      */
     @Override
     public PageDto<DictDto> list(@Valid DictSearchBo bo) {
+        LambdaQueryWrapper<DictDo> queryWrapper = DictWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(DictDo::getDictId);
+
         IPage<DictDo> iPage = dictServer.page(
                 dictServer.createPage(bo),
-                DictWrapper.getQueryWrapper(bo)
+                queryWrapper
         );
 
         return PageUtil.convertIPage(iPage,
@@ -102,7 +106,7 @@ public class DictBizImpl implements DictBiz {
     public DictDto getOnlyOne(@Valid @NotNull DictSearchBo searchBo) {
         return DictConvert.convert.doToDto(
                 dictServer.getOne(
-                        DictWrapper.getQueryWrapper(searchBo)
+                        DictWrapper.getLambdaQueryWrapper(searchBo)
                 ));
     }
 
@@ -175,7 +179,7 @@ public class DictBizImpl implements DictBiz {
             DictDto dictDto = null;
 
             if (oldDictDo == null) {
-                throw new DataNotFoundException("dict.data.notfound" );
+                throw new DataNotFoundException("dict.data.notfound");
             }
 
             Builder.of(() -> bo)
@@ -215,7 +219,7 @@ public class DictBizImpl implements DictBiz {
     @Override
     public void refresh() {
         List<DictDo> dictDoList = dictServer
-                .list(DictWrapper.getQueryWrapper(new DictSearchBo()
+                .list(DictWrapper.getLambdaQueryWrapper(new DictSearchBo()
                         .setEq_state(OnOffEnum.ON.getValue())
                 ));
 
@@ -329,7 +333,7 @@ public class DictBizImpl implements DictBiz {
      */
     public boolean has(DictSearchBo bo) {
         return dictServer.has(
-                DictWrapper.getQueryWrapper(bo)
+                DictWrapper.getLambdaQueryWrapper(bo)
         );
     }
 

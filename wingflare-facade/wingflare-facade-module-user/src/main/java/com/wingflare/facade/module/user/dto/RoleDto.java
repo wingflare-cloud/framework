@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
 public class RoleDto
 {
 	
-    private String roleId;
+    private BigInteger roleId;
 	
 	/**
      * 角色状态
@@ -41,21 +42,21 @@ public class RoleDto
 	
     private String createUser;
 	
-    private String createUserId;
+    private BigInteger createUserId;
 	
     private String updateUser;
 	
-    private String updateUserId;
+    private BigInteger updateUserId;
 	
     private Integer version;
 	
-    public RoleDto setRoleId(String roleId)
+    public RoleDto setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
@@ -126,13 +127,13 @@ public class RoleDto
         return createUser;
     }
 	
-    public RoleDto setCreateUserId(String createUserId)
+    public RoleDto setCreateUserId(BigInteger createUserId)
     {
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -148,13 +149,13 @@ public class RoleDto
         return updateUser;
     }
 	
-    public RoleDto setUpdateUserId(String updateUserId)
+    public RoleDto setUpdateUserId(BigInteger updateUserId)
     {
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

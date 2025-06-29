@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.user.dto;
 
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,17 +17,17 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class IdentityDto
 {
 	
-    private String identityId;
+    private BigInteger identityId;
 	
 	/**
      * 组织机构id
      */
-    private String orgId;
+    private BigInteger orgId;
 	
 	/**
      * 部门id
      */
-    private String departmentId;
+    private BigInteger departmentId;
 	
 	/**
      * 岗位名称
@@ -36,7 +37,7 @@ public class IdentityDto
 	/**
      * 职级id
      */
-    private String jobLevelId;
+    private BigInteger jobLevelId;
 	
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
@@ -46,43 +47,43 @@ public class IdentityDto
 	
     private String createUser;
 	
-    private String createUserId;
+    private BigInteger createUserId;
 	
     private String updateUser;
 	
-    private String updateUserId;
+    private BigInteger updateUserId;
 	
     private Integer version;
 	
-    public IdentityDto setIdentityId(String identityId)
+    public IdentityDto setIdentityId(BigInteger identityId)
     {
         this.identityId = identityId;
         return this;
     }
 
-    public String getIdentityId()
+    public BigInteger getIdentityId()
     {
         return identityId;
     }
 	
-    public IdentityDto setOrgId(String orgId)
+    public IdentityDto setOrgId(BigInteger orgId)
     {
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
 	
-    public IdentityDto setDepartmentId(String departmentId)
+    public IdentityDto setDepartmentId(BigInteger departmentId)
     {
         this.departmentId = departmentId;
         return this;
     }
 
-    public String getDepartmentId()
+    public BigInteger getDepartmentId()
     {
         return departmentId;
     }
@@ -98,13 +99,13 @@ public class IdentityDto
         return identityName;
     }
 	
-    public IdentityDto setJobLevelId(String jobLevelId)
+    public IdentityDto setJobLevelId(BigInteger jobLevelId)
     {
         this.jobLevelId = jobLevelId;
         return this;
     }
 
-    public String getJobLevelId()
+    public BigInteger getJobLevelId()
     {
         return jobLevelId;
     }
@@ -142,13 +143,13 @@ public class IdentityDto
         return createUser;
     }
 	
-    public IdentityDto setCreateUserId(String createUserId)
+    public IdentityDto setCreateUserId(BigInteger createUserId)
     {
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -164,13 +165,13 @@ public class IdentityDto
         return updateUser;
     }
 	
-    public IdentityDto setUpdateUserId(String updateUserId)
+    public IdentityDto setUpdateUserId(BigInteger updateUserId)
     {
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

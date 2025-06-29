@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.user.dto;
 
 
+import java.math.BigInteger;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,35 +15,35 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class UserRoleDto {
 
-    private String id;
+    private BigInteger id;
 
-    private String userId;
+    private BigInteger userId;
 
     private String systemCode;
 
-    private String roleId;
+    private BigInteger roleId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
 
     private String createUser;
 
-    private String createUserId;
+    private BigInteger createUserId;
 
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public UserRoleDto setId(String id) {
+    public UserRoleDto setId(BigInteger id) {
         this.id = id;
         return this;
     }
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public UserRoleDto setUserId(String userId) {
+    public UserRoleDto setUserId(BigInteger userId) {
         this.userId = userId;
         return this;
     }
@@ -56,11 +57,11 @@ public class UserRoleDto {
         return this;
     }
 
-    public String getRoleId() {
+    public BigInteger getRoleId() {
         return roleId;
     }
 
-    public UserRoleDto setRoleId(String roleId) {
+    public UserRoleDto setRoleId(BigInteger roleId) {
         this.roleId = roleId;
         return this;
     }
@@ -83,11 +84,11 @@ public class UserRoleDto {
         return this;
     }
 
-    public String getCreateUserId() {
+    public BigInteger getCreateUserId() {
         return createUserId;
     }
 
-    public UserRoleDto setCreateUserId(String createUserId) {
+    public UserRoleDto setCreateUserId(BigInteger createUserId) {
         this.createUserId = createUserId;
         return this;
     }

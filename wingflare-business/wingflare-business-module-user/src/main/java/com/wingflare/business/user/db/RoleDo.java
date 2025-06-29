@@ -12,6 +12,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class RoleDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String roleId;
+    private BigInteger roleId;
 
 	/**
      * 角色状态
@@ -52,13 +53,13 @@ public class RoleDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -69,26 +70,26 @@ public class RoleDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String roleId)
+	public void setPk(BigInteger roleId)
 	{
 		setRoleId(roleId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getRoleId();
 	}
 
 	
-    public RoleDo setRoleId(String roleId)
+    public RoleDo setRoleId(BigInteger roleId)
     {
 		addNewField("roleId");
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
@@ -165,14 +166,14 @@ public class RoleDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public RoleDo setCreateUserId(String createUserId)
+    public RoleDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -189,14 +190,14 @@ public class RoleDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public RoleDo setUpdateUserId(String updateUserId)
+    public RoleDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

@@ -36,6 +36,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +74,7 @@ public class MenuBizImpl implements MenuBiz {
     public PageDto<MenuDto> list(@Valid MenuSearchBo bo) {
         IPage<MenuDo> iPage = menuServer.page(
                 menuServer.createPage(bo),
-                MenuWrapper.getQueryWrapper(bo)
+                MenuWrapper.getLambdaQueryWrapper(bo)
         );
 
         return PageUtil.convertIPage(iPage,
@@ -95,7 +97,7 @@ public class MenuBizImpl implements MenuBiz {
     public MenuDto getOnlyOne(@Valid @NotNull MenuSearchBo searchBo) {
         return MenuConvert.convert.doToDto(
                 menuServer.getOne(
-                        MenuWrapper.getQueryWrapper(searchBo)
+                        MenuWrapper.getLambdaQueryWrapper(searchBo)
                 ));
     }
 
@@ -169,7 +171,7 @@ public class MenuBizImpl implements MenuBiz {
             MenuDto menuDto = null;
 
             if (oldMenuDo == null) {
-                throw new DataNotFoundException("menu.data.notfound" );
+                throw new DataNotFoundException("menu.data.notfound");
             }
 
             checkMenuCanSave(bo, oldMenuDo);
@@ -213,7 +215,7 @@ public class MenuBizImpl implements MenuBiz {
     public List<SimpleMenuDto> tree(@Valid @NotNull MenuSearchBo searchBo) {
         List<SimpleMenuDto> menuTree = new ArrayList<>();
         List<MenuDo> menuDoList = menuServer
-                .list(MenuWrapper.getQueryWrapper(searchBo));
+                .list(MenuWrapper.getLambdaQueryWrapper(searchBo));
 
         if (CollectionUtil.isNotEmpty(menuDoList)) {
             menuDoList.sort((m1, m2) -> (int) (m2.getSort() - m1.getSort()));
@@ -221,7 +223,7 @@ public class MenuBizImpl implements MenuBiz {
             menuDoList.forEach(item -> {
                 SimpleMenuDto menuDo = MenuConvert.convert
                         .doToSimpleDto(item);
-                if (StringUtil.isEmpty(menuDo.getParentMenuId())) {
+                if (StringUtil.isEmpty(menuDo.getParentMenuId()) || menuDo.getParentMenuId().equals("0")) {
                     menuTree.add(menuDo);
                 } else {
                     subMenu.computeIfAbsent(menuDo.getParentMenuId(), k -> new ArrayList<>())
@@ -243,7 +245,7 @@ public class MenuBizImpl implements MenuBiz {
     @Override
     public Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBo existBo) {
         for (int i = 0; i < existBo.getCodes().size(); i++) {
-            if (menuServer.count(MenuWrapper.getQueryWrapper(new MenuSearchBo().setEq_systemCode(existBo.getCodes().get(i).getSystemCode())
+            if (menuServer.count(MenuWrapper.getLambdaQueryWrapper(new MenuSearchBo().setEq_systemCode(existBo.getCodes().get(i).getSystemCode())
                     .setIn_permissionCode(StringUtil.join(existBo.getCodes().get(i).getCodes())))) != existBo.getCodes().get(i).getCodes().size()
             ) {
                 return false;
@@ -274,10 +276,10 @@ public class MenuBizImpl implements MenuBiz {
                     .setEq_menuName(bo.getMenuName())
                     .setEq_menuType(bo.getMenuType())
                     .setEq_parentMenuId(Optional.ofNullable(bo.getParentMenuId())
-                            .orElse("" ))
+                            .orElse(BigInteger.ZERO))
             ), ErrorCode.SYS_MENU_NAME_REPEAT);
 
-            if (StringUtil.isNotEmpty(bo.getParentMenuId())) {
+            if (bo.getParentMenuId() != null && bo.getParentMenuId().compareTo(BigInteger.ZERO) > 0) {
                 Assert.isTrue(menuServer.hasById(bo.getParentMenuId()), ErrorCode.SYS_MENU_PARENT_NOTFOUND);
             }
         } else {
@@ -286,7 +288,7 @@ public class MenuBizImpl implements MenuBiz {
                     .setEq_menuName(bo.getMenuName())
                     .setEq_menuType(oldDo.getMenuType())
                     .setEq_parentMenuId(Optional.ofNullable(oldDo.getParentMenuId())
-                            .orElse("" ))
+                            .orElse(BigInteger.ZERO))
                     .setNeq_menuId(oldDo.getMenuId())
             ), ErrorCode.SYS_MENU_NAME_REPEAT);
         }
@@ -300,7 +302,7 @@ public class MenuBizImpl implements MenuBiz {
      */
     public boolean has(MenuSearchBo bo) {
         return menuServer.has(
-                MenuWrapper.getQueryWrapper(bo)
+                MenuWrapper.getLambdaQueryWrapper(bo)
         );
     }
 

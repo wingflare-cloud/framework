@@ -1,12 +1,13 @@
 package com.wingflare.facade.module.user.bo;
 
-import com.wingflare.lib.core.Regexp;
 import com.wingflare.lib.core.validation.Update;
+import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.UniqueElements;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -21,17 +22,15 @@ public class UserBindRoleBo {
     /**
      * 用户id
      */
-    @NotBlank(message = "org.identityId.notBlank", groups = Update.class)
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "user.userId.formatError", groups = Update.class)
-    private String userId;
+    @Min(message = "org.identityId.notBlank", value = 1, groups = Update.class)
+    private BigInteger userId;
 
     /**
      * 角色id
      */
     @Size(max = 5, message = "roleId.tooMany")
     @UniqueElements(message = "roleId.duplicate")
-    private List<
-            @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "roleId.formatError") String> roleIds;
+    private List<BigInteger> roleIds;
 
     /**
      * 系统角色id
@@ -39,30 +38,30 @@ public class UserBindRoleBo {
     @Size(max = 100, message = "roleId.tooMany")
     private Map<@Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]$", message = "systemName.error") String,
             @UniqueElements(message = "roleId.duplicate") @Size(max = 5, message = "roleId.tooMany")
-                    List<@Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "roleId.formatError") String>> sysRoleIds;
+                    List<BigInteger>> sysRoleIds;
 
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(BigInteger userId) {
         this.userId = userId;
     }
 
-    public List<String> getRoleIds() {
+    public List<BigInteger> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(List<String> roleIds) {
+    public void setRoleIds(List<BigInteger> roleIds) {
         this.roleIds = roleIds;
     }
 
-    public Map<String, List<String>> getSysRoleIds() {
+    public Map<String, List<BigInteger>> getSysRoleIds() {
         return sysRoleIds;
     }
 
-    public void setSysRoleIds(Map<String, List<String>> sysRoleIds) {
+    public void setSysRoleIds(Map<String, List<BigInteger>> sysRoleIds) {
         this.sysRoleIds = sysRoleIds;
     }
 }

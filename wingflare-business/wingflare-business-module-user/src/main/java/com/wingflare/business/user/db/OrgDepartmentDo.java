@@ -12,6 +12,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class OrgDepartmentDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String departmentId;
+    private BigInteger departmentId;
 
 	/**
      * 部门状态
@@ -35,12 +36,12 @@ public class OrgDepartmentDo extends BaseDoAbstract
 	/**
      * 组织id
      */
-    private String orgId;
+    private BigInteger orgId;
 
 	/**
      * 父级部门
      */
-    private String parentDepartmentId;
+    private BigInteger parentDepartmentId;
 
 	/**
      * 部门名称
@@ -50,12 +51,12 @@ public class OrgDepartmentDo extends BaseDoAbstract
 	/**
      * 部门基础角色id
      */
-    private String roleId;
+    private BigInteger roleId;
 
 	/**
      * 部门主要负责人id
      */
-    private String userId;
+    private BigInteger userId;
 
 	@TableField(fill = FieldFill.INSERT)
     private Date createdTime;
@@ -67,13 +68,13 @@ public class OrgDepartmentDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -84,26 +85,26 @@ public class OrgDepartmentDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String departmentId)
+	public void setPk(BigInteger departmentId)
 	{
 		setDepartmentId(departmentId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getDepartmentId();
 	}
 
 	
-    public OrgDepartmentDo setDepartmentId(String departmentId)
+    public OrgDepartmentDo setDepartmentId(BigInteger departmentId)
     {
 		addNewField("departmentId");
         this.departmentId = departmentId;
         return this;
     }
 
-    public String getDepartmentId()
+    public BigInteger getDepartmentId()
     {
         return departmentId;
     }
@@ -120,26 +121,26 @@ public class OrgDepartmentDo extends BaseDoAbstract
         return state;
     }
 	
-    public OrgDepartmentDo setOrgId(String orgId)
+    public OrgDepartmentDo setOrgId(BigInteger orgId)
     {
 		addNewField("orgId");
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
 	
-    public OrgDepartmentDo setParentDepartmentId(String parentDepartmentId)
+    public OrgDepartmentDo setParentDepartmentId(BigInteger parentDepartmentId)
     {
 		addNewField("parentDepartmentId");
         this.parentDepartmentId = parentDepartmentId;
         return this;
     }
 
-    public String getParentDepartmentId()
+    public BigInteger getParentDepartmentId()
     {
         return parentDepartmentId;
     }
@@ -156,26 +157,26 @@ public class OrgDepartmentDo extends BaseDoAbstract
         return departmentName;
     }
 	
-    public OrgDepartmentDo setRoleId(String roleId)
+    public OrgDepartmentDo setRoleId(BigInteger roleId)
     {
 		addNewField("roleId");
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
 	
-    public OrgDepartmentDo setUserId(String userId)
+    public OrgDepartmentDo setUserId(BigInteger userId)
     {
 		addNewField("userId");
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }
@@ -216,14 +217,14 @@ public class OrgDepartmentDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public OrgDepartmentDo setCreateUserId(String createUserId)
+    public OrgDepartmentDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -240,14 +241,14 @@ public class OrgDepartmentDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public OrgDepartmentDo setUpdateUserId(String updateUserId)
+    public OrgDepartmentDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.base.dto;
 
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**

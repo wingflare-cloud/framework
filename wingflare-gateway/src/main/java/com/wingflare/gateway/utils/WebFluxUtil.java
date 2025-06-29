@@ -16,6 +16,9 @@ import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * @author naizui_ycx
@@ -74,7 +77,12 @@ public class WebFluxUtil {
             return response.writeWith(Mono.just(dataBuffer));
         } catch (Throwable e) {
             response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
-            logger.error("数据转换异常: [{}], {}", e.getClass().getName(), e.getMessage());
+            logger.error("数据转换异常", e(
+                    Map.of(
+                            "class", e.getClass().getName(),
+                            "message", e.getMessage()
+                    )
+            ));
         }
 
         return response.writeWith(Mono.empty());

@@ -2,6 +2,8 @@ package com.wingflare.facade.module.base.bo;
 
 
 import com.wingflare.lib.standard.BaseSearchBo;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -15,9 +17,9 @@ import java.util.Date;
 public class MenuSearchBo extends BaseSearchBo
 {
         
-    private String eq_menuId;
+    private BigInteger eq_menuId;
 
-    private String neq_menuId;
+    private BigInteger neq_menuId;
 
     private String like_menuId;
 
@@ -35,9 +37,9 @@ public class MenuSearchBo extends BaseSearchBo
 
     private String notin_menuId;
         
-    private String eq_parentMenuId;
+    private BigInteger eq_parentMenuId;
 
-    private String neq_parentMenuId;
+    private BigInteger neq_parentMenuId;
 
     private String like_parentMenuId;
 
@@ -439,9 +441,9 @@ public class MenuSearchBo extends BaseSearchBo
 
     private String notin_createUser;
         
-    private String eq_createUserId;
+    private BigInteger eq_createUserId;
 
-    private String neq_createUserId;
+    private BigInteger neq_createUserId;
 
     private String like_createUserId;
 
@@ -479,9 +481,9 @@ public class MenuSearchBo extends BaseSearchBo
 
     private String notin_updateUser;
         
-    private String eq_updateUserId;
+    private BigInteger eq_updateUserId;
 
-    private String neq_updateUserId;
+    private BigInteger neq_updateUserId;
 
     private String like_updateUserId;
 
@@ -499,23 +501,23 @@ public class MenuSearchBo extends BaseSearchBo
 
     private String notin_updateUserId;
 
-    public String getEq_menuId()
+    public BigInteger getEq_menuId()
     {
         return eq_menuId;
     }
 
-    public MenuSearchBo setEq_menuId(String eq_menuId)
+    public MenuSearchBo setEq_menuId(BigInteger eq_menuId)
     {
         this.eq_menuId = eq_menuId;
         return this;
     }
 
-    public String getNeq_menuId()
+    public BigInteger getNeq_menuId()
     {
         return neq_menuId;
     }
 
-    public MenuSearchBo setNeq_menuId(String neq_menuId)
+    public MenuSearchBo setNeq_menuId(BigInteger neq_menuId)
     {
         this.neq_menuId = neq_menuId;
         return this;
@@ -609,23 +611,23 @@ public class MenuSearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_parentMenuId()
+    public BigInteger getEq_parentMenuId()
     {
         return eq_parentMenuId;
     }
 
-    public MenuSearchBo setEq_parentMenuId(String eq_parentMenuId)
+    public MenuSearchBo setEq_parentMenuId(BigInteger eq_parentMenuId)
     {
         this.eq_parentMenuId = eq_parentMenuId;
         return this;
     }
 
-    public String getNeq_parentMenuId()
+    public BigInteger getNeq_parentMenuId()
     {
         return neq_parentMenuId;
     }
 
-    public MenuSearchBo setNeq_parentMenuId(String neq_parentMenuId)
+    public MenuSearchBo setNeq_parentMenuId(BigInteger neq_parentMenuId)
     {
         this.neq_parentMenuId = neq_parentMenuId;
         return this;
@@ -2827,23 +2829,23 @@ public class MenuSearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_createUserId()
+    public BigInteger getEq_createUserId()
     {
         return eq_createUserId;
     }
 
-    public MenuSearchBo setEq_createUserId(String eq_createUserId)
+    public MenuSearchBo setEq_createUserId(BigInteger eq_createUserId)
     {
         this.eq_createUserId = eq_createUserId;
         return this;
     }
 
-    public String getNeq_createUserId()
+    public BigInteger getNeq_createUserId()
     {
         return neq_createUserId;
     }
 
-    public MenuSearchBo setNeq_createUserId(String neq_createUserId)
+    public MenuSearchBo setNeq_createUserId(BigInteger neq_createUserId)
     {
         this.neq_createUserId = neq_createUserId;
         return this;
@@ -3047,23 +3049,23 @@ public class MenuSearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_updateUserId()
+    public BigInteger getEq_updateUserId()
     {
         return eq_updateUserId;
     }
 
-    public MenuSearchBo setEq_updateUserId(String eq_updateUserId)
+    public MenuSearchBo setEq_updateUserId(BigInteger eq_updateUserId)
     {
         this.eq_updateUserId = eq_updateUserId;
         return this;
     }
 
-    public String getNeq_updateUserId()
+    public BigInteger getNeq_updateUserId()
     {
         return neq_updateUserId;
     }
 
-    public MenuSearchBo setNeq_updateUserId(String neq_updateUserId)
+    public MenuSearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
     {
         this.neq_updateUserId = neq_updateUserId;
         return this;

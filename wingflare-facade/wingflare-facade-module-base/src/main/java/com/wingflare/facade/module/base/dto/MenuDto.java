@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.base.dto;
 
 
+import java.math.BigInteger;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,12 +15,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class MenuDto {
 
-    private String menuId;
+    private BigInteger menuId;
 
     /**
      * 父级菜单id 
      */
-    private String parentMenuId;
+    private BigInteger parentMenuId;
 
     /**
      * 启禁用状态 
@@ -120,7 +121,7 @@ public class MenuDto {
     /**
      * 创建人id 
      */
-    private String createUserId;
+    private BigInteger createUserId;
 
     /**
      * 更新人名称 
@@ -130,27 +131,27 @@ public class MenuDto {
     /**
      * 更新人id 
      */
-    private String updateUserId;
+    private BigInteger updateUserId;
 
     /**
      * 数据版本号 
      */
     private Integer version;
 
-    public String getMenuId() {
+    public BigInteger getMenuId() {
         return menuId;
     }
 
-    public MenuDto setMenuId(String menuId) {
+    public MenuDto setMenuId(BigInteger menuId) {
         this.menuId = menuId;
         return this;
     }
 
-    public String getParentMenuId() {
+    public BigInteger getParentMenuId() {
         return parentMenuId;
     }
 
-    public MenuDto setParentMenuId(String parentMenuId) {
+    public MenuDto setParentMenuId(BigInteger parentMenuId) {
         this.parentMenuId = parentMenuId;
         return this;
     }
@@ -335,11 +336,11 @@ public class MenuDto {
         return this;
     }
 
-    public String getCreateUserId() {
+    public BigInteger getCreateUserId() {
         return createUserId;
     }
 
-    public MenuDto setCreateUserId(String createUserId) {
+    public MenuDto setCreateUserId(BigInteger createUserId) {
         this.createUserId = createUserId;
         return this;
     }
@@ -353,11 +354,11 @@ public class MenuDto {
         return this;
     }
 
-    public String getUpdateUserId() {
+    public BigInteger getUpdateUserId() {
         return updateUserId;
     }
 
-    public MenuDto setUpdateUserId(String updateUserId) {
+    public MenuDto setUpdateUserId(BigInteger updateUserId) {
         this.updateUserId = updateUserId;
         return this;
     }

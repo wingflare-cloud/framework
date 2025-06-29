@@ -13,6 +13,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -26,7 +27,7 @@ public class UserDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String userId;
+    private BigInteger userId;
 
 	/**
      * 是否为超管
@@ -103,13 +104,13 @@ public class UserDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -120,26 +121,26 @@ public class UserDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String userId)
+	public void setPk(BigInteger userId)
 	{
 		setUserId(userId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getUserId();
 	}
 
 	
-    public UserDo setUserId(String userId)
+    public UserDo setUserId(BigInteger userId)
     {
 		addNewField("userId");
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }
@@ -336,14 +337,14 @@ public class UserDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public UserDo setCreateUserId(String createUserId)
+    public UserDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -360,14 +361,14 @@ public class UserDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public UserDo setUpdateUserId(String updateUserId)
+    public UserDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

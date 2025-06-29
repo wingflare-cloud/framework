@@ -12,6 +12,7 @@ import com.wingflare.lib.standard.enums.AuthType;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -110,7 +111,7 @@ public class SecurityUtil {
      *
      * @return
      */
-    public static String getAuthMainId() {
+    public static BigInteger getAuthMainId() {
         switch (getAuthMode()) {
             case USER:
                 return getUserId();
@@ -124,8 +125,8 @@ public class SecurityUtil {
     /**
      * 获取用户ID
      */
-    public static String getUserId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_USER_ID, "1");
+    public static BigInteger getUserId() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_USER_ID, new BigInteger("0"), BigInteger.class);
     }
 
     /**
@@ -190,29 +191,29 @@ public class SecurityUtil {
     /**
      * 获取应用id
      */
-    public static String getAppId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_APP_ID, "1");
+    public static BigInteger getAppId() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_APP_ID, new BigInteger("0"), BigInteger.class);
     }
 
     /**
      * 获取父级应用id
      */
-    public static String getParentAppId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_PARENT_APP_ID, "1");
+    public static BigInteger getParentAppId() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_PARENT_APP_ID, new BigInteger("0"), BigInteger.class);
     }
 
     /**
      * 获取商户id
      */
-    public static String getMerchantId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_MERCHANT_ID, "1");
+    public static BigInteger getMerchantId() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_MERCHANT_ID, new BigInteger("0"), BigInteger.class);
     }
 
     /**
      * 获取父级商户id
      */
-    public static String getParentMerchantId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_PARENT_MERCHANT_ID, "1");
+    public static BigInteger getParentMerchantId() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_PARENT_MERCHANT_ID, new BigInteger("0"), BigInteger.class);
     }
 
 }

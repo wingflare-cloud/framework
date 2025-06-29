@@ -13,6 +13,8 @@ import com.wingflare.lib.security.standard.SecurityCheckUser;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -110,7 +112,7 @@ public class SecurityCheckServer implements SecurityCheckUser, SecurityCheckAppl
     }
 
     @Override
-    public PageResult<UserAuth> getUserAllLoginInfo(String userId, long pageSize, long startIndex) {
+    public PageResult<UserAuth> getUserAllLoginInfo(BigInteger userId, long pageSize, long startIndex) {
         String markKeyPrefix = getTokenMarkKeyPrefix(userId);
         PageResult<String> keysPageResult = cacheService.scanKey(markKeyPrefix, pageSize, startIndex);
         PageResult<UserAuth> pageResult = null;
@@ -151,11 +153,11 @@ public class SecurityCheckServer implements SecurityCheckUser, SecurityCheckAppl
      * @param id
      * @return
      */
-    public static String getTokenMarkKey(String userId, String id) {
+    public static String getTokenMarkKey(BigInteger userId, String id) {
         return String.format("%s%s", getTokenMarkKeyPrefix(userId), id);
     }
 
-    public static String getTokenMarkKeyPrefix(String userId) {
+    public static String getTokenMarkKeyPrefix(BigInteger userId) {
         return String.format("%s:%s:%s:", Ctx.PREFIX_ACCESS_TOKEN, Ctx.PREFIX_ACCESS_TOKEN_MARK, userId);
     }
 

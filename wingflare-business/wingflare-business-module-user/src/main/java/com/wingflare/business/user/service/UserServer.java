@@ -7,6 +7,7 @@ import com.wingflare.business.user.mapper.UserMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class UserServer extends BaseService<UserMapper, UserDo>
     * bo 查询参数
     * @return 结果
     */
-    public Map<String, UserDo> getMap(QueryWrapper<UserDo> wrapper)
+    public Map<BigInteger, UserDo> getMap(QueryWrapper<UserDo> wrapper)
 	{
         List<UserDo> list = list(wrapper);
 
@@ -35,7 +36,7 @@ public class UserServer extends BaseService<UserMapper, UserDo>
 			return new HashMap<>();
         }
 
-        Map<String, UserDo> userDoMap = new HashMap<>(list.size());
+        Map<BigInteger, UserDo> userDoMap = new HashMap<>(list.size());
 
         for (UserDo userDo : list) {
             userDoMap.put(userDo.getUserId(), userDo);

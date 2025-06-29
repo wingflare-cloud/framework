@@ -9,6 +9,7 @@ import com.wingflare.facade.module.base.dto.MenuDto;
 import com.wingflare.facade.module.base.dto.MenuPermissionDto;
 import com.wingflare.facade.module.base.dto.SimpleMenuDto;
 import com.wingflare.lib.core.utils.CollectionUtil;
+import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
@@ -47,6 +48,7 @@ public class MenuController
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
+	@BusinessSystem("base")
     public PageDto<MenuDto> list(MenuSearchBo bo) throws Throwable
     {
 		return menuBiz.list(bo);
@@ -58,6 +60,7 @@ public class MenuController
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
+	@BusinessSystem("base")
 	public MenuDto get(IdBo bo)
 	{
 		return menuBiz.get(bo);
@@ -69,6 +72,7 @@ public class MenuController
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
+	@BusinessSystem("base")
 	public MenuDto getOnlyOne(MenuSearchBo searchBo) throws Throwable
 	{
 		return menuBiz.getOnlyOne(searchBo);
@@ -80,6 +84,7 @@ public class MenuController
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_DELETE)
+	@BusinessSystem("base")
 	public void delete(@RequestBody IdBo bo)
 	{
 		menuBiz.delete(bo);
@@ -91,6 +96,7 @@ public class MenuController
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_CREATE)
+	@BusinessSystem("base")
 	public MenuDto create(@RequestBody MenuBo bo)
 	{
 		return menuBiz.create(bo);
@@ -102,6 +108,7 @@ public class MenuController
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_UPDATE)
+	@BusinessSystem("base")
 	public MenuDto update(@RequestBody MenuBo bo)
 	{
 		return menuBiz.update(bo);
@@ -125,6 +132,7 @@ public class MenuController
 	@RequestMapping(value = "/allTree", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
+	@BusinessSystem("base")
 	public List<SimpleMenuDto> allTree() {
 		Set<String> names = properties.getNames();
 		List<SimpleMenuDto> list = new ArrayList<>();
@@ -151,6 +159,7 @@ public class MenuController
 	@RequestMapping(value = "/menuPermission", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_PERM_VIEW)
+	@BusinessSystem("base")
 	public List<MenuPermissionDto> menuPermission() {
 		Set<String> names = properties.getNames();
 		List<SimpleMenuDto> list = new ArrayList<>();

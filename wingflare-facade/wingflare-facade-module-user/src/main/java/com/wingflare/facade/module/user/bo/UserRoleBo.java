@@ -1,6 +1,8 @@
 package com.wingflare.facade.module.user.bo;
 
 
+import java.math.BigInteger;
+
 /**
  * <p>
  * 系统用户角色表 业务对象
@@ -11,19 +13,19 @@ package com.wingflare.facade.module.user.bo;
  */
 public class UserRoleBo {
 
-    private String id;
+    private BigInteger id;
 
     private String userId;
 
     private String systemCode;
 
-    private String roleId;
+    private BigInteger roleId;
 
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public UserRoleBo setId(String id) {
+    public UserRoleBo setId(BigInteger id) {
         this.id = id;
         return this;
     }
@@ -46,11 +48,11 @@ public class UserRoleBo {
         return this;
     }
 
-    public String getRoleId() {
+    public BigInteger getRoleId() {
         return roleId;
     }
 
-    public UserRoleBo setRoleId(String roleId) {
+    public UserRoleBo setRoleId(BigInteger roleId) {
         this.roleId = roleId;
         return this;
     }

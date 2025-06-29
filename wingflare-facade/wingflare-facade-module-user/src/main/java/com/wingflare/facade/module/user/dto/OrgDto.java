@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -16,12 +17,12 @@ import java.util.Date;
 public class OrgDto
 {
 	
-    private String orgId;
+    private BigInteger orgId;
 	
 	/**
      * 父级机构id
      */
-    private String parentOrgId;
+    private BigInteger parentOrgId;
 	
 	/**
      * 组织状态
@@ -51,12 +52,12 @@ public class OrgDto
 	/**
      * 机构基础角色id
      */
-    private String roleId;
+    private BigInteger roleId;
 	
 	/**
      * 机构主要负责人id
      */
-    private String userId;
+    private BigInteger userId;
 	
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
@@ -66,32 +67,32 @@ public class OrgDto
 	
     private String createUser;
 	
-    private String createUserId;
+    private BigInteger createUserId;
 	
     private String updateUser;
 	
-    private String updateUserId;
+    private BigInteger updateUserId;
 	
     private Integer version;
 	
-    public OrgDto setOrgId(String orgId)
+    public OrgDto setOrgId(BigInteger orgId)
     {
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
 	
-    public OrgDto setParentOrgId(String parentOrgId)
+    public OrgDto setParentOrgId(BigInteger parentOrgId)
     {
         this.parentOrgId = parentOrgId;
         return this;
     }
 
-    public String getParentOrgId()
+    public BigInteger getParentOrgId()
     {
         return parentOrgId;
     }
@@ -151,24 +152,24 @@ public class OrgDto
         return orgAddress;
     }
 	
-    public OrgDto setRoleId(String roleId)
+    public OrgDto setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
 	
-    public OrgDto setUserId(String userId)
+    public OrgDto setUserId(BigInteger userId)
     {
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }
@@ -206,13 +207,13 @@ public class OrgDto
         return createUser;
     }
 	
-    public OrgDto setCreateUserId(String createUserId)
+    public OrgDto setCreateUserId(BigInteger createUserId)
     {
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -228,13 +229,13 @@ public class OrgDto
         return updateUser;
     }
 	
-    public OrgDto setUpdateUserId(String updateUserId)
+    public OrgDto setUpdateUserId(BigInteger updateUserId)
     {
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

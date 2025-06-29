@@ -3,6 +3,7 @@ package com.wingflare.facade.module.user.bo;
 
 import com.wingflare.lib.standard.BaseSearchBo;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -14,17 +15,17 @@ import java.util.Date;
 public class OrgSearchBo extends BaseSearchBo
 {
 
-        private String eq_orgId;
+        private BigInteger eq_orgId;
 
-        private String neq_orgId;
+        private BigInteger neq_orgId;
 		
         private String in_orgId;
 
         private String notin_orgId;
 
-        private String eq_parentOrgId;
+        private BigInteger eq_parentOrgId;
 
-        private String neq_parentOrgId;
+        private BigInteger neq_parentOrgId;
 		
 		private String like_parentOrgId;
 
@@ -142,9 +143,9 @@ public class OrgSearchBo extends BaseSearchBo
 
         private String notin_orgAddress;
 
-        private String eq_roleId;
+        private BigInteger eq_roleId;
 
-        private String neq_roleId;
+        private BigInteger neq_roleId;
 		
 		private String like_roleId;
 
@@ -162,9 +163,9 @@ public class OrgSearchBo extends BaseSearchBo
 
         private String notin_roleId;
 
-        private String eq_userId;
+        private BigInteger eq_userId;
 
-        private String neq_userId;
+        private BigInteger neq_userId;
 		
 		private String like_userId;
 
@@ -242,9 +243,9 @@ public class OrgSearchBo extends BaseSearchBo
 
         private String notin_createUser;
 
-        private String eq_createUserId;
+        private BigInteger eq_createUserId;
 
-        private String neq_createUserId;
+        private BigInteger neq_createUserId;
 		
 		private String like_createUserId;
 
@@ -282,9 +283,9 @@ public class OrgSearchBo extends BaseSearchBo
 
         private String notin_updateUser;
 
-        private String eq_updateUserId;
+        private BigInteger eq_updateUserId;
 
-        private String neq_updateUserId;
+        private BigInteger neq_updateUserId;
 		
 		private String like_updateUserId;
 
@@ -303,23 +304,23 @@ public class OrgSearchBo extends BaseSearchBo
         private String notin_updateUserId;
 
 
-        public String getEq_orgId()
+        public BigInteger getEq_orgId()
         {
             return eq_orgId;
         }
 
-        public OrgSearchBo setEq_orgId(String eq_orgId)
+        public OrgSearchBo setEq_orgId(BigInteger eq_orgId)
         {
             this.eq_orgId = eq_orgId;
             return this;
         }
 
-        public String getNeq_orgId()
+        public BigInteger getNeq_orgId()
         {
             return neq_orgId;
         }
 
-        public OrgSearchBo setNeq_orgId(String neq_orgId)
+        public OrgSearchBo setNeq_orgId(BigInteger neq_orgId)
         {
             this.neq_orgId = neq_orgId;
             return this;
@@ -346,23 +347,23 @@ public class OrgSearchBo extends BaseSearchBo
             this.notin_orgId = notin_orgId;
         }
 
-        public String getEq_parentOrgId()
+        public BigInteger getEq_parentOrgId()
         {
             return eq_parentOrgId;
         }
 
-        public OrgSearchBo setEq_parentOrgId(String eq_parentOrgId)
+        public OrgSearchBo setEq_parentOrgId(BigInteger eq_parentOrgId)
         {
             this.eq_parentOrgId = eq_parentOrgId;
             return this;
         }
 
-        public String getNeq_parentOrgId()
+        public BigInteger getNeq_parentOrgId()
         {
             return neq_parentOrgId;
         }
 
-        public OrgSearchBo setNeq_parentOrgId(String neq_parentOrgId)
+        public OrgSearchBo setNeq_parentOrgId(BigInteger neq_parentOrgId)
         {
             this.neq_parentOrgId = neq_parentOrgId;
             return this;
@@ -1000,23 +1001,23 @@ public class OrgSearchBo extends BaseSearchBo
             this.notin_orgAddress = notin_orgAddress;
         }
 
-        public String getEq_roleId()
+        public BigInteger getEq_roleId()
         {
             return eq_roleId;
         }
 
-        public OrgSearchBo setEq_roleId(String eq_roleId)
+        public OrgSearchBo setEq_roleId(BigInteger eq_roleId)
         {
             this.eq_roleId = eq_roleId;
             return this;
         }
 
-        public String getNeq_roleId()
+        public BigInteger getNeq_roleId()
         {
             return neq_roleId;
         }
 
-        public OrgSearchBo setNeq_roleId(String neq_roleId)
+        public OrgSearchBo setNeq_roleId(BigInteger neq_roleId)
         {
             this.neq_roleId = neq_roleId;
             return this;
@@ -1109,23 +1110,23 @@ public class OrgSearchBo extends BaseSearchBo
             this.notin_roleId = notin_roleId;
         }
 
-        public String getEq_userId()
+        public BigInteger getEq_userId()
         {
             return eq_userId;
         }
 
-        public OrgSearchBo setEq_userId(String eq_userId)
+        public OrgSearchBo setEq_userId(BigInteger eq_userId)
         {
             this.eq_userId = eq_userId;
             return this;
         }
 
-        public String getNeq_userId()
+        public BigInteger getNeq_userId()
         {
             return neq_userId;
         }
 
-        public OrgSearchBo setNeq_userId(String neq_userId)
+        public OrgSearchBo setNeq_userId(BigInteger neq_userId)
         {
             this.neq_userId = neq_userId;
             return this;
@@ -1545,23 +1546,23 @@ public class OrgSearchBo extends BaseSearchBo
             this.notin_createUser = notin_createUser;
         }
 
-        public String getEq_createUserId()
+        public BigInteger getEq_createUserId()
         {
             return eq_createUserId;
         }
 
-        public OrgSearchBo setEq_createUserId(String eq_createUserId)
+        public OrgSearchBo setEq_createUserId(BigInteger eq_createUserId)
         {
             this.eq_createUserId = eq_createUserId;
             return this;
         }
 
-        public String getNeq_createUserId()
+        public BigInteger getNeq_createUserId()
         {
             return neq_createUserId;
         }
 
-        public OrgSearchBo setNeq_createUserId(String neq_createUserId)
+        public OrgSearchBo setNeq_createUserId(BigInteger neq_createUserId)
         {
             this.neq_createUserId = neq_createUserId;
             return this;
@@ -1763,23 +1764,23 @@ public class OrgSearchBo extends BaseSearchBo
             this.notin_updateUser = notin_updateUser;
         }
 
-        public String getEq_updateUserId()
+        public BigInteger getEq_updateUserId()
         {
             return eq_updateUserId;
         }
 
-        public OrgSearchBo setEq_updateUserId(String eq_updateUserId)
+        public OrgSearchBo setEq_updateUserId(BigInteger eq_updateUserId)
         {
             this.eq_updateUserId = eq_updateUserId;
             return this;
         }
 
-        public String getNeq_updateUserId()
+        public BigInteger getNeq_updateUserId()
         {
             return neq_updateUserId;
         }
 
-        public OrgSearchBo setNeq_updateUserId(String neq_updateUserId)
+        public OrgSearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
         {
             this.neq_updateUserId = neq_updateUserId;
             return this;

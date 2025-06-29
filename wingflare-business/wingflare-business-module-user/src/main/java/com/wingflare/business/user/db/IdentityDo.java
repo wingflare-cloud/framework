@@ -12,6 +12,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -25,17 +26,17 @@ public class IdentityDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String identityId;
+    private BigInteger identityId;
 
 	/**
      * 组织机构id
      */
-    private String orgId;
+    private BigInteger orgId;
 
 	/**
      * 部门id
      */
-    private String departmentId;
+    private BigInteger departmentId;
 
 	/**
      * 岗位名称
@@ -45,7 +46,7 @@ public class IdentityDo extends BaseDoAbstract
 	/**
      * 职级id
      */
-    private String jobLevelId;
+    private BigInteger jobLevelId;
 
 	@TableField(fill = FieldFill.INSERT)
     private Date createdTime;
@@ -57,13 +58,13 @@ public class IdentityDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -74,50 +75,50 @@ public class IdentityDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String identityId)
+	public void setPk(BigInteger identityId)
 	{
 		setIdentityId(identityId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getIdentityId();
 	}
 
 	
-    public IdentityDo setIdentityId(String identityId)
+    public IdentityDo setIdentityId(BigInteger identityId)
     {
 		addNewField("identityId");
         this.identityId = identityId;
         return this;
     }
 
-    public String getIdentityId()
+    public BigInteger getIdentityId()
     {
         return identityId;
     }
 	
-    public IdentityDo setOrgId(String orgId)
+    public IdentityDo setOrgId(BigInteger orgId)
     {
 		addNewField("orgId");
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
 	
-    public IdentityDo setDepartmentId(String departmentId)
+    public IdentityDo setDepartmentId(BigInteger departmentId)
     {
 		addNewField("departmentId");
         this.departmentId = departmentId;
         return this;
     }
 
-    public String getDepartmentId()
+    public BigInteger getDepartmentId()
     {
         return departmentId;
     }
@@ -134,14 +135,14 @@ public class IdentityDo extends BaseDoAbstract
         return identityName;
     }
 	
-    public IdentityDo setJobLevelId(String jobLevelId)
+    public IdentityDo setJobLevelId(BigInteger jobLevelId)
     {
 		addNewField("jobLevelId");
         this.jobLevelId = jobLevelId;
         return this;
     }
 
-    public String getJobLevelId()
+    public BigInteger getJobLevelId()
     {
         return jobLevelId;
     }
@@ -182,14 +183,14 @@ public class IdentityDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public IdentityDo setCreateUserId(String createUserId)
+    public IdentityDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -206,14 +207,14 @@ public class IdentityDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public IdentityDo setUpdateUserId(String updateUserId)
+    public IdentityDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

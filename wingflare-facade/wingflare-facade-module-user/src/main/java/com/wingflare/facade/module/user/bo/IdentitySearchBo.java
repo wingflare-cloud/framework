@@ -2,6 +2,8 @@ package com.wingflare.facade.module.user.bo;
 
 
 import com.wingflare.lib.standard.BaseSearchBo;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -15,9 +17,9 @@ import java.util.Date;
 public class IdentitySearchBo extends BaseSearchBo
 {
         
-    private String eq_identityId;
+    private BigInteger eq_identityId;
 
-    private String neq_identityId;
+    private BigInteger neq_identityId;
 
     private String like_identityId;
 
@@ -55,9 +57,9 @@ public class IdentitySearchBo extends BaseSearchBo
 
     private String notin_identityCode;
         
-    private String eq_orgId;
+    private BigInteger eq_orgId;
 
-    private String neq_orgId;
+    private BigInteger neq_orgId;
 
     private String like_orgId;
 
@@ -75,9 +77,9 @@ public class IdentitySearchBo extends BaseSearchBo
 
     private String notin_orgId;
         
-    private String eq_departmentId;
+    private BigInteger eq_departmentId;
 
-    private String neq_departmentId;
+    private BigInteger neq_departmentId;
 
     private String like_departmentId;
 
@@ -195,9 +197,9 @@ public class IdentitySearchBo extends BaseSearchBo
 
     private String notin_createUser;
         
-    private String eq_createUserId;
+    private BigInteger eq_createUserId;
 
-    private String neq_createUserId;
+    private BigInteger neq_createUserId;
 
     private String like_createUserId;
 
@@ -235,9 +237,9 @@ public class IdentitySearchBo extends BaseSearchBo
 
     private String notin_updateUser;
         
-    private String eq_updateUserId;
+    private BigInteger eq_updateUserId;
 
-    private String neq_updateUserId;
+    private BigInteger neq_updateUserId;
 
     private String like_updateUserId;
 
@@ -255,23 +257,23 @@ public class IdentitySearchBo extends BaseSearchBo
 
     private String notin_updateUserId;
 
-    public String getEq_identityId()
+    public BigInteger getEq_identityId()
     {
         return eq_identityId;
     }
 
-    public IdentitySearchBo setEq_identityId(String eq_identityId)
+    public IdentitySearchBo setEq_identityId(BigInteger eq_identityId)
     {
         this.eq_identityId = eq_identityId;
         return this;
     }
 
-    public String getNeq_identityId()
+    public BigInteger getNeq_identityId()
     {
         return neq_identityId;
     }
 
-    public IdentitySearchBo setNeq_identityId(String neq_identityId)
+    public IdentitySearchBo setNeq_identityId(BigInteger neq_identityId)
     {
         this.neq_identityId = neq_identityId;
         return this;
@@ -475,23 +477,23 @@ public class IdentitySearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_orgId()
+    public BigInteger getEq_orgId()
     {
         return eq_orgId;
     }
 
-    public IdentitySearchBo setEq_orgId(String eq_orgId)
+    public IdentitySearchBo setEq_orgId(BigInteger eq_orgId)
     {
         this.eq_orgId = eq_orgId;
         return this;
     }
 
-    public String getNeq_orgId()
+    public BigInteger getNeq_orgId()
     {
         return neq_orgId;
     }
 
-    public IdentitySearchBo setNeq_orgId(String neq_orgId)
+    public IdentitySearchBo setNeq_orgId(BigInteger neq_orgId)
     {
         this.neq_orgId = neq_orgId;
         return this;
@@ -585,23 +587,23 @@ public class IdentitySearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_departmentId()
+    public BigInteger getEq_departmentId()
     {
         return eq_departmentId;
     }
 
-    public IdentitySearchBo setEq_departmentId(String eq_departmentId)
+    public IdentitySearchBo setEq_departmentId(BigInteger eq_departmentId)
     {
         this.eq_departmentId = eq_departmentId;
         return this;
     }
 
-    public String getNeq_departmentId()
+    public BigInteger getNeq_departmentId()
     {
         return neq_departmentId;
     }
 
-    public IdentitySearchBo setNeq_departmentId(String neq_departmentId)
+    public IdentitySearchBo setNeq_departmentId(BigInteger neq_departmentId)
     {
         this.neq_departmentId = neq_departmentId;
         return this;
@@ -1245,23 +1247,23 @@ public class IdentitySearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_createUserId()
+    public BigInteger getEq_createUserId()
     {
         return eq_createUserId;
     }
 
-    public IdentitySearchBo setEq_createUserId(String eq_createUserId)
+    public IdentitySearchBo setEq_createUserId(BigInteger eq_createUserId)
     {
         this.eq_createUserId = eq_createUserId;
         return this;
     }
 
-    public String getNeq_createUserId()
+    public BigInteger getNeq_createUserId()
     {
         return neq_createUserId;
     }
 
-    public IdentitySearchBo setNeq_createUserId(String neq_createUserId)
+    public IdentitySearchBo setNeq_createUserId(BigInteger neq_createUserId)
     {
         this.neq_createUserId = neq_createUserId;
         return this;
@@ -1465,23 +1467,23 @@ public class IdentitySearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_updateUserId()
+    public BigInteger getEq_updateUserId()
     {
         return eq_updateUserId;
     }
 
-    public IdentitySearchBo setEq_updateUserId(String eq_updateUserId)
+    public IdentitySearchBo setEq_updateUserId(BigInteger eq_updateUserId)
     {
         this.eq_updateUserId = eq_updateUserId;
         return this;
     }
 
-    public String getNeq_updateUserId()
+    public BigInteger getNeq_updateUserId()
     {
         return neq_updateUserId;
     }
 
-    public IdentitySearchBo setNeq_updateUserId(String neq_updateUserId)
+    public IdentitySearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
     {
         this.neq_updateUserId = neq_updateUserId;
         return this;

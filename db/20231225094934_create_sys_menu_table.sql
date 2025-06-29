@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS `sys_menu`;
 
 CREATE TABLE `sys_menu`
 (
-    `menu_id`         varchar(32)  NOT NULL,
-    `parent_menu_id`  varchar(32)  NOT NULL DEFAULT '' COMMENT '父级菜单id',
+    `menu_id`         bigint(20) unsigned  NOT NULL,
+    `parent_menu_id`  bigint(20) unsigned  NOT NULL DEFAULT '0' COMMENT '父级菜单id',
     `state`           tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '启禁用状态',
     `hide`            tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '隐藏状态',
     `constant`        tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否常量路由',
@@ -25,9 +25,9 @@ CREATE TABLE `sys_menu`
     `created_time`    datetime     NOT NULL,
     `updated_time`    datetime     NOT NULL,
     `create_user`     varchar(32)  NOT NULL DEFAULT '' COMMENT '创建人名称',
-    `create_user_id`  varchar(32)  NOT NULL COMMENT '创建人id',
+    `create_user_id`  bigint(20) unsigned  NOT NULL DEFAULT '0' COMMENT '创建人id',
     `update_user`     varchar(32)  NOT NULL DEFAULT '' COMMENT '更新人名称',
-    `update_user_id`  varchar(32)  NOT NULL COMMENT '更新人id',
+    `update_user_id`  bigint(20) unsigned  NOT NULL DEFAULT '0' COMMENT '更新人id',
     `is_delete`       tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '删除状态',
     `version`         int(10) unsigned NOT NULL DEFAULT '0' COMMENT '数据版本号',
     PRIMARY KEY (`menu_id`) USING BTREE,

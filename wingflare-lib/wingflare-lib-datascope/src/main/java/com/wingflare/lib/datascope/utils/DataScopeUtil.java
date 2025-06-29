@@ -9,7 +9,6 @@ import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.core.utils.CollectionUtil;
-import com.wingflare.lib.standard.utils.CtxUtil;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.datascope.DataScopeHandle;
@@ -37,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.util.ArrayList;

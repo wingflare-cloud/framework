@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -98,7 +100,7 @@ public class UserAuthUtil {
      * @param startIndex
      * @return
      */
-    public PageResult<UserAuth> getUserLoginInfos(String userId, long pageSize, long startIndex) {
+    public PageResult<UserAuth> getUserLoginInfos(BigInteger userId, long pageSize, long startIndex) {
         return securityCheck.getUserAllLoginInfo(userId, pageSize, startIndex);
     }
 

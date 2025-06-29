@@ -5,6 +5,7 @@ import com.wingflare.facade.module.base.biz.SettingBiz;
 import com.wingflare.facade.module.base.bo.SettingBo;
 import com.wingflare.facade.module.base.bo.SettingSearchBo;
 import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.standard.PageDto;
@@ -38,6 +39,7 @@ public class SettingController
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_VIEW)
+	@BusinessSystem("base")
     public PageDto<SettingDto> list(SettingSearchBo bo)
     {
 		return settingBiz.list(bo);
@@ -49,6 +51,7 @@ public class SettingController
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_VIEW)
+	@BusinessSystem("base")
 	public SettingDto get(IdBo bo)
 	{
 		return settingBiz.get(bo);
@@ -60,6 +63,7 @@ public class SettingController
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_VIEW)
+	@BusinessSystem("base")
 	public SettingDto getOnlyOne(SettingSearchBo searchBo)
 	{
 		return settingBiz.getOnlyOne(searchBo);
@@ -71,6 +75,7 @@ public class SettingController
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_DELETE)
+	@BusinessSystem("base")
 	public void delete(@RequestBody IdBo bo)
 	{
 		settingBiz.delete(bo);
@@ -82,6 +87,7 @@ public class SettingController
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_CREATE)
+	@BusinessSystem("base")
 	public SettingDto create(@RequestBody SettingBo bo)
 	{
 		return settingBiz.create(bo);
@@ -93,6 +99,7 @@ public class SettingController
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_UPDATE)
+	@BusinessSystem("base")
 	public SettingDto update(@RequestBody SettingBo bo)
 	{
 		return settingBiz.update(bo);

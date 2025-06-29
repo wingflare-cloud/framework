@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `sys_user`;
 
 CREATE TABLE `sys_user`
 (
-    `user_id`             varchar(32)  NOT NULL,
+    `user_id`             bigint(20) unsigned  NOT NULL,
     `super_administrator` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否为超管',
     `ban_state`           tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '账户起禁用状态',
     `sex`                 tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
@@ -20,9 +20,9 @@ CREATE TABLE `sys_user`
     `created_time`        datetime     NOT NULL,
     `updated_time`        datetime     NOT NULL,
     `create_user`         varchar(32)  NOT NULL DEFAULT '',
-    `create_user_id`      varchar(32)  NOT NULL DEFAULT '',
+    `create_user_id`      bigint(20) unsigned  NOT NULL DEFAULT '0',
     `update_user`         varchar(32)  NOT NULL DEFAULT '',
-    `update_user_id`      varchar(32)  NOT NULL DEFAULT '',
+    `update_user_id`      bigint(20) unsigned  NOT NULL DEFAULT '0',
     `is_delete`           tinyint(1) unsigned NOT NULL DEFAULT '0',
     `version`             int(10) unsigned NOT NULL DEFAULT '0',
     PRIMARY KEY (`user_id`) USING BTREE,

@@ -5,7 +5,6 @@ import com.wingflare.adapter.spring.server.web.utils.ServletUtil;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
-import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.utils.CtxUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,8 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.*;
 
 /**
  * @author naizui_ycx
@@ -56,20 +57,7 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
             Map<String, Object> contextMap = ContextHolder.getLocalMap();
 
             if (CollectionUtil.isNotEmpty(contextMap)) {
-                StringBuilder builder = new StringBuilder();
-                contextMap.forEach((k, v) -> {
-                    if (!ApiHelperUtil.getSystemCxtKeys().contains(k)) {
-                        builder.append(k)
-                                .append("=")
-                                .append(v)
-                                .append("&");
-                    }
-                });
-
-                if (builder.length() > 0) {
-                    builder.deleteCharAt(builder.length() - 1);
-                    logger.info("ctx: {}", builder);
-                }
+                logger.info("ctx", e(contextMap));
             }
         }
 

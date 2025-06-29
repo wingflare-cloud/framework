@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
 public class SettingDto
 {
 	
-    private String settingId;
+    private BigInteger settingId;
 	
 	/**
      * 设置状态
@@ -56,21 +57,21 @@ public class SettingDto
 	
     private String createUser;
 	
-    private String createUserId;
+    private BigInteger createUserId;
 	
     private String updateUser;
 	
-    private String updateUserId;
+    private BigInteger updateUserId;
 	
     private Integer version;
 	
-    public SettingDto setSettingId(String settingId)
+    public SettingDto setSettingId(BigInteger settingId)
     {
         this.settingId = settingId;
         return this;
     }
 
-    public String getSettingId()
+    public BigInteger getSettingId()
     {
         return settingId;
     }
@@ -174,13 +175,13 @@ public class SettingDto
         return createUser;
     }
 	
-    public SettingDto setCreateUserId(String createUserId)
+    public SettingDto setCreateUserId(BigInteger createUserId)
     {
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -196,13 +197,13 @@ public class SettingDto
         return updateUser;
     }
 	
-    public SettingDto setUpdateUserId(String updateUserId)
+    public SettingDto setUpdateUserId(BigInteger updateUserId)
     {
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

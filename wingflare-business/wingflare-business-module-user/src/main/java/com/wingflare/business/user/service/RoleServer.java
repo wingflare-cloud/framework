@@ -7,6 +7,7 @@ import com.wingflare.business.user.mapper.RoleMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class RoleServer extends BaseService<RoleMapper, RoleDo>
     * bo 查询参数
     * @return 结果
     */
-    public Map<String, RoleDo> getMap(QueryWrapper<RoleDo> wrapper)
+    public Map<BigInteger, RoleDo> getMap(QueryWrapper<RoleDo> wrapper)
 	{
         List<RoleDo> list = list(wrapper);
 
@@ -35,7 +36,7 @@ public class RoleServer extends BaseService<RoleMapper, RoleDo>
 			return new HashMap<>();
         }
 
-        Map<String, RoleDo> roleDoMap = new HashMap<>(list.size());
+        Map<BigInteger, RoleDo> roleDoMap = new HashMap<>(list.size());
 
         for (RoleDo roleDo : list) {
             roleDoMap.put(roleDo.getRoleId(), roleDo);

@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static net.logstash.logback.argument.StructuredArguments.e;
+
 /**
  * 保密数据处理切面
  *
@@ -253,7 +255,10 @@ public class DataSecretAspect implements ApplicationContextAware, Ordered {
                                 encryptionMap.put(desc.getName(), encryption.type());
                             }
                         } else {
-                            logger.error("不支持的解密类型数据: {}.{}", clz.getName(), desc.getName());
+                            logger.error("不支持的解密类型数据", e(Map.of(
+                                    "class", clz.getName(),
+                                    "descriptors", desc.getName()
+                            )));
                         }
                     }
                 }

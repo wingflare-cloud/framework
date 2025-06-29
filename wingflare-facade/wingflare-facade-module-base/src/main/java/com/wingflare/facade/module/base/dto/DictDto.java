@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
 public class DictDto
 {
 	
-    private String dictId;
+    private BigInteger dictId;
 	
     private Integer state;
 	
@@ -58,21 +59,21 @@ public class DictDto
 	
     private String createUser;
 	
-    private String createUserId;
+    private BigInteger createUserId;
 	
     private String updateUser;
 	
-    private String updateUserId;
+    private BigInteger updateUserId;
 	
     private Integer version;
 	
-    public DictDto setDictId(String dictId)
+    public DictDto setDictId(BigInteger dictId)
     {
         this.dictId = dictId;
         return this;
     }
 
-    public String getDictId()
+    public BigInteger getDictId()
     {
         return dictId;
     }
@@ -187,13 +188,13 @@ public class DictDto
         return createUser;
     }
 	
-    public DictDto setCreateUserId(String createUserId)
+    public DictDto setCreateUserId(BigInteger createUserId)
     {
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -209,13 +210,13 @@ public class DictDto
         return updateUser;
     }
 	
-    public DictDto setUpdateUserId(String updateUserId)
+    public DictDto setUpdateUserId(BigInteger updateUserId)
     {
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `wf_ws_session`;
 
 CREATE TABLE `wf_ws_session`
 (
-    `id`             varchar(32)  NOT NULL,
+    `id`             bigint(20) unsigned  NOT NULL,
     `sid`            varchar(128) NOT NULL DEFAULT '',
     `terminal_sn`    varchar(32)  NOT NULL DEFAULT '' COMMENT '终端编号',
     `point`          varchar(32)  NOT NULL DEFAULT '' COMMENT '链接端点',
@@ -11,9 +11,9 @@ CREATE TABLE `wf_ws_session`
     `created_time`   datetime     NOT NULL,
     `updated_time`   datetime     NOT NULL,
     `create_user`    varchar(32)  NOT NULL DEFAULT '',
-    `create_user_id` varchar(32)  NOT NULL DEFAULT '',
+    `create_user_id` bigint(20) unsigned  NOT NULL DEFAULT '0',
     `update_user`    varchar(32)  NOT NULL DEFAULT '',
-    `update_user_id` varchar(32)  NOT NULL DEFAULT '',
+    `update_user_id` bigint(20) unsigned  NOT NULL DEFAULT '0',
     `is_delete`      tinyint(1) unsigned NOT NULL DEFAULT '0',
     `version`        int(10) unsigned NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),

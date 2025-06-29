@@ -11,12 +11,14 @@ import com.wingflare.facade.module.auth.dto.TokenDto;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.dto.UserDto;
 import com.wingflare.lib.core.constants.HttpHeader;
+import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresLogin;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.SettingUtil;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.module.auth.PermissionCode;
@@ -69,7 +71,7 @@ public class AuthController {
     @RequiresLogin
     @ResponseBody
     public UserAuth logout() {
-        return loginBiz.logout(new IdBo().setId(SecurityUtil.getTokenId()));
+        return loginBiz.logout(new StringIdBo().setId(SecurityUtil.getTokenId()));
     }
 
     /**
@@ -81,23 +83,25 @@ public class AuthController {
     @RequiresPermissions(PermissionCode.AUTH_KICK_OUT)
     @ResponseBody
     @Secret
+    @BusinessSystem("base")
     public UserAuth kickOut(@Secret @RequestBody TokenIdBo bo) {
-        IdBo idBo = new IdBo().setId(bo.getToken());
+        StringIdBo idBo = new StringIdBo().setId(bo.getToken());
         return loginBiz.logout(idBo);
     }
 
     @RequestMapping(value = "/getUserLoginInfo", method = RequestMethod.GET)
     @RequiresLogin
     @ResponseBody
+    @BusinessSystem("base")
     public UserAuth getUserLoginInfo() {
-        return loginBiz.getUserLoginInfo(new IdBo().setId(SecurityUtil.getTokenId()));
+        return loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getTokenId()));
     }
 
     @RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)
     @RequiresLogin
     @ResponseBody
     public UserDto getLoginUser() {
-        UserAuth userAuth = loginBiz.getUserLoginInfo(new IdBo().setId(SecurityUtil.getTokenId()));
+        UserAuth userAuth = loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getTokenId()));
         return userBiz.get(new IdBo().setId(userAuth.getUserId()));
     }
 
@@ -105,6 +109,7 @@ public class AuthController {
     @RequiresLogin
     @RequiresPermissions(PermissionCode.AUTH_TOKEN_VIEW)
     @ResponseBody
+    @BusinessSystem("base")
     public PageResult<UserAuth> list(@Valid @NotNull GetLoginUsersBo bo) {
         return loginBiz.getLoginUsers(bo);
     }
@@ -113,6 +118,7 @@ public class AuthController {
     @RequiresLogin
     @RequiresPermissions(PermissionCode.AUTH_USER_TOKEN_VIEW)
     @ResponseBody
+    @BusinessSystem("base")
     public PageResult<UserAuth> userList(@Valid @NotNull GetLoginUsersBo bo) {
         return loginBiz.getUserLoginInfos(bo);
     }

@@ -2,6 +2,8 @@ package com.wingflare.facade.module.auth.bo;
 
 import com.wingflare.lib.standard.annotation.security.Decrypt;
 
+import java.math.BigInteger;
+
 /**
  * @ClassName LoginBo
  * @Author naizui_ycx
@@ -15,9 +17,9 @@ public class LoginBo {
     @Decrypt(type = "RSA")
     private String passwd;
 
-    private String orgId;
+    private BigInteger orgId;
 
-    private String identityId;
+    private BigInteger identityId;
 
     private String userAgent;
 
@@ -43,19 +45,19 @@ public class LoginBo {
         this.passwd = passwd;
     }
 
-    public String getOrgId() {
+    public BigInteger getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(String orgId) {
+    public void setOrgId(BigInteger orgId) {
         this.orgId = orgId;
     }
 
-    public String getIdentityId() {
+    public BigInteger getIdentityId() {
         return identityId;
     }
 
-    public void setIdentityId(String identityId) {
+    public void setIdentityId(BigInteger identityId) {
         this.identityId = identityId;
     }
 

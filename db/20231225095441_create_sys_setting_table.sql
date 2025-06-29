@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `sys_setting`;
 
 CREATE TABLE `sys_setting`
 (
-    `setting_id`     varchar(32)  NOT NULL,
+    `setting_id`     bigint(20) unsigned  NOT NULL,
     `state`          tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '设置状态',
     `system_code`    varchar(32)  NOT NULL DEFAULT '' COMMENT '系统代码',
     `setting_code`   varchar(128) NOT NULL DEFAULT '' COMMENT '设置代码',
@@ -13,9 +13,9 @@ CREATE TABLE `sys_setting`
     `created_time`   datetime     NOT NULL,
     `updated_time`   datetime     NOT NULL,
     `create_user`    varchar(32)  NOT NULL DEFAULT '',
-    `create_user_id` varchar(32)  NOT NULL DEFAULT '',
+    `create_user_id` bigint(20) unsigned  NOT NULL DEFAULT '0',
     `update_user`    varchar(32)  NOT NULL DEFAULT '',
-    `update_user_id` varchar(32)  NOT NULL DEFAULT '',
+    `update_user_id` bigint(20) unsigned  NOT NULL DEFAULT '0',
     `is_delete`      tinyint(1) unsigned NOT NULL DEFAULT '0',
     `version`        int(10) unsigned NOT NULL DEFAULT '0',
     PRIMARY KEY (`setting_id`) USING BTREE,

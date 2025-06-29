@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -16,9 +17,9 @@ import java.util.Date;
 public class RolePermissionDto
 {
 	
-    private String id;
+    private BigInteger id;
 	
-    private String roleId;
+    private BigInteger roleId;
 	
     private String systemCode;
 	
@@ -29,26 +30,26 @@ public class RolePermissionDto
 	
     private String createUser;
 	
-    private String createUserId;
+    private BigInteger createUserId;
 	
-    public RolePermissionDto setId(String id)
+    public RolePermissionDto setId(BigInteger id)
     {
         this.id = id;
         return this;
     }
 
-    public String getId()
+    public BigInteger getId()
     {
         return id;
     }
 	
-    public RolePermissionDto setRoleId(String roleId)
+    public RolePermissionDto setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
@@ -97,13 +98,13 @@ public class RolePermissionDto
         return createUser;
     }
 	
-    public RolePermissionDto setCreateUserId(String createUserId)
+    public RolePermissionDto setCreateUserId(BigInteger createUserId)
     {
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }

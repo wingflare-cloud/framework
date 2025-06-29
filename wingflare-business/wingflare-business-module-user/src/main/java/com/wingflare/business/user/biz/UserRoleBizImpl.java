@@ -8,7 +8,10 @@ import com.wingflare.business.user.service.UserRoleServer;
 import com.wingflare.facade.module.user.biz.UserRoleBiz;
 import com.wingflare.facade.module.user.bo.UserSearchBo;
 import com.wingflare.facade.module.user.dto.RoleUserDto;
+import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
+import com.wingflare.lib.security.annotation.Desensitize;
+import com.wingflare.lib.security.annotation.DesensitizeGroups;
 import com.wingflare.lib.standard.PageDto;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +37,19 @@ public class UserRoleBizImpl implements UserRoleBiz
     @Resource
     private UserRoleServer userRoleServer;
 
-
+    @Override
+    @DesensitizeGroups(
+            desensitizes = {
+                    @Desensitize(
+                            jsonPath = "$.list[*].userPhone",
+                            sensitiveType = SensitiveType.MOBILE_PHONE
+                    ),
+                    @Desensitize(
+                            jsonPath = "$.list[*].userEmail",
+                            sensitiveType = SensitiveType.EMAIL
+                    )
+            }
+    )
     public PageDto<RoleUserDto> getUserList(@Valid @NotNull UserSearchBo bo) {
         IPage<RoleUserDo> iPage = userRoleServer.getUserList(bo);
 

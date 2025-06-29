@@ -10,6 +10,7 @@ import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.annotation.Desensitize;
 import com.wingflare.lib.security.annotation.DesensitizeGroups;
 import com.wingflare.lib.security.standard.DataSecret;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,6 +35,8 @@ import java.util.Objects;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * @author naizui_ycx
@@ -106,10 +109,17 @@ public class SensitiveDataAspect implements ApplicationContextAware, Ordered {
                         oVal.set(trySensitive(desensitize.sensitiveType(), oVal.getRaw()));
                         hit.set(true);
                     } else {
-                        logger.warn("脱敏匹配数据异常: {}", desensitize.jsonPath());
+                        logger.warn("脱敏匹配数据异常", e(Map.of(
+                                "path", desensitize.jsonPath()
+                        )));
                     }
                 } catch (Throwable e) {
-                    logger.error("数据脱敏失败: {}, {}", e.getMessage(), desensitize.jsonPath());
+                    logger.error("数据脱敏失败", e(Map.of(
+                            "path", desensitize.jsonPath(),
+                            "message", e.getMessage(),
+                            "stack", ExceptionUtils.getStackTrace(e),
+                            "exception", e.getClass().getName()
+                    )));
                 }
             }
 

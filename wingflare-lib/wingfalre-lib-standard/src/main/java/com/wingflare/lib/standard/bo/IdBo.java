@@ -1,9 +1,10 @@
 package com.wingflare.lib.standard.bo;
 
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+
+import java.math.BigInteger;
 
 /**
  * IdBo
@@ -15,17 +16,16 @@ public class IdBo
 {
 
     @NotNull(message = "id.notNull")
-    @NotBlank(message = "id.notBlank")
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "id.formatError")
-    private String id;
+    @Min(message = "id.error", value = 1)
+    private BigInteger id;
 
-    public IdBo setId(String id)
+    public IdBo setId(BigInteger id)
     {
         this.id = id;
         return this;
     }
 
-    public String getId()
+    public BigInteger getId()
     {
         return id;
     }

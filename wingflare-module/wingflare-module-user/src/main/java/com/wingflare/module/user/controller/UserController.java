@@ -7,6 +7,7 @@ import com.wingflare.facade.module.user.bo.UserBindRoleBo;
 import com.wingflare.facade.module.user.bo.UserBo;
 import com.wingflare.facade.module.user.bo.UserSearchBo;
 import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.standard.PageDto;
@@ -40,6 +41,7 @@ public class UserController
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_VIEW)
+	@BusinessSystem("base")
     public PageDto<UserDto> list(UserSearchBo bo)
     {
 		return userBiz.list(bo);
@@ -51,6 +53,7 @@ public class UserController
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_VIEW)
+	@BusinessSystem("base")
 	public UserDto get(IdBo bo)
 	{
 		return userBiz.get(bo);
@@ -62,6 +65,7 @@ public class UserController
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_VIEW)
+	@BusinessSystem("base")
 	public UserDto getOnlyOne(UserSearchBo searchBo)
 	{
 		return userBiz.getOnlyOne(searchBo);
@@ -74,6 +78,7 @@ public class UserController
 	@ResponseBody
 	@Secret
 	@RequiresPermissions(PermissionCode.USER_CREATE)
+	@BusinessSystem("base")
 	public UserDto create(@Secret @RequestBody UserBo bo)
 	{
 		return userBiz.create(bo);
@@ -85,6 +90,7 @@ public class UserController
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_UPDATE)
+	@BusinessSystem("base")
 	public UserDto update(@RequestBody UserBo bo)
 	{
 		return userBiz.update(bo);
@@ -96,6 +102,7 @@ public class UserController
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_DELETE)
+	@BusinessSystem("base")
 	public UserDto delete(@RequestBody IdBo bo)
 	{
 		return userBiz.delete(bo);

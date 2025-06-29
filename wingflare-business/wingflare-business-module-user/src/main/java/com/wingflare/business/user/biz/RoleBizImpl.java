@@ -1,6 +1,7 @@
 package com.wingflare.business.user.biz;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.constants.UserEventName;
@@ -13,7 +14,6 @@ import com.wingflare.facade.module.user.bo.*;
 import com.wingflare.facade.module.user.dto.RoleDto;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
@@ -30,6 +30,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
+
+import java.math.BigInteger;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -59,9 +61,12 @@ public class RoleBizImpl implements RoleBiz {
      */
     @Override
     public PageDto<RoleDto> list(@Valid RoleSearchBo bo) {
+        LambdaQueryWrapper<RoleDo> queryWrapper = RoleWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(RoleDo::getRoleId);
+
         IPage<RoleDo> iPage = roleServer.page(
                 roleServer.createPage(bo),
-                RoleWrapper.getQueryWrapper(bo)
+                queryWrapper
         );
 
         return PageUtil.convertIPage(iPage,
@@ -84,7 +89,7 @@ public class RoleBizImpl implements RoleBiz {
     public RoleDto getOnlyOne(@Valid @NotNull RoleSearchBo searchBo) {
         return RoleConvert.convert.doToDto(
                 roleServer.getOne(
-                        RoleWrapper.getQueryWrapper(searchBo)
+                        RoleWrapper.getLambdaQueryWrapper(searchBo)
                 ));
     }
 
@@ -190,7 +195,7 @@ public class RoleBizImpl implements RoleBiz {
      */
     private void checkRoleCanSave(RoleBo bo, RoleDo oldDo) {
         if (oldDo == null) {
-            if (StringUtil.isNotEmpty(bo.getParentRoleId())) {
+            if (bo.getParentRoleId() != null && bo.getParentRoleId().compareTo(BigInteger.ZERO) > 0) {
                 Assert.isFalse(has(
                         new RoleSearchBo()
                                 .setEq_roleId(bo.getParentRoleId())
@@ -220,7 +225,7 @@ public class RoleBizImpl implements RoleBiz {
      */
     public boolean has(RoleSearchBo bo) {
         return roleServer.has(
-                RoleWrapper.getQueryWrapper(bo)
+                RoleWrapper.getLambdaQueryWrapper(bo)
         );
     }
 

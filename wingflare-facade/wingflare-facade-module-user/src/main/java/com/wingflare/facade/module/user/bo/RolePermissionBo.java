@@ -2,11 +2,11 @@ package com.wingflare.facade.module.user.bo;
 
 
 import com.wingflare.lib.core.validation.Update;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import java.math.BigInteger;
 
 /**
  * 系统角色权限Bo
@@ -17,34 +17,33 @@ import jakarta.validation.constraints.Pattern;
 public class RolePermissionBo
 {
 
-    @NotBlank(message = "user.id.notBlank", groups = Update.class)
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "user.id.formatError", groups = Update.class)
-    private String id;
+    @Min(message = "user.id.error", value = 1, groups = Update.class)
+    private BigInteger id;
 
-    private String roleId;
+    private BigInteger roleId;
 
     private String systemCode;
 
     private String permissionCode;
     
-	public RolePermissionBo setId(String id)
+	public RolePermissionBo setId(BigInteger id)
     {
         this.id = id;
         return this;
     }
 
-    public String getId()
+    public BigInteger getId()
     {
         return id;
     }
     
-	public RolePermissionBo setRoleId(String roleId)
+	public RolePermissionBo setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }

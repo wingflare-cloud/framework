@@ -3,6 +3,7 @@ package com.wingflare.facade.module.base.bo;
 
 import com.wingflare.lib.standard.BaseSearchBo;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -14,9 +15,9 @@ import java.util.Date;
 public class SettingSearchBo extends BaseSearchBo
 {
 
-        private String eq_settingId;
+        private BigInteger eq_settingId;
 
-        private String neq_settingId;
+        private BigInteger neq_settingId;
 		
         private String in_settingId;
 
@@ -202,9 +203,9 @@ public class SettingSearchBo extends BaseSearchBo
 
         private String notin_createUser;
 
-        private String eq_createUserId;
+        private BigInteger eq_createUserId;
 
-        private String neq_createUserId;
+        private BigInteger neq_createUserId;
 		
 		private String like_createUserId;
 
@@ -242,9 +243,9 @@ public class SettingSearchBo extends BaseSearchBo
 
         private String notin_updateUser;
 
-        private String eq_updateUserId;
+        private BigInteger eq_updateUserId;
 
-        private String neq_updateUserId;
+        private BigInteger neq_updateUserId;
 		
 		private String like_updateUserId;
 
@@ -263,23 +264,23 @@ public class SettingSearchBo extends BaseSearchBo
         private String notin_updateUserId;
 
 
-        public String getEq_settingId()
+        public BigInteger getEq_settingId()
         {
             return eq_settingId;
         }
 
-        public SettingSearchBo setEq_settingId(String eq_settingId)
+        public SettingSearchBo setEq_settingId(BigInteger eq_settingId)
         {
             this.eq_settingId = eq_settingId;
             return this;
         }
 
-        public String getNeq_settingId()
+        public BigInteger getNeq_settingId()
         {
             return neq_settingId;
         }
 
-        public SettingSearchBo setNeq_settingId(String neq_settingId)
+        public SettingSearchBo setNeq_settingId(BigInteger neq_settingId)
         {
             this.neq_settingId = neq_settingId;
             return this;
@@ -1287,23 +1288,23 @@ public class SettingSearchBo extends BaseSearchBo
             this.notin_createUser = notin_createUser;
         }
 
-        public String getEq_createUserId()
+        public BigInteger getEq_createUserId()
         {
             return eq_createUserId;
         }
 
-        public SettingSearchBo setEq_createUserId(String eq_createUserId)
+        public SettingSearchBo setEq_createUserId(BigInteger eq_createUserId)
         {
             this.eq_createUserId = eq_createUserId;
             return this;
         }
 
-        public String getNeq_createUserId()
+        public BigInteger getNeq_createUserId()
         {
             return neq_createUserId;
         }
 
-        public SettingSearchBo setNeq_createUserId(String neq_createUserId)
+        public SettingSearchBo setNeq_createUserId(BigInteger neq_createUserId)
         {
             this.neq_createUserId = neq_createUserId;
             return this;
@@ -1505,23 +1506,23 @@ public class SettingSearchBo extends BaseSearchBo
             this.notin_updateUser = notin_updateUser;
         }
 
-        public String getEq_updateUserId()
+        public BigInteger getEq_updateUserId()
         {
             return eq_updateUserId;
         }
 
-        public SettingSearchBo setEq_updateUserId(String eq_updateUserId)
+        public SettingSearchBo setEq_updateUserId(BigInteger eq_updateUserId)
         {
             this.eq_updateUserId = eq_updateUserId;
             return this;
         }
 
-        public String getNeq_updateUserId()
+        public BigInteger getNeq_updateUserId()
         {
             return neq_updateUserId;
         }
 
-        public SettingSearchBo setNeq_updateUserId(String neq_updateUserId)
+        public SettingSearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
         {
             this.neq_updateUserId = neq_updateUserId;
             return this;

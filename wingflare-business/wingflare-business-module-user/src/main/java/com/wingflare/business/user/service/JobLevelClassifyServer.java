@@ -7,6 +7,7 @@ import com.wingflare.business.user.mapper.JobLevelClassifyMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class JobLevelClassifyServer extends BaseService<JobLevelClassifyMapper, 
      * wrapper 查询参数
      * @return 结果
      */
-    public Map<String, JobLevelClassifyDo> getMap(QueryWrapper<JobLevelClassifyDo> wrapper)
+    public Map<BigInteger, JobLevelClassifyDo> getMap(QueryWrapper<JobLevelClassifyDo> wrapper)
     {
         List<JobLevelClassifyDo> list = list(wrapper);
 
@@ -36,7 +37,7 @@ public class JobLevelClassifyServer extends BaseService<JobLevelClassifyMapper, 
 		    return new HashMap<>();
 	    }
 
-        Map<String, JobLevelClassifyDo> jobLevelClassifyDoMap = new HashMap<>(list.size());
+        Map<BigInteger, JobLevelClassifyDo> jobLevelClassifyDoMap = new HashMap<>(list.size());
 
         for (JobLevelClassifyDo jobLevelClassifyDo : list) {
             jobLevelClassifyDoMap.put(jobLevelClassifyDo.getLevelClassifyId(), jobLevelClassifyDo);

@@ -9,6 +9,7 @@ import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class RolePermissionServer extends BaseService<RolePermissionMapper, Role
     * bo 查询参数
     * @return 结果
     */
-    public Map<String, RolePermissionDo> getMap(QueryWrapper<RolePermissionDo> wrapper)
+    public Map<BigInteger, RolePermissionDo> getMap(QueryWrapper<RolePermissionDo> wrapper)
 	{
         List<RolePermissionDo> list = list(wrapper);
 
@@ -37,7 +38,7 @@ public class RolePermissionServer extends BaseService<RolePermissionMapper, Role
 			return new HashMap<>();
         }
 
-        Map<String, RolePermissionDo> rolePermissionDoMap = new HashMap<>(list.size());
+        Map<BigInteger, RolePermissionDo> rolePermissionDoMap = new HashMap<>(list.size());
 
         for (RolePermissionDo rolePermissionDo : list) {
             rolePermissionDoMap.put(rolePermissionDo.getId(), rolePermissionDo);

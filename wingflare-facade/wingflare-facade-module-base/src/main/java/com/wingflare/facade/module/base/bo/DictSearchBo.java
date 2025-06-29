@@ -3,6 +3,7 @@ package com.wingflare.facade.module.base.bo;
 
 import com.wingflare.lib.standard.BaseSearchBo;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -14,9 +15,9 @@ import java.util.Date;
 public class DictSearchBo extends BaseSearchBo
 {
 
-        private String eq_dictId;
+        private BigInteger eq_dictId;
 
-        private String neq_dictId;
+        private BigInteger neq_dictId;
 		
         private String in_dictId;
 
@@ -222,9 +223,9 @@ public class DictSearchBo extends BaseSearchBo
 
         private String notin_createUser;
 
-        private String eq_createUserId;
+        private BigInteger eq_createUserId;
 
-        private String neq_createUserId;
+        private BigInteger neq_createUserId;
 		
 		private String like_createUserId;
 
@@ -262,9 +263,9 @@ public class DictSearchBo extends BaseSearchBo
 
         private String notin_updateUser;
 
-        private String eq_updateUserId;
+        private BigInteger eq_updateUserId;
 
-        private String neq_updateUserId;
+        private BigInteger neq_updateUserId;
 		
 		private String like_updateUserId;
 
@@ -283,23 +284,23 @@ public class DictSearchBo extends BaseSearchBo
         private String notin_updateUserId;
 
 
-        public String getEq_dictId()
+        public BigInteger getEq_dictId()
         {
             return eq_dictId;
         }
 
-        public DictSearchBo setEq_dictId(String eq_dictId)
+        public DictSearchBo setEq_dictId(BigInteger eq_dictId)
         {
             this.eq_dictId = eq_dictId;
             return this;
         }
 
-        public String getNeq_dictId()
+        public BigInteger getNeq_dictId()
         {
             return neq_dictId;
         }
 
-        public DictSearchBo setNeq_dictId(String neq_dictId)
+        public DictSearchBo setNeq_dictId(BigInteger neq_dictId)
         {
             this.neq_dictId = neq_dictId;
             return this;
@@ -1416,23 +1417,23 @@ public class DictSearchBo extends BaseSearchBo
             this.notin_createUser = notin_createUser;
         }
 
-        public String getEq_createUserId()
+        public BigInteger getEq_createUserId()
         {
             return eq_createUserId;
         }
 
-        public DictSearchBo setEq_createUserId(String eq_createUserId)
+        public DictSearchBo setEq_createUserId(BigInteger eq_createUserId)
         {
             this.eq_createUserId = eq_createUserId;
             return this;
         }
 
-        public String getNeq_createUserId()
+        public BigInteger getNeq_createUserId()
         {
             return neq_createUserId;
         }
 
-        public DictSearchBo setNeq_createUserId(String neq_createUserId)
+        public DictSearchBo setNeq_createUserId(BigInteger neq_createUserId)
         {
             this.neq_createUserId = neq_createUserId;
             return this;
@@ -1634,23 +1635,23 @@ public class DictSearchBo extends BaseSearchBo
             this.notin_updateUser = notin_updateUser;
         }
 
-        public String getEq_updateUserId()
+        public BigInteger getEq_updateUserId()
         {
             return eq_updateUserId;
         }
 
-        public DictSearchBo setEq_updateUserId(String eq_updateUserId)
+        public DictSearchBo setEq_updateUserId(BigInteger eq_updateUserId)
         {
             this.eq_updateUserId = eq_updateUserId;
             return this;
         }
 
-        public String getNeq_updateUserId()
+        public BigInteger getNeq_updateUserId()
         {
             return neq_updateUserId;
         }
 
-        public DictSearchBo setNeq_updateUserId(String neq_updateUserId)
+        public DictSearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
         {
             this.neq_updateUserId = neq_updateUserId;
             return this;

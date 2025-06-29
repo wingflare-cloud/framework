@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.user.dto;
 
 
+import java.math.BigInteger;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public class JobLevelClassifyDto {
 
-    private String levelClassifyId;
+    private BigInteger levelClassifyId;
 
     /**
      * 分类名 
@@ -34,19 +35,19 @@ public class JobLevelClassifyDto {
 
     private String createUser;
 
-    private String createUserId;
+    private BigInteger createUserId;
 
     private String updateUser;
 
-    private String updateUserId;
+    private BigInteger updateUserId;
 
     private Integer version;
 
-    public String getLevelClassifyId() {
+    public BigInteger getLevelClassifyId() {
         return levelClassifyId;
     }
 
-    public JobLevelClassifyDto setLevelClassifyId(String levelClassifyId) {
+    public JobLevelClassifyDto setLevelClassifyId(BigInteger levelClassifyId) {
         this.levelClassifyId = levelClassifyId;
         return this;
     }
@@ -96,11 +97,11 @@ public class JobLevelClassifyDto {
         return this;
     }
 
-    public String getCreateUserId() {
+    public BigInteger getCreateUserId() {
         return createUserId;
     }
 
-    public JobLevelClassifyDto setCreateUserId(String createUserId) {
+    public JobLevelClassifyDto setCreateUserId(BigInteger createUserId) {
         this.createUserId = createUserId;
         return this;
     }
@@ -114,11 +115,11 @@ public class JobLevelClassifyDto {
         return this;
     }
 
-    public String getUpdateUserId() {
+    public BigInteger getUpdateUserId() {
         return updateUserId;
     }
 
-    public JobLevelClassifyDto setUpdateUserId(String updateUserId) {
+    public JobLevelClassifyDto setUpdateUserId(BigInteger updateUserId) {
         this.updateUserId = updateUserId;
         return this;
     }

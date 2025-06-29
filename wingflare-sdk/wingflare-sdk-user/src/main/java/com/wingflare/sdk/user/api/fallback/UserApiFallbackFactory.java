@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static net.logstash.logback.argument.StructuredArguments.e;
+
 /**
  * @ClassName UserApiFallbackFactory
  * @Author naizui_ycx
@@ -32,60 +34,60 @@ public class UserApiFallbackFactory implements FallbackFactory<UserApiServer> {
         return new UserApiServer() {
             @Override
             public UserDto updatePasswd(UpdatePasswdBo bo) {
-                logger.error("更新用户密码失败: {}", throwable.getMessage());
+                logger.error("更新用户密码失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public UserDto getUserByLoginName(String loginName) {
-                logger.error("通过用户登录名获取用户信息失败: {}", throwable.getMessage());
+                logger.error("通过用户登录名获取用户信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public PageDto<UserDto> list(UserSearchBo bo) {
-                logger.error("获取用户列表失败: {}", throwable.getMessage());
+                logger.error("获取用户列表失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public UserDto get(IdBo bo) {
-                logger.error("通过id获取用户信息失败: {}", throwable.getMessage());
+                logger.error("通过id获取用户信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public UserDto getOnlyOne(UserSearchBo searchBo) {
-                logger.error("查询单个用户数据失败: {}", throwable.getMessage());
+                logger.error("查询单个用户数据失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public UserDto delete(IdBo bo) {
-                logger.error("删除用户失败: {}", throwable.getMessage());
+                logger.error("删除用户失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public UserDto create(UserBo bo) {
-                logger.error("创建用户失败: {}", throwable.getMessage());
+                logger.error("创建用户失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public void userBindRole(UserBindRoleBo bo) {
-                logger.error("用户绑定角色失败: {}", throwable.getMessage());
+                logger.error("用户绑定角色失败", e(Map.of("message", throwable.getMessage())));
             }
 
             @Override
             public UserDto update(UserBo bo) {
-                logger.error("更新用户信息失败: {}", throwable.getMessage());
+                logger.error("更新用户信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
             public Map<String, Object> getAttribute(IdBo bo) {
-                logger.error("获取用户附加信息失败: {}", throwable.getMessage());
+                logger.error("获取用户附加信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
         };

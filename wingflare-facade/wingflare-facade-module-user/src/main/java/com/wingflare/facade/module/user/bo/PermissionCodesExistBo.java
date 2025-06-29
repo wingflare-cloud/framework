@@ -1,5 +1,6 @@
 package com.wingflare.facade.module.user.bo;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +14,15 @@ import java.util.List;
  */
 public class PermissionCodesExistBo {
 
-    private String roleId;
+    private BigInteger roleId;
 
     private List<CodesExist> codes = new ArrayList<>();
 
-    public String getRoleId() {
+    public BigInteger getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(BigInteger roleId) {
         this.roleId = roleId;
     }
 

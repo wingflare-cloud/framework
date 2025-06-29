@@ -2,11 +2,12 @@ package com.wingflare.facade.module.user.bo;
 
 
 import com.wingflare.lib.core.validation.Update;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+
+import java.math.BigInteger;
 
 /**
  * 组织机构Bo
@@ -17,14 +18,13 @@ import jakarta.validation.constraints.Pattern;
 public class OrgBo
 {
 
-    @NotBlank(message = "org.orgId.notBlank", groups = Update.class)
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "org.orgId.formatError", groups = Update.class)
-    private String orgId;
+    @Min(message = "org.orgId.error", value = 1, groups = Update.class)
+    private BigInteger orgId;
 
 	/**
      * 父级机构id
      */
-    private String parentOrgId;
+    private BigInteger parentOrgId;
 
 	/**
      * 组织状态
@@ -54,33 +54,33 @@ public class OrgBo
 	/**
      * 机构基础角色id
      */
-    private String roleId;
+    private BigInteger roleId;
 
 	/**
      * 机构主要负责人id
      */
-    private String userId;
+    private BigInteger userId;
 
     private Integer version;
     
-	public OrgBo setOrgId(String orgId)
+	public OrgBo setOrgId(BigInteger orgId)
     {
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
     
-	public OrgBo setParentOrgId(String parentOrgId)
+	public OrgBo setParentOrgId(BigInteger parentOrgId)
     {
         this.parentOrgId = parentOrgId;
         return this;
     }
 
-    public String getParentOrgId()
+    public BigInteger getParentOrgId()
     {
         return parentOrgId;
     }
@@ -140,24 +140,24 @@ public class OrgBo
         return orgAddress;
     }
     
-	public OrgBo setRoleId(String roleId)
+	public OrgBo setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
     
-	public OrgBo setUserId(String userId)
+	public OrgBo setUserId(BigInteger userId)
     {
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }

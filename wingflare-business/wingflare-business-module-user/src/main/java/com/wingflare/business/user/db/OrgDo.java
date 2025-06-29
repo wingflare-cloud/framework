@@ -12,6 +12,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -25,12 +26,12 @@ public class OrgDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String orgId;
+    private BigInteger orgId;
 
 	/**
      * 父级机构id
      */
-    private String parentOrgId;
+    private BigInteger parentOrgId;
 
 	/**
      * 组织状态
@@ -65,7 +66,7 @@ public class OrgDo extends BaseDoAbstract
 	/**
      * 机构主要负责人id
      */
-    private String userId;
+    private BigInteger userId;
 
 	@TableField(fill = FieldFill.INSERT)
     private Date createdTime;
@@ -77,13 +78,13 @@ public class OrgDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -94,38 +95,38 @@ public class OrgDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String orgId)
+	public void setPk(BigInteger orgId)
 	{
 		setOrgId(orgId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getOrgId();
 	}
 
 	
-    public OrgDo setOrgId(String orgId)
+    public OrgDo setOrgId(BigInteger orgId)
     {
 		addNewField("orgId");
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
 	
-    public OrgDo setParentOrgId(String parentOrgId)
+    public OrgDo setParentOrgId(BigInteger parentOrgId)
     {
 		addNewField("parentOrgId");
         this.parentOrgId = parentOrgId;
         return this;
     }
 
-    public String getParentOrgId()
+    public BigInteger getParentOrgId()
     {
         return parentOrgId;
     }
@@ -202,14 +203,14 @@ public class OrgDo extends BaseDoAbstract
         return roleId;
     }
 	
-    public OrgDo setUserId(String userId)
+    public OrgDo setUserId(BigInteger userId)
     {
 		addNewField("userId");
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }
@@ -250,14 +251,14 @@ public class OrgDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public OrgDo setCreateUserId(String createUserId)
+    public OrgDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -274,14 +275,14 @@ public class OrgDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public OrgDo setUpdateUserId(String updateUserId)
+    public OrgDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

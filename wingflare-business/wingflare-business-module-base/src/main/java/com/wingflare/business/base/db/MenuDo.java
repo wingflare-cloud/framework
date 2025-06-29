@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -22,12 +24,12 @@ import java.util.Date;
 public class MenuDo extends BaseDoAbstract {
 
     @TableId(value = "menu_id", type = IdType.ASSIGN_ID)
-    private String menuId;
+    private BigInteger menuId;
 
     /**
      * 父级菜单id 
      */
-    private String parentMenuId;
+    private BigInteger parentMenuId;
 
     /**
      * 启禁用状态 
@@ -130,7 +132,7 @@ public class MenuDo extends BaseDoAbstract {
      * 创建人id 
      */
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
     /**
      * 更新人名称 
@@ -142,7 +144,7 @@ public class MenuDo extends BaseDoAbstract {
      * 更新人id 
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
     /**
      * 删除状态 
@@ -159,32 +161,32 @@ public class MenuDo extends BaseDoAbstract {
     private Integer version;
 
 	@Override
-    public void setPk(String menuId)
+    public void setPk(BigInteger menuId)
     {
         setMenuId(menuId);
     }
 
 	@Override
-    public String getPk()
+    public BigInteger getPk()
     {
         return getMenuId();
     }
 
-    public String getMenuId() {
+    public BigInteger getMenuId() {
         return menuId;
     }
 
-    public MenuDo setMenuId(String menuId) {
+    public MenuDo setMenuId(BigInteger menuId) {
         addNewField("menuId");
         this.menuId = menuId;
         return this;
     }
 
-    public String getParentMenuId() {
+    public BigInteger getParentMenuId() {
         return parentMenuId;
     }
 
-    public MenuDo setParentMenuId(String parentMenuId) {
+    public MenuDo setParentMenuId(BigInteger parentMenuId) {
         addNewField("parentMenuId");
         this.parentMenuId = parentMenuId;
         return this;
@@ -390,11 +392,11 @@ public class MenuDo extends BaseDoAbstract {
         return this;
     }
 
-    public String getCreateUserId() {
+    public BigInteger getCreateUserId() {
         return createUserId;
     }
 
-    public MenuDo setCreateUserId(String createUserId) {
+    public MenuDo setCreateUserId(BigInteger createUserId) {
         addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
@@ -410,11 +412,11 @@ public class MenuDo extends BaseDoAbstract {
         return this;
     }
 
-    public String getUpdateUserId() {
+    public BigInteger getUpdateUserId() {
         return updateUserId;
     }
 
-    public MenuDo setUpdateUserId(String updateUserId) {
+    public MenuDo setUpdateUserId(BigInteger updateUserId) {
         addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;

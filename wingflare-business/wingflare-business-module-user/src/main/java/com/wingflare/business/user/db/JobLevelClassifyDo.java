@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -22,7 +24,7 @@ import java.util.Date;
 public class JobLevelClassifyDo extends BaseDoAbstract {
 
     @TableId(value = "level_classify_id", type = IdType.ASSIGN_ID)
-    private String levelClassifyId;
+    private BigInteger levelClassifyId;
 
     /**
      * 分类名 
@@ -44,12 +46,12 @@ public class JobLevelClassifyDo extends BaseDoAbstract {
     private String createUser;
 
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
     private String updateUser;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
     @TableField(fill = FieldFill.INSERT)
     @TableLogic
@@ -60,22 +62,22 @@ public class JobLevelClassifyDo extends BaseDoAbstract {
     private Integer version;
 
 	@Override
-    public void setPk(String levelClassifyId)
+    public void setPk(BigInteger levelClassifyId)
     {
         setLevelClassifyId(levelClassifyId);
     }
 
 	@Override
-    public String getPk()
+    public BigInteger getPk()
     {
         return getLevelClassifyId();
     }
 
-    public String getLevelClassifyId() {
+    public BigInteger getLevelClassifyId() {
         return levelClassifyId;
     }
 
-    public JobLevelClassifyDo setLevelClassifyId(String levelClassifyId) {
+    public JobLevelClassifyDo setLevelClassifyId(BigInteger levelClassifyId) {
         addNewField("levelClassifyId");
         this.levelClassifyId = levelClassifyId;
         return this;
@@ -131,11 +133,11 @@ public class JobLevelClassifyDo extends BaseDoAbstract {
         return this;
     }
 
-    public String getCreateUserId() {
+    public BigInteger getCreateUserId() {
         return createUserId;
     }
 
-    public JobLevelClassifyDo setCreateUserId(String createUserId) {
+    public JobLevelClassifyDo setCreateUserId(BigInteger createUserId) {
         addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
@@ -151,11 +153,11 @@ public class JobLevelClassifyDo extends BaseDoAbstract {
         return this;
     }
 
-    public String getUpdateUserId() {
+    public BigInteger getUpdateUserId() {
         return updateUserId;
     }
 
-    public JobLevelClassifyDo setUpdateUserId(String updateUserId) {
+    public JobLevelClassifyDo setUpdateUserId(BigInteger updateUserId) {
         addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;

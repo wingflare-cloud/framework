@@ -3,6 +3,7 @@ package com.wingflare.facade.module.user.bo;
 
 import com.wingflare.lib.standard.BaseSearchBo;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -14,17 +15,17 @@ import java.util.Date;
 public class RolePermissionSearchBo extends BaseSearchBo
 {
 
-        private String eq_id;
+        private BigInteger eq_id;
 
-        private String neq_id;
+        private BigInteger neq_id;
 		
         private String in_id;
 
         private String notin_id;
 
-        private String eq_roleId;
+        private BigInteger eq_roleId;
 
-        private String neq_roleId;
+        private BigInteger neq_roleId;
 		
 		private String like_roleId;
 
@@ -122,9 +123,9 @@ public class RolePermissionSearchBo extends BaseSearchBo
 
         private String notin_createUser;
 
-        private String eq_createUserId;
+        private BigInteger eq_createUserId;
 
-        private String neq_createUserId;
+        private BigInteger neq_createUserId;
 		
 		private String like_createUserId;
 
@@ -143,23 +144,23 @@ public class RolePermissionSearchBo extends BaseSearchBo
         private String notin_createUserId;
 
 
-        public String getEq_id()
+        public BigInteger getEq_id()
         {
             return eq_id;
         }
 
-        public RolePermissionSearchBo setEq_id(String eq_id)
+        public RolePermissionSearchBo setEq_id(BigInteger eq_id)
         {
             this.eq_id = eq_id;
             return this;
         }
 
-        public String getNeq_id()
+        public BigInteger getNeq_id()
         {
             return neq_id;
         }
 
-        public RolePermissionSearchBo setNeq_id(String neq_id)
+        public RolePermissionSearchBo setNeq_id(BigInteger neq_id)
         {
             this.neq_id = neq_id;
             return this;
@@ -186,23 +187,23 @@ public class RolePermissionSearchBo extends BaseSearchBo
             this.notin_id = notin_id;
         }
 
-        public String getEq_roleId()
+        public BigInteger getEq_roleId()
         {
             return eq_roleId;
         }
 
-        public RolePermissionSearchBo setEq_roleId(String eq_roleId)
+        public RolePermissionSearchBo setEq_roleId(BigInteger eq_roleId)
         {
             this.eq_roleId = eq_roleId;
             return this;
         }
 
-        public String getNeq_roleId()
+        public BigInteger getNeq_roleId()
         {
             return neq_roleId;
         }
 
-        public RolePermissionSearchBo setNeq_roleId(String neq_roleId)
+        public RolePermissionSearchBo setNeq_roleId(BigInteger neq_roleId)
         {
             this.neq_roleId = neq_roleId;
             return this;
@@ -731,23 +732,23 @@ public class RolePermissionSearchBo extends BaseSearchBo
             this.notin_createUser = notin_createUser;
         }
 
-        public String getEq_createUserId()
+        public BigInteger getEq_createUserId()
         {
             return eq_createUserId;
         }
 
-        public RolePermissionSearchBo setEq_createUserId(String eq_createUserId)
+        public RolePermissionSearchBo setEq_createUserId(BigInteger eq_createUserId)
         {
             this.eq_createUserId = eq_createUserId;
             return this;
         }
 
-        public String getNeq_createUserId()
+        public BigInteger getNeq_createUserId()
         {
             return neq_createUserId;
         }
 
-        public RolePermissionSearchBo setNeq_createUserId(String neq_createUserId)
+        public RolePermissionSearchBo setNeq_createUserId(BigInteger neq_createUserId)
         {
             this.neq_createUserId = neq_createUserId;
             return this;

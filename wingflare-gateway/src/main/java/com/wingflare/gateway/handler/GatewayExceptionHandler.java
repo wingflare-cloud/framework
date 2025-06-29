@@ -2,9 +2,6 @@ package com.wingflare.gateway.handler;
 
 
 import com.wingflare.gateway.R;
-import com.wingflare.gateway.bo.OpenApiOutputBo;
-import com.wingflare.gateway.exceptions.OpenApiException;
-import com.wingflare.gateway.exceptions.OpenApiSignException;
 import com.wingflare.gateway.utils.WebFluxUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +14,10 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
+import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.*;
+
 
 /**
  * @author naizui_ycx
@@ -46,23 +46,18 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             }
 
             if (logger.isDebugEnabled()) {
-                logger.debug("响应非200状态码: {} {}", ((ResponseStatusException) ex).getStatusCode().value(), ex.getMessage());
+                logger.debug("响应非200状态码", e(Map.of(
+                        "status", ((ResponseStatusException) ex).getStatusCode().value(),
+                        "message", ex.getMessage()
+                )));
             }
-        } else if (ex instanceof OpenApiException) {
-            if (ex instanceof OpenApiSignException) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("开放平台签名异常");
-                }
-            }
-
-            OpenApiOutputBo outputBo = new OpenApiOutputBo();
-            outputBo.setCode(ex.getMessage());
-            outputBo.setTimestamp(new Date());
-            return WebFluxUtil.writeJSON(exchange.getResponse(), outputBo);
         } else {
             msg = "server.exception";
-            logger.error("[网关异常处理]请求路径:{},异常信息:{}, 异常类: {}",
-                    exchange.getRequest().getPath(), ex.getMessage(), ex.getClass().getName());
+            logger.error("[网关异常处理]请求路径", e(Map.of(
+                    "path", exchange.getRequest().getPath(),
+                    "message", ex.getMessage(),
+                    "class", ex.getClass().getName()
+            )));
         }
 
         return WebFluxUtil.writeJSON(

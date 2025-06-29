@@ -4,6 +4,8 @@ import com.wingflare.lib.core.validation.MustUserId;
 
 import jakarta.validation.constraints.*;
 
+import java.math.BigInteger;
+
 /**
  * @ClassName LoginBo
  * @Author naizui_ycx
@@ -19,9 +21,8 @@ public class GetLoginUsersBo {
     private long startIndex = 0;
 
     @NotNull(message = "id.notNull", groups = MustUserId.class)
-    @NotBlank(message = "id.notBlank", groups = MustUserId.class)
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "id.formatError", groups = MustUserId.class)
-    private String userId;
+    @Min(message = "id.error", value = 1, groups = MustUserId.class)
+    private BigInteger userId;
 
     public long getPageSize() {
         return pageSize;
@@ -39,11 +40,11 @@ public class GetLoginUsersBo {
         this.startIndex = startIndex;
     }
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(BigInteger userId) {
         this.userId = userId;
     }
 }

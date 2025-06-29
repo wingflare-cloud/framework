@@ -1,6 +1,7 @@
 package com.wingflare.business.base.biz;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.constants.BaseEventName;
@@ -63,9 +64,12 @@ public class SettingBizImpl implements SettingBiz {
      */
     @Override
     public PageDto<SettingDto> list(@Valid SettingSearchBo bo) {
+        LambdaQueryWrapper<SettingDo> queryWrapper = SettingWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(SettingDo::getSettingId);
+
         IPage<SettingDo> iPage = settingServer.page(
                 settingServer.createPage(bo),
-                SettingWrapper.getQueryWrapper(bo)
+                queryWrapper
         );
 
         return PageUtil.convertIPage(iPage,
@@ -88,7 +92,7 @@ public class SettingBizImpl implements SettingBiz {
     public SettingDto getOnlyOne(@Valid @NotNull SettingSearchBo searchBo) {
         return SettingConvert.convert.doToDto(
                 settingServer.getOne(
-                        SettingWrapper.getQueryWrapper(searchBo)
+                        SettingWrapper.getLambdaQueryWrapper(searchBo)
                 ));
     }
 
@@ -156,7 +160,7 @@ public class SettingBizImpl implements SettingBiz {
             SettingDto settingDto = null;
 
             if (oldSettingDo == null) {
-                throw new DataNotFoundException("setting.data.notfound" );
+                throw new DataNotFoundException("setting.data.notfound");
             }
 
             checkSettingCanSave(bo, oldSettingDo);
@@ -241,7 +245,7 @@ public class SettingBizImpl implements SettingBiz {
      */
     public boolean has(SettingSearchBo bo) {
         return settingServer.has(
-                SettingWrapper.getQueryWrapper(bo)
+                SettingWrapper.getLambdaQueryWrapper(bo)
         );
     }
 

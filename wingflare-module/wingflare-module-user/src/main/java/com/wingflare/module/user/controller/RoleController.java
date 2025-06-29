@@ -5,6 +5,7 @@ import com.wingflare.facade.module.user.biz.RoleBiz;
 import com.wingflare.facade.module.user.bo.RoleBo;
 import com.wingflare.facade.module.user.bo.RoleSearchBo;
 import com.wingflare.facade.module.user.dto.RoleDto;
+import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
@@ -37,6 +38,7 @@ public class RoleController
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_VIEW)
+	@BusinessSystem("base")
     public PageDto<RoleDto> list(RoleSearchBo bo)
     {
 		return roleBiz.list(bo);
@@ -48,6 +50,7 @@ public class RoleController
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_VIEW)
+	@BusinessSystem("base")
 	public RoleDto get(IdBo bo)
 	{
 		return roleBiz.get(bo);
@@ -59,6 +62,7 @@ public class RoleController
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_VIEW)
+	@BusinessSystem("base")
 	public RoleDto getOnlyOne(RoleSearchBo searchBo)
 	{
 		return roleBiz.getOnlyOne(searchBo);
@@ -70,6 +74,7 @@ public class RoleController
 	@RequestMapping(value = "/delete", method = {RequestMethod.DELETE})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_DELETE)
+	@BusinessSystem("base")
 	public RoleDto delete(@RequestBody IdBo bo)
 	{
 		return roleBiz.delete(bo);
@@ -81,6 +86,7 @@ public class RoleController
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_CREATE)
+	@BusinessSystem("base")
 	public RoleDto create(@RequestBody RoleBo bo)
 	{
 		return roleBiz.create(bo);
@@ -92,6 +98,7 @@ public class RoleController
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_UPDATE)
+	@BusinessSystem("base")
 	public RoleDto update(@RequestBody RoleBo bo)
 	{
 		return roleBiz.update(bo);

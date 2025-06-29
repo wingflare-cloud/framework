@@ -7,6 +7,7 @@ import com.wingflare.business.user.mapper.OrgDepartmentMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class OrgDepartmentServer extends BaseService<OrgDepartmentMapper, OrgDep
     * bo 查询参数
     * @return 结果
     */
-    public Map<String, OrgDepartmentDo> getMap(QueryWrapper<OrgDepartmentDo> wrapper)
+    public Map<BigInteger, OrgDepartmentDo> getMap(QueryWrapper<OrgDepartmentDo> wrapper)
 	{
         List<OrgDepartmentDo> list = list(wrapper);
 
@@ -35,7 +36,7 @@ public class OrgDepartmentServer extends BaseService<OrgDepartmentMapper, OrgDep
 			return new HashMap<>();
         }
 
-        Map<String, OrgDepartmentDo> orgDepartmentDoMap = new HashMap<>(list.size());
+        Map<BigInteger, OrgDepartmentDo> orgDepartmentDoMap = new HashMap<>(list.size());
 
         for (OrgDepartmentDo orgDepartmentDo : list) {
             orgDepartmentDoMap.put(orgDepartmentDo.getDepartmentId(), orgDepartmentDo);

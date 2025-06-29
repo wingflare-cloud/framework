@@ -15,6 +15,9 @@ import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * @ClassName UserApiFallbackFactory
@@ -32,41 +35,41 @@ public class MenuApiFallbackFactory implements FallbackFactory<MenuApiServer> {
         return new MenuApiServer() {
 
             public PageDto<MenuDto> list(MenuSearchBo bo) {
-                logger.error("查询菜单列表失败: {}", throwable.getMessage());
+                logger.error("查询菜单列表失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             public MenuDto get(IdBo bo) {
-                logger.error("查询单个菜单失败: {}", throwable.getMessage());
+                logger.error("查询单个菜单失败",e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             public MenuDto update(MenuBo bo) {
-                logger.error("更新菜单失败: {}", throwable.getMessage());
+                logger.error("更新菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             public MenuDto getOnlyOne(MenuSearchBo searchBo) {
-                logger.error("根据条件查询单个菜单失败: {}", throwable.getMessage());
+                logger.error("根据条件查询单个菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             public void delete(IdBo bo) {
-                logger.error("删除菜单失败: {}", throwable.getMessage());
+                logger.error("删除菜单失败", e(Map.of("message", throwable.getMessage())));
             }
 
             public MenuDto create(MenuBo bo) {
-                logger.error("创建菜单失败: {}", throwable.getMessage());
+                logger.error("创建菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             public List<SimpleMenuDto> tree(MenuSearchBo searchBo) {
-                logger.error("获取树形菜单失败: {}", throwable.getMessage());
+                logger.error("获取树形菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             public Boolean permissionCodesExist(PermissionCodesExistBo existBo) {
-                logger.error("判断权限代码是否存在: {}", throwable.getMessage());
+                logger.error("判断权限代码是否存在", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
         };

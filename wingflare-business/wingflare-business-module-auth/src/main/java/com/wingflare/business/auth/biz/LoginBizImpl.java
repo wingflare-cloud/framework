@@ -25,6 +25,7 @@ import com.wingflare.lib.jwt.utils.JwtUtil;
 import com.wingflare.lib.security.annotation.Desensitize;
 import com.wingflare.lib.security.annotation.DesensitizeGroups;
 import com.wingflare.lib.standard.*;
+import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.security.utils.UserAuthUtil;
 import com.wingflare.lib.spring.utils.SnowflakeUtil;
@@ -39,6 +40,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
+
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -126,8 +129,8 @@ public class LoginBizImpl implements LoginBiz {
                 .build();
 
         Map<String, Object> userAttr = userBiz.getAttribute(new IdBo().setId(userDto.getUserId()));
-        List<String> orgList = null;
-        List<String> identities = null;
+        List<BigInteger> orgList = null;
+        List<BigInteger> identities = null;
 
         if (CollectionUtil.isNotEmpty(userAttr)) {
             userAuth.setAttribute(userAttr);
@@ -147,14 +150,14 @@ public class LoginBizImpl implements LoginBiz {
             }
         }
 
-        if ((CollectionUtil.isEmpty(orgList) && StringUtil.isNotEmpty(bo.getOrgId()))
-                || (CollectionUtil.isNotEmpty(orgList) && StringUtil.isNotEmpty(bo.getOrgId())
+        if ((CollectionUtil.isEmpty(orgList) && bo.getOrgId() != null)
+                || (CollectionUtil.isNotEmpty(orgList) && bo.getOrgId() != null
                 && !orgList.contains(bo.getOrgId()))) {
             throw new BusinessLogicException(ErrorCode.ORG_NO_PERMISSION);
         }
 
-        if ((CollectionUtil.isEmpty(identities) && StringUtil.isNotEmpty(bo.getIdentityId()))
-                || (CollectionUtil.isNotEmpty(identities) && StringUtil.isNotEmpty(bo.getIdentityId())
+        if ((CollectionUtil.isEmpty(identities) && bo.getIdentityId() != null)
+                || (CollectionUtil.isNotEmpty(identities) && bo.getIdentityId() != null
                 && !identities.contains(bo.getIdentityId()))) {
             throw new BusinessLogicException(ErrorCode.ORG_NO_IDENTITY);
         }
@@ -191,7 +194,7 @@ public class LoginBizImpl implements LoginBiz {
      * 登出
      */
     @Override
-    public UserAuth logout(@Valid @NotNull IdBo bo) {
+    public UserAuth logout(@Valid @NotNull StringIdBo bo) {
         String tokenId = bo.getId();
         UserAuth userAuth = userAuthUtil.removeToken(tokenId);
 
@@ -209,7 +212,7 @@ public class LoginBizImpl implements LoginBiz {
      * @return
      */
     @Override
-    public UserAuth getUserLoginInfo(@Valid @NotNull IdBo bo) {
+    public UserAuth getUserLoginInfo(@Valid @NotNull StringIdBo bo) {
         return userAuthUtil.getUser(bo.getId());
     }
 

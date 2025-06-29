@@ -6,13 +6,14 @@ import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.standard.model.ApplicationAuth;
 import com.wingflare.lib.standard.utils.SecurityUtil;
-import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.constants.SecurityErrorCode;
 import com.wingflare.lib.security.standard.SecurityCheckApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
+import java.math.BigInteger;
 
 /**
  * @author naizui_ycx
@@ -61,14 +62,14 @@ public class ApplicationAuthUtil {
      */
     private void appAuth() {
         if (!ContextHolder.has(Ctx.CONTEXT_KEY_APP)) {
-            String appId = SecurityUtil.getAppId();
-            String parentAppId = SecurityUtil.getParentAppId();
+            BigInteger appId = SecurityUtil.getAppId();
+            BigInteger parentAppId = SecurityUtil.getParentAppId();
 
-            if (StringUtil.isNotEmpty(appId) && !"1".equals(appId)) {
+            if (appId != null && appId.compareTo(BigInteger.ZERO) > 0) {
                 ContextHolder.set(Ctx.CONTEXT_KEY_APP, getApp(appId));
             }
 
-            if (StringUtil.isNotEmpty(parentAppId) && !"1".equals(parentAppId)) {
+            if (parentAppId != null && parentAppId.compareTo(BigInteger.ZERO) > 0) {
                 ContextHolder.set(Ctx.CONTEXT_KEY_PARENT_APP, getApp(parentAppId));
             }
         }
@@ -79,7 +80,7 @@ public class ApplicationAuthUtil {
      *
      * @return
      */
-    public ApplicationAuth getApp(String appId)
+    public ApplicationAuth getApp(BigInteger appId)
     {
         return securityCheck.getApplicationByAppId(
                 String.format("%s:%s", Ctx.PREFIX_APP_INFO, appId)

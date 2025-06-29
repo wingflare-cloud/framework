@@ -2,11 +2,11 @@ package com.wingflare.facade.module.user.bo;
 
 
 import com.wingflare.lib.core.validation.Update;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import java.math.BigInteger;
 
 /**
  * 系统角色Bo
@@ -17,9 +17,8 @@ import jakarta.validation.constraints.Pattern;
 public class RoleBo
 {
 
-    @NotBlank(message = "user.roleId.notBlank", groups = Update.class)
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "user.roleId.formatError", groups = Update.class)
-    private String roleId;
+    @Min(message = "user.roleId.error", value = 1, groups = Update.class)
+    private BigInteger roleId;
 
 	/**
      * 角色状态
@@ -29,12 +28,12 @@ public class RoleBo
 	/**
      * 角色分组id
      */
-    private String roleGroupId;
+    private BigInteger roleGroupId;
 
 	/**
      * 父级角色id
      */
-    private String parentRoleId;
+    private BigInteger parentRoleId;
 
 	/**
      * 角色id层级路径
@@ -53,13 +52,13 @@ public class RoleBo
 
     private Integer version;
     
-	public RoleBo setRoleId(String roleId)
+	public RoleBo setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
@@ -75,24 +74,24 @@ public class RoleBo
         return state;
     }
     
-	public RoleBo setRoleGroupId(String roleGroupId)
+	public RoleBo setRoleGroupId(BigInteger roleGroupId)
     {
         this.roleGroupId = roleGroupId;
         return this;
     }
 
-    public String getRoleGroupId()
+    public BigInteger getRoleGroupId()
     {
         return roleGroupId;
     }
     
-	public RoleBo setParentRoleId(String parentRoleId)
+	public RoleBo setParentRoleId(BigInteger parentRoleId)
     {
         this.parentRoleId = parentRoleId;
         return this;
     }
 
-    public String getParentRoleId()
+    public BigInteger getParentRoleId()
     {
         return parentRoleId;
     }

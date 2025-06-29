@@ -35,6 +35,8 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
+
+import java.math.BigInteger;
 import java.util.Optional;
 
 
@@ -75,7 +77,7 @@ public class IdentityBizImpl implements IdentityBiz {
     public PageDto<IdentityDto> list(@Valid IdentitySearchBo bo) {
         IPage<IdentityDo> iPage = identityServer.page(
                 identityServer.createPage(bo),
-                IdentityWrapper.getQueryWrapper(bo)
+                IdentityWrapper.getLambdaQueryWrapper(bo)
         );
 
         return PageUtil.convertIPage(iPage,
@@ -97,7 +99,7 @@ public class IdentityBizImpl implements IdentityBiz {
     @Override
     public IdentityDto getOnlyOne(@Valid @NotNull IdentitySearchBo searchBo) {
         return IdentityConvert.convert.doToDto(
-                identityServer.getOne(IdentityWrapper.getQueryWrapper(searchBo)));
+                identityServer.getOne(IdentityWrapper.getLambdaQueryWrapper(searchBo)));
     }
 
     /**
@@ -180,14 +182,14 @@ public class IdentityBizImpl implements IdentityBiz {
             searchBo = searchBo.setNeq_identityId(bo.getIdentityId());
         }
 
-        if (StringUtil.isNotEmpty(bo.getDepartmentId())) {
+        if (bo.getDepartmentId() != null && bo.getDepartmentId().compareTo(BigInteger.ZERO) > 0) {
             Assert.isTrue(orgDepartmentServer.hasById(bo.getDepartmentId()), ErrorCode.SYS_PARENT_DEPARTMENT_NON_EXISTENT);
             searchBo.setEq_departmentId(bo.getDepartmentId());
-        } else if (StringUtil.isNotEmpty(bo.getOrgId())) {
+        } else if (bo.getOrgId() != null && bo.getOrgId().compareTo(BigInteger.ZERO) > 0) {
             searchBo.setEq_orgId(bo.getOrgId());
         }
 
-        if (StringUtil.isNotEmpty(bo.getJobLevelId())) {
+        if (bo.getJobLevelId() != null && bo.getJobLevelId().compareTo(BigInteger.ZERO) > 0) {
             Assert.isTrue(jobLevelServer.hasById(bo.getJobLevelId()), ErrorCode.SYS_JOB_LEVEL_NON_EXISTENT);
         }
 
@@ -203,7 +205,7 @@ public class IdentityBizImpl implements IdentityBiz {
      */
     public boolean has(IdentitySearchBo bo) {
         return identityServer.has(
-                IdentityWrapper.getQueryWrapper(bo)
+                IdentityWrapper.getLambdaQueryWrapper(bo)
         );
     }
 

@@ -1,6 +1,7 @@
 package com.wingflare.lib.standard.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class UserAuth implements Serializable
     /**
      * 用户名id
      */
-    private String userId;
+    private BigInteger userId;
 
     /**
      * tokenId
@@ -73,27 +74,27 @@ public class UserAuth implements Serializable
     /**
      * 系统角色id
      */
-    private List<String> roles;
+    private List<BigInteger> roles;
 
     /**
      * 身份id
      */
-    private List<String> identities;
+    private List<BigInteger> identities;
 
     /**
      * 当前身份
      */
-    private String identity;
+    private BigInteger identity;
 
     /**
      * 组织id
      */
-    private List<String> org;
+    private List<BigInteger> org;
 
     /**
      * 当前组织id
      */
-    private String currentOrg;
+    private BigInteger currentOrg;
 
     /**
      * 刷新id
@@ -111,11 +112,11 @@ public class UserAuth implements Serializable
     private Map<String, Object> attribute;
 
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(BigInteger userId) {
         this.userId = userId;
     }
 
@@ -199,43 +200,43 @@ public class UserAuth implements Serializable
         this.userTypes = userTypes;
     }
 
-    public List<String> getRoles() {
+    public List<BigInteger> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<BigInteger> roles) {
         this.roles = roles;
     }
 
-    public List<String> getIdentities() {
+    public List<BigInteger> getIdentities() {
         return identities;
     }
 
-    public void setIdentities(List<String> identities) {
+    public void setIdentities(List<BigInteger> identities) {
         this.identities = identities;
     }
 
-    public String getIdentity() {
+    public BigInteger getIdentity() {
         return identity;
     }
 
-    public void setIdentity(String identity) {
+    public void setIdentity(BigInteger identity) {
         this.identity = identity;
     }
 
-    public List<String> getOrg() {
+    public List<BigInteger> getOrg() {
         return org;
     }
 
-    public void setOrg(List<String> org) {
+    public void setOrg(List<BigInteger> org) {
         this.org = org;
     }
 
-    public String getCurrentOrg() {
+    public BigInteger getCurrentOrg() {
         return currentOrg;
     }
 
-    public void setCurrentOrg(String currentOrg) {
+    public void setCurrentOrg(BigInteger currentOrg) {
         this.currentOrg = currentOrg;
     }
 

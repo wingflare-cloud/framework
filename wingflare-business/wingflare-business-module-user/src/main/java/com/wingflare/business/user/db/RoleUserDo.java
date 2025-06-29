@@ -1,36 +1,41 @@
 package com.wingflare.business.user.db;
 
 
+import java.math.BigInteger;
 import java.util.Date;
 
 
 public class RoleUserDo {
 
-    private String id;
+    private BigInteger id;
 
-    private String userId;
+    private BigInteger userId;
 
     private String userName;
 
     private Integer banState;
 
+    private String userEmail;
+
+    private String userPhone;
+
     private String lastLoginIp;
 
     private Date lastLoginTime;
 
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(BigInteger userId) {
         this.userId = userId;
     }
 
@@ -48,6 +53,22 @@ public class RoleUserDo {
 
     public void setBanState(Integer banState) {
         this.banState = banState;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
     public String getLastLoginIp() {

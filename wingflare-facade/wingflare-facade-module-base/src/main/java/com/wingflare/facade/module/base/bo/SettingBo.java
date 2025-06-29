@@ -1,17 +1,19 @@
 package com.wingflare.facade.module.base.bo;
 
 
-import com.wingflare.lib.core.Regexp;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Enum;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.enums.OnOffEnum;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import java.math.BigInteger;
 
 /**
  * 系统设置Bo
@@ -22,9 +24,8 @@ import jakarta.validation.constraints.Pattern;
 public class SettingBo
 {
 
-    @NotBlank(message = "sys.settingId.notBlank", groups = Update.class)
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "sys.settingId.formatError", groups = Update.class)
-    private String settingId;
+    @Min(message = "sys.settingId.error", value = 1, groups = Update.class)
+    private BigInteger settingId;
 
 	/**
      * 设置状态
@@ -67,13 +68,13 @@ public class SettingBo
 
     private Integer version;
     
-	public SettingBo setSettingId(String settingId)
+	public SettingBo setSettingId(BigInteger settingId)
     {
         this.settingId = settingId;
         return this;
     }
 
-    public String getSettingId()
+    public BigInteger getSettingId()
     {
         return settingId;
     }

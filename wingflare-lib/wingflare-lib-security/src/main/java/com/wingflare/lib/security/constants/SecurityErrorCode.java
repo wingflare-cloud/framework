@@ -27,4 +27,9 @@ public interface SecurityErrorCode {
      */
     String AUTH_NOT_PERMISSION_OR = "sec.auth.noPermissionOr";
 
+    /**
+     * 无权限
+     */
+    String AUTH_NOT_PERMISSION_SYSTEM = "sec.auth.noPermissionSystem";
+
 }

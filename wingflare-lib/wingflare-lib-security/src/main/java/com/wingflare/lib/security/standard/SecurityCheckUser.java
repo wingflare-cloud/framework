@@ -4,6 +4,7 @@ package com.wingflare.lib.security.standard;
 import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.model.UserAuth;
 
+import java.math.BigInteger;
 import java.util.concurrent.TimeUnit;
 
 
@@ -62,6 +63,6 @@ public interface SecurityCheckUser {
      *
      * @return
      */
-    PageResult<UserAuth> getUserAllLoginInfo(final String userId, final long pageSize, final long startIndex);
+    PageResult<UserAuth> getUserAllLoginInfo(final BigInteger userId, final long pageSize, final long startIndex);
 
 }

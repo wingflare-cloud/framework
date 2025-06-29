@@ -7,6 +7,7 @@ import com.wingflare.business.base.mapper.DictMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +28,14 @@ public class DictServer extends BaseService<DictMapper, DictDo> {
      *
      * @return 结果
      */
-    public Map<String, DictDo> getMap(QueryWrapper<DictDo> wrapper) {
+    public Map<BigInteger, DictDo> getMap(QueryWrapper<DictDo> wrapper) {
         List<DictDo> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<String, DictDo> dictDoMap = new HashMap<>(list.size());
+        Map<BigInteger, DictDo> dictDoMap = new HashMap<>(list.size());
 
         for (DictDo dictDo : list) {
             dictDoMap.put(dictDo.getDictId(), dictDo);

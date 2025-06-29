@@ -3,14 +3,14 @@ package com.wingflare.facade.module.user.bo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wingflare.lib.core.Regexp;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.annotation.security.Decrypt;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -22,9 +22,8 @@ import java.util.List;
  */
 public class UserBo {
 
-    @NotBlank(message = "user.userId.notBlank", groups = Update.class)
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "user.userId.formatError", groups = Update.class)
-    private String userId;
+    @Min(message = "user.userId.error", value = 1, groups = Update.class)
+    private BigInteger userId;
 
     /**
      * 是否为超管
@@ -90,7 +89,7 @@ public class UserBo {
     /**
      * 用户角色
      */
-    private List<String> userRole;
+    private List<BigInteger> userRole;
 
     /**
      * 最后登录时间
@@ -100,12 +99,12 @@ public class UserBo {
 
     private Integer version;
 
-    public UserBo setUserId(String userId) {
+    public UserBo setUserId(BigInteger userId) {
         this.userId = userId;
         return this;
     }
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
@@ -217,11 +216,11 @@ public class UserBo {
         return lastLoginIp;
     }
 
-    public List<String> getUserRole() {
+    public List<BigInteger> getUserRole() {
         return userRole;
     }
 
-    public UserBo setUserRole(List<String> userRole) {
+    public UserBo setUserRole(List<BigInteger> userRole) {
         this.userRole = userRole;
         return this;
     }

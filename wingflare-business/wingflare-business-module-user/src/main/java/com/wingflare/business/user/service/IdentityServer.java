@@ -7,6 +7,7 @@ import com.wingflare.business.user.db.IdentityDo;
 import com.wingflare.business.user.mapper.IdentityMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class IdentityServer extends BaseService<IdentityMapper, IdentityDo>
     * bo 查询参数
     * @return 结果
     */
-    public Map<String, IdentityDo> getMap(QueryWrapper<IdentityDo> wrapper)
+    public Map<BigInteger, IdentityDo> getMap(QueryWrapper<IdentityDo> wrapper)
 	{
         List<IdentityDo> list = list(wrapper);
 
@@ -35,7 +36,7 @@ public class IdentityServer extends BaseService<IdentityMapper, IdentityDo>
 			return new HashMap<>();
         }
 
-        Map<String, IdentityDo> identityDoMap = new HashMap<>(list.size());
+        Map<BigInteger, IdentityDo> identityDoMap = new HashMap<>(list.size());
 
         for (IdentityDo identityDo : list) {
             identityDoMap.put(identityDo.getIdentityId(), identityDo);

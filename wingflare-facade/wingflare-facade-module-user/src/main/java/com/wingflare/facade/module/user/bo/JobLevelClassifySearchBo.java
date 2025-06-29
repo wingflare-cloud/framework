@@ -2,6 +2,8 @@ package com.wingflare.facade.module.user.bo;
 
 
 import com.wingflare.lib.standard.BaseSearchBo;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -15,9 +17,9 @@ import java.util.Date;
 public class JobLevelClassifySearchBo extends BaseSearchBo
 {
         
-    private String eq_levelClassifyId;
+    private BigInteger eq_levelClassifyId;
 
-    private String neq_levelClassifyId;
+    private BigInteger neq_levelClassifyId;
 
     private String like_levelClassifyId;
 
@@ -135,9 +137,9 @@ public class JobLevelClassifySearchBo extends BaseSearchBo
 
     private String notin_createUser;
         
-    private String eq_createUserId;
+    private BigInteger eq_createUserId;
 
-    private String neq_createUserId;
+    private BigInteger neq_createUserId;
 
     private String like_createUserId;
 
@@ -175,9 +177,9 @@ public class JobLevelClassifySearchBo extends BaseSearchBo
 
     private String notin_updateUser;
         
-    private String eq_updateUserId;
+    private BigInteger eq_updateUserId;
 
-    private String neq_updateUserId;
+    private BigInteger neq_updateUserId;
 
     private String like_updateUserId;
 
@@ -195,23 +197,23 @@ public class JobLevelClassifySearchBo extends BaseSearchBo
 
     private String notin_updateUserId;
 
-    public String getEq_levelClassifyId()
+    public BigInteger getEq_levelClassifyId()
     {
         return eq_levelClassifyId;
     }
 
-    public JobLevelClassifySearchBo setEq_levelClassifyId(String eq_levelClassifyId)
+    public JobLevelClassifySearchBo setEq_levelClassifyId(BigInteger eq_levelClassifyId)
     {
         this.eq_levelClassifyId = eq_levelClassifyId;
         return this;
     }
 
-    public String getNeq_levelClassifyId()
+    public BigInteger getNeq_levelClassifyId()
     {
         return neq_levelClassifyId;
     }
 
-    public JobLevelClassifySearchBo setNeq_levelClassifyId(String neq_levelClassifyId)
+    public JobLevelClassifySearchBo setNeq_levelClassifyId(BigInteger neq_levelClassifyId)
     {
         this.neq_levelClassifyId = neq_levelClassifyId;
         return this;
@@ -855,23 +857,23 @@ public class JobLevelClassifySearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_createUserId()
+    public BigInteger getEq_createUserId()
     {
         return eq_createUserId;
     }
 
-    public JobLevelClassifySearchBo setEq_createUserId(String eq_createUserId)
+    public JobLevelClassifySearchBo setEq_createUserId(BigInteger eq_createUserId)
     {
         this.eq_createUserId = eq_createUserId;
         return this;
     }
 
-    public String getNeq_createUserId()
+    public BigInteger getNeq_createUserId()
     {
         return neq_createUserId;
     }
 
-    public JobLevelClassifySearchBo setNeq_createUserId(String neq_createUserId)
+    public JobLevelClassifySearchBo setNeq_createUserId(BigInteger neq_createUserId)
     {
         this.neq_createUserId = neq_createUserId;
         return this;
@@ -1075,23 +1077,23 @@ public class JobLevelClassifySearchBo extends BaseSearchBo
         return this;
     }
 
-    public String getEq_updateUserId()
+    public BigInteger getEq_updateUserId()
     {
         return eq_updateUserId;
     }
 
-    public JobLevelClassifySearchBo setEq_updateUserId(String eq_updateUserId)
+    public JobLevelClassifySearchBo setEq_updateUserId(BigInteger eq_updateUserId)
     {
         this.eq_updateUserId = eq_updateUserId;
         return this;
     }
 
-    public String getNeq_updateUserId()
+    public BigInteger getNeq_updateUserId()
     {
         return neq_updateUserId;
     }
 
-    public JobLevelClassifySearchBo setNeq_updateUserId(String neq_updateUserId)
+    public JobLevelClassifySearchBo setNeq_updateUserId(BigInteger neq_updateUserId)
     {
         this.neq_updateUserId = neq_updateUserId;
         return this;

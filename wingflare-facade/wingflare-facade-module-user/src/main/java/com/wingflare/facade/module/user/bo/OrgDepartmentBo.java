@@ -2,11 +2,11 @@ package com.wingflare.facade.module.user.bo;
 
 
 import com.wingflare.lib.core.validation.Update;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import java.math.BigInteger;
 
 /**
  * 机构部门Bo
@@ -17,9 +17,8 @@ import jakarta.validation.constraints.Pattern;
 public class OrgDepartmentBo
 {
 
-    @NotBlank(message = "org.departmentId.notBlank", groups = Update.class)
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "org.departmentId.formatError", groups = Update.class)
-    private String departmentId;
+    @Min(message = "org.departmentId.error", value = 1, groups = Update.class)
+    private BigInteger departmentId;
 
 	/**
      * 部门状态
@@ -29,12 +28,12 @@ public class OrgDepartmentBo
 	/**
      * 组织id
      */
-    private String orgId;
+    private BigInteger orgId;
 
 	/**
      * 父级部门
      */
-    private String parentDepartmentId;
+    private BigInteger parentDepartmentId;
 
 	/**
      * 部门名称
@@ -44,22 +43,22 @@ public class OrgDepartmentBo
 	/**
      * 部门基础角色id
      */
-    private String roleId;
+    private BigInteger roleId;
 
 	/**
      * 部门主要负责人id
      */
-    private String userId;
+    private BigInteger userId;
 
     private Integer version;
     
-	public OrgDepartmentBo setDepartmentId(String departmentId)
+	public OrgDepartmentBo setDepartmentId(BigInteger departmentId)
     {
         this.departmentId = departmentId;
         return this;
     }
 
-    public String getDepartmentId()
+    public BigInteger getDepartmentId()
     {
         return departmentId;
     }
@@ -75,24 +74,24 @@ public class OrgDepartmentBo
         return state;
     }
     
-	public OrgDepartmentBo setOrgId(String orgId)
+	public OrgDepartmentBo setOrgId(BigInteger orgId)
     {
         this.orgId = orgId;
         return this;
     }
 
-    public String getOrgId()
+    public BigInteger getOrgId()
     {
         return orgId;
     }
     
-	public OrgDepartmentBo setParentDepartmentId(String parentDepartmentId)
+	public OrgDepartmentBo setParentDepartmentId(BigInteger parentDepartmentId)
     {
         this.parentDepartmentId = parentDepartmentId;
         return this;
     }
 
-    public String getParentDepartmentId()
+    public BigInteger getParentDepartmentId()
     {
         return parentDepartmentId;
     }
@@ -108,24 +107,24 @@ public class OrgDepartmentBo
         return departmentName;
     }
     
-	public OrgDepartmentBo setRoleId(String roleId)
+	public OrgDepartmentBo setRoleId(BigInteger roleId)
     {
         this.roleId = roleId;
         return this;
     }
 
-    public String getRoleId()
+    public BigInteger getRoleId()
     {
         return roleId;
     }
     
-	public OrgDepartmentBo setUserId(String userId)
+	public OrgDepartmentBo setUserId(BigInteger userId)
     {
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }

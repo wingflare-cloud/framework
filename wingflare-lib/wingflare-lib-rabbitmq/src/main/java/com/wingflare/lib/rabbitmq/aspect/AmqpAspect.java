@@ -16,6 +16,10 @@ import org.springframework.amqp.support.converter.MessageConverter;
 
 import jakarta.annotation.Resource;
 
+import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
+
 /**
  * @author naizui_ycx
  * @date {2022/1/4}
@@ -326,12 +330,11 @@ public class AmqpAspect {
         final Object[] args = pjp.getArgs();
         args[messageArgumentIndex] = convertedMessage;
 
-        log.info(
-                "发送rabbitMQ消息: exchange: {}, routingKey: {}, msgId: {}",
-                exchange,
-                routingKey,
-                convertedMessage.getMessageProperties().getMessageId()
-        );
+        log.info("发送rabbitMQ消息", e(Map.of(
+                "exchange", exchange,
+                "routingKey", routingKey,
+                "messageId", convertedMessage.getMessageProperties().getMessageId()
+        )));
 
         return pjp.proceed(args);
     }

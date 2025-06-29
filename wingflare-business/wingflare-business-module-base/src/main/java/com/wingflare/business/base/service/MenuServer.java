@@ -7,6 +7,7 @@ import com.wingflare.business.base.mapper.MenuMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,14 +28,14 @@ public class MenuServer extends BaseService<MenuMapper, MenuDo> {
      *
      * @return 结果
      */
-    public Map<String, MenuDo> getMap(QueryWrapper<MenuDo> wrapper) {
+    public Map<BigInteger, MenuDo> getMap(QueryWrapper<MenuDo> wrapper) {
         List<MenuDo> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<String, MenuDo> menuDoMap = new HashMap<>(list.size());
+        Map<BigInteger, MenuDo> menuDoMap = new HashMap<>(list.size());
 
         for (MenuDo menuDo : list) {
             menuDoMap.put(menuDo.getMenuId(), menuDo);

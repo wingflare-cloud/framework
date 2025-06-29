@@ -2,8 +2,9 @@ package com.wingflare.facade.module.user.bo;
 
 import com.wingflare.lib.standard.annotation.security.Decrypt;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Min;
+
+import java.math.BigInteger;
 
 /**
  * @ClassName UpdatePasswdBo
@@ -13,9 +14,8 @@ import jakarta.validation.constraints.Pattern;
  */
 public class UpdatePasswdBo {
 
-    @NotBlank(message = "user.userId.notBlank")
-    @Pattern(regexp = "^$|^[0-9a-zA-Z]{1,32}$", message = "user.userId.formatError")
-    private String userId;
+    @Min(message = "user.userId.error", value = 1)
+    private BigInteger userId;
 
     @Decrypt(type = "RSA")
     private String passwd;
@@ -24,11 +24,11 @@ public class UpdatePasswdBo {
     private String oldPasswd;
 
 
-    public String getUserId() {
+    public BigInteger getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(BigInteger userId) {
         this.userId = userId;
     }
 

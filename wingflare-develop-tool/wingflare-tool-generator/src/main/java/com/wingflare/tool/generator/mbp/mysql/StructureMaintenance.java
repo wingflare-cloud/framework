@@ -39,14 +39,14 @@ public class StructureMaintenance extends SimpleDdl {
             File directory = new File(migrationsDir);
 
             if (directory.isDirectory()) {
-                logger.debug("开始扫描数据库迁移文件：{}", migrationsDir);
+                logger.debug("开始扫描数据库迁移文件", migrationsDir);
 
                 File[] filesList = directory.listFiles();
                 if (filesList != null) {
                     for (File file : filesList) {
                         if (!file.isDirectory() && file.getName().endsWith(".sql")) {
 
-                            logger.debug("扫描到sql文件：{}", file.getAbsolutePath());
+                            logger.debug("扫描到sql文件", file.getAbsolutePath());
 
                             if (removeExtension(file.getName()).endsWith(".sp")) {
                                 sqlFiles.add(file.getAbsolutePath() + "#$$");

@@ -1,6 +1,8 @@
 package com.wingflare.facade.module.user.bo;
 
 
+import java.math.BigInteger;
+
 /**
  * <p>
  * 职级分类表 业务对象
@@ -11,7 +13,7 @@ package com.wingflare.facade.module.user.bo;
  */
 public class JobLevelClassifyBo {
 
-    private String levelClassifyId;
+    private BigInteger levelClassifyId;
 
     /**
      * 分类名 
@@ -25,11 +27,11 @@ public class JobLevelClassifyBo {
 
     private Integer version;
 
-    public String getLevelClassifyId() {
+    public BigInteger getLevelClassifyId() {
         return levelClassifyId;
     }
 
-    public JobLevelClassifyBo setLevelClassifyId(String levelClassifyId) {
+    public JobLevelClassifyBo setLevelClassifyId(BigInteger levelClassifyId) {
         this.levelClassifyId = levelClassifyId;
         return this;
     }

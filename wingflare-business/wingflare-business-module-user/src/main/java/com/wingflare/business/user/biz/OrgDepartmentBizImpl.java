@@ -30,6 +30,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
 
+import java.math.BigInteger;
+
 
 /**
  * 机构部门Biz
@@ -138,12 +140,12 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
             searchBo.setNeq_departmentId(oldDo.getDepartmentId());
         }
 
-        if (StringUtil.isNotEmpty(bo.getParentDepartmentId())) {
+        if (bo.getParentDepartmentId() != null && bo.getParentDepartmentId().compareTo(BigInteger.ZERO) > 0) {
             Assert.isTrue(orgDepartmentServer.hasById(bo.getParentDepartmentId()), ErrorCode.SYS_DEPARTMENT_NON_EXISTENT);
             searchBo.setEq_parentDepartmentId(bo.getParentDepartmentId());
         }
 
-        if (StringUtil.isNotEmpty(bo.getDepartmentId())) {
+        if (bo.getDepartmentId() != null && bo.getDepartmentId().compareTo(BigInteger.ZERO) > 0) {
             searchBo.setEq_departmentId(bo.getDepartmentId());
         } else {
             searchBo.setEq_orgId(bo.getOrgId());

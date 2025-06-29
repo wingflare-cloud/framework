@@ -3,16 +3,18 @@ package com.wingflare.facade.module.base.bo;
 
 import com.wingflare.facade.module.base.dict.IconTypes;
 import com.wingflare.facade.module.base.dict.MenuTypes;
-import com.wingflare.lib.core.Regexp;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Enum;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.enums.OnOffEnum;
+import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import java.math.BigInteger;
 
 
 /**
@@ -25,15 +27,13 @@ import jakarta.validation.constraints.Pattern;
  */
 public class MenuBo {
 
-    @NotBlank(message = "sys.menuId.notBlank", groups = Update.class)
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "sys.menuId.formatError", groups = Update.class)
-    private String menuId;
+    @Min(message = "sys.menuId.error", value = 1, groups = Update.class)
+    private BigInteger menuId;
 
     /**
      * 父级菜单id 
      */
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "sys.parentMenuId.formatError", groups = Create.class)
-    private String parentMenuId;
+    private BigInteger parentMenuId;
 
     /**
      * 启禁用状态 
@@ -151,20 +151,20 @@ public class MenuBo {
             groups = {Create.class, Update.class})
     private Integer version;
 
-    public String getMenuId() {
+    public BigInteger getMenuId() {
         return menuId;
     }
 
-    public MenuBo setMenuId(String menuId) {
+    public MenuBo setMenuId(BigInteger menuId) {
         this.menuId = menuId;
         return this;
     }
 
-    public String getParentMenuId() {
+    public BigInteger getParentMenuId() {
         return parentMenuId;
     }
 
-    public MenuBo setParentMenuId(String parentMenuId) {
+    public MenuBo setParentMenuId(BigInteger parentMenuId) {
         this.parentMenuId = parentMenuId;
         return this;
     }

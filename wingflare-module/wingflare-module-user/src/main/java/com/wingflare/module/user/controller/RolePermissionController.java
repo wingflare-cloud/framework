@@ -3,6 +3,7 @@ package com.wingflare.module.user.controller;
 
 import com.wingflare.facade.module.user.biz.RolePermissionBiz;
 import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
+import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.user.PermissionCode;
@@ -35,6 +36,7 @@ public class RolePermissionController
 	@RequestMapping(value = "/save", method = {RequestMethod.POST})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_SAVE_PERMISSION)
+	@BusinessSystem("base")
 	public Boolean save(@RequestBody PermissionCodesExistBo existBo)
 	{
 		return rolePermissionBiz.savePermission(existBo);
@@ -46,6 +48,7 @@ public class RolePermissionController
 	@RequestMapping(value = "/all", method = {RequestMethod.GET})
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_PERMISSION_VIEW)
+	@BusinessSystem("base")
 	public List<PermissionCodesExistBo.CodesExist> all(IdBo bo)
 	{
 		return rolePermissionBiz.permission(bo);

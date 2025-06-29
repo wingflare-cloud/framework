@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `wf_ws_webhook`;
 
 CREATE TABLE `wf_ws_webhook`
 (
-    `id`           varchar(32)  NOT NULL,
+    `id`           bigint(20) unsigned  NOT NULL,
     `server_name`  varchar(32)  NOT NULL DEFAULT '' COMMENT '服务名',
     `host`         varchar(256)  NOT NULL DEFAULT '' COMMENT '主机',
     `path`         varchar(256) NOT NULL DEFAULT '' COMMENT '请求路径',
@@ -12,9 +12,9 @@ CREATE TABLE `wf_ws_webhook`
     `created_time` datetime     NOT NULL,
     `updated_time` datetime     NOT NULL,
     `create_user`    varchar(32)   NOT NULL DEFAULT '',
-    `create_user_id` varchar(32)   NOT NULL DEFAULT '',
+    `create_user_id` bigint(20) unsigned   NOT NULL DEFAULT '0',
     `update_user`    varchar(32)   NOT NULL DEFAULT '',
-    `update_user_id` varchar(32)   NOT NULL DEFAULT '',
+    `update_user_id` bigint(20) unsigned   NOT NULL DEFAULT '0',
     `is_delete`    tinyint(1) unsigned NOT NULL DEFAULT '0',
     `version`      int(10) unsigned NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),

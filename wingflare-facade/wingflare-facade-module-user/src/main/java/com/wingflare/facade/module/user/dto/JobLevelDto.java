@@ -3,6 +3,7 @@ package com.wingflare.facade.module.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -15,12 +16,12 @@ import java.util.Date;
  */
 public class JobLevelDto {
 
-    private String jobLevelId;
+    private BigInteger jobLevelId;
 
     /**
      * 职级分类id 
      */
-    private String levelClassifyId;
+    private BigInteger levelClassifyId;
 
     /**
      * 职级名称 
@@ -45,27 +46,27 @@ public class JobLevelDto {
 
     private String createUser;
 
-    private String createUserId;
+    private BigInteger createUserId;
 
     private String updateUser;
 
-    private String updateUserId;
+    private BigInteger updateUserId;
 
     private Integer version;
 
-    public String getJobLevelId() {
+    public BigInteger getJobLevelId() {
         return jobLevelId;
     }
 
-    public void setJobLevelId(String jobLevelId) {
+    public void setJobLevelId(BigInteger jobLevelId) {
         this.jobLevelId = jobLevelId;
     }
 
-    public String getLevelClassifyId() {
+    public BigInteger getLevelClassifyId() {
         return levelClassifyId;
     }
 
-    public void setLevelClassifyId(String levelClassifyId) {
+    public void setLevelClassifyId(BigInteger levelClassifyId) {
         this.levelClassifyId = levelClassifyId;
     }
 
@@ -117,11 +118,11 @@ public class JobLevelDto {
         this.createUser = createUser;
     }
 
-    public String getCreateUserId() {
+    public BigInteger getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(BigInteger createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -133,11 +134,11 @@ public class JobLevelDto {
         this.updateUser = updateUser;
     }
 
-    public String getUpdateUserId() {
+    public BigInteger getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(BigInteger updateUserId) {
         this.updateUserId = updateUserId;
     }
 

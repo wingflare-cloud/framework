@@ -15,7 +15,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +24,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * 输入输出日志切面
@@ -37,9 +38,6 @@ public class AccessLogAspect {
 
     @Resource
     private ObjectMapper objectMapper;
-
-    @Value("${spring.application.name:}")
-    private String applicationName;
 
     @Resource
     private AccessLogProperties accessLogProperties;
@@ -63,11 +61,7 @@ public class AccessLogAspect {
 
             if (attributes != null) {
                 HttpServletRequest request = attributes.getRequest();
-                StringBuilder stringBuilder = new StringBuilder();
-
-                // 记录请求的内容
-                logHandle(joinPoint, request, stringBuilder);
-                logger.info(stringBuilder.toString());
+                logger.info("request info", e(logHandle(joinPoint, request)));
             }
         }
     }
@@ -81,14 +75,10 @@ public class AccessLogAspect {
     public void doAfterReturning(JoinPoint joinPoint, Object ret) {
         if (accessLogProperties.isEnable() && !pointUtil.isApiClient(joinPoint)) {
             if (ObjectUtil.isNotEmpty(ret)) {
-                if (BeanUtil.isBean(ret.getClass())) {
-                    try {
-                        logger.info("response: {}", objectMapper.writeValueAsString(ret));
-                    } catch (JsonProcessingException e) {
-                        logger.error("参数序列化异常: {}", e.getMessage());
-                    }
-                } else {
-                    logger.info("response: {}", ret);
+                try {
+                    logger.info("response", objectMapper.writeValueAsString(ret));
+                } catch (JsonProcessingException e) {
+                    logger.error("参数序列化异常", e.getMessage());
                 }
             }
         }
@@ -99,41 +89,35 @@ public class AccessLogAspect {
      *
      * @param joinPoint
      * @param request
-     * @param stringBuilder
+     *
      * @throws Exception
      */
-    public void logHandle(JoinPoint joinPoint, HttpServletRequest request, StringBuilder stringBuilder) {
+    public Map<String, Object> logHandle(JoinPoint joinPoint, HttpServletRequest request) {
         Map<String, Object> paramMap = new HashMap<>(16);
-        paramMap.put("spring-application-name", applicationName);
-        paramMap.put("class-method", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        paramMap.put("requestLogger", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 
         Enumeration<String> headers = request.getHeaderNames();
-
-        while (headers.hasMoreElements()) {
-            String name = headers.nextElement();
-            paramMap.put("request-header-" + name, request.getHeader(name));
-        }
+        paramMap.put("headers", headers);
 
         Object[] oArr = joinPoint.getArgs();
 
         if (oArr != null && oArr.length > 0) {
+            paramMap.put("params", new HashMap<String, Object>(oArr.length));
             String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
             int i = 0;
             for (Object o : oArr) {
                 if (o != null) {
-                    String key = "request-param-" + paramNames[i];
-                    if (o instanceof MultipartFile) {
-                        MultipartFile file = (MultipartFile) o;
-                        paramMap.put(key, "FILE_NAME{" + file.getOriginalFilename() + "}");
+                    if (o instanceof MultipartFile file) {
+                        paramMap.put(paramNames[i], "FILE_NAME{" + file.getOriginalFilename() + "}");
                     } else {
                         if (BeanUtil.isBean(o.getClass())) {
                             try {
-                                paramMap.put(key, objectMapper.writeValueAsString(o));
+                                paramMap.put(paramNames[i], objectMapper.writeValueAsString(o));
                             } catch (JsonProcessingException e) {
-                                logger.error("参数序列化异常: {}", e.getMessage());
+                                logger.error("参数序列化异常", e.getMessage());
                             }
                         } else {
-                            paramMap.put(key, o);
+                            paramMap.put(paramNames[i], o);
                         }
                     }
                 }
@@ -141,7 +125,7 @@ public class AccessLogAspect {
             }
         }
 
-        paramMap.forEach((key, value) -> stringBuilder.append(key).append(":").append(value).append("\n"));
+        return paramMap;
     }
 
 }

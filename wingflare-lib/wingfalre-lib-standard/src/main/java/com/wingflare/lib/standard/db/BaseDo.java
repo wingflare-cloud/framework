@@ -1,6 +1,7 @@
 package com.wingflare.lib.standard.db;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Set;
 
 /**
@@ -18,14 +19,14 @@ public interface BaseDo extends Serializable {
      *
      * @return
      */
-    public void setPk(String pk);
+    public void setPk(BigInteger pk);
 
     /**
      * 获取主键
      *
      * @return
      */
-    public String getPk();
+    public BigInteger getPk();
 
     /**
      * 清除需要更新字段中的null字段

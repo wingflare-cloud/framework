@@ -27,6 +27,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import jakarta.annotation.Resource;
+
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -90,7 +92,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
                 UserAuth userAuth = userAuthUtil.getUser(tokenId);
 
-                if (userAuth == null || StringUtil.isEmpty(userAuth.getUserId())
+                if (userAuth == null || userAuth.getUserId() == null || userAuth.getUserId().compareTo(BigInteger.ZERO) == 0
                         || StringUtil.isEmpty(userAuth.getUserName())) {
                     throw new NoException(ErrorCode.TOKEN_LOGIN_EXPIRATION);
                 }
@@ -141,7 +143,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
      * @param userAuth
      */
     private void setUserCtxHeader(ServerHttpRequest.Builder mutate, String tokenId, UserAuth userAuth) {
-        MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_ID, userAuth.getUserId());
+        MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_ID, SecurityUtil.typeValueEncode(userAuth.getUserId()));
         MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_NAME, StringUtil.urlEncode(userAuth.getUserName()));
         MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_TOKEN_ID, tokenId);
 
@@ -155,8 +157,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     SecurityUtil.typeValueEncode(userAuth.getRoles()));
         }
 
-        if (StringUtil.isNotBlank(userAuth.getIdentity())) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_IDENTITY, userAuth.getIdentity());
+        if (userAuth.getIdentity() != null && userAuth.getIdentity().compareTo(BigInteger.ZERO) > 0) {
+            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_IDENTITY, SecurityUtil.typeValueEncode(userAuth.getIdentity()));
         }
 
         if (CollectionUtil.isNotEmpty(userAuth.getOrg())) {
@@ -164,8 +166,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     SecurityUtil.typeValueEncode(userAuth.getOrg()));
         }
 
-        if (StringUtil.isNotBlank(userAuth.getCurrentOrg())) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_CURRENT_ORG, userAuth.getCurrentOrg());
+        if (userAuth.getCurrentOrg() != null && userAuth.getCurrentOrg().compareTo(BigInteger.ZERO) > 0) {
+            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_CURRENT_ORG, SecurityUtil.typeValueEncode(userAuth.getCurrentOrg()));
         }
 
         if (CollectionUtil.isNotEmpty(userAuth.getAttribute())) {

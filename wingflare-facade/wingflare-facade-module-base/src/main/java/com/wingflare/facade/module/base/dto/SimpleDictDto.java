@@ -1,6 +1,8 @@
 package com.wingflare.facade.module.base.dto;
 
 
+import java.math.BigInteger;
+
 /**
  * 系统字典Dto
  * 
@@ -10,7 +12,7 @@ package com.wingflare.facade.module.base.dto;
 public class SimpleDictDto
 {
 	
-    private String dictId;
+    private BigInteger dictId;
 	
 	/**
      * 系统代码
@@ -47,13 +49,13 @@ public class SimpleDictDto
      */
     private Integer sort;
 	
-    public SimpleDictDto setDictId(String dictId)
+    public SimpleDictDto setDictId(BigInteger dictId)
     {
         this.dictId = dictId;
         return this;
     }
 
-    public String getDictId()
+    public BigInteger getDictId()
     {
         return dictId;
     }

@@ -12,6 +12,7 @@ import com.wingflare.lib.mybatis.plus.base.BaseDoAbstract;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class SettingDo extends BaseDoAbstract
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-    private String settingId;
+    private BigInteger settingId;
 
 	/**
      * 设置状态
@@ -67,13 +68,13 @@ public class SettingDo extends BaseDoAbstract
     private String createUser;
 
 	@TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private BigInteger createUserId;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateUser;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updateUserId;
+    private BigInteger updateUserId;
 
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
@@ -84,26 +85,26 @@ public class SettingDo extends BaseDoAbstract
     private Integer version;
 
 	@Override
-	public void setPk(String settingId)
+	public void setPk(BigInteger settingId)
 	{
 		setSettingId(settingId);
 	}
 
 	@Override
-	public String getPk()
+	public BigInteger getPk()
 	{
 		return getSettingId();
 	}
 
 	
-    public SettingDo setSettingId(String settingId)
+    public SettingDo setSettingId(BigInteger settingId)
     {
 		addNewField("settingId");
         this.settingId = settingId;
         return this;
     }
 
-    public String getSettingId()
+    public BigInteger getSettingId()
     {
         return settingId;
     }
@@ -216,14 +217,14 @@ public class SettingDo extends BaseDoAbstract
         return createUser;
     }
 	
-    public SettingDo setCreateUserId(String createUserId)
+    public SettingDo setCreateUserId(BigInteger createUserId)
     {
 		addNewField("createUserId");
         this.createUserId = createUserId;
         return this;
     }
 
-    public String getCreateUserId()
+    public BigInteger getCreateUserId()
     {
         return createUserId;
     }
@@ -240,14 +241,14 @@ public class SettingDo extends BaseDoAbstract
         return updateUser;
     }
 	
-    public SettingDo setUpdateUserId(String updateUserId)
+    public SettingDo setUpdateUserId(BigInteger updateUserId)
     {
 		addNewField("updateUserId");
         this.updateUserId = updateUserId;
         return this;
     }
 
-    public String getUpdateUserId()
+    public BigInteger getUpdateUserId()
     {
         return updateUserId;
     }

@@ -49,12 +49,15 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -110,9 +113,12 @@ public class UserBizImpl implements UserBiz {
             }
     )
     public PageDto<UserDto> list(@Valid UserSearchBo bo) {
+        LambdaQueryWrapper<UserDo> queryWrapper = UserWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(UserDo::getUserId);
+
         IPage<UserDo> iPage = userServer.page(
                 userServer.createPage(bo),
-                UserWrapper.getQueryWrapper(bo)
+                queryWrapper
         );
 
         return PageUtil.convertIPage(iPage,
@@ -140,8 +146,23 @@ public class UserBizImpl implements UserBiz {
             }
     )
     public UserDto get(@Valid @NotNull IdBo bo) {
-        return UserConvert.convert.doToDto(
-                userServer.getById(bo.getId()));
+        UserDo userDo = userServer.getById(bo.getId());
+        UserDto userDto = null;
+
+        if (userDo != null) {
+            userDto = UserConvert.convert.doToDto(
+                    userServer.getById(bo.getId()));
+            LambdaQueryWrapper<UserRoleDo> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(UserRoleDo::getUserId, bo.getId())
+                    .eq(UserRoleDo::getIsDelete, 0);
+            List<UserRoleDo> userRoleDoList = userRoleServer.list(wrapper);
+
+            if (CollectionUtil.isNotEmpty(userRoleDoList)) {
+                userDto.setUserRole(new ArrayList<>(userRoleDoList.stream().map(UserRoleDo::getRoleId).toList()));
+            }
+        }
+
+        return userDto;
     }
 
     /**
@@ -167,7 +188,7 @@ public class UserBizImpl implements UserBiz {
     public UserDto getOnlyOne(@Valid @NotNull UserSearchBo bo) {
         return UserConvert.convert.doToDto(
                 userServer.getOne(
-                        UserWrapper.getQueryWrapper(bo)
+                        UserWrapper.getLambdaQueryWrapper(bo)
                 ));
     }
 
@@ -294,9 +315,9 @@ public class UserBizImpl implements UserBiz {
             UserDo userDo = UserConvert.convert.boToDo(bo);
             Assert.isTrue(userServer.save(userDo), ErrorCode.SYS_USER_CREATE_ERROR);
 
-            List<UserRoleDo> userRoleDoList = new ArrayList<>();
-
             if (CollectionUtil.isNotEmpty(bo.getUserRole())) {
+                List<UserRoleDo> userRoleDoList = new ArrayList<>();
+
                 bo.getUserRole().forEach(roleId -> {
                    userRoleDoList.add(
                            new UserRoleDo()
@@ -377,12 +398,35 @@ public class UserBizImpl implements UserBiz {
             }
 
             checkUserCanSave(bo, oldUserDo);
-            UserDo userDo = UserConvert.convert.boToDo(bo);
             bo.setUserPasswd(null);
             bo.setSuperAdministrator(null);
-            bo.setUserEmail(null);
-            bo.setUserPhone(null);
+
+            if (StringUtil.isEmpty(bo.getUserEmail())) {
+                bo.setUserEmail(null);
+            }
+
+            if (StringUtil.isEmpty(bo.getUserPhone())) {
+                bo.setUserPhone(null);
+            }
+
+            UserDo userDo = UserConvert.convert.boToDo(bo);
             UserDo oldField = oldUserDo.setOnNew(userDo);
+
+            userRoleServer.deleteByUserId(bo.getUserId());
+
+            if (CollectionUtil.isNotEmpty(bo.getUserRole())) {
+                List<UserRoleDo> userRoleDoList = new ArrayList<>();
+
+                bo.getUserRole().forEach(roleId -> {
+                    userRoleDoList.add(
+                            new UserRoleDo()
+                                    .setUserId(userDo.getUserId())
+                                    .setRoleId(roleId)
+                    );
+                });
+
+                userRoleServer.saveBatch(userRoleDoList);
+            }
 
             if (oldField != null) {
                 Assert.isTrue(userServer.updateById(oldUserDo), ErrorCode.SYS_USER_UPDATE_ERROR);
@@ -431,9 +475,9 @@ public class UserBizImpl implements UserBiz {
     )
     public UserDto updatePasswd(@Valid @NotNull UpdatePasswdBo bo) {
         if (userAuthUtil.getUser() != null && !userAuthUtil.getUser().isSuperAdmin()) {
-            String limitUserId = userAuthUtil.getUser()
+            BigInteger limitUserId = userAuthUtil.getUser()
                     .getUserId();
-            Assert.isTrue(bo.getUserId().equals(limitUserId), ErrorCode.SYS_USER_UPDATE_PASSWD_NO_POWER);
+            Assert.isTrue(bo.getUserId().compareTo(limitUserId) != 0, ErrorCode.SYS_USER_UPDATE_PASSWD_NO_POWER);
         }
 
         UserDto dto = updatePasswdHandle(bo);
@@ -449,7 +493,7 @@ public class UserBizImpl implements UserBiz {
      */
     public boolean has(UserSearchBo bo) {
         return userServer.has(
-                UserWrapper.getQueryWrapper(bo)
+                UserWrapper.getLambdaQueryWrapper(bo)
         );
     }
 
@@ -547,8 +591,8 @@ public class UserBizImpl implements UserBiz {
         Assert.isTrue(userDo.getAccountType().contains(UserAccountType.PRIVILEGE.getValue()),
                 ErrorCode.SYS_USER_NON_PRIVILEGE_NOT_BIND_ROLE);
 
-        Set<String> baseRole = new HashSet<>(Optional.ofNullable(bo.getRoleIds()).orElse(new ArrayList<>()));
-        Set<String> roleIds = new HashSet<>();
+        Set<BigInteger> baseRole = new HashSet<>(Optional.ofNullable(bo.getRoleIds()).orElse(new ArrayList<>()));
+        Set<BigInteger> roleIds = new HashSet<>();
         Set<String> systems = new HashSet<>();
         Optional.ofNullable(bo.getRoleIds())
                 .ifPresent(roleIds::addAll);

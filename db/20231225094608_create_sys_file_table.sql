@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `sys_file`;
 
 CREATE TABLE `sys_file`
 (
-    `file_id`         varchar(32)  NOT NULL,
+    `file_id`         bigint(20) unsigned  NOT NULL,
     `state`           varchar(32)  NOT NULL DEFAULT '' COMMENT '文件状态',
     `store_drive`     varchar(32)  NOT NULL DEFAULT '' COMMENT '存储驱动，字典storeDrive',
     `conf_key`        varchar(32)           DEFAULT '' COMMENT '配置key',
@@ -16,9 +16,9 @@ CREATE TABLE `sys_file`
     `created_time`    datetime     NOT NULL,
     `updated_time`    datetime     NOT NULL,
     `create_user`     varchar(32)  NOT NULL DEFAULT '',
-    `create_user_id`  varchar(32)  NOT NULL DEFAULT '',
+    `create_user_id`  bigint(20) unsigned  NOT NULL DEFAULT '0',
     `update_user`     varchar(32)  NOT NULL DEFAULT '',
-    `update_user_id`  varchar(32)  NOT NULL DEFAULT '',
+    `update_user_id`  bigint(20) unsigned  NOT NULL DEFAULT '0',
     `is_delete`       tinyint(1) unsigned NOT NULL DEFAULT '0',
     `version`         int(10) unsigned NOT NULL DEFAULT '0',
     PRIMARY KEY (`file_id`) USING BTREE,

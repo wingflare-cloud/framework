@@ -2,8 +2,6 @@ package com.wingflare.gateway.configure;
 
 
 import com.wingflare.lib.core.constants.HttpHeader;
-import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.security.properties.SafeProperties;
 import com.wingflare.lib.spring.configure.properties.CorsProperties;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
@@ -32,9 +30,6 @@ public class GlobalsConfiguration {
 
     @Resource
     private CorsProperties corsProperties;
-
-    @Resource
-    private SafeProperties safeProperties;
 
     @Resource
     private Tracer tracer;
@@ -68,18 +63,6 @@ public class GlobalsConfiguration {
                 if (request.getMethod() == HttpMethod.OPTIONS) {
                     response.setStatusCode(HttpStatus.OK);
                     return Mono.empty();
-                }
-
-                if (StringUtil.urlMatches(request.getURI().getPath(), safeProperties.getUrlPattern())) {
-                    return ctx.getSession()
-                            .flatMap(session -> {
-                                if (!session.isStarted()) {
-                                    response.setStatusCode(HttpStatus.FAILED_DEPENDENCY);
-                                    return Mono.empty();
-                                }
-
-                                return chain.filter(ctx);
-                            });
                 }
             }
 

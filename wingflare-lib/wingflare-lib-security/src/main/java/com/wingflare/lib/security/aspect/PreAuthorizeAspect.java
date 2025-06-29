@@ -2,12 +2,10 @@ package com.wingflare.lib.security.aspect;
 
 
 import com.wingflare.lib.core.context.ContextHolder;
-import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.security.annotation.AuthMode;
-import com.wingflare.lib.security.annotation.PG;
-import com.wingflare.lib.security.annotation.PermissionGroups;
-import com.wingflare.lib.security.annotation.RequiresLogin;
-import com.wingflare.lib.security.annotation.RequiresPermissions;
+import com.wingflare.lib.core.exceptions.NoPermissionException;
+import com.wingflare.lib.core.utils.CollectionUtil;
+import com.wingflare.lib.security.annotation.*;
+import com.wingflare.lib.security.constants.SecurityErrorCode;
 import com.wingflare.lib.security.utils.ApplicationAuthUtil;
 import com.wingflare.lib.security.utils.AuthUtil;
 import com.wingflare.lib.security.utils.UserAuthUtil;
@@ -17,6 +15,7 @@ import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.standard.utils.SecurityUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -35,6 +34,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * @author naizui_ycx
@@ -65,6 +66,8 @@ public class PreAuthorizeAspect implements Ordered {
 
     private final Map<String, PermissionGroups> PermissionGroupsCache = new HashMap<>();
 
+    private final Map<String, BusinessSystem> BusinessSystemCache = new HashMap<>();
+
     private final Logger logger = LoggerFactory.getLogger(PreAuthorizeAspect.class);
 
     /**
@@ -73,6 +76,7 @@ public class PreAuthorizeAspect implements Ordered {
     public static final String POINTCUT_SIGN = "@annotation(com.wingflare.lib.security.annotation.RequiresLogin) || "
             + "@annotation(com.wingflare.lib.security.annotation.RequiresPermissions) || "
             + "@annotation(com.wingflare.lib.security.annotation.AuthMode) || "
+            + "@annotation(com.wingflare.lib.security.annotation.BusinessSystem) || "
             + "@annotation(com.wingflare.lib.security.annotation.PermissionGroups)";
 
     /**
@@ -129,6 +133,15 @@ public class PreAuthorizeAspect implements Ordered {
 
         if (!ignore) {
             // 校验 @RequiresLogin 注解
+            BusinessSystem businessSystem = getBusinessSystem(signature);
+
+            if (businessSystem != null && CollectionUtil.isNotEmpty(businessSystem.value())) {
+                if (!ArrayUtils.contains(businessSystem.value(), SecurityUtil.getBusinessSystem())) {
+                    throw new NoPermissionException(SecurityErrorCode.AUTH_NOT_PERMISSION_SYSTEM);
+                }
+            }
+
+            // 校验 @RequiresLogin 注解
             RequiresLogin requiresLogin = getRequiresLogin(signature);
 
             if (requiresLogin != null) {
@@ -158,7 +171,9 @@ public class PreAuthorizeAspect implements Ordered {
 
             if (requiresPermissions != null) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("接口权限: {}", StringUtil.join(requiresPermissions.value(), ","));
+                    logger.debug("接口权限", e(Map.of(
+                            "permissionCode", requiresPermissions.value()
+                    )));
                 }
                 authUtil.checkPermissions(requiresPermissions);
             }
@@ -197,6 +212,22 @@ public class PreAuthorizeAspect implements Ordered {
         }
 
         return internalApi;
+    }
+
+    private BusinessSystem getBusinessSystem(Signature signature) {
+        if (BusinessSystemCache.containsKey(signature.getName())) {
+            return BusinessSystemCache.get(signature.getName());
+        }
+
+        BusinessSystem businessSystem;
+
+        synchronized (BusinessSystemCache) {
+            Method method = ((MethodSignature) signature).getMethod();
+            businessSystem = method.getAnnotation(BusinessSystem.class);
+            BusinessSystemCache.put(signature.getName(), businessSystem);
+        }
+
+        return businessSystem;
     }
 
     private RequiresLogin getRequiresLogin(Signature signature) {

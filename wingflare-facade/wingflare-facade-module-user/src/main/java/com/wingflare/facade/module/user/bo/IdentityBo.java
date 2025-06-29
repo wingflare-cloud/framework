@@ -1,6 +1,8 @@
 package com.wingflare.facade.module.user.bo;
 
 
+import java.math.BigInteger;
+
 /**
  * <p>
  * 岗位身份数据表 业务对象
@@ -11,7 +13,7 @@ package com.wingflare.facade.module.user.bo;
  */
 public class IdentityBo {
 
-    private String identityId;
+    private BigInteger identityId;
 
     /**
      * 身份代码 
@@ -21,12 +23,12 @@ public class IdentityBo {
     /**
      * 组织机构id 
      */
-    private String orgId;
+    private BigInteger orgId;
 
     /**
      * 部门id 
      */
-    private String departmentId;
+    private BigInteger departmentId;
 
     /**
      * 岗位名称 
@@ -36,15 +38,15 @@ public class IdentityBo {
     /**
      * 职级id 
      */
-    private String jobLevelId;
+    private BigInteger jobLevelId;
 
     private Integer version;
 
-    public String getIdentityId() {
+    public BigInteger getIdentityId() {
         return identityId;
     }
 
-    public IdentityBo setIdentityId(String identityId) {
+    public IdentityBo setIdentityId(BigInteger identityId) {
         this.identityId = identityId;
         return this;
     }
@@ -58,20 +60,20 @@ public class IdentityBo {
         return this;
     }
 
-    public String getOrgId() {
+    public BigInteger getOrgId() {
         return orgId;
     }
 
-    public IdentityBo setOrgId(String orgId) {
+    public IdentityBo setOrgId(BigInteger orgId) {
         this.orgId = orgId;
         return this;
     }
 
-    public String getDepartmentId() {
+    public BigInteger getDepartmentId() {
         return departmentId;
     }
 
-    public IdentityBo setDepartmentId(String departmentId) {
+    public IdentityBo setDepartmentId(BigInteger departmentId) {
         this.departmentId = departmentId;
         return this;
     }
@@ -85,11 +87,11 @@ public class IdentityBo {
         return this;
     }
 
-    public String getJobLevelId() {
+    public BigInteger getJobLevelId() {
         return jobLevelId;
     }
 
-    public IdentityBo setJobLevelId(String jobLevelId) {
+    public IdentityBo setJobLevelId(BigInteger jobLevelId) {
         this.jobLevelId = jobLevelId;
         return this;
     }

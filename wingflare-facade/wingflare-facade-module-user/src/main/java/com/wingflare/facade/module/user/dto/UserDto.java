@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -18,10 +19,10 @@ import java.util.List;
 public class UserDto
 {
 	
-    private String userId;
+    private BigInteger userId;
 
 
-    private String userRoleId;
+    private BigInteger userRoleId;
 	
 	/**
      * 是否为超管
@@ -86,7 +87,7 @@ public class UserDto
     /**
      * 用户角色
      */
-    private List<String> userRole;
+    private List<BigInteger> userRole;
 	
 	/**
      * 最后登录时间
@@ -110,22 +111,22 @@ public class UserDto
 	
     private Integer version;
 	
-    public UserDto setUserId(String userId)
+    public UserDto setUserId(BigInteger userId)
     {
         this.userId = userId;
         return this;
     }
 
-    public String getUserId()
+    public BigInteger getUserId()
     {
         return userId;
     }
 
-    public String getUserRoleId() {
+    public BigInteger getUserRoleId() {
         return userRoleId;
     }
 
-    public void setUserRoleId(String userRoleId) {
+    public void setUserRoleId(BigInteger userRoleId) {
         this.userRoleId = userRoleId;
     }
 
@@ -261,11 +262,11 @@ public class UserDto
         return lastLoginIp;
     }
 
-    public List<String> getUserRole() {
+    public List<BigInteger> getUserRole() {
         return userRole;
     }
 
-    public UserDto setUserRole(List<String> userRole) {
+    public UserDto setUserRole(List<BigInteger> userRole) {
         this.userRole = userRole;
         return this;
     }

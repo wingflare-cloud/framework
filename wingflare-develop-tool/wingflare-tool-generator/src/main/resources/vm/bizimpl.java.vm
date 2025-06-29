@@ -54,7 +54,7 @@ public class ${BizImpl} implements ${Biz}
     {
         IPage<${entity}> iPage = ${serName}.page(
             ${serName}.createPage(bo),
-            ${Wrapper}.getQueryWrapper(bo)
+            ${Wrapper}.getLambdaQueryWrapper(bo)
         );
         return PageUtil.convertIPage(iPage,
             ${Convert}.convert.doToDtoList(iPage.getRecords()));
@@ -83,7 +83,7 @@ public class ${BizImpl} implements ${Biz}
 	#end
     public ${Dto} getOnlyOne(@Valid @NotNull ${SearchBo} bo)
     {
-        return ${Convert}.convert.doToDto(${serName}.getOne(${Wrapper}.getQueryWrapper(bo)));
+        return ${Convert}.convert.doToDto(${serName}.getOne(${Wrapper}.getLambdaQueryWrapper(bo)));
     }
     #end
     #if($controllerMethods.delete)

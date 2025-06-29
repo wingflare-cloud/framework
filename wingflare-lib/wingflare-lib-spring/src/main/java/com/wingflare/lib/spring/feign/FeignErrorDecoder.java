@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Map;
+
+import static net.logstash.logback.argument.StructuredArguments.e;
 
 /**
  * @ClassName FeignErrorDecoder
@@ -35,7 +38,10 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
                         throw new BusinessLogicException(r.getMsg(), r.getData());
                     }
                 } catch (IOException throwable) {
-                    logger.warn("读取response异常({})", throwable.getMessage());
+                    logger.warn("读取response异常", e(Map.of(
+                            "message", throwable.getMessage(),
+                            "exception", throwable.getClass().getName()
+                    )));
                 }
             }
         }

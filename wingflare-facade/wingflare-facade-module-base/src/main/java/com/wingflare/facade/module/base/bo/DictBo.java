@@ -2,11 +2,11 @@ package com.wingflare.facade.module.base.bo;
 
 
 import com.wingflare.facade.module.base.dict.DictTypes;
-import com.wingflare.lib.core.Regexp;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Enum;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.enums.OnOffEnum;
+import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
@@ -14,6 +14,8 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import java.math.BigInteger;
 
 /**
  * 系统字典Bo
@@ -24,9 +26,8 @@ import jakarta.validation.constraints.Pattern;
 public class DictBo
 {
 
-    @NotBlank(message = "sys.dictId.notBlank", groups = Update.class)
-    @Pattern(regexp = Regexp.SNOWFLAKE_ID, message = "sys.dictId.formatError", groups = Update.class)
-    private String dictId;
+    @Min(message = "sys.dictId.error", value = 1, groups = Update.class)
+    private BigInteger dictId;
 
     /**
      * 启禁用状态
@@ -78,13 +79,13 @@ public class DictBo
 
     private Integer version;
     
-	public DictBo setDictId(String dictId)
+	public DictBo setDictId(BigInteger dictId)
     {
         this.dictId = dictId;
         return this;
     }
 
-    public String getDictId()
+    public BigInteger getDictId()
     {
         return dictId;
     }
