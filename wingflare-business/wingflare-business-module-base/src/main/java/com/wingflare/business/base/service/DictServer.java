@@ -2,7 +2,7 @@ package com.wingflare.business.base.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.base.db.DictDo;
+import com.wingflare.business.base.db.DictDO;
 import com.wingflare.business.base.mapper.DictMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @date Sat Mar 04 17:48:17 CST 2023
  */
 @Service
-public class DictServer extends BaseService<DictMapper, DictDo> {
+public class DictServer extends BaseService<DictMapper, DictDO> {
 
     /**
      * 获取系统字典Map
@@ -28,16 +28,16 @@ public class DictServer extends BaseService<DictMapper, DictDo> {
      *
      * @return 结果
      */
-    public Map<BigInteger, DictDo> getMap(QueryWrapper<DictDo> wrapper) {
-        List<DictDo> list = list(wrapper);
+    public Map<BigInteger, DictDO> getMap(QueryWrapper<DictDO> wrapper) {
+        List<DictDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<BigInteger, DictDo> dictDoMap = new HashMap<>(list.size());
+        Map<BigInteger, DictDO> dictDoMap = new HashMap<>(list.size());
 
-        for (DictDo dictDo : list) {
+        for (DictDO dictDo : list) {
             dictDoMap.put(dictDo.getDictId(), dictDo);
         }
 

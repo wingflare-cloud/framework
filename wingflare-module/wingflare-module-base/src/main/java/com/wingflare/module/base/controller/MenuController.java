@@ -2,12 +2,12 @@ package com.wingflare.module.base.controller;
 
 
 import com.wingflare.facade.module.base.biz.MenuBiz;
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.bo.MenuSearchBo;
-import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
-import com.wingflare.facade.module.base.dto.MenuPermissionDto;
-import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.bo.MenuSearchBO;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
+import com.wingflare.facade.module.base.dto.MenuPermissionDTO;
+import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
@@ -49,7 +49,7 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	@BusinessSystem("base")
-    public PageDto<MenuDto> list(MenuSearchBo bo) throws Throwable
+    public PageDto<MenuDTO> list(MenuSearchBO bo) throws Throwable
     {
 		return menuBiz.list(bo);
     }
@@ -61,7 +61,7 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	@BusinessSystem("base")
-	public MenuDto get(IdBo bo)
+	public MenuDTO get(IdBo bo)
 	{
 		return menuBiz.get(bo);
 	}
@@ -73,7 +73,7 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	@BusinessSystem("base")
-	public MenuDto getOnlyOne(MenuSearchBo searchBo) throws Throwable
+	public MenuDTO getOnlyOne(MenuSearchBO searchBo) throws Throwable
 	{
 		return menuBiz.getOnlyOne(searchBo);
 	}
@@ -97,7 +97,7 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_CREATE)
 	@BusinessSystem("base")
-	public MenuDto create(@RequestBody MenuBo bo)
+	public MenuDTO create(@RequestBody MenuBO bo)
 	{
 		return menuBiz.create(bo);
 	}
@@ -109,7 +109,7 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_UPDATE)
 	@BusinessSystem("base")
-	public MenuDto update(@RequestBody MenuBo bo)
+	public MenuDTO update(@RequestBody MenuBO bo)
 	{
 		return menuBiz.update(bo);
 	}
@@ -119,8 +119,8 @@ public class MenuController
 	 */
 	@RequestMapping(value = "/tree", method = {RequestMethod.GET})
 	@ResponseBody
-	public List<SimpleMenuDto> tree(@RequestParam(value = "systemCode") String systemCode) {
-		return menuBiz.tree(new MenuSearchBo()
+	public List<SimpleMenuDTO> tree(@RequestParam(value = "systemCode") String systemCode) {
+		return menuBiz.tree(new MenuSearchBO()
 				.setEq_systemCode(systemCode)
 				.setEq_state(OnOffEnum.ON.getValue())
 		);
@@ -133,17 +133,17 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_VIEW)
 	@BusinessSystem("base")
-	public List<SimpleMenuDto> allTree() {
+	public List<SimpleMenuDTO> allTree() {
 		Set<String> names = properties.getNames();
-		List<SimpleMenuDto> list = new ArrayList<>();
+		List<SimpleMenuDTO> list = new ArrayList<>();
 
 		for (String name : names) {
-			SimpleMenuDto dto = new SimpleMenuDto();
+			SimpleMenuDTO dto = new SimpleMenuDTO();
 			dto.setMenuType("system");
 			dto.setMenuName(name);
 			dto.setMenuId(name);
 			dto.setState(1);
-			dto.setChildren(menuBiz.tree(new MenuSearchBo()
+			dto.setChildren(menuBiz.tree(new MenuSearchBO()
 					.setEq_systemCode(name)
 					.setEq_state(OnOffEnum.ON.getValue()))
 			);
@@ -160,17 +160,17 @@ public class MenuController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.MENU_PERM_VIEW)
 	@BusinessSystem("base")
-	public List<MenuPermissionDto> menuPermission() {
+	public List<MenuPermissionDTO> menuPermission() {
 		Set<String> names = properties.getNames();
-		List<SimpleMenuDto> list = new ArrayList<>();
+		List<SimpleMenuDTO> list = new ArrayList<>();
 
 		for (String name : names) {
-			SimpleMenuDto dto = new SimpleMenuDto();
+			SimpleMenuDTO dto = new SimpleMenuDTO();
 			dto.setMenuType("system");
 			dto.setMenuName(name);
 			dto.setMenuId(name);
 			dto.setState(1);
-			dto.setChildren(menuBiz.tree(new MenuSearchBo()
+			dto.setChildren(menuBiz.tree(new MenuSearchBO()
 							.setEq_systemCode(name)
 							.setEq_state(OnOffEnum.ON.getValue())
 							.setEq_constant(OnOffEnum.OFF.getValue())
@@ -192,7 +192,7 @@ public class MenuController
 	@RequestMapping(value = "/permissionCodesExist", method = {RequestMethod.GET})
 	@ResponseBody
 	@InternalApi
-	public Boolean permissionCodesExist(PermissionCodesExistBo existBo) {
+	public Boolean permissionCodesExist(PermissionCodesExistBO existBo) {
 		return menuBiz.permissionCodesExist(existBo);
 	}
 
@@ -202,15 +202,15 @@ public class MenuController
 	 * @param list
 	 * @return
 	 */
-	private List<MenuPermissionDto> convertTreeToPerm(List<SimpleMenuDto> list) {
+	private List<MenuPermissionDTO> convertTreeToPerm(List<SimpleMenuDTO> list) {
 		if (CollectionUtil.isEmpty(list)) {
 			return new ArrayList<>();
 		}
 
-		List<MenuPermissionDto> permList = new ArrayList<>();
+		List<MenuPermissionDTO> permList = new ArrayList<>();
 
 		list.forEach(dto -> {
-			MenuPermissionDto perm = new MenuPermissionDto();
+			MenuPermissionDTO perm = new MenuPermissionDTO();
 			perm.setKey(dto.getMenuId());
 			perm.setName(dto.getMenuName());
 			perm.setLangKey(dto.getLangKey());

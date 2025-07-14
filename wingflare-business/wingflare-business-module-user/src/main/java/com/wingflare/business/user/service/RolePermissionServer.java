@@ -2,10 +2,10 @@ package com.wingflare.business.user.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.user.db.RolePermissionDo;
+import com.wingflare.business.user.db.RolePermissionDO;
 import com.wingflare.business.user.mapper.RolePermissionMapper;
 import com.wingflare.business.user.wrapper.RolePermissionWrapper;
-import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
+import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.Map;
  * @date Thu Mar 09 10:13:02 CST 2023
  */
 @Service
-public class RolePermissionServer extends BaseService<RolePermissionMapper, RolePermissionDo>
+public class RolePermissionServer extends BaseService<RolePermissionMapper, RolePermissionDO>
 {
 
     /**
@@ -30,17 +30,17 @@ public class RolePermissionServer extends BaseService<RolePermissionMapper, Role
     * bo 查询参数
     * @return 结果
     */
-    public Map<BigInteger, RolePermissionDo> getMap(QueryWrapper<RolePermissionDo> wrapper)
+    public Map<BigInteger, RolePermissionDO> getMap(QueryWrapper<RolePermissionDO> wrapper)
 	{
-        List<RolePermissionDo> list = list(wrapper);
+        List<RolePermissionDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
 			return new HashMap<>();
         }
 
-        Map<BigInteger, RolePermissionDo> rolePermissionDoMap = new HashMap<>(list.size());
+        Map<BigInteger, RolePermissionDO> rolePermissionDoMap = new HashMap<>(list.size());
 
-        for (RolePermissionDo rolePermissionDo : list) {
+        for (RolePermissionDO rolePermissionDo : list) {
             rolePermissionDoMap.put(rolePermissionDo.getId(), rolePermissionDo);
         }
 
@@ -51,7 +51,7 @@ public class RolePermissionServer extends BaseService<RolePermissionMapper, Role
      * 批量删除
      * @param bo
      */
-    public void batchDelete(RolePermissionSearchBo bo) {
+    public void batchDelete(RolePermissionSearchBO bo) {
         baseMapper.delete(RolePermissionWrapper.getQueryWrapper(bo));
     }
 }

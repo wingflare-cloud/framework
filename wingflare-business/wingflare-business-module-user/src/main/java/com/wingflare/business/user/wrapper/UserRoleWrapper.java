@@ -3,11 +3,11 @@ package com.wingflare.business.user.wrapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wingflare.business.user.db.UserRoleDO;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.WrapperUtil;
-import com.wingflare.business.user.db.UserRoleDo;
-import com.wingflare.facade.module.user.bo.UserRoleSearchBo;
+import com.wingflare.facade.module.user.bo.UserRoleSearchBO;
 
 /**
  * 系统用户角色表 Wrapper
@@ -23,8 +23,8 @@ public class UserRoleWrapper
      *
      * @param bo 查询条件
      */
-    public static QueryWrapper<UserRoleDo> getQueryWrapper(UserRoleSearchBo bo) {
-        QueryWrapper<UserRoleDo> queryWrapper = new QueryWrapper();
+    public static QueryWrapper<UserRoleDO> getQueryWrapper(UserRoleSearchBO bo) {
+        QueryWrapper<UserRoleDO> queryWrapper = new QueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
@@ -223,15 +223,15 @@ public class UserRoleWrapper
      *
      * @param bo 查询条件
      */
-	public static LambdaQueryWrapper<UserRoleDo> getLambdaQueryWrapper(UserRoleSearchBo bo) {
-        LambdaQueryWrapper<UserRoleDo> queryWrapper = new LambdaQueryWrapper();
+	public static LambdaQueryWrapper<UserRoleDO> getLambdaQueryWrapper(UserRoleSearchBO bo) {
+        LambdaQueryWrapper<UserRoleDO> queryWrapper = new LambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, UserRoleDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, UserRoleDO::getIsDelete, bo.getDataScope());
 
 
         return queryWrapper;
@@ -242,15 +242,15 @@ public class UserRoleWrapper
      *
      * @param bo 查询条件
      */
-	 public static JoinLambdaQueryWrapper<UserRoleDo> getJoinLambdaQueryWrapper(UserRoleSearchBo bo) {
-        JoinLambdaQueryWrapper<UserRoleDo> queryWrapper = new JoinLambdaQueryWrapper();
+	 public static JoinLambdaQueryWrapper<UserRoleDO> getJoinLambdaQueryWrapper(UserRoleSearchBO bo) {
+        JoinLambdaQueryWrapper<UserRoleDO> queryWrapper = new JoinLambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, UserRoleDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, UserRoleDO::getIsDelete, bo.getDataScope());
 
 
         return queryWrapper;

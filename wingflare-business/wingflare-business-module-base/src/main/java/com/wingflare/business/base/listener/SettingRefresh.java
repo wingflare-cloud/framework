@@ -2,7 +2,7 @@ package com.wingflare.business.base.listener;
 
 import com.wingflare.business.base.constants.BaseEventName;
 import com.wingflare.facade.module.base.constants.Base;
-import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.lib.spring.event.Event;
 import com.wingflare.lib.standard.CacheService;
 import com.wingflare.lib.standard.enums.OnOffEnum;
@@ -26,21 +26,21 @@ public class SettingRefresh {
 
     @EventListener(condition = "#event.eventName eq '" + BaseEventName.SETTING_CREATED + "'")
     public void createHandle(Event event) {
-        saveCache((SettingDto) event.getData());
+        saveCache((SettingDTO) event.getData());
     }
 
     @EventListener(condition = "#event.eventName eq '" + BaseEventName.SETTING_UPDATED + "'")
     public void updateHandle(Event event) {
-        saveCache((SettingDto) event.getData());
+        saveCache((SettingDTO) event.getData());
     }
 
     @EventListener(condition = "#event.eventName eq '" + BaseEventName.SETTING_DELETED + "'")
     public void deleteHandle(Event event) {
-        SettingDto settingDto = (SettingDto) event.getData();
+        SettingDTO settingDto = (SettingDTO) event.getData();
         cacheService.delCacheMapValue(Base.SETTING_CACHE_KEY, settingDto.getSettingCode());
     }
 
-    private void saveCache(SettingDto settingDto) {
+    private void saveCache(SettingDTO settingDto) {
         if (OnOffEnum.ON.getValue().equals(settingDto.getState())) {
             cacheService.setCacheMapValue(
                     Base.SETTING_CACHE_KEY,

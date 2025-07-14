@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.user.biz;
 
 
-import com.wingflare.facade.module.user.bo.OrgBo;
-import com.wingflare.facade.module.user.bo.OrgSearchBo;
-import com.wingflare.facade.module.user.dto.OrgDto;
+import com.wingflare.facade.module.user.bo.OrgBO;
+import com.wingflare.facade.module.user.bo.OrgSearchBO;
+import com.wingflare.facade.module.user.dto.OrgDTO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
@@ -27,17 +27,17 @@ public interface OrgBiz {
     /**
      * 查询组织机构列表
      */
-    PageDto<OrgDto> list(@Valid OrgSearchBo bo);
+    PageDto<OrgDTO> list(@Valid OrgSearchBO bo);
 
     /**
      * 查询组织机构详情
      */
-    OrgDto get(@Valid @NotNull IdBo bo);
+    OrgDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个组织机构详情
      */
-    OrgDto getOnlyOne(@Valid @NotNull OrgSearchBo searchBo);
+    OrgDTO getOnlyOne(@Valid @NotNull OrgSearchBO searchBo);
 
     /**
      * 删除组织机构
@@ -48,12 +48,12 @@ public interface OrgBiz {
      * 新增组织机构
      */
     @Validated({Default.class, Create.class})
-    OrgDto create(@Valid @NotNull OrgBo bo);
+    OrgDTO create(@Valid @NotNull OrgBO bo);
 
     /**
      * 更新组织机构
      */
     @Validated({Default.class, Update.class})
-    OrgDto update(@Valid @NotNull OrgBo bo);
+    OrgDTO update(@Valid @NotNull OrgBO bo);
 
 }

@@ -1,9 +1,9 @@
 package com.wingflare.business.user.convert;
 
 
-import com.wingflare.business.user.db.IdentityDo;
-import com.wingflare.facade.module.user.bo.IdentityBo;
-import com.wingflare.facade.module.user.dto.IdentityDto;
+import com.wingflare.business.user.db.IdentityDO;
+import com.wingflare.facade.module.user.bo.IdentityBO;
+import com.wingflare.facade.module.user.dto.IdentityDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,19 +21,19 @@ public interface IdentityConvert extends com.wingflare.facade.module.user.conver
 {
 	IdentityConvert convert = Mappers.getMapper(IdentityConvert.class);
 
-	IdentityBo doToBo(IdentityDo identityDo);
+	IdentityBO doToBo(IdentityDO identityDo);
 
-	IdentityDto doToDto(IdentityDo identityDo);
+	IdentityDTO doToDto(IdentityDO identityDo);
 
-	IdentityDo boToDo(IdentityBo identityBo);
+	IdentityDO boToDo(IdentityBO identityBo);
 
-	IdentityDo dtoToDo(IdentityDto identityDto);
+	IdentityDO dtoToDo(IdentityDTO identityDto);
 
-	List<IdentityBo> doToBoList(List<IdentityDo> identityDoList);
+	List<IdentityBO> doToBoList(List<IdentityDO> identityDOList);
 
-	List<IdentityDto> doToDtoList(List<IdentityDo> identityDoList);
+	List<IdentityDTO> doToDtoList(List<IdentityDO> identityDOList);
 
-	List<IdentityDo> boToDoList(List<IdentityBo> identityBoList);
+	List<IdentityDO> boToDoList(List<IdentityBO> identityBOList);
 
-	List<IdentityDo> dtoToDoList(List<IdentityDto> identityDtoList);
+	List<IdentityDO> dtoToDoList(List<IdentityDTO> identityDTOList);
 }

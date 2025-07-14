@@ -1,10 +1,10 @@
 package com.wingflare.business.base.convert;
 
 
-import com.wingflare.business.base.db.DictDo;
-import com.wingflare.facade.module.base.bo.DictBo;
-import com.wingflare.facade.module.base.dto.DictDto;
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.business.base.db.DictDO;
+import com.wingflare.facade.module.base.bo.DictBO;
+import com.wingflare.facade.module.base.dto.DictDTO;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,21 +22,21 @@ public interface DictConvert extends com.wingflare.facade.module.base.convert.Di
 {
 	DictConvert convert = Mappers.getMapper(DictConvert.class);
 
-	DictBo doToBo(DictDo dictDo);
+	DictBO doToBo(DictDO dictDo);
 
-	DictDto doToDto(DictDo dictDo);
+	DictDTO doToDto(DictDO dictDo);
 
-	DictDo boToDo(DictBo dictBo);
+	DictDO boToDo(DictBO dictBo);
 
-	DictDo dtoToDo(DictDto dictDto);
+	DictDO dtoToDo(DictDTO dictDto);
 
-	SimpleDictDto doToSimpleDto(DictDo dictDo);
+	SimpleDictDTO doToSimpleDto(DictDO dictDo);
 
-	List<DictBo> doToBoList(List<DictDo> dictDoList);
+	List<DictBO> doToBoList(List<DictDO> dictDOList);
 
-	List<DictDto> doToDtoList(List<DictDo> dictDoList);
+	List<DictDTO> doToDtoList(List<DictDO> dictDOList);
 
-	List<DictDo> boToDoList(List<DictBo> dictBoList);
+	List<DictDO> boToDoList(List<DictBO> dictBOList);
 
-	List<DictDo> dtoToDoList(List<DictDto> dictDtoList);
+	List<DictDO> dtoToDoList(List<DictDTO> dictDTOList);
 }

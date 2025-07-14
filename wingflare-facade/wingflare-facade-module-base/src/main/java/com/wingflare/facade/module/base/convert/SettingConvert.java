@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.base.convert;
 
 
-import com.wingflare.facade.module.base.bo.SettingBo;
-import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.facade.module.base.bo.SettingBO;
+import com.wingflare.facade.module.base.dto.SettingDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface SettingConvert
 {
 	SettingConvert convert = Mappers.getMapper(SettingConvert.class);
 
-	SettingBo dtoToBo(SettingDto settingDto);
+	SettingBO dtoToBo(SettingDTO settingDto);
 
-	SettingDto boToDto(SettingBo settingBo);
+	SettingDTO boToDto(SettingBO settingBo);
 
-	List<SettingBo> dtoToBoList(List<SettingDto> settingDtoList);
+	List<SettingBO> dtoToBoList(List<SettingDTO> settingDTOList);
 
-	List<SettingDto> boToDtoList(List<SettingBo> settingBoList);
+	List<SettingDTO> boToDtoList(List<SettingBO> settingBOList);
 }

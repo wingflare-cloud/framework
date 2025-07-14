@@ -2,9 +2,9 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.JobLevelBiz;
-import com.wingflare.facade.module.user.bo.JobLevelBo;
-import com.wingflare.facade.module.user.bo.JobLevelSearchBo;
-import com.wingflare.facade.module.user.dto.JobLevelDto;
+import com.wingflare.facade.module.user.bo.JobLevelBO;
+import com.wingflare.facade.module.user.bo.JobLevelSearchBO;
+import com.wingflare.facade.module.user.dto.JobLevelDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class JobLevelController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
-    public PageDto<JobLevelDto> list(JobLevelSearchBo bo) throws Throwable
+    public PageDto<JobLevelDTO> list(JobLevelSearchBO bo) throws Throwable
     {
 		return jobLevelBiz.list(bo);
     }
@@ -44,7 +44,7 @@ public class JobLevelController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
-	public JobLevelDto get(IdBo bo)
+	public JobLevelDTO get(IdBo bo)
 	{
 		return jobLevelBiz.get(bo);
 	}
@@ -54,7 +54,7 @@ public class JobLevelController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
-	public JobLevelDto getOnlyOne(JobLevelSearchBo searchBo) throws Throwable
+	public JobLevelDTO getOnlyOne(JobLevelSearchBO searchBo) throws Throwable
 	{
 		return jobLevelBiz.getOnlyOne(searchBo);
 	}
@@ -74,7 +74,7 @@ public class JobLevelController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
-	public JobLevelDto create(@RequestBody JobLevelBo bo)
+	public JobLevelDTO create(@RequestBody JobLevelBO bo)
 	{
 		return jobLevelBiz.create(bo);
 	}
@@ -84,7 +84,7 @@ public class JobLevelController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
-	public JobLevelDto update(@RequestBody JobLevelBo bo)
+	public JobLevelDTO update(@RequestBody JobLevelBO bo)
 	{
 		return jobLevelBiz.update(bo);
 	}

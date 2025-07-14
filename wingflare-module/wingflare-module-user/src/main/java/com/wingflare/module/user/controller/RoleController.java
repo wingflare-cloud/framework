@@ -2,9 +2,9 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.RoleBiz;
-import com.wingflare.facade.module.user.bo.RoleBo;
-import com.wingflare.facade.module.user.bo.RoleSearchBo;
-import com.wingflare.facade.module.user.dto.RoleDto;
+import com.wingflare.facade.module.user.bo.RoleBO;
+import com.wingflare.facade.module.user.bo.RoleSearchBO;
+import com.wingflare.facade.module.user.dto.RoleDTO;
 import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageDto;
@@ -39,7 +39,7 @@ public class RoleController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_VIEW)
 	@BusinessSystem("base")
-    public PageDto<RoleDto> list(RoleSearchBo bo)
+    public PageDto<RoleDTO> list(RoleSearchBO bo)
     {
 		return roleBiz.list(bo);
     }
@@ -51,7 +51,7 @@ public class RoleController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_VIEW)
 	@BusinessSystem("base")
-	public RoleDto get(IdBo bo)
+	public RoleDTO get(IdBo bo)
 	{
 		return roleBiz.get(bo);
 	}
@@ -63,7 +63,7 @@ public class RoleController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_VIEW)
 	@BusinessSystem("base")
-	public RoleDto getOnlyOne(RoleSearchBo searchBo)
+	public RoleDTO getOnlyOne(RoleSearchBO searchBo)
 	{
 		return roleBiz.getOnlyOne(searchBo);
 	}
@@ -75,7 +75,7 @@ public class RoleController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_DELETE)
 	@BusinessSystem("base")
-	public RoleDto delete(@RequestBody IdBo bo)
+	public RoleDTO delete(@RequestBody IdBo bo)
 	{
 		return roleBiz.delete(bo);
 	}
@@ -87,7 +87,7 @@ public class RoleController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_CREATE)
 	@BusinessSystem("base")
-	public RoleDto create(@RequestBody RoleBo bo)
+	public RoleDTO create(@RequestBody RoleBO bo)
 	{
 		return roleBiz.create(bo);
 	}
@@ -99,7 +99,7 @@ public class RoleController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.ROLE_UPDATE)
 	@BusinessSystem("base")
-	public RoleDto update(@RequestBody RoleBo bo)
+	public RoleDTO update(@RequestBody RoleBO bo)
 	{
 		return roleBiz.update(bo);
 	}

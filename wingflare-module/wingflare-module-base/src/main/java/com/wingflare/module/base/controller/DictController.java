@@ -2,10 +2,10 @@ package com.wingflare.module.base.controller;
 
 
 import com.wingflare.facade.module.base.biz.DictBiz;
-import com.wingflare.facade.module.base.bo.DictBo;
-import com.wingflare.facade.module.base.bo.DictSearchBo;
-import com.wingflare.facade.module.base.dto.DictDto;
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.facade.module.base.bo.DictBO;
+import com.wingflare.facade.module.base.bo.DictSearchBO;
+import com.wingflare.facade.module.base.dto.DictDTO;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageDto;
@@ -41,7 +41,7 @@ public class DictController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.DICT_VIEW)
 	@BusinessSystem("base")
-    public PageDto<DictDto> list(DictSearchBo bo)
+    public PageDto<DictDTO> list(DictSearchBO bo)
     {
 		return dictBiz.list(bo);
     }
@@ -53,7 +53,7 @@ public class DictController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.DICT_VIEW)
 	@BusinessSystem("base")
-	public DictDto get(IdBo bo)
+	public DictDTO get(IdBo bo)
 	{
 		return dictBiz.get(bo);
 	}
@@ -65,7 +65,7 @@ public class DictController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.DICT_VIEW)
 	@BusinessSystem("base")
-	public DictDto getOnlyOne(DictSearchBo searchBo)
+	public DictDTO getOnlyOne(DictSearchBO searchBo)
 	{
 		return dictBiz.getOnlyOne(searchBo);
 	}
@@ -89,7 +89,7 @@ public class DictController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.DICT_CREATE)
 	@BusinessSystem("base")
-	public DictDto create(@RequestBody DictBo bo)
+	public DictDTO create(@RequestBody DictBO bo)
 	{
 		return dictBiz.create(bo);
 	}
@@ -101,7 +101,7 @@ public class DictController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.DICT_UPDATE)
 	@BusinessSystem("base")
-	public DictDto update(@RequestBody DictBo bo)
+	public DictDTO update(@RequestBody DictBO bo)
 	{
 		return dictBiz.update(bo);
 	}
@@ -123,7 +123,7 @@ public class DictController
 	 */
 	@RequestMapping(value = "/getAll", method = {RequestMethod.GET})
 	@ResponseBody
-	public List<SimpleDictDto> getAll()
+	public List<SimpleDictDTO> getAll()
 	{
 		return dictBiz.getAllDictByCache();
 	}

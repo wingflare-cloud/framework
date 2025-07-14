@@ -1,10 +1,10 @@
 package com.wingflare.facade.module.base.biz;
 
 
-import com.wingflare.facade.module.base.bo.DictBo;
-import com.wingflare.facade.module.base.bo.DictSearchBo;
-import com.wingflare.facade.module.base.dto.DictDto;
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.facade.module.base.bo.DictBO;
+import com.wingflare.facade.module.base.bo.DictSearchBO;
+import com.wingflare.facade.module.base.dto.DictDTO;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
@@ -29,17 +29,17 @@ public interface DictBiz {
     /**
      * 查询系统字典列表
      */
-    PageDto<DictDto> list(@Valid DictSearchBo bo);
+    PageDto<DictDTO> list(@Valid DictSearchBO bo);
 
     /**
      * 查询系统字典详情
      */
-    DictDto get(@Valid @NotNull IdBo bo);
+    DictDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个系统字典详情
      */
-    DictDto getOnlyOne(@Valid @NotNull DictSearchBo searchBo);
+    DictDTO getOnlyOne(@Valid @NotNull DictSearchBO searchBo);
 
     /**
      * 删除系统字典
@@ -50,13 +50,13 @@ public interface DictBiz {
      * 新增系统字典
      */
     @Validated({Default.class, Create.class})
-    DictDto create(@Valid @NotNull DictBo bo);
+    DictDTO create(@Valid @NotNull DictBO bo);
 
     /**
      * 更新系统字典
      */
     @Validated({Default.class, Update.class})
-    DictDto update(@Valid @NotNull DictBo bo);
+    DictDTO update(@Valid @NotNull DictBO bo);
 
     /**
      * 刷新系统字典
@@ -69,6 +69,6 @@ public interface DictBiz {
      *
      * @return
      */
-    List<SimpleDictDto> getAllDictByCache();
+    List<SimpleDictDTO> getAllDictByCache();
 
 }

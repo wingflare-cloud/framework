@@ -3,13 +3,13 @@ package com.wingflare.module.auth.controller;
 
 import com.wingflare.adapter.spring.server.web.utils.ServletUtil;
 import com.wingflare.facade.module.auth.biz.LoginBiz;
-import com.wingflare.facade.module.auth.bo.GetLoginUsersBo;
-import com.wingflare.facade.module.auth.bo.LoginBo;
-import com.wingflare.facade.module.auth.bo.RefreshTokenBo;
-import com.wingflare.facade.module.auth.bo.TokenIdBo;
-import com.wingflare.facade.module.auth.dto.TokenDto;
+import com.wingflare.facade.module.auth.bo.GetLoginUsersBO;
+import com.wingflare.facade.module.auth.bo.LoginBO;
+import com.wingflare.facade.module.auth.bo.RefreshTokenBO;
+import com.wingflare.facade.module.auth.bo.TokenIdBO;
+import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.facade.module.user.biz.UserBiz;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.constants.HttpHeader;
 import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresLogin;
@@ -56,7 +56,7 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     @Secret
-    public TokenDto login(@Secret @RequestBody LoginBo bo) {
+    public TokenDTO login(@Secret @RequestBody LoginBO bo) {
         bo.setUserAgent(ServletUtil.getHeader(HttpHeader.REQUEST_USER_AGENT));
         bo.setIpaddr(ServletUtil.getClientIpAddr());
 
@@ -84,7 +84,7 @@ public class AuthController {
     @ResponseBody
     @Secret
     @BusinessSystem("base")
-    public UserAuth kickOut(@Secret @RequestBody TokenIdBo bo) {
+    public UserAuth kickOut(@Secret @RequestBody TokenIdBO bo) {
         StringIdBo idBo = new StringIdBo().setId(bo.getToken());
         return loginBiz.logout(idBo);
     }
@@ -100,7 +100,7 @@ public class AuthController {
     @RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)
     @RequiresLogin
     @ResponseBody
-    public UserDto getLoginUser() {
+    public UserDTO getLoginUser() {
         UserAuth userAuth = loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getTokenId()));
         return userBiz.get(new IdBo().setId(userAuth.getUserId()));
     }
@@ -110,7 +110,7 @@ public class AuthController {
     @RequiresPermissions(PermissionCode.AUTH_TOKEN_VIEW)
     @ResponseBody
     @BusinessSystem("base")
-    public PageResult<UserAuth> list(@Valid @NotNull GetLoginUsersBo bo) {
+    public PageResult<UserAuth> list(@Valid @NotNull GetLoginUsersBO bo) {
         return loginBiz.getLoginUsers(bo);
     }
 
@@ -119,14 +119,14 @@ public class AuthController {
     @RequiresPermissions(PermissionCode.AUTH_USER_TOKEN_VIEW)
     @ResponseBody
     @BusinessSystem("base")
-    public PageResult<UserAuth> userList(@Valid @NotNull GetLoginUsersBo bo) {
+    public PageResult<UserAuth> userList(@Valid @NotNull GetLoginUsersBO bo) {
         return loginBiz.getUserLoginInfos(bo);
     }
 
     @RequestMapping(value = "/refreshToken", method = RequestMethod.POST)
     @RequiresLogin
     @ResponseBody
-    public TokenDto refreshToken(@RequestBody @Valid @NotNull RefreshTokenBo bo) {
+    public TokenDTO refreshToken(@RequestBody @Valid @NotNull RefreshTokenBO bo) {
         return loginBiz.refreshToken(bo);
     }
 

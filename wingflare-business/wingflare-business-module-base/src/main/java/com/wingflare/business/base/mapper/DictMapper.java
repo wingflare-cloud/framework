@@ -1,7 +1,7 @@
 package com.wingflare.business.base.mapper;
 
 
-import com.wingflare.business.base.db.DictDo;
+import com.wingflare.business.base.db.DictDO;
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
 
 /**
@@ -10,7 +10,7 @@ import com.wingflare.lib.mybatis.plus.base.CustomMapper;
  * @author naizui_ycx
  * @date Sat Mar 04 17:48:17 CST 2023
  */
-public interface DictMapper extends CustomMapper<DictDo>
+public interface DictMapper extends CustomMapper<DictDO>
 {
 
 }

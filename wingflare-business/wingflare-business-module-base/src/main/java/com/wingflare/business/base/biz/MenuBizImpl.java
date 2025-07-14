@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.constants.BaseEventName;
 import com.wingflare.business.base.convert.MenuConvert;
-import com.wingflare.business.base.db.MenuDo;
+import com.wingflare.business.base.db.MenuDO;
 import com.wingflare.business.base.service.MenuServer;
 import com.wingflare.business.base.wrapper.MenuWrapper;
 import com.wingflare.facade.module.base.biz.MenuBiz;
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.bo.MenuSearchBo;
-import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
-import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.bo.MenuSearchBO;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
+import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
@@ -71,8 +71,8 @@ public class MenuBizImpl implements MenuBiz {
      * 查询系统菜单列表
      */
     @Override
-    public PageDto<MenuDto> list(@Valid MenuSearchBo bo) {
-        IPage<MenuDo> iPage = menuServer.page(
+    public PageDto<MenuDTO> list(@Valid MenuSearchBO bo) {
+        IPage<MenuDO> iPage = menuServer.page(
                 menuServer.createPage(bo),
                 MenuWrapper.getLambdaQueryWrapper(bo)
         );
@@ -85,7 +85,7 @@ public class MenuBizImpl implements MenuBiz {
      * 查询系统菜单详情
      */
     @Override
-    public MenuDto get(@Valid @NotNull IdBo bo) {
+    public MenuDTO get(@Valid @NotNull IdBo bo) {
         return MenuConvert.convert.doToDto(
                 menuServer.getById(bo.getId()));
     }
@@ -94,7 +94,7 @@ public class MenuBizImpl implements MenuBiz {
      * 通过条件查询单个系统菜单详情
      */
     @Override
-    public MenuDto getOnlyOne(@Valid @NotNull MenuSearchBo searchBo) {
+    public MenuDTO getOnlyOne(@Valid @NotNull MenuSearchBO searchBo) {
         return MenuConvert.convert.doToDto(
                 menuServer.getOne(
                         MenuWrapper.getLambdaQueryWrapper(searchBo)
@@ -107,13 +107,13 @@ public class MenuBizImpl implements MenuBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
-        MenuDto ret = transactionTemplate.execute(status -> {
-            MenuDo menuDo = menuServer.getById(bo.getId());
-            MenuDto menuDto = null;
+        MenuDTO ret = transactionTemplate.execute(status -> {
+            MenuDO menuDo = menuServer.getById(bo.getId());
+            MenuDTO menuDto = null;
 
             if (menuDo != null) {
                 Assert.isFalse(
-                        has(new MenuSearchBo()
+                        has(new MenuSearchBO()
                                 .setEq_parentMenuId(menuDo.getMenuId())
                         ), ErrorCode.SYS_MENU_NOT_DELETE);
                 Assert.isTrue(menuServer.removeById(bo.getId()), ErrorCode.SYS_MENU_DELETE_ERROR);
@@ -139,12 +139,12 @@ public class MenuBizImpl implements MenuBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public MenuDto create(@Valid @NotNull MenuBo bo) {
-        MenuDto ret = transactionTemplate.execute(status -> {
+    public MenuDTO create(@Valid @NotNull MenuBO bo) {
+        MenuDTO ret = transactionTemplate.execute(status -> {
             checkMenuCanSave(bo, null);
-            MenuDo menuDo = MenuConvert.convert.boToDo(bo);
+            MenuDO menuDo = MenuConvert.convert.boToDo(bo);
             Assert.isTrue(menuServer.save(menuDo), ErrorCode.SYS_MENU_CREATE_ERROR);
-            MenuDto menuDto = MenuConvert.convert.doToDto(menuDo);
+            MenuDTO menuDto = MenuConvert.convert.doToDto(menuDo);
             eventUtil.publishEvent(BaseEventName.MENU_CREATE, bo, menuDto);
             return menuDto;
         });
@@ -164,32 +164,32 @@ public class MenuBizImpl implements MenuBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
-    public MenuDto update(@Valid @NotNull MenuBo bo) {
-        AtomicReference<MenuDto> oldField = new AtomicReference<>(null);
-        MenuDto ret = transactionTemplate.execute(status -> {
-            MenuDo oldMenuDo = menuServer.getById(bo.getMenuId());
-            MenuDto menuDto = null;
+    public MenuDTO update(@Valid @NotNull MenuBO bo) {
+        AtomicReference<MenuDTO> oldField = new AtomicReference<>(null);
+        MenuDTO ret = transactionTemplate.execute(status -> {
+            MenuDO oldMenuDO = menuServer.getById(bo.getMenuId());
+            MenuDTO menuDto = null;
 
-            if (oldMenuDo == null) {
+            if (oldMenuDO == null) {
                 throw new DataNotFoundException("menu.data.notfound");
             }
 
-            checkMenuCanSave(bo, oldMenuDo);
+            checkMenuCanSave(bo, oldMenuDO);
             Builder.of(() -> bo)
-                    .with(MenuBo::setSystemCode, null)
-                    .with(MenuBo::setParentMenuId, null)
-                    .with(MenuBo::setMenuType, null)
+                    .with(MenuBO::setSystemCode, null)
+                    .with(MenuBO::setParentMenuId, null)
+                    .with(MenuBO::setMenuType, null)
                     .build();
-            MenuDo menuDo = MenuConvert.convert.boToDo(bo);
-            MenuDo oldFieldDo = oldMenuDo.setOnNew(menuDo);
+            MenuDO menuDo = MenuConvert.convert.boToDo(bo);
+            MenuDO oldFieldDo = oldMenuDO.setOnNew(menuDo);
 
             if (oldFieldDo != null) {
                 oldField.set(MenuConvert.convert.doToDto(oldFieldDo));
-                Assert.isTrue(menuServer.updateById(oldMenuDo), ErrorCode.SYS_MENU_UPDATE_ERROR);
-                menuDto = MenuConvert.convert.doToDto(oldMenuDo);
+                Assert.isTrue(menuServer.updateById(oldMenuDO), ErrorCode.SYS_MENU_UPDATE_ERROR);
+                menuDto = MenuConvert.convert.doToDto(oldMenuDO);
                 eventUtil.publishEvent(BaseEventName.MENU_UPDATE, oldField.get(), menuDto);
             } else {
-                menuDto = MenuConvert.convert.doToDto(oldMenuDo);
+                menuDto = MenuConvert.convert.doToDto(oldMenuDO);
             }
             return menuDto;
         });
@@ -212,16 +212,16 @@ public class MenuBizImpl implements MenuBiz {
      * @return
      */
     @Override
-    public List<SimpleMenuDto> tree(@Valid @NotNull MenuSearchBo searchBo) {
-        List<SimpleMenuDto> menuTree = new ArrayList<>();
-        List<MenuDo> menuDoList = menuServer
+    public List<SimpleMenuDTO> tree(@Valid @NotNull MenuSearchBO searchBo) {
+        List<SimpleMenuDTO> menuTree = new ArrayList<>();
+        List<MenuDO> menuDOList = menuServer
                 .list(MenuWrapper.getLambdaQueryWrapper(searchBo));
 
-        if (CollectionUtil.isNotEmpty(menuDoList)) {
-            menuDoList.sort((m1, m2) -> (int) (m2.getSort() - m1.getSort()));
-            Map<String, List<SimpleMenuDto>> subMenu = new HashMap<>();
-            menuDoList.forEach(item -> {
-                SimpleMenuDto menuDo = MenuConvert.convert
+        if (CollectionUtil.isNotEmpty(menuDOList)) {
+            menuDOList.sort((m1, m2) -> (int) (m2.getSort() - m1.getSort()));
+            Map<String, List<SimpleMenuDTO>> subMenu = new HashMap<>();
+            menuDOList.forEach(item -> {
+                SimpleMenuDTO menuDo = MenuConvert.convert
                         .doToSimpleDto(item);
                 if (StringUtil.isEmpty(menuDo.getParentMenuId()) || menuDo.getParentMenuId().equals("0")) {
                     menuTree.add(menuDo);
@@ -243,9 +243,9 @@ public class MenuBizImpl implements MenuBiz {
      * @return
      */
     @Override
-    public Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBo existBo) {
+    public Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBO existBo) {
         for (int i = 0; i < existBo.getCodes().size(); i++) {
-            if (menuServer.count(MenuWrapper.getLambdaQueryWrapper(new MenuSearchBo().setEq_systemCode(existBo.getCodes().get(i).getSystemCode())
+            if (menuServer.count(MenuWrapper.getLambdaQueryWrapper(new MenuSearchBO().setEq_systemCode(existBo.getCodes().get(i).getSystemCode())
                     .setIn_permissionCode(StringUtil.join(existBo.getCodes().get(i).getCodes())))) != existBo.getCodes().get(i).getCodes().size()
             ) {
                 return false;
@@ -256,7 +256,7 @@ public class MenuBizImpl implements MenuBiz {
     }
 
 
-    private void formatTree(List<SimpleMenuDto> topTree, Map<String, List<SimpleMenuDto>> subMenu) {
+    private void formatTree(List<SimpleMenuDTO> topTree, Map<String, List<SimpleMenuDTO>> subMenu) {
         topTree.forEach(item -> Optional.ofNullable(subMenu.get(item.getMenuId()))
                 .ifPresent(v -> {
                     formatTree(v, subMenu);
@@ -269,9 +269,9 @@ public class MenuBizImpl implements MenuBiz {
      *
      * @param bo
      */
-    private void checkMenuCanSave(MenuBo bo, MenuDo oldDo) {
+    private void checkMenuCanSave(MenuBO bo, MenuDO oldDo) {
         if (oldDo == null) {
-            Assert.isFalse(has(new MenuSearchBo()
+            Assert.isFalse(has(new MenuSearchBO()
                     .setEq_systemCode(bo.getSystemCode())
                     .setEq_menuName(bo.getMenuName())
                     .setEq_menuType(bo.getMenuType())
@@ -283,7 +283,7 @@ public class MenuBizImpl implements MenuBiz {
                 Assert.isTrue(menuServer.hasById(bo.getParentMenuId()), ErrorCode.SYS_MENU_PARENT_NOTFOUND);
             }
         } else {
-            Assert.isFalse(has(new MenuSearchBo()
+            Assert.isFalse(has(new MenuSearchBO()
                     .setEq_systemCode(oldDo.getSystemCode())
                     .setEq_menuName(bo.getMenuName())
                     .setEq_menuType(oldDo.getMenuType())
@@ -300,7 +300,7 @@ public class MenuBizImpl implements MenuBiz {
      * @param bo 查询参数
      * @return 系统菜单
      */
-    public boolean has(MenuSearchBo bo) {
+    public boolean has(MenuSearchBO bo) {
         return menuServer.has(
                 MenuWrapper.getLambdaQueryWrapper(bo)
         );

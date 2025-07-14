@@ -2,7 +2,7 @@ package com.wingflare.business.base.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.base.db.MenuDo;
+import com.wingflare.business.base.db.MenuDO;
 import com.wingflare.business.base.mapper.MenuMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @date Sat Mar 04 21:30:08 CST 2023
  */
 @Service
-public class MenuServer extends BaseService<MenuMapper, MenuDo> {
+public class MenuServer extends BaseService<MenuMapper, MenuDO> {
 
     /**
      * 获取系统菜单Map
@@ -28,16 +28,16 @@ public class MenuServer extends BaseService<MenuMapper, MenuDo> {
      *
      * @return 结果
      */
-    public Map<BigInteger, MenuDo> getMap(QueryWrapper<MenuDo> wrapper) {
-        List<MenuDo> list = list(wrapper);
+    public Map<BigInteger, MenuDO> getMap(QueryWrapper<MenuDO> wrapper) {
+        List<MenuDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<BigInteger, MenuDo> menuDoMap = new HashMap<>(list.size());
+        Map<BigInteger, MenuDO> menuDoMap = new HashMap<>(list.size());
 
-        for (MenuDo menuDo : list) {
+        for (MenuDO menuDo : list) {
             menuDoMap.put(menuDo.getMenuId(), menuDo);
         }
 

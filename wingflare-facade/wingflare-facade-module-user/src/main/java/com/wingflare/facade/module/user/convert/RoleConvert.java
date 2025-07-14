@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.convert;
 
 
-import com.wingflare.facade.module.user.bo.RoleBo;
-import com.wingflare.facade.module.user.dto.RoleDto;
+import com.wingflare.facade.module.user.bo.RoleBO;
+import com.wingflare.facade.module.user.dto.RoleDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface RoleConvert
 {
 	RoleConvert convert = Mappers.getMapper(RoleConvert.class);
 
-	RoleBo dtoToBo(RoleDto roleDto);
+	RoleBO dtoToBo(RoleDTO roleDto);
 
-	RoleDto boToDto(RoleBo roleBo);
+	RoleDTO boToDto(RoleBO roleBo);
 
-	List<RoleBo> dtoToBoList(List<RoleDto> roleDtoList);
+	List<RoleBO> dtoToBoList(List<RoleDTO> roleDTOList);
 
-	List<RoleDto> boToDtoList(List<RoleBo> roleBoList);
+	List<RoleDTO> boToDtoList(List<RoleBO> roleBOList);
 }

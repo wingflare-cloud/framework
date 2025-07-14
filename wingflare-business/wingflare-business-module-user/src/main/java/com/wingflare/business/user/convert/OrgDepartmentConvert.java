@@ -1,9 +1,9 @@
 package com.wingflare.business.user.convert;
 
 
-import com.wingflare.business.user.db.OrgDepartmentDo;
-import com.wingflare.facade.module.user.bo.OrgDepartmentBo;
-import com.wingflare.facade.module.user.dto.OrgDepartmentDto;
+import com.wingflare.business.user.db.OrgDepartmentDO;
+import com.wingflare.facade.module.user.bo.OrgDepartmentBO;
+import com.wingflare.facade.module.user.dto.OrgDepartmentDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,19 +21,19 @@ public interface OrgDepartmentConvert extends com.wingflare.facade.module.user.c
 {
 	OrgDepartmentConvert convert = Mappers.getMapper(OrgDepartmentConvert.class);
 
-	OrgDepartmentBo doToBo(OrgDepartmentDo orgDepartmentDo);
+	OrgDepartmentBO doToBo(OrgDepartmentDO orgDepartmentDo);
 
-	OrgDepartmentDto doToDto(OrgDepartmentDo orgDepartmentDo);
+	OrgDepartmentDTO doToDto(OrgDepartmentDO orgDepartmentDo);
 
-	OrgDepartmentDo boToDo(OrgDepartmentBo orgDepartmentBo);
+	OrgDepartmentDO boToDo(OrgDepartmentBO orgDepartmentBo);
 
-	OrgDepartmentDo dtoToDo(OrgDepartmentDto orgDepartmentDto);
+	OrgDepartmentDO dtoToDo(OrgDepartmentDTO orgDepartmentDto);
 
-	List<OrgDepartmentBo> doToBoList(List<OrgDepartmentDo> orgDepartmentDoList);
+	List<OrgDepartmentBO> doToBoList(List<OrgDepartmentDO> orgDepartmentDOList);
 
-	List<OrgDepartmentDto> doToDtoList(List<OrgDepartmentDo> orgDepartmentDoList);
+	List<OrgDepartmentDTO> doToDtoList(List<OrgDepartmentDO> orgDepartmentDOList);
 
-	List<OrgDepartmentDo> boToDoList(List<OrgDepartmentBo> orgDepartmentBoList);
+	List<OrgDepartmentDO> boToDoList(List<OrgDepartmentBO> orgDepartmentBOList);
 
-	List<OrgDepartmentDo> dtoToDoList(List<OrgDepartmentDto> orgDepartmentDtoList);
+	List<OrgDepartmentDO> dtoToDoList(List<OrgDepartmentDTO> orgDepartmentDTOList);
 }

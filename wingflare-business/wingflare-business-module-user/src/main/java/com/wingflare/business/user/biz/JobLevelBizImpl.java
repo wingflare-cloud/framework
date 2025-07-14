@@ -4,14 +4,14 @@ package com.wingflare.business.user.biz;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.JobLevelConvert;
-import com.wingflare.business.user.db.JobLevelDo;
+import com.wingflare.business.user.db.JobLevelDO;
 import com.wingflare.business.user.service.JobLevelClassifyServer;
 import com.wingflare.business.user.service.JobLevelServer;
 import com.wingflare.business.user.wrapper.JobLevelWrapper;
 import com.wingflare.facade.module.user.biz.JobLevelBiz;
-import com.wingflare.facade.module.user.bo.JobLevelBo;
-import com.wingflare.facade.module.user.bo.JobLevelSearchBo;
-import com.wingflare.facade.module.user.dto.JobLevelDto;
+import com.wingflare.facade.module.user.bo.JobLevelBO;
+import com.wingflare.facade.module.user.bo.JobLevelSearchBO;
+import com.wingflare.facade.module.user.dto.JobLevelDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.validation.Create;
@@ -49,8 +49,8 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * 查询职级列表
      */
     @Override
-    public PageDto<JobLevelDto> list(@Valid JobLevelSearchBo bo) {
-        IPage<JobLevelDo> iPage = jobLevelServer.page(
+    public PageDto<JobLevelDTO> list(@Valid JobLevelSearchBO bo) {
+        IPage<JobLevelDO> iPage = jobLevelServer.page(
                 jobLevelServer.createPage(bo),
                 JobLevelWrapper.getQueryWrapper(bo)
         );
@@ -63,7 +63,7 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * 查询职级详情
      */
     @Override
-    public JobLevelDto get(@Valid @NotNull IdBo bo) {
+    public JobLevelDTO get(@Valid @NotNull IdBo bo) {
         return JobLevelConvert.convert.doToDto(
                 jobLevelServer.getById(bo.getId()));
     }
@@ -72,7 +72,7 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * 通过条件查询单个职级详情
      */
     @Override
-    public JobLevelDto getOnlyOne(@Valid @NotNull JobLevelSearchBo searchBo) {
+    public JobLevelDTO getOnlyOne(@Valid @NotNull JobLevelSearchBO searchBo) {
         return JobLevelConvert.convert.doToDto(
                 jobLevelServer.getOne(
                         JobLevelWrapper.getQueryWrapper(searchBo)
@@ -85,7 +85,7 @@ public class JobLevelBizImpl implements JobLevelBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
-        JobLevelDo jobLevelDo = jobLevelServer.getById(bo.getId());
+        JobLevelDO jobLevelDo = jobLevelServer.getById(bo.getId());
 
         if (jobLevelDo != null) {
             jobLevelServer.removeById(bo.getId());
@@ -97,9 +97,9 @@ public class JobLevelBizImpl implements JobLevelBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public JobLevelDto create(@Valid @NotNull JobLevelBo bo) {
+    public JobLevelDTO create(@Valid @NotNull JobLevelBO bo) {
         checkJobLevelCanSave(bo, null);
-        JobLevelDo jobLevelDo = JobLevelConvert.convert.boToDo(bo);
+        JobLevelDO jobLevelDo = JobLevelConvert.convert.boToDo(bo);
         jobLevelServer.save(jobLevelDo);
         return JobLevelConvert.convert.doToDto(jobLevelDo);
     }
@@ -110,17 +110,17 @@ public class JobLevelBizImpl implements JobLevelBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
-    public JobLevelDto update(@Valid @NotNull JobLevelBo bo) {
-        JobLevelDo oldJobLevelDo = jobLevelServer.getById(bo.getJobLevelId());
+    public JobLevelDTO update(@Valid @NotNull JobLevelBO bo) {
+        JobLevelDO oldJobLevelDO = jobLevelServer.getById(bo.getJobLevelId());
 
-        if (oldJobLevelDo == null) {
+        if (oldJobLevelDO == null) {
             throw new DataNotFoundException("jobLevel.data.notfound");
         }
 
-        checkJobLevelCanSave(bo, oldJobLevelDo);
-        JobLevelDo jobLevelDo = JobLevelConvert.convert.boToDo(bo);
-        oldJobLevelDo.setOnNew(jobLevelDo);
-        jobLevelServer.updateById(oldJobLevelDo);
+        checkJobLevelCanSave(bo, oldJobLevelDO);
+        JobLevelDO jobLevelDo = JobLevelConvert.convert.boToDo(bo);
+        oldJobLevelDO.setOnNew(jobLevelDo);
+        jobLevelServer.updateById(oldJobLevelDO);
         return JobLevelConvert.convert.doToDto(jobLevelDo);
     }
 
@@ -130,8 +130,8 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * @param bo
      * @param oldDo
      */
-    private void checkJobLevelCanSave(JobLevelBo bo, JobLevelDo oldDo) {
-        JobLevelSearchBo searchBo = new JobLevelSearchBo()
+    private void checkJobLevelCanSave(JobLevelBO bo, JobLevelDO oldDo) {
+        JobLevelSearchBO searchBo = new JobLevelSearchBO()
                 .setEq_levelName(bo.getLevelName());
 
         if (oldDo != null) {
@@ -148,7 +148,7 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * @param bo 查询参数
      * @return 职级
      */
-    public boolean has(JobLevelSearchBo bo) {
+    public boolean has(JobLevelSearchBO bo) {
         return jobLevelServer.has(
                 JobLevelWrapper.getQueryWrapper(bo)
         );

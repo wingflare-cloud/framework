@@ -1,9 +1,9 @@
 package com.wingflare.business.user.convert;
 
 
-import com.wingflare.business.user.db.OrgDo;
-import com.wingflare.facade.module.user.bo.OrgBo;
-import com.wingflare.facade.module.user.dto.OrgDto;
+import com.wingflare.business.user.db.OrgDO;
+import com.wingflare.facade.module.user.bo.OrgBO;
+import com.wingflare.facade.module.user.dto.OrgDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,19 +21,19 @@ public interface OrgConvert extends com.wingflare.facade.module.user.convert.Org
 {
 	OrgConvert convert = Mappers.getMapper(OrgConvert.class);
 
-	OrgBo doToBo(OrgDo orgDo);
+	OrgBO doToBo(OrgDO orgDo);
 
-	OrgDto doToDto(OrgDo orgDo);
+	OrgDTO doToDto(OrgDO orgDo);
 
-	OrgDo boToDo(OrgBo orgBo);
+	OrgDO boToDo(OrgBO orgBo);
 
-	OrgDo dtoToDo(OrgDto orgDto);
+	OrgDO dtoToDo(OrgDTO orgDto);
 
-	List<OrgBo> doToBoList(List<OrgDo> orgDoList);
+	List<OrgBO> doToBoList(List<OrgDO> orgDOList);
 
-	List<OrgDto> doToDtoList(List<OrgDo> orgDoList);
+	List<OrgDTO> doToDtoList(List<OrgDO> orgDOList);
 
-	List<OrgDo> boToDoList(List<OrgBo> orgBoList);
+	List<OrgDO> boToDoList(List<OrgBO> orgBOList);
 
-	List<OrgDo> dtoToDoList(List<OrgDto> orgDtoList);
+	List<OrgDO> dtoToDoList(List<OrgDTO> orgDTOList);
 }

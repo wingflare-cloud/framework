@@ -2,7 +2,7 @@ package com.wingflare.business.user.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.user.db.OrgDo;
+import com.wingflare.business.user.db.OrgDO;
 import com.wingflare.business.user.mapper.OrgMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @date Fri Mar 10 15:36:56 CST 2023
  */
 @Service
-public class OrgServer extends BaseService<OrgMapper, OrgDo>
+public class OrgServer extends BaseService<OrgMapper, OrgDO>
 {
 
     /**
@@ -28,17 +28,17 @@ public class OrgServer extends BaseService<OrgMapper, OrgDo>
     * bo 查询参数
     * @return 结果
     */
-    public Map<BigInteger, OrgDo> getMap(QueryWrapper<OrgDo> wrapper)
+    public Map<BigInteger, OrgDO> getMap(QueryWrapper<OrgDO> wrapper)
 	{
-        List<OrgDo> list = list(wrapper);
+        List<OrgDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
 			return new HashMap<>();
         }
 
-        Map<BigInteger, OrgDo> orgDoMap = new HashMap<>(list.size());
+        Map<BigInteger, OrgDO> orgDoMap = new HashMap<>(list.size());
 
-        for (OrgDo orgDo : list) {
+        for (OrgDO orgDo : list) {
             orgDoMap.put(orgDo.getOrgId(), orgDo);
         }
 

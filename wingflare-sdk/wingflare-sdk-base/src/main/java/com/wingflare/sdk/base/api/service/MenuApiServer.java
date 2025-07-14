@@ -1,11 +1,11 @@
 package com.wingflare.sdk.base.api.service;
 
 import com.wingflare.facade.module.base.biz.MenuBiz;
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.bo.MenuSearchBo;
-import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
-import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.bo.MenuSearchBO;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
+import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.spring.annotation.ApiClient;
 import com.wingflare.lib.spring.annotation.RequestAutoHeader;
 import com.wingflare.lib.standard.PageDto;
@@ -39,7 +39,7 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/list", method = {RequestMethod.GET})
-    PageDto<MenuDto> list(@SpringQueryMap MenuSearchBo bo);
+    PageDto<MenuDTO> list(@SpringQueryMap MenuSearchBO bo);
 
     /**
      * 查询系统菜单详情
@@ -49,7 +49,7 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/get", method = {RequestMethod.GET})
-    MenuDto get(@SpringQueryMap IdBo bo);
+    MenuDTO get(@SpringQueryMap IdBo bo);
 
 
     /**
@@ -60,7 +60,7 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/update", method = {RequestMethod.PUT})
-    MenuDto update(@RequestBody MenuBo bo);
+    MenuDTO update(@RequestBody MenuBO bo);
 
 
     /**
@@ -71,7 +71,7 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/getOnlyOne", method = {RequestMethod.GET})
-    MenuDto getOnlyOne(@SpringQueryMap MenuSearchBo searchBo);
+    MenuDTO getOnlyOne(@SpringQueryMap MenuSearchBO searchBo);
 
     /**
      * 删除系统菜单
@@ -91,7 +91,7 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/create", method = {RequestMethod.POST})
-    MenuDto create(@RequestBody MenuBo bo);
+    MenuDTO create(@RequestBody MenuBO bo);
 
     /**
      * 获取树形结构菜单
@@ -101,7 +101,7 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/tree", method = {RequestMethod.GET})
-    List<SimpleMenuDto> tree(@SpringQueryMap MenuSearchBo searchBo);
+    List<SimpleMenuDTO> tree(@SpringQueryMap MenuSearchBO searchBo);
 
     /**
      * 判断权限代码是否存在
@@ -111,6 +111,6 @@ public interface MenuApiServer extends MenuBiz {
      */
     @Override
     @RequestMapping(value = "/menu/permissionCodesExist", method = {RequestMethod.GET})
-    Boolean permissionCodesExist(@SpringQueryMap PermissionCodesExistBo existBo);
+    Boolean permissionCodesExist(@SpringQueryMap PermissionCodesExistBO existBo);
 
 }

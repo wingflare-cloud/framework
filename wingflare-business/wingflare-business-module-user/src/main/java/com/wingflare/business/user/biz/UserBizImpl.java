@@ -7,20 +7,20 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.constants.UserEventName;
 import com.wingflare.business.user.convert.UserConvert;
-import com.wingflare.business.user.db.RoleDo;
-import com.wingflare.business.user.db.UserDo;
-import com.wingflare.business.user.db.UserRoleDo;
+import com.wingflare.business.user.db.RoleDO;
+import com.wingflare.business.user.db.UserDO;
+import com.wingflare.business.user.db.UserRoleDO;
 import com.wingflare.business.user.service.RoleServer;
 import com.wingflare.business.user.service.UserRoleServer;
 import com.wingflare.business.user.service.UserServer;
 import com.wingflare.business.user.wrapper.UserWrapper;
 import com.wingflare.facade.module.user.biz.UserBiz;
-import com.wingflare.facade.module.user.bo.UpdatePasswdBo;
-import com.wingflare.facade.module.user.bo.UserBindRoleBo;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
+import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.bo.UserBindRoleBO;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dict.UserAccountType;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
@@ -57,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 /**
@@ -112,11 +111,11 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public PageDto<UserDto> list(@Valid UserSearchBo bo) {
-        LambdaQueryWrapper<UserDo> queryWrapper = UserWrapper.getLambdaQueryWrapper(bo);
-        queryWrapper.orderByDesc(UserDo::getUserId);
+    public PageDto<UserDTO> list(@Valid UserSearchBO bo) {
+        LambdaQueryWrapper<UserDO> queryWrapper = UserWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(UserDO::getUserId);
 
-        IPage<UserDo> iPage = userServer.page(
+        IPage<UserDO> iPage = userServer.page(
                 userServer.createPage(bo),
                 queryWrapper
         );
@@ -145,20 +144,20 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto get(@Valid @NotNull IdBo bo) {
-        UserDo userDo = userServer.getById(bo.getId());
-        UserDto userDto = null;
+    public UserDTO get(@Valid @NotNull IdBo bo) {
+        UserDO userDo = userServer.getById(bo.getId());
+        UserDTO userDto = null;
 
         if (userDo != null) {
             userDto = UserConvert.convert.doToDto(
                     userServer.getById(bo.getId()));
-            LambdaQueryWrapper<UserRoleDo> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(UserRoleDo::getUserId, bo.getId())
-                    .eq(UserRoleDo::getIsDelete, 0);
-            List<UserRoleDo> userRoleDoList = userRoleServer.list(wrapper);
+            LambdaQueryWrapper<UserRoleDO> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(UserRoleDO::getUserId, bo.getId())
+                    .eq(UserRoleDO::getIsDelete, 0);
+            List<UserRoleDO> userRoleDOList = userRoleServer.list(wrapper);
 
-            if (CollectionUtil.isNotEmpty(userRoleDoList)) {
-                userDto.setUserRole(new ArrayList<>(userRoleDoList.stream().map(UserRoleDo::getRoleId).toList()));
+            if (CollectionUtil.isNotEmpty(userRoleDOList)) {
+                userDto.setUserRole(new ArrayList<>(userRoleDOList.stream().map(UserRoleDO::getRoleId).toList()));
             }
         }
 
@@ -185,7 +184,7 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto getOnlyOne(@Valid @NotNull UserSearchBo bo) {
+    public UserDTO getOnlyOne(@Valid @NotNull UserSearchBO bo) {
         return UserConvert.convert.doToDto(
                 userServer.getOne(
                         UserWrapper.getLambdaQueryWrapper(bo)
@@ -212,8 +211,8 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto delete(@Valid @NotNull IdBo bo) {
-        UserDto dto = deleteHandle(bo);
+    public UserDTO delete(@Valid @NotNull IdBo bo) {
+        UserDTO dto = deleteHandle(bo);
         afterDelete(dto);
         return dto;
     }
@@ -235,10 +234,10 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto deleteHandle(@Valid @NotNull IdBo bo) {
+    public UserDTO deleteHandle(@Valid @NotNull IdBo bo) {
         return transactionTemplate.execute(status -> {
-            UserDto dto = null;
-            UserDo userDo = userServer.getById(bo.getId());
+            UserDTO dto = null;
+            UserDO userDo = userServer.getById(bo.getId());
 
             if (userDo != null) {
                 userServer.removeById(bo.getId());
@@ -250,7 +249,7 @@ public class UserBizImpl implements UserBiz {
         });
     }
 
-    public void afterDelete(UserDto dto) {
+    public void afterDelete(UserDTO dto) {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
@@ -283,8 +282,8 @@ public class UserBizImpl implements UserBiz {
             }
     )
     @Validated({Default.class, Create.class})
-    public UserDto create(@Valid @NotNull UserBo bo) {
-        UserDto dto = createHandle(bo);
+    public UserDTO create(@Valid @NotNull UserBO bo) {
+        UserDTO dto = createHandle(bo);
         afterCreate(dto);
         return dto;
     }
@@ -307,35 +306,35 @@ public class UserBizImpl implements UserBiz {
             }
     )
     @Validated({Default.class, Create.class})
-    public UserDto createHandle(@Valid @NotNull UserBo bo) {
+    public UserDTO createHandle(@Valid @NotNull UserBO bo) {
         return transactionTemplate.execute(status -> {
             checkUserCanSave(bo, null);
             bo.setSuperAdministrator(0);
             bo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getUserPasswd()));
-            UserDo userDo = UserConvert.convert.boToDo(bo);
+            UserDO userDo = UserConvert.convert.boToDo(bo);
             Assert.isTrue(userServer.save(userDo), ErrorCode.SYS_USER_CREATE_ERROR);
 
             if (CollectionUtil.isNotEmpty(bo.getUserRole())) {
-                List<UserRoleDo> userRoleDoList = new ArrayList<>();
+                List<UserRoleDO> userRoleDOList = new ArrayList<>();
 
                 bo.getUserRole().forEach(roleId -> {
-                   userRoleDoList.add(
-                           new UserRoleDo()
+                   userRoleDOList.add(
+                           new UserRoleDO()
                                    .setUserId(userDo.getUserId())
                                    .setRoleId(roleId)
                    );
                 });
 
-                userRoleServer.saveBatch(userRoleDoList);
+                userRoleServer.saveBatch(userRoleDOList);
             }
 
-            UserDto userDto = UserConvert.convert.doToDto(userDo);
+            UserDTO userDto = UserConvert.convert.doToDto(userDo);
             eventUtil.publishEvent(UserEventName.USER_CREATE, bo, userDto);
             return userDto;
         });
     }
 
-    public void afterCreate(UserDto dto) {
+    public void afterCreate(UserDTO dto) {
         try {
             eventUtil.publishEvent(UserEventName.USER_CREATED,
                     EventCtx.getInstance().get(UserEventName.USER_CREATE).getSource(), dto);
@@ -365,8 +364,8 @@ public class UserBizImpl implements UserBiz {
             }
     )
     @Validated({Default.class, Update.class})
-    public UserDto update(@Valid @NotNull UserBo bo) {
-        UserDto dto = updateHandle(bo);
+    public UserDTO update(@Valid @NotNull UserBO bo) {
+        UserDTO dto = updateHandle(bo);
         afterUpdate(dto);
         return dto;
     }
@@ -388,16 +387,16 @@ public class UserBizImpl implements UserBiz {
             }
     )
     @Validated({Default.class, Update.class})
-    public UserDto updateHandle(@Valid @NotNull UserBo bo) {
+    public UserDTO updateHandle(@Valid @NotNull UserBO bo) {
         return transactionTemplate.execute(status -> {
-            UserDo oldUserDo = userServer.getById(bo.getUserId());
-            UserDto userDto = null;
+            UserDO oldUserDO = userServer.getById(bo.getUserId());
+            UserDTO userDto = null;
 
-            if (oldUserDo == null) {
+            if (oldUserDO == null) {
                 throw new DataNotFoundException("user.data.notfound");
             }
 
-            checkUserCanSave(bo, oldUserDo);
+            checkUserCanSave(bo, oldUserDO);
             bo.setUserPasswd(null);
             bo.setSuperAdministrator(null);
 
@@ -409,28 +408,28 @@ public class UserBizImpl implements UserBiz {
                 bo.setUserPhone(null);
             }
 
-            UserDo userDo = UserConvert.convert.boToDo(bo);
-            UserDo oldField = oldUserDo.setOnNew(userDo);
+            UserDO userDo = UserConvert.convert.boToDo(bo);
+            UserDO oldField = oldUserDO.setOnNew(userDo);
 
             userRoleServer.deleteByUserId(bo.getUserId());
 
             if (CollectionUtil.isNotEmpty(bo.getUserRole())) {
-                List<UserRoleDo> userRoleDoList = new ArrayList<>();
+                List<UserRoleDO> userRoleDOList = new ArrayList<>();
 
                 bo.getUserRole().forEach(roleId -> {
-                    userRoleDoList.add(
-                            new UserRoleDo()
+                    userRoleDOList.add(
+                            new UserRoleDO()
                                     .setUserId(userDo.getUserId())
                                     .setRoleId(roleId)
                     );
                 });
 
-                userRoleServer.saveBatch(userRoleDoList);
+                userRoleServer.saveBatch(userRoleDOList);
             }
 
             if (oldField != null) {
-                Assert.isTrue(userServer.updateById(oldUserDo), ErrorCode.SYS_USER_UPDATE_ERROR);
-                userDto = UserConvert.convert.doToDto(oldUserDo);
+                Assert.isTrue(userServer.updateById(oldUserDO), ErrorCode.SYS_USER_UPDATE_ERROR);
+                userDto = UserConvert.convert.doToDto(oldUserDO);
                 eventUtil.publishEvent(UserEventName.USER_UPDATE,
                         UserConvert.convert.doToDto(oldField), userDto);
             }
@@ -439,7 +438,7 @@ public class UserBizImpl implements UserBiz {
         });
     }
 
-    public void afterUpdate(UserDto dto) {
+    public void afterUpdate(UserDTO dto) {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
@@ -473,14 +472,14 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto updatePasswd(@Valid @NotNull UpdatePasswdBo bo) {
+    public UserDTO updatePasswd(@Valid @NotNull UpdatePasswdBO bo) {
         if (userAuthUtil.getUser() != null && !userAuthUtil.getUser().isSuperAdmin()) {
             BigInteger limitUserId = userAuthUtil.getUser()
                     .getUserId();
             Assert.isTrue(bo.getUserId().compareTo(limitUserId) != 0, ErrorCode.SYS_USER_UPDATE_PASSWD_NO_POWER);
         }
 
-        UserDto dto = updatePasswdHandle(bo);
+        UserDTO dto = updatePasswdHandle(bo);
         afterUpdatePasswd(dto);
         return dto;
     }
@@ -491,7 +490,7 @@ public class UserBizImpl implements UserBiz {
      * @param bo 查询参数
      * @return 系统用户
      */
-    public boolean has(UserSearchBo bo) {
+    public boolean has(UserSearchBO bo) {
         return userServer.has(
                 UserWrapper.getLambdaQueryWrapper(bo)
         );
@@ -513,9 +512,9 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto updatePasswdHandle(@Valid @NotNull UpdatePasswdBo bo) {
+    public UserDTO updatePasswdHandle(@Valid @NotNull UpdatePasswdBO bo) {
         return transactionTemplate.execute(status -> {
-            UserDo userDo = userServer.getById(bo.getUserId());
+            UserDO userDo = userServer.getById(bo.getUserId());
             Assert.isTrue(userDo != null, ErrorCode.SYS_USER_NON_EXISTENT);
 
             if (StringUtil.isNotEmpty(bo.getOldPasswd())) {
@@ -527,14 +526,14 @@ public class UserBizImpl implements UserBiz {
 
             userDo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getPasswd()));
             Assert.isTrue(userServer.updateById(userDo), ErrorCode.SYS_USER_UPDATE_ERROR);
-            UserDto userDto = UserConvert.convert.doToDto(userDo);
+            UserDTO userDto = UserConvert.convert.doToDto(userDo);
             eventUtil.publishEvent(UserEventName.USER_CHANGE_PWD, false, userDto);
             return userDto;
         });
     }
 
 
-    public void afterUpdatePasswd(UserDto dto) {
+    public void afterUpdatePasswd(UserDTO dto) {
         try {
             eventUtil.publishEvent(UserEventName.USER_CHANGED_PWD, false, dto);
         } catch (Throwable e) {
@@ -562,14 +561,14 @@ public class UserBizImpl implements UserBiz {
                     )
             }
     )
-    public UserDto getUserByLoginName(@NotBlank String loginName) {
-        UserDo userDo = userServer.getOne(
-                new LambdaQueryWrapper<UserDo>()
-                        .eq(UserDo::getUserEmail, loginName)
+    public UserDTO getUserByLoginName(@NotBlank String loginName) {
+        UserDO userDo = userServer.getOne(
+                new LambdaQueryWrapper<UserDO>()
+                        .eq(UserDO::getUserEmail, loginName)
                         .or()
-                        .eq(UserDo::getUserPhone, loginName)
+                        .eq(UserDO::getUserPhone, loginName)
                         .or()
-                        .eq(UserDo::getUserAccount, loginName)
+                        .eq(UserDO::getUserAccount, loginName)
         );
 
         if (userDo == null) {
@@ -585,8 +584,8 @@ public class UserBizImpl implements UserBiz {
      * @param bo
      */
     @Override
-    public void userBindRole(@Valid @NotNull UserBindRoleBo bo) {
-        UserDo userDo = userServer.getById(bo.getUserId());
+    public void userBindRole(@Valid @NotNull UserBindRoleBO bo) {
+        UserDO userDo = userServer.getById(bo.getUserId());
         Assert.isTrue(userDo != null, ErrorCode.SYS_USER_NON_EXISTENT);
         Assert.isTrue(userDo.getAccountType().contains(UserAccountType.PRIVILEGE.getValue()),
                 ErrorCode.SYS_USER_NON_PRIVILEGE_NOT_BIND_ROLE);
@@ -606,16 +605,16 @@ public class UserBizImpl implements UserBiz {
         Assert.isFalse(systems.size() > 0, ErrorCode.SYSTEM_NON_EXISTENT);
 
         if (roleIds.size() > 0) {
-            LambdaQueryWrapper<RoleDo> wrapper = new LambdaQueryWrapper<>(RoleDo.class);
-            wrapper.in(RoleDo::getRoleId, roleIds);
+            LambdaQueryWrapper<RoleDO> wrapper = new LambdaQueryWrapper<>(RoleDO.class);
+            wrapper.in(RoleDO::getRoleId, roleIds);
             Assert.isTrue(roleServer.count(wrapper) == roleIds.size(), ErrorCode.SYS_ROLE_NON_EXISTENT);
         }
 
         Object ret = transactionTemplate.execute(status -> {
-            List<UserRoleDo> userRoleDos = new ArrayList<>();
+            List<UserRoleDO> userRoleDOS = new ArrayList<>();
 
             Optional.ofNullable(bo.getRoleIds())
-                    .ifPresent(list -> list.forEach(item -> userRoleDos.add(new UserRoleDo()
+                    .ifPresent(list -> list.forEach(item -> userRoleDOS.add(new UserRoleDO()
                             .setUserId(userDo.getUserId())
                             .setRoleId(item))));
 
@@ -623,17 +622,17 @@ public class UserBizImpl implements UserBiz {
                     .ifPresent(map -> map.forEach((k, v) -> Optional.ofNullable(v)
                             .ifPresent(list -> list.forEach(item -> {
                                 if (!baseRole.contains(item)) {
-                                    userRoleDos.add(new UserRoleDo()
+                                    userRoleDOS.add(new UserRoleDO()
                                             .setUserId(userDo.getUserId())
                                             .setRoleId(item)
                                             .setSystemCode(k));
                                 }
                             }))));
 
-            userRoleServer.remove(new LambdaQueryWrapper<>(UserRoleDo.class)
-                    .eq(UserRoleDo::getUserId, userDo.getUserId()));
+            userRoleServer.remove(new LambdaQueryWrapper<>(UserRoleDO.class)
+                    .eq(UserRoleDO::getUserId, userDo.getUserId()));
 
-            Assert.isTrue(userRoleServer.saveBatch(userRoleDos, 500), ErrorCode.SYS_USER_BIND_ROLE_ERROR);
+            Assert.isTrue(userRoleServer.saveBatch(userRoleDOS, 500), ErrorCode.SYS_USER_BIND_ROLE_ERROR);
             return null;
         });
     }
@@ -648,7 +647,7 @@ public class UserBizImpl implements UserBiz {
      *
      * @param bo
      */
-    private void checkUserCanSave(UserBo bo, UserDo oldDo) {
+    private void checkUserCanSave(UserBO bo, UserDO oldDo) {
         if (bo.getAccountType() == null) {
             JSONArray accountType = new JSONArray();
             accountType.add(UserAccountType.PRIVILEGE.getValue());
@@ -662,18 +661,18 @@ public class UserBizImpl implements UserBiz {
 
         if (oldDo == null) {
             Assert.isFalse(has(
-                    new UserSearchBo()
+                    new UserSearchBO()
                             .setEq_userEmail(bo.getUserEmail())
             ), ErrorCode.SYS_USER_EMAIL_REPEAT);
 
             Assert.isFalse(has(
-                    new UserSearchBo()
+                    new UserSearchBO()
                             .setEq_userName(bo.getUserName())
             ), ErrorCode.SYS_USER_NAME_REPEAT);
 
             if (StringUtil.isNotEmpty(bo.getUserPhone())) {
                 Assert.isFalse(has(
-                        new UserSearchBo()
+                        new UserSearchBO()
                                 .setEq_userPhone(bo.getUserPhone())
                 ), ErrorCode.SYS_USER_PHONE_REPEAT);
             }
@@ -681,7 +680,7 @@ public class UserBizImpl implements UserBiz {
             if (StringUtil.isNotEmpty(bo.getUserAccount())) {
                 if (StringUtil.isNotEmpty(bo.getUserAccount())) {
                     Assert.isFalse(has(
-                            new UserSearchBo()
+                            new UserSearchBO()
                                     .setEq_userAccount(bo.getUserAccount())
                     ), ErrorCode.SYS_USER_ACCOUNT_REPEAT);
                 }
@@ -689,7 +688,7 @@ public class UserBizImpl implements UserBiz {
         } else {
             if (bo.getUserEmail() != null && !bo.getUserEmail().equals(oldDo.getUserEmail())) {
                 Assert.isFalse(has(
-                        new UserSearchBo()
+                        new UserSearchBO()
                                 .setEq_userEmail(bo.getUserEmail())
                                 .setNeq_userId(bo.getUserId())
                 ), ErrorCode.SYS_USER_EMAIL_REPEAT);
@@ -697,7 +696,7 @@ public class UserBizImpl implements UserBiz {
 
             if (bo.getUserName() != null && !bo.getUserName().equals(oldDo.getUserName())) {
                 Assert.isFalse(has(
-                        new UserSearchBo()
+                        new UserSearchBO()
                                 .setEq_userName(bo.getUserName())
                                 .setNeq_userId(bo.getUserId())
                 ), ErrorCode.SYS_USER_NAME_REPEAT);
@@ -705,7 +704,7 @@ public class UserBizImpl implements UserBiz {
 
             if (bo.getUserPhone() != null && !bo.getUserPhone().equals(oldDo.getUserPhone())) {
                 Assert.isFalse(has(
-                        new UserSearchBo()
+                        new UserSearchBO()
                                 .setEq_userPhone(bo.getUserPhone())
                                 .setNeq_userId(bo.getUserId())
                 ), ErrorCode.SYS_USER_PHONE_REPEAT);
@@ -713,7 +712,7 @@ public class UserBizImpl implements UserBiz {
 
             if (StringUtil.isNotEmpty(bo.getUserAccount()) && !bo.getUserAccount().equals(oldDo.getUserAccount())) {
                 Assert.isFalse(has(
-                        new UserSearchBo()
+                        new UserSearchBO()
                                 .setEq_userAccount(bo.getUserAccount())
                                 .setNeq_userId(bo.getUserId())
                 ), ErrorCode.SYS_USER_ACCOUNT_REPEAT);

@@ -4,14 +4,14 @@ package com.wingflare.business.auth.biz;
 import com.wingflare.business.auth.ErrorCode;
 import com.wingflare.business.auth.SettingCode;
 import com.wingflare.facade.module.auth.biz.LoginBiz;
-import com.wingflare.facade.module.auth.bo.GetLoginUsersBo;
-import com.wingflare.facade.module.auth.bo.LoginBo;
-import com.wingflare.facade.module.auth.bo.RefreshTokenBo;
+import com.wingflare.facade.module.auth.bo.GetLoginUsersBO;
+import com.wingflare.facade.module.auth.bo.LoginBO;
+import com.wingflare.facade.module.auth.bo.RefreshTokenBO;
 import com.wingflare.facade.module.auth.constants.AuthEventName;
-import com.wingflare.facade.module.auth.dto.TokenDto;
+import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.facade.module.user.biz.UserBiz;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.enums.SensitiveType;
@@ -98,9 +98,9 @@ public class LoginBizImpl implements LoginBiz {
      * @return
      */
     @Override
-    public TokenDto login(@Valid @NotNull LoginBo bo) {
+    public TokenDTO login(@Valid @NotNull LoginBO bo) {
         Assert.isTrue(userAuthUtil.getUser() == null, ErrorCode.AUTH_REPEAT_LOGIN);
-        UserDto userDto = userBiz.getUserByLoginName(bo.getLoginName());
+        UserDTO userDto = userBiz.getUserByLoginName(bo.getLoginName());
         Assert.isTrue(userDto != null, ErrorCode.USER_LOGIN_ABNORMAL);
         Assert.isTrue(
                 UserAuthUtil.matchesPassword(bo.getPasswd(), userDto.getUserPasswd()),
@@ -171,16 +171,16 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setRefreshId(refreshId);
         userAuth.setTokenId(tokenId);
 
-        TokenDto tokenDto = Builder.of(TokenDto::new)
-                .with(TokenDto::setExpiresIn, tokenExpireTime.intValue())
-                .with(TokenDto::setRefreshExpiresIn, bo.getExpireTime().intValue())
-                .with(TokenDto::setToken, tokenGen(SecurityUtil.getBusinessSystem(), tokenId, now))
-                .with(TokenDto::setRefreshToken, tokenGen(SecurityUtil.getBusinessSystem(), refreshId, now))
+        TokenDTO tokenDto = Builder.of(TokenDTO::new)
+                .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
+                .with(TokenDTO::setRefreshExpiresIn, bo.getExpireTime().intValue())
+                .with(TokenDTO::setToken, tokenGen(SecurityUtil.getBusinessSystem(), tokenId, now))
+                .with(TokenDTO::setRefreshToken, tokenGen(SecurityUtil.getBusinessSystem(), refreshId, now))
                 .build();
 
         userAuthUtil.setUser(userAuth, (long) DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())), TimeUnit.SECONDS);
 
-        userBiz.update(new UserBo()
+        userBiz.update(new UserBO()
                 .setUserId(userDto.getUserId())
                 .setLastLoginTime(now)
                 .setLastLoginIp(bo.getIpaddr()));
@@ -234,7 +234,7 @@ public class LoginBizImpl implements LoginBiz {
                     )
             }
     )
-    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBo bo) {
+    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBO bo) {
         return userAuthUtil.getLoginUsers(bo.getPageSize(), bo.getStartIndex());
     }
 
@@ -257,7 +257,7 @@ public class LoginBizImpl implements LoginBiz {
             }
     )
     @Validated({Default.class, MustUserId.class})
-    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBo bo) {
+    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBO bo) {
         return userAuthUtil.getLoginUsers(bo.getPageSize(), bo.getStartIndex());
     }
 
@@ -268,7 +268,7 @@ public class LoginBizImpl implements LoginBiz {
      * @return
      */
     @Override
-    public TokenDto refreshToken(@Valid @NotNull RefreshTokenBo bo) {
+    public TokenDTO refreshToken(@Valid @NotNull RefreshTokenBO bo) {
         Map<String, Object> oldRefreshTokenMap = parseRefreshToken(bo.getRefreshToken());
 
         UserAuth userAuth = userAuthUtil.getUser();
@@ -291,11 +291,11 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setTokenExpireTime(DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)).getTime());
         userAuthUtil.setUser(userAuth, (long) DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())), TimeUnit.MINUTES);
 
-        return Builder.of(TokenDto::new)
-                .with(TokenDto::setExpiresIn, tokenExpireTime.intValue())
-                .with(TokenDto::setRefreshExpiresIn, DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())))
-                .with(TokenDto::setToken, token)
-                .with(TokenDto::setRefreshToken, tokenGen(systemCode, refreshId, now))
+        return Builder.of(TokenDTO::new)
+                .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
+                .with(TokenDTO::setRefreshExpiresIn, DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())))
+                .with(TokenDTO::setToken, token)
+                .with(TokenDTO::setRefreshToken, tokenGen(systemCode, refreshId, now))
                 .build();
     }
 

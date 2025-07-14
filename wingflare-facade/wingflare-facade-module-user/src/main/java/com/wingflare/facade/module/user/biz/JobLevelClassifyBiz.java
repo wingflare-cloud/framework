@@ -1,10 +1,10 @@
 package com.wingflare.facade.module.user.biz;
 
+import com.wingflare.facade.module.user.bo.JobLevelClassifyBO;
+import com.wingflare.facade.module.user.dto.JobLevelClassifyDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.facade.module.user.dto.JobLevelClassifyDto;
-import com.wingflare.facade.module.user.bo.JobLevelClassifyBo;
-import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBo;
+import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import org.springframework.validation.annotation.Validated;
@@ -24,18 +24,18 @@ import jakarta.validation.groups.Default;
 @Validated
 public interface JobLevelClassifyBiz {
 
-    PageDto<JobLevelClassifyDto> list(@Valid JobLevelClassifySearchBo bo);
+    PageDto<JobLevelClassifyDTO> list(@Valid JobLevelClassifySearchBO bo);
 
-    JobLevelClassifyDto get(@Valid @NotNull IdBo bo);
+    JobLevelClassifyDTO get(@Valid @NotNull IdBo bo);
 
-    JobLevelClassifyDto getOnlyOne(@Valid @NotNull JobLevelClassifySearchBo bo);
+    JobLevelClassifyDTO getOnlyOne(@Valid @NotNull JobLevelClassifySearchBO bo);
 
     @Validated({Default.class, Create.class})
-    JobLevelClassifyDto create(@Valid @NotNull JobLevelClassifyBo bo);
+    JobLevelClassifyDTO create(@Valid @NotNull JobLevelClassifyBO bo);
 
     @Validated({Default.class, Update.class})
-    JobLevelClassifyDto update(@Valid @NotNull JobLevelClassifyBo bo);
+    JobLevelClassifyDTO update(@Valid @NotNull JobLevelClassifyBO bo);
 
-    JobLevelClassifyDto delete(@Valid @NotNull IdBo bo);
+    JobLevelClassifyDTO delete(@Valid @NotNull IdBo bo);
 
 }

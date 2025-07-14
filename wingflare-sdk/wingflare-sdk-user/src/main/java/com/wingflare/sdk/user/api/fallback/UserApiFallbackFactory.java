@@ -1,11 +1,11 @@
 package com.wingflare.sdk.user.api.fallback;
 
 
-import com.wingflare.facade.module.user.bo.UpdatePasswdBo;
-import com.wingflare.facade.module.user.bo.UserBindRoleBo;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.bo.UserBindRoleBO;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.sdk.user.api.service.UserApiServer;
@@ -33,54 +33,54 @@ public class UserApiFallbackFactory implements FallbackFactory<UserApiServer> {
     public UserApiServer create(Throwable throwable) {
         return new UserApiServer() {
             @Override
-            public UserDto updatePasswd(UpdatePasswdBo bo) {
+            public UserDTO updatePasswd(UpdatePasswdBO bo) {
                 logger.error("更新用户密码失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public UserDto getUserByLoginName(String loginName) {
+            public UserDTO getUserByLoginName(String loginName) {
                 logger.error("通过用户登录名获取用户信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public PageDto<UserDto> list(UserSearchBo bo) {
+            public PageDto<UserDTO> list(UserSearchBO bo) {
                 logger.error("获取用户列表失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public UserDto get(IdBo bo) {
+            public UserDTO get(IdBo bo) {
                 logger.error("通过id获取用户信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public UserDto getOnlyOne(UserSearchBo searchBo) {
+            public UserDTO getOnlyOne(UserSearchBO searchBo) {
                 logger.error("查询单个用户数据失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public UserDto delete(IdBo bo) {
+            public UserDTO delete(IdBo bo) {
                 logger.error("删除用户失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public UserDto create(UserBo bo) {
+            public UserDTO create(UserBO bo) {
                 logger.error("创建用户失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
             @Override
-            public void userBindRole(UserBindRoleBo bo) {
+            public void userBindRole(UserBindRoleBO bo) {
                 logger.error("用户绑定角色失败", e(Map.of("message", throwable.getMessage())));
             }
 
             @Override
-            public UserDto update(UserBo bo) {
+            public UserDTO update(UserBO bo) {
                 logger.error("更新用户信息失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }

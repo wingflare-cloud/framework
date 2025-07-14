@@ -2,7 +2,7 @@ package com.wingflare.business.user.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.user.db.UserDo;
+import com.wingflare.business.user.db.UserDO;
 import com.wingflare.business.user.mapper.UserMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @date Tue Mar 07 17:34:13 CST 2023
  */
 @Service
-public class UserServer extends BaseService<UserMapper, UserDo>
+public class UserServer extends BaseService<UserMapper, UserDO>
 {
 
     /**
@@ -28,17 +28,17 @@ public class UserServer extends BaseService<UserMapper, UserDo>
     * bo 查询参数
     * @return 结果
     */
-    public Map<BigInteger, UserDo> getMap(QueryWrapper<UserDo> wrapper)
+    public Map<BigInteger, UserDO> getMap(QueryWrapper<UserDO> wrapper)
 	{
-        List<UserDo> list = list(wrapper);
+        List<UserDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
 			return new HashMap<>();
         }
 
-        Map<BigInteger, UserDo> userDoMap = new HashMap<>(list.size());
+        Map<BigInteger, UserDO> userDoMap = new HashMap<>(list.size());
 
-        for (UserDo userDo : list) {
+        for (UserDO userDo : list) {
             userDoMap.put(userDo.getUserId(), userDo);
         }
 

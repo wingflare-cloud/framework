@@ -3,11 +3,11 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.convert.RoleUserDoConvert;
-import com.wingflare.business.user.db.RoleUserDo;
+import com.wingflare.business.user.db.RoleUserDO;
 import com.wingflare.business.user.service.UserRoleServer;
 import com.wingflare.facade.module.user.biz.UserRoleBiz;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
-import com.wingflare.facade.module.user.dto.RoleUserDto;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.dto.RoleUserDTO;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.security.annotation.Desensitize;
@@ -50,8 +50,8 @@ public class UserRoleBizImpl implements UserRoleBiz
                     )
             }
     )
-    public PageDto<RoleUserDto> getUserList(@Valid @NotNull UserSearchBo bo) {
-        IPage<RoleUserDo> iPage = userRoleServer.getUserList(bo);
+    public PageDto<RoleUserDTO> getUserList(@Valid @NotNull UserSearchBO bo) {
+        IPage<RoleUserDO> iPage = userRoleServer.getUserList(bo);
 
         return PageUtil.convertIPage(iPage,
                 RoleUserDoConvert.convert.doToDtoList(iPage.getRecords()));

@@ -1,9 +1,9 @@
 package com.wingflare.business.user.convert;
 
 
-import com.wingflare.business.user.db.RolePermissionDo;
-import com.wingflare.facade.module.user.bo.RolePermissionBo;
-import com.wingflare.facade.module.user.dto.RolePermissionDto;
+import com.wingflare.business.user.db.RolePermissionDO;
+import com.wingflare.facade.module.user.bo.RolePermissionBO;
+import com.wingflare.facade.module.user.dto.RolePermissionDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,19 +21,19 @@ public interface RolePermissionConvert extends com.wingflare.facade.module.user.
 {
 	RolePermissionConvert convert = Mappers.getMapper(RolePermissionConvert.class);
 
-	RolePermissionBo doToBo(RolePermissionDo rolePermissionDo);
+	RolePermissionBO doToBo(RolePermissionDO rolePermissionDo);
 
-	RolePermissionDto doToDto(RolePermissionDo rolePermissionDo);
+	RolePermissionDTO doToDto(RolePermissionDO rolePermissionDo);
 
-	RolePermissionDo boToDo(RolePermissionBo rolePermissionBo);
+	RolePermissionDO boToDo(RolePermissionBO rolePermissionBo);
 
-	RolePermissionDo dtoToDo(RolePermissionDto rolePermissionDto);
+	RolePermissionDO dtoToDo(RolePermissionDTO rolePermissionDto);
 
-	List<RolePermissionBo> doToBoList(List<RolePermissionDo> rolePermissionDoList);
+	List<RolePermissionBO> doToBoList(List<RolePermissionDO> rolePermissionDOList);
 
-	List<RolePermissionDto> doToDtoList(List<RolePermissionDo> rolePermissionDoList);
+	List<RolePermissionDTO> doToDtoList(List<RolePermissionDO> rolePermissionDOList);
 
-	List<RolePermissionDo> boToDoList(List<RolePermissionBo> rolePermissionBoList);
+	List<RolePermissionDO> boToDoList(List<RolePermissionBO> rolePermissionBOList);
 
-	List<RolePermissionDo> dtoToDoList(List<RolePermissionDto> rolePermissionDtoList);
+	List<RolePermissionDO> dtoToDoList(List<RolePermissionDTO> rolePermissionDTOList);
 }

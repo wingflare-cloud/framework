@@ -3,11 +3,11 @@ package com.wingflare.business.user.wrapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wingflare.business.user.db.JobLevelDO;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.WrapperUtil;
-import com.wingflare.business.user.db.JobLevelDo;
-import com.wingflare.facade.module.user.bo.JobLevelSearchBo;
+import com.wingflare.facade.module.user.bo.JobLevelSearchBO;
 
 /**
  * 职级表 Wrapper
@@ -23,8 +23,8 @@ public class JobLevelWrapper
      *
      * @param bo 查询条件
      */
-    public static QueryWrapper<JobLevelDo> getQueryWrapper(JobLevelSearchBo bo) {
-        QueryWrapper<JobLevelDo> queryWrapper = new QueryWrapper();
+    public static QueryWrapper<JobLevelDO> getQueryWrapper(JobLevelSearchBO bo) {
+        QueryWrapper<JobLevelDO> queryWrapper = new QueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
@@ -341,15 +341,15 @@ public class JobLevelWrapper
      *
      * @param bo 查询条件
      */
-	public static LambdaQueryWrapper<JobLevelDo> getLambdaQueryWrapper(JobLevelSearchBo bo) {
-        LambdaQueryWrapper<JobLevelDo> queryWrapper = new LambdaQueryWrapper();
+	public static LambdaQueryWrapper<JobLevelDO> getLambdaQueryWrapper(JobLevelSearchBO bo) {
+        LambdaQueryWrapper<JobLevelDO> queryWrapper = new LambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, JobLevelDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, JobLevelDO::getIsDelete, bo.getDataScope());
 
 
         return queryWrapper;
@@ -360,15 +360,15 @@ public class JobLevelWrapper
      *
      * @param bo 查询条件
      */
-	 public static JoinLambdaQueryWrapper<JobLevelDo> getJoinLambdaQueryWrapper(JobLevelSearchBo bo) {
-        JoinLambdaQueryWrapper<JobLevelDo> queryWrapper = new JoinLambdaQueryWrapper();
+	 public static JoinLambdaQueryWrapper<JobLevelDO> getJoinLambdaQueryWrapper(JobLevelSearchBO bo) {
+        JoinLambdaQueryWrapper<JobLevelDO> queryWrapper = new JoinLambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, JobLevelDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, JobLevelDO::getIsDelete, bo.getDataScope());
 
 
         return queryWrapper;

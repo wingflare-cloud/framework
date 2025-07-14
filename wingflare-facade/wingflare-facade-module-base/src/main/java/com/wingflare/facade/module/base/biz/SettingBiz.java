@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.base.biz;
 
 
-import com.wingflare.facade.module.base.bo.SettingBo;
-import com.wingflare.facade.module.base.bo.SettingSearchBo;
-import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.facade.module.base.bo.SettingBO;
+import com.wingflare.facade.module.base.bo.SettingSearchBO;
+import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
@@ -27,17 +27,17 @@ public interface SettingBiz {
     /**
      * 查询系统设置列表
      */
-    PageDto<SettingDto> list(@Valid SettingSearchBo bo);
+    PageDto<SettingDTO> list(@Valid SettingSearchBO bo);
 
     /**
      * 查询系统设置详情
      */
-    SettingDto get(@Valid @NotNull IdBo bo);
+    SettingDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个系统设置详情
      */
-    SettingDto getOnlyOne(@Valid @NotNull SettingSearchBo searchBo);
+    SettingDTO getOnlyOne(@Valid @NotNull SettingSearchBO searchBo);
 
     /**
      * 删除系统设置
@@ -48,13 +48,13 @@ public interface SettingBiz {
      * 新增系统设置
      */
     @Validated({Default.class, Create.class})
-    SettingDto create(@Valid @NotNull SettingBo bo);
+    SettingDTO create(@Valid @NotNull SettingBO bo);
 
     /**
      * 更新系统设置
      */
     @Validated({Default.class, Update.class})
-    SettingDto update(@Valid @NotNull SettingBo bo);
+    SettingDTO update(@Valid @NotNull SettingBO bo);
 
     /**
      * 保存并刷新设置
@@ -62,6 +62,6 @@ public interface SettingBiz {
      * @param bo
      */
     @Validated({Default.class, Create.class})
-    void save(@Valid @NotNull SettingBo bo);
+    void save(@Valid @NotNull SettingBO bo);
 
 }

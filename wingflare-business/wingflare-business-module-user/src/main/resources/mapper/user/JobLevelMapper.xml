@@ -3,7 +3,7 @@
 <mapper namespace="com.wingflare.business.user.mapper.JobLevelMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wingflare.business.user.db.JobLevelDo">
+    <resultMap id="BaseResultMap" type="com.wingflare.business.user.db.JobLevelDO">
         <id column="job_level_id" property="jobLevelId" />
         <result column="level_classify_id" property="levelClassifyId" />
         <result column="level_name" property="levelName" />

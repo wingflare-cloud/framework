@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.convert;
 
 
-import com.wingflare.facade.module.user.bo.OrgBo;
-import com.wingflare.facade.module.user.dto.OrgDto;
+import com.wingflare.facade.module.user.bo.OrgBO;
+import com.wingflare.facade.module.user.dto.OrgDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface OrgConvert
 {
 	OrgConvert convert = Mappers.getMapper(OrgConvert.class);
 
-	OrgBo dtoToBo(OrgDto orgDto);
+	OrgBO dtoToBo(OrgDTO orgDto);
 
-	OrgDto boToDto(OrgBo orgBo);
+	OrgDTO boToDto(OrgBO orgBo);
 
-	List<OrgBo> dtoToBoList(List<OrgDto> orgDtoList);
+	List<OrgBO> dtoToBoList(List<OrgDTO> orgDTOList);
 
-	List<OrgDto> boToDtoList(List<OrgBo> orgBoList);
+	List<OrgDTO> boToDtoList(List<OrgBO> orgBOList);
 }

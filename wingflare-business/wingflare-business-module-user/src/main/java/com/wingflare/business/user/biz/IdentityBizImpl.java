@@ -4,6 +4,7 @@ package com.wingflare.business.user.biz;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.constants.UserEventName;
+import com.wingflare.business.user.db.IdentityDO;
 import com.wingflare.business.user.service.JobLevelServer;
 import com.wingflare.business.user.service.OrgDepartmentServer;
 import com.wingflare.business.user.service.OrgServer;
@@ -11,13 +12,11 @@ import com.wingflare.business.user.wrapper.IdentityWrapper;
 import com.wingflare.facade.module.user.biz.IdentityBiz;
 import com.wingflare.business.user.convert.IdentityConvert;
 import com.wingflare.business.user.service.IdentityServer;
-import com.wingflare.business.user.db.IdentityDo;
-import com.wingflare.facade.module.user.bo.IdentityBo;
-import com.wingflare.facade.module.user.bo.IdentitySearchBo;
-import com.wingflare.facade.module.user.dto.IdentityDto;
+import com.wingflare.facade.module.user.bo.IdentityBO;
+import com.wingflare.facade.module.user.bo.IdentitySearchBO;
+import com.wingflare.facade.module.user.dto.IdentityDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.EventUtil;
 import com.wingflare.lib.standard.PageDto;
@@ -74,8 +73,8 @@ public class IdentityBizImpl implements IdentityBiz {
      * 查询岗位身份列表
      */
     @Override
-    public PageDto<IdentityDto> list(@Valid IdentitySearchBo bo) {
-        IPage<IdentityDo> iPage = identityServer.page(
+    public PageDto<IdentityDTO> list(@Valid IdentitySearchBO bo) {
+        IPage<IdentityDO> iPage = identityServer.page(
                 identityServer.createPage(bo),
                 IdentityWrapper.getLambdaQueryWrapper(bo)
         );
@@ -88,7 +87,7 @@ public class IdentityBizImpl implements IdentityBiz {
      * 查询岗位身份详情
      */
     @Override
-    public IdentityDto get(@Valid @NotNull IdBo bo) {
+    public IdentityDTO get(@Valid @NotNull IdBo bo) {
         return IdentityConvert.convert.doToDto(
                 identityServer.getById(bo.getId()));
     }
@@ -97,7 +96,7 @@ public class IdentityBizImpl implements IdentityBiz {
      * 通过条件查询单个岗位身份详情
      */
     @Override
-    public IdentityDto getOnlyOne(@Valid @NotNull IdentitySearchBo searchBo) {
+    public IdentityDTO getOnlyOne(@Valid @NotNull IdentitySearchBO searchBo) {
         return IdentityConvert.convert.doToDto(
                 identityServer.getOne(IdentityWrapper.getLambdaQueryWrapper(searchBo)));
     }
@@ -106,16 +105,16 @@ public class IdentityBizImpl implements IdentityBiz {
      * 删除岗位身份
      */
     @Override
-    public IdentityDto delete(@Valid @NotNull IdBo bo) {
-        IdentityDto dto = deleteHandle(bo);
+    public IdentityDTO delete(@Valid @NotNull IdBo bo) {
+        IdentityDTO dto = deleteHandle(bo);
         afterDelete(dto);
         return dto;
     }
 
-    public IdentityDto deleteHandle(@Valid @NotNull IdBo bo) {
+    public IdentityDTO deleteHandle(@Valid @NotNull IdBo bo) {
         return transactionTemplate.execute(status -> {
-            IdentityDto dto = null;
-            IdentityDo identityDo = identityServer.getById(bo.getId());
+            IdentityDTO dto = null;
+            IdentityDO identityDo = identityServer.getById(bo.getId());
 
             if (identityDo != null) {
                 identityServer.removeById(bo.getId());
@@ -127,7 +126,7 @@ public class IdentityBizImpl implements IdentityBiz {
         });
     }
 
-    public void afterDelete(IdentityDto dto) {
+    public void afterDelete(IdentityDTO dto) {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
@@ -143,9 +142,9 @@ public class IdentityBizImpl implements IdentityBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public IdentityDto create(@Valid @NotNull IdentityBo bo) {
+    public IdentityDTO create(@Valid @NotNull IdentityBO bo) {
         checkIdentityCanSave(bo, null);
-        IdentityDo identityDo = IdentityConvert.convert.boToDo(bo);
+        IdentityDO identityDo = IdentityConvert.convert.boToDo(bo);
         identityServer.save(identityDo);
         return IdentityConvert.convert.doToDto(identityDo);
     }
@@ -156,27 +155,27 @@ public class IdentityBizImpl implements IdentityBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
-    public IdentityDto update(@Valid @NotNull IdentityBo bo) {
-        IdentityDo oldIdentityDo = identityServer.getById(bo.getIdentityId());
+    public IdentityDTO update(@Valid @NotNull IdentityBO bo) {
+        IdentityDO oldIdentityDO = identityServer.getById(bo.getIdentityId());
 
-        if (oldIdentityDo == null) {
+        if (oldIdentityDO == null) {
             throw new DataNotFoundException("identity.data.notfound");
         }
 
-        checkIdentityCanSave(bo, oldIdentityDo);
-        IdentityDo identityDo = IdentityConvert.convert.boToDo(bo);
-        IdentityDo oldField = oldIdentityDo.setOnNew(identityDo);
+        checkIdentityCanSave(bo, oldIdentityDO);
+        IdentityDO identityDo = IdentityConvert.convert.boToDo(bo);
+        IdentityDO oldField = oldIdentityDO.setOnNew(identityDo);
 
         if (oldField != null) {
-            identityServer.updateById(oldIdentityDo);
+            identityServer.updateById(oldIdentityDO);
         }
 
         return IdentityConvert.convert.doToDto(identityDo);
     }
 
 
-    private void checkIdentityCanSave(IdentityBo bo, IdentityDo oldDo) {
-        IdentitySearchBo searchBo = new IdentitySearchBo().setEq_identityName(bo.getIdentityName());
+    private void checkIdentityCanSave(IdentityBO bo, IdentityDO oldDo) {
+        IdentitySearchBO searchBo = new IdentitySearchBO().setEq_identityName(bo.getIdentityName());
 
         if (oldDo != null) {
             searchBo = searchBo.setNeq_identityId(bo.getIdentityId());
@@ -203,7 +202,7 @@ public class IdentityBizImpl implements IdentityBiz {
      * @param bo 查询参数
      * @return 岗位身份
      */
-    public boolean has(IdentitySearchBo bo) {
+    public boolean has(IdentitySearchBO bo) {
         return identityServer.has(
                 IdentityWrapper.getLambdaQueryWrapper(bo)
         );

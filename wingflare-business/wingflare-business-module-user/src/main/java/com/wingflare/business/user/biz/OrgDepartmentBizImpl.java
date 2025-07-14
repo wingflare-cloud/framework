@@ -4,18 +4,17 @@ package com.wingflare.business.user.biz;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.OrgDepartmentConvert;
-import com.wingflare.business.user.db.OrgDepartmentDo;
+import com.wingflare.business.user.db.OrgDepartmentDO;
 import com.wingflare.business.user.service.OrgDepartmentServer;
 import com.wingflare.business.user.service.OrgServer;
 import com.wingflare.business.user.service.UserRoleServer;
 import com.wingflare.business.user.wrapper.OrgDepartmentWrapper;
 import com.wingflare.facade.module.user.biz.OrgDepartmentBiz;
-import com.wingflare.facade.module.user.bo.OrgDepartmentBo;
-import com.wingflare.facade.module.user.bo.OrgDepartmentSearchBo;
-import com.wingflare.facade.module.user.dto.OrgDepartmentDto;
+import com.wingflare.facade.module.user.bo.OrgDepartmentBO;
+import com.wingflare.facade.module.user.bo.OrgDepartmentSearchBO;
+import com.wingflare.facade.module.user.dto.OrgDepartmentDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
@@ -56,8 +55,8 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      * 查询机构部门列表
      */
     @Override
-    public PageDto<OrgDepartmentDto> list(@Valid OrgDepartmentSearchBo bo) {
-        IPage<OrgDepartmentDo> iPage = orgDepartmentServer.page(
+    public PageDto<OrgDepartmentDTO> list(@Valid OrgDepartmentSearchBO bo) {
+        IPage<OrgDepartmentDO> iPage = orgDepartmentServer.page(
                 orgDepartmentServer.createPage(bo),
                 OrgDepartmentWrapper.getQueryWrapper(bo)
         );
@@ -70,7 +69,7 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      * 查询机构部门详情
      */
     @Override
-    public OrgDepartmentDto get(@Valid @NotNull IdBo bo) {
+    public OrgDepartmentDTO get(@Valid @NotNull IdBo bo) {
         return OrgDepartmentConvert.convert.doToDto(
                 orgDepartmentServer.getById(bo.getId()));
     }
@@ -79,7 +78,7 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      * 通过条件查询单个机构部门详情
      */
     @Override
-    public OrgDepartmentDto getOnlyOne(@Valid @NotNull OrgDepartmentSearchBo searchBo) {
+    public OrgDepartmentDTO getOnlyOne(@Valid @NotNull OrgDepartmentSearchBO searchBo) {
         return OrgDepartmentConvert.convert.doToDto(
                 orgDepartmentServer.getOne(
                         OrgDepartmentWrapper.getQueryWrapper(searchBo)
@@ -92,7 +91,7 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
-        OrgDepartmentDo orgDepartmentDo = orgDepartmentServer.getById(bo.getId());
+        OrgDepartmentDO orgDepartmentDo = orgDepartmentServer.getById(bo.getId());
 
         if (orgDepartmentDo != null) {
             orgDepartmentServer.removeById(bo.getId());
@@ -104,9 +103,9 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public OrgDepartmentDto create(@Valid @NotNull OrgDepartmentBo bo) {
+    public OrgDepartmentDTO create(@Valid @NotNull OrgDepartmentBO bo) {
         checkOrgDepartmentCanSave(bo, null);
-        OrgDepartmentDo orgDepartmentDo = OrgDepartmentConvert.convert.boToDo(bo);
+        OrgDepartmentDO orgDepartmentDo = OrgDepartmentConvert.convert.boToDo(bo);
         orgDepartmentServer.save(orgDepartmentDo);
         return OrgDepartmentConvert.convert.doToDto(orgDepartmentDo);
     }
@@ -117,23 +116,23 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
-    public OrgDepartmentDto update(@Valid @NotNull OrgDepartmentBo bo) {
-        OrgDepartmentDo oldOrgDepartmentDo = orgDepartmentServer.getById(bo.getDepartmentId());
+    public OrgDepartmentDTO update(@Valid @NotNull OrgDepartmentBO bo) {
+        OrgDepartmentDO oldOrgDepartmentDO = orgDepartmentServer.getById(bo.getDepartmentId());
 
-        if (oldOrgDepartmentDo == null) {
+        if (oldOrgDepartmentDO == null) {
             throw new DataNotFoundException("orgDepartment.data.notfound");
         }
 
-        checkOrgDepartmentCanSave(bo, oldOrgDepartmentDo);
-        OrgDepartmentDo orgDepartmentDo = OrgDepartmentConvert.convert.boToDo(bo);
-        oldOrgDepartmentDo.setOnNew(orgDepartmentDo);
-        orgDepartmentServer.updateById(oldOrgDepartmentDo);
+        checkOrgDepartmentCanSave(bo, oldOrgDepartmentDO);
+        OrgDepartmentDO orgDepartmentDo = OrgDepartmentConvert.convert.boToDo(bo);
+        oldOrgDepartmentDO.setOnNew(orgDepartmentDo);
+        orgDepartmentServer.updateById(oldOrgDepartmentDO);
         return OrgDepartmentConvert.convert.doToDto(orgDepartmentDo);
     }
 
 
-    private void checkOrgDepartmentCanSave(OrgDepartmentBo bo, OrgDepartmentDo oldDo) {
-        OrgDepartmentSearchBo searchBo = new OrgDepartmentSearchBo()
+    private void checkOrgDepartmentCanSave(OrgDepartmentBO bo, OrgDepartmentDO oldDo) {
+        OrgDepartmentSearchBO searchBo = new OrgDepartmentSearchBO()
                 .setEq_departmentName(bo.getDepartmentName());
 
         if (oldDo != null) {
@@ -161,7 +160,7 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      * @param bo 查询参数
      * @return 机构部门
      */
-    public boolean has(OrgDepartmentSearchBo bo) {
+    public boolean has(OrgDepartmentSearchBO bo) {
         return orgDepartmentServer.has(
                 OrgDepartmentWrapper.getQueryWrapper(bo)
         );

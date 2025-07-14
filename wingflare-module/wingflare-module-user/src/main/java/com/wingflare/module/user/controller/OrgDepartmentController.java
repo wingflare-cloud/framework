@@ -2,9 +2,9 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.OrgDepartmentBiz;
-import com.wingflare.facade.module.user.bo.OrgDepartmentBo;
-import com.wingflare.facade.module.user.bo.OrgDepartmentSearchBo;
-import com.wingflare.facade.module.user.dto.OrgDepartmentDto;
+import com.wingflare.facade.module.user.bo.OrgDepartmentBO;
+import com.wingflare.facade.module.user.bo.OrgDepartmentSearchBO;
+import com.wingflare.facade.module.user.dto.OrgDepartmentDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class OrgDepartmentController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
-    public PageDto<OrgDepartmentDto> list(OrgDepartmentSearchBo bo)
+    public PageDto<OrgDepartmentDTO> list(OrgDepartmentSearchBO bo)
     {
 		return orgDepartmentBiz.list(bo);
     }
@@ -44,7 +44,7 @@ public class OrgDepartmentController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
-	public OrgDepartmentDto get(IdBo bo)
+	public OrgDepartmentDTO get(IdBo bo)
 	{
 		return orgDepartmentBiz.get(bo);
 	}
@@ -54,7 +54,7 @@ public class OrgDepartmentController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
-	public OrgDepartmentDto getOnlyOne(OrgDepartmentSearchBo searchBo)
+	public OrgDepartmentDTO getOnlyOne(OrgDepartmentSearchBO searchBo)
 	{
 		return orgDepartmentBiz.getOnlyOne(searchBo);
 	}
@@ -74,7 +74,7 @@ public class OrgDepartmentController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
-	public OrgDepartmentDto create(@RequestBody OrgDepartmentBo bo)
+	public OrgDepartmentDTO create(@RequestBody OrgDepartmentBO bo)
 	{
 		return orgDepartmentBiz.create(bo);
 	}
@@ -84,7 +84,7 @@ public class OrgDepartmentController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
-	public OrgDepartmentDto update(@RequestBody OrgDepartmentBo bo)
+	public OrgDepartmentDTO update(@RequestBody OrgDepartmentBO bo)
 	{
 		return orgDepartmentBiz.update(bo);
 	}

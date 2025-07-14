@@ -1,10 +1,10 @@
 package com.wingflare.facade.module.auth.biz;
 
 
-import com.wingflare.facade.module.auth.bo.GetLoginUsersBo;
-import com.wingflare.facade.module.auth.bo.LoginBo;
-import com.wingflare.facade.module.auth.bo.RefreshTokenBo;
-import com.wingflare.facade.module.auth.dto.TokenDto;
+import com.wingflare.facade.module.auth.bo.GetLoginUsersBO;
+import com.wingflare.facade.module.auth.bo.LoginBO;
+import com.wingflare.facade.module.auth.bo.RefreshTokenBO;
+import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.model.UserAuth;
@@ -28,7 +28,7 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    TokenDto login(@Valid @NotNull LoginBo bo);
+    TokenDTO login(@Valid @NotNull LoginBO bo);
 
     /**
      * 登出
@@ -53,7 +53,7 @@ public interface LoginBiz {
      *
      * @return
      */
-    TokenDto refreshToken(@Valid @NotNull RefreshTokenBo bo);
+    TokenDTO refreshToken(@Valid @NotNull RefreshTokenBO bo);
 
     /**
      * 获取登录用户信息列表
@@ -61,7 +61,7 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBo bo);
+    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBO bo);
 
     /**
      * 获取指定用户登录用户信息列表
@@ -69,6 +69,6 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBo bo);
+    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBO bo);
 
 }

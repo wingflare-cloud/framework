@@ -1,10 +1,10 @@
 package com.wingflare.business.base.convert;
 
 
-import com.wingflare.business.base.db.MenuDo;
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
-import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.business.base.db.MenuDO;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
+import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,21 +22,21 @@ public interface MenuConvert extends com.wingflare.facade.module.base.convert.Me
 {
 	MenuConvert convert = Mappers.getMapper(MenuConvert.class);
 
-	MenuBo doToBo(MenuDo menuDo);
+	MenuBO doToBo(MenuDO menuDo);
 
-	MenuDto doToDto(MenuDo menuDo);
+	MenuDTO doToDto(MenuDO menuDo);
 
-	MenuDo boToDo(MenuBo menuBo);
+	MenuDO boToDo(MenuBO menuBo);
 
-	MenuDo dtoToDo(MenuDto menuDto);
+	MenuDO dtoToDo(MenuDTO menuDto);
 
-	SimpleMenuDto doToSimpleDto(MenuDo menuDo);
+	SimpleMenuDTO doToSimpleDto(MenuDO menuDo);
 
-	List<MenuBo> doToBoList(List<MenuDo> menuDoList);
+	List<MenuBO> doToBoList(List<MenuDO> menuDOList);
 
-	List<MenuDto> doToDtoList(List<MenuDo> menuDoList);
+	List<MenuDTO> doToDtoList(List<MenuDO> menuDOList);
 
-	List<MenuDo> boToDoList(List<MenuBo> menuBoList);
+	List<MenuDO> boToDoList(List<MenuBO> menuBOList);
 
-	List<MenuDo> dtoToDoList(List<MenuDto> menuDtoList);
+	List<MenuDO> dtoToDoList(List<MenuDTO> menuDTOList);
 }

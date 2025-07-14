@@ -3,13 +3,13 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.convert.OrgConvert;
-import com.wingflare.business.user.db.OrgDo;
+import com.wingflare.business.user.db.OrgDO;
 import com.wingflare.business.user.service.OrgServer;
 import com.wingflare.business.user.wrapper.OrgWrapper;
 import com.wingflare.facade.module.user.biz.OrgBiz;
-import com.wingflare.facade.module.user.bo.OrgBo;
-import com.wingflare.facade.module.user.bo.OrgSearchBo;
-import com.wingflare.facade.module.user.dto.OrgDto;
+import com.wingflare.facade.module.user.bo.OrgBO;
+import com.wingflare.facade.module.user.bo.OrgSearchBO;
+import com.wingflare.facade.module.user.dto.OrgDTO;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
@@ -43,8 +43,8 @@ public class OrgBizImpl implements OrgBiz {
      * 查询组织机构列表
      */
     @Override
-    public PageDto<OrgDto> list(@Valid OrgSearchBo bo) {
-        IPage<OrgDo> iPage = orgServer.page(
+    public PageDto<OrgDTO> list(@Valid OrgSearchBO bo) {
+        IPage<OrgDO> iPage = orgServer.page(
                 orgServer.createPage(bo),
                 OrgWrapper.getQueryWrapper(bo)
         );
@@ -57,7 +57,7 @@ public class OrgBizImpl implements OrgBiz {
      * 查询组织机构详情
      */
     @Override
-    public OrgDto get(@Valid @NotNull IdBo bo) {
+    public OrgDTO get(@Valid @NotNull IdBo bo) {
         return OrgConvert.convert.doToDto(
                 orgServer.getById(bo.getId()));
     }
@@ -66,7 +66,7 @@ public class OrgBizImpl implements OrgBiz {
      * 通过条件查询单个组织机构详情
      */
     @Override
-    public OrgDto getOnlyOne(@Valid @NotNull OrgSearchBo searchBo) {
+    public OrgDTO getOnlyOne(@Valid @NotNull OrgSearchBO searchBo) {
         return OrgConvert.convert.doToDto(
                 orgServer.getOne(
                         OrgWrapper.getQueryWrapper(searchBo)
@@ -79,7 +79,7 @@ public class OrgBizImpl implements OrgBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
-        OrgDo orgDo = orgServer.getById(bo.getId());
+        OrgDO orgDo = orgServer.getById(bo.getId());
 
         if (orgDo != null) {
             orgServer.removeById(bo.getId());
@@ -91,8 +91,8 @@ public class OrgBizImpl implements OrgBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public OrgDto create(@Valid @NotNull OrgBo bo) {
-        OrgDo orgDo = OrgConvert.convert.boToDo(bo);
+    public OrgDTO create(@Valid @NotNull OrgBO bo) {
+        OrgDO orgDo = OrgConvert.convert.boToDo(bo);
         orgServer.save(orgDo);
         return OrgConvert.convert.doToDto(orgDo);
     }
@@ -103,16 +103,16 @@ public class OrgBizImpl implements OrgBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
-    public OrgDto update(@Valid @NotNull OrgBo bo) {
-        OrgDo oldOrgDo = orgServer.getById(bo.getOrgId());
+    public OrgDTO update(@Valid @NotNull OrgBO bo) {
+        OrgDO oldOrgDO = orgServer.getById(bo.getOrgId());
 
-        if (oldOrgDo == null) {
+        if (oldOrgDO == null) {
             throw new DataNotFoundException("org.data.notfound");
         }
 
-        OrgDo orgDo = OrgConvert.convert.boToDo(bo);
-        oldOrgDo.setOnNew(orgDo);
-        orgServer.updateById(oldOrgDo);
+        OrgDO orgDo = OrgConvert.convert.boToDo(bo);
+        oldOrgDO.setOnNew(orgDo);
+        orgServer.updateById(oldOrgDO);
         return OrgConvert.convert.doToDto(orgDo);
     }
 
@@ -122,7 +122,7 @@ public class OrgBizImpl implements OrgBiz {
      * @param bo 查询参数
      * @return 组织机构
      */
-    public boolean has(OrgSearchBo bo) {
+    public boolean has(OrgSearchBO bo) {
         return orgServer.has(
                 OrgWrapper.getQueryWrapper(bo)
         );

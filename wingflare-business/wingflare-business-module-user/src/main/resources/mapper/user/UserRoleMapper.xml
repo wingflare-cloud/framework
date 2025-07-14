@@ -3,7 +3,7 @@
 <mapper namespace="com.wingflare.business.user.mapper.UserRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wingflare.business.user.db.UserRoleDo">
+    <resultMap id="BaseResultMap" type="com.wingflare.business.user.db.UserRoleDO">
         <id column="id" property="id" />
         <result column="user_id" property="userId" />
         <result column="system_code" property="systemCode" />

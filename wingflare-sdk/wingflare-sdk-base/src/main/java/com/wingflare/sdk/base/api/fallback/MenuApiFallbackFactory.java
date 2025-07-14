@@ -1,11 +1,11 @@
 package com.wingflare.sdk.base.api.fallback;
 
 
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.bo.MenuSearchBo;
-import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
-import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.bo.MenuSearchBO;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
+import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.sdk.base.api.service.MenuApiServer;
@@ -34,22 +34,22 @@ public class MenuApiFallbackFactory implements FallbackFactory<MenuApiServer> {
     public MenuApiServer create(Throwable throwable) {
         return new MenuApiServer() {
 
-            public PageDto<MenuDto> list(MenuSearchBo bo) {
+            public PageDto<MenuDTO> list(MenuSearchBO bo) {
                 logger.error("查询菜单列表失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
-            public MenuDto get(IdBo bo) {
+            public MenuDTO get(IdBo bo) {
                 logger.error("查询单个菜单失败",e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
-            public MenuDto update(MenuBo bo) {
+            public MenuDTO update(MenuBO bo) {
                 logger.error("更新菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
-            public MenuDto getOnlyOne(MenuSearchBo searchBo) {
+            public MenuDTO getOnlyOne(MenuSearchBO searchBo) {
                 logger.error("根据条件查询单个菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
@@ -58,17 +58,17 @@ public class MenuApiFallbackFactory implements FallbackFactory<MenuApiServer> {
                 logger.error("删除菜单失败", e(Map.of("message", throwable.getMessage())));
             }
 
-            public MenuDto create(MenuBo bo) {
+            public MenuDTO create(MenuBO bo) {
                 logger.error("创建菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
-            public List<SimpleMenuDto> tree(MenuSearchBo searchBo) {
+            public List<SimpleMenuDTO> tree(MenuSearchBO searchBo) {
                 logger.error("获取树形菜单失败", e(Map.of("message", throwable.getMessage())));
                 return null;
             }
 
-            public Boolean permissionCodesExist(PermissionCodesExistBo existBo) {
+            public Boolean permissionCodesExist(PermissionCodesExistBO existBo) {
                 logger.error("判断权限代码是否存在", e(Map.of("message", throwable.getMessage())));
                 return null;
             }

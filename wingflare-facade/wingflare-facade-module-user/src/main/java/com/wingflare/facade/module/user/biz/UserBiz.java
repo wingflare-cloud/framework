@@ -1,11 +1,11 @@
 package com.wingflare.facade.module.user.biz;
 
 
-import com.wingflare.facade.module.user.bo.UpdatePasswdBo;
-import com.wingflare.facade.module.user.bo.UserBindRoleBo;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.bo.UserBindRoleBO;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
@@ -31,41 +31,41 @@ public interface UserBiz {
     /**
      * 查询系统用户列表
      */
-    PageDto<UserDto> list(@Valid UserSearchBo bo);
+    PageDto<UserDTO> list(@Valid UserSearchBO bo);
 
     /**
      * 查询系统用户详情
      */
-    UserDto get(@Valid @NotNull IdBo bo);
+    UserDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个系统用户详情
      */
-    UserDto getOnlyOne(@Valid @NotNull UserSearchBo searchBo);
+    UserDTO getOnlyOne(@Valid @NotNull UserSearchBO searchBo);
 
     /**
      * 删除系统用户
      */
-    UserDto delete(@Valid @NotNull IdBo bo);
+    UserDTO delete(@Valid @NotNull IdBo bo);
 
     /**
      * 新增系统用户
      */
     @Validated({Default.class, Create.class})
-    UserDto create(@Valid @NotNull UserBo bo);
+    UserDTO create(@Valid @NotNull UserBO bo);
 
     /**
      * 更新系统用户
      */
     @Validated({Default.class, Update.class})
-    UserDto update(@Valid @NotNull UserBo bo);
+    UserDTO update(@Valid @NotNull UserBO bo);
 
     /**
      * 更新用户密码
      *
      * @param bo
      */
-    UserDto updatePasswd(@Valid @NotNull UpdatePasswdBo bo);
+    UserDTO updatePasswd(@Valid @NotNull UpdatePasswdBO bo);
 
     /**
      * 通过登录名获取登录用户
@@ -73,7 +73,7 @@ public interface UserBiz {
      * @param loginName
      * @return
      */
-    UserDto getUserByLoginName(@NotBlank String loginName);
+    UserDTO getUserByLoginName(@NotBlank String loginName);
 
     /**
      * 通过用户id获取用户附加属性
@@ -88,6 +88,6 @@ public interface UserBiz {
      *
      * @param bo
      */
-    void userBindRole(@Valid @NotNull UserBindRoleBo bo);
+    void userBindRole(@Valid @NotNull UserBindRoleBO bo);
 
 }

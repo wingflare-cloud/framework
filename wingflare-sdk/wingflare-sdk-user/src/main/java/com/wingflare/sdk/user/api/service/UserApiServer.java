@@ -1,11 +1,11 @@
 package com.wingflare.sdk.user.api.service;
 
 import com.wingflare.facade.module.user.biz.UserBiz;
-import com.wingflare.facade.module.user.bo.UpdatePasswdBo;
-import com.wingflare.facade.module.user.bo.UserBindRoleBo;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
+import com.wingflare.facade.module.user.bo.UserBindRoleBO;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.spring.annotation.ApiClient;
 import com.wingflare.lib.spring.annotation.RequestAutoHeader;
 import com.wingflare.lib.standard.PageDto;
@@ -42,7 +42,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/getUserByLoginName", method = {RequestMethod.GET})
-    UserDto getUserByLoginName(@RequestParam("loginName") String loginName);
+    UserDTO getUserByLoginName(@RequestParam("loginName") String loginName);
 
     /**
      * 更新用户密码
@@ -52,7 +52,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/updatePasswd", method = {RequestMethod.PUT})
-    UserDto updatePasswd(@RequestBody UpdatePasswdBo bo);
+    UserDTO updatePasswd(@RequestBody UpdatePasswdBO bo);
 
 
     /**
@@ -63,7 +63,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/update", method = {RequestMethod.PUT})
-    UserDto update(@RequestBody UserBo bo);
+    UserDTO update(@RequestBody UserBO bo);
 
 
     /**
@@ -84,7 +84,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value="/user/list", method={RequestMethod.GET})
-    PageDto<UserDto> list(@SpringQueryMap UserSearchBo bo);
+    PageDto<UserDTO> list(@SpringQueryMap UserSearchBO bo);
 
     /**
      * 获取用户信息
@@ -94,7 +94,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/get", method = {RequestMethod.GET})
-    UserDto get(@SpringQueryMap IdBo bo);
+    UserDTO get(@SpringQueryMap IdBo bo);
 
     /**
      * 获取当用户信息
@@ -104,7 +104,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/getOnlyOne", method = {RequestMethod.GET})
-    UserDto getOnlyOne(@SpringQueryMap UserSearchBo searchBo);
+    UserDTO getOnlyOne(@SpringQueryMap UserSearchBO searchBo);
 
     /**
      * 删除单个用户
@@ -114,7 +114,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "user/delete", method = {RequestMethod.DELETE})
-    UserDto delete(IdBo bo);
+    UserDTO delete(IdBo bo);
 
     /**
      * 创建用户
@@ -124,7 +124,7 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/create", method = {RequestMethod.POST})
-    UserDto create(UserBo bo);
+    UserDTO create(UserBO bo);
 
     /**
      * 用户绑定角色
@@ -133,6 +133,6 @@ public interface UserApiServer extends UserBiz {
      */
     @Override
     @RequestMapping(value = "/user/role/bind", method = {RequestMethod.PUT})
-    void userBindRole(UserBindRoleBo bo);
+    void userBindRole(UserBindRoleBO bo);
 
 }

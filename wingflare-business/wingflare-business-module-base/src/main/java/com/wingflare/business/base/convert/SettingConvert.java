@@ -1,9 +1,9 @@
 package com.wingflare.business.base.convert;
 
 
-import com.wingflare.business.base.db.SettingDo;
-import com.wingflare.facade.module.base.bo.SettingBo;
-import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.business.base.db.SettingDO;
+import com.wingflare.facade.module.base.bo.SettingBO;
+import com.wingflare.facade.module.base.dto.SettingDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,19 +21,19 @@ public interface SettingConvert extends com.wingflare.facade.module.base.convert
 {
 	SettingConvert convert = Mappers.getMapper(SettingConvert.class);
 
-	SettingBo doToBo(SettingDo settingDo);
+	SettingBO doToBo(SettingDO settingDo);
 
-	SettingDto doToDto(SettingDo settingDo);
+	SettingDTO doToDto(SettingDO settingDo);
 
-	SettingDo boToDo(SettingBo settingBo);
+	SettingDO boToDo(SettingBO settingBo);
 
-	SettingDo dtoToDo(SettingDto settingDto);
+	SettingDO dtoToDo(SettingDTO settingDto);
 
-	List<SettingBo> doToBoList(List<SettingDo> settingDoList);
+	List<SettingBO> doToBoList(List<SettingDO> settingDOList);
 
-	List<SettingDto> doToDtoList(List<SettingDo> settingDoList);
+	List<SettingDTO> doToDtoList(List<SettingDO> settingDOList);
 
-	List<SettingDo> boToDoList(List<SettingBo> settingBoList);
+	List<SettingDO> boToDoList(List<SettingBO> settingBOList);
 
-	List<SettingDo> dtoToDoList(List<SettingDto> settingDtoList);
+	List<SettingDO> dtoToDoList(List<SettingDTO> settingDTOList);
 }

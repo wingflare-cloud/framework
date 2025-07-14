@@ -6,13 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.constants.BaseEventName;
 import com.wingflare.business.base.convert.SettingConvert;
-import com.wingflare.business.base.db.SettingDo;
+import com.wingflare.business.base.db.SettingDO;
 import com.wingflare.business.base.service.SettingServer;
 import com.wingflare.business.base.wrapper.SettingWrapper;
 import com.wingflare.facade.module.base.biz.SettingBiz;
-import com.wingflare.facade.module.base.bo.SettingBo;
-import com.wingflare.facade.module.base.bo.SettingSearchBo;
-import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.facade.module.base.bo.SettingBO;
+import com.wingflare.facade.module.base.bo.SettingSearchBO;
+import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
@@ -63,11 +63,11 @@ public class SettingBizImpl implements SettingBiz {
      * 查询系统设置列表
      */
     @Override
-    public PageDto<SettingDto> list(@Valid SettingSearchBo bo) {
-        LambdaQueryWrapper<SettingDo> queryWrapper = SettingWrapper.getLambdaQueryWrapper(bo);
-        queryWrapper.orderByDesc(SettingDo::getSettingId);
+    public PageDto<SettingDTO> list(@Valid SettingSearchBO bo) {
+        LambdaQueryWrapper<SettingDO> queryWrapper = SettingWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(SettingDO::getSettingId);
 
-        IPage<SettingDo> iPage = settingServer.page(
+        IPage<SettingDO> iPage = settingServer.page(
                 settingServer.createPage(bo),
                 queryWrapper
         );
@@ -80,7 +80,7 @@ public class SettingBizImpl implements SettingBiz {
      * 查询系统设置详情
      */
     @Override
-    public SettingDto get(@Valid @NotNull IdBo bo) {
+    public SettingDTO get(@Valid @NotNull IdBo bo) {
         return SettingConvert.convert.doToDto(
                 settingServer.getById(bo.getId()));
     }
@@ -89,7 +89,7 @@ public class SettingBizImpl implements SettingBiz {
      * 通过条件查询单个系统设置详情
      */
     @Override
-    public SettingDto getOnlyOne(@Valid @NotNull SettingSearchBo searchBo) {
+    public SettingDTO getOnlyOne(@Valid @NotNull SettingSearchBO searchBo) {
         return SettingConvert.convert.doToDto(
                 settingServer.getOne(
                         SettingWrapper.getLambdaQueryWrapper(searchBo)
@@ -101,9 +101,9 @@ public class SettingBizImpl implements SettingBiz {
      */
     @Override
     public void delete(@Valid @NotNull IdBo bo) {
-        SettingDto ret = transactionTemplate.execute(status -> {
-            SettingDto settingDto = null;
-            SettingDo settingDo = settingServer.getById(bo.getId());
+        SettingDTO ret = transactionTemplate.execute(status -> {
+            SettingDTO settingDto = null;
+            SettingDO settingDo = settingServer.getById(bo.getId());
 
             if (settingDo != null) {
                 Assert.isTrue(settingServer.removeById(bo.getId()), ErrorCode.SYS_SETTING_DELETE_ERROR);
@@ -129,12 +129,12 @@ public class SettingBizImpl implements SettingBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public SettingDto create(@Valid @NotNull SettingBo bo) {
-        SettingDto ret = transactionTemplate.execute(status -> {
+    public SettingDTO create(@Valid @NotNull SettingBO bo) {
+        SettingDTO ret = transactionTemplate.execute(status -> {
             checkSettingCanSave(bo, null);
-            SettingDo settingDo = SettingConvert.convert.boToDo(bo);
+            SettingDO settingDo = SettingConvert.convert.boToDo(bo);
             Assert.isTrue(settingServer.save(settingDo), ErrorCode.SYS_SETTING_CREATE_ERROR);
-            SettingDto settingDto = SettingConvert.convert.doToDto(settingDo);
+            SettingDTO settingDto = SettingConvert.convert.doToDto(settingDo);
             eventUtil.publishEvent(BaseEventName.SETTING_CREATE, bo, settingDto);
             return settingDto;
         });
@@ -153,31 +153,31 @@ public class SettingBizImpl implements SettingBiz {
      */
     @Override
     @Validated({Default.class, Update.class})
-    public SettingDto update(@Valid @NotNull SettingBo bo) {
-        AtomicReference<SettingDto> oldDto = new AtomicReference<>(null);
-        SettingDto ret = transactionTemplate.execute(status -> {
-            SettingDo oldSettingDo = settingServer.getById(bo.getSettingId());
-            SettingDto settingDto = null;
+    public SettingDTO update(@Valid @NotNull SettingBO bo) {
+        AtomicReference<SettingDTO> oldDto = new AtomicReference<>(null);
+        SettingDTO ret = transactionTemplate.execute(status -> {
+            SettingDO oldSettingDO = settingServer.getById(bo.getSettingId());
+            SettingDTO settingDto = null;
 
-            if (oldSettingDo == null) {
+            if (oldSettingDO == null) {
                 throw new DataNotFoundException("setting.data.notfound");
             }
 
-            checkSettingCanSave(bo, oldSettingDo);
+            checkSettingCanSave(bo, oldSettingDO);
             Builder.of(() -> bo)
-                    .with(SettingBo::setSettingCode, null)
-                    .with(SettingBo::setSystemCode, null)
+                    .with(SettingBO::setSettingCode, null)
+                    .with(SettingBO::setSystemCode, null)
                     .build();
-            SettingDo settingDo = SettingConvert.convert.boToDo(bo);
-            SettingDo oldField = oldSettingDo.setOnNew(settingDo);
+            SettingDO settingDo = SettingConvert.convert.boToDo(bo);
+            SettingDO oldField = oldSettingDO.setOnNew(settingDo);
 
             if (oldField != null) {
                 oldDto.set(SettingConvert.convert.doToDto(oldField));
-                Assert.isTrue(settingServer.updateById(oldSettingDo), ErrorCode.SYS_SETTING_UPDATE_ERROR);
-                settingDto = SettingConvert.convert.doToDto(oldSettingDo);
+                Assert.isTrue(settingServer.updateById(oldSettingDO), ErrorCode.SYS_SETTING_UPDATE_ERROR);
+                settingDto = SettingConvert.convert.doToDto(oldSettingDO);
                 eventUtil.publishEvent(BaseEventName.SETTING_UPDATE, oldDto.get(), settingDto);
             } else {
-                settingDto = SettingConvert.convert.doToDto(oldSettingDo);
+                settingDto = SettingConvert.convert.doToDto(oldSettingDO);
             }
 
             return settingDto;
@@ -201,14 +201,14 @@ public class SettingBizImpl implements SettingBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public void save(@Valid @NotNull SettingBo bo) {
+    public void save(@Valid @NotNull SettingBO bo) {
         String systemCode = SecurityUtil.getBusinessSystem();
 
         if (StringUtil.isNotEmpty(bo.getSystemCode())) {
             systemCode = bo.getSystemCode();
         }
 
-        if (has(new SettingSearchBo()
+        if (has(new SettingSearchBO()
                 .setEq_systemCode(systemCode)
                 .setEq_settingCode(bo.getSettingCode()))) {
             update(bo);
@@ -222,14 +222,14 @@ public class SettingBizImpl implements SettingBiz {
      *
      * @param bo
      */
-    private void checkSettingCanSave(SettingBo bo, SettingDo oldDo) {
+    private void checkSettingCanSave(SettingBO bo, SettingDO oldDo) {
         if (oldDo == null) {
-            Assert.isFalse(has(new SettingSearchBo()
+            Assert.isFalse(has(new SettingSearchBO()
                     .setEq_settingCode(bo.getSettingCode())
                     .setEq_systemCode(bo.getSystemCode())
             ), ErrorCode.SYS_SETTING_REPEAT);
         } else {
-            Assert.isFalse(has(new SettingSearchBo()
+            Assert.isFalse(has(new SettingSearchBO()
                     .setEq_settingCode(bo.getSettingCode())
                     .setEq_systemCode(bo.getSystemCode())
                     .setNeq_settingId(oldDo.getSettingId())
@@ -243,7 +243,7 @@ public class SettingBizImpl implements SettingBiz {
      * @param bo 查询参数
      * @return 系统设置
      */
-    public boolean has(SettingSearchBo bo) {
+    public boolean has(SettingSearchBO bo) {
         return settingServer.has(
                 SettingWrapper.getLambdaQueryWrapper(bo)
         );

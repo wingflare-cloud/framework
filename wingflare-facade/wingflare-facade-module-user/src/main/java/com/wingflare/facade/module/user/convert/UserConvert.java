@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.convert;
 
 
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface UserConvert
 {
 	UserConvert convert = Mappers.getMapper(UserConvert.class);
 
-	UserBo dtoToBo(UserDto userDto);
+	UserBO dtoToBo(UserDTO userDto);
 
-	UserDto boToDto(UserBo userBo);
+	UserDTO boToDto(UserBO userBo);
 
-	List<UserBo> dtoToBoList(List<UserDto> userDtoList);
+	List<UserBO> dtoToBoList(List<UserDTO> userDTOList);
 
-	List<UserDto> boToDtoList(List<UserBo> userBoList);
+	List<UserDTO> boToDtoList(List<UserBO> userBOList);
 }

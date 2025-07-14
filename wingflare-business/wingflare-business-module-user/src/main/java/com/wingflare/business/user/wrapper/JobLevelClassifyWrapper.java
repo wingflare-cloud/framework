@@ -3,11 +3,11 @@ package com.wingflare.business.user.wrapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.wingflare.business.user.db.JobLevelClassifyDO;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.WrapperUtil;
-import com.wingflare.business.user.db.JobLevelClassifyDo;
-import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBo;
+import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBO;
 
 /**
  * 职级分类表 Wrapper
@@ -23,8 +23,8 @@ public class JobLevelClassifyWrapper
      *
      * @param bo 查询条件
      */
-    public static QueryWrapper<JobLevelClassifyDo> getQueryWrapper(JobLevelClassifySearchBo bo) {
-        QueryWrapper<JobLevelClassifyDo> queryWrapper = new QueryWrapper();
+    public static QueryWrapper<JobLevelClassifyDO> getQueryWrapper(JobLevelClassifySearchBO bo) {
+        QueryWrapper<JobLevelClassifyDO> queryWrapper = new QueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
@@ -279,15 +279,15 @@ public class JobLevelClassifyWrapper
      *
      * @param bo 查询条件
      */
-	public static LambdaQueryWrapper<JobLevelClassifyDo> getLambdaQueryWrapper(JobLevelClassifySearchBo bo) {
-        LambdaQueryWrapper<JobLevelClassifyDo> queryWrapper = new LambdaQueryWrapper();
+	public static LambdaQueryWrapper<JobLevelClassifyDO> getLambdaQueryWrapper(JobLevelClassifySearchBO bo) {
+        LambdaQueryWrapper<JobLevelClassifyDO> queryWrapper = new LambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, JobLevelClassifyDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, JobLevelClassifyDO::getIsDelete, bo.getDataScope());
 
 
         return queryWrapper;
@@ -298,15 +298,15 @@ public class JobLevelClassifyWrapper
      *
      * @param bo 查询条件
      */
-	 public static JoinLambdaQueryWrapper<JobLevelClassifyDo> getJoinLambdaQueryWrapper(JobLevelClassifySearchBo bo) {
-        JoinLambdaQueryWrapper<JobLevelClassifyDo> queryWrapper = new JoinLambdaQueryWrapper();
+	 public static JoinLambdaQueryWrapper<JobLevelClassifyDO> getJoinLambdaQueryWrapper(JobLevelClassifySearchBO bo) {
+        JoinLambdaQueryWrapper<JobLevelClassifyDO> queryWrapper = new JoinLambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, JobLevelClassifyDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, JobLevelClassifyDO::getIsDelete, bo.getDataScope());
 
 
         return queryWrapper;

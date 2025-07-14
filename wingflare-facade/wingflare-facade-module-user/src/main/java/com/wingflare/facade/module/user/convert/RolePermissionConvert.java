@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.convert;
 
 
-import com.wingflare.facade.module.user.bo.RolePermissionBo;
-import com.wingflare.facade.module.user.dto.RolePermissionDto;
+import com.wingflare.facade.module.user.bo.RolePermissionBO;
+import com.wingflare.facade.module.user.dto.RolePermissionDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface RolePermissionConvert
 {
 	RolePermissionConvert convert = Mappers.getMapper(RolePermissionConvert.class);
 
-	RolePermissionBo dtoToBo(RolePermissionDto rolePermissionDto);
+	RolePermissionBO dtoToBo(RolePermissionDTO rolePermissionDto);
 
-	RolePermissionDto boToDto(RolePermissionBo rolePermissionBo);
+	RolePermissionDTO boToDto(RolePermissionBO rolePermissionBo);
 
-	List<RolePermissionBo> dtoToBoList(List<RolePermissionDto> rolePermissionDtoList);
+	List<RolePermissionBO> dtoToBoList(List<RolePermissionDTO> rolePermissionDTOList);
 
-	List<RolePermissionDto> boToDtoList(List<RolePermissionBo> rolePermissionBoList);
+	List<RolePermissionDTO> boToDtoList(List<RolePermissionBO> rolePermissionBOList);
 }

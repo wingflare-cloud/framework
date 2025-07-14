@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.user.biz;
 
 
-import com.wingflare.facade.module.user.bo.IdentityBo;
-import com.wingflare.facade.module.user.bo.IdentitySearchBo;
-import com.wingflare.facade.module.user.dto.IdentityDto;
+import com.wingflare.facade.module.user.bo.IdentityBO;
+import com.wingflare.facade.module.user.bo.IdentitySearchBO;
+import com.wingflare.facade.module.user.dto.IdentityDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.validation.annotation.Validated;
@@ -25,31 +25,31 @@ public interface IdentityBiz
 	/**
      * 查询岗位身份列表
      */
-    PageDto<IdentityDto> list(@Valid IdentitySearchBo bo);
+    PageDto<IdentityDTO> list(@Valid IdentitySearchBO bo);
 	
 	/**
      * 查询岗位身份详情
      */
-	IdentityDto get(@Valid @NotNull IdBo bo);
+	IdentityDTO get(@Valid @NotNull IdBo bo);
 	
 	/**
      * 通过条件查询单个岗位身份详情
      */
-	IdentityDto getOnlyOne(@Valid @NotNull IdentitySearchBo searchBo);
+	IdentityDTO getOnlyOne(@Valid @NotNull IdentitySearchBO searchBo);
 	
 	/**
      * 删除岗位身份
      */
-	IdentityDto delete(@Valid @NotNull IdBo bo);
+	IdentityDTO delete(@Valid @NotNull IdBo bo);
 
 	/**
      * 新增岗位身份
      */
-	IdentityDto create(@Valid @NotNull IdentityBo bo);
+	IdentityDTO create(@Valid @NotNull IdentityBO bo);
 	
 	/**
      * 更新岗位身份
      */
-	IdentityDto update(@Valid @NotNull IdentityBo bo);
+	IdentityDTO update(@Valid @NotNull IdentityBO bo);
 
 }

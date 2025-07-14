@@ -2,7 +2,7 @@ package com.wingflare.business.user.mapper;
 
 
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
-import com.wingflare.business.user.db.IdentityDo;
+import com.wingflare.business.user.db.IdentityDO;
 
 /**
  * 岗位身份Mapper
@@ -10,7 +10,7 @@ import com.wingflare.business.user.db.IdentityDo;
  * @author naizui_ycx
  * @date Sun Apr 02 10:15:03 CST 2023
  */
-public interface IdentityMapper extends CustomMapper<IdentityDo>
+public interface IdentityMapper extends CustomMapper<IdentityDO>
 {
 
 }

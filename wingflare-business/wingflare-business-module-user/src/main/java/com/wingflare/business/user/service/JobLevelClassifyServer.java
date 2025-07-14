@@ -2,7 +2,7 @@ package com.wingflare.business.user.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.user.db.JobLevelClassifyDo;
+import com.wingflare.business.user.db.JobLevelClassifyDO;
 import com.wingflare.business.user.mapper.JobLevelClassifyMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @since 2023-04-28
  */
 @Service
-public class JobLevelClassifyServer extends BaseService<JobLevelClassifyMapper, JobLevelClassifyDo> {
+public class JobLevelClassifyServer extends BaseService<JobLevelClassifyMapper, JobLevelClassifyDO> {
 
     /**
      * 获取jobLevelClassifyMap
@@ -29,17 +29,17 @@ public class JobLevelClassifyServer extends BaseService<JobLevelClassifyMapper, 
      * wrapper 查询参数
      * @return 结果
      */
-    public Map<BigInteger, JobLevelClassifyDo> getMap(QueryWrapper<JobLevelClassifyDo> wrapper)
+    public Map<BigInteger, JobLevelClassifyDO> getMap(QueryWrapper<JobLevelClassifyDO> wrapper)
     {
-        List<JobLevelClassifyDo> list = list(wrapper);
+        List<JobLevelClassifyDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
 		    return new HashMap<>();
 	    }
 
-        Map<BigInteger, JobLevelClassifyDo> jobLevelClassifyDoMap = new HashMap<>(list.size());
+        Map<BigInteger, JobLevelClassifyDO> jobLevelClassifyDoMap = new HashMap<>(list.size());
 
-        for (JobLevelClassifyDo jobLevelClassifyDo : list) {
+        for (JobLevelClassifyDO jobLevelClassifyDo : list) {
             jobLevelClassifyDoMap.put(jobLevelClassifyDo.getLevelClassifyId(), jobLevelClassifyDo);
         }
 

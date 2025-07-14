@@ -1,6 +1,6 @@
 package com.wingflare.abstraction.module.base;
 
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 
 /**
  * @InterfaceName DictStorage
@@ -13,9 +13,9 @@ public interface DictStorage {
     /**
      * 批量存储系统字典
      *
-     * @param simpleDictDtos
+     * @param simpleDictDTOS
      * @return
      */
-    Long save(SimpleDictDto... simpleDictDtos);
+    Long save(SimpleDictDTO... simpleDictDTOS);
 
 }

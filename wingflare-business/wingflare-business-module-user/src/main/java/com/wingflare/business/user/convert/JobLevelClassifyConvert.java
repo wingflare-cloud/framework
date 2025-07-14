@@ -1,8 +1,8 @@
 package com.wingflare.business.user.convert;
 
-import com.wingflare.business.user.db.JobLevelClassifyDo;
-import com.wingflare.facade.module.user.bo.JobLevelClassifyBo;
-import com.wingflare.facade.module.user.dto.JobLevelClassifyDto;
+import com.wingflare.business.user.db.JobLevelClassifyDO;
+import com.wingflare.facade.module.user.bo.JobLevelClassifyBO;
+import com.wingflare.facade.module.user.dto.JobLevelClassifyDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,20 +22,20 @@ public interface JobLevelClassifyConvert extends com.wingflare.facade.module.use
 
     JobLevelClassifyConvert convert = Mappers.getMapper(JobLevelClassifyConvert.class);
 
-    JobLevelClassifyBo doToBo(JobLevelClassifyDo jobLevelClassifyDo);
+    JobLevelClassifyBO doToBo(JobLevelClassifyDO jobLevelClassifyDo);
 
-    JobLevelClassifyDto doToDto(JobLevelClassifyDo jobLevelClassifyDo);
+    JobLevelClassifyDTO doToDto(JobLevelClassifyDO jobLevelClassifyDo);
 
-    JobLevelClassifyDo boToDo(JobLevelClassifyBo jobLevelClassifyBo);
+    JobLevelClassifyDO boToDo(JobLevelClassifyBO jobLevelClassifyBo);
 
-    JobLevelClassifyDo dtoToDo(JobLevelClassifyDto jobLevelClassifyDto);
+    JobLevelClassifyDO dtoToDo(JobLevelClassifyDTO jobLevelClassifyDto);
 
-    List<JobLevelClassifyBo> doToBoList(List<JobLevelClassifyDo> jobLevelClassifyDoList);
+    List<JobLevelClassifyBO> doToBoList(List<JobLevelClassifyDO> jobLevelClassifyDOList);
 
-    List<JobLevelClassifyDto> doToDtoList(List<JobLevelClassifyDo> jobLevelClassifyDoList);
+    List<JobLevelClassifyDTO> doToDtoList(List<JobLevelClassifyDO> jobLevelClassifyDOList);
 
-    List<JobLevelClassifyDo> boToDoList(List<JobLevelClassifyBo> jobLevelClassifyBoList);
+    List<JobLevelClassifyDO> boToDoList(List<JobLevelClassifyBO> jobLevelClassifyBOList);
 
-    List<JobLevelClassifyDo> dtoToDoList(List<JobLevelClassifyDto> jobLevelClassifyDtoList);
+    List<JobLevelClassifyDO> dtoToDoList(List<JobLevelClassifyDTO> jobLevelClassifyDTOList);
 
 }

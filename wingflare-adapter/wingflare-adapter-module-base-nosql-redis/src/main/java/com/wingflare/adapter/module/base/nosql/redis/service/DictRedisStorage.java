@@ -3,7 +3,7 @@ package com.wingflare.adapter.module.base.nosql.redis.service;
 
 import com.wingflare.abstraction.module.base.DictStorage;
 import com.wingflare.facade.module.base.constants.Base;
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
@@ -39,9 +39,9 @@ public class DictRedisStorage implements DictStorage {
             "return total", Long.class);
 
     @Override
-    public Long save(SimpleDictDto... simpleDictDtos) {
+    public Long save(SimpleDictDTO... simpleDictDTOS) {
         redisTemplate.delete(Base.DICT_CACHE_KEY);
-        return (Long) redisTemplate.execute(redisScript, Collections.singletonList(Base.DICT_CACHE_KEY), simpleDictDtos);
+        return (Long) redisTemplate.execute(redisScript, Collections.singletonList(Base.DICT_CACHE_KEY), simpleDictDTOS);
     }
 
 }

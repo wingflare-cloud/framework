@@ -1,9 +1,9 @@
 package com.wingflare.business.user.convert;
 
 
-import com.wingflare.business.user.db.UserDo;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.business.user.db.UserDO;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,19 +21,19 @@ public interface UserConvert extends com.wingflare.facade.module.user.convert.Us
 {
 	UserConvert convert = Mappers.getMapper(UserConvert.class);
 
-	UserBo doToBo(UserDo userDo);
+	UserBO doToBo(UserDO userDo);
 
-	UserDto doToDto(UserDo userDo);
+	UserDTO doToDto(UserDO userDo);
 
-	UserDo boToDo(UserBo userBo);
+	UserDO boToDo(UserBO userBo);
 
-	UserDo dtoToDo(UserDto userDto);
+	UserDO dtoToDo(UserDTO userDto);
 
-	List<UserBo> doToBoList(List<UserDo> userDoList);
+	List<UserBO> doToBoList(List<UserDO> userDOList);
 
-	List<UserDto> doToDtoList(List<UserDo> userDoList);
+	List<UserDTO> doToDtoList(List<UserDO> userDOList);
 
-	List<UserDo> boToDoList(List<UserBo> userBoList);
+	List<UserDO> boToDoList(List<UserBO> userBOList);
 
-	List<UserDo> dtoToDoList(List<UserDto> userDtoList);
+	List<UserDO> dtoToDoList(List<UserDTO> userDTOList);
 }

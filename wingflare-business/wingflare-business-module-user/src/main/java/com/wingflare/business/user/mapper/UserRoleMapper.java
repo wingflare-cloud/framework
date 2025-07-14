@@ -1,7 +1,7 @@
 package com.wingflare.business.user.mapper;
 
 
-import com.wingflare.business.user.db.UserRoleDo;
+import com.wingflare.business.user.db.UserRoleDO;
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
 
 /**
@@ -12,6 +12,6 @@ import com.wingflare.lib.mybatis.plus.base.CustomMapper;
  * @author naizui_ycx
  * @since 2025-03-10
  */
-public interface UserRoleMapper extends CustomMapper<UserRoleDo> {
+public interface UserRoleMapper extends CustomMapper<UserRoleDO> {
 
 }

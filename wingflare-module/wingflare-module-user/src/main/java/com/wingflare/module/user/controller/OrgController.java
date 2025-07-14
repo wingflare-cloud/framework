@@ -2,9 +2,9 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.OrgBiz;
-import com.wingflare.facade.module.user.bo.OrgBo;
-import com.wingflare.facade.module.user.bo.OrgSearchBo;
-import com.wingflare.facade.module.user.dto.OrgDto;
+import com.wingflare.facade.module.user.bo.OrgBO;
+import com.wingflare.facade.module.user.bo.OrgSearchBO;
+import com.wingflare.facade.module.user.dto.OrgDTO;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class OrgController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
-    public PageDto<OrgDto> list(OrgSearchBo bo)
+    public PageDto<OrgDTO> list(OrgSearchBO bo)
     {
 		return orgBiz.list(bo);
     }
@@ -44,7 +44,7 @@ public class OrgController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
-	public OrgDto get(IdBo bo)
+	public OrgDTO get(IdBo bo)
 	{
 		return orgBiz.get(bo);
 	}
@@ -54,7 +54,7 @@ public class OrgController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
-	public OrgDto getOnlyOne(OrgSearchBo searchBo)
+	public OrgDTO getOnlyOne(OrgSearchBO searchBo)
 	{
 		return orgBiz.getOnlyOne(searchBo);
 	}
@@ -74,7 +74,7 @@ public class OrgController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
-	public OrgDto create(@RequestBody OrgBo bo)
+	public OrgDTO create(@RequestBody OrgBO bo)
 	{
 		return orgBiz.create(bo);
 	}
@@ -84,7 +84,7 @@ public class OrgController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
-	public OrgDto update(@RequestBody OrgBo bo)
+	public OrgDTO update(@RequestBody OrgBO bo)
 	{
 		return orgBiz.update(bo);
 	}

@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.convert;
 
 
-import com.wingflare.facade.module.user.bo.JobLevelBo;
-import com.wingflare.facade.module.user.dto.JobLevelDto;
+import com.wingflare.facade.module.user.bo.JobLevelBO;
+import com.wingflare.facade.module.user.dto.JobLevelDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface JobLevelConvert
 {
 	JobLevelConvert convert = Mappers.getMapper(JobLevelConvert.class);
 
-	JobLevelBo dtoToBo(JobLevelDto jobLevelDto);
+	JobLevelBO dtoToBo(JobLevelDTO jobLevelDto);
 
-	JobLevelDto boToDto(JobLevelBo jobLevelBo);
+	JobLevelDTO boToDto(JobLevelBO jobLevelBo);
 
-	List<JobLevelBo> dtoToBoList(List<JobLevelDto> jobLevelDtoList);
+	List<JobLevelBO> dtoToBoList(List<JobLevelDTO> jobLevelDTOList);
 
-	List<JobLevelDto> boToDtoList(List<JobLevelBo> jobLevelBoList);
+	List<JobLevelDTO> boToDtoList(List<JobLevelBO> jobLevelBOList);
 }

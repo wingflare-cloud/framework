@@ -1,7 +1,7 @@
 package com.wingflare.business.base.mapper;
 
 
-import com.wingflare.business.base.db.MenuDo;
+import com.wingflare.business.base.db.MenuDO;
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
 
 /**
@@ -10,7 +10,7 @@ import com.wingflare.lib.mybatis.plus.base.CustomMapper;
  * @author naizui_ycx
  * @date Sat Mar 04 21:30:08 CST 2023
  */
-public interface MenuMapper extends CustomMapper<MenuDo>
+public interface MenuMapper extends CustomMapper<MenuDO>
 {
 
 }

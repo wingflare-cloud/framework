@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.base.convert;
 
 
-import com.wingflare.facade.module.base.bo.DictBo;
-import com.wingflare.facade.module.base.dto.DictDto;
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.facade.module.base.bo.DictBO;
+import com.wingflare.facade.module.base.dto.DictDTO;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,13 +21,13 @@ public interface DictConvert
 {
 	DictConvert convert = Mappers.getMapper(DictConvert.class);
 
-	DictBo dtoToBo(DictDto dictDto);
+	DictBO dtoToBo(DictDTO dictDto);
 
-	SimpleDictDto dtoToSimple(DictDto dictDto);
+	SimpleDictDTO dtoToSimple(DictDTO dictDto);
 
-	DictDto boToDto(DictBo dictBo);
+	DictDTO boToDto(DictBO dictBo);
 
-	List<DictBo> dtoToBoList(List<DictDto> dictDtoList);
+	List<DictBO> dtoToBoList(List<DictDTO> dictDTOList);
 
-	List<DictDto> boToDtoList(List<DictBo> dictBoList);
+	List<DictDTO> boToDtoList(List<DictBO> dictBOList);
 }

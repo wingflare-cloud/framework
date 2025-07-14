@@ -2,10 +2,10 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.IdentityBiz;
+import com.wingflare.facade.module.user.bo.IdentityBO;
 import com.wingflare.lib.standard.PageDto;
-import com.wingflare.facade.module.user.bo.IdentityBo;
-import com.wingflare.facade.module.user.bo.IdentitySearchBo;
-import com.wingflare.facade.module.user.dto.IdentityDto;
+import com.wingflare.facade.module.user.bo.IdentitySearchBO;
+import com.wingflare.facade.module.user.dto.IdentityDTO;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +34,7 @@ public class IdentityController
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})
 	@ResponseBody
-    public PageDto<IdentityDto> list(IdentitySearchBo bo)
+    public PageDto<IdentityDTO> list(IdentitySearchBO bo)
     {
 		return identityBiz.list(bo);
     }
@@ -44,7 +44,7 @@ public class IdentityController
      */
 	@RequestMapping(value = "/get", method = {RequestMethod.GET})
 	@ResponseBody
-	public IdentityDto get(IdBo bo)
+	public IdentityDTO get(IdBo bo)
 	{
 		return identityBiz.get(bo);
 	}
@@ -54,7 +54,7 @@ public class IdentityController
      */
 	@RequestMapping(value = "/getOnlyOne", method = {RequestMethod.GET})
 	@ResponseBody
-	public IdentityDto getOnlyOne(IdentitySearchBo searchBo)
+	public IdentityDTO getOnlyOne(IdentitySearchBO searchBo)
 	{
 		return identityBiz.getOnlyOne(searchBo);
 	}
@@ -74,7 +74,7 @@ public class IdentityController
      */
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	@ResponseBody
-	public IdentityDto create(@RequestBody IdentityBo bo)
+	public IdentityDTO create(@RequestBody IdentityBO bo)
 	{
 		return identityBiz.create(bo);
 	}
@@ -84,7 +84,7 @@ public class IdentityController
      */
 	@RequestMapping(value = "/update", method = {RequestMethod.PUT})
 	@ResponseBody
-	public IdentityDto update(@RequestBody IdentityBo bo)
+	public IdentityDTO update(@RequestBody IdentityBO bo)
 	{
 		return identityBiz.update(bo);
 	}

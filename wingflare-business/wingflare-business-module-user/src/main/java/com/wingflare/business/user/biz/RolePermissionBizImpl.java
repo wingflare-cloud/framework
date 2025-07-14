@@ -3,19 +3,19 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.convert.RolePermissionConvert;
-import com.wingflare.business.user.db.RolePermissionDo;
+import com.wingflare.business.user.db.RolePermissionDO;
 import com.wingflare.business.user.service.RolePermissionServer;
 import com.wingflare.business.user.wrapper.RolePermissionWrapper;
 import com.wingflare.facade.module.user.biz.RoleBiz;
 import com.wingflare.facade.module.user.biz.RolePermissionBiz;
-import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
-import com.wingflare.facade.module.user.dto.RoleDto;
+import com.wingflare.facade.module.user.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.user.bo.RolePermissionBO;
+import com.wingflare.facade.module.user.dto.RoleDTO;
+import com.wingflare.facade.module.user.dto.RolePermissionDTO;
 import com.wingflare.lib.core.exceptions.DataException;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.facade.module.user.bo.RolePermissionBo;
-import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
-import com.wingflare.facade.module.user.dto.RolePermissionDto;
+import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
@@ -58,8 +58,8 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
      * 查询系统角色权限列表
      */
     @Override
-    public PageDto<RolePermissionDto> list(@Valid RolePermissionSearchBo bo) {
-        IPage<RolePermissionDo> iPage = rolePermissionServer.page(
+    public PageDto<RolePermissionDTO> list(@Valid RolePermissionSearchBO bo) {
+        IPage<RolePermissionDO> iPage = rolePermissionServer.page(
                 rolePermissionServer.createPage(bo),
                 RolePermissionWrapper.getQueryWrapper(bo)
         );
@@ -72,7 +72,7 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
      * 查询系统角色权限详情
      */
     @Override
-    public RolePermissionDto get(@Valid @NotNull IdBo bo) {
+    public RolePermissionDTO get(@Valid @NotNull IdBo bo) {
         return RolePermissionConvert.convert.doToDto(
                 rolePermissionServer.getById(bo.getId()));
     }
@@ -81,7 +81,7 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
      * 通过条件查询单个系统角色权限详情
      */
     @Override
-    public RolePermissionDto getOnlyOne(@Valid @NotNull RolePermissionSearchBo searchBo) {
+    public RolePermissionDTO getOnlyOne(@Valid @NotNull RolePermissionSearchBO searchBo) {
         return RolePermissionConvert.convert.doToDto(
                 rolePermissionServer.getOne(
                         RolePermissionWrapper.getQueryWrapper(searchBo)
@@ -94,7 +94,7 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
-        RolePermissionDo rolePermissionDo = rolePermissionServer.getById(bo.getId());
+        RolePermissionDO rolePermissionDo = rolePermissionServer.getById(bo.getId());
 
         if (rolePermissionDo != null) {
             rolePermissionServer.removeById(bo.getId());
@@ -106,8 +106,8 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public RolePermissionDto create(@Valid @NotNull RolePermissionBo bo) {
-        RolePermissionDo rolePermissionDo = RolePermissionConvert.convert.boToDo(bo);
+    public RolePermissionDTO create(@Valid @NotNull RolePermissionBO bo) {
+        RolePermissionDO rolePermissionDo = RolePermissionConvert.convert.boToDo(bo);
         rolePermissionServer.save(rolePermissionDo);
         return RolePermissionConvert.convert.doToDto(rolePermissionDo);
     }
@@ -118,35 +118,35 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
-    public RolePermissionDto update(@Valid @NotNull RolePermissionBo bo) {
-        RolePermissionDo oldRolePermissionDo = rolePermissionServer.getById(bo.getId());
+    public RolePermissionDTO update(@Valid @NotNull RolePermissionBO bo) {
+        RolePermissionDO oldRolePermissionDO = rolePermissionServer.getById(bo.getId());
 
-        if (oldRolePermissionDo == null) {
+        if (oldRolePermissionDO == null) {
             throw new DataNotFoundException("rolePermission.data.notfound");
         }
 
-        RolePermissionDo rolePermissionDo = RolePermissionConvert.convert.boToDo(bo);
-        oldRolePermissionDo.setOnNew(rolePermissionDo);
-        rolePermissionServer.updateById(oldRolePermissionDo);
+        RolePermissionDO rolePermissionDo = RolePermissionConvert.convert.boToDo(bo);
+        oldRolePermissionDO.setOnNew(rolePermissionDo);
+        rolePermissionServer.updateById(oldRolePermissionDO);
         return RolePermissionConvert.convert.doToDto(rolePermissionDo);
     }
 
     @Override
-    public Boolean savePermission(@Valid @NotNull PermissionCodesExistBo existBo) {
+    public Boolean savePermission(@Valid @NotNull PermissionCodesExistBO existBo) {
         Boolean ret = transactionTemplate.execute(status -> {
-            RoleDto roleDo = roleBiz.get(new IdBo().setId(existBo.getRoleId()));
+            RoleDTO roleDo = roleBiz.get(new IdBo().setId(existBo.getRoleId()));
 
             if (roleDo == null) {
                 throw new DataNotFoundException("role.data.notfound");
             }
 
-            rolePermissionServer.batchDelete(new RolePermissionSearchBo().setEq_roleId(existBo.getRoleId()));
+            rolePermissionServer.batchDelete(new RolePermissionSearchBO().setEq_roleId(existBo.getRoleId()));
 
-            List<RolePermissionBo> list = new ArrayList<>();
+            List<RolePermissionBO> list = new ArrayList<>();
 
             for (int i = 0; i < existBo.getCodes().size(); i++) {
                 for (int j = 0; j < existBo.getCodes().get(i).getCodes().size(); j++) {
-                    list.add(new RolePermissionBo().setRoleId(existBo.getRoleId())
+                    list.add(new RolePermissionBO().setRoleId(existBo.getRoleId())
                             .setSystemCode(existBo.getCodes().get(i).getSystemCode())
                             .setPermissionCode(existBo.getCodes().get(i).getCodes().get(j)));
                 }
@@ -163,22 +163,22 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
     }
 
     @Override
-    public List<PermissionCodesExistBo.CodesExist> permission(IdBo bo) {
-        List<PermissionCodesExistBo.CodesExist> list = new ArrayList<>();
+    public List<PermissionCodesExistBO.CodesExist> permission(IdBo bo) {
+        List<PermissionCodesExistBO.CodesExist> list = new ArrayList<>();
 
-        List<RolePermissionDo> rawList = rolePermissionServer.list(
-                RolePermissionWrapper.getQueryWrapper(new RolePermissionSearchBo().setEq_roleId(bo.getId())));
+        List<RolePermissionDO> rawList = rolePermissionServer.list(
+                RolePermissionWrapper.getQueryWrapper(new RolePermissionSearchBO().setEq_roleId(bo.getId())));
 
         Map<String, Integer> map = new HashMap<>();
 
         if (!rawList.isEmpty()) {
-            for (RolePermissionDo rolePermissionDo : rawList) {
-                PermissionCodesExistBo.CodesExist codesExist = null;
+            for (RolePermissionDO rolePermissionDo : rawList) {
+                PermissionCodesExistBO.CodesExist codesExist = null;
 
                 if (map.containsKey(rolePermissionDo.getSystemCode())) {
                     codesExist = list.get(map.get(rolePermissionDo.getSystemCode()));
                 } else {
-                    codesExist = new PermissionCodesExistBo.CodesExist();
+                    codesExist = new PermissionCodesExistBO.CodesExist();
                     codesExist.setSystemCode(rolePermissionDo.getSystemCode());
                     list.add(codesExist);
                     codesExist.setCodes(new ArrayList<>());

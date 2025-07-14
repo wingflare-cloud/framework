@@ -1,11 +1,11 @@
 package com.wingflare.facade.module.user.biz;
 
 
-import com.wingflare.facade.module.user.bo.PermissionCodesExistBo;
+import com.wingflare.facade.module.user.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.user.bo.RolePermissionBO;
+import com.wingflare.facade.module.user.dto.RolePermissionDTO;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.facade.module.user.bo.RolePermissionBo;
-import com.wingflare.facade.module.user.bo.RolePermissionSearchBo;
-import com.wingflare.facade.module.user.dto.RolePermissionDto;
+import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
@@ -30,17 +30,17 @@ public interface RolePermissionBiz
 	/**
      * 查询系统角色权限列表
      */
-    PageDto<RolePermissionDto> list(@Valid RolePermissionSearchBo bo);
+    PageDto<RolePermissionDTO> list(@Valid RolePermissionSearchBO bo);
 	
 	/**
      * 查询系统角色权限详情
      */
-	RolePermissionDto get(@Valid @NotNull IdBo bo);
+	RolePermissionDTO get(@Valid @NotNull IdBo bo);
 	
 	/**
      * 通过条件查询单个系统角色权限详情
      */
-	RolePermissionDto getOnlyOne(@Valid @NotNull RolePermissionSearchBo searchBo);
+	RolePermissionDTO getOnlyOne(@Valid @NotNull RolePermissionSearchBO searchBo);
 	
 	/**
      * 删除系统角色权限
@@ -51,20 +51,20 @@ public interface RolePermissionBiz
      * 新增系统角色权限
      */
 	@Validated({Default.class, Create.class})
-	RolePermissionDto create(@Valid @NotNull RolePermissionBo bo);
+	RolePermissionDTO create(@Valid @NotNull RolePermissionBO bo);
 	
 	/**
      * 更新系统角色权限
      */
 	@Validated({Default.class, Update.class})
-	RolePermissionDto update(@Valid @NotNull RolePermissionBo bo);
+	RolePermissionDTO update(@Valid @NotNull RolePermissionBO bo);
 
 	/**
 	 * 保存角色权限
 	 * @param existBo
 	 * @return
 	 */
-	Boolean savePermission(@Valid @NotNull PermissionCodesExistBo existBo);
+	Boolean savePermission(@Valid @NotNull PermissionCodesExistBO existBo);
 
 	/**
 	 * 获取角色权限
@@ -72,6 +72,6 @@ public interface RolePermissionBiz
 	 * @param bo
 	 * @return
 	 */
-	List<PermissionCodesExistBo.CodesExist> permission(@Valid @NotNull IdBo bo);
+	List<PermissionCodesExistBO.CodesExist> permission(@Valid @NotNull IdBo bo);
 
 }

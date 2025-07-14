@@ -3,7 +3,7 @@
 <mapper namespace="com.wingflare.business.base.mapper.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.wingflare.business.base.db.MenuDo">
+    <resultMap id="BaseResultMap" type="com.wingflare.business.base.db.MenuDO">
         <id column="menu_id" property="menuId" />
         <result column="parent_menu_id" property="parentMenuId" />
         <result column="state" property="state" />

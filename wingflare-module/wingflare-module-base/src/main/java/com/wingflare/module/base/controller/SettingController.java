@@ -2,9 +2,9 @@ package com.wingflare.module.base.controller;
 
 
 import com.wingflare.facade.module.base.biz.SettingBiz;
-import com.wingflare.facade.module.base.bo.SettingBo;
-import com.wingflare.facade.module.base.bo.SettingSearchBo;
-import com.wingflare.facade.module.base.dto.SettingDto;
+import com.wingflare.facade.module.base.bo.SettingBO;
+import com.wingflare.facade.module.base.bo.SettingSearchBO;
+import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
@@ -40,7 +40,7 @@ public class SettingController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_VIEW)
 	@BusinessSystem("base")
-    public PageDto<SettingDto> list(SettingSearchBo bo)
+    public PageDto<SettingDTO> list(SettingSearchBO bo)
     {
 		return settingBiz.list(bo);
     }
@@ -52,7 +52,7 @@ public class SettingController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_VIEW)
 	@BusinessSystem("base")
-	public SettingDto get(IdBo bo)
+	public SettingDTO get(IdBo bo)
 	{
 		return settingBiz.get(bo);
 	}
@@ -64,7 +64,7 @@ public class SettingController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_VIEW)
 	@BusinessSystem("base")
-	public SettingDto getOnlyOne(SettingSearchBo searchBo)
+	public SettingDTO getOnlyOne(SettingSearchBO searchBo)
 	{
 		return settingBiz.getOnlyOne(searchBo);
 	}
@@ -88,7 +88,7 @@ public class SettingController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_CREATE)
 	@BusinessSystem("base")
-	public SettingDto create(@RequestBody SettingBo bo)
+	public SettingDTO create(@RequestBody SettingBO bo)
 	{
 		return settingBiz.create(bo);
 	}
@@ -100,7 +100,7 @@ public class SettingController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.SETTING_UPDATE)
 	@BusinessSystem("base")
-	public SettingDto update(@RequestBody SettingBo bo)
+	public SettingDTO update(@RequestBody SettingBO bo)
 	{
 		return settingBiz.update(bo);
 	}
@@ -111,7 +111,7 @@ public class SettingController
 	@RequestMapping(value = "/save", method = {RequestMethod.POST})
 	@ResponseBody
 	@InternalApi
-	public void save(@RequestBody SettingBo bo)
+	public void save(@RequestBody SettingBO bo)
 	{
 		settingBiz.save(bo);
 	}

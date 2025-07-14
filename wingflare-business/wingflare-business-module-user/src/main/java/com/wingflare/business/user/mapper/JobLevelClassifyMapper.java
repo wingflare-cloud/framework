@@ -1,7 +1,7 @@
 package com.wingflare.business.user.mapper;
 
 
-import com.wingflare.business.user.db.JobLevelClassifyDo;
+import com.wingflare.business.user.db.JobLevelClassifyDO;
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
 
 /**
@@ -12,6 +12,6 @@ import com.wingflare.lib.mybatis.plus.base.CustomMapper;
  * @author naizui_ycx
  * @since 2023-04-28
  */
-public interface JobLevelClassifyMapper extends CustomMapper<JobLevelClassifyDo> {
+public interface JobLevelClassifyMapper extends CustomMapper<JobLevelClassifyDO> {
 
 }

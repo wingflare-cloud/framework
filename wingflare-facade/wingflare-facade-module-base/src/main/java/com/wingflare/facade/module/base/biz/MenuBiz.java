@@ -1,11 +1,11 @@
 package com.wingflare.facade.module.base.biz;
 
 
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.bo.MenuSearchBo;
-import com.wingflare.facade.module.base.bo.PermissionCodesExistBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
-import com.wingflare.facade.module.base.dto.SimpleMenuDto;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.bo.MenuSearchBO;
+import com.wingflare.facade.module.base.bo.PermissionCodesExistBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
+import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
@@ -30,17 +30,17 @@ public interface MenuBiz {
     /**
      * 查询系统菜单列表
      */
-    PageDto<MenuDto> list(@Valid MenuSearchBo bo);
+    PageDto<MenuDTO> list(@Valid MenuSearchBO bo);
 
     /**
      * 查询系统菜单详情
      */
-    MenuDto get(@Valid @NotNull IdBo bo);
+    MenuDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个系统菜单详情
      */
-    MenuDto getOnlyOne(@Valid @NotNull MenuSearchBo searchBo);
+    MenuDTO getOnlyOne(@Valid @NotNull MenuSearchBO searchBo);
 
     /**
      * 删除系统菜单
@@ -51,13 +51,13 @@ public interface MenuBiz {
      * 新增系统菜单
      */
     @Validated({Default.class, Create.class})
-    MenuDto create(@Valid @NotNull MenuBo bo);
+    MenuDTO create(@Valid @NotNull MenuBO bo);
 
     /**
      * 更新系统菜单
      */
     @Validated({Default.class, Update.class})
-    MenuDto update(@Valid @NotNull MenuBo bo);
+    MenuDTO update(@Valid @NotNull MenuBO bo);
 
     /**
      * 获取树形结构菜单
@@ -65,7 +65,7 @@ public interface MenuBiz {
      * @param searchBo
      * @return
      */
-    List<SimpleMenuDto> tree(@Valid @NotNull MenuSearchBo searchBo);
+    List<SimpleMenuDTO> tree(@Valid @NotNull MenuSearchBO searchBo);
 
     /**
      * 判断权限代码是否存在
@@ -73,6 +73,6 @@ public interface MenuBiz {
      * @param existBo
      * @return
      */
-    Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBo existBo);
+    Boolean permissionCodesExist(@Valid @NotNull PermissionCodesExistBO existBo);
 
 }

@@ -4,11 +4,11 @@ package com.wingflare.business.user.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wingflare.business.user.db.RoleUserDo;
-import com.wingflare.business.user.db.UserDo;
-import com.wingflare.business.user.db.UserRoleDo;
+import com.wingflare.business.user.db.RoleUserDO;
+import com.wingflare.business.user.db.UserDO;
+import com.wingflare.business.user.db.UserRoleDO;
 import com.wingflare.business.user.mapper.UserRoleMapper;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @since 2025-03-11
  */
 @Service
-public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDo> {
+public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDO> {
 
     /**
      * 获取userRoleMap
@@ -37,16 +37,16 @@ public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDo> {
      *
      * @return 结果
      */
-    public Map<BigInteger, UserRoleDo> getMap(QueryWrapper<UserRoleDo> wrapper) {
-        List<UserRoleDo> list = list(wrapper);
+    public Map<BigInteger, UserRoleDO> getMap(QueryWrapper<UserRoleDO> wrapper) {
+        List<UserRoleDO> list = list(wrapper);
 
         if (list == null || list.isEmpty()) {
             return new HashMap<>();
         }
 
-        Map<BigInteger, UserRoleDo> userRoleDoMap = new HashMap<>(list.size());
+        Map<BigInteger, UserRoleDO> userRoleDoMap = new HashMap<>(list.size());
 
-        for (UserRoleDo userRoleDo : list) {
+        for (UserRoleDO userRoleDo : list) {
             userRoleDoMap.put(userRoleDo.getId(), userRoleDo);
         }
 
@@ -54,7 +54,7 @@ public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDo> {
     }
 
     public void deleteByUserId(BigInteger userId) {
-        getBaseMapper().delete(new LambdaQueryWrapper<UserRoleDo>().eq(UserRoleDo::getUserId, userId));
+        getBaseMapper().delete(new LambdaQueryWrapper<UserRoleDO>().eq(UserRoleDO::getUserId, userId));
     }
 
     /**
@@ -63,22 +63,22 @@ public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDo> {
      * @param bo
      * @return
      */
-    public IPage<RoleUserDo> getUserList(UserSearchBo bo) {
+    public IPage<RoleUserDO> getUserList(UserSearchBO bo) {
         JoinLambdaQueryWrapper joinLambdaQueryWrapper = new JoinLambdaQueryWrapper<>()
-                .select(UserDo::getUserId, UserDo::getUserName, UserDo::getBanState, UserDo::getLastLoginIp, UserDo::getLastLoginTime,
-                        UserDo::getUserEmail, UserDo::getUserPhone)
-                .selectAs(UserRoleDo::getId, RoleUserDo::getId)
-                .leftJoin(UserDo.class, UserDo::getUserId, UserRoleDo::getUserId)
-                .eq(UserRoleDo::getRoleId, bo.getRoleId())
-                .eq(UserDo::getIsDelete, 0)
-                .eq(UserRoleDo::getIsDelete, 0)
-                .eq(bo.getEq_banState() != null, UserDo::getBanState, bo.getEq_banState())
-                .like(bo.getLike_userName() != null, UserDo::getUserName, bo.getLike_userName())
-                .orderByDesc(UserDo::getUserId);
+                .select(UserDO::getUserId, UserDO::getUserName, UserDO::getBanState, UserDO::getLastLoginIp, UserDO::getLastLoginTime,
+                        UserDO::getUserEmail, UserDO::getUserPhone)
+                .selectAs(UserRoleDO::getId, RoleUserDO::getId)
+                .leftJoin(UserDO.class, UserDO::getUserId, UserRoleDO::getUserId)
+                .eq(UserRoleDO::getRoleId, bo.getRoleId())
+                .eq(UserDO::getIsDelete, 0)
+                .eq(UserRoleDO::getIsDelete, 0)
+                .eq(bo.getEq_banState() != null, UserDO::getBanState, bo.getEq_banState())
+                .like(bo.getLike_userName() != null, UserDO::getUserName, bo.getLike_userName())
+                .orderByDesc(UserDO::getUserId);
 
         return getBaseMapper().selectJoinPage(
                 createPage(bo),
-                RoleUserDo.class,
+                RoleUserDO.class,
                 joinLambdaQueryWrapper
         );
     }

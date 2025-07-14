@@ -1,7 +1,7 @@
 package com.wingflare.business.user.mapper;
 
 
-import com.wingflare.business.user.db.RolePermissionDo;
+import com.wingflare.business.user.db.RolePermissionDO;
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
 
 /**
@@ -10,7 +10,7 @@ import com.wingflare.lib.mybatis.plus.base.CustomMapper;
  * @author naizui_ycx
  * @date Thu Mar 09 10:13:02 CST 2023
  */
-public interface RolePermissionMapper extends CustomMapper<RolePermissionDo>
+public interface RolePermissionMapper extends CustomMapper<RolePermissionDO>
 {
 
 }

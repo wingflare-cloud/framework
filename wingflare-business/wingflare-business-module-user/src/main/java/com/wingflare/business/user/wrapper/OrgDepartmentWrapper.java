@@ -3,8 +3,8 @@ package com.wingflare.business.user.wrapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.wingflare.business.user.db.OrgDepartmentDo;
-import com.wingflare.facade.module.user.bo.OrgDepartmentSearchBo;
+import com.wingflare.business.user.db.OrgDepartmentDO;
+import com.wingflare.facade.module.user.bo.OrgDepartmentSearchBO;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.WrapperUtil;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
@@ -22,8 +22,8 @@ public class OrgDepartmentWrapper
      *
      * @param bo 查询条件
      */
-    public static QueryWrapper<OrgDepartmentDo> getQueryWrapper(OrgDepartmentSearchBo bo) {
-        QueryWrapper<OrgDepartmentDo> queryWrapper = new QueryWrapper();
+    public static QueryWrapper<OrgDepartmentDO> getQueryWrapper(OrgDepartmentSearchBO bo) {
+        QueryWrapper<OrgDepartmentDO> queryWrapper = new QueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
@@ -372,346 +372,346 @@ public class OrgDepartmentWrapper
      *
      * @param bo 查询条件
      */
-	public static LambdaQueryWrapper<OrgDepartmentDo> getLambdaQueryWrapper(OrgDepartmentSearchBo bo) {
-        LambdaQueryWrapper<OrgDepartmentDo> queryWrapper = new LambdaQueryWrapper();
+	public static LambdaQueryWrapper<OrgDepartmentDO> getLambdaQueryWrapper(OrgDepartmentSearchBO bo) {
+        LambdaQueryWrapper<OrgDepartmentDO> queryWrapper = new LambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, OrgDepartmentDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, OrgDepartmentDO::getIsDelete, bo.getDataScope());
 
         // department_id 开始
         if (bo.getEq_departmentId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getDepartmentId, bo.getEq_departmentId());
+            queryWrapper.eq(OrgDepartmentDO::getDepartmentId, bo.getEq_departmentId());
         }
         if (bo.getNeq_departmentId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getDepartmentId, bo.getNeq_departmentId());
+            queryWrapper.ne(OrgDepartmentDO::getDepartmentId, bo.getNeq_departmentId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_departmentId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getDepartmentId, bo.getIn_departmentId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getDepartmentId, bo.getIn_departmentId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_departmentId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getDepartmentId, bo.getNotin_departmentId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getDepartmentId, bo.getNotin_departmentId());
         }
         // state 开始
         if (bo.getEq_state() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getState, bo.getEq_state());
+            queryWrapper.eq(OrgDepartmentDO::getState, bo.getEq_state());
         }
         if (bo.getNeq_state() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getState, bo.getNeq_state());
+            queryWrapper.ne(OrgDepartmentDO::getState, bo.getNeq_state());
         }
         if (bo.getGt_state() != null) {
-            queryWrapper.gt(OrgDepartmentDo::getState, bo.getGt_state());
+            queryWrapper.gt(OrgDepartmentDO::getState, bo.getGt_state());
         }
         if (bo.getLt_state() != null) {
-            queryWrapper.lt(OrgDepartmentDo::getState, bo.getLt_state());
+            queryWrapper.lt(OrgDepartmentDO::getState, bo.getLt_state());
         }
         if (bo.getEgt_state() != null) {
-            queryWrapper.ge(OrgDepartmentDo::getState, bo.getEgt_state());
+            queryWrapper.ge(OrgDepartmentDO::getState, bo.getEgt_state());
         }
         if (bo.getElt_state() != null) {
-            queryWrapper.le(OrgDepartmentDo::getState, bo.getElt_state());
+            queryWrapper.le(OrgDepartmentDO::getState, bo.getElt_state());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_state())) {
-            WrapperUtil.between(queryWrapper, OrgDepartmentDo::getState, bo.getBetween_state());
+            WrapperUtil.between(queryWrapper, OrgDepartmentDO::getState, bo.getBetween_state());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_state())) {
-            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDo::getState, bo.getNotbetween_state());
+            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDO::getState, bo.getNotbetween_state());
         }
         if (StringUtil.isNotEmpty(bo.getIn_state())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getState, bo.getIn_state());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getState, bo.getIn_state());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_state())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getState, bo.getNotin_state());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getState, bo.getNotin_state());
         }
         // org_id 开始
         if (bo.getEq_orgId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getOrgId, bo.getEq_orgId());
+            queryWrapper.eq(OrgDepartmentDO::getOrgId, bo.getEq_orgId());
         }
         if (bo.getNeq_orgId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getOrgId, bo.getNeq_orgId());
+            queryWrapper.ne(OrgDepartmentDO::getOrgId, bo.getNeq_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_orgId())) {
-            queryWrapper.like(OrgDepartmentDo::getOrgId, bo.getLike_orgId());
+            queryWrapper.like(OrgDepartmentDO::getOrgId, bo.getLike_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_orgId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getOrgId, bo.getLiker_orgId());
+            queryWrapper.likeRight(OrgDepartmentDO::getOrgId, bo.getLiker_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_orgId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getOrgId, bo.getLikel_orgId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getOrgId, bo.getLikel_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_orgId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getOrgId, bo.getNotlike_orgId());
+            queryWrapper.notLike(OrgDepartmentDO::getOrgId, bo.getNotlike_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_orgId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getOrgId, bo.getIn_orgId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getOrgId, bo.getIn_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_orgId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getOrgId, bo.getNotin_orgId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getOrgId, bo.getNotin_orgId());
         }
         // parent_department_id 开始
         if (bo.getEq_parentDepartmentId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getParentDepartmentId, bo.getEq_parentDepartmentId());
+            queryWrapper.eq(OrgDepartmentDO::getParentDepartmentId, bo.getEq_parentDepartmentId());
         }
         if (bo.getNeq_parentDepartmentId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getParentDepartmentId, bo.getNeq_parentDepartmentId());
+            queryWrapper.ne(OrgDepartmentDO::getParentDepartmentId, bo.getNeq_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_parentDepartmentId())) {
-            queryWrapper.like(OrgDepartmentDo::getParentDepartmentId, bo.getLike_parentDepartmentId());
+            queryWrapper.like(OrgDepartmentDO::getParentDepartmentId, bo.getLike_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_parentDepartmentId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getParentDepartmentId, bo.getLiker_parentDepartmentId());
+            queryWrapper.likeRight(OrgDepartmentDO::getParentDepartmentId, bo.getLiker_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_parentDepartmentId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getParentDepartmentId, bo.getLikel_parentDepartmentId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getParentDepartmentId, bo.getLikel_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_parentDepartmentId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getParentDepartmentId, bo.getNotlike_parentDepartmentId());
+            queryWrapper.notLike(OrgDepartmentDO::getParentDepartmentId, bo.getNotlike_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_parentDepartmentId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getParentDepartmentId, bo.getIn_parentDepartmentId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getParentDepartmentId, bo.getIn_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_parentDepartmentId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getParentDepartmentId, bo.getNotin_parentDepartmentId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getParentDepartmentId, bo.getNotin_parentDepartmentId());
         }
         // department_name 开始
         if (bo.getEq_departmentName() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getDepartmentName, bo.getEq_departmentName());
+            queryWrapper.eq(OrgDepartmentDO::getDepartmentName, bo.getEq_departmentName());
         }
         if (bo.getNeq_departmentName() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getDepartmentName, bo.getNeq_departmentName());
+            queryWrapper.ne(OrgDepartmentDO::getDepartmentName, bo.getNeq_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getLike_departmentName())) {
-            queryWrapper.like(OrgDepartmentDo::getDepartmentName, bo.getLike_departmentName());
+            queryWrapper.like(OrgDepartmentDO::getDepartmentName, bo.getLike_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_departmentName())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getDepartmentName, bo.getLiker_departmentName());
+            queryWrapper.likeRight(OrgDepartmentDO::getDepartmentName, bo.getLiker_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_departmentName())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getDepartmentName, bo.getLikel_departmentName());
+            queryWrapper.likeLeft(OrgDepartmentDO::getDepartmentName, bo.getLikel_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_departmentName())) {
-            queryWrapper.notLike(OrgDepartmentDo::getDepartmentName, bo.getNotlike_departmentName());
+            queryWrapper.notLike(OrgDepartmentDO::getDepartmentName, bo.getNotlike_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getIn_departmentName())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getDepartmentName, bo.getIn_departmentName());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getDepartmentName, bo.getIn_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_departmentName())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getDepartmentName, bo.getNotin_departmentName());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getDepartmentName, bo.getNotin_departmentName());
         }
         // role_id 开始
         if (bo.getEq_roleId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getRoleId, bo.getEq_roleId());
+            queryWrapper.eq(OrgDepartmentDO::getRoleId, bo.getEq_roleId());
         }
         if (bo.getNeq_roleId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getRoleId, bo.getNeq_roleId());
+            queryWrapper.ne(OrgDepartmentDO::getRoleId, bo.getNeq_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_roleId())) {
-            queryWrapper.like(OrgDepartmentDo::getRoleId, bo.getLike_roleId());
+            queryWrapper.like(OrgDepartmentDO::getRoleId, bo.getLike_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_roleId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getRoleId, bo.getLiker_roleId());
+            queryWrapper.likeRight(OrgDepartmentDO::getRoleId, bo.getLiker_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_roleId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getRoleId, bo.getLikel_roleId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getRoleId, bo.getLikel_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_roleId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getRoleId, bo.getNotlike_roleId());
+            queryWrapper.notLike(OrgDepartmentDO::getRoleId, bo.getNotlike_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_roleId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getRoleId, bo.getIn_roleId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getRoleId, bo.getIn_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_roleId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getRoleId, bo.getNotin_roleId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getRoleId, bo.getNotin_roleId());
         }
         // user_id 开始
         if (bo.getEq_userId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUserId, bo.getEq_userId());
+            queryWrapper.eq(OrgDepartmentDO::getUserId, bo.getEq_userId());
         }
         if (bo.getNeq_userId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUserId, bo.getNeq_userId());
+            queryWrapper.ne(OrgDepartmentDO::getUserId, bo.getNeq_userId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_userId())) {
-            queryWrapper.like(OrgDepartmentDo::getUserId, bo.getLike_userId());
+            queryWrapper.like(OrgDepartmentDO::getUserId, bo.getLike_userId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_userId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getUserId, bo.getLiker_userId());
+            queryWrapper.likeRight(OrgDepartmentDO::getUserId, bo.getLiker_userId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_userId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getUserId, bo.getLikel_userId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getUserId, bo.getLikel_userId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_userId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getUserId, bo.getNotlike_userId());
+            queryWrapper.notLike(OrgDepartmentDO::getUserId, bo.getNotlike_userId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_userId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUserId, bo.getIn_userId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUserId, bo.getIn_userId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_userId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUserId, bo.getNotin_userId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUserId, bo.getNotin_userId());
         }
         // created_time 开始
         if (bo.getEq_createdTime() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getCreatedTime, bo.getEq_createdTime());
+            queryWrapper.eq(OrgDepartmentDO::getCreatedTime, bo.getEq_createdTime());
         }
         if (bo.getNeq_createdTime() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getCreatedTime, bo.getNeq_createdTime());
+            queryWrapper.ne(OrgDepartmentDO::getCreatedTime, bo.getNeq_createdTime());
         }
         if (bo.getGt_createdTime() != null) {
-            queryWrapper.gt(OrgDepartmentDo::getCreatedTime, bo.getGt_createdTime());
+            queryWrapper.gt(OrgDepartmentDO::getCreatedTime, bo.getGt_createdTime());
         }
         if (bo.getLt_createdTime() != null) {
-            queryWrapper.lt(OrgDepartmentDo::getCreatedTime, bo.getLt_createdTime());
+            queryWrapper.lt(OrgDepartmentDO::getCreatedTime, bo.getLt_createdTime());
         }
         if (bo.getEgt_createdTime() != null) {
-            queryWrapper.ge(OrgDepartmentDo::getCreatedTime, bo.getEgt_createdTime());
+            queryWrapper.ge(OrgDepartmentDO::getCreatedTime, bo.getEgt_createdTime());
         }
         if (bo.getElt_createdTime() != null) {
-            queryWrapper.le(OrgDepartmentDo::getCreatedTime, bo.getElt_createdTime());
+            queryWrapper.le(OrgDepartmentDO::getCreatedTime, bo.getElt_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_createdTime())) {
-            WrapperUtil.between(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getBetween_createdTime());
+            WrapperUtil.between(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getBetween_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_createdTime())) {
-            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getNotbetween_createdTime());
+            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getNotbetween_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getIn_createdTime())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getIn_createdTime());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getIn_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_createdTime())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getNotin_createdTime());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getNotin_createdTime());
         }
         // updated_time 开始
         if (bo.getEq_updatedTime() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUpdatedTime, bo.getEq_updatedTime());
+            queryWrapper.eq(OrgDepartmentDO::getUpdatedTime, bo.getEq_updatedTime());
         }
         if (bo.getNeq_updatedTime() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUpdatedTime, bo.getNeq_updatedTime());
+            queryWrapper.ne(OrgDepartmentDO::getUpdatedTime, bo.getNeq_updatedTime());
         }
         if (bo.getGt_updatedTime() != null) {
-            queryWrapper.gt(OrgDepartmentDo::getUpdatedTime, bo.getGt_updatedTime());
+            queryWrapper.gt(OrgDepartmentDO::getUpdatedTime, bo.getGt_updatedTime());
         }
         if (bo.getLt_updatedTime() != null) {
-            queryWrapper.lt(OrgDepartmentDo::getUpdatedTime, bo.getLt_updatedTime());
+            queryWrapper.lt(OrgDepartmentDO::getUpdatedTime, bo.getLt_updatedTime());
         }
         if (bo.getEgt_updatedTime() != null) {
-            queryWrapper.ge(OrgDepartmentDo::getUpdatedTime, bo.getEgt_updatedTime());
+            queryWrapper.ge(OrgDepartmentDO::getUpdatedTime, bo.getEgt_updatedTime());
         }
         if (bo.getElt_updatedTime() != null) {
-            queryWrapper.le(OrgDepartmentDo::getUpdatedTime, bo.getElt_updatedTime());
+            queryWrapper.le(OrgDepartmentDO::getUpdatedTime, bo.getElt_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_updatedTime())) {
-            WrapperUtil.between(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getBetween_updatedTime());
+            WrapperUtil.between(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getBetween_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_updatedTime())) {
-            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getNotbetween_updatedTime());
+            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getNotbetween_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getIn_updatedTime())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getIn_updatedTime());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getIn_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_updatedTime())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getNotin_updatedTime());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getNotin_updatedTime());
         }
         // create_user 开始
         if (bo.getEq_createUser() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getCreateUser, bo.getEq_createUser());
+            queryWrapper.eq(OrgDepartmentDO::getCreateUser, bo.getEq_createUser());
         }
         if (bo.getNeq_createUser() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getCreateUser, bo.getNeq_createUser());
+            queryWrapper.ne(OrgDepartmentDO::getCreateUser, bo.getNeq_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getLike_createUser())) {
-            queryWrapper.like(OrgDepartmentDo::getCreateUser, bo.getLike_createUser());
+            queryWrapper.like(OrgDepartmentDO::getCreateUser, bo.getLike_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_createUser())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getCreateUser, bo.getLiker_createUser());
+            queryWrapper.likeRight(OrgDepartmentDO::getCreateUser, bo.getLiker_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_createUser())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getCreateUser, bo.getLikel_createUser());
+            queryWrapper.likeLeft(OrgDepartmentDO::getCreateUser, bo.getLikel_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_createUser())) {
-            queryWrapper.notLike(OrgDepartmentDo::getCreateUser, bo.getNotlike_createUser());
+            queryWrapper.notLike(OrgDepartmentDO::getCreateUser, bo.getNotlike_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getIn_createUser())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getCreateUser, bo.getIn_createUser());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getCreateUser, bo.getIn_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_createUser())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getCreateUser, bo.getNotin_createUser());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getCreateUser, bo.getNotin_createUser());
         }
         // create_user_id 开始
         if (bo.getEq_createUserId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getCreateUserId, bo.getEq_createUserId());
+            queryWrapper.eq(OrgDepartmentDO::getCreateUserId, bo.getEq_createUserId());
         }
         if (bo.getNeq_createUserId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getCreateUserId, bo.getNeq_createUserId());
+            queryWrapper.ne(OrgDepartmentDO::getCreateUserId, bo.getNeq_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_createUserId())) {
-            queryWrapper.like(OrgDepartmentDo::getCreateUserId, bo.getLike_createUserId());
+            queryWrapper.like(OrgDepartmentDO::getCreateUserId, bo.getLike_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_createUserId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getCreateUserId, bo.getLiker_createUserId());
+            queryWrapper.likeRight(OrgDepartmentDO::getCreateUserId, bo.getLiker_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_createUserId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getCreateUserId, bo.getLikel_createUserId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getCreateUserId, bo.getLikel_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_createUserId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getCreateUserId, bo.getNotlike_createUserId());
+            queryWrapper.notLike(OrgDepartmentDO::getCreateUserId, bo.getNotlike_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_createUserId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getCreateUserId, bo.getIn_createUserId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getCreateUserId, bo.getIn_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_createUserId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getCreateUserId, bo.getNotin_createUserId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getCreateUserId, bo.getNotin_createUserId());
         }
         // update_user 开始
         if (bo.getEq_updateUser() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUpdateUser, bo.getEq_updateUser());
+            queryWrapper.eq(OrgDepartmentDO::getUpdateUser, bo.getEq_updateUser());
         }
         if (bo.getNeq_updateUser() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUpdateUser, bo.getNeq_updateUser());
+            queryWrapper.ne(OrgDepartmentDO::getUpdateUser, bo.getNeq_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getLike_updateUser())) {
-            queryWrapper.like(OrgDepartmentDo::getUpdateUser, bo.getLike_updateUser());
+            queryWrapper.like(OrgDepartmentDO::getUpdateUser, bo.getLike_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_updateUser())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getUpdateUser, bo.getLiker_updateUser());
+            queryWrapper.likeRight(OrgDepartmentDO::getUpdateUser, bo.getLiker_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_updateUser())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getUpdateUser, bo.getLikel_updateUser());
+            queryWrapper.likeLeft(OrgDepartmentDO::getUpdateUser, bo.getLikel_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_updateUser())) {
-            queryWrapper.notLike(OrgDepartmentDo::getUpdateUser, bo.getNotlike_updateUser());
+            queryWrapper.notLike(OrgDepartmentDO::getUpdateUser, bo.getNotlike_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getIn_updateUser())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUpdateUser, bo.getIn_updateUser());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUpdateUser, bo.getIn_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_updateUser())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUpdateUser, bo.getNotin_updateUser());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUpdateUser, bo.getNotin_updateUser());
         }
         // update_user_id 开始
         if (bo.getEq_updateUserId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUpdateUserId, bo.getEq_updateUserId());
+            queryWrapper.eq(OrgDepartmentDO::getUpdateUserId, bo.getEq_updateUserId());
         }
         if (bo.getNeq_updateUserId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUpdateUserId, bo.getNeq_updateUserId());
+            queryWrapper.ne(OrgDepartmentDO::getUpdateUserId, bo.getNeq_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_updateUserId())) {
-            queryWrapper.like(OrgDepartmentDo::getUpdateUserId, bo.getLike_updateUserId());
+            queryWrapper.like(OrgDepartmentDO::getUpdateUserId, bo.getLike_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_updateUserId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getUpdateUserId, bo.getLiker_updateUserId());
+            queryWrapper.likeRight(OrgDepartmentDO::getUpdateUserId, bo.getLiker_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_updateUserId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getUpdateUserId, bo.getLikel_updateUserId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getUpdateUserId, bo.getLikel_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_updateUserId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getUpdateUserId, bo.getNotlike_updateUserId());
+            queryWrapper.notLike(OrgDepartmentDO::getUpdateUserId, bo.getNotlike_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_updateUserId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUpdateUserId, bo.getIn_updateUserId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUpdateUserId, bo.getIn_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_updateUserId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUpdateUserId, bo.getNotin_updateUserId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUpdateUserId, bo.getNotin_updateUserId());
         }
 
         return queryWrapper;
@@ -722,346 +722,346 @@ public class OrgDepartmentWrapper
      *
      * @param bo 查询条件
      */
-	 public static JoinLambdaQueryWrapper<OrgDepartmentDo> getJoinLambdaQueryWrapper(OrgDepartmentSearchBo bo) {
-        JoinLambdaQueryWrapper<OrgDepartmentDo> queryWrapper = new JoinLambdaQueryWrapper();
+	 public static JoinLambdaQueryWrapper<OrgDepartmentDO> getJoinLambdaQueryWrapper(OrgDepartmentSearchBO bo) {
+        JoinLambdaQueryWrapper<OrgDepartmentDO> queryWrapper = new JoinLambdaQueryWrapper();
 
         if (bo == null) {
             return queryWrapper;
         }
 
         // 设置数据范围
-        WrapperUtil.setDataScope(queryWrapper, OrgDepartmentDo::getIsDelete, bo.getDataScope());
+        WrapperUtil.setDataScope(queryWrapper, OrgDepartmentDO::getIsDelete, bo.getDataScope());
 
         // department_id 开始
         if (bo.getEq_departmentId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getDepartmentId, bo.getEq_departmentId());
+            queryWrapper.eq(OrgDepartmentDO::getDepartmentId, bo.getEq_departmentId());
         }
         if (bo.getNeq_departmentId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getDepartmentId, bo.getNeq_departmentId());
+            queryWrapper.ne(OrgDepartmentDO::getDepartmentId, bo.getNeq_departmentId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_departmentId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getDepartmentId, bo.getIn_departmentId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getDepartmentId, bo.getIn_departmentId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_departmentId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getDepartmentId, bo.getNotin_departmentId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getDepartmentId, bo.getNotin_departmentId());
         }
         // state 开始
         if (bo.getEq_state() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getState, bo.getEq_state());
+            queryWrapper.eq(OrgDepartmentDO::getState, bo.getEq_state());
         }
         if (bo.getNeq_state() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getState, bo.getNeq_state());
+            queryWrapper.ne(OrgDepartmentDO::getState, bo.getNeq_state());
         }
         if (bo.getGt_state() != null) {
-            queryWrapper.gt(OrgDepartmentDo::getState, bo.getGt_state());
+            queryWrapper.gt(OrgDepartmentDO::getState, bo.getGt_state());
         }
         if (bo.getLt_state() != null) {
-            queryWrapper.lt(OrgDepartmentDo::getState, bo.getLt_state());
+            queryWrapper.lt(OrgDepartmentDO::getState, bo.getLt_state());
         }
         if (bo.getEgt_state() != null) {
-            queryWrapper.ge(OrgDepartmentDo::getState, bo.getEgt_state());
+            queryWrapper.ge(OrgDepartmentDO::getState, bo.getEgt_state());
         }
         if (bo.getElt_state() != null) {
-            queryWrapper.le(OrgDepartmentDo::getState, bo.getElt_state());
+            queryWrapper.le(OrgDepartmentDO::getState, bo.getElt_state());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_state())) {
-            WrapperUtil.between(queryWrapper, OrgDepartmentDo::getState, bo.getBetween_state());
+            WrapperUtil.between(queryWrapper, OrgDepartmentDO::getState, bo.getBetween_state());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_state())) {
-            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDo::getState, bo.getNotbetween_state());
+            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDO::getState, bo.getNotbetween_state());
         }
         if (StringUtil.isNotEmpty(bo.getIn_state())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getState, bo.getIn_state());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getState, bo.getIn_state());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_state())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getState, bo.getNotin_state());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getState, bo.getNotin_state());
         }
         // org_id 开始
         if (bo.getEq_orgId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getOrgId, bo.getEq_orgId());
+            queryWrapper.eq(OrgDepartmentDO::getOrgId, bo.getEq_orgId());
         }
         if (bo.getNeq_orgId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getOrgId, bo.getNeq_orgId());
+            queryWrapper.ne(OrgDepartmentDO::getOrgId, bo.getNeq_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_orgId())) {
-            queryWrapper.like(OrgDepartmentDo::getOrgId, bo.getLike_orgId());
+            queryWrapper.like(OrgDepartmentDO::getOrgId, bo.getLike_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_orgId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getOrgId, bo.getLiker_orgId());
+            queryWrapper.likeRight(OrgDepartmentDO::getOrgId, bo.getLiker_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_orgId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getOrgId, bo.getLikel_orgId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getOrgId, bo.getLikel_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_orgId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getOrgId, bo.getNotlike_orgId());
+            queryWrapper.notLike(OrgDepartmentDO::getOrgId, bo.getNotlike_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_orgId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getOrgId, bo.getIn_orgId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getOrgId, bo.getIn_orgId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_orgId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getOrgId, bo.getNotin_orgId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getOrgId, bo.getNotin_orgId());
         }
         // parent_department_id 开始
         if (bo.getEq_parentDepartmentId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getParentDepartmentId, bo.getEq_parentDepartmentId());
+            queryWrapper.eq(OrgDepartmentDO::getParentDepartmentId, bo.getEq_parentDepartmentId());
         }
         if (bo.getNeq_parentDepartmentId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getParentDepartmentId, bo.getNeq_parentDepartmentId());
+            queryWrapper.ne(OrgDepartmentDO::getParentDepartmentId, bo.getNeq_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_parentDepartmentId())) {
-            queryWrapper.like(OrgDepartmentDo::getParentDepartmentId, bo.getLike_parentDepartmentId());
+            queryWrapper.like(OrgDepartmentDO::getParentDepartmentId, bo.getLike_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_parentDepartmentId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getParentDepartmentId, bo.getLiker_parentDepartmentId());
+            queryWrapper.likeRight(OrgDepartmentDO::getParentDepartmentId, bo.getLiker_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_parentDepartmentId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getParentDepartmentId, bo.getLikel_parentDepartmentId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getParentDepartmentId, bo.getLikel_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_parentDepartmentId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getParentDepartmentId, bo.getNotlike_parentDepartmentId());
+            queryWrapper.notLike(OrgDepartmentDO::getParentDepartmentId, bo.getNotlike_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_parentDepartmentId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getParentDepartmentId, bo.getIn_parentDepartmentId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getParentDepartmentId, bo.getIn_parentDepartmentId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_parentDepartmentId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getParentDepartmentId, bo.getNotin_parentDepartmentId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getParentDepartmentId, bo.getNotin_parentDepartmentId());
         }
         // department_name 开始
         if (bo.getEq_departmentName() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getDepartmentName, bo.getEq_departmentName());
+            queryWrapper.eq(OrgDepartmentDO::getDepartmentName, bo.getEq_departmentName());
         }
         if (bo.getNeq_departmentName() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getDepartmentName, bo.getNeq_departmentName());
+            queryWrapper.ne(OrgDepartmentDO::getDepartmentName, bo.getNeq_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getLike_departmentName())) {
-            queryWrapper.like(OrgDepartmentDo::getDepartmentName, bo.getLike_departmentName());
+            queryWrapper.like(OrgDepartmentDO::getDepartmentName, bo.getLike_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_departmentName())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getDepartmentName, bo.getLiker_departmentName());
+            queryWrapper.likeRight(OrgDepartmentDO::getDepartmentName, bo.getLiker_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_departmentName())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getDepartmentName, bo.getLikel_departmentName());
+            queryWrapper.likeLeft(OrgDepartmentDO::getDepartmentName, bo.getLikel_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_departmentName())) {
-            queryWrapper.notLike(OrgDepartmentDo::getDepartmentName, bo.getNotlike_departmentName());
+            queryWrapper.notLike(OrgDepartmentDO::getDepartmentName, bo.getNotlike_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getIn_departmentName())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getDepartmentName, bo.getIn_departmentName());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getDepartmentName, bo.getIn_departmentName());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_departmentName())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getDepartmentName, bo.getNotin_departmentName());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getDepartmentName, bo.getNotin_departmentName());
         }
         // role_id 开始
         if (bo.getEq_roleId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getRoleId, bo.getEq_roleId());
+            queryWrapper.eq(OrgDepartmentDO::getRoleId, bo.getEq_roleId());
         }
         if (bo.getNeq_roleId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getRoleId, bo.getNeq_roleId());
+            queryWrapper.ne(OrgDepartmentDO::getRoleId, bo.getNeq_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_roleId())) {
-            queryWrapper.like(OrgDepartmentDo::getRoleId, bo.getLike_roleId());
+            queryWrapper.like(OrgDepartmentDO::getRoleId, bo.getLike_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_roleId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getRoleId, bo.getLiker_roleId());
+            queryWrapper.likeRight(OrgDepartmentDO::getRoleId, bo.getLiker_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_roleId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getRoleId, bo.getLikel_roleId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getRoleId, bo.getLikel_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_roleId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getRoleId, bo.getNotlike_roleId());
+            queryWrapper.notLike(OrgDepartmentDO::getRoleId, bo.getNotlike_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_roleId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getRoleId, bo.getIn_roleId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getRoleId, bo.getIn_roleId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_roleId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getRoleId, bo.getNotin_roleId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getRoleId, bo.getNotin_roleId());
         }
         // user_id 开始
         if (bo.getEq_userId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUserId, bo.getEq_userId());
+            queryWrapper.eq(OrgDepartmentDO::getUserId, bo.getEq_userId());
         }
         if (bo.getNeq_userId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUserId, bo.getNeq_userId());
+            queryWrapper.ne(OrgDepartmentDO::getUserId, bo.getNeq_userId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_userId())) {
-            queryWrapper.like(OrgDepartmentDo::getUserId, bo.getLike_userId());
+            queryWrapper.like(OrgDepartmentDO::getUserId, bo.getLike_userId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_userId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getUserId, bo.getLiker_userId());
+            queryWrapper.likeRight(OrgDepartmentDO::getUserId, bo.getLiker_userId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_userId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getUserId, bo.getLikel_userId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getUserId, bo.getLikel_userId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_userId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getUserId, bo.getNotlike_userId());
+            queryWrapper.notLike(OrgDepartmentDO::getUserId, bo.getNotlike_userId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_userId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUserId, bo.getIn_userId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUserId, bo.getIn_userId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_userId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUserId, bo.getNotin_userId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUserId, bo.getNotin_userId());
         }
         // created_time 开始
         if (bo.getEq_createdTime() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getCreatedTime, bo.getEq_createdTime());
+            queryWrapper.eq(OrgDepartmentDO::getCreatedTime, bo.getEq_createdTime());
         }
         if (bo.getNeq_createdTime() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getCreatedTime, bo.getNeq_createdTime());
+            queryWrapper.ne(OrgDepartmentDO::getCreatedTime, bo.getNeq_createdTime());
         }
         if (bo.getGt_createdTime() != null) {
-            queryWrapper.gt(OrgDepartmentDo::getCreatedTime, bo.getGt_createdTime());
+            queryWrapper.gt(OrgDepartmentDO::getCreatedTime, bo.getGt_createdTime());
         }
         if (bo.getLt_createdTime() != null) {
-            queryWrapper.lt(OrgDepartmentDo::getCreatedTime, bo.getLt_createdTime());
+            queryWrapper.lt(OrgDepartmentDO::getCreatedTime, bo.getLt_createdTime());
         }
         if (bo.getEgt_createdTime() != null) {
-            queryWrapper.ge(OrgDepartmentDo::getCreatedTime, bo.getEgt_createdTime());
+            queryWrapper.ge(OrgDepartmentDO::getCreatedTime, bo.getEgt_createdTime());
         }
         if (bo.getElt_createdTime() != null) {
-            queryWrapper.le(OrgDepartmentDo::getCreatedTime, bo.getElt_createdTime());
+            queryWrapper.le(OrgDepartmentDO::getCreatedTime, bo.getElt_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_createdTime())) {
-            WrapperUtil.between(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getBetween_createdTime());
+            WrapperUtil.between(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getBetween_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_createdTime())) {
-            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getNotbetween_createdTime());
+            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getNotbetween_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getIn_createdTime())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getIn_createdTime());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getIn_createdTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_createdTime())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getCreatedTime, bo.getNotin_createdTime());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getCreatedTime, bo.getNotin_createdTime());
         }
         // updated_time 开始
         if (bo.getEq_updatedTime() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUpdatedTime, bo.getEq_updatedTime());
+            queryWrapper.eq(OrgDepartmentDO::getUpdatedTime, bo.getEq_updatedTime());
         }
         if (bo.getNeq_updatedTime() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUpdatedTime, bo.getNeq_updatedTime());
+            queryWrapper.ne(OrgDepartmentDO::getUpdatedTime, bo.getNeq_updatedTime());
         }
         if (bo.getGt_updatedTime() != null) {
-            queryWrapper.gt(OrgDepartmentDo::getUpdatedTime, bo.getGt_updatedTime());
+            queryWrapper.gt(OrgDepartmentDO::getUpdatedTime, bo.getGt_updatedTime());
         }
         if (bo.getLt_updatedTime() != null) {
-            queryWrapper.lt(OrgDepartmentDo::getUpdatedTime, bo.getLt_updatedTime());
+            queryWrapper.lt(OrgDepartmentDO::getUpdatedTime, bo.getLt_updatedTime());
         }
         if (bo.getEgt_updatedTime() != null) {
-            queryWrapper.ge(OrgDepartmentDo::getUpdatedTime, bo.getEgt_updatedTime());
+            queryWrapper.ge(OrgDepartmentDO::getUpdatedTime, bo.getEgt_updatedTime());
         }
         if (bo.getElt_updatedTime() != null) {
-            queryWrapper.le(OrgDepartmentDo::getUpdatedTime, bo.getElt_updatedTime());
+            queryWrapper.le(OrgDepartmentDO::getUpdatedTime, bo.getElt_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getBetween_updatedTime())) {
-            WrapperUtil.between(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getBetween_updatedTime());
+            WrapperUtil.between(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getBetween_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotbetween_updatedTime())) {
-            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getNotbetween_updatedTime());
+            WrapperUtil.notBetween(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getNotbetween_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getIn_updatedTime())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getIn_updatedTime());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getIn_updatedTime());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_updatedTime())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUpdatedTime, bo.getNotin_updatedTime());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUpdatedTime, bo.getNotin_updatedTime());
         }
         // create_user 开始
         if (bo.getEq_createUser() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getCreateUser, bo.getEq_createUser());
+            queryWrapper.eq(OrgDepartmentDO::getCreateUser, bo.getEq_createUser());
         }
         if (bo.getNeq_createUser() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getCreateUser, bo.getNeq_createUser());
+            queryWrapper.ne(OrgDepartmentDO::getCreateUser, bo.getNeq_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getLike_createUser())) {
-            queryWrapper.like(OrgDepartmentDo::getCreateUser, bo.getLike_createUser());
+            queryWrapper.like(OrgDepartmentDO::getCreateUser, bo.getLike_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_createUser())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getCreateUser, bo.getLiker_createUser());
+            queryWrapper.likeRight(OrgDepartmentDO::getCreateUser, bo.getLiker_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_createUser())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getCreateUser, bo.getLikel_createUser());
+            queryWrapper.likeLeft(OrgDepartmentDO::getCreateUser, bo.getLikel_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_createUser())) {
-            queryWrapper.notLike(OrgDepartmentDo::getCreateUser, bo.getNotlike_createUser());
+            queryWrapper.notLike(OrgDepartmentDO::getCreateUser, bo.getNotlike_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getIn_createUser())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getCreateUser, bo.getIn_createUser());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getCreateUser, bo.getIn_createUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_createUser())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getCreateUser, bo.getNotin_createUser());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getCreateUser, bo.getNotin_createUser());
         }
         // create_user_id 开始
         if (bo.getEq_createUserId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getCreateUserId, bo.getEq_createUserId());
+            queryWrapper.eq(OrgDepartmentDO::getCreateUserId, bo.getEq_createUserId());
         }
         if (bo.getNeq_createUserId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getCreateUserId, bo.getNeq_createUserId());
+            queryWrapper.ne(OrgDepartmentDO::getCreateUserId, bo.getNeq_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_createUserId())) {
-            queryWrapper.like(OrgDepartmentDo::getCreateUserId, bo.getLike_createUserId());
+            queryWrapper.like(OrgDepartmentDO::getCreateUserId, bo.getLike_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_createUserId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getCreateUserId, bo.getLiker_createUserId());
+            queryWrapper.likeRight(OrgDepartmentDO::getCreateUserId, bo.getLiker_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_createUserId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getCreateUserId, bo.getLikel_createUserId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getCreateUserId, bo.getLikel_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_createUserId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getCreateUserId, bo.getNotlike_createUserId());
+            queryWrapper.notLike(OrgDepartmentDO::getCreateUserId, bo.getNotlike_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_createUserId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getCreateUserId, bo.getIn_createUserId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getCreateUserId, bo.getIn_createUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_createUserId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getCreateUserId, bo.getNotin_createUserId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getCreateUserId, bo.getNotin_createUserId());
         }
         // update_user 开始
         if (bo.getEq_updateUser() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUpdateUser, bo.getEq_updateUser());
+            queryWrapper.eq(OrgDepartmentDO::getUpdateUser, bo.getEq_updateUser());
         }
         if (bo.getNeq_updateUser() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUpdateUser, bo.getNeq_updateUser());
+            queryWrapper.ne(OrgDepartmentDO::getUpdateUser, bo.getNeq_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getLike_updateUser())) {
-            queryWrapper.like(OrgDepartmentDo::getUpdateUser, bo.getLike_updateUser());
+            queryWrapper.like(OrgDepartmentDO::getUpdateUser, bo.getLike_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_updateUser())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getUpdateUser, bo.getLiker_updateUser());
+            queryWrapper.likeRight(OrgDepartmentDO::getUpdateUser, bo.getLiker_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_updateUser())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getUpdateUser, bo.getLikel_updateUser());
+            queryWrapper.likeLeft(OrgDepartmentDO::getUpdateUser, bo.getLikel_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_updateUser())) {
-            queryWrapper.notLike(OrgDepartmentDo::getUpdateUser, bo.getNotlike_updateUser());
+            queryWrapper.notLike(OrgDepartmentDO::getUpdateUser, bo.getNotlike_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getIn_updateUser())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUpdateUser, bo.getIn_updateUser());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUpdateUser, bo.getIn_updateUser());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_updateUser())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUpdateUser, bo.getNotin_updateUser());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUpdateUser, bo.getNotin_updateUser());
         }
         // update_user_id 开始
         if (bo.getEq_updateUserId() != null) {
-            queryWrapper.eq(OrgDepartmentDo::getUpdateUserId, bo.getEq_updateUserId());
+            queryWrapper.eq(OrgDepartmentDO::getUpdateUserId, bo.getEq_updateUserId());
         }
         if (bo.getNeq_updateUserId() != null) {
-            queryWrapper.ne(OrgDepartmentDo::getUpdateUserId, bo.getNeq_updateUserId());
+            queryWrapper.ne(OrgDepartmentDO::getUpdateUserId, bo.getNeq_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLike_updateUserId())) {
-            queryWrapper.like(OrgDepartmentDo::getUpdateUserId, bo.getLike_updateUserId());
+            queryWrapper.like(OrgDepartmentDO::getUpdateUserId, bo.getLike_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLiker_updateUserId())) {
-            queryWrapper.likeRight(OrgDepartmentDo::getUpdateUserId, bo.getLiker_updateUserId());
+            queryWrapper.likeRight(OrgDepartmentDO::getUpdateUserId, bo.getLiker_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getLikel_updateUserId())) {
-            queryWrapper.likeLeft(OrgDepartmentDo::getUpdateUserId, bo.getLikel_updateUserId());
+            queryWrapper.likeLeft(OrgDepartmentDO::getUpdateUserId, bo.getLikel_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotlike_updateUserId())) {
-            queryWrapper.notLike(OrgDepartmentDo::getUpdateUserId, bo.getNotlike_updateUserId());
+            queryWrapper.notLike(OrgDepartmentDO::getUpdateUserId, bo.getNotlike_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getIn_updateUserId())) {
-            WrapperUtil.in(queryWrapper, OrgDepartmentDo::getUpdateUserId, bo.getIn_updateUserId());
+            WrapperUtil.in(queryWrapper, OrgDepartmentDO::getUpdateUserId, bo.getIn_updateUserId());
         }
         if (StringUtil.isNotEmpty(bo.getNotin_updateUserId())) {
-            WrapperUtil.notIn(queryWrapper, OrgDepartmentDo::getUpdateUserId, bo.getNotin_updateUserId());
+            WrapperUtil.notIn(queryWrapper, OrgDepartmentDO::getUpdateUserId, bo.getNotin_updateUserId());
         }
 
         return queryWrapper;

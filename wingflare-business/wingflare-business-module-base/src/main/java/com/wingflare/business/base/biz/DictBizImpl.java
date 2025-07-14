@@ -7,16 +7,16 @@ import com.wingflare.abstraction.module.base.DictStorage;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.constants.BaseEventName;
 import com.wingflare.business.base.convert.DictConvert;
-import com.wingflare.business.base.db.DictDo;
+import com.wingflare.business.base.db.DictDO;
 import com.wingflare.business.base.service.DictServer;
 import com.wingflare.business.base.wrapper.DictWrapper;
 import com.wingflare.facade.module.base.biz.DictBiz;
-import com.wingflare.facade.module.base.bo.DictBo;
-import com.wingflare.facade.module.base.bo.DictSearchBo;
+import com.wingflare.facade.module.base.bo.DictBO;
+import com.wingflare.facade.module.base.bo.DictSearchBO;
 import com.wingflare.facade.module.base.constants.Base;
 import com.wingflare.facade.module.base.dict.DictTypes;
-import com.wingflare.facade.module.base.dto.DictDto;
-import com.wingflare.facade.module.base.dto.SimpleDictDto;
+import com.wingflare.facade.module.base.dto.DictDTO;
+import com.wingflare.facade.module.base.dto.SimpleDictDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
@@ -77,11 +77,11 @@ public class DictBizImpl implements DictBiz {
      * 查询系统字典列表
      */
     @Override
-    public PageDto<DictDto> list(@Valid DictSearchBo bo) {
-        LambdaQueryWrapper<DictDo> queryWrapper = DictWrapper.getLambdaQueryWrapper(bo);
-        queryWrapper.orderByDesc(DictDo::getDictId);
+    public PageDto<DictDTO> list(@Valid DictSearchBO bo) {
+        LambdaQueryWrapper<DictDO> queryWrapper = DictWrapper.getLambdaQueryWrapper(bo);
+        queryWrapper.orderByDesc(DictDO::getDictId);
 
-        IPage<DictDo> iPage = dictServer.page(
+        IPage<DictDO> iPage = dictServer.page(
                 dictServer.createPage(bo),
                 queryWrapper
         );
@@ -94,7 +94,7 @@ public class DictBizImpl implements DictBiz {
      * 查询系统字典详情
      */
     @Override
-    public DictDto get(@Valid @NotNull IdBo bo) {
+    public DictDTO get(@Valid @NotNull IdBo bo) {
         return DictConvert.convert.doToDto(
                 dictServer.getById(bo.getId()));
     }
@@ -103,7 +103,7 @@ public class DictBizImpl implements DictBiz {
      * 通过条件查询单个系统字典详情
      */
     @Override
-    public DictDto getOnlyOne(@Valid @NotNull DictSearchBo searchBo) {
+    public DictDTO getOnlyOne(@Valid @NotNull DictSearchBO searchBo) {
         return DictConvert.convert.doToDto(
                 dictServer.getOne(
                         DictWrapper.getLambdaQueryWrapper(searchBo)
@@ -115,13 +115,13 @@ public class DictBizImpl implements DictBiz {
      */
     @Override
     public void delete(@Valid @NotNull IdBo bo) {
-        DictDto ret = transactionTemplate.execute(status -> {
-            DictDto dictDto = null;
-            DictDo dictDo = dictServer.getById(bo.getId());
+        DictDTO ret = transactionTemplate.execute(status -> {
+            DictDTO dictDto = null;
+            DictDO dictDo = dictServer.getById(bo.getId());
             if (dictDo != null) {
                 if (DictTypes.DIRECTORY.getValue().equals(dictDo.getDictType())) {
                     Assert.isFalse(
-                            has(new DictSearchBo()
+                            has(new DictSearchBO()
                                     .setEq_dictCode(dictDo.getDictCode())
                                     .setEq_dictType(DictTypes.ELEMENT.getValue())
                             ), ErrorCode.SYS_DICT_NOT_DELETE);
@@ -148,12 +148,12 @@ public class DictBizImpl implements DictBiz {
      */
     @Override
     @Validated({Default.class, Create.class})
-    public DictDto create(@Valid @NotNull DictBo bo) {
-        DictDto ret = transactionTemplate.execute(status -> {
+    public DictDTO create(@Valid @NotNull DictBO bo) {
+        DictDTO ret = transactionTemplate.execute(status -> {
             checkDictCanSave(bo, null);
-            DictDo dictDo = DictConvert.convert.boToDo(bo);
+            DictDO dictDo = DictConvert.convert.boToDo(bo);
             Assert.isTrue(dictServer.save(dictDo), ErrorCode.SYS_DICT_CREATE_ERROR);
-            DictDto dictDto = DictConvert.convert.doToDto(dictDo);
+            DictDTO dictDto = DictConvert.convert.doToDto(dictDo);
             eventUtil.publishEvent(BaseEventName.DICT_CREATE, bo, dictDto);
             return dictDto;
         });
@@ -172,31 +172,31 @@ public class DictBizImpl implements DictBiz {
      */
     @Override
     @Validated({Default.class, Update.class})
-    public DictDto update(@Valid @NotNull DictBo bo) {
-        AtomicReference<DictDto> oldDictDto = new AtomicReference<>(null);
-        DictDto ret = transactionTemplate.execute(status -> {
-            DictDo oldDictDo = dictServer.getById(bo.getDictId());
-            DictDto dictDto = null;
+    public DictDTO update(@Valid @NotNull DictBO bo) {
+        AtomicReference<DictDTO> oldDictDto = new AtomicReference<>(null);
+        DictDTO ret = transactionTemplate.execute(status -> {
+            DictDO oldDictDO = dictServer.getById(bo.getDictId());
+            DictDTO dictDto = null;
 
-            if (oldDictDo == null) {
+            if (oldDictDO == null) {
                 throw new DataNotFoundException("dict.data.notfound");
             }
 
             Builder.of(() -> bo)
-                    .with(DictBo::setDictCode, null)
-                    .with(DictBo::setDictType, null)
+                    .with(DictBO::setDictCode, null)
+                    .with(DictBO::setDictType, null)
                     .build();
-            checkDictCanSave(bo, oldDictDo);
-            DictDo dictDo = DictConvert.convert.boToDo(bo);
-            DictDo oldField = oldDictDo.setOnNew(dictDo);
+            checkDictCanSave(bo, oldDictDO);
+            DictDO dictDo = DictConvert.convert.boToDo(bo);
+            DictDO oldField = oldDictDO.setOnNew(dictDo);
 
             if (oldField != null) {
                 oldDictDto.set(DictConvert.convert.doToDto(oldField));
-                Assert.isTrue(dictServer.updateById(oldDictDo), ErrorCode.SYS_DICT_UPDATE_ERROR);
-                dictDto = DictConvert.convert.doToDto(oldDictDo);
+                Assert.isTrue(dictServer.updateById(oldDictDO), ErrorCode.SYS_DICT_UPDATE_ERROR);
+                dictDto = DictConvert.convert.doToDto(oldDictDO);
                 eventUtil.publishEvent(BaseEventName.DICT_UPDATE, oldDictDto.get(), dictDto);
             } else {
-                dictDto = DictConvert.convert.doToDto(oldDictDo);
+                dictDto = DictConvert.convert.doToDto(oldDictDO);
             }
 
             return dictDto;
@@ -218,36 +218,36 @@ public class DictBizImpl implements DictBiz {
      */
     @Override
     public void refresh() {
-        List<DictDo> dictDoList = dictServer
-                .list(DictWrapper.getLambdaQueryWrapper(new DictSearchBo()
+        List<DictDO> dictDOList = dictServer
+                .list(DictWrapper.getLambdaQueryWrapper(new DictSearchBO()
                         .setEq_state(OnOffEnum.ON.getValue())
                 ));
 
-        List<SimpleDictDto> simpleDictDtoList = new ArrayList<>();
+        List<SimpleDictDTO> simpleDictDTOList = new ArrayList<>();
         List<String> enableDictCode = new ArrayList<>();
 
-        if (CollectionUtil.isNotEmpty(dictDoList)) {
-            dictDoList.forEach((item) -> {
+        if (CollectionUtil.isNotEmpty(dictDOList)) {
+            dictDOList.forEach((item) -> {
                 if (DictTypes.DIRECTORY.getValue().equals(item.getDictType())
                         && OnOffEnum.ON.getValue().equals(item.getState())) {
                     enableDictCode.add(item.getDictCode());
                 }
             });
 
-            dictDoList.forEach(item -> {
+            dictDOList.forEach(item -> {
                 if (OnOffEnum.ON.getValue().equals(item.getState())) {
                     if (DictTypes.ELEMENT.getValue().equals(item.getDictType())) {
                         if (enableDictCode.contains(item.getDictCode())) {
-                            simpleDictDtoList.add(DictConvert.convert.doToSimpleDto(item));
+                            simpleDictDTOList.add(DictConvert.convert.doToSimpleDto(item));
                         }
                     } else {
-                        simpleDictDtoList.add(DictConvert.convert.doToSimpleDto(item));
+                        simpleDictDTOList.add(DictConvert.convert.doToSimpleDto(item));
                     }
                 }
             });
 
-            simpleDictDtoList.sort((d1, d2) -> (d2.getSort() - d1.getSort()));
-            Long flag = dictStorage.save(simpleDictDtoList.toArray(new SimpleDictDto[0]));
+            simpleDictDTOList.sort((d1, d2) -> (d2.getSort() - d1.getSort()));
+            Long flag = dictStorage.save(simpleDictDTOList.toArray(new SimpleDictDTO[0]));
             Assert.isTrue(flag != null && flag.compareTo(0L) > 0, ErrorCode.SYS_DICT_REFRESH_ERROR);
         }
     }
@@ -258,7 +258,7 @@ public class DictBizImpl implements DictBiz {
      * @return
      */
     @Override
-    public List<SimpleDictDto> getAllDictByCache() {
+    public List<SimpleDictDTO> getAllDictByCache() {
         return cacheService.getCacheList(Base.DICT_CACHE_KEY);
     }
 
@@ -267,17 +267,17 @@ public class DictBizImpl implements DictBiz {
      *
      * @param bo
      */
-    private void checkDictCanSave(DictBo bo, DictDo oldDo) {
+    private void checkDictCanSave(DictBO bo, DictDO oldDo) {
         if (oldDo == null) {
             Assert.isFalse(has(
-                    new DictSearchBo()
+                    new DictSearchBO()
                             .setEq_dictType(bo.getDictType())
                             .setEq_dictCode(bo.getDictCode())
                             .setEq_dictName(bo.getDictName())
             ), ErrorCode.SYS_DICT_NAME_REPEAT);
 
             Assert.isFalse(has(
-                    new DictSearchBo()
+                    new DictSearchBO()
                             .setEq_dictType(bo.getDictType())
                             .setEq_dictCode(bo.getDictCode())
                             .setEq_dictValue(bo.getDictValue())
@@ -285,13 +285,13 @@ public class DictBizImpl implements DictBiz {
 
             if (DictTypes.DIRECTORY.getValue().equals(bo.getDictType())) {
                 Assert.isFalse(has(
-                        new DictSearchBo()
+                        new DictSearchBO()
                                 .setEq_dictCode(bo.getDictCode())
                                 .setEq_dictType(bo.getDictType())
                 ), ErrorCode.SYS_DICT_REPEAT);
             } else {
                 Assert.isTrue(has(
-                        new DictSearchBo()
+                        new DictSearchBO()
                                 .setEq_dictCode(bo.getDictCode())
                                 .setEq_dictType(DictTypes.DIRECTORY.getValue())
                 ), () -> new BusinessLogicException(ErrorCode.SYS_DICT_NOTFOUND, bo.getDictCode()));
@@ -301,7 +301,7 @@ public class DictBizImpl implements DictBiz {
                     .ifPresent(name -> {
                         if (!name.equals(oldDo.getDictName())) {
                             Assert.isFalse(has(
-                                    new DictSearchBo()
+                                    new DictSearchBO()
                                             .setEq_dictType(oldDo.getDictType())
                                             .setEq_dictCode(oldDo.getDictCode())
                                             .setEq_dictName(bo.getDictName())
@@ -314,7 +314,7 @@ public class DictBizImpl implements DictBiz {
                     .ifPresent(value -> {
                         if (!value.equals(oldDo.getDictValue())) {
                             Assert.isFalse(has(
-                                    new DictSearchBo()
+                                    new DictSearchBO()
                                             .setEq_dictType(oldDo.getDictType())
                                             .setEq_dictCode(oldDo.getDictCode())
                                             .setEq_dictValue(bo.getDictValue())
@@ -331,7 +331,7 @@ public class DictBizImpl implements DictBiz {
      * @param bo 查询参数
      * @return 系统字典
      */
-    public boolean has(DictSearchBo bo) {
+    public boolean has(DictSearchBO bo) {
         return dictServer.has(
                 DictWrapper.getLambdaQueryWrapper(bo)
         );

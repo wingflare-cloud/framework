@@ -1,7 +1,7 @@
 package com.wingflare.business.user.convert;
 
-import com.wingflare.business.user.db.RoleUserDo;
-import com.wingflare.facade.module.user.dto.RoleUserDto;
+import com.wingflare.business.user.db.RoleUserDO;
+import com.wingflare.facade.module.user.dto.RoleUserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -12,6 +12,6 @@ public interface RoleUserDoConvert {
 
     RoleUserDoConvert convert = Mappers.getMapper(RoleUserDoConvert.class);
 
-    List<RoleUserDto> doToDtoList(List<RoleUserDo> userDoList);
+    List<RoleUserDTO> doToDtoList(List<RoleUserDO> userDoList);
 
 }

@@ -1,7 +1,7 @@
 package com.wingflare.business.user.mapper;
 
 
-import com.wingflare.business.user.db.JobLevelDo;
+import com.wingflare.business.user.db.JobLevelDO;
 import com.wingflare.lib.mybatis.plus.base.CustomMapper;
 
 /**
@@ -10,7 +10,7 @@ import com.wingflare.lib.mybatis.plus.base.CustomMapper;
  * @author naizui_ycx
  * @date Fri Mar 10 15:42:34 CST 2023
  */
-public interface JobLevelMapper extends CustomMapper<JobLevelDo>
+public interface JobLevelMapper extends CustomMapper<JobLevelDO>
 {
 
 }

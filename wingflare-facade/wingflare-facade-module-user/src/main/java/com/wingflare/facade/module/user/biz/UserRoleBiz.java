@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.biz;
 
 
-import com.wingflare.facade.module.user.bo.UserSearchBo;
-import com.wingflare.facade.module.user.dto.RoleUserDto;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.dto.RoleUserDTO;
 import com.wingflare.lib.standard.PageDto;
 import org.springframework.validation.annotation.Validated;
 
@@ -21,6 +21,6 @@ import jakarta.validation.constraints.NotNull;
 public interface UserRoleBiz {
 
 
-    PageDto<RoleUserDto> getUserList(@Valid @NotNull UserSearchBo userSearchBo);
+    PageDto<RoleUserDTO> getUserList(@Valid @NotNull UserSearchBO userSearchBo);
 
 }

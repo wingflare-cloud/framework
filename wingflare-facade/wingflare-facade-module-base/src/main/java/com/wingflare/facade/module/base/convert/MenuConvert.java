@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.base.convert;
 
 
-import com.wingflare.facade.module.base.bo.MenuBo;
-import com.wingflare.facade.module.base.dto.MenuDto;
+import com.wingflare.facade.module.base.bo.MenuBO;
+import com.wingflare.facade.module.base.dto.MenuDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,11 +20,11 @@ public interface MenuConvert
 {
 	MenuConvert convert = Mappers.getMapper(MenuConvert.class);
 
-	MenuBo dtoToBo(MenuDto menuDto);
+	MenuBO dtoToBo(MenuDTO menuDto);
 
-	MenuDto boToDto(MenuBo menuBo);
+	MenuDTO boToDto(MenuBO menuBo);
 
-	List<MenuBo> dtoToBoList(List<MenuDto> menuDtoList);
+	List<MenuBO> dtoToBoList(List<MenuDTO> menuDTOList);
 
-	List<MenuDto> boToDtoList(List<MenuBo> menuBoList);
+	List<MenuDTO> boToDtoList(List<MenuBO> menuBOList);
 }

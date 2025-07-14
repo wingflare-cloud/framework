@@ -1,8 +1,8 @@
 package com.wingflare.business.user.convert;
 
-import com.wingflare.business.user.db.UserRoleDo;
-import com.wingflare.facade.module.user.bo.UserRoleBo;
-import com.wingflare.facade.module.user.dto.UserRoleDto;
+import com.wingflare.business.user.db.UserRoleDO;
+import com.wingflare.facade.module.user.bo.UserRoleBO;
+import com.wingflare.facade.module.user.dto.UserRoleDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,20 +22,20 @@ public interface UserRoleConvert extends com.wingflare.facade.module.user.conver
 
     UserRoleConvert convert = Mappers.getMapper(UserRoleConvert.class);
 
-    UserRoleBo doToBo(UserRoleDo userRoleDo);
+    UserRoleBO doToBo(UserRoleDO userRoleDo);
 
-    UserRoleDto doToDto(UserRoleDo userRoleDo);
+    UserRoleDTO doToDto(UserRoleDO userRoleDo);
 
-    UserRoleDo boToDo(UserRoleBo userRoleBo);
+    UserRoleDO boToDo(UserRoleBO userRoleBo);
 
-    UserRoleDo dtoToDo(UserRoleDto userRoleDto);
+    UserRoleDO dtoToDo(UserRoleDTO userRoleDto);
 
-    List<UserRoleBo> doToBoList(List<UserRoleDo> userRoleDoList);
+    List<UserRoleBO> doToBoList(List<UserRoleDO> userRoleDOList);
 
-    List<UserRoleDto> doToDtoList(List<UserRoleDo> userRoleDoList);
+    List<UserRoleDTO> doToDtoList(List<UserRoleDO> userRoleDOList);
 
-    List<UserRoleDo> boToDoList(List<UserRoleBo> userRoleBoList);
+    List<UserRoleDO> boToDoList(List<UserRoleBO> userRoleBOList);
 
-    List<UserRoleDo> dtoToDoList(List<UserRoleDto> userRoleDtoList);
+    List<UserRoleDO> dtoToDoList(List<UserRoleDTO> userRoleDTOList);
 
 }

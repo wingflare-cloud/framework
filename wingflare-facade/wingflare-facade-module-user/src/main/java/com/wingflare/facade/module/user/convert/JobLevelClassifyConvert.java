@@ -1,7 +1,7 @@
 package com.wingflare.facade.module.user.convert;
 
-import com.wingflare.facade.module.user.bo.JobLevelClassifyBo;
-import com.wingflare.facade.module.user.dto.JobLevelClassifyDto;
+import com.wingflare.facade.module.user.bo.JobLevelClassifyBO;
+import com.wingflare.facade.module.user.dto.JobLevelClassifyDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,12 +20,12 @@ public interface JobLevelClassifyConvert {
 
     JobLevelClassifyConvert convert = Mappers.getMapper(JobLevelClassifyConvert.class);
 
-    JobLevelClassifyBo dtoToBo(JobLevelClassifyDto jobLevelClassifyDto);
+    JobLevelClassifyBO dtoToBo(JobLevelClassifyDTO jobLevelClassifyDto);
 
-    JobLevelClassifyDto boToDto(JobLevelClassifyBo jobLevelClassifyBo);
+    JobLevelClassifyDTO boToDto(JobLevelClassifyBO jobLevelClassifyBo);
 
-    List<JobLevelClassifyBo> dtoToBoList(List<JobLevelClassifyDto> jobLevelClassifyDtoList);
+    List<JobLevelClassifyBO> dtoToBoList(List<JobLevelClassifyDTO> jobLevelClassifyDTOList);
 
-    List<JobLevelClassifyDto> boToDtoList(List<JobLevelClassifyBo> jobLevelClassifyBoList);
+    List<JobLevelClassifyDTO> boToDtoList(List<JobLevelClassifyBO> jobLevelClassifyBOList);
 
 }

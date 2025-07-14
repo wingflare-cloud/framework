@@ -2,11 +2,11 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.facade.module.user.biz.UserBiz;
-import com.wingflare.facade.module.user.bo.UpdatePasswdBo;
-import com.wingflare.facade.module.user.bo.UserBindRoleBo;
-import com.wingflare.facade.module.user.bo.UserBo;
-import com.wingflare.facade.module.user.bo.UserSearchBo;
-import com.wingflare.facade.module.user.dto.UserDto;
+import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
+import com.wingflare.facade.module.user.bo.UserBindRoleBO;
+import com.wingflare.facade.module.user.bo.UserBO;
+import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
@@ -42,7 +42,7 @@ public class UserController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_VIEW)
 	@BusinessSystem("base")
-    public PageDto<UserDto> list(UserSearchBo bo)
+    public PageDto<UserDTO> list(UserSearchBO bo)
     {
 		return userBiz.list(bo);
     }
@@ -54,7 +54,7 @@ public class UserController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_VIEW)
 	@BusinessSystem("base")
-	public UserDto get(IdBo bo)
+	public UserDTO get(IdBo bo)
 	{
 		return userBiz.get(bo);
 	}
@@ -66,7 +66,7 @@ public class UserController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_VIEW)
 	@BusinessSystem("base")
-	public UserDto getOnlyOne(UserSearchBo searchBo)
+	public UserDTO getOnlyOne(UserSearchBO searchBo)
 	{
 		return userBiz.getOnlyOne(searchBo);
 	}
@@ -79,7 +79,7 @@ public class UserController
 	@Secret
 	@RequiresPermissions(PermissionCode.USER_CREATE)
 	@BusinessSystem("base")
-	public UserDto create(@Secret @RequestBody UserBo bo)
+	public UserDTO create(@Secret @RequestBody UserBO bo)
 	{
 		return userBiz.create(bo);
 	}
@@ -91,7 +91,7 @@ public class UserController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_UPDATE)
 	@BusinessSystem("base")
-	public UserDto update(@RequestBody UserBo bo)
+	public UserDTO update(@RequestBody UserBO bo)
 	{
 		return userBiz.update(bo);
 	}
@@ -103,7 +103,7 @@ public class UserController
 	@ResponseBody
 	@RequiresPermissions(PermissionCode.USER_DELETE)
 	@BusinessSystem("base")
-	public UserDto delete(@RequestBody IdBo bo)
+	public UserDTO delete(@RequestBody IdBo bo)
 	{
 		return userBiz.delete(bo);
 	}
@@ -114,7 +114,7 @@ public class UserController
 	@RequestMapping(value = "/getUserByLoginName", method = {RequestMethod.GET})
 	@ResponseBody
 	@InternalApi
-	public UserDto getUserByLoginName(@RequestParam(value = "loginName") String loginName)
+	public UserDTO getUserByLoginName(@RequestParam(value = "loginName") String loginName)
 	{
 		return userBiz.getUserByLoginName(loginName);
 	}
@@ -125,7 +125,7 @@ public class UserController
 	@RequestMapping(value = "/updatePasswd", method = {RequestMethod.PUT})
 	@ResponseBody
 	@Secret
-	public void updatePasswd(@Secret @RequestBody UpdatePasswdBo bo)
+	public void updatePasswd(@Secret @RequestBody UpdatePasswdBO bo)
 	{
 		userBiz.updatePasswd(bo);
 	}
@@ -135,7 +135,7 @@ public class UserController
 	 */
 	@RequestMapping(value = "/role/bind", method = {RequestMethod.PUT})
 	@ResponseBody
-	public void userBindRole(@RequestBody UserBindRoleBo bo)
+	public void userBindRole(@RequestBody UserBindRoleBO bo)
 	{
 		userBiz.userBindRole(bo);
 	}
