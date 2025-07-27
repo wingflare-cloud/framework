@@ -18,7 +18,9 @@
         <module>wingflare-adapter-module-auth-nosql-redis</module>
         <module>wingflare-adapter-module-user-nosql-redis</module>
         <module>wingflare-adapter-module-base-nosql-redis</module>
-        <module>wingflare-adapter-spring-server-web</module>
+        <module>wingflare-adapter-spring-servlet-web</module>
+        <module>wingflare-adapter-spring-servlet-session</module>
+        <module>wingflare-adapter-spring-webflux-session</module>
     </modules>
 
     <dependencyManagement>

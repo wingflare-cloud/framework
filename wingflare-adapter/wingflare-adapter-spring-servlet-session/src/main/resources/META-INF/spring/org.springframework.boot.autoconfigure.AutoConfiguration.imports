@@ -1,0 +1,2 @@
+com.wingflare.adapter.spring.servlet.session.WingFlareHttpSession
+com.wingflare.adapter.spring.servlet.session.SessionInitializationFilter

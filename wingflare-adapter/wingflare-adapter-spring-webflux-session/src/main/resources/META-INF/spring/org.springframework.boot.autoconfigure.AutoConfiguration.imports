@@ -1,0 +1,2 @@
+com.wingflare.adapter.spring.webflux.session.WebFluxSessionConfig
+com.wingflare.adapter.spring.webflux.session.SessionInitializationFilter
