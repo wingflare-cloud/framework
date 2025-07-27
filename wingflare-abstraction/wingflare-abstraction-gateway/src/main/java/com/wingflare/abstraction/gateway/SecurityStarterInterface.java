@@ -1,4 +1,4 @@
-package com.wingflare.facade.gateway;
+package com.wingflare.abstraction.gateway;
 
 public interface SecurityStarterInterface {
 }

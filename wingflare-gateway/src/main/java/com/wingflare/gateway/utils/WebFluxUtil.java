@@ -98,18 +98,15 @@ public class WebFluxUtil {
         return response.writeWith(Mono.empty());
     }
 
-
-    public static String getClientIp(ServerHttpRequest request) {
-        // 首先尝试从X-Forwarded-For头部获取IP地址
-        List<String> forwardedFor = request.getHeaders().get("X-Forwarded-For");
-        if (forwardedFor != null && !forwardedFor.isEmpty()) {
-            // X-Forwarded-For可能包含多个由逗号和空格分隔的IP地址，第一个是原始客户端的IP地址
-            return forwardedFor.get(0).split(",")[0].trim();
+    public static void addHeader(ServerHttpRequest.Builder mutate, String name, String value) {
+        if (value == null) {
+            return;
         }
+        mutate.header(name, value);
+    }
 
-        // 如果没有X-Forwarded-For头部，则尝试获取Remote Address
-        return request.getRemoteAddress() != null ?
-                request.getRemoteAddress().getAddress().getHostAddress() : null;
+    public static void removeHeader(ServerHttpRequest.Builder mutate, String name) {
+        mutate.headers(httpHeaders -> httpHeaders.remove(name)).build();
     }
 
 }

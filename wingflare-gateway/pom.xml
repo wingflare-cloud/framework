@@ -14,7 +14,6 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
     </properties>
 
     <dependencyManagement>
@@ -71,7 +70,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-facade-gateway</artifactId>
+            <artifactId>wingflare-abstraction-gateway</artifactId>
         </dependency>
 
         <dependency>
@@ -94,14 +93,11 @@
             <artifactId>wingflare-lib-jwt</artifactId>
         </dependency>
 
+        <!-- Spring session -->
         <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-captcha</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-webflux-session</artifactId>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-core</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

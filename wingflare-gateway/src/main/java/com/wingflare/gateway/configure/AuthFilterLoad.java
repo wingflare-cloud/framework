@@ -1,7 +1,7 @@
 package com.wingflare.gateway.configure;
 
 
-import com.wingflare.facade.gateway.SecurityStarterInterface;
+import com.wingflare.abstraction.gateway.SecurityStarterInterface;
 import com.wingflare.gateway.filter.AuthFilter;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 package com.wingflare.gateway.filter;
 
 
-import com.wingflare.gateway.utils.MutateUtil;
+import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
 import com.wingflare.lib.standard.Ctx;
@@ -49,7 +49,7 @@ public class SecHeaderFilter implements GlobalFilter, Ordered {
             // 在全局上下文信息内但不在客户端可以传递上下文信息白名单的上下文信息全部移除，防止客户端伪造上下文信息引发安全问题
             for (Map.Entry<String, String> key : systemContextProperties.getGlobalCtx().entrySet()) {
                 if (!systemContextProperties.getClientTransferCtx().contains(key.getKey())) {
-                    MutateUtil.removeHeader(mutate, key.getKey());
+                    WebFluxUtil.removeHeader(mutate, key.getKey());
                 }
             }
         }

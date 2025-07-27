@@ -3,7 +3,6 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.gateway.ErrorCode;
 import com.wingflare.gateway.R;
-import com.wingflare.gateway.utils.MutateUtil;
 import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.exceptions.NoException;
 import com.wingflare.lib.core.utils.CollectionUtil;
@@ -143,39 +142,39 @@ public class AuthFilter implements GlobalFilter, Ordered {
      * @param userAuth
      */
     private void setUserCtxHeader(ServerHttpRequest.Builder mutate, String tokenId, UserAuth userAuth) {
-        MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_ID, SecurityUtil.typeValueEncode(userAuth.getUserId()));
-        MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_NAME, StringUtil.urlEncode(userAuth.getUserName()));
-        MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_TOKEN_ID, tokenId);
+        WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_ID, SecurityUtil.typeValueEncode(userAuth.getUserId()));
+        WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_NAME, StringUtil.urlEncode(userAuth.getUserName()));
+        WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_TOKEN_ID, tokenId);
 
         if (CollectionUtil.isNotEmpty(userAuth.getUserTypes())) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_TYPE,
+            WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_TYPE,
                     SecurityUtil.typeValueEncode(userAuth.getUserTypes()));
         }
 
         if (CollectionUtil.isNotEmpty(userAuth.getRoles())) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_ROLES,
+            WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_ROLES,
                     SecurityUtil.typeValueEncode(userAuth.getRoles()));
         }
 
         if (userAuth.getIdentity() != null && userAuth.getIdentity().compareTo(BigInteger.ZERO) > 0) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_IDENTITY, SecurityUtil.typeValueEncode(userAuth.getIdentity()));
+            WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_IDENTITY, SecurityUtil.typeValueEncode(userAuth.getIdentity()));
         }
 
         if (CollectionUtil.isNotEmpty(userAuth.getOrg())) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_ORG,
+            WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_ORG,
                     SecurityUtil.typeValueEncode(userAuth.getOrg()));
         }
 
         if (userAuth.getCurrentOrg() != null && userAuth.getCurrentOrg().compareTo(BigInteger.ZERO) > 0) {
-            MutateUtil.addHeader(mutate, Ctx.HEADER_KEY_CURRENT_ORG, SecurityUtil.typeValueEncode(userAuth.getCurrentOrg()));
+            WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_CURRENT_ORG, SecurityUtil.typeValueEncode(userAuth.getCurrentOrg()));
         }
 
         if (CollectionUtil.isNotEmpty(userAuth.getAttribute())) {
             userAuth.getAttribute().forEach((k, v) -> {
                 if (v instanceof CharSequence) {
-                    MutateUtil.addHeader(mutate, k, StringUtil.urlEncode((String) v));
+                    WebFluxUtil.addHeader(mutate, k, StringUtil.urlEncode((String) v));
                 } else {
-                    MutateUtil.addHeader(mutate, k, SecurityUtil.typeValueEncode(v));
+                    WebFluxUtil.addHeader(mutate, k, SecurityUtil.typeValueEncode(v));
                 }
             });
         }
@@ -215,7 +214,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -200;
+        return Ordered.HIGHEST_PRECEDENCE + 2;
     }
 
 }
