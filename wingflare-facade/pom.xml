@@ -5,7 +5,7 @@
     <parent>
         <artifactId>cloud</artifactId>
         <groupId>com.wingflare</groupId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,13 +16,7 @@
         <module>wingflare-facade-module-auth</module>
         <module>wingflare-facade-module-base</module>
         <module>wingflare-facade-gateway</module>
-        <module>wingflare-facade-engine-websocket</module>
     </modules>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
