@@ -37,7 +37,7 @@ public class SessionInitializationFilter implements Filter, Ordered {
 
             if (session == null) {
                 session = request.getSession(true);
-
+                session.setAttribute("sid", session.getId());
                 session.setAttribute("ip", getClientIp(request));
                 session.setAttribute("userAgent", request.getHeader("User-Agent"));
             } else {

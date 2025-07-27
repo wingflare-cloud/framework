@@ -35,13 +35,14 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
                     if (webSession.getAttributes().isEmpty() ||
                             !webSession.getAttributes().containsKey("userAgent")) {
                         // 初始化新会话
+                        webSession.getAttributes().put("sid", webSession.getId());
                         webSession.getAttributes().put("ip", getClientIp(exchange));
                         webSession.getAttributes().put("userAgent", request.getHeaders().getFirst("User-Agent"));
                         return chain.filter(exchange);
                     } else {
                         // 现有会话校验
                         if (StringUtil.isNoneBlank(strictModel)) {
-                            String sessionUserAgent = (String) webSession.getAttribute("userAgent");
+                            String sessionUserAgent = webSession.getAttribute("userAgent");
                             String currentUserAgent = request.getHeaders().getFirst("User-Agent");
 
                             if ("simple".equals(strictModel) || "strict".equals(strictModel)) {
@@ -51,7 +52,7 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
                             }
 
                             if ("strict".equals(strictModel)) {
-                                String sessionIp = (String) webSession.getAttribute("ip");
+                                String sessionIp = webSession.getAttribute("ip");
                                 String currentIp = getClientIp(exchange);
                                 if (!ObjectUtils.nullSafeEquals(currentIp, sessionIp)) {
                                     return Mono.error(new NoPermissionException("Illegal IP"));

@@ -41,6 +41,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-core</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
