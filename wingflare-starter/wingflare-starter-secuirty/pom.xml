@@ -20,13 +20,13 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-security</artifactId>
-            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-abstraction-security-starter</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

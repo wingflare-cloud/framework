@@ -70,11 +70,6 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-abstraction-security-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-spring</artifactId>
         </dependency>
 
