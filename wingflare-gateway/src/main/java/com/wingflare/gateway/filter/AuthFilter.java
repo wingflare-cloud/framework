@@ -34,7 +34,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
     private AuthTool authTool;
 
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) throws RuntimeException {
         ServerHttpRequest request = exchange.getRequest();
