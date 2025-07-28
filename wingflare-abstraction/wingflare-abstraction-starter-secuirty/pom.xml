@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>wingflare-abstraction-security-starter</artifactId>
+    <artifactId>wingflare-abstraction-starter-secuirty</artifactId>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>

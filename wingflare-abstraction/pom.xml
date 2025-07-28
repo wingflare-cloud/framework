@@ -15,7 +15,7 @@
     <modules>
         <module>wingflare-abstraction-module-base</module>
         <module>wingflare-abstraction-lib-captcha</module>
-        <module>wingflare-abstraction-security-starter</module>
+        <module>wingflare-abstraction-starter-secuirty</module>
     </modules>
 
     <dependencyManagement>

@@ -32,7 +32,7 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-abstraction-security-starter</artifactId>
+                <artifactId>wingflare-abstraction-starter-secuirty</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

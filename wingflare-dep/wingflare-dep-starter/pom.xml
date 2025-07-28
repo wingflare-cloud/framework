@@ -20,7 +20,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-security-starter</artifactId>
+                <artifactId>wingflare-starter-secuirty</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
