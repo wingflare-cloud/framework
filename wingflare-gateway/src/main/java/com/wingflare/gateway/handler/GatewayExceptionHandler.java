@@ -3,6 +3,7 @@ package com.wingflare.gateway.handler;
 
 import com.wingflare.gateway.R;
 import com.wingflare.gateway.utils.WebFluxUtil;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -46,7 +47,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             }
 
             if (logger.isDebugEnabled()) {
-                logger.debug("响应非200状态码", e(Map.of(
+                logger.warn("响应非200状态码", e(Map.of(
                         "status", ((ResponseStatusException) ex).getStatusCode().value(),
                         "message", ex.getMessage()
                 )));
@@ -55,8 +56,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
             msg = "server.exception";
             logger.error("[网关异常处理]请求路径", e(Map.of(
                     "path", exchange.getRequest().getPath(),
-                    "message", ex.getMessage(),
-                    "class", ex.getClass().getName()
+                    "stackTrace", ExceptionUtils.getStackTrace(ex)
             )));
         }
 

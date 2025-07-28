@@ -1,10 +1,12 @@
 package com.wingflare.gateway.configure;
 
 
+import com.wingflare.gateway.filter.SessionInitializationFilter;
 import com.wingflare.lib.core.constants.HttpHeader;
 import com.wingflare.lib.spring.configure.properties.CorsProperties;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -68,6 +70,16 @@ public class GlobalsConfiguration {
 
             return chain.filter(ctx);
         };
+    }
+
+
+    @Bean
+    @ConditionalOnProperty(
+            name = "session.enable",
+            havingValue = "true"
+    )
+    public SessionInitializationFilter sessionInitializationFilter() {
+        return new SessionInitializationFilter();
     }
 
 }

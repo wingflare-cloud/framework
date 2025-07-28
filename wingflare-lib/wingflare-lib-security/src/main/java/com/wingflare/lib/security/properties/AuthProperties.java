@@ -41,7 +41,7 @@ public class AuthProperties
     /**
      * 远程上下文名字
      */
-    private String remoteContextName;
+    private String remoteContextName = "auth-user";
 
     public List<String> getWhites()
     {

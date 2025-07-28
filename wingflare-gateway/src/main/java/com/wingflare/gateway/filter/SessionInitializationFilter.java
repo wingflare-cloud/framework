@@ -3,13 +3,11 @@ package com.wingflare.gateway.filter;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
 import com.wingflare.lib.core.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -17,9 +15,9 @@ import reactor.core.publisher.Mono;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 
-
-@Component
-@ConditionalOnProperty(prefix = "gateway", name = "session", havingValue = "on")
+/**
+ * session初始化过滤器
+ */
 public class SessionInitializationFilter implements GlobalFilter, Ordered {
 
     @Value("${web.trustedProxies:}")
