@@ -22,11 +22,12 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-core</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-security</artifactId>
             <scope>provided</scope>
         </dependency>
 

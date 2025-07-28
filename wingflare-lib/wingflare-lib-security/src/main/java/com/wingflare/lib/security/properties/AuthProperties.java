@@ -23,9 +23,25 @@ public class AuthProperties
      */
     private List<String> whites = new ArrayList<>();
 
+    /**
+     * 认证token前缀
+     */
     private String authenticationPrefix = Ctx.AUTHENTICATION_PREFIX;
 
+    /**
+     * token刷新接口url
+     */
     private String refreshTokenUrl;
+
+    /**
+     * 需鉴权url前缀
+     */
+    private List<String> pathPrefix;
+
+    /**
+     * 远程上下文名字
+     */
+    private String remoteContextName;
 
     public List<String> getWhites()
     {
@@ -51,5 +67,21 @@ public class AuthProperties
 
     public void setRefreshTokenUrl(String refreshTokenUrl) {
         this.refreshTokenUrl = refreshTokenUrl;
+    }
+
+    public List<String> getPathPrefix() {
+        return pathPrefix;
+    }
+
+    public void setPathPrefix(List<String> pathPrefix) {
+        this.pathPrefix = pathPrefix;
+    }
+
+    public String getRemoteContextName() {
+        return remoteContextName;
+    }
+
+    public void setRemoteContextName(String remoteContextName) {
+        this.remoteContextName = remoteContextName;
     }
 }

@@ -70,7 +70,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-abstraction-gateway</artifactId>
+            <artifactId>wingflare-abstraction-security-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -97,7 +97,6 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-core</artifactId>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>

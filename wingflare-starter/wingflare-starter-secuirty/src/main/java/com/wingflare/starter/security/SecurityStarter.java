@@ -1,6 +1,6 @@
 package com.wingflare.starter.security;
 
-import com.wingflare.facade.gateway.SecurityStarterInterface;
+import com.wingflare.abstraction.security.starter.SecurityStarterInterface;
 import com.wingflare.lib.security.aspect.PreAuthorizeAspect;
 import com.wingflare.lib.security.utils.ApplicationAuthUtil;
 import com.wingflare.lib.security.utils.AuthUtil;

@@ -21,39 +21,10 @@ public interface Ctx {
      * 授权标识
      */
     String AUTHENTICATION_PREFIX = "Bearer ";
-
-    /**
-     * 用户id
-     */
-    String HEADER_KEY_USER_ID = "user-id";
-    /**
-     * 用户名
-     */
-    String HEADER_KEY_USER_NAME = "user-name";
     /**
      * TOKEN ID
      */
     String HEADER_KEY_TOKEN_ID = "token-id";
-    /**
-     * user type
-     */
-    String HEADER_KEY_USER_TYPE = "user-type";
-    /**
-     * user role ids
-     */
-    String HEADER_KEY_USER_ROLES = "user-roles";
-    /**
-     * identity
-     */
-    String HEADER_KEY_IDENTITY = "identity";
-    /**
-     * org ids
-     */
-    String HEADER_KEY_ORG = "org";
-    /**
-     * current org id
-     */
-    String HEADER_KEY_CURRENT_ORG = "current-org";
 
     /**
      * 用户id
@@ -87,24 +58,6 @@ public interface Ctx {
      * 业务系统上下文Key
      */
     String CONTEXT_KEY_BUSINESS_SYSTEM = "businessSystem";
-
-    /**
-     * 应用id
-     */
-    String HEADER_KEY_APP_ID = "app-id";
-    /**
-     * 父应用id
-     */
-    String HEADER_KEY_PARENT_APP_ID = "parent-app-id";
-    /**
-     * 商户id
-     */
-    String HEADER_KEY_MERCHANT_ID = "merchant-id";
-    /**
-     * 父商户id
-     */
-    String HEADER_KEY_PARENT_MERCHANT_ID = "parent-merchant-id";
-
 
     /**
      * 应用id
