@@ -9,7 +9,6 @@ import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.constants.SecurityErrorCode;
 import com.wingflare.lib.security.standard.SecurityCheckUser;
-import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -35,21 +34,7 @@ public class UserAuthUtil {
      * 获取登录用户信息
      */
     public UserAuth getUser() {
-        if (ContextHolder.has(Ctx.CONTEXT_KEY_CHECK_USER_OK)) {
-            Boolean checkUser = ContextHolder.get(Ctx.CONTEXT_KEY_CHECK_USER_OK, Boolean.class);
-            return checkUser ? ContextHolder.get(Ctx.CONTEXT_KEY_USER, UserAuth.class) : null;
-        }
-
-        UserAuth userAuth = getUser(null);
-
-        if (userAuth != null) {
-            ContextHolder.set(Ctx.CONTEXT_KEY_CHECK_USER_OK, true);
-            ContextHolder.set(Ctx.CONTEXT_KEY_USER, userAuth);
-        } else {
-            ContextHolder.set(Ctx.CONTEXT_KEY_CHECK_USER_OK, false);
-        }
-
-        return userAuth;
+        return getUser(null);
     }
 
     /**
@@ -71,7 +56,7 @@ public class UserAuthUtil {
      */
     public UserAuth getUser(String tokenId) {
         if (StringUtil.isBlank(tokenId)) {
-            tokenId = SecurityUtil.getTokenId();
+            return ContextHolder.get(Ctx.CONTEXT_KEY_USER_AUTH, null, UserAuth.class);
         }
 
         if (StringUtil.isNotBlank(tokenId)) {

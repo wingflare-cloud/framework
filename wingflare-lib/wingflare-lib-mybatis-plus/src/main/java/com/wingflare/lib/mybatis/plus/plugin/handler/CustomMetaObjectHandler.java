@@ -22,8 +22,8 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        BigInteger userId = SecurityUtil.getUserId();
-        String username = SecurityUtil.getUsername();
+        BigInteger userId = SecurityUtil.getUser() == null ? BigInteger.ZERO : SecurityUtil.getUser().getUserId();
+        String username = SecurityUtil.getUser() == null ? "system" : SecurityUtil.getUser().getUserName();
         Date date = new Date();
         this.strictInsertFill(metaObject, Constant.CREATED_TIME_FIELD, Date.class, date);
         this.strictInsertFill(metaObject, Constant.UPDATED_TIME_FIELD, Date.class, date);
@@ -69,8 +69,8 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
             // 强制填充
             metaObject.setValue(Constant.UPDATE_USER_FIELD, null);
             metaObject.setValue(Constant.UPDATE_USER_ID_FIELD, null);
-            this.strictUpdateFill(metaObject, Constant.UPDATE_USER_FIELD, String.class, SecurityUtil.getUsername());
-            this.strictUpdateFill(metaObject, Constant.UPDATE_USER_ID_FIELD, BigInteger.class, SecurityUtil.getUserId());
+            this.strictUpdateFill(metaObject, Constant.UPDATE_USER_FIELD, String.class, SecurityUtil.getUser() == null ? "system" : SecurityUtil.getUser().getUserName());
+            this.strictUpdateFill(metaObject, Constant.UPDATE_USER_ID_FIELD, BigInteger.class, SecurityUtil.getUser() == null ? BigInteger.ZERO : SecurityUtil.getUser().getUserId());
         }
     }
 }

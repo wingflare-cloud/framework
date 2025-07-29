@@ -38,11 +38,6 @@ public class AuthProperties
      */
     private List<String> pathPrefix;
 
-    /**
-     * 远程上下文名字
-     */
-    private String remoteContextName = "auth-user";
-
     public List<String> getWhites()
     {
         return whites;
@@ -77,11 +72,4 @@ public class AuthProperties
         this.pathPrefix = pathPrefix;
     }
 
-    public String getRemoteContextName() {
-        return remoteContextName;
-    }
-
-    public void setRemoteContextName(String remoteContextName) {
-        this.remoteContextName = remoteContextName;
-    }
 }

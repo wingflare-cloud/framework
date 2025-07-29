@@ -9,6 +9,7 @@ import com.wingflare.lib.core.utils.ObjectUtil;
 import com.wingflare.lib.core.utils.SerializationUtil;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.enums.AuthType;
+import com.wingflare.lib.standard.model.UserAuth;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -114,7 +115,7 @@ public class SecurityUtil {
     public static BigInteger getAuthMainId() {
         switch (getAuthMode()) {
             case USER:
-                return getUserId();
+                return SecurityUtil.getUser() == null ? BigInteger.ZERO : SecurityUtil.getUser().getUserId();
             case APP:
                 return getAppId();
             default:
@@ -125,22 +126,15 @@ public class SecurityUtil {
     /**
      * 获取用户ID
      */
-    public static BigInteger getUserId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_USER_ID, new BigInteger("0"), BigInteger.class);
-    }
-
-    /**
-     * 获取用户名称
-     */
-    public static String getUsername() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_USER_NAME, "SYSTEM");
+    public static UserAuth getUser() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_USER_AUTH, null, UserAuth.class);
     }
 
     /**
      * 获取用户key
      */
     public static String getTokenId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_TOKEN_ID);
+        return SecurityUtil.getUser() == null ? "" : SecurityUtil.getUser().getTokenId();
     }
 
     /**

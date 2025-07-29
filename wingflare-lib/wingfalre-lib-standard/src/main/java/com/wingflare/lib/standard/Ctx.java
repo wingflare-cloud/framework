@@ -27,27 +27,14 @@ public interface Ctx {
     String HEADER_KEY_TOKEN_ID = "token-id";
 
     /**
-     * 用户id
+     * 登录用户头信息
      */
-    String CONTEXT_KEY_USER_ID = "userId";
-    /**
-     * 用户名
-     */
-    String CONTEXT_KEY_USER_NAME = "userName";
-    /**
-     * token id
-     */
-    String CONTEXT_KEY_TOKEN_ID = "tokenId";
-
-    /**
-     * 是否存在已认证用户上下文
-     */
-    String CONTEXT_KEY_CHECK_USER_OK = "sys:ctx:checkUser";
+    String HEADER_KEY_USER_AUTH = "auth-user";
 
     /**
      * 用户信息
      */
-    String CONTEXT_KEY_USER = "user";
+    String CONTEXT_KEY_USER_AUTH = "userAuth";
 
     /**
      * 业务系统头

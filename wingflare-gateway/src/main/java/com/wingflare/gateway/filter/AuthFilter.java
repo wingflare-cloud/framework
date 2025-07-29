@@ -56,7 +56,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
                 return chain.filter(exchange.mutate().request(mutate.build()).build());
             } else {
-                WebFluxUtil.addHeader(mutate, authProperties.getRemoteContextName(),
+                WebFluxUtil.addHeader(mutate, Ctx.HEADER_KEY_USER_AUTH,
                         SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()));
             }
         }

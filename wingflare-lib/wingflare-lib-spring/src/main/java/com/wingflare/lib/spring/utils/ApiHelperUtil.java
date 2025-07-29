@@ -31,7 +31,6 @@ public class ApiHelperUtil {
         add(Wf.REQUEST_AUTO_THROW_ERR_CONTEXT_KEY);
         add(Wf.FUNC_MARK_CONTEXT_KEY);
         add(Ctx.AUTH_MODE_CONTEXT);
-        add(Ctx.CONTEXT_KEY_CHECK_USER_OK);
         add(Wf.REQUEST_HEADER_PENETRATION_CONTEXT_KEY);
     }};
 
