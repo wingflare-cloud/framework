@@ -131,13 +131,6 @@ public class SecurityUtil {
     }
 
     /**
-     * 获取用户key
-     */
-    public static String getTokenId() {
-        return SecurityUtil.getUser() == null ? "" : SecurityUtil.getUser().getTokenId();
-    }
-
-    /**
      * 带类型信息的数据编码
      *
      * @param value

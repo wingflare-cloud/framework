@@ -71,7 +71,7 @@ public class AuthController {
     @RequiresLogin
     @ResponseBody
     public UserAuth logout() {
-        return loginBiz.logout(new StringIdBo().setId(SecurityUtil.getTokenId()));
+        return loginBiz.logout(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
     }
 
     /**
@@ -94,14 +94,14 @@ public class AuthController {
     @ResponseBody
     @BusinessSystem("base")
     public UserAuth getUserLoginInfo() {
-        return loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getTokenId()));
+        return loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
     }
 
     @RequestMapping(value = "/getLoginUser", method = RequestMethod.GET)
     @RequiresLogin
     @ResponseBody
     public UserDTO getLoginUser() {
-        UserAuth userAuth = loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getTokenId()));
+        UserAuth userAuth = loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
         return userBiz.get(new IdBo().setId(userAuth.getUserId()));
     }
 
