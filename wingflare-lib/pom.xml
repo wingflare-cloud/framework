@@ -19,7 +19,6 @@
         <module>wingflare-lib-datascope</module>
         <module>wingfalre-lib-standard</module>
         <module>wingflare-lib-captcha</module>
-        <module>wingflare-lib-captcha-support</module>
         <module>wingflare-lib-tracing</module>
     </modules>
 

@@ -76,12 +76,6 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-lib-captcha-support</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-lib-tracing</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
