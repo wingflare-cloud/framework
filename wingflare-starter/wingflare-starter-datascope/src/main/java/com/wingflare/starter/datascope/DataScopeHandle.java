@@ -2,9 +2,9 @@ package com.wingflare.starter.datascope;
 
 
 import com.wingflare.lib.standard.CacheService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
