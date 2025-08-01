@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName SystemContextProperties
@@ -42,7 +44,7 @@ public class SystemContextProperties {
     /**
      * 服务之间互相调用时向后传递的服务级上下文(例如http的服务级上下文就是http header信息)
      */
-    private List<String> transferCtx = new ArrayList<>();
+    private Set<String> transferCtx = new HashSet<>();
 
     /**
      * 服务自动填充上下文，配置值会作为上下文数据自动在内网服务间传递
@@ -52,7 +54,7 @@ public class SystemContextProperties {
     /**
      * 客户端上下文白名单，客户端传入的上下文信息在白名单内会作为服务级上下文穿透传递
      */
-    private List<String> clientTransferCtx = new ArrayList<>();
+    private Set<String> clientTransferCtx = new HashSet<>();
 
     /**
      * 用户登录信息上下文
@@ -91,11 +93,11 @@ public class SystemContextProperties {
         this.secToken = secToken;
     }
 
-    public List<String> getTransferCtx() {
+    public Set<String> getTransferCtx() {
         return transferCtx;
     }
 
-    public void setTransferCtx(List<String> transferCtx) {
+    public void setTransferCtx(Set<String> transferCtx) {
         this.transferCtx = transferCtx;
     }
 
@@ -107,11 +109,11 @@ public class SystemContextProperties {
         this.autoCtx = autoCtx;
     }
 
-    public List<String> getClientTransferCtx() {
+    public Set<String> getClientTransferCtx() {
         return clientTransferCtx;
     }
 
-    public void setClientTransferCtx(List<String> clientTransferCtx) {
+    public void setClientTransferCtx(Set<String> clientTransferCtx) {
         this.clientTransferCtx = clientTransferCtx;
     }
 

@@ -13,6 +13,8 @@ public class BusinessLogicException extends RuntimeException {
 
     private Object data;
 
+    private Integer ret;
+
     public BusinessLogicException() {
         this(defaultMessage);
     }
@@ -30,6 +32,12 @@ public class BusinessLogicException extends RuntimeException {
         setData(data);
     }
 
+    public BusinessLogicException(String message, Object data, Integer ret) {
+        super(message);
+        setData(data);
+        setRet(ret);
+    }
+
     public BusinessLogicException(String message, Throwable throwable)
     {
         super(message, throwable);
@@ -41,5 +49,13 @@ public class BusinessLogicException extends RuntimeException {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public Integer getRet() {
+        return ret;
+    }
+
+    public void setRet(Integer ret) {
+        this.ret = ret;
     }
 }

@@ -69,7 +69,13 @@ public class WebApiExceptionHandler {
         MappingJackson2JsonView view = new MappingJackson2JsonView(objectMapper);
         view.setExtractValueFromSingleKeyModel(true);
         ModelAndView modelAndView = new ModelAndView(view);
-        modelAndView.addObject(R.fail(e.getData(), e.getMessage()));
+
+        if (e.getRet() != null) {
+            modelAndView.addObject(R.r(e.getData(), e.getRet(), e.getMessage()));
+        } else {
+            modelAndView.addObject(R.fail(e.getData(), e.getMessage()));
+        }
+
         return modelAndView;
     }
 

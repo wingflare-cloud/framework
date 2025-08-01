@@ -1,6 +1,5 @@
 package com.wingflare.gateway.filter;
 
-
 import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
@@ -14,14 +13,13 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import jakarta.annotation.Resource;
-import java.util.Map;
+import java.util.Set;
 
 /**
- * 全局安全信息头处理过滤器
+ * 全局安全信息头处理过滤器（优化非阻塞版）
  *
  * @author naizui_ycx
  * @email chenxi2511@qq.com
- *
  */
 @Component
 public class SecHeaderFilter implements GlobalFilter, Ordered {
@@ -33,32 +31,40 @@ public class SecHeaderFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpRequest.Builder mutate = request.mutate();
-        String secToken = request.getHeaders().getFirst(
-                StringUtil.isNotEmpty(systemContextProperties.getSecTokenCtxKey()) ? systemContextProperties.getSecTokenCtxKey()
-                        : Ctx.HEADER_KEY_SEC_TOKEN);
-        boolean skipRemoveHeader = false;
 
-        // 判断sec token如果通过则跳过上下文过滤机制
-        if (StringUtil.isNotEmpty(secToken) && StringUtil.isNotEmpty(systemContextProperties.getSecToken())) {
-            if (systemContextProperties.getSecToken().equals(secToken)) {
-                skipRemoveHeader = true;
-            }
+        String secTokenKey = StringUtil.isNotEmpty(systemContextProperties.getSecTokenCtxKey()) ?
+                systemContextProperties.getSecTokenCtxKey() : Ctx.HEADER_KEY_SEC_TOKEN;
+        String secToken = request.getHeaders().getFirst(secTokenKey);
+        Set<String> allowedHeaders = systemContextProperties.getClientTransferCtx();
+
+        // 使用响应式处理器决定是否执行header移除
+        return Mono.just(secToken == null ? "" : secToken)
+                .filter(this::shouldProcessHeaders)
+                .flatMap(token -> Mono.fromRunnable(() -> removeUntrustedHeaders(mutate, allowedHeaders)))
+                .then(chain.filter(exchange))
+                .switchIfEmpty(chain.filter(exchange));  // 如果不需要处理，直接进入过滤器链
+    }
+
+    private boolean shouldProcessHeaders(String secToken) {
+        // 如果secToken匹配或为空，则跳过header处理
+        if (StringUtil.isEmpty(secToken) || StringUtil.isEmpty(systemContextProperties.getSecToken())) {
+            return false;
         }
+        return !systemContextProperties.getSecToken().equals(secToken);
+    }
 
-        if (!skipRemoveHeader) {
-            // 在全局上下文信息内但不在客户端可以传递上下文信息白名单的上下文信息全部移除，防止客户端伪造上下文信息引发安全问题
-            for (Map.Entry<String, String> key : systemContextProperties.getGlobalCtx().entrySet()) {
-                if (!systemContextProperties.getClientTransferCtx().contains(key.getKey())) {
-                    WebFluxUtil.removeHeader(mutate, key.getKey());
-                }
+    private void removeUntrustedHeaders(ServerHttpRequest.Builder mutate, Set<String> allowedHeaders) {
+        // 在弹性线程中执行header移除操作
+        systemContextProperties.getGlobalCtx().forEach((key, value) -> {
+            if (!allowedHeaders.contains(key)) {
+                WebFluxUtil.removeHeader(mutate, key);
             }
-        }
-
-        return chain.filter(exchange);
+        });
     }
 
     @Override
     public int getOrder() {
-        return HIGHEST_PRECEDENCE + 1;
+        return Ordered.HIGHEST_PRECEDENCE + 1;
     }
+
 }
