@@ -52,7 +52,7 @@ public class ServletAuthFilter implements Filter, Ordered {
                         }
                     }
                 } else {
-                    ContextHolder.set(Ctx.CONTEXT_KEY_USER_AUTH, authResponseDTO.getUserAuth());
+                    ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
                 }
             }
         }

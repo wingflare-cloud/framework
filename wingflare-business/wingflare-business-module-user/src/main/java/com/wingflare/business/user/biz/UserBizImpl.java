@@ -648,14 +648,14 @@ public class UserBizImpl implements UserBiz {
      * @param bo
      */
     private void checkUserCanSave(UserBO bo, UserDO oldDo) {
-        if (bo.getAccountType() == null) {
-            JSONArray accountType = new JSONArray();
-            accountType.add(UserAccountType.PRIVILEGE.getValue());
-            bo.setAccountType(accountType);
-        } else {
+        if (bo.getAccountType() != null) {
             if (bo.getAccountType().size() > 1
                     && bo.getAccountType().contains(UserAccountType.PRIVILEGE.getValue())) {
                 throw new BusinessLogicException(ErrorCode.SYS_USER_ACCOUNT_TYPE_ERROR);
+            }
+        } else {
+            if (!bo.getUserId().equals(oldDo.getUserId())) {
+                throw new BusinessLogicException(ErrorCode.SYS_USER_CAN_NOT_UPDATE_USER);
             }
         }
 

@@ -127,7 +127,7 @@ public class SecurityUtil {
      * 获取用户ID
      */
     public static UserAuth getUser() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_USER_AUTH, null, UserAuth.class);
+        return ContextHolder.get(Ctx.CONTEXT_KEY_AUTH_USER, null, UserAuth.class);
     }
 
     /**

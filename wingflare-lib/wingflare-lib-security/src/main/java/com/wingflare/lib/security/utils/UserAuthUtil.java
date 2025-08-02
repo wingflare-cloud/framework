@@ -56,7 +56,7 @@ public class UserAuthUtil {
      */
     public UserAuth getUser(String tokenId) {
         if (StringUtil.isBlank(tokenId)) {
-            return ContextHolder.get(Ctx.CONTEXT_KEY_USER_AUTH, null, UserAuth.class);
+            return ContextHolder.get(Ctx.CONTEXT_KEY_AUTH_USER, null, UserAuth.class);
         }
 
         if (StringUtil.isNotBlank(tokenId)) {

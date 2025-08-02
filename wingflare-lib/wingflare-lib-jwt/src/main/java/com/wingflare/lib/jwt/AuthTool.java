@@ -66,6 +66,8 @@ public class AuthTool {
             if (now.getTime() > authResponseDTO.getUserAuth().getTokenExpireTime()) {
                 return authResponseDTO.setError(ErrorCode.TOKEN_EXPIRATION);
             }
+        } else {
+            return authResponseDTO.setError(ErrorCode.NOT_LOGIN);
         }
 
         return authResponseDTO;

@@ -14,6 +14,11 @@ public interface ErrorCode {
     String SYS_USER_CREATE_ERROR = "sys.user.createError";
 
     /**
+     * 不允许更新用户
+     */
+    String SYS_USER_CAN_NOT_UPDATE_USER = "sys.user.canNotUpdateUser";
+
+    /**
      * 用户更新失败
      */
     String SYS_USER_UPDATE_ERROR = "sys.user.updateError";

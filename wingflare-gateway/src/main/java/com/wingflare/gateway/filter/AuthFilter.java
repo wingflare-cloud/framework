@@ -37,7 +37,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
 
         // 跳过无需认证的路径前缀
-        if (StringUtil.urlMatches(request.getURI().getPath(), authProperties.getPathPrefix())) {
+        if (!StringUtil.urlMatches(request.getURI().getPath(), authProperties.getPathPrefix())) {
             return chain.filter(exchange);
         }
 
@@ -65,11 +65,15 @@ public class AuthFilter implements GlobalFilter, Ordered {
                         }
                     }
 
-                    // 认证成功：添加用户认证头信息
-                    ServerHttpRequest mutatedRequest = request.mutate()
-                            .header(Ctx.HEADER_KEY_USER_AUTH, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
-                            .build();
-                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                    if (authResponseDTO.getUserAuth() != null) {
+                        // 认证成功：添加用户认证头信息
+                        ServerHttpRequest mutatedRequest = request.mutate()
+                                .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
+                                .build();
+                        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                    }
+
+                    return chain.filter(exchange);
                 });
     }
 

@@ -29,12 +29,12 @@ public interface Ctx {
     /**
      * 登录用户头信息
      */
-    String HEADER_KEY_USER_AUTH = "auth-user";
+    String HEADER_KEY_AUTH_USER = "auth-user";
 
     /**
      * 用户信息
      */
-    String CONTEXT_KEY_USER_AUTH = "userAuth";
+    String CONTEXT_KEY_AUTH_USER = "authUser";
 
     /**
      * 业务系统头

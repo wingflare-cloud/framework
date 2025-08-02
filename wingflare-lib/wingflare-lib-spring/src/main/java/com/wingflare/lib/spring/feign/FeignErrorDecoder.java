@@ -1,6 +1,7 @@
 package com.wingflare.lib.spring.feign;
 
 import com.alibaba.fastjson.JSON;
+import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.standard.R;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
@@ -29,13 +30,19 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
 
     @Override
     public Exception decode(String s, Response response) {
-        if (Std.ERR_STATUS_CODE == response.status() || Std.PARAM_ERR_STATUS_CODE == response.status()) {
+        if (Std.ERR_STATUS_CODE == response.status() || Std.PARAM_ERR_STATUS_CODE == response.status()
+                || Std.FORBIDDEN_STATUS_CODE == response.status()) {
             if (ApiHelperUtil.checkRequestAutoThrowErr()) {
                 try {
                     String body = Util.toString(response.body().asReader(Charset.defaultCharset()));
-                    R<?> r = JSON.parseObject(body, R.class);
-                    if (r.getRet() != null && r.getRet() != R.RET_NO_ERR) {
-                        throw new BusinessLogicException(r.getMsg(), r.getData());
+
+                    if (StringUtil.isNotBlank(body)) {
+                        R<?> r = JSON.parseObject(body, R.class);
+                        if (r.getRet() != null && r.getRet() != R.RET_NO_ERR) {
+                            throw new BusinessLogicException(r.getMsg(), r.getData());
+                        }
+                    } else {
+                        throw new BusinessLogicException(response.reason());
                     }
                 } catch (IOException throwable) {
                     logger.warn("读取response异常", e(Map.of(

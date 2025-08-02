@@ -18,6 +18,11 @@ public interface ErrorCode {
     String TOKEN_EXPIRATION = "jwt.token.expiration";
 
     /**
+     * 未登录
+     */
+    String NOT_LOGIN = "jwt.login.notLogin";
+
+    /**
      * 禁止访问
      */
     String NO_ACCESS = "jwt.noAccess";

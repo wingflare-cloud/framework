@@ -106,18 +106,26 @@ public class AccessLogAspect {
             String[] paramNames = ((CodeSignature) joinPoint.getSignature()).getParameterNames();
             int i = 0;
             for (Object o : oArr) {
+                String keyName = "";
+
+                if (paramNames != null && paramNames.length > i) {
+                    keyName = paramNames[i];
+                } else {
+                    keyName = o.getClass().getName();
+                }
+
                 if (o != null) {
                     if (o instanceof MultipartFile file) {
-                        paramMap.put(paramNames[i], "FILE_NAME{" + file.getOriginalFilename() + "}");
+                        paramMap.put(keyName, "FILE_NAME{" + file.getOriginalFilename() + "}");
                     } else {
                         if (BeanUtil.isBean(o.getClass())) {
                             try {
-                                paramMap.put(paramNames[i], objectMapper.writeValueAsString(o));
+                                paramMap.put(keyName, objectMapper.writeValueAsString(o));
                             } catch (JsonProcessingException e) {
                                 logger.error("参数序列化异常", e.getMessage());
                             }
                         } else {
-                            paramMap.put(paramNames[i], o);
+                            paramMap.put(keyName, o);
                         }
                     }
                 }

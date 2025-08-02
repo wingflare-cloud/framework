@@ -18,15 +18,9 @@ public interface Std {
     int PARAM_ERR_STATUS_CODE = 422;
 
     /**
-     * 业务重试错误码
+     * 无权限
      */
-    int RETRY_ERR_STATUS_CODE = 506;
-
-    /**
-     * 未授权错误码
-     */
-    int UNAUTHORIZED_ERR_STATUS_CODE = 401;
-
+    int FORBIDDEN_STATUS_CODE = 403;
 
 
 }
