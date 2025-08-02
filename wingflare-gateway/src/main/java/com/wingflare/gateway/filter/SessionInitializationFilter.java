@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 /**
  * session初始化过滤器
  */
+@Component
 public class SessionInitializationFilter implements GlobalFilter, Ordered {
 
     @Value("${web.trustedProxies:}")

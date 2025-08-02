@@ -1,5 +1,4 @@
-package com.wingflare.adapter.spring.webflux.session;
-
+package com.wingflare.gateway.configure;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.server.ServerWebExchange;
@@ -16,12 +15,17 @@ public class CustomSessionIdResolver implements WebSessionIdResolver {
     @Value("session.headerName:'X-SID'")
     private String sessionHeaderName;
 
-    private final CookieWebSessionIdResolver cookieResolver = new CookieWebSessionIdResolver();
+    private final CookieWebSessionIdResolver cookieResolver;
+
+    public CustomSessionIdResolver() {
+        cookieResolver = new CookieWebSessionIdResolver();
+    }
 
     @Override
     public List<String> resolveSessionIds(ServerWebExchange exchange) {
         // 1. 尝试从Cookie获取
         List<String> cookieSessionIds = cookieResolver.resolveSessionIds(exchange);
+
         if (!cookieSessionIds.isEmpty()) {
             return cookieSessionIds;
         }
@@ -30,6 +34,7 @@ public class CustomSessionIdResolver implements WebSessionIdResolver {
         String headerSessionId = exchange.getRequest()
                 .getHeaders()
                 .getFirst(sessionHeaderName);
+
         if (headerSessionId != null && !headerSessionId.isBlank()) {
             return Collections.singletonList(headerSessionId.trim());
         }
