@@ -1,6 +1,7 @@
 package com.wingflare.lib.core.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -72,7 +73,6 @@ public class IPAddressUtil {
             long ipToTest = ipToLong(InetAddress.getByName(ipToCheck));
             return (ipToTest >= ipLo && ipToTest <= ipHi);
         } catch (UnknownHostException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -110,7 +110,7 @@ public class IPAddressUtil {
      */
     public static int getIpCount(String mask) {
         return BigDecimal.valueOf(Math.pow(2, 32 - Integer.parseInt(mask)))
-                .setScale(0, BigDecimal.ROUND_DOWN).intValue();//IP总数，去小数点
+                .setScale(0, RoundingMode.DOWN).intValue();//IP总数，去小数点
     }
 
     /**

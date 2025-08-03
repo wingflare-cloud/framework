@@ -94,6 +94,11 @@
             <artifactId>spring-session-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-captcha</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>

@@ -24,17 +24,6 @@ public abstract class Captcha extends Randoms {
     public static final int TYPE_ONLY_UPPER = 4;  // 纯大写字母
     public static final int TYPE_ONLY_LOWER = 5;  // 纯小写字母
     public static final int TYPE_NUM_AND_UPPER = 6;  // 数字大写字母
-    // 内置字体
-    public static final int FONT_1 = 0;
-    public static final int FONT_2 = 1;
-    public static final int FONT_3 = 2;
-    public static final int FONT_4 = 3;
-    public static final int FONT_5 = 4;
-    public static final int FONT_6 = 5;
-    public static final int FONT_7 = 6;
-    public static final int FONT_8 = 7;
-    public static final int FONT_9 = 8;
-    public static final int FONT_10 = 9;
 
     private static final String[] FONT_NAMES = new String[]{"actionj.ttf", "epilog.ttf", "fresnel.ttf", "headache.ttf", "lexo.ttf", "prefix.ttf", "progbot.ttf", "ransom.ttf", "robot.ttf", "scandal.ttf"};
     private Font font = null; // 验证码的字体
@@ -108,7 +97,6 @@ public abstract class Captcha extends Randoms {
      * 验证码输出,抽象方法，由子类实现
      *
      * @param os 输出流
-     * @return 是否成功
      */
     public abstract void out(OutputStream os) throws IOException;
 
@@ -256,7 +244,7 @@ public abstract class Captcha extends Randoms {
     public Font getFont() {
         if (font == null) {
             try {
-                setFont(FONT_1);
+                setFont(0);
             } catch (Exception e) {
                 setFont(new Font("Arial", Font.BOLD, 32));
             }
