@@ -3,14 +3,20 @@ package com.wingflare.adapter.spring.server.web.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wingflare.lib.core.exceptions.*;
+import com.wingflare.lib.core.utils.CollectionUtil;
+import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
+import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.R;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -143,6 +149,32 @@ public class WebApiExceptionHandler {
         }
 
         return "";
+    }
+
+    /**
+     * 无权限异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(CaptchaException.class)
+    public Object captchaExceptionHandler(HttpServletRequest req, CaptchaException e) {
+        ApiHelperUtil.setOriginalResp(true);
+        if (logger.isDebugEnabled()) {
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
+        }
+
+        // 创建自定义响应头
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(Ctx.HEADER_KEY_CAPTCHA_OPEN, "true");
+
+        if (CollectionUtil.isNotEmpty(e.urls)) {
+            headers.add(Ctx.HEADER_KEY_CAPTCHA_URL, StringUtil.join(e.urls, ","));
+        }
+
+        return new ResponseEntity<>(null, headers, HttpStatus.LOCKED);
     }
 
     /**

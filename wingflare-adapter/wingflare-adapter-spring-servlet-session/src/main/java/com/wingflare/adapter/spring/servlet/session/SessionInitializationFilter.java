@@ -1,8 +1,13 @@
 package com.wingflare.adapter.spring.servlet.session;
 
 
+import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
 import com.wingflare.lib.core.utils.StringUtil;
+import com.wingflare.lib.spring.configure.properties.SessionProperties;
+import com.wingflare.lib.spring.configure.properties.WebProperties;
+import com.wingflare.lib.standard.Ctx;
+import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -11,12 +16,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * session过滤器
@@ -24,11 +27,11 @@ import java.util.Arrays;
 @WebFilter
 public class SessionInitializationFilter implements Filter, Ordered {
 
-    @Value("${web.trustedProxies:}")
-    private String trustedProxies;
+    @Resource
+    private SessionProperties sessionProperties;
 
-    @Value("${web.session.strictModel:}")
-    private String strictModel;
+    @Resource
+    private WebProperties webProperties;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -43,26 +46,28 @@ public class SessionInitializationFilter implements Filter, Ordered {
                 session.setAttribute("ip", getClientIp(request));
                 session.setAttribute("userAgent", request.getHeader("User-Agent"));
             } else {
-                if (StringUtil.isNoneBlank(strictModel)) {
-                    if ("simple".equals(strictModel) || "strict".equals(strictModel)) {
+                if (StringUtil.isNoneBlank(sessionProperties.getStrictModel())) {
+                    if ("simple".equals(sessionProperties.getStrictModel()) || "strict".equals(sessionProperties.getStrictModel())) {
                         if (!ObjectUtils.nullSafeEquals(request.getHeader("User-Agent"), session.getAttribute("userAgent"))) {
                             throw new NoPermissionException("Illegal UserAgent");
                         }
                     }
 
-                    if ("strict".equals(strictModel)) {
+                    if ("strict".equals(sessionProperties.getStrictModel())) {
                         if (!ObjectUtils.nullSafeEquals(getClientIp(request), session.getAttribute("ip"))) {
                             throw new NoPermissionException("Illegal IP");
                         }
                     }
                 }
             }
+
+            ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, session.getAttribute("sid"));
         }
     }
 
     private String getClientIp(HttpServletRequest request) {
         // 检查是否可信代理环境
-        boolean trustedEnvironment = isTrustedProxy(request);
+        boolean trustedEnvironment = isTrustedProxy(request.getRemoteAddr());
 
         if (trustedEnvironment) {
             // X-Forwarded-For：Squid 服务代理
@@ -97,10 +102,8 @@ public class SessionInitializationFilter implements Filter, Ordered {
         }
     }
 
-    private boolean isTrustedProxy(HttpServletRequest request) {
-        // 实际项目中应结合IP白名单/网段判断
-        return trustedProxies.equals("all") ||
-                Arrays.asList(trustedProxies.split(",")).contains(request.getRemoteAddr());
+    private boolean isTrustedProxy(String clientIp) {
+        return webProperties.getTrustedProxies().contains("all") || webProperties.getTrustedProxies().contains(clientIp);
     }
 
     @Override

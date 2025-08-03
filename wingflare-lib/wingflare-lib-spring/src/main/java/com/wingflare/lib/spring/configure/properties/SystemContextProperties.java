@@ -56,11 +56,6 @@ public class SystemContextProperties {
      */
     private Set<String> clientTransferCtx = new HashSet<>();
 
-    /**
-     * 用户登录信息上下文
-     */
-    private String userAuthCtx = "authUser";
-
     public String getPassSecret() {
         return passSecret;
     }
@@ -117,11 +112,4 @@ public class SystemContextProperties {
         this.clientTransferCtx = clientTransferCtx;
     }
 
-    public String getUserAuthCtx() {
-        return userAuthCtx;
-    }
-
-    public void setUserAuthCtx(String userAuthCtx) {
-        this.userAuthCtx = userAuthCtx;
-    }
 }

@@ -32,9 +32,25 @@ public interface Ctx {
     String HEADER_KEY_AUTH_USER = "auth-user";
 
     /**
+     * 启用验证码验证头
+     */
+    String HEADER_KEY_CAPTCHA_OPEN = "x-captcha-open";
+
+    /**
+     * 验证码保护url头
+     */
+    String HEADER_KEY_CAPTCHA_URL = "x-captcha-url";
+
+    /**
      * 用户信息
      */
     String CONTEXT_KEY_AUTH_USER = "authUser";
+
+    /**
+     * 客户端id
+     */
+    String CONTEXT_KEY_CLIENT_ID = "clientId";
+
 
     /**
      * 业务系统头
