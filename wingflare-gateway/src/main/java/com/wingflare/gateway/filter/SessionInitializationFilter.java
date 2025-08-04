@@ -1,5 +1,7 @@
 package com.wingflare.gateway.filter;
 
+import com.wingflare.lib.core.context.ContextHolder;
+import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.configure.properties.SessionProperties;
 import com.wingflare.lib.spring.configure.properties.WebProperties;
@@ -17,9 +19,6 @@ import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class SessionInitializationFilter implements GlobalFilter, Ordered {
@@ -43,6 +42,8 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
                 webSession.getAttributes().put("ip", getClientIp(exchange));
                 webSession.getAttributes().put("userAgent", request.getHeaders().getFirst("User-Agent"));
 
+                ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, webSession.getId());
+
                 // 创建带有Session ID的请求头
                 ServerHttpRequest mutatedRequest = request.mutate()
                         .header(webProperties.getClientIdCtxName(), webSession.getId())
@@ -50,22 +51,24 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
 
                 return chain.filter(
                             exchange.mutate().request(mutatedRequest).build()
-                        )
-                        .then(handleResponse(exchange));
+                        );
             } else {
                 // 现有会话校验
                 return handleExistingSession(exchange, webSession)
                         .flatMap(shouldContinue -> {
+                            String sid = webSession.getAttributes().containsKey("sid") ? webSession.getAttribute("sid") : "";
+
+                            ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, sid);
+
                             if (shouldContinue) {
                                 // 创建带有Session ID的请求头
                                 ServerHttpRequest mutatedRequest = request.mutate()
-                                        .header(webProperties.getClientIdCtxName(),
-                                                webSession.getAttributes().containsKey("sid") ? webSession.getAttribute("sid") : "")
+                                        .header(webProperties.getClientIdCtxName(), sid)
                                         .build();
 
                                 return chain.filter(
                                         exchange.mutate().request(mutatedRequest).build()
-                                ).then(handleResponse(exchange));
+                                );
                             } else {
                                 return Mono.empty();
                             }
@@ -76,19 +79,6 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
 
     private Mono<Boolean> handleExistingSession(ServerWebExchange exchange, WebSession webSession) {
         ServerHttpRequest request = exchange.getRequest();
-
-        if (webSession.getAttributes().containsKey("captcha")) {
-            List<String> captchaUrl = webSession.getAttribute("captchaUrl");
-            if (captchaUrl != null) {
-                if (StringUtil.urlMatches(request.getURI().getPath(), captchaUrl)) {
-                    exchange.getResponse().setStatusCode(HttpStatus.LOCKED);
-                    return Mono.just(false);
-                }
-            } else {
-                exchange.getResponse().setStatusCode(HttpStatus.LOCKED);
-                return Mono.just(false);
-            }
-        }
 
         if (StringUtil.isNoneBlank(sessionProperties.getStrictModel())) {
             String sessionUserAgent = webSession.getAttribute("userAgent");
@@ -112,28 +102,6 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
         }
 
         return Mono.just(true);
-    }
-
-    private Mono<Void> handleResponse(ServerWebExchange exchange) {
-        // 检查响应头是否需要开启验证码
-        String captchaOpen = exchange.getResponse().getHeaders().getFirst(Ctx.HEADER_KEY_CAPTCHA_OPEN);
-        if (Boolean.parseBoolean(captchaOpen)) {
-            return exchange.getSession().flatMap(webSession -> {
-                webSession.getAttributes().put("captcha", true);
-
-                String captchaUrl = exchange.getResponse().getHeaders().getFirst(Ctx.HEADER_KEY_CAPTCHA_URL);
-
-                if (captchaUrl != null) {
-                    webSession.getAttributes().put("captchaUrl", Arrays.asList(captchaUrl.split(",")));
-                } else {
-                    webSession.getAttributes().put("captchaUrl", new ArrayList<String>(){{
-                        add(exchange.getRequest().getURI().getPath());
-                    }});
-                }
-                return Mono.empty();
-            });
-        }
-        return Mono.empty();
     }
 
     private String getClientIp(ServerWebExchange exchange) {
@@ -163,7 +131,7 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isTrustedProxy(String clientIp) {
-        return webProperties.getTrustedProxies().contains("all") || webProperties.getTrustedProxies().contains(clientIp);
+        return IPAddressUtil.isIpInRange(clientIp, webProperties.getTrustedProxies());
     }
 
     @Override

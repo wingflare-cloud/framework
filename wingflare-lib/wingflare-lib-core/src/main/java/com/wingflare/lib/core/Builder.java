@@ -14,7 +14,7 @@ public class Builder<T> {
 
     private final Supplier<T> instantiator;
 
-    private List<Consumer<T>> modifiers = new ArrayList<>();
+    private final List<Consumer<T>> modifiers = new ArrayList<>();
 
     public Builder(Supplier<T> instant) {
         this.instantiator = instant;

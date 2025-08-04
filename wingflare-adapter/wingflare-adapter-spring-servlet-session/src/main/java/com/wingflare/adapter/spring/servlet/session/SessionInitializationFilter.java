@@ -3,6 +3,7 @@ package com.wingflare.adapter.spring.servlet.session;
 
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
+import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.configure.properties.SessionProperties;
 import com.wingflare.lib.spring.configure.properties.WebProperties;
@@ -70,40 +71,24 @@ public class SessionInitializationFilter implements Filter, Ordered {
         boolean trustedEnvironment = isTrustedProxy(request.getRemoteAddr());
 
         if (trustedEnvironment) {
-            // X-Forwarded-For：Squid 服务代理
-            String ipAddresses = request.getHeader("X-Forwarded-For");
+            String[] headersToCheck = {
+                    "X-Forwarded-For", "Proxy-Client-IP",
+                    "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "X-Real-IP"
+            };
 
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // Proxy-Client-IP：apache 服务代理
-                ipAddresses = request.getHeader("Proxy-Client-IP");
+            for (String header : headersToCheck) {
+                String ipAddresses = request.getHeader(header);
+                if (ipAddresses != null && !"unknown".equalsIgnoreCase(ipAddresses)) {
+                    return ipAddresses.split(",")[0].trim();
+                }
             }
-
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // WL-Proxy-Client-IP：weblogic 服务代理
-                ipAddresses = request.getHeader("WL-Proxy-Client-IP");
-            }
-
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // HTTP_CLIENT_IP：有些代理服务器
-                ipAddresses = request.getHeader("HTTP_CLIENT_IP");
-            }
-
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // X-Real-IP：nginx服务代理
-                ipAddresses = request.getHeader("X-Real-IP");
-            }
-
-            return StringUtil.hasText(ipAddresses) &&
-                    !"unknown".equalsIgnoreCase(ipAddresses)
-                    ? ipAddresses.split(",")[0].trim()
-                    : request.getRemoteAddr();
-        } else {
-            return request.getRemoteAddr();
         }
+
+        return request.getRemoteAddr();
     }
 
     private boolean isTrustedProxy(String clientIp) {
-        return webProperties.getTrustedProxies().contains("all") || webProperties.getTrustedProxies().contains(clientIp);
+        return IPAddressUtil.isIpInRange(clientIp, webProperties.getTrustedProxies());
     }
 
     @Override

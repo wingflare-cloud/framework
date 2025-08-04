@@ -71,17 +71,12 @@ public abstract class Assert {
 
     public static void noNullElements(Object[] array, String message) {
         if (array != null) {
-            Object[] var2 = array;
-            int var3 = array.length;
-
-            for(int var4 = 0; var4 < var3; ++var4) {
-                Object element = var2[var4];
+            for (Object element : array) {
                 if (element == null) {
                     execute(message);
                 }
             }
         }
-
     }
 
 
@@ -94,10 +89,7 @@ public abstract class Assert {
 
     public static void noNullElements(Collection<?> collection, String message) {
         if (collection != null) {
-            Iterator var2 = collection.iterator();
-
-            while(var2.hasNext()) {
-                Object element = var2.next();
+            for (Object element : collection) {
                 if (element == null) {
                     execute(message);
                 }
@@ -163,17 +155,12 @@ public abstract class Assert {
 
     public static void noNullElements(Object[] array, String message, Object data) {
         if (array != null) {
-            Object[] var2 = array;
-            int var3 = array.length;
-
-            for(int var4 = 0; var4 < var3; ++var4) {
-                Object element = var2[var4];
+            for (Object element : array) {
                 if (element == null) {
                     execute(message, data);
                 }
             }
         }
-
     }
 
 
@@ -186,16 +173,12 @@ public abstract class Assert {
 
     public static void noNullElements(Collection<?> collection, String message, Object data) {
         if (collection != null) {
-            Iterator var2 = collection.iterator();
-
-            while(var2.hasNext()) {
-                Object element = var2.next();
+            for (Object element : collection) {
                 if (element == null) {
                     execute(message, data);
                 }
             }
         }
-
     }
 
     public static void notEmpty(Map<?, ?> map, String message, Object data) {
@@ -255,17 +238,12 @@ public abstract class Assert {
 
     public static void noNullElements(Object[] array, Throw t) {
         if (array != null) {
-            Object[] var2 = array;
-            int var3 = array.length;
-
-            for(int var4 = 0; var4 < var3; ++var4) {
-                Object element = var2[var4];
+            for (Object element : array) {
                 if (element == null) {
                     execute(t);
                 }
             }
         }
-
     }
 
 
@@ -278,16 +256,12 @@ public abstract class Assert {
 
     public static void noNullElements(Collection<?> collection, Throw t) {
         if (collection != null) {
-            Iterator var2 = collection.iterator();
-
-            while(var2.hasNext()) {
-                Object element = var2.next();
+            for (Object element : collection) {
                 if (element == null) {
                     execute(t);
                 }
             }
         }
-
     }
 
     public static void notEmpty(Map<?, ?> map, Throw t) {

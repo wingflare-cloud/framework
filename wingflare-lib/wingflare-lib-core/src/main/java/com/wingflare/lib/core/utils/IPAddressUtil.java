@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -56,6 +57,37 @@ public class IPAddressUtil {
 
     public static InetAddress longToIp(long ip) throws UnknownHostException {
         return InetAddress.getByName(longToIpStr(ip));
+    }
+
+
+    /**
+     * 验证ip是否符合规则
+     *
+     * @param targetIp
+     * @param rule
+     * @return
+     */
+    public static boolean isIpInRange(String targetIp, String rule) {
+        if (rule.contains("/")) {
+            try {
+                String beginIp = getBeginIpStr(rule);
+                String endIp = getEndIpStr(rule);
+                return isValidRange(beginIp, endIp, targetIp);
+            } catch (UnknownHostException e) {
+                return false;
+            }
+        } else {
+            return rule.equals(targetIp);
+        }
+    }
+
+    public static boolean isIpInRange(String targetIp, Collection<String> rules) {
+        for (String rule : rules) {
+            if (isIpInRange(targetIp, rule)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -124,6 +156,13 @@ public class IPAddressUtil {
         return longToIpStr(getBeginIpLong(ip, maskBit));
     }
 
+    public static String getBeginIpStr(String ip) throws UnknownHostException {
+        String[] parts = ip.split("/");
+        String networkIp = parts[0];
+        String maskBit = parts[1];
+        return longToIpStr(getBeginIpLong(networkIp, maskBit));
+    }
+
     /**
      * 根据 ip/掩码位 计算IP段的起始IP
      *
@@ -134,6 +173,13 @@ public class IPAddressUtil {
      */
     public static long getBeginIpLong(String ip, String maskBit) throws UnknownHostException {
         return ipToLong(ip) & ipToLong(getMaskByMaskBit(maskBit));
+    }
+
+    public static long getBeginIpLong(String ip) throws UnknownHostException {
+        String[] parts = ip.split("/");
+        String networkIp = parts[0];
+        String maskBit = parts[1];
+        return ipToLong(networkIp) & ipToLong(getMaskByMaskBit(maskBit));
     }
 
     /**
@@ -147,6 +193,13 @@ public class IPAddressUtil {
         return longToIpStr(getEndIpLong(ip, maskBit));
     }
 
+    public static String getEndIpStr(String ip) throws UnknownHostException {
+        String[] parts = ip.split("/");
+        String networkIp = parts[0];
+        String maskBit = parts[1];
+        return longToIpStr(getEndIpLong(networkIp, maskBit));
+    }
+
     /**
      * 根据 ip/掩码位 计算IP段的终止IP
      *
@@ -157,6 +210,14 @@ public class IPAddressUtil {
      */
     public static Long getEndIpLong(String ip, String maskBit) throws UnknownHostException {
         return getBeginIpLong(ip, maskBit)
+                + ~ipToLong(getMaskByMaskBit(maskBit));
+    }
+
+    public static Long getEndIpLong(String ip) throws UnknownHostException {
+        String[] parts = ip.split("/");
+        String networkIp = parts[0];
+        String maskBit = parts[1];
+        return getBeginIpLong(networkIp, maskBit)
                 + ~ipToLong(getMaskByMaskBit(maskBit));
     }
 

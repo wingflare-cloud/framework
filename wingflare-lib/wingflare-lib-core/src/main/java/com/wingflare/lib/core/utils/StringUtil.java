@@ -43,7 +43,7 @@ public class StringUtil extends StringUtils {
 
     private static final String[] EMPTY_STRING_ARRAY = {};
 
-    private static Pattern camelPattern = Pattern.compile("[A-Z]");
+    private static final Pattern camelPattern = Pattern.compile("[A-Z]");
 
     /**
      * 判断一个字符串是否为空串
@@ -60,13 +60,13 @@ public class StringUtil extends StringUtils {
      *
      * @return
      */
-    public static Map<String, String[]> parseQueryStr(String queryString) throws UnsupportedEncodingException {
+    public static Map<String, String[]> parseQueryStr(String queryString) {
         Map<String, String[]> params = new HashMap<>();
         if (queryString == null || queryString.isEmpty()) {
             return params;
         }
 
-        String decodedQueryString = URLDecoder.decode(queryString, "UTF-8");
+        String decodedQueryString = URLDecoder.decode(queryString, StandardCharsets.UTF_8);
         String[] keyValues = decodedQueryString.split("&");
 
         for (String keyValue : keyValues) {
@@ -82,13 +82,13 @@ public class StringUtil extends StringUtils {
         return params;
     }
 
-    public static Map<String, String> parseQueryStrLast(String queryString) throws UnsupportedEncodingException {
+    public static Map<String, String> parseQueryStrLast(String queryString) {
         Map<String, String> params = new HashMap<>();
         if (queryString == null || queryString.isEmpty()) {
             return params;
         }
 
-        String decodedQueryString = URLDecoder.decode(queryString, "UTF-8");
+        String decodedQueryString = URLDecoder.decode(queryString, StandardCharsets.UTF_8);
         String[] keyValues = decodedQueryString.split("&");
 
         for (String keyValue : keyValues) {
@@ -101,13 +101,13 @@ public class StringUtil extends StringUtils {
         return params;
     }
 
-    public static Map<String, String> parseQueryStrFirst(String queryString) throws UnsupportedEncodingException {
+    public static Map<String, String> parseQueryStrFirst(String queryString) {
         Map<String, String> params = new HashMap<>();
         if (queryString == null || queryString.isEmpty()) {
             return params;
         }
 
-        String decodedQueryString = URLDecoder.decode(queryString, "UTF-8");
+        String decodedQueryString = URLDecoder.decode(queryString, StandardCharsets.UTF_8);
         String[] keyValues = decodedQueryString.split("&");
 
         for (String keyValue : keyValues) {
@@ -383,7 +383,7 @@ public class StringUtil extends StringUtils {
             if (trimTokens) {
                 token = token.trim();
             }
-            if (!ignoreEmptyTokens || token.length() > 0) {
+            if (!ignoreEmptyTokens || !token.isEmpty()) {
                 tokens.add(token);
             }
         }
@@ -527,11 +527,7 @@ public class StringUtil extends StringUtils {
      * @return 编码后的内容
      */
     public static String urlEncode(String str) {
-        try {
-            return URLEncoder.encode(str, StandardCharsets.UTF_8.name());
-        } catch (UnsupportedEncodingException e) {
-            return StringUtil.EMPTY;
-        }
+        return URLEncoder.encode(str, StandardCharsets.UTF_8);
     }
 
     /**
@@ -541,11 +537,7 @@ public class StringUtil extends StringUtils {
      * @return 解码后的内容
      */
     public static String urlDecode(String str) {
-        try {
-            return URLDecoder.decode(str, StandardCharsets.UTF_8.name());
-        } catch (UnsupportedEncodingException e) {
-            return StringUtil.EMPTY;
-        }
+        return URLDecoder.decode(str, StandardCharsets.UTF_8);
     }
 
     /**
@@ -572,10 +564,10 @@ public class StringUtil extends StringUtils {
         return matcher.match(pattern, url);
     }
 
-    public static String httpBuildQuery(Map<String, Object> map, boolean sort) throws UnsupportedEncodingException {
+    public static String httpBuildQuery(Map<String, Object> map, boolean sort) {
         String reString = "";
         reString = paramBuild(map, "", true, sort);
-        reString = URLEncoder.encode(reString, "utf-8");
+        reString = URLEncoder.encode(reString, StandardCharsets.UTF_8);
         reString = reString.replace("%3D", "=")
                 .replace("%26", "&");
         reString = removeEnd(reString, "&");

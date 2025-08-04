@@ -22,6 +22,7 @@ import java.util.List;
  * @description 事件日期工具
  */
 public class DateUtil {
+
     private final static String[] monthShortName = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
 
     /**
@@ -48,8 +49,7 @@ public class DateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {
             return sdf.parse(str);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -111,8 +111,7 @@ public class DateUtil {
      * @return 返回相差的秒数
      */
     public static int getOffsetSeconds(Date date1, Date date2) {
-        int seconds = (int) ((date2.getTime() - date1.getTime()) / 1000);
-        return seconds;
+        return (int) ((date2.getTime() - date1.getTime()) / 1000);
     }
 
     /**
@@ -305,8 +304,7 @@ public class DateUtil {
         if (date != null) {
             cal.setTime(date);
         }
-        int dayOfMonth = cal.getActualMaximum(Calendar.DATE);
-        return dayOfMonth;
+        return cal.getActualMaximum(Calendar.DATE);
     }
 
     /**

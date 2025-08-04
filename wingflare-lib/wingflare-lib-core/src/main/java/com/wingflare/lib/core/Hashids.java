@@ -249,7 +249,7 @@ public class Hashids {
             ret_strB.append(last);
 
             if (i + 1 < numbers.length) {
-                if (last.length() > 0) {
+                if (!last.isEmpty()) {
                     num %= (last.charAt(0) + i);
                     sepsIndex = (int) (num % this.seps.length());
                 } else {

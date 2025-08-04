@@ -25,43 +25,20 @@ public class ServletUtil {
 
     public static String getClientIpAddr() {
         HttpServletRequest request = getRequest();
-        String ip = null;
 
-        // X-Forwarded-For：Squid 服务代理
-        String ipAddresses = request.getHeader("X-Forwarded-For");
+        String[] headersToCheck = {
+                "X-Forwarded-For", "Proxy-Client-IP",
+                "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "X-Real-IP"
+        };
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-            // Proxy-Client-IP：apache 服务代理
-            ipAddresses = request.getHeader("Proxy-Client-IP");
+        for (String header : headersToCheck) {
+            String ipAddresses = request.getHeader(header);
+            if (ipAddresses != null && !"unknown".equalsIgnoreCase(ipAddresses)) {
+                return ipAddresses.split(",")[0].trim();
+            }
         }
 
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-            // WL-Proxy-Client-IP：weblogic 服务代理
-            ipAddresses = request.getHeader("WL-Proxy-Client-IP");
-        }
-
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-            // HTTP_CLIENT_IP：有些代理服务器
-            ipAddresses = request.getHeader("HTTP_CLIENT_IP");
-        }
-
-        if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-            // X-Real-IP：nginx服务代理
-            ipAddresses = request.getHeader("X-Real-IP");
-        }
-
-        // 有些网络通过多层代理，那么获取到的ip就会有多个，一般都是通过逗号（,）分割开来，并且第一个ip为客户端的真实IP
-        if (ipAddresses != null && !ipAddresses.isEmpty()) {
-            ip = ipAddresses.split(",")[0];
-        }
-
-        // 还是不能获取到，最后再通过request.getRemoteAddr();获取
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-            ip = request.getRemoteAddr();
-        }
-
-
-        return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
+        return request.getRemoteAddr();
     }
 
     /**
@@ -171,12 +148,12 @@ public class ServletUtil {
      */
     public static boolean isAjaxRequest(HttpServletRequest request) {
         String accept = request.getHeader("accept");
-        if (accept != null && accept.indexOf("application/json") != -1) {
+        if (accept != null && accept.contains("application/json")) {
             return true;
         }
 
         String xRequestedWith = request.getHeader("X-Requested-With");
-        if (xRequestedWith != null && xRequestedWith.indexOf("XMLHttpRequest") != -1) {
+        if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest")) {
             return true;
         }
 
@@ -186,10 +163,7 @@ public class ServletUtil {
         }
 
         String ajax = request.getParameter("__ajax");
-        if (StringUtil.inStringIgnoreCase(ajax, "json", "xml")) {
-            return true;
-        }
-        return false;
+        return StringUtil.inStringIgnoreCase(ajax, "json", "xml");
     }
 
 }

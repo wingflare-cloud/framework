@@ -289,7 +289,7 @@ public class AntPathMatcher {
                 pos += skipped;
                 skipped = skipSegment(path, pos, pattDir);
                 if (skipped < pattDir.length()) {
-                    return (skipped > 0 || (pattDir.length() > 0 && isWildcardChar(pattDir.charAt(0))));
+                    return (skipped > 0 || (!pattDir.isEmpty() && isWildcardChar(pattDir.charAt(0))));
                 }
                 pos += skipped;
             }
@@ -342,7 +342,7 @@ public class AntPathMatcher {
     protected String[] tokenizePattern(String pattern) {
         String[] tokenized = null;
         Boolean cachePatterns = this.cachePatterns;
-        if (cachePatterns == null || cachePatterns.booleanValue()) {
+        if (cachePatterns == null || cachePatterns) {
             tokenized = this.tokenizedPatternCache.get(pattern);
         }
         if (tokenized == null) {
@@ -354,7 +354,7 @@ public class AntPathMatcher {
                 deactivatePatternCache();
                 return tokenized;
             }
-            if (cachePatterns == null || cachePatterns.booleanValue()) {
+            if (cachePatterns == null || cachePatterns) {
                 this.tokenizedPatternCache.put(pattern, tokenized);
             }
         }
@@ -398,7 +398,7 @@ public class AntPathMatcher {
     protected AntPathStringMatcher getStringMatcher(String pattern) {
         AntPathStringMatcher matcher = null;
         Boolean cachePatterns = this.cachePatterns;
-        if (cachePatterns == null || cachePatterns.booleanValue()) {
+        if (cachePatterns == null || cachePatterns) {
             matcher = this.stringMatcherCache.get(pattern);
         }
         if (matcher == null) {
@@ -410,7 +410,7 @@ public class AntPathMatcher {
                 deactivatePatternCache();
                 return matcher;
             }
-            if (cachePatterns == null || cachePatterns.booleanValue()) {
+            if (cachePatterns == null || cachePatterns) {
                 this.stringMatcherCache.put(pattern, matcher);
             }
         }

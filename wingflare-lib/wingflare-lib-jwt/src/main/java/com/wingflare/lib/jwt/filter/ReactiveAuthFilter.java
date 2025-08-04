@@ -1,13 +1,13 @@
 package com.wingflare.lib.jwt.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
 import com.wingflare.lib.security.properties.AuthProperties;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.R;
-import com.wingflare.lib.standard.utils.SecurityUtil;
 import jakarta.annotation.Resource;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -67,11 +67,9 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
                         }
                     }
 
-                    // 认证成功：添加用户认证头信息
-                    ServerHttpRequest mutatedRequest = request.mutate()
-                            .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
-                            .build();
-                    return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                    ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+
+                    return chain.filter(exchange);
                 });
     }
 

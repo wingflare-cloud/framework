@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 public class SecurityUtil {
 
-    private static final Pattern pattern = Pattern.compile("@S\\[(.*?)\\]");
+    private static final Pattern pattern = Pattern.compile("@S\\[(.*?)]");
 
     /**
      * 获取当前认证模式
@@ -58,8 +58,8 @@ public class SecurityUtil {
         return map.entrySet().stream()
                 .map(entry -> {
                     try {
-                        String key = URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8.toString());
-                        String value = URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8.toString());
+                        String key = URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8);
+                        String value = URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8);
                         return key + "=" + value;
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -113,14 +113,18 @@ public class SecurityUtil {
      * @return
      */
     public static BigInteger getAuthMainId() {
-        switch (getAuthMode()) {
-            case USER:
-                return SecurityUtil.getUser() == null ? BigInteger.ZERO : SecurityUtil.getUser().getUserId();
-            case APP:
-                return getAppId();
-            default:
-                throw new NoAuthException();
-        }
+        return switch (getAuthMode()) {
+            case USER -> SecurityUtil.getUser() == null ? BigInteger.ZERO : SecurityUtil.getUser().getUserId();
+            case APP -> getAppId();
+            default -> throw new NoAuthException();
+        };
+    }
+
+    /**
+     * 获取客户端id
+     */
+    public static String getClientId() {
+        return ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID, null, String.class);
     }
 
     /**

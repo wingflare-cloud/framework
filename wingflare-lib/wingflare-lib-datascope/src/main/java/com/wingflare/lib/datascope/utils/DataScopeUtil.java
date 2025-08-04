@@ -218,9 +218,8 @@ public class DataScopeUtil {
         if (expIndex != -1) {
             String[] strings = expression.split(":", 2);
             subType = strings[1];
-            switch (strings[0]) {
-                case "ctx":
-                    subId = ContextHolder.get(subType);
+            if ("ctx".equals(subType)) {
+                subId = ContextHolder.get(subType);
             }
         }
 
@@ -234,8 +233,8 @@ public class DataScopeUtil {
             List<String> list = (List<String>) subId;
             List<Map<String, List<String>>> whitelists = getDPInfoList(true, subType, list);
             List<Map<String, List<String>>> blacklists = getDPInfoList(false, subType, list);
-            Map<String, List<String>> whitelist = whitelists.get(0);
-            Map<String, List<String>> blacklist = blacklists.get(0);
+            Map<String, List<String>> whitelist = whitelists.getFirst();
+            Map<String, List<String>> blacklist = blacklists.getFirst();
 
             for (int i = 1; i < whitelist.size(); i++) {
                 mergeDPInfo(whitelist, whitelists.get(i));

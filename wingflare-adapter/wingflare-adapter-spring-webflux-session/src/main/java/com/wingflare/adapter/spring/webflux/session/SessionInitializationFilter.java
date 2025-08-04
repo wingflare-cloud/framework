@@ -1,9 +1,14 @@
 package com.wingflare.adapter.spring.webflux.session;
 
 
+import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
+import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import org.springframework.beans.factory.annotation.Value;
+import com.wingflare.lib.spring.configure.properties.SessionProperties;
+import com.wingflare.lib.spring.configure.properties.WebProperties;
+import com.wingflare.lib.standard.Ctx;
+import jakarta.annotation.Resource;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -14,18 +19,17 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 import java.net.InetSocketAddress;
-import java.util.Arrays;
 
 /**
  * session过滤器
  */
 public class SessionInitializationFilter implements WebFilter, Ordered {
 
-    @Value("${web.trustedProxies:}")
-    private String trustedProxies;
+    @Resource
+    private SessionProperties sessionProperties;
 
-    @Value("${web.session.strictModel:}")
-    private String strictModel;
+    @Resource
+    private WebProperties webProperties;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
@@ -33,25 +37,25 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
                 .flatMap(webSession -> {
                     ServerHttpRequest request = exchange.getRequest();
                     if (webSession.getAttributes().isEmpty() ||
-                            !webSession.getAttributes().containsKey("userAgent")) {
+                            !webSession.getAttributes().containsKey("ip") ||
+                            !webSession.getAttributes().containsKey("sid")) {
                         // 初始化新会话
                         webSession.getAttributes().put("sid", webSession.getId());
                         webSession.getAttributes().put("ip", getClientIp(exchange));
                         webSession.getAttributes().put("userAgent", request.getHeaders().getFirst("User-Agent"));
-                        return chain.filter(exchange);
                     } else {
                         // 现有会话校验
-                        if (StringUtil.isNoneBlank(strictModel)) {
+                        if (StringUtil.isNoneBlank(sessionProperties.getStrictModel())) {
                             String sessionUserAgent = webSession.getAttribute("userAgent");
                             String currentUserAgent = request.getHeaders().getFirst("User-Agent");
 
-                            if ("simple".equals(strictModel) || "strict".equals(strictModel)) {
+                            if ("simple".equals(sessionProperties.getStrictModel()) || "strict".equals(sessionProperties.getStrictModel())) {
                                 if (!ObjectUtils.nullSafeEquals(currentUserAgent, sessionUserAgent)) {
                                     return Mono.error(new NoPermissionException("Illegal UserAgent"));
                                 }
                             }
 
-                            if ("strict".equals(strictModel)) {
+                            if ("strict".equals(sessionProperties.getStrictModel())) {
                                 String sessionIp = webSession.getAttribute("ip");
                                 String currentIp = getClientIp(exchange);
                                 if (!ObjectUtils.nullSafeEquals(currentIp, sessionIp)) {
@@ -59,8 +63,11 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
                                 }
                             }
                         }
-                        return chain.filter(exchange);
                     }
+
+                    ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, webSession.getAttribute("sid"));
+
+                    return chain.filter(exchange);
                 });
     }
 
@@ -77,42 +84,24 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
         String ip = remoteAddress.getAddress().getHostAddress();
 
         if (isTrustedProxy(ip)) {
-            // X-Forwarded-For：Squid 服务代理
-            String ipAddresses = headers.getFirst("X-Forwarded-For");
+            String[] headersToCheck = {
+                    "X-Forwarded-For", "Proxy-Client-IP",
+                    "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "X-Real-IP"
+            };
 
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // Proxy-Client-IP：apache 服务代理
-                ipAddresses = headers.getFirst("Proxy-Client-IP");
+            for (String header : headersToCheck) {
+                String ipAddresses = headers.getFirst(header);
+                if (ipAddresses != null && !"unknown".equalsIgnoreCase(ipAddresses)) {
+                    return ipAddresses.split(",")[0].trim();
+                }
             }
-
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // WL-Proxy-Client-IP：weblogic 服务代理
-                ipAddresses = headers.getFirst("WL-Proxy-Client-IP");
-            }
-
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // HTTP_CLIENT_IP：有些代理服务器
-                ipAddresses = headers.getFirst("HTTP_CLIENT_IP");
-            }
-
-            if (ipAddresses == null || ipAddresses.isEmpty() || "unknown".equalsIgnoreCase(ipAddresses)) {
-                // X-Real-IP：nginx服务代理
-                ipAddresses = headers.getFirst("X-Real-IP");
-            }
-
-            return StringUtil.hasText(ipAddresses) &&
-                    !"unknown".equalsIgnoreCase(ipAddresses)
-                    ? ipAddresses.split(",")[0].trim()
-                    : ip;
         }
 
         return ip;
     }
 
     private boolean isTrustedProxy(String clientIp) {
-        // 实际项目中应结合IP白名单/网段判断
-        return trustedProxies.equals("all") ||
-                Arrays.asList(trustedProxies.split(",")).contains(clientIp);
+        return IPAddressUtil.isIpInRange(clientIp, webProperties.getTrustedProxies());
     }
 
     @Override
