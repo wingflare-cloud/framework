@@ -2,7 +2,6 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.gateway.R;
 import com.wingflare.gateway.utils.WebFluxUtil;
-import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
@@ -67,14 +66,16 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     }
 
                     if (authResponseDTO.getUserAuth() != null) {
-
-                        ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
-
                         // 认证成功：添加用户认证头信息
                         ServerHttpRequest mutatedRequest = request.mutate()
                                 .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
                                 .build();
-                        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                        return chain.filter(
+                                exchange.mutate().request(mutatedRequest).build()
+                        ).contextWrite(ctx -> {
+                            ctx.put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+                            return ctx;
+                        });
                     }
 
                     return chain.filter(exchange);

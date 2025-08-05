@@ -1,7 +1,6 @@
 package com.wingflare.lib.jwt.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
@@ -67,9 +66,10 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
                         }
                     }
 
-                    ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
-
-                    return chain.filter(exchange);
+                    return chain.filter(exchange).contextWrite(ctx -> {
+                        ctx.put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+                        return ctx;
+                    });
                 });
     }
 

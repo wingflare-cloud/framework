@@ -1,6 +1,5 @@
 package com.wingflare.gateway.filter;
 
-import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.configure.properties.SessionProperties;
@@ -42,25 +41,24 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
                 webSession.getAttributes().put("ip", getClientIp(exchange));
                 webSession.getAttributes().put("userAgent", request.getHeaders().getFirst("User-Agent"));
 
-                ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, webSession.getId());
-
                 // 创建带有Session ID的请求头
                 ServerHttpRequest mutatedRequest = request.mutate()
                         .header(webProperties.getClientIdCtxName(), webSession.getId())
                         .build();
 
                 return chain.filter(
-                            exchange.mutate().request(mutatedRequest).build()
-                        );
+                        exchange.mutate().request(mutatedRequest).build()
+                ).contextWrite(ctx -> {
+                    ctx.put(Ctx.CONTEXT_KEY_CLIENT_ID, webSession.getId());
+                    return ctx;
+                });
             } else {
                 // 现有会话校验
                 return handleExistingSession(exchange, webSession)
                         .flatMap(shouldContinue -> {
-                            String sid = webSession.getAttributes().containsKey("sid") ? webSession.getAttribute("sid") : "";
+                            String sid = webSession.getAttribute("sid");
 
-                            ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, sid);
-
-                            if (shouldContinue) {
+                            if (shouldContinue && StringUtil.isNotBlank(sid)) {
                                 // 创建带有Session ID的请求头
                                 ServerHttpRequest mutatedRequest = request.mutate()
                                         .header(webProperties.getClientIdCtxName(), sid)
@@ -68,7 +66,10 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
 
                                 return chain.filter(
                                         exchange.mutate().request(mutatedRequest).build()
-                                );
+                                ).contextWrite(ctx -> {
+                                    ctx.putNonNull(Ctx.CONTEXT_KEY_CLIENT_ID, sid);
+                                    return ctx;
+                                });
                             } else {
                                 return Mono.empty();
                             }

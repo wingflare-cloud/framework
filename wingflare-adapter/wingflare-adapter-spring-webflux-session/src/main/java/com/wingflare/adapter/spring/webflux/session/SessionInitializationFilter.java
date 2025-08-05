@@ -1,7 +1,6 @@
 package com.wingflare.adapter.spring.webflux.session;
 
 
-import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
@@ -65,9 +64,10 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
                         }
                     }
 
-                    ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, webSession.getAttribute("sid"));
-
-                    return chain.filter(exchange);
+                    return chain.filter(exchange).contextWrite(ctx -> {
+                        ctx.putNonNull(Ctx.CONTEXT_KEY_CLIENT_ID, webSession.getAttribute("sid"));
+                        return ctx;
+                    });
                 });
     }
 

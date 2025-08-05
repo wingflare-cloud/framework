@@ -1,9 +1,9 @@
 package com.wingflare.adapter.spring.server.web;
 
 import com.wingflare.adapter.spring.server.web.configure.WebMvcConfig;
+import com.wingflare.adapter.spring.server.web.filter.HeaderConvertContextFilter;
 import com.wingflare.adapter.spring.server.web.handler.ApiResponseAdviceHandler;
 import com.wingflare.adapter.spring.server.web.handler.WebApiExceptionHandler;
-import com.wingflare.adapter.spring.server.web.interceptor.HeaderInterceptor;
 import com.wingflare.lib.spring.MicroserviceMode;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Import;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Import;
         WebMvcConfig.class,
         ApiResponseAdviceHandler.class,
         WebApiExceptionHandler.class,
-        HeaderInterceptor.class,
+        HeaderConvertContextFilter.class,
         WebCtxSource.class,
 
 })

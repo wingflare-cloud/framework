@@ -56,6 +56,8 @@ public class ServletAuthFilter implements Filter, Ordered {
                 }
             }
         }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     /**
