@@ -12,6 +12,8 @@ public class SessionProperties {
 
     private String strictModel;
 
+    private String resetSessionHeader = "X-Reset-Session";
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -27,4 +29,13 @@ public class SessionProperties {
     public void setStrictModel(String strictModel) {
         this.strictModel = strictModel;
     }
+
+    public String getResetSessionHeader() {
+        return resetSessionHeader;
+    }
+
+    public void setResetSessionHeader(String resetSessionHeader) {
+        this.resetSessionHeader = resetSessionHeader;
+    }
+
 }

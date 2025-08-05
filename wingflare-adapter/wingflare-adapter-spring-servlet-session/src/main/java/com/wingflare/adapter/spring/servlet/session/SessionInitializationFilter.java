@@ -64,7 +64,11 @@ public class SessionInitializationFilter implements Filter, Ordered {
 
             ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, session.getAttribute("sid"));
 
-            filterChain.doFilter(servletRequest, servletResponse);
+            try {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } finally {
+
+            }
         }
     }
 
