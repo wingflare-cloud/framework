@@ -6,14 +6,11 @@ import com.wingflare.lib.core.exceptions.NoPermissionException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.security.annotation.*;
 import com.wingflare.lib.security.constants.SecurityErrorCode;
-import com.wingflare.lib.security.utils.ApplicationAuthUtil;
 import com.wingflare.lib.security.utils.AuthUtil;
 import com.wingflare.lib.security.utils.UserAuthUtil;
 import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.spring.constants.Wf;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
-import com.wingflare.lib.standard.Ctx;
-import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -51,12 +48,7 @@ public class PreAuthorizeAspect implements Ordered {
     private AuthUtil authUtil;
 
     @Resource
-    private ApplicationAuthUtil applicationAuthUtil;
-
-    @Resource
     private UserAuthUtil userAuthUtil;
-
-    private final Map<String, AuthMode> authModeCache = new HashMap<>();
 
     private final Map<String, InternalApi> internalApiCache = new HashMap<>();
 
@@ -110,16 +102,8 @@ public class PreAuthorizeAspect implements Ordered {
      * Method对象进行注解检查
      */
     public void checkMethodAnnotation(Signature signature) {
-        // 获取认证模式
-        AuthMode authMode = getAuthMode(signature);
         // 获取当前上下文中的功能标记代码
         String funcMark = ApiHelperUtil.getFuncMark();
-        // 如果方法注解上指定了认证模式则使用方法上的鉴权模式，否则默认为用户鉴权模式
-        if (authMode != null) {
-            ContextHolder.set(Ctx.AUTH_MODE_CONTEXT, authMode.value());
-        } else {
-            ContextHolder.set(Ctx.AUTH_MODE_CONTEXT, AuthType.USER);
-        }
 
         boolean ignore = false;
         InternalApi innerAuth = getInternalApi(signature);
@@ -145,11 +129,7 @@ public class PreAuthorizeAspect implements Ordered {
             RequiresLogin requiresLogin = getRequiresLogin(signature);
 
             if (requiresLogin != null) {
-                if (AuthType.USER.equals(SecurityUtil.getAuthMode())) {
-                    userAuthUtil.checkUser();
-                } else {
-                    applicationAuthUtil.checkApp();
-                }
+                userAuthUtil.checkUser();
             }
 
             RequiresPermissions requiresPermissions = null;
@@ -180,22 +160,6 @@ public class PreAuthorizeAspect implements Ordered {
 
             ContextHolder.set(Wf.PERMISSION_RESULT_CONTEXT_KEY, true);
         }
-    }
-
-    private AuthMode getAuthMode(Signature signature) {
-        if (authModeCache.containsKey(signature.getName())) {
-            return authModeCache.get(signature.getName());
-        }
-
-        AuthMode authMode;
-
-        synchronized (authModeCache) {
-            Method method = ((MethodSignature) signature).getMethod();
-            authMode = method.getAnnotation(AuthMode.class);
-            authModeCache.put(signature.getName(), authMode);
-        }
-
-        return authMode;
     }
 
     private InternalApi getInternalApi(Signature signature) {

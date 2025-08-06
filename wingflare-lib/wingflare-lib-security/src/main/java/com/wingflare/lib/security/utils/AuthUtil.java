@@ -2,16 +2,13 @@ package com.wingflare.lib.security.utils;
 
 
 import com.wingflare.lib.standard.Ctx;
-import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
-import com.wingflare.lib.standard.model.ApplicationAuth;
 import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.security.constants.SecurityErrorCode;
 import com.wingflare.lib.security.enums.Logical;
-import com.wingflare.lib.security.standard.SecurityCheckApplication;
 import com.wingflare.lib.security.standard.SecurityCheckUser;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
@@ -30,22 +27,15 @@ import java.util.List;
  */
 @Component
 @ConditionalOnBean({
-        ApplicationAuthUtil.class,
         UserAuthUtil.class
 })
 public class AuthUtil {
-
-    @Resource
-    private SecurityCheckApplication appSecurityCheck;
 
     @Resource
     private SecurityCheckUser userSecurityCheck;
 
     @Resource
     private UserAuthUtil userAuthUtil;
-
-    @Resource
-    private ApplicationAuthUtil applicationAuthUtil;
 
     /**
      * 根据注解(@RequiresPermissions)鉴权, 如果验证未通过，则抛出异常: NotPermissionException
@@ -120,33 +110,19 @@ public class AuthUtil {
      * @return 用户是否具备某权限
      */
     public boolean hasPermission(String businessSystem, String permission) {
-        if (AuthType.USER.equals(SecurityUtil.getAuthMode())) {
-            UserAuth user = userAuthUtil.getUser();
-            if (user != null) {
-                if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
-                    if (StringUtil.isEmpty(businessSystem) || user.getUserId() == null || user.getUserId().compareTo(BigInteger.ZERO) == 0) {
-                        return false;
-                    }
+        UserAuth user = userAuthUtil.getUser();
 
-                    return userSecurityCheck.hasPermission(
-                            businessSystem, Ctx.PREFIX_USER_PERMISSION_KEY, user, permission);
+        if (user != null) {
+            if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
+                if (StringUtil.isEmpty(businessSystem) || user.getUserId() == null || user.getUserId().compareTo(BigInteger.ZERO) == 0) {
+                    return false;
                 }
 
-                return true;
+                return userSecurityCheck.hasPermission(
+                        businessSystem, Ctx.PREFIX_USER_PERMISSION_KEY, user, permission);
             }
-        } else if (AuthType.APP.equals(SecurityUtil.getAuthMode())) {
-            ApplicationAuth app = applicationAuthUtil.getApp();
-            boolean parentPer = true;
-            if (app != null) {
-                if (app.getParentAppId() != null && app.getParentAppId().compareTo(BigInteger.ZERO) > 0) {
-                    parentPer = appSecurityCheck.hasPermission(
-                            businessSystem, Ctx.PREFIX_APP_PERMISSION_KEY,
-                            applicationAuthUtil.getParentApp(), permission, true);
-                }
 
-                return parentPer && appSecurityCheck.hasPermission(
-                        businessSystem, Ctx.PREFIX_APP_PERMISSION_KEY, app, permission, false);
-            }
+            return true;
         }
 
         return false;

@@ -3,17 +3,14 @@ package com.wingflare.lib.standard.utils;
 
 import com.wingflare.lib.core.constants.DateFormat;
 import com.wingflare.lib.core.context.ContextHolder;
-import com.wingflare.lib.core.exceptions.NoAuthException;
 import com.wingflare.lib.core.utils.DateUtil;
 import com.wingflare.lib.core.utils.ObjectUtil;
 import com.wingflare.lib.core.utils.SerializationUtil;
 import com.wingflare.lib.standard.Ctx;
-import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.standard.model.UserAuth;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -32,13 +29,6 @@ import java.util.stream.Collectors;
 public class SecurityUtil {
 
     private static final Pattern pattern = Pattern.compile("@S\\[(.*?)]");
-
-    /**
-     * 获取当前认证模式
-     */
-    public static AuthType getAuthMode() {
-        return ContextHolder.get(Ctx.AUTH_MODE_CONTEXT, AuthType.class);
-    }
 
     /**
      * 获取getClaimsMap
@@ -108,19 +98,6 @@ public class SecurityUtil {
     }
 
     /**
-     * 获取认证主体ID
-     *
-     * @return
-     */
-    public static BigInteger getAuthMainId() {
-        return switch (getAuthMode()) {
-            case USER -> SecurityUtil.getUser() == null ? BigInteger.ZERO : SecurityUtil.getUser().getUserId();
-            case APP -> getAppId();
-            default -> throw new NoAuthException();
-        };
-    }
-
-    /**
      * 获取客户端id
      */
     public static String getClientId() {
@@ -177,34 +154,6 @@ public class SecurityUtil {
      */
     public static String getBusinessSystem() {
         return ContextHolder.get(Ctx.CONTEXT_KEY_BUSINESS_SYSTEM);
-    }
-
-    /**
-     * 获取应用id
-     */
-    public static BigInteger getAppId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_APP_ID, new BigInteger("0"), BigInteger.class);
-    }
-
-    /**
-     * 获取父级应用id
-     */
-    public static BigInteger getParentAppId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_PARENT_APP_ID, new BigInteger("0"), BigInteger.class);
-    }
-
-    /**
-     * 获取商户id
-     */
-    public static BigInteger getMerchantId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_MERCHANT_ID, new BigInteger("0"), BigInteger.class);
-    }
-
-    /**
-     * 获取父级商户id
-     */
-    public static BigInteger getParentMerchantId() {
-        return ContextHolder.get(Ctx.CONTEXT_KEY_PARENT_MERCHANT_ID, new BigInteger("0"), BigInteger.class);
     }
 
 }

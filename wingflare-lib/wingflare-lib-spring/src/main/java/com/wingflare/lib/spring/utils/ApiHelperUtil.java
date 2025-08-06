@@ -25,12 +25,10 @@ public class ApiHelperUtil {
         add(Wf.INTERNAL_API_AUTH_CONTEXT_KEY);
         add(Wf.PERMISSION_RESULT_CONTEXT_KEY);
         add(Wf.FROM_SOURCE_RESULT_CONTEXT_KEY);
-        add(Wf.INTERNAL_API_DEFAULT_SECRET_STR);
         add(Wf.RESPONSE_FORCE_ORIGINAL_CONTEXT_KEY);
         add(Wf.REQUEST_AUTO_HEADER_CONTEXT_KEY);
         add(Wf.REQUEST_AUTO_THROW_ERR_CONTEXT_KEY);
         add(Wf.FUNC_MARK_CONTEXT_KEY);
-        add(Ctx.AUTH_MODE_CONTEXT);
         add(Wf.REQUEST_HEADER_PENETRATION_CONTEXT_KEY);
     }};
 
@@ -50,12 +48,8 @@ public class ApiHelperUtil {
                 String secret = ContextHolder.get(Wf.INTERNAL_API_AUTH_CONTEXT_KEY, null, String.class);
                 String secretKey = systemInternalProperties.getPassSecret();
 
-                if (StringUtil.isEmpty(secretKey)) {
-                    secretKey = Wf.INTERNAL_API_DEFAULT_SECRET_STR;
-                }
-
                 // 内部请求验证
-                if (!StringUtil.equals(secretKey, secret)) {
+                if (StringUtil.isBlank(secretKey) || !StringUtil.equals(secretKey, secret)) {
                     ContextHolder.set(Wf.FROM_SOURCE_RESULT_CONTEXT_KEY, false);
                     return false;
                 } else {
@@ -84,12 +78,8 @@ public class ApiHelperUtil {
             String secret = ContextHolder.get(Wf.INTERNAL_API_AUTH_CONTEXT_KEY, null, String.class);
             String secretKey = systemInternalProperties.getPassSecret();
 
-            if (StringUtil.isEmpty(secretKey)) {
-                secretKey = Wf.INTERNAL_API_DEFAULT_SECRET_STR;
-            }
-
             // 内部请求验证
-            if (!StringUtil.equals(secretKey, secret)) {
+            if (StringUtil.isBlank(secretKey) || !StringUtil.equals(secretKey, secret)) {
                 ContextHolder.set(Wf.FROM_SOURCE_RESULT_CONTEXT_KEY, false);
                 return false;
             } else {

@@ -21,6 +21,9 @@ import org.springframework.core.Ordered;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * session过滤器
@@ -67,7 +70,26 @@ public class SessionInitializationFilter implements Filter, Ordered {
             try {
                 filterChain.doFilter(servletRequest, servletResponse);
             } finally {
+                HttpSession existingSession = request.getSession(false);
 
+                if (existingSession != null) {
+                    Map<String, Object> sessionAttributes = new HashMap<>();
+                    Enumeration<String> attributeNames = existingSession.getAttributeNames();
+
+                    while (attributeNames.hasMoreElements()) {
+                        String attrName = attributeNames.nextElement();
+                        sessionAttributes.put(attrName, existingSession.getAttribute(attrName));
+                    }
+
+                    if (ContextHolder.get(Ctx.CONTEXT_KEY_RESET_SESSION, false, Boolean.class)) {
+                        existingSession.invalidate();
+                        HttpSession newSession = request.getSession(true);
+
+                        for (Map.Entry<String, Object> entry : sessionAttributes.entrySet()) {
+                            newSession.setAttribute(entry.getKey(), entry.getValue());
+                        }
+                    }
+                }
             }
         }
     }

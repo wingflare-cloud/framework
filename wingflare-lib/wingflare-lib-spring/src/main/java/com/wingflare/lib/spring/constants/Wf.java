@@ -1,6 +1,5 @@
 package com.wingflare.lib.spring.constants;
 
-import org.springframework.core.Ordered;
 
 /**
  * @InterfaceName Wf
@@ -9,11 +8,6 @@ import org.springframework.core.Ordered;
  * @Description 框架常量文件
  */
 public interface Wf {
-
-    /**
-     * 内网接口认证切面权重
-     */
-    int INTERNAL_API_AUTH_ORDER = Ordered.HIGHEST_PRECEDENCE + 2;
 
     /**
      * 内网接口认证头
@@ -29,11 +23,6 @@ public interface Wf {
      * 流量来源上下文结果KEY
      */
     String FROM_SOURCE_RESULT_CONTEXT_KEY = "wf:fromSource:result";
-
-    /**
-     * 内网api默认认证签名key
-     */
-    String INTERNAL_API_DEFAULT_SECRET_STR = "wf-framework-inner-secret";
 
     /**
      * 流量来源标记key

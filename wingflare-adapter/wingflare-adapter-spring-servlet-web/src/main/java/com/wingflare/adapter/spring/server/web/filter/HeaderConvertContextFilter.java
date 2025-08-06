@@ -51,7 +51,7 @@ public class HeaderConvertContextFilter implements Filter, Ordered {
                 Map<String, Object> contextMap = ContextHolder.getLocalMap();
 
                 if (CollectionUtil.isNotEmpty(contextMap)) {
-                    logger.info("ctx", e(contextMap));
+                    logger.debug("ctx", e(contextMap));
                 }
             }
 

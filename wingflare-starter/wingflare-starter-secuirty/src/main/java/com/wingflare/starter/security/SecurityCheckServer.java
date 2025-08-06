@@ -6,9 +6,7 @@ import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.standard.CacheService;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.PageResult;
-import com.wingflare.lib.standard.model.ApplicationAuth;
 import com.wingflare.lib.standard.model.UserAuth;
-import com.wingflare.lib.security.standard.SecurityCheckApplication;
 import com.wingflare.lib.security.standard.SecurityCheckUser;
 import org.springframework.stereotype.Component;
 
@@ -27,38 +25,10 @@ import java.util.stream.Collectors;
  * @description 微服务自动鉴权服务
  */
 @Component
-public class SecurityCheckServer implements SecurityCheckUser, SecurityCheckApplication {
+public class SecurityCheckServer implements SecurityCheckUser {
 
     @Resource
     private CacheService cacheService;
-
-    @Override
-    public boolean hasPermission(
-            String businessSystem,
-            String key,
-            ApplicationAuth app,
-            String permissionCode,
-            boolean isService
-    ) {
-        String lastKey;
-
-        if (isService) {
-            lastKey = String.format(
-                    "%s:%s:ser:%s",
-                    businessSystem, key, app.getAppId());
-        } else {
-            lastKey = String.format(
-                    "%s:%s:%s",
-                    businessSystem, key, app.getAppId());
-        }
-
-        return hasPermission(lastKey, permissionCode);
-    }
-
-    @Override
-    public ApplicationAuth getApplicationByAppId(String appKey) {
-        return cacheService.getCacheObject(appKey);
-    }
 
 
     public boolean hasPermission(String key, String permissionCode) {

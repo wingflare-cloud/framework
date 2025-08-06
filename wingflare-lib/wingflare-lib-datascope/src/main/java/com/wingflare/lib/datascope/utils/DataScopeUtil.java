@@ -7,7 +7,6 @@ import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.datascope.DPInfo;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
-import com.wingflare.lib.standard.enums.AuthType;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.lib.core.utils.StringUtil;
@@ -104,22 +103,19 @@ public class DataScopeUtil {
             return;
         }
 
-        if (SecurityUtil.getAuthMode() != null) {
-            if (SecurityUtil.getAuthMode().equals(AuthType.USER)) {
-                // 判断登录用户是否为超管，超管不用做数据权限处理
-                Boolean isSuperAdmin = userAuthUtil.getUser() != null ? userAuthUtil.getUser().isSuperAdmin() : Boolean.FALSE;
-                if (Boolean.TRUE.equals(isSuperAdmin)) {
-                    return;
-                }
-            }
+        // 判断登录用户是否为超管，超管不用做数据权限处理
+        Boolean isSuperAdmin = userAuthUtil.getUser() != null ? userAuthUtil.getUser().isSuperAdmin() : Boolean.FALSE;
 
-            DataPermissionData dataPermissionData = new DataPermissionData();
-            setCondition(dpBindingDataList, dataPermissionData);
-            setDPInfo(dataPermissionData);
-
-            // 将数据权限数据放入线程上下文数据中
-            ContextHolder.set(Ctx.DATA_PERMISSION_CONTEXT, dataPermissionData);
+        if (Boolean.TRUE.equals(isSuperAdmin)) {
+            return;
         }
+
+        DataPermissionData dataPermissionData = new DataPermissionData();
+        setCondition(dpBindingDataList, dataPermissionData);
+        setDPInfo(dataPermissionData);
+
+        // 将数据权限数据放入线程上下文数据中
+        ContextHolder.set(Ctx.DATA_PERMISSION_CONTEXT, dataPermissionData);
     }
 
     /**
@@ -307,7 +303,7 @@ public class DataScopeUtil {
      * @return
      */
     private Map<String, List<String>> getDPInfo(boolean isWhitelist, String type, String typeId) {
-        String lastStr = String.format(":%s:%s", SecurityUtil.getAuthMode().toString(), SecurityUtil.getAuthMainId());
+        String lastStr = String.format(":%s", SecurityUtil.getUser() != null ? SecurityUtil.getUser().getUserId() : 0);
 
         if (StringUtil.isBlank(type)) {
             if (StringUtil.isBlank(typeId)) {

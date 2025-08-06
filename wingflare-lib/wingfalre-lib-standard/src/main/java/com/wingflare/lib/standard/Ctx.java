@@ -68,31 +68,6 @@ public interface Ctx {
     String CONTEXT_KEY_BUSINESS_SYSTEM = "businessSystem";
 
     /**
-     * 应用id
-     */
-    String CONTEXT_KEY_APP_ID = "appId";
-    /**
-     * 父应用id
-     */
-    String CONTEXT_KEY_PARENT_APP_ID = "parentAppId";
-    /**
-     * 商户id
-     */
-    String CONTEXT_KEY_MERCHANT_ID = "merchantId";
-    /**
-     * 父商户id
-     */
-    String CONTEXT_KEY_PARENT_MERCHANT_ID = "parentMerchantId";
-    /**
-     * 应用信息
-     */
-    String CONTEXT_KEY_APP = "app";
-    /**
-     * 父级应用信息
-     */
-    String CONTEXT_KEY_PARENT_APP = "parentApp";
-
-    /**
      * 登录token存储前缀
      */
     String PREFIX_ACCESS_TOKEN = "login_tokens";
@@ -116,16 +91,6 @@ public interface Ctx {
      * 权限存储标识
      */
     String PREFIX_USER_PERMISSION_KEY = "permission";
-
-    /**
-     * 权限存储标识
-     */
-    String PREFIX_APP_PERMISSION_KEY = "appPermission";
-
-    /**
-     * 应用信息存储标识
-     */
-    String PREFIX_APP_INFO = "appInfo";
 
     String DP_PAYLOAD_TYPE_C = "condition";
     String DP_PAYLOAD_TYPE_O = "operator";
@@ -154,19 +119,9 @@ public interface Ctx {
     String DATA_PERMISSION_CONTEXT = "sys:ctx:dataPermission";
 
     /**
-     * 认证模式上下文
-     */
-    String AUTH_MODE_CONTEXT = "sys:ctx:authMode";
-
-    /**
      * 认证json验签字段key
      */
     String AUTH_JSON_SIGN_KEY = "sign";
-
-    /**
-     * 验证码存储key format
-     */
-    String CAPTCHA_KEY_FORMAT = "captcha:%s:%s";
 
     /**
      * 动态表名上下文

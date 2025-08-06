@@ -31,7 +31,7 @@ public class InternalApiAuthAspect implements Ordered {
 
     @Override
     public int getOrder() {
-        return Wf.INTERNAL_API_AUTH_ORDER;
+        return  Ordered.HIGHEST_PRECEDENCE + 2;
     }
 
 }
