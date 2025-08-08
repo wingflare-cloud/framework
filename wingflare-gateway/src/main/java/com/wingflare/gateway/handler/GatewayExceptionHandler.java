@@ -3,6 +3,7 @@ package com.wingflare.gateway.handler;
 
 import com.wingflare.gateway.R;
 import com.wingflare.gateway.utils.WebFluxUtil;
+import com.wingflare.lib.core.exceptions.RiskException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,13 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
                         "message", ex.getMessage()
                 )));
             }
+        } else if (ex instanceof RiskException err) {
+            logger.error(err.getMessage(), e(Map.of("info", err.getData())));
+
+            exchange.getResponse().setStatusCode(HttpStatus.EXPECTATION_FAILED);
+
+            return WebFluxUtil.writeEmpty(
+                    exchange.getResponse());
         } else {
             msg = "server.exception";
             logger.error("[网关异常处理]请求路径", e(Map.of(

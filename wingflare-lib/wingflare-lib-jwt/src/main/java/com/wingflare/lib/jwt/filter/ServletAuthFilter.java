@@ -2,12 +2,14 @@ package com.wingflare.lib.jwt.filter;
 
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
+import com.wingflare.lib.core.exceptions.RiskException;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
 import com.wingflare.lib.security.properties.AuthProperties;
 import com.wingflare.lib.standard.AuthResponseDTO;
 import com.wingflare.lib.standard.Ctx;
+import com.wingflare.lib.standard.Std;
 import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -52,6 +54,13 @@ public class ServletAuthFilter implements Filter, Ordered {
                         }
                     }
                 } else {
+                    if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
+                            || StringUtil.isNotBlank(ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID))) {
+                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID))) {
+                            throw new RiskException(Std.USER_CLIENT_ID_ERROR);
+                        }
+                    }
+
                     ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
                 }
             }

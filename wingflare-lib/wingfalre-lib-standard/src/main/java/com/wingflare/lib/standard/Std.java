@@ -22,5 +22,9 @@ public interface Std {
      */
     int FORBIDDEN_STATUS_CODE = 403;
 
+    /**
+     * 用户客户端id错误
+     */
+    String USER_CLIENT_ID_ERROR = "user.ClientIdError";
 
 }

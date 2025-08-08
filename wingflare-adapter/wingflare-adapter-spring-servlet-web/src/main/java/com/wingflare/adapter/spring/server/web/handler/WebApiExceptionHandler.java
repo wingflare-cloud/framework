@@ -128,6 +128,27 @@ public class WebApiExceptionHandler {
     }
 
     /**
+     * 风控异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    @ExceptionHandler(RiskException.class)
+    public Object riskExceptionHandler(HttpServletRequest req, RiskException e) {
+
+        if (logger.isDebugEnabled()) {
+            logger.warn("异常堆栈", e(Map.of(
+                    "stack", ExceptionUtils.getStackTrace(e)
+            )));
+        }
+
+        logger.error(e.getMessage(), e(Map.of("info", e.getData())));
+
+        return "";
+    }
+
+    /**
      * 无权限异常
      * @param req
      * @param e

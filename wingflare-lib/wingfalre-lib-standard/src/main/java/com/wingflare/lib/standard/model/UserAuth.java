@@ -27,6 +27,11 @@ public class UserAuth implements Serializable
     private String tokenId;
 
     /**
+     * 客户端id
+     */
+    private String clientId;
+
+    /**
      * 用户名
      */
     private String userName;
@@ -126,6 +131,14 @@ public class UserAuth implements Serializable
 
     public void setTokenId(String tokenId) {
         this.tokenId = tokenId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public String getUserName() {

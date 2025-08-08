@@ -2,11 +2,13 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.gateway.R;
 import com.wingflare.gateway.utils.WebFluxUtil;
+import com.wingflare.lib.core.exceptions.RiskException;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
 import com.wingflare.lib.security.properties.AuthProperties;
 import com.wingflare.lib.standard.Ctx;
+import com.wingflare.lib.standard.Std;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -65,20 +67,24 @@ public class AuthFilter implements GlobalFilter, Ordered {
                         }
                     }
 
-                    if (authResponseDTO.getUserAuth() != null) {
-                        // 认证成功：添加用户认证头信息
-                        ServerHttpRequest mutatedRequest = request.mutate()
-                                .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
-                                .build();
-                        return chain.filter(
-                                exchange.mutate().request(mutatedRequest).build()
-                        ).contextWrite(ctx -> {
-                            ctx.put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
-                            return ctx;
-                        });
+                    if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
+                            || StringUtil.isNotBlank(exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
+                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
+                            throw new RiskException(Std.USER_CLIENT_ID_ERROR);
+                        }
                     }
 
-                    return chain.filter(exchange);
+                    // 认证成功：添加用户认证头信息
+                    ServerHttpRequest mutatedRequest = request.mutate()
+                            .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
+                            .build();
+
+                    return chain.filter(
+                            exchange.mutate().request(mutatedRequest).build()
+                    ).contextWrite(ctx -> {
+                        ctx.put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+                        return ctx;
+                    });
                 });
     }
 

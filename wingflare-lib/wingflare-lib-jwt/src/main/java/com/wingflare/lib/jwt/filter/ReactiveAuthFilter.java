@@ -1,12 +1,14 @@
 package com.wingflare.lib.jwt.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.wingflare.lib.core.exceptions.RiskException;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
 import com.wingflare.lib.security.properties.AuthProperties;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.R;
+import com.wingflare.lib.standard.Std;
 import jakarta.annotation.Resource;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -63,6 +65,13 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
                             }
                         } else {
                             return loginLostResponse(exchange, authResponseDTO.getError());
+                        }
+                    }
+
+                    if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
+                            || StringUtil.isNotBlank(exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
+                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
+                            throw new RiskException(Std.USER_CLIENT_ID_ERROR);
                         }
                     }
 
