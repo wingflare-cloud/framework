@@ -11,11 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * 字体缓存工具类，使用LRU策略和弱引用管理字体缓存
  */
 public final class FontCache {
-    // 内置字体名称
-    private static final String[] FONT_NAMES = {
-            "actionj.ttf", "epilog.ttf", "fresnel.ttf", "headache.ttf", "lexo.ttf",
-            "prefix.ttf", "progbot.ttf", "ransom.ttf", "robot.ttf", "scandal.ttf"
-    };
 
     // 最大缓存字体数量
     private static final int MAX_CACHE_SIZE = 20;
@@ -29,16 +24,6 @@ public final class FontCache {
     private FontCache() {}
 
     /**
-     * 获取指定索引的内置字体
-     */
-    public static Font getBuiltInFont(int index, int style, float size) {
-        if (index < 0 || index >= FONT_NAMES.length) {
-            throw new IllegalArgumentException("Invalid font index: " + index);
-        }
-        return getFont(FONT_NAMES[index], style, size);
-    }
-
-    /**
      * 获取指定名称的字体
      */
     public static Font getFont(String fontName, int style, float size) {
@@ -49,10 +34,25 @@ public final class FontCache {
         if (baseFont == null) {
             try (InputStream is = FontCache.class.getResourceAsStream("/" + fontName)) {
                 if (is == null) {
-                    throw new IllegalArgumentException("Font not found: " + fontName);
+                    // 获取系统所有可用字体族
+                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    Font[] allFonts = ge.getAllFonts();
+
+                    // 尝试精确匹配字体名称
+                    for (Font font : allFonts) {
+                        if (font.getName().equalsIgnoreCase(fontName) ||
+                                font.getFamily().equalsIgnoreCase(fontName)) {
+                            baseFont = font;
+                            baseFontCache.put(fontName, font);
+                            break;
+                        }
+                    }
+
+                    throw new RuntimeException(String.format("Font %s not found", fontName));
+                } else {
+                    baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
+                    baseFontCache.put(fontName, baseFont);
                 }
-                baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
-                baseFontCache.put(fontName, baseFont);
 
                 // 控制缓存大小，超过时清理
                 if (baseFontCache.size() > MAX_CACHE_SIZE) {
