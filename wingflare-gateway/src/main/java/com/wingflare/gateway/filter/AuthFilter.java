@@ -21,6 +21,8 @@ import reactor.core.scheduler.Schedulers;
 
 import jakarta.annotation.Resource;
 
+import java.util.HashMap;
+
 /**
  * @author naizui_ycx
  * @date {2021/01/02}
@@ -67,10 +69,15 @@ public class AuthFilter implements GlobalFilter, Ordered {
                         }
                     }
 
+                    String clientId = exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID);
+
                     if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
-                            || StringUtil.isNotBlank(exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
-                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
-                            throw new RiskException(Std.USER_CLIENT_ID_ERROR);
+                            || StringUtil.isNotBlank(clientId)) {
+                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
+                            return Mono.error(new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>() {{
+                                put("user", authResponseDTO.getUserAuth());
+                                put("clientId", clientId);
+                            }}));
                         }
                     }
 
@@ -78,13 +85,11 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     ServerHttpRequest mutatedRequest = request.mutate()
                             .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
                             .build();
+                    exchange.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
 
                     return chain.filter(
                             exchange.mutate().request(mutatedRequest).build()
-                    ).contextWrite(ctx -> {
-                        ctx.put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
-                        return ctx;
-                    });
+                    );
                 });
     }
 
@@ -112,6 +117,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 2;
+        return Ordered.HIGHEST_PRECEDENCE + 4;
     }
 }

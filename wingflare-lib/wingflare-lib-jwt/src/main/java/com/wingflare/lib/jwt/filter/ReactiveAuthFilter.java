@@ -24,6 +24,8 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.util.HashMap;
+
 /**
  * 认证过滤器
  */
@@ -68,17 +70,21 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
                         }
                     }
 
+                    String clientId = exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID);
+
                     if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
-                            || StringUtil.isNotBlank(exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
-                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID))) {
-                            throw new RiskException(Std.USER_CLIENT_ID_ERROR);
+                            || StringUtil.isNotBlank(clientId)) {
+                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
+                            return Mono.error(new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>(){{
+                                put("user", authResponseDTO.getUserAuth());
+                                put("clientId", clientId);
+                            }}));
                         }
                     }
 
-                    return chain.filter(exchange).contextWrite(ctx -> {
-                        ctx.put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
-                        return ctx;
-                    });
+                    exchange.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+
+                    return chain.filter(exchange);
                 });
     }
 

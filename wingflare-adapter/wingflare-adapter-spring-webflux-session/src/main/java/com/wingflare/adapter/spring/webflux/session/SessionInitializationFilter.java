@@ -68,11 +68,8 @@ public class SessionInitializationFilter implements WebFilter, Ordered {
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                 .header(webProperties.getClientIdCtxName(), sessionId)
                 .build();
-        return chain.filter(exchange.mutate().request(mutatedRequest).build())
-                .contextWrite(ctx -> {
-                    ctx.put(Ctx.CONTEXT_KEY_CLIENT_ID, sessionId);
-                    return ctx;
-                });
+        exchange.getAttributes().put(Ctx.CONTEXT_KEY_CLIENT_ID, sessionId);
+        return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }
 
     // 现有会话校验

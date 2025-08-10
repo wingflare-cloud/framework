@@ -14,6 +14,7 @@ import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
+import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.core.utils.CollectionUtil;
@@ -119,6 +120,7 @@ public class LoginBizImpl implements LoginBiz {
         UserAuth userAuth = Builder.of(UserAuth::new)
                 .with(UserAuth::setUserId, userDto.getUserId())
                 .with(UserAuth::setUserName, userDto.getUserName())
+                .with(UserAuth::setClientId, SecurityUtil.getClientId())
                 .with(UserAuth::setSuperAdmin, OnOffEnum.ON.getValue().equals(userDto.getSuperAdministrator()))
                 .with(UserAuth::setLoginTime, now.getTime())
                 .with(UserAuth::setExpireTime, DateUtil.rollSecond(now, bo.getExpireTime().intValue()).getTime())
@@ -186,6 +188,7 @@ public class LoginBizImpl implements LoginBiz {
                 .setLastLoginIp(bo.getIpaddr()));
 
         eventUtil.publishEvent(AuthEventName.USER_LOGIN, false, userAuth);
+        ContextHolder.set(Ctx.CONTEXT_KEY_RESET_SESSION, true);
 
         return tokenDto;
     }

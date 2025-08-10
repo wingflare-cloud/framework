@@ -54,7 +54,11 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
                 )));
             }
         } else if (ex instanceof RiskException err) {
-            logger.error(err.getMessage(), e(Map.of("info", err.getData())));
+            if (err.getData() != null) {
+                logger.error(err.getMessage(), e(Map.of("info", err.getData())));
+            } else {
+                logger.error(err.getMessage());
+            }
 
             exchange.getResponse().setStatusCode(HttpStatus.EXPECTATION_FAILED);
 

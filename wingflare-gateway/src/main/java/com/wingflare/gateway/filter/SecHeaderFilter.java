@@ -13,6 +13,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import jakarta.annotation.Resource;
+
 import java.util.Set;
 
 /**
@@ -41,8 +42,7 @@ public class SecHeaderFilter implements GlobalFilter, Ordered {
         return Mono.just(secToken == null ? "" : secToken)
                 .filter(this::shouldProcessHeaders)
                 .flatMap(token -> Mono.fromRunnable(() -> removeUntrustedHeaders(mutate, allowedHeaders)))
-                .then(chain.filter(exchange))
-                .switchIfEmpty(chain.filter(exchange));  // 如果不需要处理，直接进入过滤器链
+                .then(chain.filter(exchange));
     }
 
     private boolean shouldProcessHeaders(String secToken) {

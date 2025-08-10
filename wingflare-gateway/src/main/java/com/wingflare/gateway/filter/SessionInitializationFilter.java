@@ -16,9 +16,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
+
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class SessionInitializationFilter implements GlobalFilter, Ordered {
@@ -33,7 +32,6 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         return exchange.getSession().flatMap(webSession -> {
             ServerHttpRequest request = exchange.getRequest();
-
             // 初始化新会话或校验现有会话
             if (webSession.getAttributes().isEmpty() ||
                     !webSession.getAttributes().containsKey("ip") ||
@@ -50,13 +48,7 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
                                 processChain(exchange, chain, webSession.getAttribute("sid")) :
                                 Mono.empty());
             }
-        }).then(Mono.defer(() -> {
-            // 检查响应头，处理后端会话重置指令
-            if (exchange.getResponse().getHeaders().containsKey(sessionProperties.getResetSessionHeader())) {
-                return resetSession(exchange);
-            }
-            return Mono.empty();
-        }));
+        });
     }
 
     // 处理过滤器链调用
@@ -64,11 +56,8 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                 .header(webProperties.getClientIdCtxName(), sessionId)
                 .build();
-        return chain.filter(exchange.mutate().request(mutatedRequest).build())
-                .contextWrite(ctx -> {
-                    ctx.put(Ctx.CONTEXT_KEY_CLIENT_ID, sessionId);
-                    return ctx;
-                });
+        exchange.getAttributes().put(Ctx.CONTEXT_KEY_CLIENT_ID, sessionId);
+        return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }
 
     // 现有会话校验
@@ -129,24 +118,9 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
         return IPAddressUtil.isIpInRange(clientIp, webProperties.getTrustedProxies());
     }
 
-    // 重置会话并重定向
-    private Mono<Void> resetSession(ServerWebExchange exchange) {
-        return exchange.getSession().flatMap(webSession -> {
-            // 保存旧会话属性
-            Map<String, Object> oldAttributes = new HashMap<>(webSession.getAttributes());
-
-            // 使当前会话失效并创建新会话
-            return webSession.invalidate().then(exchange.getSession().flatMap(newWebSession -> {
-                // 继承旧会话属性
-                newWebSession.getAttributes().putAll(oldAttributes);
-                return Mono.empty();
-            }));
-        });
-    }
-
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 1;
+        return Ordered.HIGHEST_PRECEDENCE + 2;
     }
 
 }

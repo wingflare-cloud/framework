@@ -22,6 +22,7 @@ import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * 认证过滤器
@@ -54,10 +55,15 @@ public class ServletAuthFilter implements Filter, Ordered {
                         }
                     }
                 } else {
+                    String clientId = ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID);
+
                     if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
-                            || StringUtil.isNotBlank(ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID))) {
-                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID))) {
-                            throw new RiskException(Std.USER_CLIENT_ID_ERROR);
+                            || StringUtil.isNotBlank(clientId)) {
+                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
+                            throw new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>(){{
+                                put("user", authResponseDTO.getUserAuth());
+                                put("clientId", clientId);
+                            }});
                         }
                     }
 

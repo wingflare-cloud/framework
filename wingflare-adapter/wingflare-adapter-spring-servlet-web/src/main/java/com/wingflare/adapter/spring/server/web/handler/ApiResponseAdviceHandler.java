@@ -1,9 +1,13 @@
 package com.wingflare.adapter.spring.server.web.handler;
 
 
+import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.spring.ResponseConverter;
+import com.wingflare.lib.spring.configure.properties.SessionProperties;
+import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.utils.OrderUtil;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -16,6 +20,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -28,6 +33,9 @@ import java.util.Collection;
 @RestControllerAdvice
 public class ApiResponseAdviceHandler implements ResponseBodyAdvice<Object>, ApplicationContextAware
 {
+
+    @Resource
+    protected SessionProperties sessionProperties;
 
     public Collection<ResponseConverter> converters;
 
@@ -45,6 +53,12 @@ public class ApiResponseAdviceHandler implements ResponseBodyAdvice<Object>, App
             ServerHttpRequest serverHttpRequest,
             ServerHttpResponse serverHttpResponse
     ) {
+        if (ContextHolder.get(Ctx.CONTEXT_KEY_RESET_SESSION, false, Boolean.class)) {
+            serverHttpResponse.getHeaders().put(sessionProperties.getResetSessionHeader(), new ArrayList<>(){{
+                add("true");
+            }});
+        }
+
         if (CollectionUtil.isEmpty(converters)) {
             return o;
         }

@@ -34,15 +34,17 @@ public class FeignErrorDecoder extends ErrorDecoder.Default {
                 || Std.FORBIDDEN_STATUS_CODE == response.status()) {
             if (ApiHelperUtil.checkRequestAutoThrowErr()) {
                 try {
-                    String body = Util.toString(response.body().asReader(Charset.defaultCharset()));
+                    if (response.body() != null) {
+                        String body = Util.toString(response.body().asReader(Charset.defaultCharset()));
 
-                    if (StringUtil.isNotBlank(body)) {
-                        R<?> r = JSON.parseObject(body, R.class);
-                        if (r.getRet() != null && r.getRet() != R.RET_NO_ERR) {
-                            throw new BusinessLogicException(r.getMsg(), r.getData());
+                        if (StringUtil.isNotBlank(body)) {
+                            R<?> r = JSON.parseObject(body, R.class);
+                            if (r.getRet() != null && r.getRet() != R.RET_NO_ERR) {
+                                throw new BusinessLogicException(r.getMsg(), r.getData());
+                            }
+                        } else {
+                            throw new BusinessLogicException(response.reason());
                         }
-                    } else {
-                        throw new BusinessLogicException(response.reason());
                     }
                 } catch (IOException throwable) {
                     logger.warn("读取response异常", e(Map.of(
