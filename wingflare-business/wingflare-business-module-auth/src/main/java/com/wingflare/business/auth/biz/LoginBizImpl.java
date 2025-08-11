@@ -14,7 +14,6 @@ import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
-import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.core.utils.CollectionUtil;
