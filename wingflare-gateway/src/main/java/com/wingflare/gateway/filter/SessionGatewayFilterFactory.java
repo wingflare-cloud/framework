@@ -2,6 +2,7 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
+import com.wingflare.lib.spring.configure.properties.SessionProperties;
 import com.wingflare.lib.spring.configure.properties.WebProperties;
 import com.wingflare.lib.standard.Ctx;
 import jakarta.annotation.Resource;
@@ -18,8 +19,6 @@ import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -134,27 +133,8 @@ public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<Se
     }
 
 
-    public static class Config {
+    public static class Config extends SessionProperties {
 
-        private String strictModel;
-
-        private List<String> resetSessionIdUrls = new ArrayList<>();
-
-        public String getStrictModel() {
-            return strictModel;
-        }
-
-        public void setStrictModel(String strictModel) {
-            this.strictModel = strictModel;
-        }
-
-        public List<String> getResetSessionIdUrls() {
-            return resetSessionIdUrls;
-        }
-
-        public void setResetSessionIdUrls(List<String> resetSessionIdUrls) {
-            this.resetSessionIdUrls = resetSessionIdUrls;
-        }
     }
 
 }

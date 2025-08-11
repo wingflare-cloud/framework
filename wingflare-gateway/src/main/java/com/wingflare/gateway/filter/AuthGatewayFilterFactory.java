@@ -6,6 +6,7 @@ import com.wingflare.lib.core.exceptions.RiskException;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
+import com.wingflare.lib.security.properties.AuthProperties;
 import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.Std;
 import com.wingflare.lib.standard.utils.SecurityUtil;
@@ -20,9 +21,7 @@ import reactor.core.scheduler.Schedulers;
 
 import jakarta.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author naizui_ycx
@@ -121,60 +120,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     }
 
 
-    public static class Config {
-
-        /**
-         * 认证信息放行白名单配置
-         */
-        private List<String> whites = new ArrayList<>();
-
-        /**
-         * 认证token前缀
-         */
-        private String authenticationPrefix = Ctx.AUTHENTICATION_PREFIX;
-
-        /**
-         * token刷新接口url
-         */
-        private String refreshTokenUrl;
-
-        /**
-         * 需鉴权url前缀
-         */
-        private List<String> pathPrefix;
-
-
-        public List<String> getWhites() {
-            return whites;
-        }
-
-        public void setWhites(List<String> whites) {
-            this.whites = whites;
-        }
-
-        public String getAuthenticationPrefix() {
-            return authenticationPrefix;
-        }
-
-        public void setAuthenticationPrefix(String authenticationPrefix) {
-            this.authenticationPrefix = authenticationPrefix;
-        }
-
-        public String getRefreshTokenUrl() {
-            return refreshTokenUrl;
-        }
-
-        public void setRefreshTokenUrl(String refreshTokenUrl) {
-            this.refreshTokenUrl = refreshTokenUrl;
-        }
-
-        public List<String> getPathPrefix() {
-            return pathPrefix;
-        }
-
-        public void setPathPrefix(List<String> pathPrefix) {
-            this.pathPrefix = pathPrefix;
-        }
+    public static class Config extends AuthProperties {
 
     }
 
