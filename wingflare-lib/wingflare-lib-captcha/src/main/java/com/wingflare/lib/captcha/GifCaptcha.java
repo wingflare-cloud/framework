@@ -139,7 +139,7 @@ public final class GifCaptcha extends ImagesAbstractCaptcha {
     private void drawCharacters(Graphics2D g2d, Color[] fontColors, char[] chars, int frameIndex) {
         FontMetrics fontMetrics = g2d.getFontMetrics();
         int fW = config.width() / chars.length;  // 每个字符的宽度
-        int fSp = (fW - (int) fontMetrics.getStringBounds("W", g2d).getWidth()) / 2;  // 字符间距
+        int fSp = (fW - (int) fontMetrics.getStringBounds(String.valueOf(chars[0]), g2d).getWidth()) / 2;  // 字符间距
 
         for (int i = 0; i < chars.length; i++) {
             // 设置透明度

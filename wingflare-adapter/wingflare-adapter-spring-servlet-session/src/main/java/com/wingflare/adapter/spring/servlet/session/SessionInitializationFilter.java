@@ -38,8 +38,7 @@ public class SessionInitializationFilter implements Filter, Ordered {
     private WebProperties webProperties;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         if (servletRequest instanceof HttpServletRequest request) {
             HttpSession session = request.getSession(false);
@@ -70,18 +69,18 @@ public class SessionInitializationFilter implements Filter, Ordered {
             try {
                 filterChain.doFilter(servletRequest, servletResponse);
             } finally {
-                HttpSession existingSession = request.getSession(false);
+                if (StringUtil.urlMatches(request.getRequestURI(), sessionProperties.getResetSessionIdUrls())) {
+                    HttpSession existingSession = request.getSession(false);
 
-                if (existingSession != null) {
-                    Map<String, Object> sessionAttributes = new HashMap<>();
-                    Enumeration<String> attributeNames = existingSession.getAttributeNames();
+                    if (existingSession != null) {
+                        Map<String, Object> sessionAttributes = new HashMap<>();
+                        Enumeration<String> attributeNames = existingSession.getAttributeNames();
 
-                    while (attributeNames.hasMoreElements()) {
-                        String attrName = attributeNames.nextElement();
-                        sessionAttributes.put(attrName, existingSession.getAttribute(attrName));
-                    }
+                        while (attributeNames.hasMoreElements()) {
+                            String attrName = attributeNames.nextElement();
+                            sessionAttributes.put(attrName, existingSession.getAttribute(attrName));
+                        }
 
-                    if (ContextHolder.get(Ctx.CONTEXT_KEY_RESET_SESSION, false, Boolean.class)) {
                         existingSession.invalidate();
                         HttpSession newSession = request.getSession(true);
 
@@ -99,10 +98,7 @@ public class SessionInitializationFilter implements Filter, Ordered {
         boolean trustedEnvironment = isTrustedProxy(request.getRemoteAddr());
 
         if (trustedEnvironment) {
-            String[] headersToCheck = {
-                    "X-Forwarded-For", "Proxy-Client-IP",
-                    "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "X-Real-IP"
-            };
+            String[] headersToCheck = {"X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "X-Real-IP"};
 
             for (String header : headersToCheck) {
                 String ipAddresses = request.getHeader(header);

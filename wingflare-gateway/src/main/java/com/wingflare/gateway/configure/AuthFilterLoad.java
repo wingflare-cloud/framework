@@ -2,7 +2,7 @@ package com.wingflare.gateway.configure;
 
 
 import com.wingflare.abstraction.secuirty.starter.SecurityStarterInterface;
-import com.wingflare.gateway.filter.AuthFilter;
+import com.wingflare.gateway.filter.AuthGatewayFilterFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 public class AuthFilterLoad {
 
     @Bean
-    public AuthFilter authFilter() {
-        return new AuthFilter();
+    public AuthGatewayFilterFactory authFilter() {
+        return new AuthGatewayFilterFactory();
     }
 
 }

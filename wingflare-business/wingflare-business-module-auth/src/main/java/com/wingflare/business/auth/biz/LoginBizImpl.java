@@ -188,7 +188,6 @@ public class LoginBizImpl implements LoginBiz {
                 .setLastLoginIp(bo.getIpaddr()));
 
         eventUtil.publishEvent(AuthEventName.USER_LOGIN, false, userAuth);
-        ContextHolder.set(Ctx.CONTEXT_KEY_RESET_SESSION, true);
 
         return tokenDto;
     }

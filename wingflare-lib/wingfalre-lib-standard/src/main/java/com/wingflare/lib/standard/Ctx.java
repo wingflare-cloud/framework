@@ -51,11 +51,6 @@ public interface Ctx {
      */
     String CONTEXT_KEY_CLIENT_ID = "clientId";
 
-    /**
-     * 重置SESSION ID
-     */
-    String CONTEXT_KEY_RESET_SESSION = "resetSession";
-
 
     /**
      * 业务系统头

@@ -2,12 +2,12 @@ package com.wingflare.gateway.filter;
 
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.spring.configure.properties.SessionProperties;
 import com.wingflare.lib.spring.configure.properties.WebProperties;
 import com.wingflare.lib.standard.Ctx;
 import jakarta.annotation.Resource;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,37 +18,47 @@ import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
-public class SessionInitializationFilter implements GlobalFilter, Ordered {
-
-    @Resource
-    private SessionProperties sessionProperties;
+public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<SessionGatewayFilterFactory.Config> implements Ordered {
 
     @Resource
     private WebProperties webProperties;
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        return exchange.getSession().flatMap(webSession -> {
-            ServerHttpRequest request = exchange.getRequest();
-            // 初始化新会话或校验现有会话
-            if (webSession.getAttributes().isEmpty() ||
-                    !webSession.getAttributes().containsKey("ip") ||
-                    !webSession.getAttributes().containsKey("sid")) {
-                // 初始化新会话
-                webSession.getAttributes().put("sid", webSession.getId());
-                webSession.getAttributes().put("ip", getClientIp(exchange));
-                webSession.getAttributes().put("userAgent", request.getHeaders().getFirst("User-Agent"));
+    public GatewayFilter apply(Config config) {
+        return ((ctx, chain) -> ctx.getSession().flatMap(webSession -> {
+            ServerHttpRequest request = ctx.getRequest();
 
-                return processChain(exchange, chain, webSession.getId());
-            } else {
-                return handleExistingSession(exchange, webSession)
-                        .flatMap(shouldContinue -> shouldContinue ?
-                                processChain(exchange, chain, webSession.getAttribute("sid")) :
-                                Mono.empty());
+            if (!StringUtil.urlMatches(request.getURI().getPath(), config.getResetSessionIdUrls())) {
+                // 初始化新会话或校验现有会话
+                if (webSession.getAttributes().isEmpty() ||
+                        !webSession.getAttributes().containsKey("ip") ||
+                        !webSession.getAttributes().containsKey("sid")) {
+                    // 初始化新会话
+                    webSession.getAttributes().put("sid", webSession.getId());
+                    webSession.getAttributes().put("ip", getClientIp(ctx));
+                    webSession.getAttributes().put("userAgent", request.getHeaders().getFirst("User-Agent"));
+
+                    return processChain(ctx, chain, webSession.getId());
+                } else {
+                    return handleExistingSession(ctx, webSession, config)
+                            .flatMap(shouldContinue -> shouldContinue ?
+                                    processChain(ctx, chain, webSession.getAttribute("sid")) :
+                                    Mono.empty());
+                }
             }
-        });
+
+            Map<String, Object> oldAttributes = webSession.getAttributes();
+
+            return webSession.invalidate().doOnSuccess(v -> ctx.getSession().flatMap(newSession -> {
+                newSession.getAttributes().putAll(oldAttributes);
+                return newSession.save();
+            }));
+        }));
     }
 
     // 处理过滤器链调用
@@ -61,20 +71,20 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
     }
 
     // 现有会话校验
-    private Mono<Boolean> handleExistingSession(ServerWebExchange exchange, WebSession webSession) {
+    private Mono<Boolean> handleExistingSession(ServerWebExchange exchange, WebSession webSession, Config config) {
         ServerHttpRequest request = exchange.getRequest();
 
-        if (StringUtil.isNoneBlank(sessionProperties.getStrictModel())) {
+        if (StringUtil.isNoneBlank(config.getStrictModel())) {
             String sessionUserAgent = webSession.getAttribute("userAgent");
             String currentUserAgent = request.getHeaders().getFirst("User-Agent");
 
-            if (("simple".equals(sessionProperties.getStrictModel()) || "strict".equals(sessionProperties.getStrictModel())) &&
+            if (("simple".equals(config.getStrictModel()) || "strict".equals(config.getStrictModel())) &&
                     !ObjectUtils.nullSafeEquals(currentUserAgent, sessionUserAgent)) {
                 exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                 return Mono.just(false);
             }
 
-            if ("strict".equals(sessionProperties.getStrictModel())) {
+            if ("strict".equals(config.getStrictModel())) {
                 String sessionIp = webSession.getAttribute("ip");
                 String currentIp = getClientIp(exchange);
                 if (!ObjectUtils.nullSafeEquals(currentIp, sessionIp)) {
@@ -121,6 +131,30 @@ public class SessionInitializationFilter implements GlobalFilter, Ordered {
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE + 2;
+    }
+
+
+    public static class Config {
+
+        private String strictModel;
+
+        private List<String> resetSessionIdUrls = new ArrayList<>();
+
+        public String getStrictModel() {
+            return strictModel;
+        }
+
+        public void setStrictModel(String strictModel) {
+            this.strictModel = strictModel;
+        }
+
+        public List<String> getResetSessionIdUrls() {
+            return resetSessionIdUrls;
+        }
+
+        public void setResetSessionIdUrls(List<String> resetSessionIdUrls) {
+            this.resetSessionIdUrls = resetSessionIdUrls;
+        }
     }
 
 }
