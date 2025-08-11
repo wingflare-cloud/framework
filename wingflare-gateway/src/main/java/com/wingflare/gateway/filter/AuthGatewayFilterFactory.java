@@ -33,6 +33,10 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     @Resource
     private AuthTool authTool;
 
+    public AuthGatewayFilterFactory() {
+        super(Config.class);
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return ((ctx, chain) -> {

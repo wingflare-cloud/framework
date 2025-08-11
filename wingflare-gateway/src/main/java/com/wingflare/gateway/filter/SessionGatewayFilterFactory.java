@@ -27,6 +27,10 @@ public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<Se
     @Resource
     private WebProperties webProperties;
 
+    public SessionGatewayFilterFactory() {
+        super(Config.class);
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return ((ctx, chain) -> ctx.getSession().flatMap(webSession -> {

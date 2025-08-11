@@ -20,6 +20,10 @@ import java.util.List;
  */
 public class CorsGatewayFilterFactory extends AbstractGatewayFilterFactory<CorsGatewayFilterFactory.Config> implements Ordered {
 
+    public CorsGatewayFilterFactory() {
+        super(Config.class);
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return ((ctx, chain) -> {
