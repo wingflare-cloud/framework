@@ -14,22 +14,7 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-cloud-tencent.version>2.0.2.1-2024.0.1</spring-cloud-tencent.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- SpringCloud tencent 微服务 -->
-            <dependency>
-                <groupId>com.tencent.cloud</groupId>
-                <artifactId>spring-cloud-tencent-dependencies</artifactId>
-                <version>${spring-cloud-tencent.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <!-- SpringCloud tencent polaris discovery -->
