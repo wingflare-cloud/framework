@@ -57,7 +57,7 @@ public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<Se
 
             Map<String, Object> oldAttributes = webSession.getAttributes();
 
-            return webSession.invalidate().doOnSuccess(v -> ctx.getSession().flatMap(newSession -> {
+            return webSession.invalidate().then(ctx.getSession().flatMap(newSession -> {
                 newSession.getAttributes().putAll(oldAttributes);
                 return newSession.save();
             }));

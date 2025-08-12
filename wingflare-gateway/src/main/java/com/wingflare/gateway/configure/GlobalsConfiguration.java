@@ -74,10 +74,6 @@ public class GlobalsConfiguration {
 
 
     @Bean
-    @ConditionalOnProperty(
-            name = "session.enable",
-            havingValue = "true"
-    )
     public SessionGatewayFilterFactory sessionInitializationFilter() {
         return new SessionGatewayFilterFactory();
     }
