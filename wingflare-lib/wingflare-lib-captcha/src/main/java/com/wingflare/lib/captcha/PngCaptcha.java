@@ -1,5 +1,8 @@
 package com.wingflare.lib.captcha;
 
+import com.wingflare.facade.lib.captcha.CaptchaStoreInterface;
+import com.wingflare.lib.core.utils.StringUtil;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,11 +17,15 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
     }
 
     @Override
-    public void out(OutputStream os) throws IOException {
+    public void out(String captchaId, OutputStream os) throws IOException {
         char[] chars = generateChars();
         BufferedImage image = new BufferedImage(
                 config.width(), config.height(), BufferedImage.TYPE_INT_RGB
         );
+
+        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        store.save(captchaId, new String(chars));
+
         Graphics2D g2d = image.createGraphics();
         // 配置绘图设置
         configureGraphics(g2d);
@@ -32,6 +39,19 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
         g2d.dispose();
         ImageIO.write(image, "png", os);
         os.flush();
+    }
+
+    @Override
+    public boolean verify(String captchaId, String value) {
+        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        String captchaCode = store.get(captchaId);
+
+        if (StringUtil.equals(captchaCode, value)) {
+            store.delete(captchaId);
+            return true;
+        }
+
+        return false;
     }
 
     /**

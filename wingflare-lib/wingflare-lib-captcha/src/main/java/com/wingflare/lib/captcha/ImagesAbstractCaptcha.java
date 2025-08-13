@@ -12,7 +12,6 @@ public abstract non-sealed class ImagesAbstractCaptcha implements CaptchaInterfa
 
     protected ImageCaptchaConfig config;
     protected static final SecureRandom random = new SecureRandom();
-    protected String chars;  // 当前验证码
     protected static final String CHINESE = "一二三四五六七八九十百千万亿零元角分年月日时分秒天周月季年春夏秋冬东南西北中上下左右前后里外大小多少高矮长短宽窄厚薄黑白红黄蓝绿紫粉橙灰青碧银金铜铁木石水火土山川河海湖江田地林森草花树苗竹松柏杨柳榆槐桂梅兰菊荷桃李杏梨枣瓜果米面油盐酱醋茶肉鱼鸡鸭鹅牛羊马猪狗猫兔虎狼狮豹熊蛇龙凤龟鱼虾蟹贝虫鸟蝶蜂燕雁鹰鸽鹤蛙蝉蛛蚊蝇蚁蚕蛾蜻蜓蚯蚓蜈蚣蜗牛蚜蝗蜜蜂蝴蝶蝌蚪螃蟹蜈蚣蜘蛛蚯蚓蛤蟆蚯蚓蜈蚣蜗牛蚜蝗蜜蜂蝴蝶蝌蚪螃蟹蜈蚣蜘蛛蚯蚓蛤蟆鲤鱼鲫鱼鲈鱼鲑鱼鲸鱼鲨鱼鲍鱼乌龟章鱼墨鱼鲈鱼鲫鱼鲤鱼草鱼青鱼鲢鱼鳙鱼鳜鱼鲳鱼鲟鱼鳇鱼鳗鱼鳝鱼鳕鱼鲶鱼鳟鱼鲂鱼鲮鱼鳊鱼鲻鱼鲼鱼魟鱼鱿鱼鲈鱼鲫鱼鲤鱼草鱼青鱼鲢鱼鳙鱼鳜鱼鲳鱼鲟鱼鳇鱼鳗鱼鳝鱼鳕鱼鲶鱼鳟鱼鲂鱼鲮鱼鳊鱼鲻鱼鲼鱼魟鱼鱿鱼虾米龙虾小虾对虾龙虾毛虾大虾草虾河虾海虾蟹肉大闸蟹毛蟹海蟹河蟹贝类牡蛎蛤蜊扇贝鲍贝海参鲍鱼干贝瑶柱章鱼乌贼墨鱼鲍鱼海蜇海螺牡蛎蛤蜊扇贝鲍贝海参鲍鱼干贝瑶柱章鱼乌贼墨鱼鲍鱼海蜇海螺虫子蚜虫蝗虫蜜蜂蝴蝶蝌蚪螃蟹蜈蚣蜘蛛蚯蚓蛤蟆蚯蚓蜈蚣蜗牛蚜蝗蜜蜂蝴蝶蝌蚪螃蟹蜈蚣蜘蛛蚯蚓蛤蟆鸟类燕子麻雀喜鹊鹰隼鸽子鹌鹑鹧鸪鸬鹚鸵鸟企鹅鸳鸯鸿雁";
 
     // 常用颜色
@@ -26,10 +25,6 @@ public abstract non-sealed class ImagesAbstractCaptcha implements CaptchaInterfa
      * 生成随机验证码字符
      */
     protected char[] generateChars() {
-        if (chars != null) {
-            return chars.toCharArray();
-        }
-
         int len = config.length();
         char[] result = new char[len];
 
@@ -37,7 +32,6 @@ public abstract non-sealed class ImagesAbstractCaptcha implements CaptchaInterfa
             result[i] = generateChar();
         }
 
-        chars = new String(result);
         return result;
     }
 
@@ -119,14 +113,6 @@ public abstract non-sealed class ImagesAbstractCaptcha implements CaptchaInterfa
                 g.draw(shape);
             }
         }
-    }
-
-    @Override
-    public String text() {
-        if (chars == null) {
-            generateChars();
-        }
-        return chars;
     }
 
     /**

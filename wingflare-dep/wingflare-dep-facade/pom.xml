@@ -38,7 +38,7 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-facade-engine-websocket</artifactId>
+                <artifactId>wingflare-facade-lib-captcha</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

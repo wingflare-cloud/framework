@@ -1,5 +1,8 @@
 package com.wingflare.lib.captcha;
 
+import com.wingflare.facade.lib.captcha.CaptchaStoreInterface;
+import com.wingflare.lib.core.utils.StringUtil;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,21 +13,18 @@ import java.util.Random;
 
 public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
 
-    private String arithmeticString;
-    private int result;
-
     public ArithmeticCaptcha(ImageCaptchaConfig config) {
         config(config);
-        generateArithmetic();
     }
 
     /**
      * 生成算术表达式
      */
-    private void generateArithmetic() {
+    private String generateArithmetic(String captchaId) {
         Random random = new Random();
         int digit = config.arithmeticDigit();
         int maxNum = (int) Math.pow(10, digit) - 1;
+        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
 
         int a = random.nextInt(maxNum) + 1;
         int b = random.nextInt(maxNum) + 1;
@@ -34,38 +34,30 @@ public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
 
         switch (operator) {
             case 0: // 加法
-                arithmeticString = a + " + " + b + " = ?";
-                result = a + b;
-                break;
+                store.save(captchaId, String.valueOf(a + b));
+                return String.format("%d + %d = ?", a, b);
             case 1: // 减法，确保结果为正数
                 if (a < b) {
                     int temp = a;
                     a = b;
                     b = temp;
                 }
-                arithmeticString = a + " - " + b + " = ?";
-                result = a - b;
-                break;
+                store.save(captchaId, String.valueOf(a - b));
+                return String.format("%d - %d = ?", a, b);
             case 2: // 乘法
+            default:
                 // 限制乘法结果大小
                 if (digit > 1) {
                     a = random.nextInt((int) Math.sqrt(maxNum)) + 1;
                     b = random.nextInt((int) Math.sqrt(maxNum)) + 1;
                 }
-                arithmeticString = a + " × " + b + " = ?";
-                result = a * b;
-                break;
+                store.save(captchaId, String.valueOf(a * b));
+                return String.format("%d × %d = ?", a, b);
         }
-
-        chars = String.valueOf(result);
-    }
-
-    public String getArithmeticString() {
-        return arithmeticString;
     }
 
     @Override
-    public void out(OutputStream os) throws IOException {
+    public void out(String captchaId, OutputStream os) throws IOException {
         BufferedImage image = new BufferedImage(
                 config.width(), config.height(), BufferedImage.TYPE_INT_RGB
         );
@@ -77,11 +69,24 @@ public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
         // 绘制干扰元素
         drawInterference(g2d);
         // 绘制算术表达式
-        drawArithmeticExpression(g2d);
+        drawArithmeticExpression(captchaId, g2d);
         // 完成绘制
         g2d.dispose();
         ImageIO.write(image, "png", os);
         os.flush();
+    }
+
+    @Override
+    public boolean verify(String captchaId, String value) {
+        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        String captchaCode = store.get(captchaId);
+
+        if (StringUtil.equals(captchaCode, value)) {
+            store.delete(captchaId);
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -120,9 +125,11 @@ public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
     /**
      * 绘制算术表达式
      */
-    private void drawArithmeticExpression(Graphics2D g2d) {
+    private void drawArithmeticExpression(String captchaId, Graphics2D g2d) {
         g2d.setColor(getRandomColor());
         FontMetrics fontMetrics = g2d.getFontMetrics();
+
+        String arithmeticString = generateArithmetic(captchaId);
 
         // 计算文本位置，使其居中
         int textWidth = fontMetrics.stringWidth(arithmeticString);
