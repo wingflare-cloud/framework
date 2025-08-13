@@ -41,11 +41,6 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        // 跳过无需认证的路径前缀
-        if (!StringUtil.urlMatches(request.getURI().getPath(), authProperties.getPathPrefix())) {
-            return chain.filter(exchange);
-        }
-
         String token = getToken(request);
         String businessSystem = getBusinessSystem(request);
 
@@ -53,36 +48,42 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
         return Mono.fromCallable(() -> authTool.checkLogin(token, businessSystem))
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMap(authResponseDTO -> {
-                    if (StringUtil.isNotBlank(authResponseDTO.getError())) {
-                        // 白名单路径直接放行
-                        if (StringUtil.urlMatches(request.getURI().getPath(), authProperties.getWhites())) {
-                            return chain.filter(exchange);
-                        }
 
-                        // 处理Token过期特殊场景
-                        if (StringUtil.equals(authResponseDTO.getError(), ErrorCode.TOKEN_EXPIRATION)) {
-                            if (StringUtil.isNotEmpty(authProperties.getRefreshTokenUrl()) &&
-                                    !StringUtil.isMatch(authProperties.getRefreshTokenUrl(), request.getURI().getPath())) {
-                                return unauthorizedResponse(exchange, authResponseDTO.getError());
+                    // 跳过无需认证的路径前缀
+                    if (StringUtil.urlMatches(request.getURI().getPath(), authProperties.getPathPrefix())) {
+                        if (StringUtil.isNotBlank(authResponseDTO.getError())) {
+                            // 白名单路径直接放行
+                            if (StringUtil.urlMatches(request.getURI().getPath(), authProperties.getWhites())) {
+                                return chain.filter(exchange);
                             }
-                        } else {
-                            return loginLostResponse(exchange, authResponseDTO.getError());
+
+                            // 处理Token过期特殊场景
+                            if (StringUtil.equals(authResponseDTO.getError(), ErrorCode.TOKEN_EXPIRATION)) {
+                                if (StringUtil.isNotEmpty(authProperties.getRefreshTokenUrl()) &&
+                                        !StringUtil.isMatch(authProperties.getRefreshTokenUrl(), request.getURI().getPath())) {
+                                    return unauthorizedResponse(exchange, authResponseDTO.getError());
+                                }
+                            } else {
+                                return loginLostResponse(exchange, authResponseDTO.getError());
+                            }
                         }
                     }
 
-                    String clientId = exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID);
+                    if (authResponseDTO.getUserAuth() != null) {
+                        String clientId = exchange.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID);
 
-                    if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
-                            || StringUtil.isNotBlank(clientId)) {
-                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
-                            return Mono.error(new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>(){{
-                                put("user", authResponseDTO.getUserAuth());
-                                put("clientId", clientId);
-                            }}));
+                        if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
+                                || StringUtil.isNotBlank(clientId)) {
+                            if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
+                                return Mono.error(new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>(){{
+                                    put("user", authResponseDTO.getUserAuth());
+                                    put("clientId", clientId);
+                                }}));
+                            }
                         }
-                    }
 
-                    exchange.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+                        exchange.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+                    }
 
                     return chain.filter(exchange);
                 });

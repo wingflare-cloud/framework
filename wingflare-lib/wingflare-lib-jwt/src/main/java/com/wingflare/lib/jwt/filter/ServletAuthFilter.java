@@ -41,9 +41,9 @@ public class ServletAuthFilter implements Filter, Ordered {
             throws IOException, ServletException
     {
         if (servletRequest instanceof HttpServletRequest request) {
-            if (!StringUtil.urlMatches(request.getRequestURI(), authProperties.getPathPrefix())) {
-                AuthResponseDTO authResponseDTO = authTool.checkLogin(getToken(request), getBusinessSystem(request));
+            AuthResponseDTO authResponseDTO = authTool.checkLogin(getToken(request), getBusinessSystem(request));
 
+            if (StringUtil.urlMatches(request.getRequestURI(), authProperties.getPathPrefix())) {
                 if (StringUtil.isNotBlank(authResponseDTO.getError())) {
                     if (!StringUtil.urlMatches(request.getRequestURI(), authProperties.getWhites())) {
                         if (StringUtil.equals(authResponseDTO.getError(), ErrorCode.TOKEN_EXPIRATION)) {
@@ -54,21 +54,23 @@ public class ServletAuthFilter implements Filter, Ordered {
                             throw new BusinessLogicException(authResponseDTO.getError(), null, HttpStatus.PAYMENT_REQUIRED.value());
                         }
                     }
-                } else {
-                    String clientId = ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID);
-
-                    if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
-                            || StringUtil.isNotBlank(clientId)) {
-                        if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
-                            throw new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>(){{
-                                put("user", authResponseDTO.getUserAuth());
-                                put("clientId", clientId);
-                            }});
-                        }
-                    }
-
-                    ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
                 }
+            }
+
+            if (authResponseDTO.getUserAuth() != null) {
+                String clientId = ContextHolder.get(Ctx.CONTEXT_KEY_CLIENT_ID);
+
+                if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
+                        || StringUtil.isNotBlank(clientId)) {
+                    if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
+                        throw new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>(){{
+                            put("user", authResponseDTO.getUserAuth());
+                            put("clientId", clientId);
+                        }});
+                    }
+                }
+
+                ContextHolder.set(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
             }
         }
 

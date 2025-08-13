@@ -12,7 +12,6 @@ import com.wingflare.lib.standard.Std;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
@@ -28,7 +27,7 @@ import java.util.HashMap;
  * @date {2021/01/02}
  * @description 身份认证过滤器（异步非阻塞优化版）
  */
-public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthGatewayFilterFactory.Config> implements Ordered {
+public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthGatewayFilterFactory.Config> {
 
     @Resource
     private AuthTool authTool;
@@ -42,11 +41,6 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
         return ((ctx, chain) -> {
             ServerHttpRequest request = ctx.getRequest();
 
-            // 跳过无需认证的路径前缀
-            if (!StringUtil.urlMatches(request.getURI().getPath(), config.getPathPrefix())) {
-                return chain.filter(ctx);
-            }
-
             String token = getToken(request, config);
             String businessSystem = getBusinessSystem(request);
 
@@ -54,44 +48,50 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
             return Mono.fromCallable(() -> authTool.checkLogin(token, businessSystem))
                     .subscribeOn(Schedulers.boundedElastic())
                     .flatMap(authResponseDTO -> {
-                        if (StringUtil.isNotBlank(authResponseDTO.getError())) {
-                            // 白名单路径直接放行
-                            if (StringUtil.urlMatches(request.getURI().getPath(), config.getWhites())) {
-                                return chain.filter(ctx);
-                            }
-
-                            // 处理Token过期特殊场景
-                            if (StringUtil.equals(authResponseDTO.getError(), ErrorCode.TOKEN_EXPIRATION)) {
-                                if (StringUtil.isNotEmpty(config.getRefreshTokenUrl()) &&
-                                        !StringUtil.isMatch(config.getRefreshTokenUrl(), request.getURI().getPath())) {
-                                    return unauthorizedResponse(ctx, authResponseDTO.getError());
+                        if (StringUtil.urlMatches(request.getURI().getPath(), config.getPathPrefix())) {
+                            if (StringUtil.isNotBlank(authResponseDTO.getError())) {
+                                // 白名单路径直接放行
+                                if (StringUtil.urlMatches(request.getURI().getPath(), config.getWhites())) {
+                                    return chain.filter(ctx);
                                 }
-                            } else {
-                                return loginLostResponse(ctx, authResponseDTO.getError());
+
+                                // 处理Token过期特殊场景
+                                if (StringUtil.equals(authResponseDTO.getError(), ErrorCode.TOKEN_EXPIRATION)) {
+                                    if (StringUtil.isNotEmpty(config.getRefreshTokenUrl()) &&
+                                            !StringUtil.isMatch(config.getRefreshTokenUrl(), request.getURI().getPath())) {
+                                        return unauthorizedResponse(ctx, authResponseDTO.getError());
+                                    }
+                                } else {
+                                    return loginLostResponse(ctx, authResponseDTO.getError());
+                                }
                             }
                         }
 
                         String clientId = ctx.getAttribute(Ctx.CONTEXT_KEY_CLIENT_ID);
 
-                        if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
-                                || StringUtil.isNotBlank(clientId)) {
-                            if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
-                                return Mono.error(new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>() {{
-                                    put("user", authResponseDTO.getUserAuth());
-                                    put("clientId", clientId);
-                                }}));
+                        if (authResponseDTO.getUserAuth() != null) {
+                            if (StringUtil.isNotBlank(authResponseDTO.getUserAuth().getClientId())
+                                    || StringUtil.isNotBlank(clientId)) {
+                                if (!StringUtil.equals(authResponseDTO.getUserAuth().getClientId(), clientId)) {
+                                    return Mono.error(new RiskException(Std.USER_CLIENT_ID_ERROR, new HashMap<String, Object>() {{
+                                        put("user", authResponseDTO.getUserAuth());
+                                        put("clientId", clientId);
+                                    }}));
+                                }
                             }
+
+                            // 认证成功：添加用户认证头信息
+                            ServerHttpRequest mutatedRequest = request.mutate()
+                                    .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
+                                    .build();
+                            ctx.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
+
+                            return chain.filter(
+                                    ctx.mutate().request(mutatedRequest).build()
+                            );
                         }
 
-                        // 认证成功：添加用户认证头信息
-                        ServerHttpRequest mutatedRequest = request.mutate()
-                                .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
-                                .build();
-                        ctx.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
-
-                        return chain.filter(
-                                ctx.mutate().request(mutatedRequest).build()
-                        );
+                        return chain.filter(ctx);
                     });
         });
     }
@@ -117,12 +117,6 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
     private String getBusinessSystem(ServerHttpRequest request) {
         return request.getHeaders().getFirst(Ctx.HEADER_KEY_BUSINESS_SYSTEM);
     }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 6;
-    }
-
 
     public static class Config extends AuthProperties {
 

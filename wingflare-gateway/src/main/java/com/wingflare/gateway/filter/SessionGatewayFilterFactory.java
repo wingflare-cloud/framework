@@ -9,7 +9,6 @@ import com.wingflare.lib.standard.Ctx;
 import jakarta.annotation.Resource;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -18,10 +17,9 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 
 import java.net.InetSocketAddress;
-import java.util.Map;
 
 
-public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<SessionGatewayFilterFactory.Config> implements Ordered {
+public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<SessionGatewayFilterFactory.Config> {
 
     @Resource
     private WebProperties webProperties;
@@ -56,16 +54,7 @@ public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<Se
             }
 
             if (StringUtil.urlMatches(request.getURI().getPath(), config.getResetSessionIdUrls())) {
-                Map<String, Object> oldAttributes = webSession.getAttributes();
-
-                newCtx.getSession().flatMap(newSession -> {
-                    // 复制属性到新会话
-                    newSession.getAttributes().putAll(oldAttributes);
-                    // 使旧会话失效
-                    return webSession.invalidate()
-                            // 保存新会话
-                            .then(newSession.save());
-                });
+                return webSession.changeSessionId().then(chain.filter(newCtx));
             }
 
             return chain.filter(newCtx);
@@ -131,11 +120,6 @@ public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<Se
     // 检查是否为受信任代理
     private boolean isTrustedProxy(String clientIp) {
         return IPAddressUtil.isIpInRange(clientIp, webProperties.getTrustedProxies());
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 2;
     }
 
 
