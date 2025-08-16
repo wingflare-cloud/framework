@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import jakarta.annotation.Resource;
@@ -169,6 +170,19 @@ public class WebApiExceptionHandler {
             )));
         }
 
+        return "";
+    }
+
+    /**
+     * 无权限异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoResourceFoundException.class)
+    public Object noResourceFoundExceptionHandler(HttpServletRequest req, NoResourceFoundException e) {
         return "";
     }
 

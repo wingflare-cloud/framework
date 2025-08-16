@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Import;
  * @Date 2023/04/04 04
  * @Description 启动类
  */
-@Configuration
+@Configuration("baseBootstrap")
 @MapperScan("com.wingflare.business.base.mapper")
 @Import({
         DictServer.class,

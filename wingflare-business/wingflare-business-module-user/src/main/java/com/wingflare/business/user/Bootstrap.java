@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Import;
  * @Date 2023/04/04 04
  * @Description 启动类
  */
-@Configuration
+@Configuration("userBootstrap")
 @MapperScan("com.wingflare.business.user.mapper")
 @Import({
         RolePermissionServer.class,

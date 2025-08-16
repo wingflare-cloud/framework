@@ -108,6 +108,8 @@
         <module>wingflare-engine</module>
         <module>wingflare-business</module>
         <module>wingflare-abstraction</module>
+        <module>wingflare-single</module>
+        <module>wingflare-service</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -19,22 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-tracing</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
         <dependency>
@@ -45,16 +30,6 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-starter-secuirty</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-jwt</artifactId>
         </dependency>
 
         <dependency>
@@ -70,30 +45,6 @@
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>cloud-alibaba</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
-                </dependency>
-            </dependencies>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-
-        <profile>
-            <id>cloud-tencent</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-cloud-tencent</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-
         <profile>
             <id>nosql-redis</id>
             <dependencies>

@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>wingflare-module</artifactId>
         <groupId>com.wingflare</groupId>
+        <artifactId>wingflare-service</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wingflare-module-user</artifactId>
+    <artifactId>wingflare-service-base</artifactId>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -18,45 +18,55 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-module-base</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-security</artifactId>
+            <artifactId>wingflare-lib-tracing</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-starter-secuirty</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-business-module-user</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-spring</artifactId>
+            <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
         </dependency>
 
     </dependencies>
 
     <profiles>
         <profile>
-            <id>nosql-redis</id>
+            <id>cloud-alibaba</id>
             <dependencies>
                 <dependency>
                     <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-module-user-nosql-redis</artifactId>
+                    <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
                 </dependency>
             </dependencies>
 
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+
+        <profile>
+            <id>cloud-tencent</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-adapter-cloud-tencent</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
 
     </profiles>

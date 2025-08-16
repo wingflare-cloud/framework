@@ -1,4 +1,4 @@
-package com.wingflare.module;
+package com.wingflare.service.auth;
 
 import com.wingflare.lib.security.annotation.EnableDataSecret;
 import com.wingflare.lib.security.annotation.EnableDataSensitive;
@@ -8,6 +8,7 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @BaseConfig
 @EnableDataSensitive
 @EnableDataSecret
@@ -16,9 +17,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WingFlareAuthModuleApplication {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(WingFlareAuthModuleApplication.class);
-        application.setBannerMode(Banner.Mode.OFF);
-        application.run(args);
+        try {
+            SpringApplication application = new SpringApplication(WingFlareAuthModuleApplication.class);
+            application.setBannerMode(Banner.Mode.OFF);
+            application.run(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

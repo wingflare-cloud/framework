@@ -21,6 +21,7 @@
         <module>wingflare-dep-business</module>
         <module>wingflare-dep-abstraction</module>
         <module>wingflare-dep-engine</module>
+        <module>wingflare-dep-module</module>
     </modules>
 
 </project>
