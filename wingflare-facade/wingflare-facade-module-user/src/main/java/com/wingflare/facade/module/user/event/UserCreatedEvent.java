@@ -19,20 +19,24 @@ public class UserCreatedEvent extends ApplicationEvent {
 
     public UserCreatedEvent(UserDTO source) {
         super(source);
+        this.source = source;
     }
 
     public UserCreatedEvent(UserBO target, UserDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public UserCreatedEvent(UserBO target, UserDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
     public UserCreatedEvent(UserDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public UserDTO getSource() {

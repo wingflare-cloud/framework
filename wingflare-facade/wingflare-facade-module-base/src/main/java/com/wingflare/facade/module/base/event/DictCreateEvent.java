@@ -18,20 +18,24 @@ public class DictCreateEvent extends ApplicationEvent {
 
     public DictCreateEvent(DictDTO source) {
         super(source);
+        this.source = source;
     }
 
     public DictCreateEvent(DictBO target, DictDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public DictCreateEvent(DictBO target, DictDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
     public DictCreateEvent(DictDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public DictDTO getSource() {

@@ -18,20 +18,24 @@ public class MenuUpdatedEvent extends ApplicationEvent {
 
     public MenuUpdatedEvent(MenuDTO source) {
         super(source);
+        this.source = source;
     }
 
     public MenuUpdatedEvent(MenuDTO target, MenuDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public MenuUpdatedEvent(MenuDTO target, MenuDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
     public MenuUpdatedEvent(MenuDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public MenuDTO getSource() {

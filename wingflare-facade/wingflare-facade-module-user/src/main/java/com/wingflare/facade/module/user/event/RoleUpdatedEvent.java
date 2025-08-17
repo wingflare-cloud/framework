@@ -2,7 +2,6 @@ package com.wingflare.facade.module.user.event;
 
 
 import com.wingflare.facade.module.user.dto.RoleDTO;
-import com.wingflare.facade.module.user.dto.UserDTO;
 import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
@@ -19,20 +18,24 @@ public class RoleUpdatedEvent extends ApplicationEvent {
 
     public RoleUpdatedEvent(RoleDTO source) {
         super(source);
+        this.source = source;
     }
 
     public RoleUpdatedEvent(RoleDTO target, RoleDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public RoleUpdatedEvent(RoleDTO target, RoleDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
-    public RoleUpdatedEvent(UserDTO source, Clock clock) {
+    public RoleUpdatedEvent(RoleDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public RoleDTO getSource() {

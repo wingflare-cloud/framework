@@ -3,7 +3,6 @@ package com.wingflare.facade.module.user.event;
 
 import com.wingflare.facade.module.user.bo.RoleBO;
 import com.wingflare.facade.module.user.dto.RoleDTO;
-import com.wingflare.facade.module.user.dto.UserDTO;
 import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
@@ -24,16 +23,19 @@ public class RoleCreatedEvent extends ApplicationEvent {
 
     public RoleCreatedEvent(RoleBO target, RoleDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public RoleCreatedEvent(RoleBO target, RoleDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
-    public RoleCreatedEvent(UserDTO source, Clock clock) {
+    public RoleCreatedEvent(RoleDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public RoleDTO getSource() {

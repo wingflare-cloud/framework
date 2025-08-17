@@ -15,10 +15,12 @@ public class SettingDeleteEvent extends ApplicationEvent {
 
     public SettingDeleteEvent(SettingDTO source) {
         super(source);
+        this.source = source;
     }
 
     public SettingDeleteEvent(SettingDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public SettingDTO getSource() {

@@ -18,20 +18,24 @@ public class UserUpdatedEvent extends ApplicationEvent {
 
     public UserUpdatedEvent(UserDTO source) {
         super(source);
+        this.source = source;
     }
 
     public UserUpdatedEvent(UserDTO target, UserDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public UserUpdatedEvent(UserDTO target, UserDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
     public UserUpdatedEvent(UserDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public UserDTO getSource() {

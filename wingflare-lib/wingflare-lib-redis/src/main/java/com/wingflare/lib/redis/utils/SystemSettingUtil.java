@@ -23,7 +23,7 @@ public class SystemSettingUtil implements SettingUtil {
     @Resource
     private RedisService redisService;
 
-    @Value("${system.cacheSettingKey:wfSystemSetting}")
+    @Value("${system.cacheSettingKey:wf:system:setting}")
     private String cacheSettingKey;
 
     @Override

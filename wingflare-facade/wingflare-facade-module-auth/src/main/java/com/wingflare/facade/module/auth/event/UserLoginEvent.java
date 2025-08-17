@@ -15,10 +15,12 @@ public class UserLoginEvent extends ApplicationEvent {
 
     public UserLoginEvent(UserAuth source) {
         super(source);
+        this.source = source;
     }
 
     public UserLoginEvent(UserAuth source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public UserAuth getSource() {

@@ -15,10 +15,12 @@ public class DictDeleteEvent extends ApplicationEvent {
 
     public DictDeleteEvent(DictDTO source) {
         super(source);
+        this.source = source;
     }
 
     public DictDeleteEvent(DictDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public DictDTO getSource() {

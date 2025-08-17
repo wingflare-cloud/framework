@@ -17,6 +17,7 @@ public class SettingUpdatedEvent extends ApplicationEvent {
 
     public SettingUpdatedEvent(SettingDTO source) {
         super(source);
+        this.source = source;
     }
 
     public SettingUpdatedEvent(SettingDTO source, Clock clock) {
@@ -25,11 +26,13 @@ public class SettingUpdatedEvent extends ApplicationEvent {
 
     public SettingUpdatedEvent(SettingDTO target, SettingDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public SettingUpdatedEvent(SettingDTO target, SettingDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 

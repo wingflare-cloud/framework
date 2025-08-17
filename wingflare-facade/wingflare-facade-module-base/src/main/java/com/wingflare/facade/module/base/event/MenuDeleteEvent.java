@@ -16,10 +16,12 @@ public class MenuDeleteEvent extends ApplicationEvent {
 
     public MenuDeleteEvent(MenuDTO source) {
         super(source);
+        this.source = source;
     }
 
     public MenuDeleteEvent(MenuDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public MenuDTO getSource() {

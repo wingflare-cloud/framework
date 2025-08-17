@@ -16,10 +16,12 @@ public class UserDeletedEvent extends ApplicationEvent {
 
     public UserDeletedEvent(UserDTO source) {
         super(source);
+        this.source = source;
     }
 
     public UserDeletedEvent(UserDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public UserDTO getSource() {

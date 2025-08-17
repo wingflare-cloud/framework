@@ -16,10 +16,12 @@ public class IdentityDeleteEvent extends ApplicationEvent {
 
     public IdentityDeleteEvent(IdentityDTO source) {
         super(source);
+        this.source = source;
     }
 
     public IdentityDeleteEvent(IdentityDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public IdentityDTO getSource() {

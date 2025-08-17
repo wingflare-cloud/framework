@@ -4,6 +4,7 @@ package com.wingflare.business.base;
 import com.wingflare.business.base.biz.DictBizImpl;
 import com.wingflare.business.base.biz.MenuBizImpl;
 import com.wingflare.business.base.biz.SettingBizImpl;
+import com.wingflare.business.base.listener.SettingRefresh;
 import com.wingflare.business.base.service.DictServer;
 import com.wingflare.business.base.service.MenuServer;
 import com.wingflare.business.base.service.SettingServer;
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Import;
         DictBizImpl.class,
         MenuBizImpl.class,
         SettingBizImpl.class,
+        SettingRefresh.class,
 })
 public class Bootstrap {
 }

@@ -18,19 +18,23 @@ public class SettingCreateEvent extends ApplicationEvent {
 
     public SettingCreateEvent(SettingDTO source) {
         super(source);
+        this.source = source;
     }
 
     public SettingCreateEvent(SettingDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public SettingCreateEvent(SettingBO target, SettingDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public SettingCreateEvent(SettingBO target, SettingDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 

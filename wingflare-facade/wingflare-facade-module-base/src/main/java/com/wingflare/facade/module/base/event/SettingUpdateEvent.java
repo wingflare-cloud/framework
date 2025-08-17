@@ -17,19 +17,23 @@ public class SettingUpdateEvent extends ApplicationEvent {
 
     public SettingUpdateEvent(SettingDTO source) {
         super(source);
+        this.source = source;
     }
 
     public SettingUpdateEvent(SettingDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public SettingUpdateEvent(SettingDTO target, SettingDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public SettingUpdateEvent(SettingDTO target, SettingDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 

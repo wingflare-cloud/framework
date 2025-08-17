@@ -16,10 +16,12 @@ public class MenuDeletedEvent extends ApplicationEvent {
 
     public MenuDeletedEvent(MenuDTO source) {
         super(source);
+        this.source = source;
     }
 
     public MenuDeletedEvent(MenuDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public MenuDTO getSource() {

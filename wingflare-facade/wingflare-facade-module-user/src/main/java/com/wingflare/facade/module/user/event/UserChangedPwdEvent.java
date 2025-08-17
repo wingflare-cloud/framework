@@ -16,10 +16,12 @@ public class UserChangedPwdEvent extends ApplicationEvent {
 
     public UserChangedPwdEvent(UserDTO source) {
         super(source);
+        this.source = source;
     }
 
     public UserChangedPwdEvent(UserDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public UserDTO getSource() {

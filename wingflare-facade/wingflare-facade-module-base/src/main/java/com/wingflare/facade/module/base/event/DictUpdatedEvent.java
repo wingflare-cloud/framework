@@ -16,22 +16,26 @@ public class DictUpdatedEvent extends ApplicationEvent {
 
     protected transient DictDTO target;
 
-    public DictUpdatedEvent(DictBO source) {
+    public DictUpdatedEvent(DictDTO source) {
         super(source);
+        this.source = source;
     }
 
     public DictUpdatedEvent(DictDTO target, DictDTO source) {
         super(source);
+        this.source = source;
         this.target = target;
     }
 
     public DictUpdatedEvent(DictDTO target, DictDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
         this.target = target;
     }
 
     public DictUpdatedEvent(DictDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public DictDTO getSource() {

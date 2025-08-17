@@ -177,9 +177,9 @@ public class SettingBizImpl implements SettingBiz {
 
             if (oldField != null) {
                 oldDto.set(SettingConvert.convert.doToDto(oldField));
-                Assert.isTrue(settingServer.updateById(oldSettingDO), ErrorCode.SYS_SETTING_UPDATE_ERROR);
                 settingDto = SettingConvert.convert.doToDto(oldSettingDO);
                 appEventPublisher.publishEvent(new SettingUpdateEvent(oldDto.get(), settingDto));
+                Assert.isTrue(settingServer.updateById(oldSettingDO), ErrorCode.SYS_SETTING_UPDATE_ERROR);
             } else {
                 settingDto = SettingConvert.convert.doToDto(oldSettingDO);
             }

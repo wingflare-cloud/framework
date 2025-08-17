@@ -14,10 +14,12 @@ public class UserLogoutEvent extends ApplicationEvent {
 
     public UserLogoutEvent(UserAuth source) {
         super(source);
+        this.source = source;
     }
 
     public UserLogoutEvent(UserAuth source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public UserAuth getSource() {

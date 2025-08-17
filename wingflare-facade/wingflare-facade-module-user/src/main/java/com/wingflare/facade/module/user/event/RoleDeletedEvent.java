@@ -16,10 +16,12 @@ public class RoleDeletedEvent extends ApplicationEvent {
 
     public RoleDeletedEvent(RoleDTO source) {
         super(source);
+        this.source = source;
     }
 
     public RoleDeletedEvent(RoleDTO source, Clock clock) {
         super(source, clock);
+        this.source = source;
     }
 
     public RoleDTO getSource() {
