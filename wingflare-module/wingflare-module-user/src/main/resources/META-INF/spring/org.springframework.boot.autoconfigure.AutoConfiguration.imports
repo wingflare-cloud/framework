@@ -1,0 +1,9 @@
+com.wingflare.module.user.controller.IdentityController
+com.wingflare.module.user.controller.JobLevelClassifyController
+com.wingflare.module.user.controller.JobLevelController
+com.wingflare.module.user.controller.OrgController
+com.wingflare.module.user.controller.OrgDepartmentController
+com.wingflare.module.user.controller.RoleController
+com.wingflare.module.user.controller.RolePermissionController
+com.wingflare.module.user.controller.UserController
+com.wingflare.module.user.controller.UserRoleController

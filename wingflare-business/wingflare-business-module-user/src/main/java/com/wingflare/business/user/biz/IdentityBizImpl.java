@@ -3,7 +3,6 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
-import com.wingflare.business.user.constants.UserEventName;
 import com.wingflare.business.user.db.IdentityDO;
 import com.wingflare.business.user.service.JobLevelServer;
 import com.wingflare.business.user.service.OrgDepartmentServer;
@@ -14,6 +13,7 @@ import com.wingflare.business.user.convert.IdentityConvert;
 import com.wingflare.business.user.service.IdentityServer;
 import com.wingflare.facade.module.user.bo.IdentityBO;
 import com.wingflare.facade.module.user.bo.IdentitySearchBO;
+import com.wingflare.facade.module.user.constants.UserEventName;
 import com.wingflare.facade.module.user.dto.IdentityDTO;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;

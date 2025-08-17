@@ -32,6 +32,11 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-servlet-session</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-module-auth</artifactId>
         </dependency>
 
@@ -48,6 +53,20 @@
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>nosql-redis</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-adapter-session-nosql-redis</artifactId>
+                </dependency>
+
+            </dependencies>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
 
     </profiles>
 

@@ -40,8 +40,10 @@ public class HeaderConvertContextFilter implements Filter, Ordered {
             throws IOException, ServletException {
 
         if (servletRequest instanceof HttpServletRequest request) {
-            CtxUtil.cxtSetter(systemContextProperties.getGlobalCtx(),
-                    key -> ServletUtil.getHeader(request, key));
+            if (CollectionUtil.isNotEmpty(systemContextProperties.getGlobalCtx())) {
+                CtxUtil.cxtSetter(systemContextProperties.getGlobalCtx(),
+                        key -> ServletUtil.getHeader(request, key));
+            }
         }
 
         try {

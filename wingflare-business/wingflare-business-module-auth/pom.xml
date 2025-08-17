@@ -52,6 +52,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-sdk-user</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

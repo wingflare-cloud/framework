@@ -72,6 +72,12 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-session-nosql-redis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -3,7 +3,6 @@ package com.wingflare.lib.spring.utils;
 
 import com.wingflare.lib.standard.Event;
 import com.wingflare.lib.standard.model.EventCtx;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @description 事件工具
  */
 @Component
-@ConditionalOnMissingBean(com.wingflare.lib.standard.EventUtil.class)
 public class EventUtil implements com.wingflare.lib.standard.EventUtil {
 
     @Override

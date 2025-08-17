@@ -13,9 +13,14 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class WingFlareGatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(WingFlareGatewayApplication.class);
-        application.setBannerMode(Banner.Mode.OFF);
-        application.run(args);
+        try {
+            SpringApplication application = new SpringApplication(WingFlareGatewayApplication.class);
+            application.setBannerMode(Banner.Mode.OFF);
+            application.run(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

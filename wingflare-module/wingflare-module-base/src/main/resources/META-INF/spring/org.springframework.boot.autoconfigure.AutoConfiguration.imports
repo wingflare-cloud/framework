@@ -1,0 +1,3 @@
+com.wingflare.module.base.controller.DictController
+com.wingflare.module.base.controller.MenuController
+com.wingflare.module.base.controller.SettingController

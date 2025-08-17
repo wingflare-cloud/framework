@@ -1,11 +1,9 @@
 package com.wingflare.business.user.biz;
 
 
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.business.user.ErrorCode;
-import com.wingflare.business.user.constants.UserEventName;
 import com.wingflare.business.user.convert.UserConvert;
 import com.wingflare.business.user.db.RoleDO;
 import com.wingflare.business.user.db.UserDO;
@@ -19,6 +17,7 @@ import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.bo.UserBindRoleBO;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
+import com.wingflare.facade.module.user.constants.UserEventName;
 import com.wingflare.facade.module.user.dict.UserAccountType;
 import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.Assert;

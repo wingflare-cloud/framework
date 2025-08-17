@@ -1,7 +1,9 @@
+/*
 package com.wingflare.business.base.listener;
 
-import com.wingflare.business.base.constants.BaseEventName;
+
 import com.wingflare.facade.module.base.constants.Base;
+import com.wingflare.facade.module.base.constants.BaseEventName;
 import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.lib.spring.event.Event;
 import com.wingflare.lib.standard.CacheService;
@@ -11,12 +13,14 @@ import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
 
+*/
 /**
  * @ClassName SettingRefresh
  * @Author naizui_ycx
  * @Date 2023/03/03 03
  * @Description 刷新系统设置
- */
+ *//*
+
 @Component
 public class SettingRefresh {
 
@@ -53,3 +57,4 @@ public class SettingRefresh {
     }
 
 }
+*/

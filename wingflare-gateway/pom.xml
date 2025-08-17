@@ -133,6 +133,12 @@
                     <groupId>com.wingflare</groupId>
                     <artifactId>wingflare-adapter-gateway-nosql-redis</artifactId>
                 </dependency>
+
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-adapter-session-nosql-redis</artifactId>
+                </dependency>
+
             </dependencies>
 
             <activation>
