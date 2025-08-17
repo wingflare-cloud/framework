@@ -1,0 +1,28 @@
+package com.wingflare.facade.module.base.event;
+
+import com.wingflare.facade.module.base.dto.DictDTO;
+import org.springframework.context.ApplicationEvent;
+
+import java.time.Clock;
+
+/**
+ * 字典删除成功事件
+ *
+ */
+public class DictDeletedEvent extends ApplicationEvent {
+
+    protected transient DictDTO source;
+
+    public DictDeletedEvent(DictDTO source) {
+        super(source);
+    }
+
+    public DictDeletedEvent(DictDTO source, Clock clock) {
+        super(source, clock);
+    }
+
+    public DictDTO getSource() {
+        return source;
+    }
+
+}

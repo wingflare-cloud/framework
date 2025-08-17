@@ -10,18 +10,22 @@ import com.wingflare.business.user.service.RoleServer;
 import com.wingflare.business.user.wrapper.RoleWrapper;
 import com.wingflare.facade.module.user.biz.RoleBiz;
 import com.wingflare.facade.module.user.bo.*;
-import com.wingflare.facade.module.user.constants.UserEventName;
 import com.wingflare.facade.module.user.dto.RoleDTO;
+import com.wingflare.facade.module.user.event.RoleCreateEvent;
+import com.wingflare.facade.module.user.event.RoleCreatedEvent;
+import com.wingflare.facade.module.user.event.RoleDeleteEvent;
+import com.wingflare.facade.module.user.event.RoleDeletedEvent;
+import com.wingflare.facade.module.user.event.RoleUpdateEvent;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.standard.EventUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
@@ -52,7 +56,7 @@ public class RoleBizImpl implements RoleBiz {
     private TransactionTemplate transactionTemplate;
 
     @Resource
-    private EventUtil eventUtil;
+    private ApplicationEventPublisher appEventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(RoleBizImpl.class);
 
@@ -104,7 +108,7 @@ public class RoleBizImpl implements RoleBiz {
             if (roleDo != null) {
                 Assert.isTrue(roleServer.removeById(bo.getId()), ErrorCode.SYS_ROLE_DELETE_ERROR);
                 roleDto = RoleConvert.convert.doToDto(roleDo);
-                eventUtil.publishEvent(UserEventName.ROLE_DELETE, roleDto);
+                appEventPublisher.publishEvent(new RoleDeleteEvent(roleDto));
             }
             return roleDto;
         });
@@ -112,7 +116,7 @@ public class RoleBizImpl implements RoleBiz {
         Optional.ofNullable(ret)
                 .ifPresent(val -> {
                     try {
-                        eventUtil.publishEvent(UserEventName.ROLE_DELETED, val);
+                        appEventPublisher.publishEvent(new RoleDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -132,12 +136,12 @@ public class RoleBizImpl implements RoleBiz {
             RoleDO roleDo = RoleConvert.convert.boToDo(bo);
             Assert.isTrue(roleServer.save(roleDo), ErrorCode.SYS_ROLE_CREATE_ERROR);
             RoleDTO roleDto = RoleConvert.convert.doToDto(roleDo);
-            eventUtil.publishEvent(UserEventName.ROLE_CREATE, bo, roleDto);
+            appEventPublisher.publishEvent(new RoleCreateEvent(bo, roleDto));
             return roleDto;
         });
 
         try {
-            eventUtil.publishEvent(UserEventName.ROLE_CREATED, bo, ret);
+            appEventPublisher.publishEvent(new RoleCreatedEvent(bo, ret));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -168,7 +172,7 @@ public class RoleBizImpl implements RoleBiz {
                 oldDto.set(RoleConvert.convert.doToDto(oldField));
                 Assert.isTrue(roleServer.updateById(oldRoleDO), ErrorCode.SYS_ROLE_UPDATE_ERROR);
                 roleDto = RoleConvert.convert.doToDto(oldRoleDO);
-                eventUtil.publishEvent(UserEventName.ROLE_UPDATE, oldDto.get(), roleDto);
+                appEventPublisher.publishEvent(new RoleUpdateEvent(oldDto.get(), roleDto));
             } else {
                 roleDto = RoleConvert.convert.doToDto(oldRoleDO);
             }
@@ -178,7 +182,7 @@ public class RoleBizImpl implements RoleBiz {
 
         if (oldDto.get() != null) {
             try {
-                eventUtil.publishEvent(UserEventName.ROLE_UPDATED, oldDto.get(), ret);
+                appEventPublisher.publishEvent(new RoleUpdateEvent(oldDto.get(), ret));
             } catch (Throwable e) {
                 logger.warn(e.getMessage());
             }

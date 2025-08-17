@@ -1,11 +1,11 @@
-/*
 package com.wingflare.business.base.listener;
 
 
 import com.wingflare.facade.module.base.constants.Base;
-import com.wingflare.facade.module.base.constants.BaseEventName;
 import com.wingflare.facade.module.base.dto.SettingDTO;
-import com.wingflare.lib.spring.event.Event;
+import com.wingflare.facade.module.base.event.SettingCreatedEvent;
+import com.wingflare.facade.module.base.event.SettingDeletedEvent;
+import com.wingflare.facade.module.base.event.SettingUpdatedEvent;
 import com.wingflare.lib.standard.CacheService;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import org.springframework.context.event.EventListener;
@@ -13,13 +13,12 @@ import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
 
-*/
 /**
  * @ClassName SettingRefresh
  * @Author naizui_ycx
  * @Date 2023/03/03 03
  * @Description 刷新系统设置
- *//*
+ */
 
 @Component
 public class SettingRefresh {
@@ -28,20 +27,19 @@ public class SettingRefresh {
     private CacheService cacheService;
 
 
-    @EventListener(condition = "#event.eventName eq '" + BaseEventName.SETTING_CREATED + "'")
-    public void createHandle(Event event) {
-        saveCache((SettingDTO) event.getData());
+    @EventListener({ SettingCreatedEvent.class })
+    public void createHandle(SettingCreatedEvent event) {
+        saveCache(event.getSource());
     }
 
-    @EventListener(condition = "#event.eventName eq '" + BaseEventName.SETTING_UPDATED + "'")
-    public void updateHandle(Event event) {
-        saveCache((SettingDTO) event.getData());
+    @EventListener({ SettingUpdatedEvent.class })
+    public void updateHandle(SettingUpdatedEvent event) {
+        saveCache(event.getSource());
     }
 
-    @EventListener(condition = "#event.eventName eq '" + BaseEventName.SETTING_DELETED + "'")
-    public void deleteHandle(Event event) {
-        SettingDTO settingDto = (SettingDTO) event.getData();
-        cacheService.delCacheMapValue(Base.SETTING_CACHE_KEY, settingDto.getSettingCode());
+    @EventListener({ SettingDeletedEvent.class })
+    public void deleteHandle(SettingDeletedEvent event) {
+        cacheService.delCacheMapValue(Base.SETTING_CACHE_KEY, event.getSource().getSettingCode());
     }
 
     private void saveCache(SettingDTO settingDto) {
@@ -57,4 +55,3 @@ public class SettingRefresh {
     }
 
 }
-*/

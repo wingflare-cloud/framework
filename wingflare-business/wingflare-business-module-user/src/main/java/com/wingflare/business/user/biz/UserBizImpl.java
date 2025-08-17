@@ -17,9 +17,14 @@ import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.bo.UserBindRoleBO;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
-import com.wingflare.facade.module.user.constants.UserEventName;
 import com.wingflare.facade.module.user.dict.UserAccountType;
 import com.wingflare.facade.module.user.dto.UserDTO;
+import com.wingflare.facade.module.user.event.UserChangePwdEvent;
+import com.wingflare.facade.module.user.event.UserChangedPwdEvent;
+import com.wingflare.facade.module.user.event.UserCreateEvent;
+import com.wingflare.facade.module.user.event.UserDeleteEvent;
+import com.wingflare.facade.module.user.event.UserDeletedEvent;
+import com.wingflare.facade.module.user.event.UserUpdateEvent;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.enums.SensitiveType;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
@@ -33,12 +38,11 @@ import com.wingflare.lib.security.annotation.Desensitize;
 import com.wingflare.lib.security.annotation.DesensitizeGroups;
 import com.wingflare.lib.security.utils.UserAuthUtil;
 import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
-import com.wingflare.lib.standard.EventUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.lib.standard.model.EventCtx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
@@ -78,7 +82,7 @@ public class UserBizImpl implements UserBiz {
     private TransactionTemplate transactionTemplate;
 
     @Resource
-    private EventUtil eventUtil;
+    private ApplicationEventPublisher appEventPublisher;
 
     @Resource
     private UserAuthUtil userAuthUtil;
@@ -241,7 +245,7 @@ public class UserBizImpl implements UserBiz {
             if (userDo != null) {
                 userServer.removeById(bo.getId());
                 dto = UserConvert.convert.doToDto(userDo);
-                eventUtil.publishEvent(UserEventName.USER_DELETE, false, dto);
+                appEventPublisher.publishEvent(new UserDeleteEvent(dto));
             }
 
             return dto;
@@ -252,7 +256,7 @@ public class UserBizImpl implements UserBiz {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
-                        eventUtil.publishEvent(UserEventName.USER_DELETED, false, val);
+                        appEventPublisher.publishEvent(new UserDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -283,7 +287,7 @@ public class UserBizImpl implements UserBiz {
     @Validated({Default.class, Create.class})
     public UserDTO create(@Valid @NotNull UserBO bo) {
         UserDTO dto = createHandle(bo);
-        afterCreate(dto);
+        afterCreate(bo, dto);
         return dto;
     }
 
@@ -328,15 +332,14 @@ public class UserBizImpl implements UserBiz {
             }
 
             UserDTO userDto = UserConvert.convert.doToDto(userDo);
-            eventUtil.publishEvent(UserEventName.USER_CREATE, bo, userDto);
+            appEventPublisher.publishEvent(new UserCreateEvent(bo, userDto));
             return userDto;
         });
     }
 
-    public void afterCreate(UserDTO dto) {
+    public void afterCreate(UserBO bo, UserDTO dto) {
         try {
-            eventUtil.publishEvent(UserEventName.USER_CREATED,
-                    EventCtx.getInstance().get(UserEventName.USER_CREATE).getSource(), dto);
+            appEventPublisher.publishEvent(new UserCreateEvent(bo, dto));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -365,7 +368,7 @@ public class UserBizImpl implements UserBiz {
     @Validated({Default.class, Update.class})
     public UserDTO update(@Valid @NotNull UserBO bo) {
         UserDTO dto = updateHandle(bo);
-        afterUpdate(dto);
+        afterUpdate(bo, dto);
         return dto;
     }
 
@@ -429,20 +432,18 @@ public class UserBizImpl implements UserBiz {
             if (oldField != null) {
                 Assert.isTrue(userServer.updateById(oldUserDO), ErrorCode.SYS_USER_UPDATE_ERROR);
                 userDto = UserConvert.convert.doToDto(oldUserDO);
-                eventUtil.publishEvent(UserEventName.USER_UPDATE,
-                        UserConvert.convert.doToDto(oldField), userDto);
+                appEventPublisher.publishEvent(new UserUpdateEvent(UserConvert.convert.doToDto(oldField), userDto));
             }
 
             return userDto;
         });
     }
 
-    public void afterUpdate(UserDTO dto) {
+    public void afterUpdate(UserBO bo, UserDTO dto) {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
-                        eventUtil.publishEvent(UserEventName.USER_UPDATED,
-                                EventCtx.getInstance().get(UserEventName.USER_UPDATE).getSource(), val);
+                        appEventPublisher.publishEvent(new UserUpdateEvent(UserConvert.convert.boToDto(bo), val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -526,7 +527,7 @@ public class UserBizImpl implements UserBiz {
             userDo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getPasswd()));
             Assert.isTrue(userServer.updateById(userDo), ErrorCode.SYS_USER_UPDATE_ERROR);
             UserDTO userDto = UserConvert.convert.doToDto(userDo);
-            eventUtil.publishEvent(UserEventName.USER_CHANGE_PWD, false, userDto);
+            appEventPublisher.publishEvent(new UserChangePwdEvent(userDto));
             return userDto;
         });
     }
@@ -534,7 +535,7 @@ public class UserBizImpl implements UserBiz {
 
     public void afterUpdatePasswd(UserDTO dto) {
         try {
-            eventUtil.publishEvent(UserEventName.USER_CHANGED_PWD, false, dto);
+            appEventPublisher.publishEvent(new UserChangedPwdEvent(dto));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }

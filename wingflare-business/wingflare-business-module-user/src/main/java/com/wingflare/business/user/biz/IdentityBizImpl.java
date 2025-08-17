@@ -13,18 +13,18 @@ import com.wingflare.business.user.convert.IdentityConvert;
 import com.wingflare.business.user.service.IdentityServer;
 import com.wingflare.facade.module.user.bo.IdentityBO;
 import com.wingflare.facade.module.user.bo.IdentitySearchBO;
-import com.wingflare.facade.module.user.constants.UserEventName;
 import com.wingflare.facade.module.user.dto.IdentityDTO;
+import com.wingflare.facade.module.user.event.IdentityDeleteEvent;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.standard.EventUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -65,7 +65,7 @@ public class IdentityBizImpl implements IdentityBiz {
     private TransactionTemplate transactionTemplate;
 
     @Resource
-    private EventUtil eventUtil;
+    private ApplicationEventPublisher appEventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(IdentityBizImpl.class);
 
@@ -119,7 +119,7 @@ public class IdentityBizImpl implements IdentityBiz {
             if (identityDo != null) {
                 identityServer.removeById(bo.getId());
                 dto = IdentityConvert.convert.doToDto(identityDo);
-                eventUtil.publishEvent(UserEventName.IDENTITY_DELETE, false, dto);
+                appEventPublisher.publishEvent(new IdentityDeleteEvent(dto));
             }
 
             return dto;
@@ -130,7 +130,7 @@ public class IdentityBizImpl implements IdentityBiz {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
-                        eventUtil.publishEvent(UserEventName.IDENTITY_DELETED, false, val);
+                        appEventPublisher.publishEvent(new IdentityDeleteEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }

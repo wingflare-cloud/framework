@@ -1,6 +1,5 @@
 com.wingflare.lib.spring.utils.SpringUtil
 com.wingflare.lib.spring.utils.SnowflakeUtil
-com.wingflare.lib.spring.utils.EventUtil
 com.wingflare.lib.spring.utils.PointUtil
 com.wingflare.lib.spring.converter.String2JSONArray
 com.wingflare.lib.spring.converter.String2JSONObject

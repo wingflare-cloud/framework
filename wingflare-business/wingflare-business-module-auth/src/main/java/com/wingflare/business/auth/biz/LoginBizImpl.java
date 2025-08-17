@@ -7,8 +7,9 @@ import com.wingflare.facade.module.auth.biz.LoginBiz;
 import com.wingflare.facade.module.auth.bo.GetLoginUsersBO;
 import com.wingflare.facade.module.auth.bo.LoginBO;
 import com.wingflare.facade.module.auth.bo.RefreshTokenBO;
-import com.wingflare.facade.module.auth.constants.AuthEventName;
 import com.wingflare.facade.module.auth.dto.TokenDTO;
+import com.wingflare.facade.module.auth.event.UserLoginEvent;
+import com.wingflare.facade.module.auth.event.UserLogoutEvent;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
@@ -33,6 +34,7 @@ import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -76,7 +78,7 @@ public class LoginBizImpl implements LoginBiz {
     private UserAuthUtil userAuthUtil;
 
     @Resource
-    private EventUtil eventUtil;
+    private ApplicationEventPublisher appEventPublisher;
 
     /**
      * 获取token过期时间
@@ -186,7 +188,7 @@ public class LoginBizImpl implements LoginBiz {
                 .setLastLoginTime(now)
                 .setLastLoginIp(bo.getIpaddr()));
 
-        eventUtil.publishEvent(AuthEventName.USER_LOGIN, false, userAuth);
+        appEventPublisher.publishEvent(new UserLoginEvent(userAuth));
 
         return tokenDto;
     }
@@ -200,7 +202,7 @@ public class LoginBizImpl implements LoginBiz {
         UserAuth userAuth = userAuthUtil.removeToken(tokenId);
 
         if (userAuth != null) {
-            eventUtil.publishEvent(AuthEventName.USER_LOGOUT, false, userAuth);
+            appEventPublisher.publishEvent(new UserLogoutEvent(userAuth));
         }
 
         return userAuth;

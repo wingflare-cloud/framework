@@ -13,10 +13,15 @@ import com.wingflare.facade.module.base.biz.DictBiz;
 import com.wingflare.facade.module.base.bo.DictBO;
 import com.wingflare.facade.module.base.bo.DictSearchBO;
 import com.wingflare.facade.module.base.constants.Base;
-import com.wingflare.facade.module.base.constants.BaseEventName;
 import com.wingflare.facade.module.base.dict.DictTypes;
 import com.wingflare.facade.module.base.dto.DictDTO;
 import com.wingflare.facade.module.base.dto.SimpleDictDTO;
+import com.wingflare.facade.module.base.event.DictCreateEvent;
+import com.wingflare.facade.module.base.event.DictCreatedEvent;
+import com.wingflare.facade.module.base.event.DictDeleteEvent;
+import com.wingflare.facade.module.base.event.DictDeletedEvent;
+import com.wingflare.facade.module.base.event.DictUpdateEvent;
+import com.wingflare.facade.module.base.event.DictUpdatedEvent;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
@@ -26,12 +31,12 @@ import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.CacheService;
-import com.wingflare.lib.standard.EventUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
@@ -69,7 +74,7 @@ public class DictBizImpl implements DictBiz {
     private TransactionTemplate transactionTemplate;
 
     @Resource
-    private EventUtil eventUtil;
+    private ApplicationEventPublisher appEventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(DictBizImpl.class);
 
@@ -128,7 +133,7 @@ public class DictBizImpl implements DictBiz {
                 }
                 Assert.isTrue(dictServer.removeById(bo.getId()), ErrorCode.SYS_DICT_DELETE_ERROR);
                 dictDto = DictConvert.convert.doToDto(dictDo);
-                eventUtil.publishEvent(BaseEventName.DICT_DELETE, dictDto);
+                appEventPublisher.publishEvent(new DictDeleteEvent(dictDto));
             }
             return dictDto;
         });
@@ -136,7 +141,7 @@ public class DictBizImpl implements DictBiz {
         Optional.ofNullable(ret)
                 .ifPresent(val -> {
                     try {
-                        eventUtil.publishEvent(BaseEventName.DICT_DELETED, val);
+                        appEventPublisher.publishEvent(new DictDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -154,12 +159,12 @@ public class DictBizImpl implements DictBiz {
             DictDO dictDo = DictConvert.convert.boToDo(bo);
             Assert.isTrue(dictServer.save(dictDo), ErrorCode.SYS_DICT_CREATE_ERROR);
             DictDTO dictDto = DictConvert.convert.doToDto(dictDo);
-            eventUtil.publishEvent(BaseEventName.DICT_CREATE, bo, dictDto);
+            appEventPublisher.publishEvent(new DictCreateEvent(bo, dictDto));
             return dictDto;
         });
 
         try {
-            eventUtil.publishEvent(BaseEventName.DICT_CREATED, bo, ret);
+            appEventPublisher.publishEvent(new DictCreatedEvent(bo, ret));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -194,7 +199,7 @@ public class DictBizImpl implements DictBiz {
                 oldDictDto.set(DictConvert.convert.doToDto(oldField));
                 Assert.isTrue(dictServer.updateById(oldDictDO), ErrorCode.SYS_DICT_UPDATE_ERROR);
                 dictDto = DictConvert.convert.doToDto(oldDictDO);
-                eventUtil.publishEvent(BaseEventName.DICT_UPDATE, oldDictDto.get(), dictDto);
+                appEventPublisher.publishEvent(new DictUpdateEvent(oldDictDto.get(), dictDto));
             } else {
                 dictDto = DictConvert.convert.doToDto(oldDictDO);
             }
@@ -204,7 +209,7 @@ public class DictBizImpl implements DictBiz {
 
         if (oldDictDto.get() != null) {
             try {
-                eventUtil.publishEvent(BaseEventName.DICT_UPDATED, oldDictDto.get(), ret);
+                appEventPublisher.publishEvent(new DictUpdatedEvent(oldDictDto.get(), ret));
             } catch (Throwable e) {
                 logger.warn(e.getMessage());
             }

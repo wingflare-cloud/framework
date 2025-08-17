@@ -123,9 +123,4 @@ public interface Ctx {
      */
     String DYNAMIC_TABLE_NAME_CONTEXT = "sys:ctx:dynamicTableName";
 
-    /**
-     * 事件上下文数据
-     */
-    String EVENT_CTX_DATA_CONTEXT = "sys:ctx:eventData";
-
 }
