@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Import;
                 HeaderConvertContextFilter.class,
                 ServletAuthFilter.class,
                 ResponseConverter.Default.class,
-                ApiResponseAdviceHandler.class
+                ApiResponseAdviceHandler.class,
         }
 )
 public class WingFlareSingleApplication {

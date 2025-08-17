@@ -35,7 +35,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-starter-secuirty</artifactId>
+            <artifactId>wingflare-starter-security</artifactId>
         </dependency>
 
         <dependency>

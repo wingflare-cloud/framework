@@ -67,7 +67,6 @@ public class PreAuthorizeAspect implements Ordered {
      */
     public static final String POINTCUT_SIGN = "@annotation(com.wingflare.lib.security.annotation.RequiresLogin) || "
             + "@annotation(com.wingflare.lib.security.annotation.RequiresPermissions) || "
-            + "@annotation(com.wingflare.lib.security.annotation.AuthMode) || "
             + "@annotation(com.wingflare.lib.security.annotation.BusinessSystem) || "
             + "@annotation(com.wingflare.lib.security.annotation.PermissionGroups)";
 

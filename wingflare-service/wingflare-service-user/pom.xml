@@ -39,7 +39,17 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-starter-security</artifactId>
         </dependency>
 
     </dependencies>
@@ -67,6 +77,21 @@
                     <artifactId>wingflare-adapter-cloud-tencent</artifactId>
                 </dependency>
             </dependencies>
+        </profile>
+
+        <profile>
+            <id>nosql-redis</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-lib-redis</artifactId>
+                </dependency>
+
+            </dependencies>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
 
     </profiles>

@@ -25,11 +25,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-starter-secuirty</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -44,20 +40,4 @@
 
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>nosql-redis</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-module-base-nosql-redis</artifactId>
-                </dependency>
-            </dependencies>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-
-    </profiles>
 </project>

@@ -32,25 +32,7 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-gateway-nosql-redis</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-module-auth-nosql-redis</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-adapter-module-base-nosql-redis</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-module-user-nosql-redis</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

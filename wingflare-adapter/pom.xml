@@ -14,9 +14,6 @@
     <modules>
         <module>wingflare-adapter-cloud-alibaba</module>
         <module>wingflare-adapter-cloud-tencent</module>
-        <module>wingflare-adapter-gateway-nosql-redis</module>
-        <module>wingflare-adapter-module-auth-nosql-redis</module>
-        <module>wingflare-adapter-module-user-nosql-redis</module>
         <module>wingflare-adapter-module-base-nosql-redis</module>
         <module>wingflare-adapter-spring-servlet-web</module>
         <module>wingflare-adapter-spring-servlet-session</module>
