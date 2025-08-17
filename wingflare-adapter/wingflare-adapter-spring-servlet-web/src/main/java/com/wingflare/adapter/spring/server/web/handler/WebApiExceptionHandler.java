@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,6 +59,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.OK)
     @ExceptionHandler(BusinessLogicException.class)
     public ModelAndView businessExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
@@ -92,6 +92,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DataException.class)
     public ModelAndView dataExceptionHandler(HttpServletRequest req, DataException e) {
@@ -118,6 +119,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.OK)
     @ExceptionHandler(NoException.class)
     public ModelAndView noExceptionHandler(HttpServletRequest req, NoException e) {
@@ -155,7 +157,6 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
-    @ResponseBody
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
     @ExceptionHandler(NoPermissionException.class)
     public Object noPermissionExceptionHandler(HttpServletRequest req, BusinessLogicException e) {
@@ -218,6 +219,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public ModelAndView noHandlerFoundExceptionHandler(HttpServletRequest req, NoHandlerFoundException e) {
@@ -234,6 +236,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ModelAndView httpRequestMethodNotSupportedExceptionHandler(
@@ -251,6 +254,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ModelAndView httpMediaTypeNotSupportedExceptionHandler(
@@ -268,6 +272,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
     public ModelAndView baseExceptionHandler(
@@ -293,6 +298,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ModelAndView argumentFormatExceptionHandler(
@@ -318,6 +324,7 @@ public class WebApiExceptionHandler {
     /**
      * 断言（非法参数）
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView illegalArgumentExceptionHandler(IllegalArgumentException e){
@@ -342,6 +349,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ModelAndView methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
@@ -379,6 +387,7 @@ public class WebApiExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseBody
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(ConstraintViolationException.class)
     public ModelAndView constraintViolationExceptionHandler(ConstraintViolationException e){

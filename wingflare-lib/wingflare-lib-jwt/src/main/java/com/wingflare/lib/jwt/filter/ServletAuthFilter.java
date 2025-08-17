@@ -16,7 +16,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 /**
  * 认证过滤器
  */
-@WebFilter
 public class ServletAuthFilter implements Filter, Ordered {
 
     @Resource
