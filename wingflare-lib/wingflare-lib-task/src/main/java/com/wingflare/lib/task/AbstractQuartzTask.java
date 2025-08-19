@@ -7,6 +7,7 @@ import java.util.Date;
 
 import com.wingflare.facade.lib.task.TaskBO;
 import com.wingflare.facade.lib.task.TaskLogBO;
+import com.wingflare.facade.lib.task.TaskLogService;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.utils.SpringUtil;
 import org.quartz.Job;
@@ -86,7 +87,7 @@ public abstract class AbstractQuartzTask implements Job
         }
 
         // 写入数据库当中
-        SpringUtil.getBean(ISysJobLogService.class).addJobLog(taskLogBO);
+        SpringUtil.getBean(TaskLogService.class).addJobLog(taskLogBO);
     }
 
     /**
