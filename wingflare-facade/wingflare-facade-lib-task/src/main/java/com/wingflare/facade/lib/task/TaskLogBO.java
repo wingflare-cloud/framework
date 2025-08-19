@@ -1,7 +1,5 @@
 package com.wingflare.facade.lib.task;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -121,20 +119,6 @@ public class TaskLogBO implements Serializable {
     public void setStopTime(Date stopTime)
     {
         this.stopTime = stopTime;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("taskLogId", getTaskLogId())
-                .append("taskName", getTaskName())
-                .append("taskGroup", getTaskGroup())
-                .append("taskMessage", getTaskMessage())
-                .append("status", getStatus())
-                .append("exceptionInfo", getExceptionInfo())
-                .append("startTime", getStartTime())
-                .append("stopTime", getStopTime())
-                .toString();
     }
 
 }

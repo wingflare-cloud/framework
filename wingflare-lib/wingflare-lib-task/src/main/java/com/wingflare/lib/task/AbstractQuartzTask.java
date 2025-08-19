@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 
+import com.wingflare.facade.lib.task.ScheduleConstants;
 import com.wingflare.facade.lib.task.TaskBO;
 import com.wingflare.facade.lib.task.TaskLogBO;
 import com.wingflare.facade.lib.task.TaskLogService;
@@ -86,8 +87,8 @@ public abstract class AbstractQuartzTask implements Job
             taskLogBO.setStatus("0");
         }
 
-        // 写入数据库当中
-        SpringUtil.getBean(TaskLogService.class).addJobLog(taskLogBO);
+        // 写入任务日志
+        SpringUtil.getBean(TaskLogService.class).addTaskLog(taskLogBO);
     }
 
     /**
