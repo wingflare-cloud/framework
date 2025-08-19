@@ -559,6 +559,23 @@ public class StringUtil extends StringUtils {
         return false;
     }
 
+    public static String substringBetweenLast(final String str, final String open, final String close) {
+        if (isEmpty(str) || isEmpty(open) || isEmpty(close)) {
+            return "";
+        }
+
+        final int start = str.indexOf(open);
+
+        if (start != INDEX_NOT_FOUND) {
+            final int end = str.lastIndexOf(close);
+            if (end != INDEX_NOT_FOUND) {
+                return str.substring(start + open.length(), end);
+            }
+        }
+
+        return "";
+    }
+
     public static boolean isMatch(String pattern, String url) {
         AntPathMatcher matcher = new AntPathMatcher();
         return matcher.match(pattern, url);

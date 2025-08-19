@@ -14,11 +14,6 @@ public interface ErrorCode {
     String USER_LOGIN_ABNORMAL = "sys.auth.user.abnormal";
 
     /**
-     * 用户登录过期时间超过限制
-     */
-    String USER_LOGIN_EXPIRE_TIME_OVER_LIMIT = "sys.auth.user.login.expireTimeOverLimit";
-
-    /**
      * 重复登录
      */
     String AUTH_REPEAT_LOGIN = "sys.auth.repeatLogin";

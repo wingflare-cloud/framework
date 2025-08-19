@@ -25,8 +25,6 @@ public class LoginBO {
 
     private String ipaddr;
 
-    private Long expireTime;
-
     private String clientType;
 
     public String getLoginName() {
@@ -75,14 +73,6 @@ public class LoginBO {
 
     public void setIpaddr(String ipaddr) {
         this.ipaddr = ipaddr;
-    }
-
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
     }
 
     public String getClientType() {

@@ -114,17 +114,13 @@ public class LoginBizImpl implements LoginBiz {
         Long tokenExpireTime = getTokenExpireTime();
         Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
 
-        if (maxRefreshTokenExpireTime > 0L) {
-            Assert.isFalse(bo.getExpireTime() > maxRefreshTokenExpireTime, ErrorCode.USER_LOGIN_EXPIRE_TIME_OVER_LIMIT);
-        }
-
         UserAuth userAuth = Builder.of(UserAuth::new)
                 .with(UserAuth::setUserId, userDto.getUserId())
                 .with(UserAuth::setUserName, userDto.getUserName())
                 .with(UserAuth::setClientId, SecurityUtil.getClientId())
                 .with(UserAuth::setSuperAdmin, OnOffEnum.ON.getValue().equals(userDto.getSuperAdministrator()))
                 .with(UserAuth::setLoginTime, now.getTime())
-                .with(UserAuth::setExpireTime, DateUtil.rollSecond(now, bo.getExpireTime().intValue()).getTime())
+                .with(UserAuth::setExpireTime, DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime)).getTime())
                 .with(UserAuth::setTokenExpireTime, DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)).getTime())
                 .with(UserAuth::setCurrentOrg, bo.getOrgId())
                 .with(UserAuth::setIpAddress, bo.getIpaddr())
@@ -176,7 +172,7 @@ public class LoginBizImpl implements LoginBiz {
 
         TokenDTO tokenDto = Builder.of(TokenDTO::new)
                 .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
-                .with(TokenDTO::setRefreshExpiresIn, bo.getExpireTime().intValue())
+                .with(TokenDTO::setRefreshExpiresIn, Math.toIntExact(maxRefreshTokenExpireTime))
                 .with(TokenDTO::setToken, tokenGen(SecurityUtil.getBusinessSystem(), tokenId, now))
                 .with(TokenDTO::setRefreshToken, tokenGen(SecurityUtil.getBusinessSystem(), refreshId, now))
                 .build();
@@ -282,6 +278,7 @@ public class LoginBizImpl implements LoginBiz {
 
         String refreshId = snowflakeUtil.nextStringId();
         Long tokenExpireTime = getTokenExpireTime();
+        Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
         Date now = new Date();
         String systemCode = oldRefreshTokenMap.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM).toString();
 
@@ -292,6 +289,7 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setRefreshId(refreshId);
         userAuth.setTokenId(tokenId);
         userAuth.setTokenExpireTime(DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)).getTime());
+        userAuth.setExpireTime(DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime)).getTime());
         userAuthUtil.setUser(userAuth, (long) DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())), TimeUnit.MINUTES);
 
         return Builder.of(TokenDTO::new)

@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>wingflare-engine-pay</module>
-        <module>wingflare-engine-task</module>
     </modules>
 
     <dependencyManagement>
