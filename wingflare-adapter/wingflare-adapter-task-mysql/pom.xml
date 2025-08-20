@@ -19,7 +19,8 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-facade-lib-task</artifactId>
+            <artifactId>wingflare-lib-task</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
