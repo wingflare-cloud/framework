@@ -20,14 +20,14 @@ public interface TaskService {
      *
      * @param task
      */
-    void pauseTask(TaskBO task);
+    void pauseTask(TaskBO task) throws Exception;
 
     /**
      * 恢复任务
      *
      * @param task
      */
-    void resumeTask(TaskBO task);
+    void resumeTask(TaskBO task) throws Exception;
 
 
     /**
@@ -35,7 +35,7 @@ public interface TaskService {
      *
      * @param task
      */
-    void deleteTask(TaskBO task);
+    void deleteTask(TaskBO task) throws Exception;
 
 
     /**
@@ -43,7 +43,7 @@ public interface TaskService {
      *
      * @param task
      */
-    void createTask(TaskBO task);
+    void createTask(TaskBO task) throws Exception;
 
 
     /**
@@ -51,7 +51,15 @@ public interface TaskService {
      *
      * @param task
      */
-    void updateTask(TaskBO task);
+    void updateTask(TaskBO task) throws Exception;
+
+    /**
+     * 运行任务
+     *
+     * @param task
+     * @throws Exception
+     */
+    void runTask(TaskBO task) throws Exception;
 
 
 }

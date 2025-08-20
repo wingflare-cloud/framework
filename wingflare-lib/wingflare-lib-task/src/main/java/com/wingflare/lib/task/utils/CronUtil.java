@@ -2,6 +2,8 @@ package com.wingflare.lib.task.utils;
 
 import java.text.ParseException;
 import java.util.Date;
+
+import com.wingflare.lib.core.exceptions.ParameterException;
 import org.quartz.CronExpression;
 
 /**
@@ -15,8 +17,7 @@ public class CronUtil {
      * @param cronExpression Cron表达式
      * @return boolean 表达式是否有效
      */
-    public static boolean isValid(String cronExpression)
-    {
+    public static boolean isValid(String cronExpression) {
         return CronExpression.isValidExpression(cronExpression);
     }
 
@@ -26,15 +27,11 @@ public class CronUtil {
      * @param cronExpression Cron表达式
      * @return String 无效时返回表达式错误描述,如果有效返回null
      */
-    public static String getInvalidMessage(String cronExpression)
-    {
-        try
-        {
+    public static String getInvalidMessage(String cronExpression) {
+        try {
             new CronExpression(cronExpression);
             return null;
-        }
-        catch (ParseException pe)
-        {
+        } catch (ParseException pe) {
             return pe.getMessage();
         }
     }
@@ -45,16 +42,12 @@ public class CronUtil {
      * @param cronExpression Cron表达式
      * @return Date 下次Cron表达式执行时间
      */
-    public static Date getNextExecution(String cronExpression)
-    {
-        try
-        {
+    public static Date getNextExecution(String cronExpression) {
+        try {
             CronExpression cron = new CronExpression(cronExpression);
             return cron.getNextValidTimeAfter(new Date(System.currentTimeMillis()));
-        }
-        catch (ParseException e)
-        {
-            throw new IllegalArgumentException(e.getMessage());
+        } catch (ParseException e) {
+            throw new ParameterException(e.getMessage());
         }
     }
 

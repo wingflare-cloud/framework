@@ -9,13 +9,13 @@ import com.wingflare.facade.lib.task.ScheduleConstants;
 import com.wingflare.facade.lib.task.TaskBO;
 import com.wingflare.facade.lib.task.TaskLogBO;
 import com.wingflare.facade.lib.task.TaskLogService;
+import com.wingflare.lib.core.utils.BeanUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.utils.SpringUtil;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
 /**
  * 定时任务抽象类
@@ -34,9 +34,10 @@ public abstract class AbstractQuartzTask implements Job
     public void execute(JobExecutionContext context)
     {
         TaskBO taskBO = new TaskBO();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES), taskBO);
 
         try {
+            BeanUtil.copyProperties(taskBO, context.getMergedJobDataMap().get(ScheduleConstants.TASK_PROPERTIES));
+
             before(context, taskBO);
             doExecute(context, taskBO);
             after(context, taskBO, null);
