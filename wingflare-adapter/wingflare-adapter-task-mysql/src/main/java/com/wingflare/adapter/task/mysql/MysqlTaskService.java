@@ -2,14 +2,17 @@ package com.wingflare.adapter.task.mysql;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wingflare.adapter.task.mysql.convert.TaskConvert;
 import com.wingflare.adapter.task.mysql.db.TaskDO;
 import com.wingflare.adapter.task.mysql.mapper.TaskMapper;
 import com.wingflare.facade.lib.task.TaskBO;
+import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.task.TaskAbstractService;
 import jakarta.annotation.Resource;
 import org.springframework.context.ApplicationContext;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,7 @@ public class MysqlTaskService extends TaskAbstractService {
     @Resource
     private ApplicationContext context;
 
+
     @Override
     public List<TaskBO> getTaskList() {
         String appName = context.getApplicationName();
@@ -30,14 +34,22 @@ public class MysqlTaskService extends TaskAbstractService {
         LambdaQueryWrapper<TaskDO> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(TaskDO::getActuator, appName);
         BigInteger lastTaskId = BigInteger.ZERO;
+        List<TaskDO> list = new ArrayList<>();
 
         while (true) {
-            List<TaskDO> list = taskMapper.selectList(wrapper);
+            wrapper.gt(TaskDO::getTaskId, lastTaskId);
+            wrapper.last("limit 500");
+            List<TaskDO> tempList = taskMapper.selectList(wrapper);
 
-            continue;
+            if (CollectionUtil.isEmpty(tempList)) {
+                break;
+            }
+
+            lastTaskId = tempList.getLast().getTaskId();
+            list.addAll(tempList);
         }
 
-        return List.of();
+        return TaskConvert.convert.doToBoList(list);
     }
 
 
