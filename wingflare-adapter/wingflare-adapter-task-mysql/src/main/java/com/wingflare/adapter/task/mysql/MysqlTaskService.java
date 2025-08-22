@@ -7,8 +7,10 @@ import com.wingflare.adapter.task.mysql.db.TaskDO;
 import com.wingflare.adapter.task.mysql.mapper.TaskMapper;
 import com.wingflare.facade.lib.task.ScheduleStatus;
 import com.wingflare.facade.lib.task.TaskBO;
+import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.task.TaskAbstractService;
+import com.wingflare.lib.task.utils.ScheduleUtil;
 import jakarta.annotation.Resource;
 import org.mybatis.spring.annotation.MapperScan;
 import org.quartz.SchedulerException;
@@ -66,8 +68,38 @@ public class MysqlTaskService extends TaskAbstractService {
     public void pauseTask(BigInteger taskId) throws SchedulerException {
         TaskDO taskDO = taskMapper.selectById(taskId);
 
-        if (Objects.equals(taskDO.getStatus(), ScheduleStatus.NORMAL.getValue())) {
+        if (taskDO != null && Objects.equals(taskDO.getStatus(), ScheduleStatus.NORMAL.getValue())) {
             taskDO.setStatus(ScheduleStatus.PAUSE.getValue());
+            pauseTask(TaskConvert.convert.doToBo(taskDO));
+        }
+    }
+
+    @Transactional
+    public void resumeTask(BigInteger taskId) throws SchedulerException {
+        TaskDO taskDO = taskMapper.selectById(taskId);
+
+        if (taskDO != null && !Objects.equals(taskDO.getStatus(), ScheduleStatus.NORMAL.getValue())) {
+            taskDO.setStatus(ScheduleStatus.NORMAL.getValue());
+            resumeTask(TaskConvert.convert.doToBo(taskDO));
+        }
+    }
+
+    @Transactional
+    public void deleteTask(BigInteger taskId) throws SchedulerException {
+        TaskDO taskDO = taskMapper.selectById(taskId);
+
+        if (taskDO != null) {
+            taskMapper.deleteById(taskId);
+            deleteTask(TaskConvert.convert.doToBo(taskDO));
+        }
+    }
+
+    @Transactional
+    public void createTask(TaskDO taskDO) throws Exception {
+        if (taskMapper.insert(taskDO) > 0) {
+            createTask(TaskConvert.convert.doToBo(taskDO));
+        } else {
+            throw new BusinessLogicException("task.create.error");
         }
     }
 

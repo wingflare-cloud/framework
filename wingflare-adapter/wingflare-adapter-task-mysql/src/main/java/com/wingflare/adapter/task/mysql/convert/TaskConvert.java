@@ -19,6 +19,6 @@ public interface TaskConvert {
 
     List<TaskBO> doToBoList(List<TaskDO> taskDOList);
 
-    TaskBO doToBoList(TaskDO taskDO);
+    TaskBO doToBo(TaskDO taskDO);
 
 }
