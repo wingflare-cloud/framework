@@ -8,6 +8,7 @@
         `task_id`,
         `task_name`,
         `task_group`,
+        `actuator`,
         `invoke_target`,
         `cron_expression`,
         `misfire_policy`,
@@ -27,6 +28,7 @@
         `sys_task`.`task_id`,
         `sys_task`.`task_name`,
         `sys_task`.`task_group`,
+        `sys_task`.`actuator`,
         `sys_task`.`invoke_target`,
         `sys_task`.`cron_expression`,
         `sys_task`.`misfire_policy`,
@@ -46,6 +48,7 @@
         <result property="taskId" column="task_id"/>
         <result property="taskName" column="task_name"/>
         <result property="taskGroup" column="task_group"/>
+        <result property="actuator" column="actuator"/>
         <result property="invokeTarget" column="invoke_target"/>
         <result property="cronExpression" column="cron_expression"/>
         <result property="misfirePolicy" column="misfire_policy"/>

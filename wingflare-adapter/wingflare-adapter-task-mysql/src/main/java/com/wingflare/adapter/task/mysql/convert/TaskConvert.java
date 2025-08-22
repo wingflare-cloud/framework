@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface TaskConvert {
 
-    TaskConvert convert = Mapper.getMapper(TaskConvert.class);
+    TaskConvert convert = Mappers.getMapper(TaskConvert.class);
 
     List<TaskBO> doToBoList(List<TaskDO> taskDOList);
 
