@@ -13,11 +13,13 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisIndexedHttpSession;
 
 
 @BaseConfig
 @EnableDataSensitive
 @EnableDataSecret
+@EnableRedisIndexedHttpSession
 @SpringBootApplication
 @Import(
         {

@@ -86,11 +86,11 @@ public class LoginBizImpl implements LoginBiz {
      * @return
      */
     public Long getTokenExpireTime() {
-        return settingUtil.get(SettingCode.TOKEN_EXPIRE_TIME, 15L, Long.class);
+        return settingUtil.get(SettingCode.TOKEN_EXPIRE_TIME, 300L, Long.class);
     }
 
     public Long getMaxRefreshTokenExpireTime() {
-        return settingUtil.get(SettingCode.MAX_REFRESH_TOKEN_EXPIRE_TIME, 0L, Long.class);
+        return settingUtil.get(SettingCode.MAX_REFRESH_TOKEN_EXPIRE_TIME, 1800L, Long.class);
     }
 
     /**

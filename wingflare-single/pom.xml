@@ -58,6 +58,13 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-module-auth</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.wingflare</groupId>
+                    <artifactId>wingflare-sdk-user</artifactId>
+                </exclusion>
+
+            </exclusions>
         </dependency>
 
         <dependency>

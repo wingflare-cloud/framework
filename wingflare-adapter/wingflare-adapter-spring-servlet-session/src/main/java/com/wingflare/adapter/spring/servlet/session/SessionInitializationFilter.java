@@ -66,30 +66,26 @@ public class SessionInitializationFilter implements Filter, Ordered {
 
             ContextHolder.set(Ctx.CONTEXT_KEY_CLIENT_ID, session.getAttribute("sid"));
 
-            try {
-                filterChain.doFilter(servletRequest, servletResponse);
-            } finally {
-                if (StringUtil.urlMatches(request.getRequestURI(), sessionProperties.getResetSessionIdUrls())) {
-                    HttpSession existingSession = request.getSession(false);
+            if (StringUtil.urlMatches(request.getRequestURI(), sessionProperties.getResetSessionIdUrls())) {
+                if (!session.isNew()) {
+                    Map<String, Object> sessionAttributes = new HashMap<>();
+                    Enumeration<String> attributeNames = session.getAttributeNames();
 
-                    if (existingSession != null) {
-                        Map<String, Object> sessionAttributes = new HashMap<>();
-                        Enumeration<String> attributeNames = existingSession.getAttributeNames();
+                    while (attributeNames.hasMoreElements()) {
+                        String attrName = attributeNames.nextElement();
+                        sessionAttributes.put(attrName, session.getAttribute(attrName));
+                    }
 
-                        while (attributeNames.hasMoreElements()) {
-                            String attrName = attributeNames.nextElement();
-                            sessionAttributes.put(attrName, existingSession.getAttribute(attrName));
-                        }
+                    session.invalidate();
+                    HttpSession newSession = request.getSession(true);
 
-                        existingSession.invalidate();
-                        HttpSession newSession = request.getSession(true);
-
-                        for (Map.Entry<String, Object> entry : sessionAttributes.entrySet()) {
-                            newSession.setAttribute(entry.getKey(), entry.getValue());
-                        }
+                    for (Map.Entry<String, Object> entry : sessionAttributes.entrySet()) {
+                        newSession.setAttribute(entry.getKey(), entry.getValue());
                     }
                 }
             }
+
+            filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 
@@ -117,6 +113,6 @@ public class SessionInitializationFilter implements Filter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 1;
+        return 1;
     }
 }

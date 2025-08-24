@@ -63,7 +63,7 @@ public class HeaderConvertContextFilter implements Filter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return 0;
     }
 
 }

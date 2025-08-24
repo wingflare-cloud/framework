@@ -98,7 +98,7 @@ public class ServletAuthFilter implements Filter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 2;
+        return 2;
     }
 
 }

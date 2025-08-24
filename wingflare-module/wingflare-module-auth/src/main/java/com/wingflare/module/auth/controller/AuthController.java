@@ -15,14 +15,12 @@ import com.wingflare.lib.security.annotation.BusinessSystem;
 import com.wingflare.lib.security.annotation.RequiresLogin;
 import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.PageResult;
-import com.wingflare.lib.standard.SettingUtil;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.module.auth.PermissionCode;
-import com.wingflare.module.auth.SettingCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,9 +47,6 @@ public class AuthController {
     @Resource
     private UserBiz userBiz;
 
-    @Resource
-    private SettingUtil settingUtil;
-
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -59,11 +54,6 @@ public class AuthController {
     public TokenDTO login(@Secret @RequestBody LoginBO bo) {
         bo.setUserAgent(ServletUtil.getHeader(HttpHeader.REQUEST_USER_AGENT));
         bo.setIpaddr(ServletUtil.getClientIpAddr());
-
-        if (bo.getExpireTime() == null) {
-            bo.setExpireTime(settingUtil.get(SettingCode.LOGIN_EXPIRE_TIME,(long) (24 * 60 * 60), Long.class));
-        }
-
         return loginBiz.login(bo);
     }
 
