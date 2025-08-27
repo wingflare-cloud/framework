@@ -8,7 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 定时任务类
+ * annotation for method jobhandler
+ *
+ * @author xuxueli 2019-12-11 20:50:13
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -16,17 +18,17 @@ import java.lang.annotation.Target;
 public @interface WFTask {
 
     /**
-     * task name
+     * jobhandler name
      */
     String value();
 
     /**
-     * init handler, invoked when TaskThread init
+     * init handler, invoked when JobThread init
      */
     String init() default "";
 
     /**
-     * destroy handler, invoked when TaskThread destroy
+     * destroy handler, invoked when JobThread destroy
      */
     String destroy() default "";
 
