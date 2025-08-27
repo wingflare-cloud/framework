@@ -27,7 +27,7 @@ import java.util.concurrent.*;
 public class TaskThread extends Thread{
 	private static final Logger logger = LoggerFactory.getLogger(TaskThread.class);
 
-	private final int jobId;
+	private final int taskId;
 	private final IJobHandler handler;
 	private final LinkedBlockingQueue<TriggerParam> triggerQueue;
 	private final Set<Long> triggerLogIdSet;		// avoid repeat trigger for the same TRIGGER_LOG_ID
@@ -39,14 +39,14 @@ public class TaskThread extends Thread{
 	private int idleTimes = 0;			// idle times
 
 
-	public TaskThread(int jobId, IJobHandler handler) {
-		this.jobId = jobId;
+	public TaskThread(int taskId, IJobHandler handler) {
+		this.taskId = taskId;
 		this.handler = handler;
 		this.triggerQueue = new LinkedBlockingQueue<TriggerParam>();
 		this.triggerLogIdSet = Collections.synchronizedSet(new HashSet<Long>());
 
 		// assign job thread name
-		this.setName("xxl-job, JobThread-"+jobId+"-"+System.currentTimeMillis());
+		this.setName("xxl-job, JobThread-"+taskId+"-"+System.currentTimeMillis());
 	}
 	public IJobHandler getHandler() {
 		return handler;
@@ -120,7 +120,7 @@ public class TaskThread extends Thread{
 					// log filename, like "logPath/yyyy-MM-dd/9999.log"
 					String logFileName = TaskFileAppender.makeLogFileName(new Date(triggerParam.getLogDateTime()), triggerParam.getLogId());
 					TaskContext taskContext = new TaskContext(
-							triggerParam.getJobId(),
+							triggerParam.gettaskId(),
 							triggerParam.getExecutorParams(),
 							logFileName,
 							triggerParam.getBroadcastIndex(),
@@ -184,8 +184,8 @@ public class TaskThread extends Thread{
 
 				} else {
 					if (idleTimes > 30) {
-						if(triggerQueue.isEmpty()) {	// avoid concurrent trigger causes jobId-lost
-							TaskExecutor.removeJobThread(jobId, "excutor idle times over limit.");
+						if(triggerQueue.isEmpty()) {	// avoid concurrent trigger causes taskId-lost
+							TaskExecutor.removeJobThread(taskId, "excutor idle times over limit.");
 						}
 					}
 				}

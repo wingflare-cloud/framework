@@ -14,13 +14,13 @@ import java.io.File;
  */
 public class ScriptJobHandler extends IJobHandler {
 
-    private int jobId;
+    private int taskId;
     private long glueUpdatetime;
     private String gluesource;
     private GlueTypeEnum glueType;
 
-    public ScriptJobHandler(int jobId, long glueUpdatetime, String gluesource, GlueTypeEnum glueType){
-        this.jobId = jobId;
+    public ScriptJobHandler(int taskId, long glueUpdatetime, String gluesource, GlueTypeEnum glueType){
+        this.taskId = taskId;
         this.glueUpdatetime = glueUpdatetime;
         this.gluesource = gluesource;
         this.glueType = glueType;
@@ -31,7 +31,7 @@ public class ScriptJobHandler extends IJobHandler {
             File[] glueSrcFileList = glueSrcPath.listFiles();
             if (glueSrcFileList!=null && glueSrcFileList.length>0) {
                 for (File glueSrcFileItem : glueSrcFileList) {
-                    if (glueSrcFileItem.getName().startsWith(String.valueOf(jobId)+"_")) {
+                    if (glueSrcFileItem.getName().startsWith(String.valueOf(taskId)+"_")) {
                         glueSrcFileItem.delete();
                     }
                 }
@@ -58,7 +58,7 @@ public class ScriptJobHandler extends IJobHandler {
         // make script file
         String scriptFileName = TaskFileAppender.getGlueSrcPath()
                 .concat(File.separator)
-                .concat(String.valueOf(jobId))
+                .concat(String.valueOf(taskId))
                 .concat("_")
                 .concat(String.valueOf(glueUpdatetime))
                 .concat(glueType.getSuffix());
@@ -68,7 +68,7 @@ public class ScriptJobHandler extends IJobHandler {
         }
 
         // log file
-        String logFileName = TaskContext.getXxlJobContext().getJobLogFileName();
+        String logFileName = TaskContext.getXxlJobContext().gettaskLogFileName();
 
         // script params：0=param、1=分片序号、2=分片总数
         String[] scriptParams = new String[3];

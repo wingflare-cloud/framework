@@ -21,17 +21,17 @@ public class TaskHelper {
     // ---------------------- base info ----------------------
 
     /**
-     * current JobId
+     * current taskId
      *
      * @return
      */
-    public static long getJobId() {
+    public static long gettaskId() {
         TaskContext taskContext = TaskContext.getXxlJobContext();
         if (taskContext == null) {
             return -1;
         }
 
-        return taskContext.getJobId();
+        return taskContext.gettaskId();
     }
 
     /**
@@ -51,17 +51,17 @@ public class TaskHelper {
     // ---------------------- for log ----------------------
 
     /**
-     * current JobLogFileName
+     * current taskLogFileName
      *
      * @return
      */
-    public static String getJobLogFileName() {
+    public static String gettaskLogFileName() {
         TaskContext taskContext = TaskContext.getXxlJobContext();
         if (taskContext == null) {
             return null;
         }
 
-        return taskContext.getJobLogFileName();
+        return taskContext.gettaskLogFileName();
     }
 
     // ---------------------- for shard ----------------------
@@ -158,7 +158,7 @@ public class TaskHelper {
         String formatAppendLog = stringBuffer.toString();
 
         // appendlog
-        String logFileName = taskContext.getJobLogFileName();
+        String logFileName = taskContext.gettaskLogFileName();
 
         if (logFileName!=null && logFileName.trim().length()>0) {
             TaskFileAppender.appendLog(logFileName, formatAppendLog);

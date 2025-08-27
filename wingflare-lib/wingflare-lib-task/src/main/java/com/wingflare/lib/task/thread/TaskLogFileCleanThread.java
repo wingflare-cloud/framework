@@ -96,12 +96,12 @@ public class TaskLogFileCleanThread {
                         }
                     }
                 }
-                logger.info(">>>>>>>>>>> xxl-job, executor JobLogFileCleanThread thread destroy.");
+                logger.info(">>>>>>>>>>> xxl-job, executor taskLogFileCleanThread thread destroy.");
 
             }
         });
         localThread.setDaemon(true);
-        localThread.setName("xxl-job, executor JobLogFileCleanThread");
+        localThread.setName("xxl-job, executor taskLogFileCleanThread");
         localThread.start();
     }
 

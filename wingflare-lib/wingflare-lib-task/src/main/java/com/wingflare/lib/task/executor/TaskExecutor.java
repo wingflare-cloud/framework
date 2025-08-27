@@ -78,7 +78,7 @@ public class TaskExecutor {
         initAdminBizList(adminAddresses, accessToken, timeout);
 
 
-        // init JobLogFileCleanThread
+        // init taskLogFileCleanThread
         TaskLogFileCleanThread.getInstance().start(logRetentionDays);
 
         // init TriggerCallbackThread
@@ -101,7 +101,7 @@ public class TaskExecutor {
                     try {
                         oldTaskThread.join();
                     } catch (InterruptedException e) {
-                        logger.error(">>>>>>>>>>> xxl-job, JobThread destroy(join) error, jobId:{}", item.getKey(), e);
+                        logger.error(">>>>>>>>>>> xxl-job, JobThread destroy(join) error, taskId:{}", item.getKey(), e);
                     }
                 }
             }
@@ -110,7 +110,7 @@ public class TaskExecutor {
         jobHandlerRepository.clear();
 
 
-        // destroy JobLogFileCleanThread
+        // destroy taskLogFileCleanThread
         TaskLogFileCleanThread.getInstance().toStop();
 
         // destroy TriggerCallbackThread
@@ -244,12 +244,12 @@ public class TaskExecutor {
 
     // ---------------------- job thread repository ----------------------
     private static ConcurrentMap<Integer, TaskThread> jobThreadRepository = new ConcurrentHashMap<Integer, TaskThread>();
-    public static TaskThread registJobThread(int jobId, IJobHandler handler, String removeOldReason){
-        TaskThread newTaskThread = new TaskThread(jobId, handler);
+    public static TaskThread registJobThread(int taskId, IJobHandler handler, String removeOldReason){
+        TaskThread newTaskThread = new TaskThread(taskId, handler);
         newTaskThread.start();
-        logger.info(">>>>>>>>>>> xxl-job regist JobThread success, jobId:{}, handler:{}", new Object[]{jobId, handler});
+        logger.info(">>>>>>>>>>> xxl-job regist JobThread success, taskId:{}, handler:{}", new Object[]{taskId, handler});
 
-        TaskThread oldTaskThread = jobThreadRepository.put(jobId, newTaskThread);	// putIfAbsent | oh my god, map's put method return the old value!!!
+        TaskThread oldTaskThread = jobThreadRepository.put(taskId, newTaskThread);	// putIfAbsent | oh my god, map's put method return the old value!!!
         if (oldTaskThread != null) {
             oldTaskThread.toStop(removeOldReason);
             oldTaskThread.interrupt();
@@ -258,8 +258,8 @@ public class TaskExecutor {
         return newTaskThread;
     }
 
-    public static TaskThread removeJobThread(int jobId, String removeOldReason){
-        TaskThread oldTaskThread = jobThreadRepository.remove(jobId);
+    public static TaskThread removeJobThread(int taskId, String removeOldReason){
+        TaskThread oldTaskThread = jobThreadRepository.remove(taskId);
         if (oldTaskThread != null) {
             oldTaskThread.toStop(removeOldReason);
             oldTaskThread.interrupt();
@@ -269,7 +269,7 @@ public class TaskExecutor {
         return null;
     }
 
-    public static TaskThread loadJobThread(int jobId){
-        return jobThreadRepository.get(jobId);
+    public static TaskThread loadJobThread(int taskId){
+        return jobThreadRepository.get(taskId);
     }
 }

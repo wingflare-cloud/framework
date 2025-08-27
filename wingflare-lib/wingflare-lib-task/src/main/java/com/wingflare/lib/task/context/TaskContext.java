@@ -17,7 +17,7 @@ public class TaskContext {
     /**
      * job id
      */
-    private final long jobId;
+    private final long taskId;
 
     /**
      * job param
@@ -29,7 +29,7 @@ public class TaskContext {
     /**
      * job log filename
      */
-    private final String jobLogFileName;
+    private final String taskLogFileName;
 
     // ---------------------- for shard ----------------------
 
@@ -61,26 +61,26 @@ public class TaskContext {
     private String handleMsg;
 
 
-    public TaskContext(long jobId, String jobParam, String jobLogFileName, int shardIndex, int shardTotal) {
-        this.jobId = jobId;
+    public TaskContext(long taskId, String jobParam, String taskLogFileName, int shardIndex, int shardTotal) {
+        this.taskId = taskId;
         this.jobParam = jobParam;
-        this.jobLogFileName = jobLogFileName;
+        this.taskLogFileName = taskLogFileName;
         this.shardIndex = shardIndex;
         this.shardTotal = shardTotal;
 
         this.handleCode = HANDLE_CODE_SUCCESS;  // default success
     }
 
-    public long getJobId() {
-        return jobId;
+    public long gettaskId() {
+        return taskId;
     }
 
     public String getJobParam() {
         return jobParam;
     }
 
-    public String getJobLogFileName() {
-        return jobLogFileName;
+    public String gettaskLogFileName() {
+        return taskLogFileName;
     }
 
     public int getShardIndex() {

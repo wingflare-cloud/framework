@@ -15,6 +15,7 @@
         <module>wingflare-business-module-auth</module>
         <module>wingflare-business-module-base</module>
         <module>wingflare-business-module-user</module>
+        <module>wingflare-business-module-task</module>
     </modules>
 
     <dependencyManagement>

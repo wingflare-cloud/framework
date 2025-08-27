@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class TriggerParam implements Serializable{
     private static final long serialVersionUID = 42L;
 
-    private int jobId;
+    private int taskId;
 
     private String executorHandler;
     private String executorParams;
@@ -26,12 +26,12 @@ public class TriggerParam implements Serializable{
     private int broadcastTotal;
 
 
-    public int getJobId() {
-        return jobId;
+    public int gettaskId() {
+        return taskId;
     }
 
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
+    public void settaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     public String getExecutorHandler() {
@@ -126,7 +126,7 @@ public class TriggerParam implements Serializable{
     @Override
     public String toString() {
         return "TriggerParam{" +
-                "jobId=" + jobId +
+                "taskId=" + taskId +
                 ", executorHandler='" + executorHandler + '\'' +
                 ", executorParams='" + executorParams + '\'' +
                 ", executorBlockStrategy='" + executorBlockStrategy + '\'' +

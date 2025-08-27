@@ -38,7 +38,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
 
         // isRunningOrHasQueue
         boolean isRunningOrHasQueue = false;
-        TaskThread taskThread = TaskExecutor.loadJobThread(idleBeatParam.getJobId());
+        TaskThread taskThread = TaskExecutor.loadJobThread(idleBeatParam.gettaskId());
         if (taskThread != null && taskThread.isRunningOrHasQueue()) {
             isRunningOrHasQueue = true;
         }
@@ -52,7 +52,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
     @Override
     public ReturnT<String> run(TriggerParam triggerParam) {
         // load old：jobHandler + jobThread
-        TaskThread taskThread = TaskExecutor.loadJobThread(triggerParam.getJobId());
+        TaskThread taskThread = TaskExecutor.loadJobThread(triggerParam.gettaskId());
         IJobHandler jobHandler = taskThread !=null? taskThread.getHandler():null;
         String removeOldReason = null;
 
@@ -118,7 +118,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
 
             // valid handler
             if (jobHandler == null) {
-                jobHandler = new ScriptJobHandler(triggerParam.getJobId(), triggerParam.getGlueUpdatetime(), triggerParam.getGlueSource(), GlueTypeEnum.match(triggerParam.getGlueType()));
+                jobHandler = new ScriptJobHandler(triggerParam.gettaskId(), triggerParam.getGlueUpdatetime(), triggerParam.getGlueSource(), GlueTypeEnum.match(triggerParam.getGlueType()));
             }
         } else {
             return new ReturnT<String>(ReturnT.FAIL_CODE, "glueType[" + triggerParam.getGlueType() + "] is not valid.");
@@ -146,7 +146,7 @@ public class ExecutorBizImpl implements ExecutorBiz {
 
         // replace thread (new or exists invalid)
         if (taskThread == null) {
-            taskThread = TaskExecutor.registJobThread(triggerParam.getJobId(), jobHandler, removeOldReason);
+            taskThread = TaskExecutor.registJobThread(triggerParam.gettaskId(), jobHandler, removeOldReason);
         }
 
         // push data to queue
@@ -157,9 +157,9 @@ public class ExecutorBizImpl implements ExecutorBiz {
     @Override
     public ReturnT<String> kill(KillParam killParam) {
         // kill handlerThread, and create new one
-        TaskThread taskThread = TaskExecutor.loadJobThread(killParam.getJobId());
+        TaskThread taskThread = TaskExecutor.loadJobThread(killParam.gettaskId());
         if (taskThread != null) {
-            TaskExecutor.removeJobThread(killParam.getJobId(), "scheduling center kill job.");
+            TaskExecutor.removeJobThread(killParam.gettaskId(), "scheduling center kill job.");
             return ReturnT.SUCCESS;
         }
 
