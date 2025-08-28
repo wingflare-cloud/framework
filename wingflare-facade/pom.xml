@@ -16,6 +16,7 @@
         <module>wingflare-facade-module-auth</module>
         <module>wingflare-facade-module-base</module>
         <module>wingflare-facade-lib-captcha</module>
+        <module>wingflare-facade-module-task</module>
     </modules>
 
     <dependencyManagement>
