@@ -20,7 +20,6 @@
         <module>wingfalre-lib-standard</module>
         <module>wingflare-lib-captcha</module>
         <module>wingflare-lib-tracing</module>
-        <module>wingflare-lib-task</module>
     </modules>
 
     <artifactId>wingflare-lib</artifactId>

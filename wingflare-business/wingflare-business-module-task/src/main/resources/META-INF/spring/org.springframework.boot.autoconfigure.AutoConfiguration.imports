@@ -1,5 +1,0 @@
-com.wingflare.task.admin.service.impl.TaskServiceImpl
-com.wingflare.task.admin.service.impl.AdminBizImpl
-com.wingflare.task.admin.core.alarm.impl.EmailTaskAlarm
-com.wingflare.task.admin.core.alarm.TaskAlarmer
-com.wingflare.task.admin.core.conf.TaskAdminConfig
