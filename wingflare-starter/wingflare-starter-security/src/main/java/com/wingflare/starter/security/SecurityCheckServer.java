@@ -31,16 +31,28 @@ public class SecurityCheckServer implements SecurityCheckUser {
     private CacheService cacheService;
 
 
-    public boolean hasPermission(String key, String permissionCode) {
-        return cacheService.isMember(key, permissionCode);
+    public boolean hasPermissionAnd(String key, String ... permissionCodes) {
+        return cacheService.isMemberAnd(key, (Object[]) permissionCodes);
+    }
+
+    public boolean hasPermissionOr(String key, String ... permissionCodes) {
+        return cacheService.isMemberOr(key, (Object[]) permissionCodes);
     }
 
     @Override
-    public boolean hasPermission(String businessSystem, String key, UserAuth user, String permissionCode) {
+    public boolean hasPermissionAnd(String businessSystem, String key, UserAuth user, String ... permissionCodes) {
         String lastKey = String.format(
                 "%s:%s:%s",
                 businessSystem, key, user.getUserId());
-        return hasPermission(lastKey, permissionCode);
+        return hasPermissionAnd(lastKey, permissionCodes);
+    }
+
+    @Override
+    public boolean hasPermissionOr(String businessSystem, String key, UserAuth user, String ... permissionCodes) {
+        String lastKey = String.format(
+                "%s:%s:%s",
+                businessSystem, key, user.getUserId());
+        return hasPermissionOr(lastKey, permissionCodes);
     }
 
     @Override

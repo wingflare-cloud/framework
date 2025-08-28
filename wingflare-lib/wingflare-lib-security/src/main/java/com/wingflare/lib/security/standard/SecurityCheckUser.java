@@ -20,7 +20,19 @@ public interface SecurityCheckUser {
      *
      * @return
      */
-    boolean hasPermission(String businessSystem, String key, UserAuth user, String permissionCode);
+    boolean hasPermissionAnd(String businessSystem, String key, UserAuth user, String ... permissionCode);
+
+    /**
+     * 权限判断方法
+     *
+     * @param businessSystem 业务系统
+     * @param key 权限key
+     * @param user 当前上下文中的user对象
+     * @param permissionCode 权限代码
+     *
+     * @return
+     */
+    boolean hasPermissionOr(String businessSystem, String key, UserAuth user, String ... permissionCode);
 
     /**
      * 通过token id获取登陆用户信息

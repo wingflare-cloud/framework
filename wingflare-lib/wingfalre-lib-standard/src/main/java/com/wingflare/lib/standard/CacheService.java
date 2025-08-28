@@ -299,13 +299,22 @@ public interface CacheService {
     <T> Long removeItemSet(final String key, final Set<T> dataSet);
 
     /**
-     * 判断set列表是否存在某个元素
+     * 判断set列表是否存同时存在多个元素
      *
      * @param key
      * @param value
      * @return true -> 存在; false -> 不存在
      */
-    Boolean isMemberSet(final String key, final Object value);
+    Boolean isMemberAnd(final String key, final Object ... value);
+
+    /**
+     * 判断set列表是否存存在多个元素之一
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    Boolean isMemberOr(final String key, final Object ... value);
 
     /**
      * 判断成员是否在集合中

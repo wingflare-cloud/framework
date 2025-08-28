@@ -2,6 +2,7 @@ package com.wingflare.lib.redis.service;
 
 
 import com.wingflare.lib.core.Assert;
+import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.CacheService;
 import com.wingflare.lib.standard.PageResult;
 import org.springframework.data.redis.core.*;
@@ -415,13 +416,47 @@ public class RedisService implements CacheService {
     }
 
     /**
-     * 判断set列表是否存在某个元素
+     * 判断set列表是否存同时存在多个元素
      *
      * @return true -> 存在; false -> 不存在
      */
     @Override
-    public Boolean isMemberSet(final String key, final Object value) {
-        return redisTemplate.opsForSet().isMember(key, value);
+    public Boolean isMemberAnd(final String key, final Object... values) {
+        Map<Object, Boolean> isMemberMap = redisTemplate.opsForSet().isMember(key, values);
+
+        if (CollectionUtil.isEmpty(isMemberMap)) {
+            return false;
+        }
+
+        for (Boolean isMember : isMemberMap.values()) {
+            if (!isMember) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 判断set列表是否存存在多个元素之一
+     *
+     * @return true -> 存在; false -> 不存在
+     */
+    @Override
+    public Boolean isMemberOr(final String key, final Object... values) {
+        Map<Object, Boolean> isMemberMap = redisTemplate.opsForSet().isMember(key, values);
+
+        if (CollectionUtil.isEmpty(isMemberMap)) {
+            return false;
+        }
+
+        for (Boolean isMember : isMemberMap.values()) {
+            if (isMember) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

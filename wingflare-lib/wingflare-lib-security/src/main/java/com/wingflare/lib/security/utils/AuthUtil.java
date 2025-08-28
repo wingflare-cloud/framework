@@ -57,14 +57,16 @@ public class AuthUtil {
      * @param permissions 权限列表
      */
     public void checkPermissionsAnd(String... permissions) {
-        for (String permission : permissions) {
-            if (!hasPermission(permission)) {
-                BusinessLogicException exception = new BusinessLogicException(SecurityErrorCode.AUTH_NOT_PERMISSION);
-                List<String> list = new ArrayList<>();
+        if (!hasPermissionAnd(permissions)) {
+            BusinessLogicException exception = new BusinessLogicException(SecurityErrorCode.AUTH_NOT_PERMISSION);
+            List<String> list = new ArrayList<>();
+
+            for (String permission : permissions) {
                 list.add(String.format("{:%s}", permission.replace(".", "_" )));
-                exception.setData(list);
-                throw exception;
             }
+
+            exception.setData(list);
+            throw exception;
         }
     }
 
@@ -74,10 +76,8 @@ public class AuthUtil {
      * @param permissions 权限码数组
      */
     public void checkPermissionsOr(String... permissions) {
-        for (String permission : permissions) {
-            if (hasPermission(permission)) {
-                return;
-            }
+        if (hasPermissionOr(permissions)) {
+            return;
         }
 
         if (permissions.length > 0) {
@@ -93,14 +93,24 @@ public class AuthUtil {
     }
 
 
-    public boolean hasPermission(String permission) {
+    public boolean hasPermissionAnd(String ... permission) {
         String businessSystem = SecurityUtil.getBusinessSystem();
 
         if (StringUtil.isEmpty(businessSystem)) {
             return false;
         }
 
-        return hasPermission(businessSystem, permission);
+        return hasPermissionAnd(businessSystem, permission);
+    }
+
+    public boolean hasPermissionOr(String ... permission) {
+        String businessSystem = SecurityUtil.getBusinessSystem();
+
+        if (StringUtil.isEmpty(businessSystem)) {
+            return false;
+        }
+
+        return hasPermissionOr(businessSystem, permission);
     }
 
     /**
@@ -109,7 +119,7 @@ public class AuthUtil {
      * @param permission 权限字符串
      * @return 用户是否具备某权限
      */
-    public boolean hasPermission(String businessSystem, String permission) {
+    public boolean hasPermissionAnd(String businessSystem, String ... permission) {
         UserAuth user = userAuthUtil.getUser();
 
         if (user != null) {
@@ -118,7 +128,32 @@ public class AuthUtil {
                     return false;
                 }
 
-                return userSecurityCheck.hasPermission(
+                return userSecurityCheck.hasPermissionAnd(
+                        businessSystem, Ctx.PREFIX_USER_PERMISSION_KEY, user, permission);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断是否包含权限
+     *
+     * @param permission 权限字符串
+     * @return 用户是否具备某权限
+     */
+    public boolean hasPermissionOr(String businessSystem, String ... permission) {
+        UserAuth user = userAuthUtil.getUser();
+
+        if (user != null) {
+            if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
+                if (StringUtil.isEmpty(businessSystem) || user.getUserId() == null || user.getUserId().compareTo(BigInteger.ZERO) == 0) {
+                    return false;
+                }
+
+                return userSecurityCheck.hasPermissionOr(
                         businessSystem, Ctx.PREFIX_USER_PERMISSION_KEY, user, permission);
             }
 
