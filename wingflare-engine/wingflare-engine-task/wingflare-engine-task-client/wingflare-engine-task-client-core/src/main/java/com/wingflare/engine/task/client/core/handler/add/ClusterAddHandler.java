@@ -1,0 +1,34 @@
+package com.wingflare.engine.task.client.core.handler.add;
+
+import com.wingflare.engine.task.client.core.enums.AllocationAlgorithmEnum;
+import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
+
+/**
+ * @author opensnail
+ * @date 2024-10-19 12:25:49
+ * @since sj_1.2.0
+ */
+public class ClusterAddHandler extends AddHandler<ClusterAddHandler> {
+
+    public ClusterAddHandler() {
+        this(JobTaskTypeEnum.CLUSTER);
+    }
+
+    public ClusterAddHandler(JobTaskTypeEnum taskType) {
+        super(taskType);
+        // 集群模式只允许并发为 1
+        setParallelNum(1);
+        setR(this);
+    }
+
+    @Override
+    public ClusterAddHandler setRouteKey(AllocationAlgorithmEnum algorithmEnum) {
+        super.setRouteKey(algorithmEnum);
+        return this;
+    }
+
+    @Override
+    public ClusterAddHandler addArgsStr(String argsKey, Object argsValue) {
+        return super.addArgsStr(argsKey, argsValue);
+    }
+}

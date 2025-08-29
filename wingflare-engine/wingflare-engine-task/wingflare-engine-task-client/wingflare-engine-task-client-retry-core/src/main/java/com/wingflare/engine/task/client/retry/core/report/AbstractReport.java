@@ -1,0 +1,93 @@
+package com.wingflare.engine.task.client.retry.core.report;
+
+import cn.hutool.core.lang.Assert;
+import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.retry.core.IdempotentIdGenerate;
+import com.aizuda.snailjob.client.core.Report;
+import com.wingflare.engine.task.client.retry.core.RetryArgSerializer;
+import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
+import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
+import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
+import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
+import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
+import com.wingflare.engine.task.common.core.model.IdempotentIdContext;
+import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Method;
+
+/**
+ * 上报抽象类
+ *
+ * @author opensnail
+ * @date 2023-05-15
+ * @since 1.3.0
+ */
+@Slf4j
+public abstract class AbstractReport implements Report {
+    @Autowired
+    protected SnailJobProperties snailJobProperties;
+
+    @Override
+    public boolean report(String scene, final String targetClassName, final Object[] params) {
+        RetryerInfo retryerInfo = RetryerInfoCache.get(scene, targetClassName);
+        Assert.notNull(retryerInfo, () -> new SnailRetryClientException("retryerInfo is null"));
+
+        if (RetrySiteSnapshot.getStage().equals(RetrySiteSnapshot.EnumStage.REMOTE.getStage()) && !retryerInfo.isForceReport()) {
+            SnailJobLog.LOCAL.info("Successfully reported, no need to repeat reporting. scene:[{}] targetClassName:[{}] args:[{}]",
+                    retryerInfo.getScene(), retryerInfo.getExecutorClassName(), params);
+            return Boolean.TRUE;
+        }
+
+        return doReport(retryerInfo, params);
+    }
+
+    public abstract boolean doReport(RetryerInfo retryerInfo, Object[] params);
+
+    /**
+     * 构建上报任务对象
+     *
+     * @param scene           场景
+     * @param targetClassName 执行对象
+     * @param args            参数
+     * @return RetryTaskDTO 上报服务端对象
+     */
+    protected RetryTaskRequest buildRetryTaskDTO(final String scene, final String targetClassName, final Object[] args) {
+        RetryerInfo retryerInfo = RetryerInfoCache.get(scene, targetClassName);
+        Method executorMethod = retryerInfo.getMethod();
+
+        RetryArgSerializer retryArgSerializer = SnailRetrySpiLoader.loadRetryArgSerializer();
+
+        String serialize = retryArgSerializer.serialize(args);
+
+        RetryTaskRequest retryTaskRequest = new RetryTaskRequest();
+        String idempotentId;
+        try {
+            Class<? extends IdempotentIdGenerate> idempotentIdGenerate = retryerInfo.getIdempotentIdGenerate();
+            IdempotentIdGenerate generate = idempotentIdGenerate.newInstance();
+            Method method = idempotentIdGenerate.getMethod("idGenerate", IdempotentIdContext.class);
+            IdempotentIdContext idempotentIdContext = new IdempotentIdContext(scene, targetClassName, args, executorMethod.getName(), serialize);
+            idempotentId = (String) ReflectionUtils.invokeMethod(method, generate, idempotentIdContext);
+        } catch (Exception exception) {
+            SnailJobLog.LOCAL.error("Idempotent ID generation exception: {}, {}", scene, args, exception);
+            throw new SnailRetryClientException("idempotentId generation exception: {}, {}", scene, args);
+        }
+
+        retryTaskRequest.setIdempotentId(idempotentId);
+        retryTaskRequest.setExecutorName(targetClassName);
+        retryTaskRequest.setArgsStr(serialize);
+        retryTaskRequest.setGroupName(snailJobProperties.getGroup());
+        retryTaskRequest.setSceneName(scene);
+        retryTaskRequest.setSerializerName(retryArgSerializer.name());
+
+        String expression = retryerInfo.getBizNo();
+        ExpressionEngine expressionEngine = SnailRetrySpiLoader.loadExpressionEngine();
+        retryTaskRequest.setBizNo((String) expressionEngine.eval(expression, args, executorMethod));
+        return retryTaskRequest;
+    }
+
+}
