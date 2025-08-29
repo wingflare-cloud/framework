@@ -2,14 +2,13 @@ package com.wingflare.engine.task.client.retry.core.register.scan;
 
 import com.wingflare.engine.task.client.retry.core.IdempotentIdGenerate;
 import com.wingflare.engine.task.client.retry.core.RetryCondition;
-import com.aizuda.snailjob.client.core.Scanner;
-import com.aizuda.snailjob.client.core.annotation.Retryable;
+import com.wingflare.engine.task.client.retry.core.Scanner;
+import com.wingflare.engine.task.client.retry.core.annotation.Retryable;
 import com.wingflare.engine.task.client.retry.core.callback.complete.RetryCompleteCallback;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +30,6 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022-03-03 16:55
  */
 @Component
-@Slf4j
 public class RetryableScanner implements Scanner, ApplicationContextAware {
 
     public ApplicationContext applicationContext;

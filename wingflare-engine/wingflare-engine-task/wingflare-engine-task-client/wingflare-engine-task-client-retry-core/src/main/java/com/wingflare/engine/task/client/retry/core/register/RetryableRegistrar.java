@@ -1,9 +1,9 @@
 package com.wingflare.engine.task.client.retry.core.register;
 
 import com.wingflare.engine.task.client.common.Lifecycle;
-import com.aizuda.snailjob.client.core.Scanner;
+import com.wingflare.engine.task.client.retry.core.Scanner;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

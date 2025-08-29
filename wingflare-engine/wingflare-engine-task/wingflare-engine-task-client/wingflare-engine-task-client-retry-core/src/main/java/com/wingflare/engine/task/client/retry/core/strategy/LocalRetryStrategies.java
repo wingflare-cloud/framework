@@ -1,15 +1,22 @@
 package com.wingflare.engine.task.client.retry.core.strategy;
 
-import com.aizuda.snailjob.client.core.RetryExecutor;
-import com.aizuda.snailjob.client.core.RetryExecutorParameter;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.RetryListener;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.StopStrategy;
+import com.github.rholder.retry.WaitStrategies;
+import com.github.rholder.retry.WaitStrategy;
+import com.wingflare.engine.task.client.retry.core.RetryExecutor;
+import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -26,8 +33,9 @@ import java.util.function.Consumer;
  * @since 1.3.0
  */
 @Component
-@Slf4j
 public class LocalRetryStrategies extends AbstractRetryStrategies {
+
+    private final static Logger log = LoggerFactory.getLogger(LocalRetryStrategies.class);
 
     @Override
     public boolean supports(int stage, RetryType retryType) {

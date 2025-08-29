@@ -2,10 +2,10 @@ package com.wingflare.engine.task.client.retry.core.strategy;
 
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.aizuda.snailjob.client.core.Report;
-import com.aizuda.snailjob.client.core.RetryExecutor;
-import com.aizuda.snailjob.client.core.RetryExecutorParameter;
-import com.aizuda.snailjob.client.core.event.SnailJobListener;
+import com.wingflare.engine.task.client.retry.core.Report;
+import com.wingflare.engine.task.client.retry.core.RetryExecutor;
+import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
+import com.wingflare.engine.task.client.retry.core.event.SnailJobListener;
 import com.wingflare.engine.task.client.retry.core.executor.GuavaRetryExecutor;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
@@ -23,7 +23,8 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
@@ -40,7 +41,6 @@ import static com.wingflare.engine.task.common.core.constant.SystemConstants.YYY
  * @author: opensnail
  * @date : 2022-03-04 14:40
  */
-@Slf4j
 public abstract class AbstractRetryStrategies implements RetryStrategy {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
     private static final String TEXT_MESSAGE_FORMATTER =
@@ -52,6 +52,8 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                     "> 异常:{}  \n";
 
     private final List<SnailJobListener> snailJobListeners = SnailRetrySpiLoader.loadSnailJobListener();
+
+    private final static Logger log = LoggerFactory.getLogger(AbstractRetryStrategies.class);
 
     @Autowired
     private List<Report> reports;

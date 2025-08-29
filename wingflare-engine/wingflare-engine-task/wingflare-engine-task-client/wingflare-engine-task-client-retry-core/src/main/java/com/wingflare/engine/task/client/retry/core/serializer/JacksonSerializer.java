@@ -1,12 +1,12 @@
 package com.wingflare.engine.task.client.retry.core.serializer;
 
+
 import com.wingflare.engine.task.client.retry.core.RetryArgSerializer;
 import com.wingflare.engine.task.client.retry.core.exception.RetryArgSerializeException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -18,7 +18,6 @@ import java.util.Objects;
  * @author: opensnail
  * @date : 2022-03-07 15:08
  */
-@Slf4j
 public class JacksonSerializer implements RetryArgSerializer {
 
     @Override

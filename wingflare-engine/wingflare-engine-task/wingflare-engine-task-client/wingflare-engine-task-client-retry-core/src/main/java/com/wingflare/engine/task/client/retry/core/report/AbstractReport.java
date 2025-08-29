@@ -3,10 +3,10 @@ package com.wingflare.engine.task.client.retry.core.report;
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.client.retry.core.IdempotentIdGenerate;
-import com.aizuda.snailjob.client.core.Report;
+import com.wingflare.engine.task.client.retry.core.Report;
 import com.wingflare.engine.task.client.retry.core.RetryArgSerializer;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
@@ -14,7 +14,6 @@ import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
 import com.wingflare.engine.task.common.core.model.IdempotentIdContext;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ReflectionUtils;
 
@@ -27,7 +26,6 @@ import java.lang.reflect.Method;
  * @date 2023-05-15
  * @since 1.3.0
  */
-@Slf4j
 public abstract class AbstractReport implements Report {
     @Autowired
     protected SnailJobProperties snailJobProperties;

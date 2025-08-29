@@ -1,12 +1,11 @@
 package com.wingflare.engine.task.client.retry.core.plugin;
 
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Objects;
  * @author: opensnail
  * @date : 2022-05-17 09:01
  */
-@Slf4j
 public class RequestHeaderPlugins {
 
     private RequestHeaderPlugins() {

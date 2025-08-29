@@ -16,6 +16,7 @@
     <modules>
         <module>wingflare-engine-task-common</module>
         <module>wingflare-engine-task-client</module>
+        <module>wingflare-engine-task-client-starter</module>
     </modules>
 
     <properties>

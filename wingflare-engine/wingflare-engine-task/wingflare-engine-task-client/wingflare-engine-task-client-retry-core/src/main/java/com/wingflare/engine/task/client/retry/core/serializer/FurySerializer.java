@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.util.ForyUtil;
 import java.lang.reflect.Method;
 
 /**
- * @sse: com.aizuda.snailjob.client.core.serializer.ForySerializer
+ * @sse: com.wingflare.engine.task.client.retry.core.serializer.ForySerializer
  */
 @Deprecated
 public class FurySerializer implements RetryArgSerializer {

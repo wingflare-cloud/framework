@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.retry.core.executor;
 import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
 import com.wingflare.engine.task.client.retry.core.context.RemoteRetryContext;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
-import com.aizuda.snailjob.client.core.log.RetryLogMeta;
+import com.wingflare.engine.task.client.retry.core.log.RetryLogMeta;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;

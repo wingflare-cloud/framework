@@ -1,14 +1,13 @@
 package com.wingflare.engine.task.client.retry.core.register.scan;
 
 import com.wingflare.engine.task.client.retry.core.IdempotentIdGenerate;
-import com.aizuda.snailjob.client.core.Scanner;
-import com.aizuda.snailjob.client.core.annotation.ExecutorMethodRegister;
+import com.wingflare.engine.task.client.retry.core.Scanner;
+import com.wingflare.engine.task.client.retry.core.annotation.ExecutorMethodRegister;
 import com.wingflare.engine.task.client.retry.core.callback.complete.RetryCompleteCallback;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -31,7 +30,6 @@ import java.util.concurrent.TimeUnit;
  * @date : 2023-05-10 11:10
  */
 @Component
-@Slf4j
 public class ExecutorMethodScanner implements Scanner, ApplicationContextAware {
 
     public ApplicationContext applicationContext;

@@ -1,16 +1,15 @@
 package com.wingflare.engine.task.client.retry.core.strategy;
 
+
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 
 /**
  * @author: opensnail
  * @date : 2022-03-04 17:18
  */
-@Slf4j
 public class ExecutorAnnotationMethod implements ExecutorMethod {
 
     private RetryerInfo retryerInfo;

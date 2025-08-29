@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.client.retry.core.openapi;
 
-import com.aizuda.snailjob.client.core.handler.QueryRetryHandler;
-import com.aizuda.snailjob.client.core.handler.TriggerRetryHandler;
-import com.aizuda.snailjob.client.core.handler.UpdateRetryStatusHandler;
+import com.wingflare.engine.task.client.retry.core.handler.QueryRetryHandler;
+import com.wingflare.engine.task.client.retry.core.handler.TriggerRetryHandler;
+import com.wingflare.engine.task.client.retry.core.handler.UpdateRetryStatusHandler;
 
 public class SnailRetryOpenApi {
 

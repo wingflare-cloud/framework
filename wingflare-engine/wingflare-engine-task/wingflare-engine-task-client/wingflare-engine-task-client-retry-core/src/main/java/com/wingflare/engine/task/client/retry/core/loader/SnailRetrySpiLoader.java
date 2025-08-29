@@ -3,14 +3,13 @@ package com.wingflare.engine.task.client.retry.core.loader;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ServiceLoaderUtil;
 import com.wingflare.engine.task.client.retry.core.RetryArgSerializer;
-import com.aizuda.snailjob.client.core.RetrySiteSnapshotContext;
-import com.aizuda.snailjob.client.core.event.SimpleSnailRetryListener;
-import com.aizuda.snailjob.client.core.event.SnailJobListener;
-import com.aizuda.snailjob.client.core.expression.ExpressionInvocationHandler;
+import com.wingflare.engine.task.client.retry.core.RetrySiteSnapshotContext;
+import com.wingflare.engine.task.client.retry.core.event.SimpleSnailRetryListener;
+import com.wingflare.engine.task.client.retry.core.event.SnailJobListener;
+import com.wingflare.engine.task.client.retry.core.expression.ExpressionInvocationHandler;
 import com.wingflare.engine.task.client.retry.core.intercepter.ThreadLockRetrySiteSnapshotContext;
-import com.aizuda.snailjob.client.core.serializer.ForySerializer;
-import com.aizuda.snailjob.client.core.serializer.FurySerializer;
-import com.aizuda.snailjob.client.core.serializer.JacksonSerializer;
+import com.wingflare.engine.task.client.retry.core.serializer.ForySerializer;
+import com.wingflare.engine.task.client.retry.core.serializer.FurySerializer;
 import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
 import com.wingflare.engine.task.common.core.expression.ExpressionFactory;
 import com.wingflare.engine.task.common.core.expression.strategy.SpELExpressionEngine;
@@ -35,7 +34,7 @@ public class SnailRetrySpiLoader {
      * 加载参数序列化SPI类
      * 若配置多个则只加载第一个
      *
-     * @return {@link JacksonSerializer} 默认序列化类为FurySerializer
+     * @return {@link com.wingflare.engine.task.client.retry.core.serializer.JacksonSerializer} 默认序列化类为FurySerializer
      */
     public static RetryArgSerializer loadRetryArgSerializer() {
         return Optional.ofNullable(ServiceLoaderUtil.loadFirst(RetryArgSerializer.class)).orElse(new FurySerializer());
@@ -44,7 +43,7 @@ public class SnailRetrySpiLoader {
     /**
      * 加载指定名称的参数序列化SPI类
      *
-     * @return {@link JacksonSerializer} 默认序列化类为JacksonSerializer
+     * @return {@link com.wingflare.engine.task.client.retry.core.serializer.JacksonSerializer} 默认序列化类为JacksonSerializer
      */
     public static RetryArgSerializer loadRetryArgSerializer(String name) {
         return ServiceLoaderUtil.loadList(RetryArgSerializer.class)
@@ -58,7 +57,7 @@ public class SnailRetrySpiLoader {
      * 加载重试监听器SPI类
      * 执行顺序按照文件中定义的实现类的先后顺序
      *
-     * @return {@link SimpleSnailRetryListener} 默认序列化类为SimpleSnailJobListener
+     * @return {@link com.wingflare.engine.task.client.retry.core.event.SimpleSnailRetryListener} 默认序列化类为SimpleSnailJobListener
      */
     public static List<SnailJobListener> loadSnailJobListener() {
         List<SnailJobListener> snailJobListeners = ServiceLoaderUtil.loadList(SnailJobListener.class);

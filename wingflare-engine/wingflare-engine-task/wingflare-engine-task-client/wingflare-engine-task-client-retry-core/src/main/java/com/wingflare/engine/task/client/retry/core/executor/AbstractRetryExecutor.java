@@ -1,19 +1,18 @@
 package com.wingflare.engine.task.client.retry.core.executor;
 
-import com.aizuda.snailjob.client.core.RetryExecutor;
+
+import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorAnnotationMethod;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author: opensnail
  * @date : 2022-03-03 18:08
  */
-@Slf4j
 public abstract class AbstractRetryExecutor<BR, SR> implements RetryExecutor<BR, SR> {
 
     protected RetryerInfo retryerInfo;

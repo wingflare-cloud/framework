@@ -1,14 +1,18 @@
 package com.wingflare.engine.task.client.retry.core.strategy;
 
-import com.aizuda.snailjob.client.core.RetryExecutor;
-import com.aizuda.snailjob.client.core.RetryExecutorParameter;
+import com.github.rholder.retry.RetryListener;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.StopStrategy;
+import com.github.rholder.retry.WaitStrategies;
+import com.github.rholder.retry.WaitStrategy;
+import com.wingflare.engine.task.client.retry.core.RetryExecutor;
+import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -25,7 +29,6 @@ import java.util.function.Consumer;
  * @since 1.3.0
  */
 @Component
-@Slf4j
 public class RemoteRetryStrategies extends AbstractRetryStrategies {
 
     @Override

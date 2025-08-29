@@ -1,11 +1,18 @@
 package com.wingflare.engine.task.client.retry.core.report;
 
+import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.RetryListener;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.StopStrategy;
+import com.github.rholder.retry.WaitStrategies;
+import com.github.rholder.retry.WaitStrategy;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
-import com.aizuda.snailjob.client.core.RetryExecutor;
-import com.aizuda.snailjob.client.core.RetryExecutorParameter;
+import com.wingflare.engine.task.client.retry.core.RetryExecutor;
+import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.executor.GuavaRetryExecutor;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
@@ -21,7 +28,6 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +46,6 @@ import static com.wingflare.engine.task.common.core.constant.SystemConstants.YYY
  * @date : 2022-03-08 13:54
  * @since 1.0.0
  */
-@Slf4j
 public class ReportListener implements Listener<RetryTaskRequest> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(YYYY_MM_DD_HH_MM_SS);
     private static final String reportErrorTextMessageFormatter =

@@ -1,14 +1,17 @@
 package com.wingflare.engine.task.client.retry.core.event;
 
+
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author: opensnail
  * @date : 2022-03-04 16:55
  */
-@Slf4j
 public class SimpleSnailRetryListener implements SnailJobListener {
+
+    private final static Logger log = LoggerFactory.getLogger(SimpleSnailRetryListener.class);
 
     @Override
     public void beforeRetry(String sceneName, String executorClassName, Object[] params) {

@@ -1,12 +1,10 @@
 package com.wingflare.engine.task.client.retry.core.intercepter;
 
-import com.aizuda.snailjob.client.core.RetrySiteSnapshotContext;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.RetrySiteSnapshotContext;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Deque;
 import java.util.HashMap;
@@ -242,7 +240,6 @@ public class RetrySiteSnapshot {
     /**
      * 重试阶段
      */
-    @Getter
     public enum EnumStage {
 
         /**
@@ -267,6 +264,10 @@ public class RetrySiteSnapshot {
             this.stage = stage;
         }
 
+        public int getStage() {
+            return stage;
+        }
+
         public static EnumStage valueOfStage(int stage) {
             for (final EnumStage value : EnumStage.values()) {
                 if (value.getStage() == stage) {
@@ -282,7 +283,6 @@ public class RetrySiteSnapshot {
     /**
      * 重试状态
      */
-    @Getter
     public enum EnumStatus {
 
         /**
@@ -302,15 +302,29 @@ public class RetrySiteSnapshot {
             this.status = status;
         }
 
+        public int getStatus() {
+            return status;
+        }
     }
 
-    @Getter
-    @AllArgsConstructor
+
     public static class MethodEntranceMeta {
 
 //        private AtomicInteger depth;
 
         private String methodEntrance;
+
+        public MethodEntranceMeta(String methodEntrance) {
+            this.methodEntrance = methodEntrance;
+        }
+
+        public String getMethodEntrance() {
+            return methodEntrance;
+        }
+
+        public void setMethodEntrance(String methodEntrance) {
+            this.methodEntrance = methodEntrance;
+        }
     }
 
 }

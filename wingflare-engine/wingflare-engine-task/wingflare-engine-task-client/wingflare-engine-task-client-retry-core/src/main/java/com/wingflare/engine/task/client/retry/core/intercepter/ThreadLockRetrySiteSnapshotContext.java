@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.client.retry.core.intercepter;
 
 import cn.hutool.core.lang.Assert;
-import com.aizuda.snailjob.client.core.RetrySiteSnapshotContext;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.RetrySiteSnapshotContext;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 
 /**
  * ThreadLocal实现类

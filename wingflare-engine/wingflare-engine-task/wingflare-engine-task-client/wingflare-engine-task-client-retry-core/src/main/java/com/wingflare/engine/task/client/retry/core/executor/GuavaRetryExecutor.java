@@ -1,13 +1,19 @@
 package com.wingflare.engine.task.client.retry.core.executor;
 
 import cn.hutool.core.lang.Assert;
+import com.github.rholder.retry.Attempt;
+import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.RetryListener;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.RetryerBuilder;
+import com.github.rholder.retry.StopStrategy;
+import com.github.rholder.retry.WaitStrategy;
 import com.wingflare.engine.task.client.retry.core.RetryCondition;
-import com.aizuda.snailjob.client.core.RetryExecutorParameter;
+import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
-import com.aizuda.snailjob.client.core.exception.RetryIfResultException;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.RetryIfResultException;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Objects;
 import java.util.concurrent.Callable;
@@ -20,7 +26,6 @@ import java.util.function.Consumer;
  * @date : 2022-03-03 18:07
  * @since 1.3.0
  */
-@Slf4j
 public class GuavaRetryExecutor extends AbstractRetryExecutor<WaitStrategy, StopStrategy> {
 
     public GuavaRetryExecutor(String sceneName, String executorClassName) {

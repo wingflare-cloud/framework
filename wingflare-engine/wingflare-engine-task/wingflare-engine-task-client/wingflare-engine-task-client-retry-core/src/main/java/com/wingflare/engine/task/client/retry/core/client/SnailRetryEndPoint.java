@@ -16,11 +16,11 @@ import com.wingflare.engine.task.client.retry.core.callback.future.RetryTaskExec
 import com.wingflare.engine.task.client.retry.core.context.CallbackContext;
 import com.wingflare.engine.task.client.retry.core.context.RemoteRetryContext;
 import com.wingflare.engine.task.client.retry.core.exception.RetryArgSerializeException;
-import com.aizuda.snailjob.client.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.executor.RemoteCallbackExecutor;
 import com.wingflare.engine.task.client.retry.core.executor.RemoteRetryExecutor;
 import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
-import com.aizuda.snailjob.client.core.log.RetryLogMeta;
+import com.wingflare.engine.task.client.retry.core.log.RetryLogMeta;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.timer.StopTaskTimerTask;
 import com.wingflare.engine.task.client.retry.core.timer.TimerManager;

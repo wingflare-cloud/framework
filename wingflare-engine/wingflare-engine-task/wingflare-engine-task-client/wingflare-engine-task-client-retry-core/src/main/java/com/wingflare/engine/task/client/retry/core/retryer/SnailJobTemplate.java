@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.client.retry.core.retryer;
 
-import com.aizuda.snailjob.client.core.RetryOperations;
+import com.wingflare.engine.task.client.retry.core.RetryOperations;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;

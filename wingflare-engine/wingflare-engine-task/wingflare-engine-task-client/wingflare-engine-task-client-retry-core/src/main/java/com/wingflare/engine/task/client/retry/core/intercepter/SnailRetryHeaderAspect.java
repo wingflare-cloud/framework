@@ -5,7 +5,6 @@ import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +23,6 @@ import java.util.Objects;
  */
 @Aspect
 @Component
-@Slf4j
 public class SnailRetryHeaderAspect {
 
     public void before() {

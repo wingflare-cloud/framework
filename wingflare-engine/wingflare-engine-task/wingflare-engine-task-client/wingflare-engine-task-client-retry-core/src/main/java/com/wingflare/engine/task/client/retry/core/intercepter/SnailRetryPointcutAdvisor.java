@@ -1,7 +1,6 @@
 package com.wingflare.engine.task.client.retry.core.intercepter;
 
-import com.aizuda.snailjob.client.core.annotation.Retryable;
-import lombok.extern.slf4j.Slf4j;
+import com.wingflare.engine.task.client.retry.core.annotation.Retryable;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.ClassFilter;
@@ -27,8 +26,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author opensnail
  * @date 2023-08-23
  */
-//@Configuration
-@Slf4j
 public class SnailRetryPointcutAdvisor extends AbstractPointcutAdvisor implements IntroductionAdvisor, BeanFactoryAware, InitializingBean {
     private Advice advice;
     private Pointcut pointcut;
