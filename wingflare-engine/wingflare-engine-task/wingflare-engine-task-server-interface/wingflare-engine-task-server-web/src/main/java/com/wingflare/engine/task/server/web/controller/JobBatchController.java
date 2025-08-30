@@ -6,9 +6,9 @@ import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.JobBatchQueryVO;
 import com.wingflare.engine.task.server.web.model.request.JobBatchResponseWebVO;
 import com.wingflare.engine.task.server.web.service.JobWebBatchService;
+import com.wingflare.engine.task.server.web.service.impl.JobWebBatchServiceImpl;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +28,12 @@ import java.util.Set;
 @RestController
 @RequestMapping("/job/batch")
 public class JobBatchController {
-    @Qualifier("jobWebBatchCommonService")
+
     private final JobBatchService jobBatchService;
+
     private final JobWebBatchService jobWebBatchService;
 
-    public JobBatchController(JobBatchService jobBatchService, JobWebBatchService jobWebBatchService) {
+    public JobBatchController(JobWebBatchServiceImpl jobBatchService, JobWebBatchService jobWebBatchService) {
         this.jobBatchService = jobBatchService;
         this.jobWebBatchService = jobWebBatchService;
     }

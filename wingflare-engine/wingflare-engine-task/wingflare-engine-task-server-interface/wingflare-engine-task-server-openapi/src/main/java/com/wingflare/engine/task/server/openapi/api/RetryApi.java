@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.openapi.api;
 import com.wingflare.engine.task.common.model.request.StatusUpdateApiRequest;
 import com.wingflare.engine.task.common.model.request.base.TriggerRetryRequest;
 import com.wingflare.engine.task.common.model.response.RetryApiResponse;
-import com.wingflare.engine.task.server.service.service.RetryService;
+import com.wingflare.engine.task.server.openapi.service.impl.RetryApiServiceImpl;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +24,9 @@ import static com.wingflare.engine.task.common.core.constant.SystemConstants.HTT
  */
 @RestController
 public class RetryApi {
-    private final RetryService retryApiService;
+    private final RetryApiServiceImpl retryApiService;
 
-    public RetryApi(RetryService retryApiService) {
+    public RetryApi(RetryApiServiceImpl retryApiService) {
         this.retryApiService = retryApiService;
     }
 

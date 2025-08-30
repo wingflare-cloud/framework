@@ -7,7 +7,7 @@ import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.*;
 import com.wingflare.engine.task.server.web.model.response.RetryResponseWebVO;
 import com.wingflare.engine.task.server.web.service.RetryWebService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.wingflare.engine.task.server.web.service.impl.RetryWebServiceImpl;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +30,9 @@ import java.util.List;
 @RequestMapping("/retry")
 public class RetryController {
     private final RetryWebService retryWebService;
-    @Qualifier("retryWebCommonService")
     private final RetryService retryService;
 
-    public RetryController(RetryWebService retryWebService, RetryService retryService) {
+    public RetryController(RetryWebService retryWebService, RetryWebServiceImpl retryService) {
         this.retryWebService = retryWebService;
         this.retryService = retryService;
     }

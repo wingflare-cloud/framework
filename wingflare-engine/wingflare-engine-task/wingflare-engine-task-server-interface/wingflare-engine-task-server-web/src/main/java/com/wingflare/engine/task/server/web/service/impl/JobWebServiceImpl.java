@@ -15,7 +15,6 @@ import com.wingflare.engine.task.server.common.strategy.WaitStrategies;
 import com.wingflare.engine.task.server.common.util.CronUtils;
 import com.wingflare.engine.task.server.common.util.PartitionTaskUtils;
 import com.wingflare.engine.task.server.common.util.TriggerIntervalUtils;
-import com.wingflare.engine.task.server.job.support.JobPrepareHandler;
 import com.wingflare.engine.task.server.service.service.impl.AbstractJobService;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.*;
@@ -53,16 +52,14 @@ public class JobWebServiceImpl extends AbstractJobService implements JobWebServi
 
     private final SystemProperties systemProperties;
     private final JobMapper jobMapper;
-    private final JobPrepareHandler terminalJobPrepareHandler;
     private final AccessTemplate accessTemplate;
     private final GroupHandler groupHandler;
     private final JobSummaryMapper jobSummaryMapper;
     private final SystemUserMapper systemUserMapper;
 
-    public JobWebServiceImpl(SystemProperties systemProperties, JobMapper jobMapper, JobPrepareHandler terminalJobPrepareHandler, AccessTemplate accessTemplate, GroupHandler groupHandler, JobSummaryMapper jobSummaryMapper, SystemUserMapper systemUserMapper) {
+    public JobWebServiceImpl(SystemProperties systemProperties, JobMapper jobMapper, AccessTemplate accessTemplate, GroupHandler groupHandler, JobSummaryMapper jobSummaryMapper, SystemUserMapper systemUserMapper) {
         this.systemProperties = systemProperties;
         this.jobMapper = jobMapper;
-        this.terminalJobPrepareHandler = terminalJobPrepareHandler;
         this.accessTemplate = accessTemplate;
         this.groupHandler = groupHandler;
         this.jobSummaryMapper = jobSummaryMapper;

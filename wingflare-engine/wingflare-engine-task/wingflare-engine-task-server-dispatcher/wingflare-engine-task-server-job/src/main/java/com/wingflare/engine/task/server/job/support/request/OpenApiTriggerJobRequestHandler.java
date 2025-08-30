@@ -15,8 +15,8 @@ import com.wingflare.engine.task.server.common.exception.SnailJobServerException
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.job.dto.JobTaskPrepareDTO;
-import com.wingflare.engine.task.server.job.support.JobPrepareHandler;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
+import com.wingflare.engine.task.server.job.support.prepare.job.TerminalJobPrepareHandler;
 import com.wingflare.task.datasource.template.access.AccessTemplate;
 import com.wingflare.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.task.datasource.template.persistence.po.GroupConfig;
@@ -36,9 +36,9 @@ import org.springframework.stereotype.Component;
 public class OpenApiTriggerJobRequestHandler extends PostHttpRequestHandler {
     private final JobMapper jobMapper;
     private final AccessTemplate accessTemplate;
-    private final JobPrepareHandler terminalJobPrepareHandler;
+    private final TerminalJobPrepareHandler terminalJobPrepareHandler;
 
-    public OpenApiTriggerJobRequestHandler(JobMapper jobMapper, AccessTemplate accessTemplate, JobPrepareHandler terminalJobPrepareHandler) {
+    public OpenApiTriggerJobRequestHandler(JobMapper jobMapper, AccessTemplate accessTemplate, TerminalJobPrepareHandler terminalJobPrepareHandler) {
         this.jobMapper = jobMapper;
         this.accessTemplate = accessTemplate;
         this.terminalJobPrepareHandler = terminalJobPrepareHandler;

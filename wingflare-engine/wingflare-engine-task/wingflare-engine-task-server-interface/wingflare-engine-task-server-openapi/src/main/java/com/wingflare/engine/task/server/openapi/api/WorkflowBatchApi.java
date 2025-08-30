@@ -2,9 +2,7 @@ package com.wingflare.engine.task.server.openapi.api;
 
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.model.response.WorkflowDetailApiResponse;
-import com.wingflare.engine.task.server.openapi.service.WorkflowBatchApiService;
-import com.wingflare.engine.task.server.service.service.WorkflowBatchService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.wingflare.engine.task.server.openapi.service.impl.WorkflowBatchApiServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,12 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class WorkflowBatchApi {
-    private final WorkflowBatchApiService workflowBatchApiService;
-    @Qualifier("workflowBatchApiCommonService")
-    private final WorkflowBatchService workflowBatchService;
 
-    public WorkflowBatchApi(WorkflowBatchApiService workflowBatchApiService, WorkflowBatchService workflowBatchService) {
-        this.workflowBatchApiService = workflowBatchApiService;
+    private final WorkflowBatchApiServiceImpl workflowBatchService;
+
+    public WorkflowBatchApi(WorkflowBatchApiServiceImpl workflowBatchService) {
         this.workflowBatchService = workflowBatchService;
     }
 

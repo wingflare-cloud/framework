@@ -8,9 +8,9 @@ import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.WorkflowBatchQueryVO;
 import com.wingflare.engine.task.server.web.model.response.WorkflowDetailResponseWebVO;
 import com.wingflare.engine.task.server.web.service.WorkflowWebBatchService;
+import com.wingflare.engine.task.server.web.service.impl.WorkflowWebBatchServiceImpl;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,10 +31,9 @@ import java.util.Set;
 @RequestMapping("/workflow/batch")
 public class WorkflowBatchController {
     private final WorkflowWebBatchService workflowWebBatchService;
-    @Qualifier("WorkflowWebBatchCommonService")
     private final WorkflowBatchService workflowBatchService;
 
-    public WorkflowBatchController(WorkflowWebBatchService workflowWebBatchService, WorkflowBatchService workflowBatchService) {
+    public WorkflowBatchController(WorkflowWebBatchService workflowWebBatchService, WorkflowWebBatchServiceImpl workflowBatchService) {
         this.workflowWebBatchService = workflowWebBatchService;
         this.workflowBatchService = workflowBatchService;
     }

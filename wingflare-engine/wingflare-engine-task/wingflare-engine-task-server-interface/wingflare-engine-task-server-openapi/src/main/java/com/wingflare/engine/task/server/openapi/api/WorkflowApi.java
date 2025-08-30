@@ -2,11 +2,9 @@ package com.wingflare.engine.task.server.openapi.api;
 
 import com.wingflare.engine.task.common.model.request.StatusUpdateApiRequest;
 import com.wingflare.engine.task.common.model.request.WorkflowTriggerApiRequest;
-import com.wingflare.engine.task.server.openapi.service.WorkflowApiService;
-import com.wingflare.engine.task.server.service.service.WorkflowService;
+import com.wingflare.engine.task.server.openapi.service.impl.WorkflowApiServiceImpl;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +26,10 @@ import static com.wingflare.engine.task.common.core.constant.SystemConstants.HTT
  */
 @RestController
 public class WorkflowApi {
-    private final WorkflowApiService apiService;
-    @Qualifier("workflowApiCommonService")
-    private final WorkflowService workflowService;
 
-    public WorkflowApi(WorkflowApiService apiService, WorkflowService workflowService) {
-        this.apiService = apiService;
+    private final WorkflowApiServiceImpl workflowService;
+
+    public WorkflowApi(WorkflowApiServiceImpl workflowService) {
         this.workflowService = workflowService;
     }
 

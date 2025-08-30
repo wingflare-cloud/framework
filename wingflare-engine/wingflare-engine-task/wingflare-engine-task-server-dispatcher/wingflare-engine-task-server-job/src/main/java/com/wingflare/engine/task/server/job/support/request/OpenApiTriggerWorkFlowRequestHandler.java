@@ -16,8 +16,8 @@ import com.wingflare.engine.task.server.common.exception.SnailJobServerException
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.job.dto.WorkflowTaskPrepareDTO;
-import com.wingflare.engine.task.server.job.support.WorkflowPrePareHandler;
 import com.wingflare.engine.task.server.job.support.WorkflowTaskConverter;
+import com.wingflare.engine.task.server.job.support.prepare.workflow.TerminalWorkflowPrepareHandler;
 import com.wingflare.task.datasource.template.access.AccessTemplate;
 import com.wingflare.task.datasource.template.persistence.mapper.WorkflowMapper;
 import com.wingflare.task.datasource.template.persistence.po.GroupConfig;
@@ -40,9 +40,9 @@ import java.util.Set;
 public class OpenApiTriggerWorkFlowRequestHandler extends PostHttpRequestHandler {
     private final WorkflowMapper workflowMapper;
     private final AccessTemplate accessTemplate;
-    private final WorkflowPrePareHandler terminalWorkflowPrepareHandler;
+    private final TerminalWorkflowPrepareHandler terminalWorkflowPrepareHandler;
 
-    public OpenApiTriggerWorkFlowRequestHandler(WorkflowMapper workflowMapper, AccessTemplate accessTemplate, WorkflowPrePareHandler terminalWorkflowPrepareHandler) {
+    public OpenApiTriggerWorkFlowRequestHandler(WorkflowMapper workflowMapper, AccessTemplate accessTemplate, TerminalWorkflowPrepareHandler terminalWorkflowPrepareHandler) {
         this.workflowMapper = workflowMapper;
         this.accessTemplate = accessTemplate;
         this.terminalWorkflowPrepareHandler = terminalWorkflowPrepareHandler;

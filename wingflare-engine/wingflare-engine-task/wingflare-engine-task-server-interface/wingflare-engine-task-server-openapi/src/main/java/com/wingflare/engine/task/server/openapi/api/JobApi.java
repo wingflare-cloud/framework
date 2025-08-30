@@ -5,11 +5,9 @@ import com.wingflare.engine.task.common.model.request.JobApiRequest;
 import com.wingflare.engine.task.common.model.request.JobTriggerApiRequest;
 import com.wingflare.engine.task.common.model.request.StatusUpdateApiRequest;
 import com.wingflare.engine.task.common.model.response.JobApiResponse;
-import com.wingflare.engine.task.server.openapi.service.JobApiService;
-import com.wingflare.engine.task.server.service.service.JobService;
+import com.wingflare.engine.task.server.openapi.service.impl.JobApiServiceImpl;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +29,10 @@ import java.util.Set;
  */
 @RestController
 public class JobApi {
-    private final JobApiService jobApiService;
-    @Qualifier("jobApiCommonService")
-    private final JobService jobService;
 
-    public JobApi(JobApiService jobApiService, JobService jobService) {
-        this.jobApiService = jobApiService;
+    private final JobApiServiceImpl jobService;
+
+    public JobApi(JobApiServiceImpl jobService) {
         this.jobService = jobService;
     }
 

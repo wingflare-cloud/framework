@@ -11,10 +11,10 @@ import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.*;
 import com.wingflare.engine.task.server.web.model.response.WorkflowDetailResponseWebVO;
 import com.wingflare.engine.task.server.web.service.WorkflowWebService;
+import com.wingflare.engine.task.server.web.service.impl.WorkflowWebServiceImpl;
 import com.wingflare.engine.task.server.web.util.ExportUtils;
 import com.wingflare.engine.task.server.web.util.ImportUtils;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -43,10 +43,9 @@ import java.util.Set;
 @RequestMapping("/workflow")
 public class WorkflowController {
     private final WorkflowWebService workflowWebService;
-    @Qualifier("workflowWebCommonService")
     private final WorkflowService workflowService;
 
-    public WorkflowController(WorkflowWebService workflowWebService, WorkflowService workflowService) {
+    public WorkflowController(WorkflowWebService workflowWebService, WorkflowWebServiceImpl workflowService) {
         this.workflowWebService = workflowWebService;
         this.workflowService = workflowService;
     }

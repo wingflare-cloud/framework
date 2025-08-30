@@ -8,10 +8,10 @@ import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.*;
 import com.wingflare.engine.task.server.web.model.response.JobResponseWebVO;
 import com.wingflare.engine.task.server.web.service.JobWebService;
+import com.wingflare.engine.task.server.web.service.impl.JobWebServiceImpl;
 import com.wingflare.engine.task.server.web.util.ExportUtils;
 import com.wingflare.engine.task.server.web.util.ImportUtils;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -40,11 +40,10 @@ import java.util.Set;
 @RequestMapping("/job")
 public class JobController {
 
-    @Qualifier("jobWebCommonService")
     private final JobService jobService;
     private final JobWebService jobWebService;
 
-    public JobController(JobService jobService, JobWebService jobWebService) {
+    public JobController(JobWebServiceImpl jobService, JobWebService jobWebService) {
         this.jobService = jobService;
         this.jobWebService = jobWebService;
     }
