@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.core.handler.update;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.util.ValidatorUtils;
 import com.wingflare.engine.task.client.core.enums.TriggerTypeEnum;
 import com.wingflare.engine.task.client.core.handler.AbstractParamsHandler;
@@ -47,7 +47,7 @@ public abstract class UpdateHandler<H> extends AbstractParamsHandler<H, Boolean>
         }
 
         Assert.isTrue(StatusEnum.YES.getStatus() == result.getStatus(),
-                () -> new SnailJobClientException(result.getMessage()));
+                () -> new TaskClientException(result.getMessage()));
         return (Boolean) result.getData();
     }
 

@@ -15,10 +15,10 @@ import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.executor.GuavaRetryExecutor;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
+import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
@@ -56,7 +56,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                     "> 时间:{}  \n" +
                     "> 异常:{}  \n";
 
-    private static final RpcClient CLIENT = RequestBuilder.<RpcClient, SnailJobRpcResult>newBuilder()
+    private static final RpcClient CLIENT = RequestBuilder.<RpcClient, TaskRpcResult>newBuilder()
             .client(RpcClient.class)
             .callback(nettyResult -> SnailJobLog.LOCAL.info("Data report successfully requestId:[{}]", nettyResult.getReqId())).build();
 
@@ -135,7 +135,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                                 e.getMessage())
                         .title("Reporting exception: [{}]", properties.getGroup())
                         .notifyAttribute(recipient.getNotifyAttribute());
-                Optional.ofNullable(SnailJobAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
             }
 
         } catch (Exception e1) {

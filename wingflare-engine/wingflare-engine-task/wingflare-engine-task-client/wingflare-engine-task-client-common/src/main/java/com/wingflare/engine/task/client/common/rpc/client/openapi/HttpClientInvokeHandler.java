@@ -7,14 +7,14 @@ import com.wingflare.engine.task.client.common.annotation.Header;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
 import com.wingflare.engine.task.client.common.annotation.Param;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.ExecutorTypeEnum;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.core.util.SnailJobVersion;
+import com.wingflare.engine.task.common.core.util.TaskVersion;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -96,7 +96,7 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
                 SystemConstants.DEFAULT_NAMESPACE));
         headersMap.put(HeadersEnum.TOKEN.getKey(), Optional.ofNullable(snailJobProperties.getToken()).orElse(
                 SystemConstants.DEFAULT_TOKEN));
-        headersMap.put(HeadersEnum.SYSTEM_VERSION.getKey(), Optional.ofNullable(SnailJobVersion.getVersion()).orElse(
+        headersMap.put(HeadersEnum.SYSTEM_VERSION.getKey(), Optional.ofNullable(TaskVersion.getVersion()).orElse(
                 SystemConstants.DEFAULT_CLIENT_VERSION));
         headersMap.put(HeadersEnum.EXECUTOR_TYPE.getKey(), String.valueOf(ExecutorTypeEnum.JAVA.getType()));
         return headersMap;
@@ -110,7 +110,7 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
      */
     public static SnailHttpClient loadSnailJobHttpClient() {
         SnailJobProperties properties = SnailSpringContext.getBean(SnailJobProperties.class);
-        Assert.notNull(properties, () -> new SnailJobClientException("snail job properties is null"));
+        Assert.notNull(properties, () -> new TaskClientException("snail job properties is null"));
         SnailJobProperties.SnailOpenApiConfig openApiConfig = properties.getOpenapi();
 
         openApiConfig.setHost(Optional.ofNullable(openApiConfig.getHost()).orElse(properties.getServer().getHost()));

@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core.enums;
 
 
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 
 /**
  * 阻塞策略针对处于待处理 or 运行中的重试任务做了一种异常容错策略
@@ -43,7 +43,7 @@ public enum RetryBlockStrategyEnum {
             }
         }
 
-        throw new SnailJobCommonException("Incompatible blocking strategy. blockStrategy:[{}]", blockStrategy);
+        throw new TaskCommonException("Incompatible blocking strategy. blockStrategy:[{}]", blockStrategy);
     }
 
 }

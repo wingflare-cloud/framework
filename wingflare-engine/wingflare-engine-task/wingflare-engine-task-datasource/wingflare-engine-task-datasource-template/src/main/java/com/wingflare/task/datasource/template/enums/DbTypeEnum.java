@@ -1,7 +1,7 @@
 package com.wingflare.task.datasource.template.enums;
 
 
-import com.wingflare.task.datasource.template.exception.SnailJobDatasourceException;
+import com.wingflare.task.datasource.template.exception.TaskDatasourceException;
 import com.baomidou.mybatisplus.annotation.DbType;
 
 import java.util.Arrays;
@@ -53,7 +53,7 @@ public enum DbTypeEnum {
             }
         }
 
-        throw new SnailJobDatasourceException("This database is not supported yet [{}]", db);
+        throw new TaskDatasourceException("This database is not supported yet [{}]", db);
     }
 
     public static List<DbTypeEnum> all() {

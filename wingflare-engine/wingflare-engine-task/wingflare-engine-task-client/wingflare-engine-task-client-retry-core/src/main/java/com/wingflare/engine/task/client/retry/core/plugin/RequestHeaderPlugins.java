@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.retry.core.plugin;
 import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
+import com.wingflare.engine.task.common.core.model.TaskHeaders;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 
@@ -28,7 +28,7 @@ public class RequestHeaderPlugins {
     public static Map<String, String> requestHeader() {
 
         Map<String, String> header = new HashMap<>();
-        SnailJobHeaders retryHeader = RetrySiteSnapshot.getRetryHeader();
+        TaskHeaders retryHeader = RetrySiteSnapshot.getRetryHeader();
 
         // 传递请求头
         if (Objects.nonNull(retryHeader)) {

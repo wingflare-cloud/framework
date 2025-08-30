@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.common.core.expression.strategy;
 
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.AviatorEvaluatorInstance;
@@ -24,7 +24,7 @@ public class AviatorExpressionEngine extends AbstractExpressionEngine {
         try {
             return ENGINE.execute(expression, context);
         } catch (Exception e) {
-            throw new SnailJobCommonException("Aviator expression parsing exception. expression:[{}] context:[{}]",
+            throw new TaskCommonException("Aviator expression parsing exception. expression:[{}] context:[{}]",
                     expression, JsonUtil.toJsonString(context), e);
         }
     }

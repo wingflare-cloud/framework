@@ -6,10 +6,10 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.core.client.JobNettyClient;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
-import com.wingflare.engine.task.common.core.exception.SnailJobMapReduceException;
+import com.wingflare.engine.task.common.core.exception.TaskMapReduceException;
 import com.wingflare.engine.task.common.core.model.JobContext;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 public final class MapInvokeHandler implements InvocationHandler {
 
-    private static final JobNettyClient CLIENT = RequestBuilder.<JobNettyClient, SnailJobRpcResult>newBuilder()
+    private static final JobNettyClient CLIENT = RequestBuilder.<JobNettyClient, TaskRpcResult>newBuilder()
         .client(JobNettyClient.class)
         .async(Boolean.FALSE)
         .build();
@@ -42,11 +42,11 @@ public final class MapInvokeHandler implements InvocationHandler {
     public ExecuteResult doMap(List<Object> taskList, String nextTaskName) {
 
         if (StrUtil.isBlank(nextTaskName)) {
-            throw new SnailJobMapReduceException("The next task name can not blank or null {}", nextTaskName);
+            throw new TaskMapReduceException("The next task name can not blank or null {}", nextTaskName);
         }
 
         if (CollectionUtils.isEmpty(taskList)) {
-            throw new SnailJobMapReduceException("The task list can not empty {}", nextTaskName);
+            throw new TaskMapReduceException("The task list can not empty {}", nextTaskName);
         }
 
         // 超过200提醒用户注意分片数量过多
@@ -56,17 +56,17 @@ public final class MapInvokeHandler implements InvocationHandler {
 
         // 超过500强制禁止分片
         if (taskList.size() > 500) {
-            throw new SnailJobMapReduceException("[{}] map task size is too large, network maybe overload... please try to split the tasks.", nextTaskName);
+            throw new TaskMapReduceException("[{}] map task size is too large, network maybe overload... please try to split the tasks.", nextTaskName);
         }
 
         // taskName 任务命名和根任务名或者最终任务名称一致导致的问题（无限生成子任务或者直接失败）
         if (SystemConstants.ROOT_MAP.equals(nextTaskName)) {
-            throw new SnailJobMapReduceException("The Next taskName can not be {}", SystemConstants.ROOT_MAP);
+            throw new TaskMapReduceException("The Next taskName can not be {}", SystemConstants.ROOT_MAP);
         }
 
         // 使用ThreadLocal传递数据
         JobContext jobContext = JobContextManager.getJobContext();
-        Assert.notNull(jobContext, () -> new SnailJobMapReduceException("job context is null"));
+        Assert.notNull(jobContext, () -> new TaskMapReduceException("job context is null"));
 
         // 1. 构造请求
         MapTaskRequest mapTaskRequest = new MapTaskRequest();
@@ -87,7 +87,7 @@ public final class MapInvokeHandler implements InvocationHandler {
         if (StatusEnum.YES.getStatus() == result.getStatus() || (Objects.nonNull(result.getData()) && result.getData())) {
             SnailJobLog.LOCAL.info("Map task create successfully!. taskName:[{}] TaskId:[{}] ", nextTaskName, jobContext.getTaskId());
         } else {
-            throw new SnailJobMapReduceException("map failed for task: {} errorMsg:{}", nextTaskName, result.getMessage());
+            throw new TaskMapReduceException("map failed for task: {} errorMsg:{}", nextTaskName, result.getMessage());
         }
 
         return ExecuteResult.success();

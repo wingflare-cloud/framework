@@ -8,8 +8,8 @@ import com.wingflare.engine.task.client.common.rpc.supports.http.HttpResponse;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
-import com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcRequest;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import io.grpc.stub.ServerCalls;
 import io.grpc.stub.StreamObserver;
@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author: opensnail
  * @date : 2024-08-22
  */
-public class UnaryRequestHandler implements ServerCalls.UnaryMethod<SnailJobGrpcRequest, GrpcResult> {
+public class UnaryRequestHandler implements ServerCalls.UnaryMethod<TaskGrpcRequest, GrpcResult> {
 
 
     private final ThreadPoolExecutor dispatcherThreadPool;
@@ -40,7 +40,7 @@ public class UnaryRequestHandler implements ServerCalls.UnaryMethod<SnailJobGrpc
     }
 
     @Override
-    public void invoke(final SnailJobGrpcRequest snailJobRequest, final StreamObserver<GrpcResult> streamObserver) {
+    public void invoke(final TaskGrpcRequest snailJobRequest, final StreamObserver<GrpcResult> streamObserver) {
 
         Metadata metadata = snailJobRequest.getMetadata();
 
@@ -50,16 +50,16 @@ public class UnaryRequestHandler implements ServerCalls.UnaryMethod<SnailJobGrpc
 
         // 执行任务
         dispatcherThreadPool.execute(() -> {
-            SnailJobRpcResult snailJobRpcResult = null;
+            TaskRpcResult taskRpcResult = null;
             try {
-                snailJobRpcResult = dispatcher.dispatch(grpcRequest);
+                taskRpcResult = dispatcher.dispatch(grpcRequest);
             } catch (Throwable e) {
-                snailJobRpcResult = new SnailJobRpcResult(StatusEnum.NO.getStatus(), e.getMessage(), null, 0);
+                taskRpcResult = new TaskRpcResult(StatusEnum.NO.getStatus(), e.getMessage(), null, 0);
             } finally {
                 GrpcResult grpcResult = GrpcResult.newBuilder()
-                    .setStatus(Optional.ofNullable(snailJobRpcResult.getStatus()).orElse(StatusEnum.NO.getStatus()))
-                    .setMessage(Optional.ofNullable(snailJobRpcResult.getMessage()).orElse(StrUtil.EMPTY))
-                    .setData(JsonUtil.toJsonString(snailJobRpcResult.getData()))
+                    .setStatus(Optional.ofNullable(taskRpcResult.getStatus()).orElse(StatusEnum.NO.getStatus()))
+                    .setMessage(Optional.ofNullable(taskRpcResult.getMessage()).orElse(StrUtil.EMPTY))
+                    .setData(JsonUtil.toJsonString(taskRpcResult.getData()))
                     .build();
 
                 streamObserver.onNext(grpcResult);

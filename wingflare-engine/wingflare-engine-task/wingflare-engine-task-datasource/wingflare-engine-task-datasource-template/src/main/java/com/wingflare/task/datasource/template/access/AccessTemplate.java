@@ -7,7 +7,7 @@ import com.wingflare.task.datasource.template.access.job.JobExecutorAccess;
 import com.wingflare.task.datasource.template.access.task.RetryDeadLetterTaskAccess;
 import com.wingflare.task.datasource.template.access.task.RetryTaskAccess;
 import com.wingflare.task.datasource.template.enums.OperationTypeEnum;
-import com.wingflare.task.datasource.template.exception.SnailJobDatasourceException;
+import com.wingflare.task.datasource.template.exception.TaskDatasourceException;
 import com.wingflare.task.datasource.template.persistence.dataobject.log.JobLogMessageDO;
 import com.wingflare.task.datasource.template.persistence.dataobject.log.RetryTaskLogMessageDO;
 import com.wingflare.task.datasource.template.persistence.po.*;
@@ -48,7 +48,7 @@ public class AccessTemplate {
      */
     public TaskAccess<RetryTask> getRetryTaskAccess() {
         return (TaskAccess<RetryTask>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.RETRY_TASK.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
     }
 
     /**
@@ -58,7 +58,7 @@ public class AccessTemplate {
      */
     public TaskAccess<Retry> getRetryAccess() {
         return (TaskAccess<Retry>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.RETRY.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
     }
 
     /**
@@ -69,7 +69,7 @@ public class AccessTemplate {
     public TaskAccess<RetryDeadLetter> getRetryDeadLetterAccess() {
         return (TaskAccess<RetryDeadLetter>) Optional.ofNullable(
                         REGISTER_ACCESS.get(OperationTypeEnum.RETRY_DEAD_LETTER.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 
@@ -80,7 +80,7 @@ public class AccessTemplate {
      */
     public ConfigAccess<RetrySceneConfig> getSceneConfigAccess() {
         return (ConfigAccess<RetrySceneConfig>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.SCENE.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 
@@ -91,7 +91,7 @@ public class AccessTemplate {
      */
     public ConfigAccess<GroupConfig> getGroupConfigAccess() {
         return (ConfigAccess<GroupConfig>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.GROUP.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 
@@ -102,7 +102,7 @@ public class AccessTemplate {
      */
     public ConfigAccess<NotifyConfig> getNotifyConfigAccess() {
         return (ConfigAccess<NotifyConfig>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.NOTIFY.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 
@@ -113,7 +113,7 @@ public class AccessTemplate {
      */
     public LogAccess<RetryTaskLogMessageDO> getRetryTaskLogMessageAccess() {
         return (LogAccess<RetryTaskLogMessageDO>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.RETRY_LOG.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 
@@ -125,7 +125,7 @@ public class AccessTemplate {
      */
     public LogAccess<JobLogMessageDO> getJobLogMessageAccess() {
         return (LogAccess<JobLogMessageDO>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.JOB_LOG.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 
@@ -137,7 +137,7 @@ public class AccessTemplate {
      */
     public JobAccess<JobExecutor> getJobExecutorAccess() {
         return (JobAccess<JobExecutor>) Optional.ofNullable(REGISTER_ACCESS.get(OperationTypeEnum.JOB_EXECUTORS.name()))
-                .orElseThrow(() -> new SnailJobDatasourceException("not supports operation type"));
+                .orElseThrow(() -> new TaskDatasourceException("not supports operation type"));
 
     }
 

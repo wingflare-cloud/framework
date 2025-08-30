@@ -12,7 +12,7 @@ import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
+import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.NetUtil;
@@ -199,7 +199,7 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                                     e.getMessage())
                             .title("retry component handling exception:[{}]", snailJobProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
-                    Optional.ofNullable(SnailJobAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
                 }
             }
         } catch (Exception e1) {

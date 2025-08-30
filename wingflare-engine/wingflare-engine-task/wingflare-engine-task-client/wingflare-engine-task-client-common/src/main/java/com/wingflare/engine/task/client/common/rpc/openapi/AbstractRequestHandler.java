@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.common.rpc.openapi;
 
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 
 /**
  * @author opensnail
@@ -24,7 +24,7 @@ public abstract class AbstractRequestHandler<R> implements RequestHandler<R> {
             afterExecute(r);
             return r;
         } else {
-            throw new SnailJobClientException("snail job openapi check error. [{}]", checked.getValue());
+            throw new TaskClientException("snail job openapi check error. [{}]", checked.getValue());
         }
     }
 

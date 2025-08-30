@@ -29,13 +29,13 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_GrpcResult_descriptor;
+    return TaskGrpcService.internal_static_GrpcResult_descriptor;
   }
 
   @Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_GrpcResult_fieldAccessorTable
+    return TaskGrpcService.internal_static_GrpcResult_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.wingflare.engine.task.common.core.grpc.auto.GrpcResult.class, com.wingflare.engine.task.common.core.grpc.auto.GrpcResult.Builder.class);
   }
@@ -338,13 +338,13 @@ private static final long serialVersionUID = 0L;
       com.wingflare.engine.task.common.core.grpc.auto.GrpcResultOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_GrpcResult_descriptor;
+      return TaskGrpcService.internal_static_GrpcResult_descriptor;
     }
 
     @Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_GrpcResult_fieldAccessorTable
+      return TaskGrpcService.internal_static_GrpcResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.wingflare.engine.task.common.core.grpc.auto.GrpcResult.class, com.wingflare.engine.task.common.core.grpc.auto.GrpcResult.Builder.class);
     }
@@ -373,7 +373,7 @@ private static final long serialVersionUID = 0L;
     @Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_GrpcResult_descriptor;
+      return TaskGrpcService.internal_static_GrpcResult_descriptor;
     }
 
     @Override

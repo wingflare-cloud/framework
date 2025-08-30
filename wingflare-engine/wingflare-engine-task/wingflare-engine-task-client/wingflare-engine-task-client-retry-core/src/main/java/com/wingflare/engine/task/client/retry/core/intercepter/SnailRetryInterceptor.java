@@ -14,11 +14,11 @@ import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
+import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
-import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
+import com.wingflare.engine.task.common.core.model.TaskHeaders;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
@@ -258,11 +258,11 @@ public class SnailRetryInterceptor implements MethodInterceptor, AfterAdvice, Se
 
     private void initHeaders(final Retryable retryable) {
 
-        SnailJobHeaders snailJobHeaders = new SnailJobHeaders();
-        snailJobHeaders.setRetry(Boolean.TRUE);
-        snailJobHeaders.setRetryId(IdUtil.getSnowflakeNextIdStr());
-        snailJobHeaders.setDdl(GroupVersionCache.getDdl(retryable.scene()));
-        RetrySiteSnapshot.setRetryHeader(snailJobHeaders);
+        TaskHeaders taskHeaders = new TaskHeaders();
+        taskHeaders.setRetry(Boolean.TRUE);
+        taskHeaders.setRetryId(IdUtil.getSnowflakeNextIdStr());
+        taskHeaders.setDdl(GroupVersionCache.getDdl(retryable.scene()));
+        RetrySiteSnapshot.setRetryHeader(taskHeaders);
     }
 
     private void sendMessage(Exception e) {
@@ -288,7 +288,7 @@ public class SnailRetryInterceptor implements MethodInterceptor, AfterAdvice, Se
                             .title("retry component handling exception:[{}]", snailJobProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
 
-                    Optional.ofNullable(SnailJobAlarmFactory.getAlarmType(recipient.getNotifyType()))
+                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType()))
                             .ifPresent(alarm -> alarm.asyncSendMessage(context));
                 }
 

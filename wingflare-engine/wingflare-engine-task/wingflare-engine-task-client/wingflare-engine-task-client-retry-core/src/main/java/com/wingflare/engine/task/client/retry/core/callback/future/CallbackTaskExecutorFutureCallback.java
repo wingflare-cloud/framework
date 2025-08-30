@@ -5,7 +5,7 @@ import com.wingflare.engine.task.client.retry.core.client.RetryClient;
 import com.wingflare.engine.task.client.retry.core.context.CallbackContext;
 import com.wingflare.engine.task.common.core.enums.RetryTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.request.DispatchCallbackResultRequest;
 import com.google.common.util.concurrent.FutureCallback;
@@ -22,7 +22,7 @@ import java.util.concurrent.CancellationException;
  */
 public class CallbackTaskExecutorFutureCallback implements FutureCallback<Boolean> {
 
-    private static final RetryClient CLIENT = RequestBuilder.<RetryClient, SnailJobRpcResult>newBuilder()
+    private static final RetryClient CLIENT = RequestBuilder.<RetryClient, TaskRpcResult>newBuilder()
             .client(RetryClient.class)
             .callback(nettyResult -> {
                 if (nettyResult.getStatus() == StatusEnum.NO.getStatus()) {

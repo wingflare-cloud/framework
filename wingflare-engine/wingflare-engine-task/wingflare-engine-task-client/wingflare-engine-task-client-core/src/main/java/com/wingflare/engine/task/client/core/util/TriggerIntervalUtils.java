@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.core.util;
 
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 
 import java.time.Duration;
@@ -35,12 +35,12 @@ public class TriggerIntervalUtils {
                     .toList();
             LocalDateTime first = localDateTimes.get(0);
             if (first.isBefore(now)) {
-                throw new SnailJobClientException("The submission time is less than the current time. triggerTime:{} now:{}", first, now);
+                throw new TaskClientException("The submission time is less than the current time. triggerTime:{} now:{}", first, now);
             }
 
             // 判断间隔是否大于10秒
             Assert.isTrue(areAllIntervalsLessThan(localDateTimes, Duration.ofSeconds(10)),
-                    () -> new SnailJobClientException("There are combinations with intervals less than 10(s)"));
+                    () -> new TaskClientException("There are combinations with intervals less than 10(s)"));
             return localDateTimes;
     }
 

@@ -10,14 +10,14 @@ import com.wingflare.engine.task.client.core.cache.ThreadPoolCache;
 import com.wingflare.engine.task.client.core.client.JobNettyClient;
 import com.wingflare.engine.task.client.core.log.JobLogMeta;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
+import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.JobContext;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
@@ -52,7 +52,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
              > 异常:{} \s
             \s""";
 
-    private static final JobNettyClient CLIENT = RequestBuilder.<JobNettyClient, SnailJobRpcResult>newBuilder()
+    private static final JobNettyClient CLIENT = RequestBuilder.<JobNettyClient, TaskRpcResult>newBuilder()
             .client(JobNettyClient.class)
             .callback(nettyResult -> {
                 if (nettyResult.getStatus() == StatusEnum.NO.getStatus()) {
@@ -188,7 +188,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
                             .title("Scheduled task execution result reporting exception:[{}]", snailJobProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
 
-                    Optional.ofNullable(SnailJobAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
                 }
             }
         } catch (Exception e1) {

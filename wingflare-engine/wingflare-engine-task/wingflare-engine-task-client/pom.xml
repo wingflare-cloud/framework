@@ -12,6 +12,7 @@
         <module>wingflare-engine-task-client-common</module>
         <module>wingflare-engine-task-client-core</module>
         <module>wingflare-engine-task-client-retry-core</module>
+        <module>wingflare-engine-task-client-starter</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>

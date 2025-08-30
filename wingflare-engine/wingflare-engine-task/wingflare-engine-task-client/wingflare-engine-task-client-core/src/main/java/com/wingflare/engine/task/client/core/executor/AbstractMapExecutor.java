@@ -7,7 +7,7 @@ import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
 import com.wingflare.engine.task.client.core.dto.MapArgs;
-import com.wingflare.engine.task.common.core.exception.SnailJobMapReduceException;
+import com.wingflare.engine.task.common.core.exception.TaskMapReduceException;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import org.springframework.util.ReflectionUtils;
 
@@ -31,7 +31,7 @@ public abstract class AbstractMapExecutor extends AbstractJobExecutor implements
             return this.doJobMapExecute((MapArgs) jobArgs, getMapHandler());
         }
 
-        throw new SnailJobMapReduceException("For tasks that are not of type map or map reduce, please do not use the AbstractMapExecutor class.");
+        throw new TaskMapReduceException("For tasks that are not of type map or map reduce, please do not use the AbstractMapExecutor class.");
     }
 
     public abstract ExecuteResult doJobMapExecute(MapArgs mapArgs, final MapHandler mapHandler);
@@ -45,7 +45,7 @@ public abstract class AbstractMapExecutor extends AbstractJobExecutor implements
         JobExecutorInfo jobExecutorInfo = JobExecutorInfoCache.get(mapArgs.getExecutorInfo());
 
         if (Objects.isNull(jobExecutorInfo)) {
-            throw new SnailJobMapReduceException("[{}] not found", mapArgs.getExecutorInfo());
+            throw new TaskMapReduceException("[{}] not found", mapArgs.getExecutorInfo());
         }
 
         Map<String, Method> mapExecutorMap = Optional.ofNullable(jobExecutorInfo.getMapExecutorMap())
@@ -53,7 +53,7 @@ public abstract class AbstractMapExecutor extends AbstractJobExecutor implements
         Method method = mapExecutorMap.get(mapArgs.getTaskName());
 
         if (Objects.isNull(method)) {
-            throw new SnailJobMapReduceException(
+            throw new TaskMapReduceException(
                 "[{}#{}] MapTask execution method not found. Please configure the @MapExecutor annotation",
                 mapArgs.getExecutorInfo(), mapArgs.getTaskName());
 
@@ -67,6 +67,6 @@ public abstract class AbstractMapExecutor extends AbstractJobExecutor implements
                 mapHandler);
         }
 
-        throw new SnailJobMapReduceException("Executor for [{}] not found", mapArgs.getTaskName());
+        throw new TaskMapReduceException("Executor for [{}] not found", mapArgs.getTaskName());
     }
 }

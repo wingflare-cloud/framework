@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.common.core.expression.strategy;
 
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.ql.util.express.DefaultContext;
 import com.ql.util.express.ExpressRunner;
@@ -33,7 +33,7 @@ public class QLExpressEngine extends AbstractExpressionEngine {
         try {
             return ENGINE.execute(expression, defaultContext, null, true, false);
         } catch (Exception e) {
-            throw new SnailJobCommonException("QL expression parsing exception. expression:[{}] context:[{}]",
+            throw new TaskCommonException("QL expression parsing exception. expression:[{}] context:[{}]",
                     expression, JsonUtil.toJsonString(context), e);
         }
 

@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.retry.core.intercepter;
 
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
+import com.wingflare.engine.task.common.core.model.TaskHeaders;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,7 +41,7 @@ public class SnailRetryHeaderAspect {
             RetrySiteSnapshot.setEntryMethodTime(System.currentTimeMillis());
 
             SnailJobLog.LOCAL.info("snail retry request header :[{}]", xRetry);
-            RetrySiteSnapshot.setRetryHeader(JsonUtil.parseObject(xRetry, SnailJobHeaders.class));
+            RetrySiteSnapshot.setRetryHeader(JsonUtil.parseObject(xRetry, TaskHeaders.class));
         }
     }
 

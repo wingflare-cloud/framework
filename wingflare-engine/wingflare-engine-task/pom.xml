@@ -16,11 +16,8 @@
     <modules>
         <module>wingflare-engine-task-common</module>
         <module>wingflare-engine-task-client</module>
-        <module>wingflare-engine-task-client-starter</module>
         <module>wingflare-engine-task-datasource</module>
-        <module>wingflare-engine-task-server-dispatcher</module>
-        <module>wingflare-engine-task-server-interface</module>
-        <module>wingflare-engine-task-server-starter</module>
+        <module>wingflare-engine-task-server</module>
     </modules>
 
     <properties>

@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core.enums;
 
 
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 
 /**
  * @author opensnail
@@ -34,7 +34,7 @@ public enum JobTaskTypeEnum {
             }
         }
 
-        throw new SnailJobCommonException("Unknown type");
+        throw new TaskCommonException("Unknown type");
     }
 
 }

@@ -6,12 +6,12 @@ import com.wingflare.engine.task.client.common.annotation.Mapping;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties.RpcClientProperties;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties.ThreadPoolConfig;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientTimeOutException;
+import com.wingflare.engine.task.client.common.exception.TaskClientTimeOutException;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.google.common.util.concurrent.FutureCallback;
@@ -71,7 +71,7 @@ public class GrpcClientInvokeHandler<R extends Result<Object>> implements Invoca
             reqId, getHeaderInfo(method, args));
         SnailJobLog.LOCAL.debug("Request complete requestId:[{}] took [{}ms]", sw.getTotalTimeMillis(), reqId);
         if (future == null) {
-            return (R) new SnailJobRpcResult(StatusEnum.NO.getStatus(), "future is nulll", null, reqId);
+            return (R) new TaskRpcResult(StatusEnum.NO.getStatus(), "future is nulll", null, reqId);
         }
 
         if (async) {
@@ -82,12 +82,12 @@ public class GrpcClientInvokeHandler<R extends Result<Object>> implements Invoca
 
                     Object obj = JsonUtil.parseObject( result.getData(), Object.class);
                     consumer.accept(
-                            (R) new SnailJobRpcResult(result.getStatus(), result.getMessage(), obj, result.getReqId()));
+                            (R) new TaskRpcResult(result.getStatus(), result.getMessage(), obj, result.getReqId()));
                 }
 
                 @Override
                 public void onFailure(final Throwable t) {
-                    consumer.accept((R) new SnailJobRpcResult(StatusEnum.NO.getStatus(), t.getMessage(), null, reqId));
+                    consumer.accept((R) new TaskRpcResult(StatusEnum.NO.getStatus(), t.getMessage(), null, reqId));
                 }
             }, executorService);
 
@@ -98,11 +98,11 @@ public class GrpcClientInvokeHandler<R extends Result<Object>> implements Invoca
             try {
                 GrpcResult result = future.get(timeout, unit);
                 Object obj = JsonUtil.parseObject(result.getData(), Object.class);
-                return (R) new SnailJobRpcResult(result.getStatus(), result.getMessage(), obj, result.getReqId());
+                return (R) new TaskRpcResult(result.getStatus(), result.getMessage(), obj, result.getReqId());
             } catch (ExecutionException e) {
                 throw e.getCause();
             } catch (TimeoutException e) {
-                throw new SnailJobClientTimeOutException("Request to remote interface timed out. path:[{}]",
+                throw new TaskClientTimeOutException("Request to remote interface timed out. path:[{}]",
                     annotation.path());
             }
         }

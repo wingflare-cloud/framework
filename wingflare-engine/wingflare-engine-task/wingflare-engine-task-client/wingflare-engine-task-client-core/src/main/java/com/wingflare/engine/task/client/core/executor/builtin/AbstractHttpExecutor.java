@@ -4,7 +4,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.core.exception.SnailJobInnerExecutorException;
+import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
@@ -61,13 +61,13 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
         try (HttpResponse response = httpRequest.execute()) {
             return validateResponse(response, httpRequest, snailJobProperties.getHttpResponse());
         } catch (Exception e) {
-            throw new SnailJobInnerExecutorException("[snail-job] HTTP internal executor failed", e);
+            throw new TaskInnerExecutorException("[snail-job] HTTP internal executor failed", e);
         }
     }
 
     private void validateAndSetUrl(HttpParams httpParams) {
         if (StringUtils.isEmpty(httpParams.getUrl())) {
-            throw new SnailJobInnerExecutorException("URL cannot be empty.");
+            throw new TaskInnerExecutorException("URL cannot be empty.");
         }
         httpParams.setUrl(httpParams.getUrl().startsWith(HTTP) ? httpParams.getUrl() : HTTP_PREFIX + httpParams.getUrl());
     }

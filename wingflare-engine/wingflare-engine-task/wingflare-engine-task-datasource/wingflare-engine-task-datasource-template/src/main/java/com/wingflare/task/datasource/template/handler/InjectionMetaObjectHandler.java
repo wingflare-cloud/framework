@@ -2,7 +2,7 @@ package com.wingflare.task.datasource.template.handler;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpStatus;
-import com.wingflare.task.datasource.template.exception.SnailJobDatasourceException;
+import com.wingflare.task.datasource.template.exception.TaskDatasourceException;
 import com.wingflare.task.datasource.template.persistence.po.CreateDt;
 import com.wingflare.task.datasource.template.persistence.po.CreateUpdateDt;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -30,7 +30,7 @@ public class InjectionMetaObjectHandler implements MetaObjectHandler {
                 baseEntity.setUpdateDt(current);
             }
         } catch (Exception e) {
-            throw new SnailJobDatasourceException(" Automatic injection exception =>" + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
+            throw new TaskDatasourceException(" Automatic injection exception =>" + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
         }
     }
 
@@ -43,7 +43,7 @@ public class InjectionMetaObjectHandler implements MetaObjectHandler {
                 baseEntity.setUpdateDt(current);
             }
         } catch (Exception e) {
-            throw new SnailJobDatasourceException(" Automatic injection exception =>" + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
+            throw new TaskDatasourceException(" Automatic injection exception =>" + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
         }
     }
 

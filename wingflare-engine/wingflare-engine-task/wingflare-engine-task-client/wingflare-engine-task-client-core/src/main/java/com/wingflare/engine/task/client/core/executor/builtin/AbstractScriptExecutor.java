@@ -3,9 +3,9 @@ package com.wingflare.engine.task.client.core.executor.builtin;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.core.exception.SnailJobInnerExecutorException;
-import com.wingflare.engine.task.common.core.util.SnailJobFileUtil;
-import com.wingflare.engine.task.common.core.util.SnailJobSystemUtil;
+import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
+import com.wingflare.engine.task.common.core.util.TaskFileUtil;
+import com.wingflare.engine.task.common.core.util.TaskSystemUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import org.springframework.beans.factory.InitializingBean;
@@ -49,12 +49,12 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
         String scriptPath = prepareScriptFile(jobId, scriptParams);
         logInfo("Generate executable file successfully, path: {}", scriptPath);
 
-        if (SnailJobSystemUtil.isOsWindows() && SH_SHELL.equals(getRunCommand())) {
-            logWarn("Current OS is {} where shell scripts cannot run.", SnailJobSystemUtil.getOsName());
+        if (TaskSystemUtil.isOsWindows() && SH_SHELL.equals(getRunCommand())) {
+            logWarn("Current OS is {} where shell scripts cannot run.", TaskSystemUtil.getOsName());
             return ExecuteResult.failure("Shell scripts cannot run on Windows.");
         }
 
-        if (!SnailJobSystemUtil.isOsWindows()) {
+        if (!TaskSystemUtil.isOsWindows()) {
             setScriptPermissions(scriptPath);
         }
 
@@ -76,9 +76,9 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
             case SCRIPT_DOWNLOAD_METHOD:
                 // 是否为下载
                 try {
-                    SnailJobFileUtil.downloadFile(scriptParams.getScriptParams(), script, 5000, 300000);
+                    TaskFileUtil.downloadFile(scriptParams.getScriptParams(), script, 5000, 300000);
                 } catch (IOException e) {
-                    throw new SnailJobInnerExecutorException("[snail-job] Script download failed", e);
+                    throw new TaskInnerExecutorException("[snail-job] Script download failed", e);
                 }
                 return scriptPath;
             case SCRIPT_SCRIPT_CODE_METHOD:
@@ -86,11 +86,11 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 try {
                     writeScriptContent(script, scriptParams);
                 } catch (IOException e) {
-                    throw new SnailJobInnerExecutorException("[snail-job] Failed to write script", e);
+                    throw new TaskInnerExecutorException("[snail-job] Failed to write script", e);
                 }
                 return scriptPath;
             default:
-                throw new SnailJobInnerExecutorException("[snail-job] Please correctly choose the script execution method.");
+                throw new TaskInnerExecutorException("[snail-job] Please correctly choose the script execution method.");
         }
     }
 
@@ -109,11 +109,11 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 }
                 bw.flush();
             } catch (IOException e) {
-                throw new SnailJobInnerExecutorException("[snail-job] Local script write exception", e);
+                throw new TaskInnerExecutorException("[snail-job] Local script write exception", e);
             }
             return scriptPath;
         } else {
-            throw new SnailJobInnerExecutorException("File not found: {" + processorInfo + "}");
+            throw new TaskInnerExecutorException("File not found: {" + processorInfo + "}");
         }
     }
 
@@ -122,10 +122,10 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
             File parentDir = script.getParentFile();
             if (!parentDir.exists()) {
                 logInfo("Script directory does not exist, creating: {}", parentDir.getAbsolutePath());
-                SnailJobFileUtil.mkdirs(parentDir);
+                TaskFileUtil.mkdirs(parentDir);
             }
-        } catch (SnailJobInnerExecutorException e) {
-            throw new SnailJobInnerExecutorException("[snail-job] ensure script directory error", e);
+        } catch (TaskInnerExecutorException e) {
+            throw new TaskInnerExecutorException("[snail-job] ensure script directory error", e);
         }
     }
 
@@ -153,7 +153,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
         try {
             chmodPb.start().waitFor();
         } catch (InterruptedException | IOException e) {
-            throw new SnailJobInnerExecutorException("[snail-job] Failed to set script permissions", e);
+            throw new TaskInnerExecutorException("[snail-job] Failed to set script permissions", e);
         }
         logInfo("chmod 755 authorization complete, ready to start execution~");
     }
@@ -167,7 +167,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
             process = pb.start();
             executeResult = captureOutput(process, scriptParams);
         } catch (IOException | InterruptedException e) {
-            throw new SnailJobInnerExecutorException("[snail-job] Script execution failed", e);
+            throw new TaskInnerExecutorException("[snail-job] Script execution failed", e);
         } finally {
             if (process.isAlive()) {
                 // 脚本执行失败 终止;

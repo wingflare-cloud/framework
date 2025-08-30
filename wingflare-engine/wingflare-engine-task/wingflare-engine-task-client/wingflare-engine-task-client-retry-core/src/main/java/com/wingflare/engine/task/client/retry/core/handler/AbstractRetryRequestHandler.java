@@ -7,17 +7,17 @@ import com.wingflare.engine.task.client.common.rpc.openapi.AbstractRequestHandle
 import com.wingflare.engine.task.client.retry.core.openapi.RetryOpenApiClient;
 import com.wingflare.engine.task.client.retry.core.openapi.RetryOpenApiClientV2;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.core.model.SnailJobOpenApiResult;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskOpenApiResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 
 public abstract class AbstractRetryRequestHandler<T> extends AbstractRequestHandler<T> {
-    RetryOpenApiClient client = RequestBuilder.<RetryOpenApiClient, SnailJobRpcResult>newBuilder()
+    RetryOpenApiClient client = RequestBuilder.<RetryOpenApiClient, TaskRpcResult>newBuilder()
             .client(RetryOpenApiClient.class)
             .async(false)
             .openapi(false)
             .build();
 
-    RetryOpenApiClientV2 clientV2 = RequestBuilder.<RetryOpenApiClientV2, SnailJobOpenApiResult>newBuilder()
+    RetryOpenApiClientV2 clientV2 = RequestBuilder.<RetryOpenApiClientV2, TaskOpenApiResult>newBuilder()
             .client(RetryOpenApiClientV2.class)
             .async(false)
             .openapi(true)

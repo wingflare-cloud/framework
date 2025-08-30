@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.wingflare</groupId>
+        <artifactId>wingflare-engine-task</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>wingflare-engine-task-server-common</module>
+        <module>wingflare-engine-task-server-job</module>
+        <module>wingflare-engine-task-server-retry</module>
+
+        <module>wingflare-engine-task-server-openapi</module>
+        <module>wingflare-engine-task-server-service</module>
+        <module>wingflare-engine-task-server-ui</module>
+        <module>wingflare-engine-task-server-web</module>
+        <module>wingflare-engine-task-server-starter</module>
+    </modules>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>wingflare-engine-task-server</artifactId>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-retry</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-job</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-common</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-ui</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-openapi</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+</project>

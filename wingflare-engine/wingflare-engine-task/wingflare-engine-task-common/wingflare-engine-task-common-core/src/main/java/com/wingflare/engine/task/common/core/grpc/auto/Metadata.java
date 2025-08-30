@@ -28,7 +28,7 @@ private static final long serialVersionUID = 0L;
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_Metadata_descriptor;
+    return TaskGrpcService.internal_static_Metadata_descriptor;
   }
 
   @SuppressWarnings({"rawtypes"})
@@ -46,7 +46,7 @@ private static final long serialVersionUID = 0L;
   @Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_Metadata_fieldAccessorTable
+    return TaskGrpcService.internal_static_Metadata_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             com.wingflare.engine.task.common.core.grpc.auto.Metadata.class, com.wingflare.engine.task.common.core.grpc.auto.Metadata.Builder.class);
   }
@@ -96,7 +96,7 @@ private static final long serialVersionUID = 0L;
         String, String> defaultEntry =
             com.google.protobuf.MapEntry
             .<String, String>newDefaultInstance(
-                com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_Metadata_HeadersEntry_descriptor,
+                TaskGrpcService.internal_static_Metadata_HeadersEntry_descriptor,
                 com.google.protobuf.WireFormat.FieldType.STRING,
                 "",
                 com.google.protobuf.WireFormat.FieldType.STRING,
@@ -356,7 +356,7 @@ String defaultValue) {
       com.wingflare.engine.task.common.core.grpc.auto.MetadataOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_Metadata_descriptor;
+      return TaskGrpcService.internal_static_Metadata_descriptor;
     }
 
     @SuppressWarnings({"rawtypes"})
@@ -384,7 +384,7 @@ String defaultValue) {
     @Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_Metadata_fieldAccessorTable
+      return TaskGrpcService.internal_static_Metadata_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.wingflare.engine.task.common.core.grpc.auto.Metadata.class, com.wingflare.engine.task.common.core.grpc.auto.Metadata.Builder.class);
     }
@@ -411,7 +411,7 @@ String defaultValue) {
     @Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcService.internal_static_Metadata_descriptor;
+      return TaskGrpcService.internal_static_Metadata_descriptor;
     }
 
     @Override

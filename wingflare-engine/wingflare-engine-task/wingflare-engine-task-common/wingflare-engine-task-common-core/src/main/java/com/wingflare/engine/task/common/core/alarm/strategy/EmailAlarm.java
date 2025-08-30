@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjUtil;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.alarm.attribute.EmailAttribute;
 import com.wingflare.engine.task.common.core.alarm.email.MailAccount;
-import com.wingflare.engine.task.common.core.alarm.email.SnailJobMailProperties;
+import com.wingflare.engine.task.common.core.alarm.email.TaskMailProperties;
 import com.wingflare.engine.task.common.core.enums.AlarmTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.MailUtils;
@@ -22,12 +22,12 @@ import java.util.Optional;
 @Component
 public class EmailAlarm extends AbstractAlarm<AlarmContext> {
 
-    private final SnailJobMailProperties snailJobMailProperties;
+    private final TaskMailProperties taskMailProperties;
     private MailAccount mailAccount;
 
 
-    public EmailAlarm(SnailJobMailProperties snailJobMailProperties) {
-        this.snailJobMailProperties = snailJobMailProperties;
+    public EmailAlarm(TaskMailProperties taskMailProperties) {
+        this.taskMailProperties = taskMailProperties;
     }
 
     @Override
@@ -68,31 +68,31 @@ public class EmailAlarm extends AbstractAlarm<AlarmContext> {
     @Override
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
-        Boolean enabled = snailJobMailProperties.getEnabled();
+        Boolean enabled = taskMailProperties.getEnabled();
         if (Objects.isNull(enabled) || Boolean.FALSE.equals(enabled)) {
             return;
         }
 
-        mailAccount = initMailAccount(snailJobMailProperties);
+        mailAccount = initMailAccount(taskMailProperties);
         MailUtils.setMailAccount(mailAccount);
     }
 
-    private MailAccount initMailAccount(SnailJobMailProperties snailJobMailProperties) {
+    private MailAccount initMailAccount(TaskMailProperties taskMailProperties) {
         MailAccount account = new MailAccount();
-        account.setHost(snailJobMailProperties.getHost());
-        account.setPort(snailJobMailProperties.getPort());
-        account.setAuth(Optional.ofNullable(snailJobMailProperties.getAuth()).orElse(Boolean.FALSE));
-        account.setFrom(snailJobMailProperties.getFrom());
-        account.setUser(snailJobMailProperties.getUser());
-        account.setPass(snailJobMailProperties.getPass());
-        account.setSocketFactoryPort(Optional.ofNullable(snailJobMailProperties.getPort()).orElse(465));
-        account.setStarttlsEnable(Optional.ofNullable(snailJobMailProperties.getStarttlsEnable()).orElse(Boolean.FALSE));
-        account.setSslEnable(Optional.ofNullable(snailJobMailProperties.getSslEnable()).orElse(Boolean.FALSE));
-        account.setTimeout(Optional.ofNullable(snailJobMailProperties.getTimeout()).orElse(0L));
-        account.setConnectionTimeout(Optional.ofNullable(snailJobMailProperties.getConnectionTimeout()).orElse(0L));
+        account.setHost(taskMailProperties.getHost());
+        account.setPort(taskMailProperties.getPort());
+        account.setAuth(Optional.ofNullable(taskMailProperties.getAuth()).orElse(Boolean.FALSE));
+        account.setFrom(taskMailProperties.getFrom());
+        account.setUser(taskMailProperties.getUser());
+        account.setPass(taskMailProperties.getPass());
+        account.setSocketFactoryPort(Optional.ofNullable(taskMailProperties.getPort()).orElse(465));
+        account.setStarttlsEnable(Optional.ofNullable(taskMailProperties.getStarttlsEnable()).orElse(Boolean.FALSE));
+        account.setSslEnable(Optional.ofNullable(taskMailProperties.getSslEnable()).orElse(Boolean.FALSE));
+        account.setTimeout(Optional.ofNullable(taskMailProperties.getTimeout()).orElse(0L));
+        account.setConnectionTimeout(Optional.ofNullable(taskMailProperties.getConnectionTimeout()).orElse(0L));
 
-        if (ObjUtil.isNotEmpty(snailJobMailProperties.getProperties())) {
-            snailJobMailProperties.getProperties().forEach(account::setCustomProperty);
+        if (ObjUtil.isNotEmpty(taskMailProperties.getProperties())) {
+            taskMailProperties.getProperties().forEach(account::setCustomProperty);
         }
 
         return account;

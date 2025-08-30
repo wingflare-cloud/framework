@@ -4,14 +4,14 @@ import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties.RpcServerProperties;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties.ThreadPoolConfig;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.grpc.GrpcChannel;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.SnailDispatcherRequestHandler;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.grpc.UnaryRequestHandler;
 import com.wingflare.engine.task.common.core.constant.GrpcServerConstants;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
-import com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcRequest;
+import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.grpc.CompressorRegistry;
@@ -104,7 +104,7 @@ public class SnailGrpcServer implements Lifecycle {
         } catch (IOException e) {
             SnailJobLog.LOCAL.error("--------> snail-job remoting server error.", e);
             started = false;
-            throw new SnailJobClientException("snail-job server start error");
+            throw new TaskClientException("snail-job server start error");
         }
     }
 
@@ -128,13 +128,13 @@ public class SnailGrpcServer implements Lifecycle {
     public static ServerServiceDefinition createUnaryServiceDefinition(
         String serviceName,
         String methodName,
-        ServerCalls.UnaryMethod<SnailJobGrpcRequest, GrpcResult> unaryMethod) {
+        ServerCalls.UnaryMethod<TaskGrpcRequest, GrpcResult> unaryMethod) {
 
-        MethodDescriptor<SnailJobGrpcRequest, GrpcResult> methodDescriptor =
-            MethodDescriptor.<SnailJobGrpcRequest, GrpcResult>newBuilder()
+        MethodDescriptor<TaskGrpcRequest, GrpcResult> methodDescriptor =
+            MethodDescriptor.<TaskGrpcRequest, GrpcResult>newBuilder()
                 .setType(MethodDescriptor.MethodType.UNARY)
                 .setFullMethodName(MethodDescriptor.generateFullMethodName(serviceName, methodName))
-                .setRequestMarshaller(ProtoUtils.marshaller(SnailJobGrpcRequest.getDefaultInstance()))
+                .setRequestMarshaller(ProtoUtils.marshaller(TaskGrpcRequest.getDefaultInstance()))
                 .setResponseMarshaller(ProtoUtils.marshaller(GrpcResult.getDefaultInstance()))
                 .build();
 

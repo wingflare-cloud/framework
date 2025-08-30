@@ -6,7 +6,7 @@ import cn.hutool.core.util.ServiceLoaderUtil;
 import com.wingflare.engine.task.client.common.HandlerInterceptor;
 import com.wingflare.engine.task.client.common.cache.EndPointInfoCache;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.RequestMethod;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.grpc.GrpcRequest;
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpRequest;
@@ -15,9 +15,9 @@ import com.wingflare.engine.task.client.common.rpc.supports.scan.EndPointInfo;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
-import com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcRequest;
+import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,15 +50,15 @@ public class SnailDispatcherRequestHandler {
         this.snailJobProperties = snailJobProperties;
     }
 
-    public SnailJobRpcResult dispatch(GrpcRequest request) {
-        SnailJobRpcResult snailJobRpcResult = new SnailJobRpcResult();
+    public TaskRpcResult dispatch(GrpcRequest request) {
+        TaskRpcResult taskRpcResult = new TaskRpcResult();
 
         HttpRequest httpRequest = request.getHttpRequest();
         HttpResponse httpResponse = request.getHttpResponse();
 
         List<HandlerInterceptor> handlerInterceptors = handlerInterceptors();
 
-        SnailJobGrpcRequest snailJobRequest = request.getSnailJobRequest();
+        TaskGrpcRequest snailJobRequest = request.getSnailJobRequest();
         EndPointInfo endPointInfo = null;
         Result resultObj = null;
         Throwable e = null;
@@ -68,26 +68,26 @@ public class SnailDispatcherRequestHandler {
             String snailJobAuth = headersMap.get(SystemConstants.SNAIL_JOB_AUTH_TOKEN);
             String configToken = Optional.ofNullable(snailJobProperties.getToken()).orElse(SystemConstants.DEFAULT_TOKEN);
             if (!configToken.equals(snailJobAuth)) {
-                throw new SnailJobClientException("Authentication failed. [Please check if the configured Token is correct]");
+                throw new TaskClientException("Authentication failed. [Please check if the configured Token is correct]");
             }
 
             UrlBuilder builder = UrlBuilder.ofHttp(httpRequest.getUri());
             endPointInfo = EndPointInfoCache.get(builder.getPathStr(), RequestMethod.POST);
             if (Objects.isNull(endPointInfo)) {
-                throw new SnailJobClientException(" Cannot find corresponding processing, please check if the corresponding package is correctly introduced." +
+                throw new TaskClientException(" Cannot find corresponding processing, please check if the corresponding package is correctly introduced." +
                                                   "path:[{}] requestMethod:[{}]", builder.getPathStr());
             }
 
             Class<?>[] paramTypes = endPointInfo.getMethod().getParameterTypes();
-            SnailJobGrpcRequest snailJobGrpcRequest = request.getSnailJobRequest();
-            Object[] args = JsonUtil.parseObject(snailJobGrpcRequest.getBody(), Object[].class);
+            TaskGrpcRequest taskGrpcRequest = request.getSnailJobRequest();
+            Object[] args = JsonUtil.parseObject(taskGrpcRequest.getBody(), Object[].class);
 
             Object[] deSerialize = (Object[]) deSerialize(JsonUtil.toJsonString(args), endPointInfo.getMethod(),
                 httpRequest, httpResponse);
 
             for (final HandlerInterceptor handlerInterceptor : handlerInterceptors) {
                 if (!handlerInterceptor.preHandle(httpRequest, httpResponse, endPointInfo)) {
-                    return snailJobRpcResult;
+                    return taskRpcResult;
                 }
             }
 
@@ -104,12 +104,12 @@ public class SnailDispatcherRequestHandler {
             }
         } catch (Throwable ex) {
             SnailJobLog.LOCAL.error("http request error. [{}]", snailJobRequest, ex);
-            snailJobRpcResult.setMessage(ex.getMessage()).setStatus(StatusEnum.NO.getStatus());
+            taskRpcResult.setMessage(ex.getMessage()).setStatus(StatusEnum.NO.getStatus());
             e = ex;
         } finally {
-            snailJobRpcResult.setReqId(0);
+            taskRpcResult.setReqId(0);
             if (Objects.nonNull(resultObj)) {
-                snailJobRpcResult.setData(resultObj.getData())
+                taskRpcResult.setData(resultObj.getData())
                     .setMessage(resultObj.getMessage())
                     .setStatus(resultObj.getStatus());
             }
@@ -119,7 +119,7 @@ public class SnailDispatcherRequestHandler {
             }
         }
 
-        return snailJobRpcResult;
+        return taskRpcResult;
     }
 
     private static List<HandlerInterceptor> handlerInterceptors() {

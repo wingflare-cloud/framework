@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.common.core.expression.strategy;
 
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
@@ -28,7 +28,7 @@ public class SpELExpressionEngine extends AbstractExpressionEngine {
             context.forEach(evaluationContext::setVariable);
             return ENGINE.parseExpression(expression).getValue(evaluationContext, Object.class);
         } catch (Exception e) {
-            throw new SnailJobCommonException("SpEL expression parsing exception. expression:[{}] context:[{}]",
+            throw new TaskCommonException("SpEL expression parsing exception. expression:[{}] context:[{}]",
                     expression, JsonUtil.toJsonString(context), e);
         }
 

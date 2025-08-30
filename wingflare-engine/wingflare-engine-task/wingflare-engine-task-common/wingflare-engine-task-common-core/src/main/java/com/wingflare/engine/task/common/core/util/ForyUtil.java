@@ -2,7 +2,7 @@ package com.wingflare.engine.task.common.core.util;
 
 import com.wingflare.engine.task.common.core.config.ForyProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.github.luben.zstd.Zstd;
 import org.apache.fory.Fory;
@@ -105,7 +105,7 @@ public class ForyUtil {
         byte[] bytes = Base64.getDecoder().decode(content);
         int size = (int) Zstd.decompressedSize(bytes);
         if (size > decompressedSize) {
-            throw new SnailJobCommonException("Decompressed size exceeds the allowed limit.");
+            throw new TaskCommonException("Decompressed size exceeds the allowed limit.");
         }
         bytes = Zstd.decompress(bytes, size);
         //noinspection unchecked

@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.core.handler.add;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.util.ValidatorUtils;
 import com.wingflare.engine.task.client.core.handler.AbstractParamsHandler;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
@@ -28,7 +28,7 @@ public abstract class AddHandler<H> extends AbstractParamsHandler<H, Long> {
             result = client.addJob(getReqDTO());
         }
         Assert.isTrue(StatusEnum.YES.getStatus() == result.getStatus(),
-                () -> new SnailJobClientException(result.getMessage()));
+                () -> new TaskClientException(result.getMessage()));
         String data = JsonUtil.toJsonString(result.getData());
         return Long.valueOf(data);
     }

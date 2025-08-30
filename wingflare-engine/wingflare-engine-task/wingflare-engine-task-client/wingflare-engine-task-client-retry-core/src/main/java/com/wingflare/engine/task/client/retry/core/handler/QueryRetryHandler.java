@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.retry.core.handler;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
@@ -27,7 +27,7 @@ public class QueryRetryHandler extends AbstractRetryRequestHandler<RetryApiRespo
             result = client.queryRetryTask(retryId);
         }
         Assert.isTrue(StatusEnum.YES.getStatus() == result.getStatus(),
-                () -> new SnailJobClientException(result.getMessage()));
+                () -> new TaskClientException(result.getMessage()));
         Object data = result.getData();
         if (Objects.isNull(data)) {
             return null;

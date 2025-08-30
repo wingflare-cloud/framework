@@ -2,7 +2,7 @@ package com.wingflare.engine.task.common.core.alarm.strategy;
 
 
 import com.wingflare.engine.task.common.core.alarm.Alarm;
-import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
+import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -19,7 +19,7 @@ public abstract class AbstractAlarm<T> implements Alarm<T>, InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        SnailJobAlarmFactory.register(this);
+        TaskAlarmFactory.register(this);
     }
 
     @Override

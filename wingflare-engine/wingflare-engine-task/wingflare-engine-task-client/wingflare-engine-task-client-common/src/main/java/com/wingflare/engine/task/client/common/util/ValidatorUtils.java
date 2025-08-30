@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.common.util;
 
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -29,7 +29,7 @@ public class ValidatorUtils {
      * 校验对象
      *
      * @param object 待校验对象
-     * @throws SnailJobClientException 校验不通过，则报SnailJobClientException异常
+     * @throws TaskClientException 校验不通过，则报SnailJobClientException异常
      */
     public static Pair<Boolean, String> validateEntity( Set<ConstraintViolation<Object>> constraintViolations, Object object) {
         if (!constraintViolations.isEmpty()) {

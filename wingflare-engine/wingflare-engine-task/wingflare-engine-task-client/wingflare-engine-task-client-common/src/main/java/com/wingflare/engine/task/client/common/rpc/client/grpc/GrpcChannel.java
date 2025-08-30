@@ -6,15 +6,15 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.exception.SnailJobRemoteException;
+import com.wingflare.engine.task.client.common.exception.TaskRemoteException;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.ExecutorTypeEnum;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
-import com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcRequest;
-import com.wingflare.engine.task.common.core.util.SnailJobVersion;
+import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
+import com.wingflare.engine.task.common.core.util.TaskVersion;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.google.common.util.concurrent.ListenableFuture;
 import io.grpc.ManagedChannel;
@@ -196,7 +196,7 @@ public final class GrpcChannel {
         }
 
         Assert.notBlank(snailJobProperties.getGroup(),
-            () -> new SnailJobRemoteException("The group is null, please check if your configuration is correct."));
+            () -> new TaskRemoteException("The group is null, please check if your configuration is correct."));
 
         Map<String, String> headersMap = new HashMap<>();
 
@@ -210,7 +210,7 @@ public final class GrpcChannel {
             SystemConstants.DEFAULT_NAMESPACE));
         headersMap.put(HeadersEnum.TOKEN.getKey(), Optional.ofNullable(snailJobProperties.getToken()).orElse(
             SystemConstants.DEFAULT_TOKEN));
-        headersMap.put(HeadersEnum.SYSTEM_VERSION.getKey(), Optional.ofNullable(SnailJobVersion.getVersion()).orElse(
+        headersMap.put(HeadersEnum.SYSTEM_VERSION.getKey(), Optional.ofNullable(TaskVersion.getVersion()).orElse(
                 SystemConstants.DEFAULT_CLIENT_VERSION));
         headersMap.put(HeadersEnum.EXECUTOR_TYPE.getKey(), String.valueOf(ExecutorTypeEnum.JAVA.getType()));
         if (CollUtil.isNotEmpty(map)) {
@@ -222,18 +222,18 @@ public final class GrpcChannel {
             .setUri(path)
             .putAllHeaders(headersMap)
             .build();
-        SnailJobGrpcRequest snailJobRequest = SnailJobGrpcRequest
+        TaskGrpcRequest snailJobRequest = TaskGrpcRequest
             .newBuilder()
             .setMetadata(metadata)
             .setReqId(reqId)
             .setBody(body)
             .build();
 
-        MethodDescriptor<SnailJobGrpcRequest, GrpcResult> methodDescriptor =
-            MethodDescriptor.<SnailJobGrpcRequest, GrpcResult>newBuilder()
+        MethodDescriptor<TaskGrpcRequest, GrpcResult> methodDescriptor =
+            MethodDescriptor.<TaskGrpcRequest, GrpcResult>newBuilder()
                 .setType(MethodDescriptor.MethodType.UNARY)
                 .setFullMethodName(MethodDescriptor.generateFullMethodName("UnaryRequest", "unaryRequest"))
-                .setRequestMarshaller(ProtoUtils.marshaller(SnailJobGrpcRequest.getDefaultInstance()))
+                .setRequestMarshaller(ProtoUtils.marshaller(TaskGrpcRequest.getDefaultInstance()))
                 .setResponseMarshaller(ProtoUtils.marshaller(GrpcResult.getDefaultInstance()))
                 .build();
 

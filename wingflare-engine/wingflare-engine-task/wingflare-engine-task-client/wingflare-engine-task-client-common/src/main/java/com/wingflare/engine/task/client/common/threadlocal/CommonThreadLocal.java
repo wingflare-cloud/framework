@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.common.threadlocal;
 
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.client.common.SnailThreadLocal;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 
 /**
  * ThreadLocal实现类
@@ -16,7 +16,7 @@ public class CommonThreadLocal<T> implements SnailThreadLocal<T> {
     private final ThreadLocal<T> threadLocal;
 
     public CommonThreadLocal(ThreadLocal<T> threadLocal) {
-        Assert.notNull(threadLocal, () -> new SnailJobClientException("thread local can not be null"));
+        Assert.notNull(threadLocal, () -> new TaskClientException("thread local can not be null"));
         this.threadLocal = threadLocal;
     }
 

@@ -4,14 +4,14 @@ package com.wingflare.engine.task.client.core.register;
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.core.Scanner;
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.request.JobExecutorRequest;
 import org.springframework.stereotype.Component;
@@ -54,7 +54,7 @@ public class JobExecutorRegistrar implements Lifecycle {
         SnailJobProperties properties = SnailSpringContext.getBean(SnailJobProperties.class);
         String executorName = jobExecutorInfo.getExecutorName();
         if (JobExecutorInfoCache.isExisted(executorName)) {
-            throw new SnailJobClientException("Duplicate executor names are not allowed: {}", executorName);
+            throw new TaskClientException("Duplicate executor names are not allowed: {}", executorName);
         }
         JobExecutorInfoCache.put(jobExecutorInfo);
 
@@ -81,7 +81,7 @@ public class JobExecutorRegistrar implements Lifecycle {
 
     @Override
     public void start() {
-        CLIENT = RequestBuilder.<RpcClient, SnailJobRpcResult>newBuilder()
+        CLIENT = RequestBuilder.<RpcClient, TaskRpcResult>newBuilder()
                 .client(RpcClient.class)
                 .callback(
                         rpcResult -> {

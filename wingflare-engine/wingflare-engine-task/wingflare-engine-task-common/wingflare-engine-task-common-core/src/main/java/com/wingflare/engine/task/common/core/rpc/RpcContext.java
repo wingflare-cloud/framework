@@ -1,9 +1,9 @@
 package com.wingflare.engine.task.common.core.rpc;
 
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
-import com.wingflare.engine.task.common.core.exception.SnailJobRemotingTimeOutException;
+import com.wingflare.engine.task.common.core.exception.TaskRemotingTimeOutException;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
@@ -40,18 +40,18 @@ public final class RpcContext {
                 TimeUnit.SECONDS, 1024);
     }
 
-    private static final ConcurrentMap<Long, SnailJobFuture> COMPLETABLE_FUTURE = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Long, TaskFuture> COMPLETABLE_FUTURE = new ConcurrentHashMap<>();
 
-    public static void invoke(Long requestId, SnailJobRpcResult snailJobRpcResult, boolean timeout) {
+    public static void invoke(Long requestId, TaskRpcResult taskRpcResult, boolean timeout) {
 
         try {
             // 同步请求同步返回
             Optional.ofNullable(COMPLETABLE_FUTURE.remove(requestId))
                     .ifPresent(future -> {
                         if (timeout) {
-                            future.completeExceptionally(new SnailJobRemotingTimeOutException("Request to remote interface timed out."));
+                            future.completeExceptionally(new TaskRemotingTimeOutException("Request to remote interface timed out."));
                         } else {
-                            future.complete(snailJobRpcResult);
+                            future.complete(taskRpcResult);
                         }
                     });
 
@@ -60,7 +60,7 @@ public final class RpcContext {
         }
     }
 
-    public static <R extends Result<Object>> void setFuture(SnailJobFuture<R> future) {
+    public static <R extends Result<Object>> void setFuture(TaskFuture<R> future) {
         if (Objects.nonNull(future)) {
             COMPLETABLE_FUTURE.put(future.getRequestId(), future);
         }
@@ -79,7 +79,7 @@ public final class RpcContext {
 
         @Override
         public void run(final Timeout timeout) throws Exception {
-            invoke(requestId, new SnailJobRpcResult(StatusEnum.NO.getStatus(), "Request to remote interface timed out.", null, requestId), true);
+            invoke(requestId, new TaskRpcResult(StatusEnum.NO.getStatus(), "Request to remote interface timed out.", null, requestId), true);
         }
     }
 

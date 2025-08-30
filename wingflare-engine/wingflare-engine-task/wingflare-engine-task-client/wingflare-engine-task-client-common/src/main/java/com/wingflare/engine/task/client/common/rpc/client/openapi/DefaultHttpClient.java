@@ -5,7 +5,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.common.core.model.SnailJobOpenApiResult;
+import com.wingflare.engine.task.common.core.model.TaskOpenApiResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 
 import java.text.MessageFormat;
@@ -29,7 +29,7 @@ public class DefaultHttpClient implements SnailHttpClient {
     }
 
     @Override
-    public SnailJobOpenApiResult execute(Request request) {
+    public TaskOpenApiResult execute(Request request) {
         String path = request.getPath();
         if (path.startsWith(StrUtil.SLASH)) {
             path = path.substring(1);
@@ -50,6 +50,6 @@ public class DefaultHttpClient implements SnailHttpClient {
         httpRequest.body(request.getBody());
         httpRequest.addHeaders(request.getHeaders());
         return httpRequest.thenFunction(httpResponse ->
-                JsonUtil.parseObject(httpResponse.body(), SnailJobOpenApiResult.class));
+                JsonUtil.parseObject(httpResponse.body(), TaskOpenApiResult.class));
     }
 }

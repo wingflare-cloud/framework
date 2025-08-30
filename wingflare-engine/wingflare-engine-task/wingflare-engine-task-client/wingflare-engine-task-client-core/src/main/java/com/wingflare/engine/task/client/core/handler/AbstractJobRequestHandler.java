@@ -6,8 +6,8 @@ import com.wingflare.engine.task.client.common.rpc.openapi.AbstractRequestHandle
 import com.wingflare.engine.task.client.core.openapi.JobOpenApiClient;
 import com.wingflare.engine.task.client.core.openapi.JobOpenApiClientV2;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.core.model.SnailJobOpenApiResult;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskOpenApiResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 
 /**
  * @author opensnail
@@ -17,14 +17,14 @@ import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
 public abstract class AbstractJobRequestHandler<R> extends AbstractRequestHandler<R> {
 
     @Deprecated(since = "1.7.0")
-    protected JobOpenApiClient client = RequestBuilder.<JobOpenApiClient, SnailJobRpcResult>newBuilder()
+    protected JobOpenApiClient client = RequestBuilder.<JobOpenApiClient, TaskRpcResult>newBuilder()
             .client(JobOpenApiClient.class)
             .async(false)
             // 走openapi模式
             .openapi(false)
             .build();
 
-    protected JobOpenApiClientV2 clientV2 = RequestBuilder.<JobOpenApiClientV2, SnailJobOpenApiResult>newBuilder()
+    protected JobOpenApiClientV2 clientV2 = RequestBuilder.<JobOpenApiClientV2, TaskOpenApiResult>newBuilder()
             .client(JobOpenApiClientV2.class)
             .async(false)
             // 走openapi模式

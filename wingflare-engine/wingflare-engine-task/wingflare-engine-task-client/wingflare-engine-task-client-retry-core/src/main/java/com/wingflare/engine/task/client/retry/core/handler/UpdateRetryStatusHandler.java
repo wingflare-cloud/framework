@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.retry.core.handler;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.util.ValidatorUtils;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
@@ -33,7 +33,7 @@ public class UpdateRetryStatusHandler extends AbstractRetryRequestHandler<Boolea
             result = client.updateRetryTaskStatus(updateRetryStatusDTO);
         }
         Assert.isTrue(StatusEnum.YES.getStatus() == result.getStatus(),
-                () -> new SnailJobClientException(result.getMessage()));
+                () -> new TaskClientException(result.getMessage()));
         return (Boolean) result.getData();
     }
 

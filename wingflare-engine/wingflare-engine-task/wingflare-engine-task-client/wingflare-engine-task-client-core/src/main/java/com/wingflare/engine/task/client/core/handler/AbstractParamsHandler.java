@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.core.handler;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.core.enums.AllocationAlgorithmEnum;
 import com.wingflare.engine.task.client.core.enums.TriggerTypeEnum;
 import com.wingflare.engine.task.client.core.util.TriggerIntervalUtils;
@@ -193,10 +193,10 @@ public abstract class AbstractParamsHandler<H, R> extends AbstractJobRequestHand
      */
     public H setTriggerInterval(Integer triggerInterval) {
         Assert.isTrue(reqDTO.getTriggerType() == SCHEDULED_TIME.getType(),
-                () -> new SnailJobClientException("This method is only limited to fixed time usage"));
+                () -> new TaskClientException("This method is only limited to fixed time usage"));
         // 延时任务不可使用
         Assert.isFalse(reqDTO.getTriggerType() == POINT_IN_TIME.getType(),
-                () -> new SnailJobClientException("This configuration is not available for delay tasks"));
+                () -> new TaskClientException("This configuration is not available for delay tasks"));
         setTriggerInterval(String.valueOf(triggerInterval));
         return r;
     }
@@ -211,7 +211,7 @@ public abstract class AbstractParamsHandler<H, R> extends AbstractJobRequestHand
      */
     public H setTriggerTime(Set<LocalDateTime> triggerTime) {
         Assert.isTrue(reqDTO.getTriggerType() == POINT_IN_TIME.getType(),
-                () -> new SnailJobClientException("This method can only be used for delay tasks"));
+                () -> new TaskClientException("This method can only be used for delay tasks"));
         // 校验间隔需要大于十秒
         String parseJson = TriggerIntervalUtils.checkTriggerTimeAndParseJson(triggerTime);
 
@@ -230,7 +230,7 @@ public abstract class AbstractParamsHandler<H, R> extends AbstractJobRequestHand
     public H setTriggerInterval(String triggerInterval) {
         // 若是工作流则没有调度时间
         Assert.isFalse(reqDTO.getTriggerType() == WORK_FLOW.getType(),
-                () -> new SnailJobClientException("No need to configure workflow"));
+                () -> new TaskClientException("No need to configure workflow"));
         reqDTO.setTriggerInterval(triggerInterval);
         return r;
     }
@@ -313,7 +313,7 @@ public abstract class AbstractParamsHandler<H, R> extends AbstractJobRequestHand
         }
         // 校验 key 不能为 state
         if (labels.containsKey("state")) {
-            throw new SnailJobClientException("Label key cannot be 'state'");
+            throw new TaskClientException("Label key cannot be 'state'");
         }
         reqDTO.setLabels(JsonUtil.toJsonString(labels));
         return r;

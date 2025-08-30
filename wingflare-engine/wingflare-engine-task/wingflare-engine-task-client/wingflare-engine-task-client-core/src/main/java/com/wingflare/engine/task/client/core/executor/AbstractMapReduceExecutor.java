@@ -5,7 +5,7 @@ import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.client.core.dto.MergeReduceArgs;
 import com.wingflare.engine.task.client.core.dto.ReduceArgs;
 import com.wingflare.engine.task.common.core.enums.MapReduceStageEnum;
-import com.wingflare.engine.task.common.core.exception.SnailJobMapReduceException;
+import com.wingflare.engine.task.common.core.exception.TaskMapReduceException;
 import com.wingflare.engine.task.common.core.model.JobContext;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 
@@ -30,7 +30,7 @@ public abstract class AbstractMapReduceExecutor extends AbstractMapExecutor {
             return this.doMergeReduceExecute(reduceArgs);
         }
 
-        throw new SnailJobMapReduceException("Invalid MapReduceStage");
+        throw new TaskMapReduceException("Invalid MapReduceStage");
     }
 
     protected abstract ExecuteResult doReduceExecute(ReduceArgs reduceArgs);

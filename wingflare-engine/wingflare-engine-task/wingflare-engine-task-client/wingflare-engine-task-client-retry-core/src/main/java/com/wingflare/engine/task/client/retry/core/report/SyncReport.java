@@ -6,9 +6,9 @@ import com.wingflare.engine.task.client.common.config.SnailJobProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.SnailJobAlarmFactory;
+import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
@@ -71,7 +71,7 @@ public class SyncReport extends AbstractReport {
 
         RetryTaskRequest retryTaskRequest = buildRetryTaskDTO(scene, targetClassName, args);
 
-        RpcClient client = RequestBuilder.<RpcClient, SnailJobRpcResult>newBuilder()
+        RpcClient client = RequestBuilder.<RpcClient, TaskRpcResult>newBuilder()
                 .client(RpcClient.class)
                 .async(Boolean.FALSE)
                 .timeout(timeout)
@@ -79,7 +79,7 @@ public class SyncReport extends AbstractReport {
                 .build();
 
         try {
-            SnailJobRpcResult result = client.reportRetryInfo(Collections.singletonList(retryTaskRequest));
+            TaskRpcResult result = client.reportRetryInfo(Collections.singletonList(retryTaskRequest));
             SnailJobLog.LOCAL.debug("Data report result result:[{}]", JsonUtil.toJsonString(result));
             return (Boolean) result.getData();
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class SyncReport extends AbstractReport {
                         .title("Sync reporting exception: [{}]", snailJobProperties.getGroup())
                         .notifyAttribute(recipient.getNotifyAttribute());
 
-                Optional.ofNullable(SnailJobAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
             }
 
         } catch (Exception e1) {

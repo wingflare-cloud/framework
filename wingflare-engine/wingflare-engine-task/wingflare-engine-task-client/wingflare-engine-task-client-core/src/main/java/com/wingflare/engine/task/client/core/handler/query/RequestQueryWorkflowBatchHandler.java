@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.core.handler.query;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.core.handler.AbstractJobRequestHandler;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
@@ -42,7 +42,7 @@ public class RequestQueryWorkflowBatchHandler extends AbstractJobRequestHandler<
         }
 
         Assert.isTrue(StatusEnum.YES.getStatus() == result.getStatus(),
-                () -> new SnailJobClientException(result.getMessage()));
+                () -> new TaskClientException(result.getMessage()));
         Object data = result.getData();
         if (Objects.isNull(data)) {
             return null;

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -192,7 +192,7 @@ public class JsonUtil {
             JsonNode jsonNode = JsonMapper.objectMapper.readTree(json);
             return jsonNode.isEmpty();
         } catch (JsonProcessingException e) {
-            throw new SnailJobCommonException("Json validation exception!", e);
+            throw new TaskCommonException("Json validation exception!", e);
         }
     }
 
@@ -274,7 +274,7 @@ public class JsonUtil {
             try {
                 return objectMapper.writeValueAsString(object);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Object to Json conversion failed!", e);
+                throw new TaskCommonException("Object to Json conversion failed!", e);
             }
         }
 
@@ -290,7 +290,7 @@ public class JsonUtil {
             try {
                 return objectMapper.readValue(jsonString, clazz);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
+                throw new TaskCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
             }
         }
 
@@ -298,7 +298,7 @@ public class JsonUtil {
             try {
                 return objectMapper.readValue(inputStream, clazz);
             } catch (IOException e) {
-                throw new SnailJobCommonException("Json to object conversion failed", e);
+                throw new TaskCommonException("Json to object conversion failed", e);
             }
         }
 
@@ -313,7 +313,7 @@ public class JsonUtil {
             try {
                 return objectMapper.readValue(jsonString, typeReference);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
+                throw new TaskCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
             }
         }
 
@@ -328,7 +328,7 @@ public class JsonUtil {
             try {
                 return objectMapper.readValue(jsonString, javaType);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
+                throw new TaskCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
             }
         }
 
@@ -342,7 +342,7 @@ public class JsonUtil {
             try {
                 return objectMapper.readTree(jsonString);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
+                throw new TaskCommonException("Json to object conversion failed Parameters: {}", jsonString, e);
             }
         }
 
@@ -356,7 +356,7 @@ public class JsonUtil {
             try {
                 return objectMapper.readTree(jsonBytes);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Json to object conversion failed!", e);
+                throw new TaskCommonException("Json to object conversion failed!", e);
             }
         }
 
@@ -370,7 +370,7 @@ public class JsonUtil {
             try {
                 return objectMapper.valueToTree(object);
             } catch (Exception e) {
-                throw new SnailJobCommonException("Json to object conversion failed!", e);
+                throw new TaskCommonException("Json to object conversion failed!", e);
             }
         }
     }

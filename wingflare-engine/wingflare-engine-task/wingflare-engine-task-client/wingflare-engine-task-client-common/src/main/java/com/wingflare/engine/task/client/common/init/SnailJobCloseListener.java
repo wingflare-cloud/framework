@@ -4,7 +4,7 @@ import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.event.SnailClientClosedEvent;
 import com.wingflare.engine.task.client.common.event.SnailClientClosingEvent;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.core.util.SnailJobVersion;
+import com.wingflare.engine.task.common.core.util.TaskVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -32,10 +32,10 @@ public class SnailJobCloseListener implements ApplicationListener<ContextClosedE
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        log.info("snail-job client about to shutdown v{}", SnailJobVersion.getVersion());
+        log.info("snail-job client about to shutdown v{}", TaskVersion.getVersion());
         SnailSpringContext.getContext().publishEvent(new SnailClientClosingEvent());
         lifecycleList.forEach(Lifecycle::close);
         SnailSpringContext.getContext().publishEvent(new SnailClientClosedEvent());
-        log.info("snail-job client closed successfully v{}", SnailJobVersion.getVersion());
+        log.info("snail-job client closed successfully v{}", TaskVersion.getVersion());
     }
 }

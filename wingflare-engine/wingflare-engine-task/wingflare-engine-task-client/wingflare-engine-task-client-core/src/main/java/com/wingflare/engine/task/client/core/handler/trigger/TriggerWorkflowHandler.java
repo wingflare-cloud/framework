@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.core.handler.trigger;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.core.handler.AbstractWorkflowTriggerHandler;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
@@ -34,7 +34,7 @@ public class TriggerWorkflowHandler extends AbstractWorkflowTriggerHandler<Trigg
         }
 
         Assert.isTrue(StatusEnum.YES.getStatus() == result.getStatus(),
-                () -> new SnailJobClientException(result.getMessage()));
+                () -> new TaskClientException(result.getMessage()));
         return (Boolean) result.getData();
     }
 

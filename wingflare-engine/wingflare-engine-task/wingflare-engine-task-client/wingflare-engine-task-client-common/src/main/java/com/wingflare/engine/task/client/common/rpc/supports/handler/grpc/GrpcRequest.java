@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.common.rpc.supports.handler.grpc;
 
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpRequest;
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpResponse;
-import com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcRequest;
+import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 
 /**
  * netty客户端请求模型
@@ -13,7 +13,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.SnailJobGrpcRequest;
  */
 public class GrpcRequest {
 
-    private SnailJobGrpcRequest snailJobRequest;
+    private TaskGrpcRequest snailJobRequest;
     private final HttpResponse httpResponse;
     private final HttpRequest httpRequest;
 
@@ -22,11 +22,11 @@ public class GrpcRequest {
         this.httpRequest = httpRequest;
     }
 
-    public SnailJobGrpcRequest getSnailJobRequest() {
+    public TaskGrpcRequest getSnailJobRequest() {
         return snailJobRequest;
     }
 
-    public void setSnailJobRequest(SnailJobGrpcRequest snailJobRequest) {
+    public void setSnailJobRequest(TaskGrpcRequest snailJobRequest) {
         this.snailJobRequest = snailJobRequest;
     }
 

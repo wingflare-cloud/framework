@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.common.core.expression;
 
-import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -24,7 +24,7 @@ public class ExpressionFactory {
             return (ExpressionEngine) Proxy.newProxyInstance(ExpressionEngine.class.getClassLoader(),
                     new Class[]{ExpressionEngine.class}, invocationHandler);
         } catch (Exception e) {
-            throw new SnailJobCommonException("class not found exception to: [{}]", e);
+            throw new TaskCommonException("class not found exception to: [{}]", e);
 
         }
     }

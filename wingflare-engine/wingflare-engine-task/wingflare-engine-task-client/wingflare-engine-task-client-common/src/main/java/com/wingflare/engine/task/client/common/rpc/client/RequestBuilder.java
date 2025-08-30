@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.client.common.rpc.client;
 
-import com.wingflare.engine.task.client.common.exception.SnailJobClientException;
+import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.grpc.GrpcClientInvokeHandler;
 import com.wingflare.engine.task.client.common.rpc.client.openapi.HttpClientInvokeHandler;
 import com.wingflare.engine.task.common.core.model.Result;
@@ -68,13 +68,13 @@ public class RequestBuilder<T, R extends Result<Object>> {
 
     public T build() {
         if (Objects.isNull(clintInterface)) {
-            throw new SnailJobClientException("clintInterface cannot be null");
+            throw new TaskClientException("clintInterface cannot be null");
         }
 
         try {
             clintInterface = (Class<T>) Class.forName(clintInterface.getName());
         } catch (Exception e) {
-            throw new SnailJobClientException("class not found exception to: [{}]", clintInterface.getName());
+            throw new TaskClientException("class not found exception to: [{}]", clintInterface.getName());
         }
 
         InvocationHandler invocationHandler;

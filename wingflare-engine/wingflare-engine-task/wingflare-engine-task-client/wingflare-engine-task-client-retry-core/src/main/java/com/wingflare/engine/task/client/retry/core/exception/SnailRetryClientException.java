@@ -1,12 +1,12 @@
 package com.wingflare.engine.task.client.retry.core.exception;
 
-import com.wingflare.engine.task.common.core.exception.BaseSnailJobException;
+import com.wingflare.engine.task.common.core.exception.BaseTaskException;
 
 /**
  * @author: opensnail
  * @date : 2022-03-03 14:49
  */
-public class SnailRetryClientException extends BaseSnailJobException {
+public class SnailRetryClientException extends BaseTaskException {
 
     public SnailRetryClientException(String message) {
         super(message);

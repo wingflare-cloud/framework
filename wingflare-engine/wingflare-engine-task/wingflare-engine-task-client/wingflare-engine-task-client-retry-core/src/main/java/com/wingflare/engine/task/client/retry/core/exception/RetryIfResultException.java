@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.client.retry.core.exception;
 
-import com.wingflare.engine.task.common.core.exception.BaseSnailJobException;
+import com.wingflare.engine.task.common.core.exception.BaseTaskException;
 
-public class RetryIfResultException extends BaseSnailJobException {
+public class RetryIfResultException extends BaseTaskException {
     public RetryIfResultException(String message) {
         super(message);
     }

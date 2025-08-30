@@ -4,7 +4,7 @@ import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
-import com.wingflare.engine.task.common.core.model.SnailJobRpcResult;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
@@ -28,7 +28,7 @@ public class SyncRemoteConfig implements Lifecycle {
 
     @Override
     public void start() {
-        CLIENT = RequestBuilder.<RpcClient, SnailJobRpcResult>newBuilder()
+        CLIENT = RequestBuilder.<RpcClient, TaskRpcResult>newBuilder()
                 .client(RpcClient.class)
                 .timeout(1000L)
                 .callback(rpcResult -> {

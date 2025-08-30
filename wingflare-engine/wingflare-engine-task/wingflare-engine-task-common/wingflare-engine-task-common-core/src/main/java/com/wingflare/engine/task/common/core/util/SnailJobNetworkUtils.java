@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core.util;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.core.network.SnailJobNetworkProperties;
+import com.wingflare.engine.task.common.core.network.TaskNetworkProperties;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 
 import java.io.IOException;
@@ -18,9 +18,9 @@ public class SnailJobNetworkUtils {
     private static final Pattern IPV4_PATTERN = Pattern.compile(
             "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
-    private final SnailJobNetworkProperties properties;
+    private final TaskNetworkProperties properties;
 
-    public SnailJobNetworkUtils(SnailJobNetworkProperties properties) {
+    public SnailJobNetworkUtils(TaskNetworkProperties properties) {
         this.properties = properties;
     }
 

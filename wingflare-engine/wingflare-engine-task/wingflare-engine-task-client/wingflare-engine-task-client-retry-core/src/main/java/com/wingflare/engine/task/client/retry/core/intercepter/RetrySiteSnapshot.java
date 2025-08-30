@@ -4,7 +4,7 @@ import com.wingflare.engine.task.client.retry.core.RetrySiteSnapshotContext;
 import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
+import com.wingflare.engine.task.common.core.model.TaskHeaders;
 
 import java.util.Deque;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class RetrySiteSnapshot {
     /**
      * 重试请求头
      */
-    private static final RetrySiteSnapshotContext<SnailJobHeaders> RETRY_HEADER = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<TaskHeaders> RETRY_HEADER = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 状态码
@@ -166,11 +166,11 @@ public class RetrySiteSnapshot {
         return EnumStatus.RUNNING.status == getStatus();
     }
 
-    public static SnailJobHeaders getRetryHeader() {
+    public static TaskHeaders getRetryHeader() {
         return RETRY_HEADER.get();
     }
 
-    public static void setRetryHeader(SnailJobHeaders headers) {
+    public static void setRetryHeader(TaskHeaders headers) {
         RETRY_HEADER.set(headers);
     }
 
@@ -178,7 +178,7 @@ public class RetrySiteSnapshot {
      * 是否是重试流量
      */
     public static boolean isRetryFlow() {
-        SnailJobHeaders retryHeader = getRetryHeader();
+        TaskHeaders retryHeader = getRetryHeader();
         if (Objects.nonNull(retryHeader)) {
             return retryHeader.isRetry();
         }
