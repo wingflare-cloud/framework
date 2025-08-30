@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @Author：srzou
  * @Package：com.wingflare.engine.task.server.web.socket
- * @Project：snail-job
+ * @Project：wingflare-task
  * @Date：2025/3/4 16:31
  * @Filename：LogServer
  * @since 1.5.0

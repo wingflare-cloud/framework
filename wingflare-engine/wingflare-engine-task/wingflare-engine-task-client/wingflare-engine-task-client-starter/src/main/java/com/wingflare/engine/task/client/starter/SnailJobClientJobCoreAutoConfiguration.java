@@ -38,7 +38,7 @@ public class SnailJobClientJobCoreAutoConfiguration {
             System.setProperty(SNAIL_JOB_CLIENT_HOST, host);
         }
 
-        SnailJobLog.LOCAL.info("Snail-Job 客户端IP为: {}" , host);
+        SnailJobLog.LOCAL.info("Wingflare-task 客户端IP为: {}" , host);
         return null; // 不需要实际的bean实例，只是触发配置
     }
 }

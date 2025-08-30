@@ -78,7 +78,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 try {
                     TaskFileUtil.downloadFile(scriptParams.getScriptParams(), script, 5000, 300000);
                 } catch (IOException e) {
-                    throw new TaskInnerExecutorException("[snail-job] Script download failed", e);
+                    throw new TaskInnerExecutorException("[wingflare-task] Script download failed", e);
                 }
                 return scriptPath;
             case SCRIPT_SCRIPT_CODE_METHOD:
@@ -86,11 +86,11 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 try {
                     writeScriptContent(script, scriptParams);
                 } catch (IOException e) {
-                    throw new TaskInnerExecutorException("[snail-job] Failed to write script", e);
+                    throw new TaskInnerExecutorException("[wingflare-task] Failed to write script", e);
                 }
                 return scriptPath;
             default:
-                throw new TaskInnerExecutorException("[snail-job] Please correctly choose the script execution method.");
+                throw new TaskInnerExecutorException("[wingflare-task] Please correctly choose the script execution method.");
         }
     }
 
@@ -109,7 +109,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 }
                 bw.flush();
             } catch (IOException e) {
-                throw new TaskInnerExecutorException("[snail-job] Local script write exception", e);
+                throw new TaskInnerExecutorException("[wingflare-task] Local script write exception", e);
             }
             return scriptPath;
         } else {
@@ -125,7 +125,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 TaskFileUtil.mkdirs(parentDir);
             }
         } catch (TaskInnerExecutorException e) {
-            throw new TaskInnerExecutorException("[snail-job] ensure script directory error", e);
+            throw new TaskInnerExecutorException("[wingflare-task] ensure script directory error", e);
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
             try {
                 return Charset.forName(charsetName);
             } catch (Exception e) {
-                logWarn("[snail-job] Invalid charset:{} . Using default charset.", charsetName);
+                logWarn("[wingflare-task] Invalid charset:{} . Using default charset.", charsetName);
             }
         }
         return getCharset();
@@ -153,7 +153,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
         try {
             chmodPb.start().waitFor();
         } catch (InterruptedException | IOException e) {
-            throw new TaskInnerExecutorException("[snail-job] Failed to set script permissions", e);
+            throw new TaskInnerExecutorException("[wingflare-task] Failed to set script permissions", e);
         }
         logInfo("chmod 755 authorization complete, ready to start execution~");
     }
@@ -167,7 +167,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
             process = pb.start();
             executeResult = captureOutput(process, scriptParams);
         } catch (IOException | InterruptedException e) {
-            throw new TaskInnerExecutorException("[snail-job] Script execution failed", e);
+            throw new TaskInnerExecutorException("[wingflare-task] Script execution failed", e);
         } finally {
             if (process.isAlive()) {
                 // 脚本执行失败 终止;
@@ -260,11 +260,11 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
 
     // Logging methods
     private void logInfo(String msg, Object... params) {
-        SnailJobLog.REMOTE.info("[snail-job] " + msg, params);
+        SnailJobLog.REMOTE.info("[wingflare-task] " + msg, params);
     }
 
     private void logWarn(String msg, Object... params) {
-        SnailJobLog.REMOTE.warn("[snail-job] " + msg, params);
+        SnailJobLog.REMOTE.warn("[wingflare-task] " + msg, params);
     }
 
     public static class SnailFileUtils {

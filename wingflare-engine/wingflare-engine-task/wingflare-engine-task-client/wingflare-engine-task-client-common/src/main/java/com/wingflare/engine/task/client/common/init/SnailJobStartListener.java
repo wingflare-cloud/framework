@@ -32,17 +32,16 @@ public class SnailJobStartListener implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if (isStarted) {
-            SnailJobLog.LOCAL.info("snail-job client already started v{}", TaskVersion.getVersion());
+            SnailJobLog.LOCAL.info("wingflare-task client already started v{}", TaskVersion.getVersion());
             return;
         }
 
-        System.out.println(MessageFormatter.format(SystemConstants.LOGO, TaskVersion.getVersion()).getMessage());
-        SnailJobLog.LOCAL.info("snail-job client is preparing to start... v{}", TaskVersion.getVersion());
+        SnailJobLog.LOCAL.info("wingflare-task client is preparing to start... v{}", TaskVersion.getVersion());
         SnailSpringContext.getContext().publishEvent(new SnailClientStartingEvent());
         lifecycleList.forEach(Lifecycle::start);
         SnailSpringContext.getContext().publishEvent(new SnailClientStartedEvent());
         isStarted = true;
-        SnailJobLog.LOCAL.info("snail-job client started successfully v{}", TaskVersion.getVersion());
+        SnailJobLog.LOCAL.info("wingflare-task client started successfully v{}", TaskVersion.getVersion());
     }
 
 }

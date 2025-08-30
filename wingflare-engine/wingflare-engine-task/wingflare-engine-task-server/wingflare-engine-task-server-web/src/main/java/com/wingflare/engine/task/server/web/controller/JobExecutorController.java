@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * @Author：srzou
  * @Package：com.wingflare.engine.task.server.web.controller
- * @Project：snail-job
+ * @Project：wingflare-task
  * @Date：2025/6/3 13:17
  * @Filename：JobExecutorController
  * @since 1.6.0

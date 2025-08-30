@@ -139,7 +139,7 @@ public class GrpcClientInvokeHandler<R extends Result<Object>> implements Invoca
             threadPool.getMaximumPoolSize(), threadPool.getKeepAliveTime(), TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(threadPool.getQueueCapacity()),
             new ThreadFactoryBuilder().setDaemon(true)
-                .setNameFormat("snail-job-grpc-client-executor-" + serverIp + "-%d")
+                .setNameFormat("wingflare-task-grpc-client-executor-" + serverIp + "-%d")
                 .build());
         grpcExecutor.allowCoreThreadTimeOut(true);
         return grpcExecutor;

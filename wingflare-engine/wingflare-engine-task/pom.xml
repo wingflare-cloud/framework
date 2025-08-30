@@ -154,6 +154,24 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-common-core</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-common-log</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-common-model</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

@@ -108,11 +108,11 @@ public class ManualRetryStrategies extends AbstractRetryStrategies {
                     @Override
                     public <V> void onRetry(Attempt<V> attempt) {
                         if (attempt.hasResult()) {
-                            SnailJobLog.LOCAL.info("snail-job manually created retry data successfully, scheduled for the [{}] time", attempt.getAttemptNumber());
+                            SnailJobLog.LOCAL.info("wingflare-task manually created retry data successfully, scheduled for the [{}] time", attempt.getAttemptNumber());
                         }
 
                         if (attempt.hasException()) {
-                            SnailJobLog.LOCAL.error(" Manually creating retry data for snail-job failed, attempt [{}]", attempt.getAttemptNumber(),
+                            SnailJobLog.LOCAL.error(" Manually creating retry data for wingflare-task failed, attempt [{}]", attempt.getAttemptNumber(),
                                     attempt.getExceptionCause());
                         }
 

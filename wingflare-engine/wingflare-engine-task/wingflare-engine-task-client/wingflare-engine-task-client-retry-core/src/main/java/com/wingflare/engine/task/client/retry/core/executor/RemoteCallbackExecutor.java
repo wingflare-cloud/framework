@@ -11,7 +11,6 @@ import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -28,7 +27,6 @@ import java.util.Objects;
  * @date 2025-02-12
  */
 @Component
-@RequiredArgsConstructor
 public class RemoteCallbackExecutor {
 
     /**

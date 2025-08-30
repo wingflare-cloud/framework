@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 /**
  * @Author：srzou
  * @Package：com.wingflare.engine.task.server.job.support.timer
- * @Project：snail-job
+ * @Project：wingflare-task
  * @Date：2025/3/24 14:00
  * @Filename：LogTimerWheel
  * @since 1.5.0

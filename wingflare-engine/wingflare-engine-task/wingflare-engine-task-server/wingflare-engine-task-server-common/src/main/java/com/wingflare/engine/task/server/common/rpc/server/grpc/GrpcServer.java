@@ -96,12 +96,12 @@ public class GrpcServer implements Lifecycle {
         try {
             server.start();
             this.started = true;
-            SnailJobLog.LOCAL.info("------> snail-job remoting server start success, grpc = {}, port = {}",
+            SnailJobLog.LOCAL.info("------> wingflare-task remoting server start success, grpc = {}, port = {}",
                     GrpcServer.class.getName(), systemProperties.getServerPort());
         } catch (IOException e) {
-            SnailJobLog.LOCAL.error("--------> snail-job remoting server error.", e);
+            SnailJobLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
             started = false;
-            throw new TaskServerException("snail-job server start error");
+            throw new TaskServerException("wingflare-task server start error");
         }
     }
 
@@ -146,7 +146,7 @@ public class GrpcServer implements Lifecycle {
         ThreadPoolExecutor grpcExecutor = new ThreadPoolExecutor(threadPool.getCorePoolSize(),
                 threadPool.getMaximumPoolSize(), threadPool.getKeepAliveTime(), TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(threadPool.getQueueCapacity()),
-                new ThreadFactoryBuilder().setDaemon(true).setNameFormat("snail-job-grpc-server-executor-%d")
+                new ThreadFactoryBuilder().setDaemon(true).setNameFormat("wingflare-task-grpc-server-executor-%d")
                         .build());
         grpcExecutor.allowCoreThreadTimeOut(true);
         return grpcExecutor;

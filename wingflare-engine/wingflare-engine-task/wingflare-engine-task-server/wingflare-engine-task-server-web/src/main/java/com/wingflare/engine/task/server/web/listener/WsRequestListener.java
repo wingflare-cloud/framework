@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 /**
  * @Author：srzou
  * @Package：com.wingflare.engine.task.server.web.listener
- * @Project：snail-job
+ * @Project：wingflare-task
  * @Date：2025/3/18 10:56
  * @Filename：WsRequestListener
  * @since 1.5.0

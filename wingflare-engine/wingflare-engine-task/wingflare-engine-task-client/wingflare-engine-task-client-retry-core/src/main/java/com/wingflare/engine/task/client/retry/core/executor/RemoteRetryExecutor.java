@@ -5,13 +5,13 @@ import com.wingflare.engine.task.client.retry.core.context.RemoteRetryContext;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.log.RetryLogMeta;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
+import com.wingflare.engine.task.client.retry.core.strategy.RemoteRetryStrategies;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.dto.DispatchRetryResultDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -25,9 +25,12 @@ import java.util.Objects;
  * @date 2025-02-11
  */
 @Component
-@RequiredArgsConstructor
 public class RemoteRetryExecutor {
     private final RetryStrategy remoteRetryStrategies;
+
+    public RemoteRetryExecutor(RemoteRetryStrategies remoteRetryStrategies) {
+        this.remoteRetryStrategies = remoteRetryStrategies;
+    }
 
     /**
      * 执行远程重试

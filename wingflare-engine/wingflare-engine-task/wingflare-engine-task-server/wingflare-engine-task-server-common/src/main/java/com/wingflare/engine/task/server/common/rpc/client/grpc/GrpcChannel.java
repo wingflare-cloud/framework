@@ -139,7 +139,7 @@ public class GrpcChannel {
         ThreadPoolExecutor grpcExecutor = new ThreadPoolExecutor(clientTp.getCorePoolSize(),
                 clientTp.getMaximumPoolSize(), clientTp.getKeepAliveTime(), TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(clientTp.getQueueCapacity()),
-                new ThreadFactoryBuilder().setDaemon(true).setNameFormat("snail-job-grpc-client-executor-%d")
+                new ThreadFactoryBuilder().setDaemon(true).setNameFormat("wingflare-task-grpc-client-executor-%d")
                         .build());
         grpcExecutor.allowCoreThreadTimeOut(true);
         return grpcExecutor;

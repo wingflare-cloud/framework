@@ -96,7 +96,7 @@ public class SnailJobGrpcClient implements Lifecycle {
         ThreadPoolExecutor grpcExecutor = new ThreadPoolExecutor(threadPool.getCorePoolSize(),
             threadPool.getMaximumPoolSize(), threadPool.getKeepAliveTime(), TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(threadPool.getQueueCapacity()),
-            new ThreadFactoryBuilder().setDaemon(true).setNameFormat("snail-job-grpc-client-executor-" + serverIp + "-%d")
+            new ThreadFactoryBuilder().setDaemon(true).setNameFormat("wingflare-task-grpc-client-executor-" + serverIp + "-%d")
                 .build());
         grpcExecutor.allowCoreThreadTimeOut(true);
         return grpcExecutor;

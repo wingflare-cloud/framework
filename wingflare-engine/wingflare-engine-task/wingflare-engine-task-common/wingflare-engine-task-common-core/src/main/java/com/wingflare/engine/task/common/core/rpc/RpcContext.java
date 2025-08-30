@@ -36,7 +36,7 @@ public final class RpcContext {
 
     static {
         WHEEL_TIMER = new HashedWheelTimer(
-                new CustomizableThreadFactory("snail-job-rpc-timeout-"), 1,
+                new CustomizableThreadFactory("wingflare-task-rpc-timeout-"), 1,
                 TimeUnit.SECONDS, 1024);
     }
 

@@ -29,13 +29,13 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication(scanBasePackages = {"com.wingflare.engine.task.server.starter.*"})
 @EnableTransactionManagement(proxyTargetClass = true)
-public class SnailJobServerApplication {
+public class TaskEngineServerApplication {
 
-    private final static Logger log = LoggerFactory.getLogger(SnailJobServerApplication.class);
+    private final static Logger log = LoggerFactory.getLogger(TaskEngineServerApplication.class);
 
     public static void main(String[] args) {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
-        SpringApplication.run(SnailJobServerApplication.class, args);
+        SpringApplication.run(TaskEngineServerApplication.class, args);
     }
 
     @Bean
@@ -47,17 +47,17 @@ public class SnailJobServerApplication {
             // 最长自旋10秒，保证 grpcHttpServer启动完成
             int waitCount = 0;
             while (!started && waitCount < 100) {
-                log.info("--------> snail-job server is staring....");
+                log.info("--------> wingflare-task server is staring....");
                 TimeUnit.MILLISECONDS.sleep(100);
                 waitCount++;
                 started = grpcServer.isStarted();
             }
 
             if (!started) {
-                log.error("--------> snail-job server startup failure.");
+                log.error("--------> wingflare-task server startup failure.");
                 // Netty启动失败，停止Web服务和Spring Boot应用程序
                 serverFactory.getWebServer().stop();
-                SpringApplication.exit(SpringApplication.run(SnailJobServerApplication.class));
+                SpringApplication.exit(SpringApplication.run(TaskEngineServerApplication.class));
             }
         };
     }

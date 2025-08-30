@@ -19,4 +19,16 @@
 
     <artifactId>wingflare-engine-task-client</artifactId>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-client-common</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
 </project>

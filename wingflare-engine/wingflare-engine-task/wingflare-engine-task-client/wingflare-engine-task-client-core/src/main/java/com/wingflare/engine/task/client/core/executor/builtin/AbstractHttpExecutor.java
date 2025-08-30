@@ -61,7 +61,7 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
         try (HttpResponse response = httpRequest.execute()) {
             return validateResponse(response, httpRequest, snailJobProperties.getHttpResponse());
         } catch (Exception e) {
-            throw new TaskInnerExecutorException("[snail-job] HTTP internal executor failed", e);
+            throw new TaskInnerExecutorException("[wingflare-task] HTTP internal executor failed", e);
         }
     }
 
@@ -302,11 +302,11 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
 
     // Logging methods
     private void logInfo(String msg, Object... params) {
-        SnailJobLog.REMOTE.info("[snail-job] " + msg, params);
+        SnailJobLog.REMOTE.info("[wingflare-task] " + msg, params);
     }
 
     private void logWarn(String msg, Object... params) {
-        SnailJobLog.REMOTE.warn("[snail-job] " + msg, params);
+        SnailJobLog.REMOTE.warn("[wingflare-task] " + msg, params);
     }
 
     @Override

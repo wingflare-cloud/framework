@@ -26,7 +26,7 @@ public class SnailJobServerCommonAutoConfiguration {
     public TaskScheduler scheduledExecutorService() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(4);
-        scheduler.setThreadNamePrefix("snail-job-scheduled-thread-");
+        scheduler.setThreadNamePrefix("wingflare-task-scheduled-thread-");
         return scheduler;
     }
 
@@ -34,7 +34,7 @@ public class SnailJobServerCommonAutoConfiguration {
     public TaskScheduler alarmExecutorService() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
         scheduler.setPoolSize(4);
-        scheduler.setThreadNamePrefix("snail-job-alarm-thread-");
+        scheduler.setThreadNamePrefix("wingflare-task-alarm-thread-");
         return scheduler;
     }
 

@@ -24,8 +24,8 @@ public class EndListener implements ApplicationListener<ContextClosedEvent> {
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        SnailJobLog.LOCAL.info("snail-job client about to shutdown v{}", TaskVersion.getVersion());
+        SnailJobLog.LOCAL.info("wingflare-task client about to shutdown v{}", TaskVersion.getVersion());
         lifecycleList.forEach(Lifecycle::close);
-        SnailJobLog.LOCAL.info("snail-job client closed successfully v{}", TaskVersion.getVersion());
+        SnailJobLog.LOCAL.info("wingflare-task client closed successfully v{}", TaskVersion.getVersion());
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationEvent;
 /**
  * @Author：srzou
  * @Package：com.wingflare.engine.task.server.web.model.request
- * @Project：snail-job
+ * @Project：wingflare-task
  * @Date：2025/3/5 16:54
  * @Filename：WebSocketRequestVO
  * @since 1.5.0

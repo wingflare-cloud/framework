@@ -18,7 +18,7 @@ import static com.wingflare.task.datasource.template.utils.DbUtils.getDbType;
 /**
  * @Author：srzou
  * @Package：com.wingflare.task.datasource.template.access.job
- * @Project：snail-job
+ * @Project：wingflare-task
  * @Date：2025/6/3 9:51
  * @Filename：JobExecutorAccess
  */

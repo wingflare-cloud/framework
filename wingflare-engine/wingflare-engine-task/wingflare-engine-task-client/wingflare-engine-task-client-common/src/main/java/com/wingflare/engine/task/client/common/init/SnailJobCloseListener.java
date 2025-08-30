@@ -32,10 +32,10 @@ public class SnailJobCloseListener implements ApplicationListener<ContextClosedE
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        log.info("snail-job client about to shutdown v{}", TaskVersion.getVersion());
+        log.info("wingflare-task client about to shutdown v{}", TaskVersion.getVersion());
         SnailSpringContext.getContext().publishEvent(new SnailClientClosingEvent());
         lifecycleList.forEach(Lifecycle::close);
         SnailSpringContext.getContext().publishEvent(new SnailClientClosedEvent());
-        log.info("snail-job client closed successfully v{}", TaskVersion.getVersion());
+        log.info("wingflare-task client closed successfully v{}", TaskVersion.getVersion());
     }
 }

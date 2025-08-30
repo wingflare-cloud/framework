@@ -6,6 +6,7 @@ import com.wingflare.engine.task.client.retry.core.intercepter.SnailRetryPointcu
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Advisor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -24,13 +25,7 @@ import org.springframework.core.env.StandardEnvironment;
 @ConditionalOnProperty(prefix = "snail-job", name = "enabled", havingValue = "true")
 public class SnailJobClientRetryCoreAutoConfiguration {
 
-    @Bean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor snailJobPointcutAdvisor(MethodInterceptor snailJobInterceptor) {
-        return new SnailRetryPointcutAdvisor(snailJobInterceptor);
-    }
-
-    @Bean
+    @Bean("snailRetryInterceptor")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public MethodInterceptor snailJobInterceptor(StandardEnvironment standardEnvironment,
                                                  @Lazy RetryStrategy localRetryStrategies) {
@@ -38,6 +33,12 @@ public class SnailJobClientRetryCoreAutoConfiguration {
                 .getProperty(SnailJobClientsRegistrar.AOP_ORDER_CONFIG, Integer.class, Ordered.HIGHEST_PRECEDENCE);
 
         return new SnailRetryInterceptor(order, localRetryStrategies);
+    }
+
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    public Advisor snailJobPointcutAdvisor(@Qualifier("snailRetryInterceptor") MethodInterceptor snailJobInterceptor) {
+        return new SnailRetryPointcutAdvisor(snailJobInterceptor);
     }
 
 }
