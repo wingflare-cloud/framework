@@ -1,6 +1,5 @@
 package com.wingflare.engine.task.common.core.window;
 
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * 特别声明: LeapArray的设计实现是使用了Sentinelv1.8.0版本的的LeapArray
  * see https://github.com/alibaba/Sentinel/blob/v1.8.0/sentinel-core/src/main/java/com/alibaba/csp/sentinel/slots/statistic/base/LeapArray.java
  */
-@Slf4j
 public abstract class LeapArray<T> {
 
     protected int windowLengthInMs;

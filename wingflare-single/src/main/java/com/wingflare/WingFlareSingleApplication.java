@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisIndexedHttpSession;
 
+import java.util.TimeZone;
+
 
 @BaseConfig
 @EnableDataSensitive
@@ -34,6 +36,7 @@ public class WingFlareSingleApplication {
 
     public static void main(String[] args) {
         try {
+            TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
             SpringApplication application = new SpringApplication(WingFlareSingleApplication.class);
             application.setBannerMode(Banner.Mode.OFF);
             application.run(args);

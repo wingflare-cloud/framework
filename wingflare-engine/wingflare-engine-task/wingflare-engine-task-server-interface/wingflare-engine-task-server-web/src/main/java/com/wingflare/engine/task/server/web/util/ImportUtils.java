@@ -1,0 +1,34 @@
+package com.wingflare.engine.task.server.web.util;
+
+import cn.hutool.core.io.FileUtil;
+import com.wingflare.engine.task.common.core.exception.SnailJobCommonException;
+import com.wingflare.engine.task.common.core.util.JsonUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+
+
+public final class ImportUtils {
+
+    private static final List<String> FILE_EXTENSIONS = List.of("json");
+
+    public static @NotNull <VO> List<VO> parseList(MultipartFile file, Class<VO> clazz) throws IOException {
+        if (file.isEmpty()) {
+            throw new SnailJobCommonException("Please select a file to upload");
+        }
+
+        // 保存文件到服务器
+        String suffix = FileUtil.getSuffix(file.getOriginalFilename());
+        if (!FILE_EXTENSIONS.contains(suffix)) {
+            throw new SnailJobCommonException("File type error");
+        }
+
+        JsonNode node = JsonUtil.toJson(file.getBytes());
+        return JsonUtil.parseList(JsonUtil.toJsonString(node), clazz);
+    }
+}
+
+

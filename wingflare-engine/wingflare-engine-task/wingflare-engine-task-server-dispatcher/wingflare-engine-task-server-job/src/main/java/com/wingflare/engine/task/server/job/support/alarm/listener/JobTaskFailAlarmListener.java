@@ -1,0 +1,110 @@
+package com.wingflare.engine.task.server.job.support.alarm.listener;
+
+import com.wingflare.engine.task.common.core.alarm.AlarmContext;
+import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
+import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
+import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.server.common.alarm.AbstractJobAlarm;
+import com.wingflare.engine.task.server.common.dto.JobAlarmInfo;
+import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
+import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
+import com.wingflare.engine.task.server.common.util.DateUtils;
+import com.wingflare.engine.task.server.job.dto.JobTaskFailAlarmEventDTO;
+import com.wingflare.engine.task.server.job.support.JobTaskConverter;
+import com.wingflare.engine.task.server.job.support.alarm.event.JobTaskFailAlarmEvent;
+import com.google.common.collect.Lists;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+
+/**
+ * JOB任务执行失败告警
+ *
+ * @author: zuoJunLin
+ * @date : 2023-12-02 21:40
+ * @since 2.5.0
+ */
+@Component
+public class JobTaskFailAlarmListener extends AbstractJobAlarm<JobTaskFailAlarmEvent> {
+
+    /**
+     * job任务失败数据
+     */
+    private final LinkedBlockingQueue<JobTaskFailAlarmEventDTO> queue = new LinkedBlockingQueue<>(1000);
+
+    private static final String MESSAGES_FORMATTER = """
+               <font face=微软雅黑 color=#ff0000 size=4>{}环境 Job任务执行失败</font>\s
+                        > 空间ID:{} \s
+                        > 组名称:{} \s
+                        > 任务名称:{} \s
+                        > 执行器名称:{} \s
+                        > 通知场景:{} \s
+                        > 失败原因:{} \s
+                        > 方法参数:{} \s
+                        > 时间:{};
+            """;
+
+    @Override
+    protected List<JobAlarmInfo> poll() throws InterruptedException {
+        // 无数据时阻塞线程
+        JobTaskFailAlarmEventDTO jobTaskFailAlarmEventDTO = queue.poll(100, TimeUnit.MILLISECONDS);
+        if (Objects.isNull(jobTaskFailAlarmEventDTO)) {
+            return Lists.newArrayList();
+        }
+
+        // 拉取200条
+        ArrayList<JobTaskFailAlarmEventDTO> lists = Lists.newArrayList(jobTaskFailAlarmEventDTO);
+        queue.drainTo(lists, 200);
+
+        // 数据类型转换
+        return JobTaskConverter.INSTANCE.toJobTaskFailAlarmEventDTO(lists);
+    }
+
+    @Override
+    protected AlarmContext buildAlarmContext(JobAlarmInfo alarmDTO, NotifyConfigInfo notifyConfig) {
+
+        // 预警
+        return AlarmContext.build()
+                .text(MESSAGES_FORMATTER,
+                        EnvironmentUtils.getActiveProfile(),
+                        alarmDTO.getNamespaceId(),
+                        alarmDTO.getGroupName(),
+                        alarmDTO.getJobName(),
+                        alarmDTO.getExecutorInfo(),
+                        JobNotifySceneEnum.getJobNotifyScene(alarmDTO.getNotifyScene()).getDesc(),
+                        alarmDTO.getReason(),
+                        alarmDTO.getArgsStr(),
+                        DateUtils.toNowFormat(DateUtils.NORM_DATETIME_PATTERN))
+                .title("{} environment JOB task failed", EnvironmentUtils.getActiveProfile());
+    }
+
+    @Override
+    protected void startLog() {
+        SnailJobLog.LOCAL.info("JobTaskFailAlarmListener started");
+    }
+
+    @Override
+    protected int getNotifyScene() {
+        return JobNotifySceneEnum.JOB_TASK_ERROR.getNotifyScene();
+    }
+
+    @Override
+    protected List<SyetemTaskTypeEnum> getSystemTaskType() {
+        return Lists.newArrayList(SyetemTaskTypeEnum.JOB);
+    }
+
+    @Override
+    @TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.AFTER_COMPLETION)
+    public void doOnApplicationEvent(JobTaskFailAlarmEvent jobTaskFailAlarmEvent) {
+        if (!queue.offer(jobTaskFailAlarmEvent.getJobTaskFailAlarmEventDTO())) {
+            SnailJobLog.LOCAL.warn("JOB task execution failure, alert queue is full");
+        }
+    }
+}

@@ -1,0 +1,40 @@
+package com.wingflare.engine.task.server.web.service;
+
+import com.wingflare.engine.task.server.web.model.base.PageResult;
+import com.wingflare.engine.task.server.web.model.request.*;
+import com.wingflare.engine.task.server.web.model.response.JobResponseWebVO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
+
+/**
+ * @author opensnail
+ * @date 2023-10-11 22:20:23
+ * @since 2.4.0
+ */
+public interface JobWebService {
+    PageResult<List<JobResponseWebVO>> getJobPage(JobQueryVO jobQueryVO);
+
+//    JobResponseVO getJobDetail(Long id);
+
+//    boolean saveJob(JobRequestVO jobRequestVO);
+
+//    boolean updateJob(JobRequestVO jobRequestVO);
+
+//    Boolean updateJobStatus(JobStatusUpdateRequestVO jobRequestVO);
+
+    List<String> getTimeByCron(String cron);
+
+    List<JobResponseWebVO> getJobNameList(String keywords, Long jobId, String groupName);
+
+//    boolean trigger(JobTriggerVO jobTrigger);
+
+    List<JobResponseWebVO> getJobList(String groupName);
+
+    void importJobs(@Valid @NotEmpty(message = "Import data cannot be empty") List<JobRequestWebVO> requestList);
+
+    String exportJobs(ExportJobVO exportJobVO);
+
+//    Boolean deleteJobByIds(Set<Long> ids);
+}

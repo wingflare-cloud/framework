@@ -2,8 +2,6 @@ package com.wingflare.engine.task.common.core.util;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Collection;
@@ -26,7 +24,6 @@ import java.util.stream.Stream;
  *
  * @author Lion Li
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class StreamUtils {
 
     public static final String SEPARATOR = ",";

@@ -1,0 +1,22 @@
+package com.wingflare.engine.task.server.web.service.convert;
+
+import com.wingflare.engine.task.server.web.model.response.ServerNodeResponseVO;
+import com.wingflare.task.datasource.template.persistence.po.ServerNode;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * @author opensnail
+ * @date 2023-06-06
+ * @since 2.0
+ */
+@Mapper
+public interface ServerNodeResponseVOConverter {
+
+    ServerNodeResponseVOConverter INSTANCE = Mappers.getMapper(ServerNodeResponseVOConverter.class);
+
+    List<ServerNodeResponseVO> convertList(List<ServerNode> serverNodes);
+
+}

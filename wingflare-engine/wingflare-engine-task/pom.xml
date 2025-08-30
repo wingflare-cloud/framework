@@ -17,6 +17,10 @@
         <module>wingflare-engine-task-common</module>
         <module>wingflare-engine-task-client</module>
         <module>wingflare-engine-task-client-starter</module>
+        <module>wingflare-engine-task-datasource</module>
+        <module>wingflare-engine-task-server-dispatcher</module>
+        <module>wingflare-engine-task-server-interface</module>
+        <module>wingflare-engine-task-server-starter</module>
     </modules>
 
     <properties>
@@ -28,6 +32,11 @@
         <zstd.version>1.5.5-5</zstd.version>
         <guava-retrying.version>2.0.0</guava-retrying.version>
         <guava.version>33.3.0-jre</guava.version>
+        <pekko.version>1.2.0-M1</pekko.version>
+        <scala.version>2.13.9</scala.version>
+        <perf4j.version>0.9.16</perf4j.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
     </properties>
 
     <dependencyManagement>
@@ -104,6 +113,48 @@
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-util</artifactId>
                 <version>${grpc-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.pekko</groupId>
+                <artifactId>pekko-actor-typed_2.13</artifactId>
+                <version>${pekko.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.pekko</groupId>
+                <artifactId>pekko-actor-testkit-typed_2.13</artifactId>
+                <version>${pekko.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.perf4j</groupId>
+                <artifactId>perf4j</artifactId>
+                <version>${perf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-template</artifactId>
+                <version>${project.parent.version}</version>
             </dependency>
 
         </dependencies>

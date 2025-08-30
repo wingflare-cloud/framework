@@ -1,0 +1,42 @@
+package com.wingflare.engine.task.server.web.service;
+
+import com.wingflare.engine.task.server.web.model.base.PageResult;
+import com.wingflare.engine.task.server.web.model.request.ExportGroupVO;
+import com.wingflare.engine.task.server.web.model.request.GroupConfigQueryVO;
+import com.wingflare.engine.task.server.web.model.request.GroupConfigRequestVO;
+import com.wingflare.engine.task.server.web.model.response.GroupConfigResponseVO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
+
+/**
+ * @author: opensnail
+ * @date : 2021-11-22 14:53
+ */
+public interface GroupConfigService {
+
+    Boolean addGroup(GroupConfigRequestVO groupConfigRequestVO);
+
+    Boolean updateGroup(GroupConfigRequestVO groupConfigRequestVO);
+
+    Boolean updateGroupStatus(String groupName, Integer status);
+
+    PageResult<List<GroupConfigResponseVO>> getGroupConfigForPage(GroupConfigQueryVO queryVO);
+
+    GroupConfigResponseVO getGroupConfigByGroupName(String groupName);
+
+    List<GroupConfigResponseVO> getAllGroupConfigList(final List<String> namespaceId);
+
+    List<String> getAllGroupNameList();
+
+    List<String> getOnlinePods(String groupName);
+
+    List<Integer> getTablePartitionList();
+
+    void importGroup(@Valid @NotEmpty(message = "Import data cannot be empty") List<GroupConfigRequestVO> requestVOS);
+
+    String exportGroup(ExportGroupVO exportGroupVO);
+
+    boolean deleteByGroupName(String groupName);
+}

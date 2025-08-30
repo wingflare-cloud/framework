@@ -1,0 +1,15 @@
+package com.wingflare.engine.task.server.openapi.service;
+
+
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author opensnail
+ * @date 2025-07-06
+ */
+public interface JobApiService {
+
+}

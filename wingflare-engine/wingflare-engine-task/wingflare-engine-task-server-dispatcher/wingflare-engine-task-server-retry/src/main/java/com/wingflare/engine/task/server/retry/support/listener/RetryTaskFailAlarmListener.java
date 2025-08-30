@@ -1,0 +1,111 @@
+package com.wingflare.engine.task.server.retry.support.listener;
+
+import com.wingflare.engine.task.common.core.alarm.AlarmContext;
+import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
+import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
+import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.server.common.Lifecycle;
+import com.wingflare.engine.task.server.common.alarm.AbstractRetryAlarm;
+import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
+import com.wingflare.engine.task.server.common.dto.RetryAlarmInfo;
+import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
+import com.wingflare.engine.task.server.common.util.DateUtils;
+import com.wingflare.engine.task.server.retry.dto.RetryTaskFailAlarmEventDTO;
+import com.wingflare.engine.task.server.retry.support.RetryTaskConverter;
+import com.wingflare.engine.task.server.retry.support.event.RetryTaskFailAlarmEvent;
+import com.google.common.collect.Lists;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * 重试任务失败监听器
+ *
+ * @author: zhengweilin
+ * @date : 2024-12-13 16:57
+ * @since 1.3.0
+ */
+@Component
+public class RetryTaskFailAlarmListener extends
+        AbstractRetryAlarm<RetryTaskFailAlarmEvent> implements Runnable, Lifecycle {
+
+    /**
+     * 死信告警数据
+     */
+    private final LinkedBlockingQueue<RetryTaskFailAlarmEventDTO> queue = new LinkedBlockingQueue<>(1000);
+
+    private static final String retryTaskDeadTextMessagesFormatter =
+            "<font face=\"微软雅黑\" color=#ff0000 size=4>{}环境 重试任务执行失败</font>  \n" +
+                    "> 任务重试次数:{}  \n" +
+                    "> 通知场景:{}  \n" +
+                    "> 空间ID:{}  \n" +
+                    "> 组名称:{}  \n" +
+                    "> 执行器名称:{}  \n" +
+                    "> 场景名称:{}  \n" +
+                    "> 业务数据:{}  \n" +
+                    "> 时间:{}  \n" +
+                    "> 失败原因:{}  \n";
+
+    @Override
+    protected List<SyetemTaskTypeEnum> getSystemTaskType() {
+        return Lists.newArrayList(SyetemTaskTypeEnum.RETRY);
+    }
+
+    @Override
+    protected List<RetryAlarmInfo> poll() throws InterruptedException {
+        // 无数据时阻塞线程
+        RetryTaskFailAlarmEventDTO retryTaskFailAlarmEventDO = queue.poll(100, TimeUnit.MILLISECONDS);
+        if (Objects.isNull(retryTaskFailAlarmEventDO)) {
+            return Lists.newArrayList();
+        }
+
+        // 拉取200条
+        List<RetryTaskFailAlarmEventDTO> lists = Lists.newArrayList(retryTaskFailAlarmEventDO);
+        queue.drainTo(lists, 200);
+
+        // 数据类型转换
+        return RetryTaskConverter.INSTANCE.toRetryTaskFailAlarmEventDTO(lists);
+    }
+
+    @Override
+    @TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.AFTER_COMPLETION)
+    public void doOnApplicationEvent(RetryTaskFailAlarmEvent retryTaskFailAlarmEvent) {
+        if (!queue.offer(retryTaskFailAlarmEvent.getRetryTaskFailAlarmEventDTO())) {
+            SnailJobLog.LOCAL.warn("Task retry failure, alert queue is full");
+        }
+    }
+
+    @Override
+    protected AlarmContext buildAlarmContext(final RetryAlarmInfo retryAlarmInfo, final NotifyConfigInfo notifyConfig) {
+
+        // 预警
+        return AlarmContext.build().text(retryTaskDeadTextMessagesFormatter,
+                        EnvironmentUtils.getActiveProfile(),
+                        notifyConfig.getNotifyThreshold(),
+                        RetryNotifySceneEnum.getRetryNotifyScene(retryAlarmInfo.getNotifyScene()).getDesc(),
+                        retryAlarmInfo.getNamespaceId(),
+                        retryAlarmInfo.getGroupName(),
+                        retryAlarmInfo.getExecutorName(),
+                        retryAlarmInfo.getSceneName(),
+                        retryAlarmInfo.getArgsStr(),
+                        DateUtils.toNowFormat(DateUtils.NORM_DATETIME_PATTERN),
+                        retryAlarmInfo.getReason())
+                .title("Group:[{}] Scenario:[{}] Environment retry task fails",
+                        retryAlarmInfo.getGroupName(), retryAlarmInfo.getSceneName());
+    }
+
+    @Override
+    protected void startLog() {
+        SnailJobLog.LOCAL.info("RetryTaskFailAlarmListener started");
+    }
+
+    @Override
+    protected int getNotifyScene() {
+        return RetryNotifySceneEnum.RETRY_TASK_FAIL_ERROR.getNotifyScene();
+    }
+}

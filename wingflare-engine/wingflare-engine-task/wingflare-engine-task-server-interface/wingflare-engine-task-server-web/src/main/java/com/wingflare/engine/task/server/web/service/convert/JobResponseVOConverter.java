@@ -1,0 +1,69 @@
+package com.wingflare.engine.task.server.web.service.convert;
+
+import com.wingflare.engine.task.common.core.util.JsonUtil;
+import com.wingflare.engine.task.server.common.dto.PointInTimeDTO;
+import com.wingflare.engine.task.server.common.strategy.WaitStrategies;
+import com.wingflare.engine.task.server.common.util.DateUtils;
+import com.wingflare.engine.task.server.web.model.response.JobResponseWebVO;
+import com.wingflare.task.datasource.template.persistence.po.Job;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author opensnail
+ * @date 2023-10-11 22:50:40
+ * @since 2.4.0
+ */
+@Mapper
+public interface JobResponseVOConverter {
+
+    JobResponseVOConverter INSTANCE = Mappers.getMapper(JobResponseVOConverter.class);
+
+    @Mappings({
+            @Mapping(target = "notifyIds", expression = "java(JobConverter.toNotifyIds(job.getNotifyIds()))")
+    })
+    List<JobResponseWebVO> convertList(List<Job> jobs);
+
+    @Mappings({
+            @Mapping(target = "nextTriggerAt", expression = "java(JobResponseVOConverter.toLocalDateTime(job.getNextTriggerAt()))"),
+            @Mapping(target = "notifyIds", expression = "java(JobConverter.toNotifyIds(job.getNotifyIds()))"),
+            @Mapping(target = "triggerInterval", expression = "java(JobResponseVOConverter.toTriggerInterval(job))"),
+            @Mapping(target = "ownerId", expression = "java(JobResponseVOConverter.getOwnerId(job))")
+    })
+    JobResponseWebVO convert(Job job);
+
+    static Long getOwnerId(Job job) {
+        return Objects.nonNull(job.getOwnerId()) && job.getOwnerId() > 0 ? job.getOwnerId() : null;
+    }
+
+    static LocalDateTime toLocalDateTime(Long nextTriggerAt) {
+        if (Objects.isNull(nextTriggerAt) || nextTriggerAt == 0) {
+            return null;
+        }
+
+        return DateUtils.toLocalDateTime(nextTriggerAt);
+    }
+
+    static String toTriggerInterval(Job job) {
+        String triggerInterval = job.getTriggerInterval();
+        Integer triggerType = job.getTriggerType();
+
+        if (WaitStrategies.WaitStrategyEnum.POINT_IN_TIME.getType().equals(triggerType)) {
+            List<PointInTimeDTO> pointInTimeDTOS = JsonUtil.parseList(triggerInterval, PointInTimeDTO.class);
+            List<String> timeStrList = pointInTimeDTOS
+                    .stream()
+                    .map(time -> DateUtils.format(DateUtils.toLocalDateTime(time.getTime())))
+                    .toList();
+            return JsonUtil.toJsonString(timeStrList);
+        }
+
+        return triggerInterval;
+
+    }
+}

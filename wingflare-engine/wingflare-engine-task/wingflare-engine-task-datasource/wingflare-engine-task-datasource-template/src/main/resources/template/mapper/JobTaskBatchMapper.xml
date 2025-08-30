@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper">
+
+    <select id="selectJobBatchPageList"
+        parameterType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchQueryDO"
+        resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchResponseDO">
+        SELECT batch.*,
+               job.job_name,
+               job.task_type,
+               job.block_strategy,
+               job.trigger_type,
+               job.executor_type,
+               job.executor_info
+          FROM sj_job_task_batch batch
+                JOIN sj_job job ON batch.job_id = job.id
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="selectJobBatchSummaryList"
+            resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO">
+        SELECT namespace_id                                             AS namespaceId,
+               job_id                                                   AS jobId,
+               group_name                                               AS groupName,
+               task_batch_status                                        AS taskBatchStatus,
+               operation_reason                                         AS operationReason,
+               COUNT(operation_reason)                                  AS operationReasonTotal,
+               SUM(CASE WHEN (task_batch_status = 3) THEN 1 ELSE 0 END) AS successNum,
+               SUM(CASE WHEN (task_batch_status = 6) THEN 1 ELSE 0 END) AS cancelNum,
+               SUM(CASE WHEN (task_batch_status = 5) THEN 1 ELSE 0 END) AS stopNum,
+               SUM(CASE WHEN (task_batch_status = 4) THEN 1 ELSE 0 END) AS failNum
+        FROM sj_job_task_batch batch
+             JOIN (select id as jobId from sj_job) job ON batch.job_id = job.jobId
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="selectWorkflowTaskBatchSummaryList"
+            resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO">
+        SELECT namespace_id                                             AS namespaceId,
+               workflow_id                                              AS jobId,
+               group_name                                               AS groupName,
+               task_batch_status                                        AS taskBatchStatus,
+               operation_reason                                         AS operationReason,
+               COUNT(operation_reason)                                  AS operationReasonTotal,
+               SUM(CASE WHEN (task_batch_status = 3) THEN 1 ELSE 0 END) AS successNum,
+               SUM(CASE WHEN (task_batch_status = 6) THEN 1 ELSE 0 END) AS cancelNum,
+               SUM(CASE WHEN (task_batch_status = 5) THEN 1 ELSE 0 END) AS stopNum,
+               SUM(CASE WHEN (task_batch_status = 4) THEN 1 ELSE 0 END) AS failNum
+        FROM sj_workflow_task_batch batch
+        JOIN (select id as flowId from sj_workflow) flow ON batch.workflow_id = flow.flowId
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="selectJobBatchListByIds"
+            resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchResponseDO">
+        SELECT batch.*,
+               job.job_name,
+               job.task_type,
+               job.block_strategy,
+               job.trigger_type,
+               job.executor_info,
+               job.args_str,
+               job.notify_ids
+          FROM sj_job_task_batch batch JOIN sj_job job ON batch.job_id = job.id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>

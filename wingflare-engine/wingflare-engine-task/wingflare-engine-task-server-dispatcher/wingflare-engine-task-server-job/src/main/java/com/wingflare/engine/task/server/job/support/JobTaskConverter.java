@@ -1,0 +1,154 @@
+package com.wingflare.engine.task.server.job.support;
+
+import com.wingflare.engine.task.common.model.request.DispatchJobRequest;
+import com.wingflare.engine.task.common.model.request.DispatchJobResultRequest;
+import com.wingflare.engine.task.common.model.request.LogTaskRequest;
+import com.wingflare.engine.task.common.model.request.MapTaskRequest;
+import com.wingflare.engine.task.server.common.dto.JobAlarmInfo;
+import com.wingflare.engine.task.server.common.dto.JobLogDTO;
+import com.wingflare.engine.task.server.common.dto.JobLogMetaDTO;
+import com.wingflare.engine.task.server.job.dto.*;
+import com.wingflare.engine.task.server.job.support.block.job.BlockStrategyContext;
+import com.wingflare.engine.task.server.job.support.callback.ClientCallbackContext;
+import com.wingflare.engine.task.server.job.support.executor.job.JobExecutorContext;
+import com.wingflare.engine.task.server.job.support.executor.workflow.WorkflowExecutorContext;
+import com.wingflare.engine.task.server.job.support.generator.batch.JobTaskBatchGeneratorContext;
+import com.wingflare.engine.task.server.job.support.generator.task.JobTaskGenerateContext;
+import com.wingflare.engine.task.server.job.support.result.job.JobExecutorResultContext;
+import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
+import com.wingflare.task.datasource.template.persistence.dataobject.log.JobLogMessageDO;
+import com.wingflare.task.datasource.template.persistence.po.Job;
+import com.wingflare.task.datasource.template.persistence.po.JobLogMessage;
+import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.task.datasource.template.persistence.po.JobTaskBatch;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * @author: opensnail
+ * @date : 2021-11-26 15:22
+ * @since : 2.5.0
+ */
+@Mapper
+public interface JobTaskConverter {
+
+    JobTaskConverter INSTANCE = Mappers.getMapper(JobTaskConverter.class);
+
+    @Mappings(
+            @Mapping(source = "id", target = "jobId")
+    )
+    JobTaskPrepareDTO toJobTaskPrepare(JobPartitionTaskDTO job);
+
+    @Mappings(
+            @Mapping(source = "id", target = "jobId")
+    )
+    JobTaskPrepareDTO toJobTaskPrepare(Job job);
+
+    @Mappings({
+            @Mapping(source = "job.id", target = "jobId"),
+            @Mapping(source = "job.namespaceId", target = "namespaceId"),
+            @Mapping(source = "job.groupName", target = "groupName")
+    })
+    JobTaskPrepareDTO toJobTaskPrepare(Job job, WorkflowExecutorContext context);
+
+    JobTaskBatchGeneratorContext toJobTaskGeneratorContext(JobTaskPrepareDTO jobTaskPrepareDTO);
+
+    JobTaskBatchGeneratorContext toJobTaskGeneratorContext(BlockStrategyContext context);
+
+    @Mappings(
+            @Mapping(source = "id", target = "jobId")
+    )
+    JobTaskGenerateContext toJobTaskInstanceGenerateContext(Job job);
+
+    JobTaskGenerateContext toJobTaskInstanceGenerateContext(MapTaskRequest request);
+
+    JobTask toJobTaskInstance(JobTaskGenerateContext context);
+
+    BlockStrategyContext toBlockStrategyContext(JobTaskPrepareDTO prepareDTO);
+
+    TaskStopJobContext toStopJobContext(BlockStrategyContext context);
+
+    TaskStopJobContext toStopJobContext(JobExecutorResultContext context);
+
+    @Mappings(
+            @Mapping(source = "id", target = "jobId")
+    )
+    TaskStopJobContext toStopJobContext(Job job);
+
+    TaskStopJobContext toStopJobContext(JobTaskPrepareDTO context);
+
+    JobLogMessageDO toJobLogMessage(JobLogDTO jobLogDTO);
+
+    JobLogMessageDO toJobLogMessage(LogTaskRequest logTaskRequest);
+
+    JobLogMetaDTO toJobLogDTO(BaseDTO baseDTO);
+
+    ClientCallbackContext toClientCallbackContext(DispatchJobResultRequest request);
+
+    ClientCallbackContext toClientCallbackContext(RealJobExecutorDTO request);
+
+    @Mappings(
+            @Mapping(source = "id", target = "jobId")
+    )
+    ClientCallbackContext toClientCallbackContext(Job job);
+
+    DispatchJobRequest toDispatchJobRequest(RealJobExecutorDTO realJobExecutorDTO);
+
+    @Mappings({
+            @Mapping(source = "jobTask.groupName", target = "groupName"),
+            @Mapping(source = "jobTask.jobId", target = "jobId"),
+            @Mapping(source = "jobTask.taskBatchId", target = "taskBatchId"),
+            @Mapping(source = "jobTask.id", target = "taskId"),
+            @Mapping(source = "jobTask.argsStr", target = "argsStr"),
+            @Mapping(source = "jobTask.argsType", target = "argsType"),
+            @Mapping(source = "jobTask.extAttrs", target = "extAttrs"),
+            @Mapping(source = "jobTask.namespaceId", target = "namespaceId"),
+            @Mapping(source = "jobTask.taskName", target = "taskName"),
+            @Mapping(source = "jobTask.mrStage", target = "mrStage"),
+            @Mapping(source = "context.wfContext", target = "wfContext")
+    })
+    RealJobExecutorDTO toRealJobExecutorDTO(JobExecutorContext context, JobTask jobTask);
+
+    @Mappings(
+            @Mapping(source = "id", target = "jobId")
+    )
+    JobExecutorContext toJobExecutorContext(Job job);
+
+    JobExecutorResultDTO toJobExecutorResultDTO(ClientCallbackContext context);
+
+    @Mappings(
+            @Mapping(source = "id", target = "taskId")
+    )
+    JobExecutorResultDTO toJobExecutorResultDTO(JobTask jobTask);
+
+    JobExecutorResultDTO toJobExecutorResultDTO(RealJobExecutorDTO realJobExecutorDTO);
+
+    RealStopTaskInstanceDTO toRealStopTaskInstanceDTO(TaskStopJobContext context);
+
+    List<JobPartitionTaskDTO> toJobPartitionTasks(List<Job> jobs);
+
+    List<JobPartitionTaskDTO> toJobTaskBatchPartitionTasks(List<JobTaskBatch> jobTaskBatches);
+
+    JobTaskBatch toJobTaskBatch(JobTaskBatchGeneratorContext context);
+
+    CompleteJobBatchDTO toCompleteJobBatchDTO(JobExecutorResultDTO jobExecutorResultDTO);
+
+    CompleteJobBatchDTO completeJobBatchDTO(JobTaskPrepareDTO jobTaskPrepareDTO);
+
+    JobLogMessage toJobLogMessage(JobLogMessage jobLogMessage);
+
+    ReduceTaskDTO toReduceTaskDTO(JobExecutorResultContext context);
+
+    JobExecutorResultContext toJobExecutorResultContext(CompleteJobBatchDTO completeJobBatchDTO);
+
+    List<JobAlarmInfo> toJobTaskFailAlarmEventDTO(List<JobTaskFailAlarmEventDTO> jobTaskFailAlarmEventDTOList);
+
+    @Mappings(
+            @Mapping(source = "jobTaskBatchId", target = "id")
+    )
+    JobAlarmInfo toJobAlarmInfo(JobTaskFailAlarmEventDTO jobTaskFailAlarmEventDTO);
+}

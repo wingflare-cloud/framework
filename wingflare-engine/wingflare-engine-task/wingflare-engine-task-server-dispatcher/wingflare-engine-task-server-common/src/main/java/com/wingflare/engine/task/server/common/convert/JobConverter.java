@@ -1,0 +1,61 @@
+package com.wingflare.engine.task.server.common.convert;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.wingflare.engine.task.common.core.util.JsonUtil;
+import com.wingflare.engine.task.server.common.util.TriggerIntervalUtils;
+import com.wingflare.engine.task.server.common.vo.JobRequestVO;
+import com.wingflare.task.datasource.template.persistence.po.Job;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * @author: opensnail
+ * @date : 2023-10-12 09:40
+ * @since : 2.4.0
+ */
+@Mapper
+@Deprecated
+public interface JobConverter {
+
+    JobConverter INSTANCE = Mappers.getMapper(JobConverter.class);
+    @Mappings({
+            @Mapping(target = "notifyIds", expression = "java(JobConverter.toNotifyIdsStr(jobRequestVO.getNotifyIds()))"),
+            @Mapping(target = "triggerInterval", expression = "java(JobConverter.toTriggerInterval(jobRequestVO))")
+    })
+    Job convert(JobRequestVO jobRequestVO);
+
+    List<JobRequestVO> convertList(List<Job> jobs);
+
+    static Set<Long> toNotifyIds(String notifyIds) {
+        if (StrUtil.isBlank(notifyIds)) {
+            return new HashSet<>();
+        }
+
+        return new HashSet<>(JsonUtil.parseList(notifyIds, Long.class));
+    }
+
+    static String toNotifyIdsStr(Set<Long> notifyIds) {
+        if (CollUtil.isEmpty(notifyIds)) {
+            return StrUtil.EMPTY;
+        }
+
+        return JsonUtil.toJsonString(notifyIds);
+    }
+
+    static String toTriggerInterval(JobRequestVO jobRequestVO) {
+        String triggerInterval = jobRequestVO.getTriggerInterval();
+        if (StrUtil.isBlank(triggerInterval) || Objects.isNull(jobRequestVO.getTriggerType())) {
+            return StrUtil.EMPTY;
+        }
+
+        return TriggerIntervalUtils.getPointInTimeStr(triggerInterval, jobRequestVO.getTriggerType());
+    }
+}

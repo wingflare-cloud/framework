@@ -1,0 +1,42 @@
+package com.wingflare.engine.task.server.service.handler;
+
+import com.wingflare.engine.task.common.core.annotation.OriginalControllerReturnValue;
+import com.wingflare.engine.task.common.core.model.Result;
+import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.lang.annotation.Annotation;
+
+
+@ControllerAdvice(basePackages = {"com.wingflare.engine.task.server"})
+public class GlobalRestfulResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+
+    @Override
+    public Object beforeBodyWrite(
+            Object obj, MethodParameter methodParameter, MediaType mediaType,
+            Class<? extends HttpMessageConverter<?>> converterType,
+            ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+        Annotation originalControllerReturnValue = methodParameter.getMethodAnnotation(OriginalControllerReturnValue.class);
+        if (originalControllerReturnValue != null) {
+            return obj;
+        }
+
+        if (obj instanceof Result) {
+            return obj;
+        } else {
+            return new Result<>("Request succeeded", obj);
+        }
+
+    }
+
+    @Override
+    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+        return true;
+    }
+
+}

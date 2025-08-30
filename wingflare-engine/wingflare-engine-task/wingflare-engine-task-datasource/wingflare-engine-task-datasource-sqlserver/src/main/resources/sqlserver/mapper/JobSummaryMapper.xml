@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobSummaryMapper">
+
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sj_job_summary (namespace_id, group_name, business_id, trigger_at, system_task_type, success_num,
+                                    fail_num, fail_reason, stop_num, stop_reason, cancel_num, cancel_reason)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+                (
+                    #{item.namespaceId},
+                    #{item.groupName},
+                    #{item.businessId},
+                    #{item.triggerAt},
+                    #{item.systemTaskType},
+                    #{item.successNum},
+                    #{item.failNum},
+                    #{item.failReason},
+                    #{item.stopNum},
+                    #{item.stopReason},
+                    #{item.cancelNum},
+                    #{item.cancelReason}
+                )
+            </foreach>
+    </insert>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        UPDATE sj_job_summary
+           SET success_num = src.success_num,
+               fail_num = src.fail_num,
+               fail_reason = src.fail_reason,
+               stop_num = src.stop_num,
+               stop_reason = src.stop_reason,
+               cancel_num = src.cancel_num,
+               cancel_reason = src.cancel_reason,
+               update_dt = CURRENT_TIMESTAMP
+          FROM sj_job_summary AS dest
+               JOIN (
+                   <foreach collection="list" item="item" index="index" separator="UNION ALL">
+                       SELECT
+                           #{item.successNum}       AS success_num,
+                           #{item.failNum}          AS fail_num,
+                           #{item.failReason}       AS fail_reason,
+                           #{item.stopNum}          AS stop_num,
+                           #{item.stopReason}       AS stop_reason,
+                           #{item.cancelNum}        AS cancel_num,
+                           #{item.cancelReason}     AS cancel_reason,
+                           #{item.systemTaskType}   AS system_task_type,
+                           #{item.businessId}       AS business_id,
+                           #{item.triggerAt}        AS trigger_at
+                   </foreach>
+               ) AS src
+             ON (dest.system_task_type = src.system_task_type
+             AND dest.business_id = src.business_id
+             AND dest.trigger_at = src.trigger_at)
+    </update>
+
+    <select id="selectJobLineList"
+            resultType="com.wingflare.task.datasource.template.persistence.dataobject.DashboardLineResponseDO">
+        SELECT createDt                                                         AS createDt,
+               ISNULL(SUM(success_num), 0)                                      AS success,
+               ISNULL(SUM(stop_num), 0)                                         AS stop,
+               ISNULL(SUM(cancel_num), 0)                                       AS cancel,
+               ISNULL(SUM(fail_num), 0)                                         AS fail,
+               ISNULL(SUM(success_num + fail_num + stop_num + cancel_num), 0)   AS total
+        FROM (
+            SELECT FORMAT(trigger_at, #{dateFormat}) AS createDt,
+                   success_num,
+                   stop_num,
+                   cancel_num,
+                   fail_num
+              FROM sj_job_summary
+            ${ew.customSqlSegment}
+        ) AS subquery
+        GROUP BY createDt
+    </select>
+
+    <select id="selectJobTask"
+            resultType="com.wingflare.task.datasource.template.persistence.dataobject.DashboardCardResponseDO$JobTask">
+        SELECT ISNULL(SUM(success_num), 0)                                      AS successNum,
+               ISNULL(SUM(stop_num), 0)                                         AS stopNum,
+               ISNULL(SUM(cancel_num), 0)                                       AS cancelNum,
+               ISNULL(SUM(fail_num), 0)                                         AS failNum,
+               ISNULL(SUM(success_num + fail_num + stop_num + cancel_num), 0)   AS totalNum
+          FROM sj_job_summary
+        ${ew.customSqlSegment}
+    </select>
+
+    <select id="selectDashboardRankList"
+            resultType="com.wingflare.task.datasource.template.persistence.dataobject.DashboardRetryLineResponseDO$Rank">
+        SELECT TOP 10
+            <if test="systemTaskType == 3">
+                CONCAT(group_name, '/', (SELECT job_name FROM sj_job WHERE id = business_id))           AS name,
+            </if>
+            <if test="systemTaskType == 4">
+                CONCAT(group_name, '/', (SELECT workflow_name FROM sj_workflow WHERE id = business_id)) AS name,
+            </if>
+            SUM(fail_num) AS total
+        FROM sj_job_summary
+        ${ew.customSqlSegment}
+        HAVING SUM(fail_num) > 0
+        ORDER BY name DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobMapper">
+
+    <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
+        UPDATE sj_job
+           SET next_trigger_at = src.next_trigger_at,
+               update_dt = CURRENT_TIMESTAMP
+          FROM sj_job AS dest
+               JOIN (
+                   <foreach collection="list" item="item" index="index" separator="UNION ALL">
+                       SELECT
+                           #{item.id}               AS id,
+                           #{item.nextTriggerAt}    AS next_trigger_at
+                   </foreach>
+               ) AS src ON (dest.id = src.id)
+    </update>
+
+</mapper>

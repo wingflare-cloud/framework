@@ -10,8 +10,6 @@ import com.wingflare.engine.task.common.core.alarm.email.MailAccount;
 import com.wingflare.engine.task.common.core.alarm.email.UserPassAuthenticator;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Session;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.io.File;
 import java.io.InputStream;
@@ -23,7 +21,6 @@ import java.util.Map;
 /**
  * 邮件工具类
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MailUtils {
 
     private static MailAccount account;

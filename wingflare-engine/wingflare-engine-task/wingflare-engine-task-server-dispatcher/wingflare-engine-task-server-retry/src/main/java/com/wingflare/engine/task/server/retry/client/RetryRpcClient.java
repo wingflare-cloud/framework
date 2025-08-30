@@ -1,0 +1,41 @@
+package com.wingflare.engine.task.server.retry.client;
+
+import com.wingflare.engine.task.common.core.model.Result;
+import com.wingflare.engine.task.common.core.model.SnailJobHeaders;
+import com.wingflare.engine.task.common.model.request.DispatchRetryRequest;
+import com.wingflare.engine.task.common.model.request.GenerateRetryIdempotentIdRequest;
+import com.wingflare.engine.task.common.model.request.RetryArgsDeserializeRequest;
+import com.wingflare.engine.task.common.model.request.RetryCallbackRequest;
+import com.wingflare.engine.task.common.model.request.StopRetryRequest;
+import com.wingflare.engine.task.server.common.rpc.client.RequestMethod;
+import com.wingflare.engine.task.server.common.rpc.client.annotation.Body;
+import com.wingflare.engine.task.server.common.rpc.client.annotation.Header;
+import com.wingflare.engine.task.server.common.rpc.client.annotation.Mapping;
+
+import static com.wingflare.engine.task.common.core.constant.SystemConstants.HTTP_PATH.*;
+
+/**
+ * 调用客户端接口
+ *
+ * @author: opensnail
+ * @date : 2023-06-19 15:40
+ * @since 2.0.0
+ */
+public interface RetryRpcClient {
+
+    @Mapping(path = RETRY_DISPATCH, method = RequestMethod.POST)
+    Result<Boolean> dispatch(@Body DispatchRetryRequest dispatchRetryRequest, @Header SnailJobHeaders headers);
+
+    @Mapping(path = RETRY_STOP, method = RequestMethod.POST)
+    Result<Boolean> stop(@Body StopRetryRequest stopRetryRequest);
+
+    @Mapping(path = RETRY_CALLBACK, method = RequestMethod.POST)
+    Result<Boolean> callback(@Body RetryCallbackRequest retryCallbackRequest);
+
+    @Mapping(path = RETRY_GENERATE_IDEM_ID, method = RequestMethod.POST)
+    Result generateIdempotentId(@Body GenerateRetryIdempotentIdRequest generateRetryIdempotentIdRequest);
+
+    @Mapping(path = RETRY_DESERIALIZE_ARGS, method = RequestMethod.POST)
+    Result deserialize(@Body RetryArgsDeserializeRequest retryArgsDeserializeRequest);
+
+}
