@@ -12,7 +12,6 @@ import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
 import com.wingflare.engine.task.server.common.schedule.AbstractSchedule;
 import com.wingflare.engine.task.server.common.triple.Pair;
 import com.wingflare.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO;
-import com.wingflare.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobSummaryMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.task.datasource.template.persistence.po.JobSummary;
@@ -42,13 +41,11 @@ import java.util.stream.Collectors;
 public class JobSummarySchedule extends AbstractSchedule implements Lifecycle {
     private final JobTaskBatchMapper jobTaskBatchMapper;
     private final JobSummaryMapper jobSummaryMapper;
-    private final JobMapper jobMapper;
     private final SystemProperties systemProperties;
 
-    public JobSummarySchedule(JobTaskBatchMapper jobTaskBatchMapper, JobSummaryMapper jobSummaryMapper, JobMapper jobMapper, SystemProperties systemProperties) {
+    public JobSummarySchedule(JobTaskBatchMapper jobTaskBatchMapper, JobSummaryMapper jobSummaryMapper, SystemProperties systemProperties) {
         this.jobTaskBatchMapper = jobTaskBatchMapper;
         this.jobSummaryMapper = jobSummaryMapper;
-        this.jobMapper = jobMapper;
         this.systemProperties = systemProperties;
     }
 

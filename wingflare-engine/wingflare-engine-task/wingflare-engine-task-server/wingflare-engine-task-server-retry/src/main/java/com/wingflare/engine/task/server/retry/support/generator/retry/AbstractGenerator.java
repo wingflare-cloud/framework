@@ -27,7 +27,7 @@ import com.wingflare.task.datasource.template.persistence.po.Retry;
 import com.wingflare.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.wingflare.task.datasource.template.persistence.po.RetryTask;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,9 +46,9 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractGenerator implements TaskGenerator {
 
-    @Autowired
+    @Resource
     protected AccessTemplate accessTemplate;
-    @Autowired
+    @Resource
     private SystemProperties systemProperties;
 
     @Override

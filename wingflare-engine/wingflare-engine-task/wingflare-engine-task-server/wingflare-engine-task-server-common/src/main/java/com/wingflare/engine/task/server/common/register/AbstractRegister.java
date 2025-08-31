@@ -12,7 +12,7 @@ import com.wingflare.task.datasource.template.persistence.po.ServerNode;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.dao.DuplicateKeyException;
 
 import java.time.LocalDateTime;
@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractRegister implements Register, Lifecycle {
 
-    @Autowired
+    @Resource
     protected ServerNodeMapper serverNodeMapper;
-    @Autowired
+    @Resource
     protected InstanceManager instanceManager;
 
     @Override

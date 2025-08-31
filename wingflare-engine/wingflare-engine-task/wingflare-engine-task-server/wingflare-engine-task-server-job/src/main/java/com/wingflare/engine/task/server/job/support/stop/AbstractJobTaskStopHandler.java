@@ -14,7 +14,7 @@ import com.wingflare.task.datasource.template.persistence.po.JobTaskBatch;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.pekko.actor.ActorRef;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.List;
 
@@ -25,9 +25,9 @@ import java.util.List;
  */
 public abstract class AbstractJobTaskStopHandler implements JobTaskStopHandler, InitializingBean {
 
-    @Autowired
+    @Resource
     private JobTaskMapper jobTaskMapper;
-    @Autowired
+    @Resource
     private JobTaskBatchMapper jobTaskBatchMapper;
 
     protected abstract void doStop(TaskStopJobContext context);

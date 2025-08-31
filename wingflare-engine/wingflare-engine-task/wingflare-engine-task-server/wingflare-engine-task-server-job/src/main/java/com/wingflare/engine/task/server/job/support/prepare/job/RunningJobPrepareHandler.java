@@ -20,7 +20,7 @@ import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
 import com.wingflare.lib.core.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 public class RunningJobPrepareHandler extends AbstractJobPrepareHandler {
 
     private static final Logger log = LoggerFactory.getLogger(RunningJobPrepareHandler.class);
-    @Autowired
+    @Resource
     private JobTaskBatchHandler jobTaskBatchHandler;
 
     @Override

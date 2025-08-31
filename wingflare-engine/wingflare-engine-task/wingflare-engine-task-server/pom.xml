@@ -33,6 +33,12 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-service</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-engine-task-server-job</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>

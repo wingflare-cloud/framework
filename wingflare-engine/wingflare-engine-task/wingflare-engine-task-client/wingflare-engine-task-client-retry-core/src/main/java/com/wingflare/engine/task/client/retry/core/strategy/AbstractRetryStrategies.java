@@ -25,7 +25,7 @@ import com.github.rholder.retry.WaitStrategy;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -55,9 +55,9 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
 
     private final static Logger log = LoggerFactory.getLogger(AbstractRetryStrategies.class);
 
-    @Autowired
+    @Resource
     private List<Report> reports;
-    @Autowired
+    @Resource
     private SnailJobProperties snailJobProperties;
 
     @Override

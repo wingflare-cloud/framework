@@ -2,7 +2,6 @@ package com.wingflare.engine.task.server.job.support.result.job;
 
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
-import com.wingflare.task.datasource.template.persistence.mapper.GroupConfigMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
 import org.springframework.stereotype.Component;
@@ -18,9 +17,8 @@ public class ShardingJobExecutorHandler extends AbstractJobExecutorResultHandler
     public ShardingJobExecutorHandler(
         final JobTaskMapper jobTaskMapper,
         final JobTaskBatchMapper jobTaskBatchMapper,
-        final WorkflowBatchHandler workflowBatchHandler,
-        final GroupConfigMapper groupConfigMapper) {
-        super(jobTaskMapper, jobTaskBatchMapper, workflowBatchHandler, groupConfigMapper);
+        final WorkflowBatchHandler workflowBatchHandler) {
+        super(jobTaskMapper, jobTaskBatchMapper, workflowBatchHandler);
     }
 
     @Override

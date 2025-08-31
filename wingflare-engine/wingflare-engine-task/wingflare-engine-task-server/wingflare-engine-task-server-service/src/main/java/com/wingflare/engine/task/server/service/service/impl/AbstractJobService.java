@@ -32,7 +32,7 @@ import com.wingflare.task.datasource.template.persistence.mapper.WorkflowNodeMap
 import com.wingflare.task.datasource.template.persistence.po.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,17 +48,17 @@ import java.util.Set;
  * @date 2025-07-05
  */
 public abstract class AbstractJobService implements JobService {
-    @Autowired
+    @Resource
     protected SystemProperties systemProperties;
-    @Autowired
+    @Resource
     protected JobMapper jobMapper;
-    @Autowired
+    @Resource
     protected JobSummaryMapper jobSummaryMapper;
-    @Autowired
+    @Resource
     protected AccessTemplate accessTemplate;
-    @Autowired
+    @Resource
     protected TerminalJobPrepareHandler terminalJobPrepareHandler;
-    @Autowired
+    @Resource
     protected WorkflowNodeMapper workflowNodeMapper;
 
     @Override

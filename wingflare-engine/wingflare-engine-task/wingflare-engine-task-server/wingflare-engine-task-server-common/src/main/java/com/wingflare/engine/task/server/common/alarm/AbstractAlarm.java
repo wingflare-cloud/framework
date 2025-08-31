@@ -22,7 +22,7 @@ import com.wingflare.task.datasource.template.persistence.po.NotifyRecipient;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.scheduling.TaskScheduler;
@@ -46,12 +46,12 @@ public abstract class AbstractAlarm<E extends ApplicationEvent, A extends AlarmI
         Runnable,
         Lifecycle {
 
-    @Autowired
+    @Resource
     @Qualifier("alarmExecutorService")
     protected TaskScheduler taskScheduler;
-    @Autowired
+    @Resource
     protected AccessTemplate accessTemplate;
-    @Autowired
+    @Resource
     protected NotifyRecipientMapper recipientMapper;
 
     @Override

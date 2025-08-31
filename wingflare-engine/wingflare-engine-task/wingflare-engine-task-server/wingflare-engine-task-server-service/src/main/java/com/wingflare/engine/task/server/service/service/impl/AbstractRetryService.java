@@ -25,7 +25,7 @@ import com.wingflare.task.datasource.template.persistence.po.Retry;
 import com.wingflare.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.pekko.actor.ActorRef;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -39,9 +39,9 @@ import java.util.Objects;
  * @date 2025-07-25
  */
 public abstract class AbstractRetryService implements RetryService {
-    @Autowired
+    @Resource
     private AccessTemplate accessTemplate;
-    @Autowired
+    @Resource
     private RetryArgsDeserializeHandler retryArgsDeserializeHandler;
 
     @Override

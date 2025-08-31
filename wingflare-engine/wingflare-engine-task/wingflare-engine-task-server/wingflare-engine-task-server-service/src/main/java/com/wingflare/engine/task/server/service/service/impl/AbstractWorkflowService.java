@@ -25,7 +25,7 @@ import com.wingflare.task.datasource.template.persistence.po.GroupConfig;
 import com.wingflare.task.datasource.template.persistence.po.JobSummary;
 import com.wingflare.task.datasource.template.persistence.po.Workflow;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,13 +43,13 @@ import java.util.Set;
  * @date 2025-07-06
  */
 public abstract class AbstractWorkflowService implements WorkflowService {
-    @Autowired
+    @Resource
     protected WorkflowMapper workflowMapper;
-    @Autowired
+    @Resource
     protected AccessTemplate accessTemplate;
-    @Autowired
+    @Resource
     protected TerminalWorkflowPrepareHandler terminalWorkflowPrepareHandler;
-    @Autowired
+    @Resource
     protected JobSummaryMapper jobSummaryMapper;
 
     @Override

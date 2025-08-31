@@ -18,7 +18,6 @@ import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler
 import com.wingflare.engine.task.server.job.support.stop.JobTaskStopFactory;
 import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
 import com.wingflare.lib.core.Builder;
-import com.wingflare.task.datasource.template.persistence.mapper.GroupConfigMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
 import com.wingflare.task.datasource.template.persistence.po.JobTask;
@@ -42,13 +41,11 @@ public abstract class AbstractJobExecutorResultHandler implements JobExecutorRes
     private final JobTaskMapper jobTaskMapper;
     private final JobTaskBatchMapper jobTaskBatchMapper;
     private final WorkflowBatchHandler workflowBatchHandler;
-    private final GroupConfigMapper groupConfigMapper;
 
-    public AbstractJobExecutorResultHandler(JobTaskMapper jobTaskMapper, JobTaskBatchMapper jobTaskBatchMapper, WorkflowBatchHandler workflowBatchHandler, GroupConfigMapper groupConfigMapper) {
+    public AbstractJobExecutorResultHandler(JobTaskMapper jobTaskMapper, JobTaskBatchMapper jobTaskBatchMapper, WorkflowBatchHandler workflowBatchHandler) {
         this.jobTaskMapper = jobTaskMapper;
         this.jobTaskBatchMapper = jobTaskBatchMapper;
         this.workflowBatchHandler = workflowBatchHandler;
-        this.groupConfigMapper = groupConfigMapper;
     }
 
     @Override

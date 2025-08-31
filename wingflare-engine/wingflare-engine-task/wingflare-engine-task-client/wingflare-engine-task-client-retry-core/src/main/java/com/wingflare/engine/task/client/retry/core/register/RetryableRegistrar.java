@@ -5,7 +5,7 @@ import com.wingflare.engine.task.client.retry.core.Scanner;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
 import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Objects;
 @Component
 public class RetryableRegistrar implements Lifecycle {
 
-    @Autowired
+    @Resource
     private List<Scanner> scanners;
 
     public void registerRetryHandler(RetryerInfo retryerInfo) {

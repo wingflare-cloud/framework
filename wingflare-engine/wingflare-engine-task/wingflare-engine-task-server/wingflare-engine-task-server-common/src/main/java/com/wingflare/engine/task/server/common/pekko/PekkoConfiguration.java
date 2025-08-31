@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.common.pekko;
 
 import com.typesafe.config.ConfigFactory;
 import org.apache.pekko.actor.ActorSystem;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,9 +23,9 @@ public class PekkoConfiguration {
     private static final String COMMON_ACTOR_SYSTEM = "COMMON_ACTOR_SYSTEM";
 
 
-    @Autowired
+    @Resource
     private ApplicationContext applicationContext;
-    @Autowired
+    @Resource
     private SpringExtension springExtension;
 
     /**

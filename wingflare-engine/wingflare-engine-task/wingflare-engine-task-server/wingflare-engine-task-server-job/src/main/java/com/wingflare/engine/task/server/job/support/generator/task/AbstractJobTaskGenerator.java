@@ -8,7 +8,7 @@ import com.wingflare.task.datasource.template.persistence.po.JobTask;
 import com.wingflare.task.datasource.template.utils.DbUtils;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public abstract class AbstractJobTaskGenerator implements JobTaskGenerator, InitializingBean {
 
-    @Autowired
+    @Resource
     private JobTaskMapper jobTaskMapper;
 
     @Override

@@ -7,7 +7,7 @@ import com.wingflare.task.datasource.template.persistence.po.RetryDeadLetter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 public class RetryDeadLetterTaskAccess extends AbstractTaskAccess<RetryDeadLetter> {
 
-    @Autowired
+    @Resource
     private RetryDeadLetterMapper retryDeadLetterMapper;
 
     @Override

@@ -10,7 +10,7 @@ import com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMap
 import com.wingflare.task.datasource.template.persistence.po.JobTaskBatch;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.Set;
  */
 public abstract class AbstractJobAlarm<E extends ApplicationEvent> extends AbstractAlarm<E, JobAlarmInfo> {
 
-    @Autowired
+    @Resource
     private JobTaskBatchMapper jobTaskBatchMapper;
 
     @Override

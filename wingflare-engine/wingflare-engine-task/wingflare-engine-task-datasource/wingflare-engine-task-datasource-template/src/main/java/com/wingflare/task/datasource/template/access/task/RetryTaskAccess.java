@@ -7,7 +7,7 @@ import com.wingflare.task.datasource.template.persistence.po.Retry;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class RetryTaskAccess extends AbstractTaskAccess<Retry> {
 
-    @Autowired
+    @Resource
     private RetryMapper retryMapper;
 
     @Override

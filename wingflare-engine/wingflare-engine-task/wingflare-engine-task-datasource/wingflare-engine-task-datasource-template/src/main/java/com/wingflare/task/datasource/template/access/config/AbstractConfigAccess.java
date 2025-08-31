@@ -19,7 +19,7 @@ import com.wingflare.task.datasource.template.persistence.po.NotifyRecipient;
 import com.wingflare.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.wingflare.task.datasource.template.utils.DbUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,13 +37,13 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractConfigAccess<T> implements ConfigAccess<T> {
 
-    @Autowired
+    @Resource
     protected NotifyConfigMapper notifyConfigMapper;
-    @Autowired
+    @Resource
     protected SceneConfigMapper sceneConfigMapper;
-    @Autowired
+    @Resource
     protected GroupConfigMapper groupConfigMapper;
-    @Autowired
+    @Resource
     protected NotifyRecipientMapper notifyRecipientMapper;
 
     protected static final List<String> ALLOW_DB = Arrays.asList(

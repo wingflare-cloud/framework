@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.starter.listener;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class EndListener implements ApplicationListener<ContextClosedEvent> {
 
-    @Autowired
+    @Resource
     private List<Lifecycle> lifecycleList;
 
     @Override

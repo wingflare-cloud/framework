@@ -8,7 +8,7 @@ import com.wingflare.engine.task.server.web.model.response.DashboardCardResponse
 import com.wingflare.engine.task.server.web.model.response.DashboardRetryLineResponseVO;
 import com.wingflare.engine.task.server.web.model.response.ServerNodeResponseVO;
 import com.wingflare.engine.task.server.web.service.DashboardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +29,7 @@ import java.util.Set;
 @RequestMapping("/dashboard")
 public class DashboardController {
 
-    @Autowired
+    @Resource
     private DashboardService dashBoardService;
 
     @LoginRequired

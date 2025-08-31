@@ -7,7 +7,7 @@ import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.lock.LockBuilder;
 import com.wingflare.engine.task.server.common.lock.LockManager;
 import com.wingflare.engine.task.server.common.lock.LockProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.TaskScheduler;
 
@@ -20,7 +20,7 @@ import java.time.Duration;
  */
 public abstract class AbstractSchedule implements Schedule {
 
-    @Autowired
+    @Resource
     @Qualifier("scheduledExecutorService")
     protected TaskScheduler taskScheduler;
 

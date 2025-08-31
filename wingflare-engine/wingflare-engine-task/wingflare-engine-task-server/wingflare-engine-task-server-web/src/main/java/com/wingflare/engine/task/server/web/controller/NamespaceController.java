@@ -7,7 +7,7 @@ import com.wingflare.engine.task.server.web.model.request.NamespaceQueryVO;
 import com.wingflare.engine.task.server.web.model.request.NamespaceRequestVO;
 import com.wingflare.engine.task.server.web.model.response.NamespaceResponseVO;
 import com.wingflare.engine.task.server.web.service.NamespaceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/namespace")
 public class NamespaceController {
 
-    @Autowired
+    @Resource
     private NamespaceService namespaceService;
 
     @LoginRequired(role = RoleEnum.ADMIN)

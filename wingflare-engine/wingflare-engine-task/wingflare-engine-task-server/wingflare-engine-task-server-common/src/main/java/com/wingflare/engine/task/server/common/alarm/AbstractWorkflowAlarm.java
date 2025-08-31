@@ -10,7 +10,7 @@ import com.wingflare.task.datasource.template.persistence.mapper.WorkflowTaskBat
 import com.wingflare.task.datasource.template.persistence.po.WorkflowTaskBatch;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractWorkflowAlarm<E extends ApplicationEvent> extends AbstractAlarm<E, WorkflowAlarmInfo> {
 
-    @Autowired
+    @Resource
     private WorkflowTaskBatchMapper workflowTaskBatchMapper;
 
     @Override

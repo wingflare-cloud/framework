@@ -6,7 +6,6 @@ import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.job.dto.ReduceTaskDTO;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
-import com.wingflare.task.datasource.template.persistence.mapper.GroupConfigMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
 import com.wingflare.task.datasource.template.persistence.po.JobTask;
@@ -30,9 +29,8 @@ public class MapReduceJobExecutorHandler extends AbstractJobExecutorResultHandle
     public MapReduceJobExecutorHandler(
         final JobTaskMapper jobTaskMapper,
         final JobTaskBatchMapper jobTaskBatchMapper,
-        final WorkflowBatchHandler workflowBatchHandler,
-        final GroupConfigMapper groupConfigMapper) {
-        super(jobTaskMapper, jobTaskBatchMapper, workflowBatchHandler, groupConfigMapper);
+        final WorkflowBatchHandler workflowBatchHandler) {
+        super(jobTaskMapper, jobTaskBatchMapper, workflowBatchHandler);
     }
 
     @Override

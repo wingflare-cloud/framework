@@ -17,7 +17,7 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -50,7 +50,7 @@ public class SyncReport extends AbstractReport {
                     "> 时间:{}  \n" +
                     "> 异常:{}  \n";
 
-    @Autowired
+    @Resource
     private SnailJobProperties snailJobProperties;
 
     @Override

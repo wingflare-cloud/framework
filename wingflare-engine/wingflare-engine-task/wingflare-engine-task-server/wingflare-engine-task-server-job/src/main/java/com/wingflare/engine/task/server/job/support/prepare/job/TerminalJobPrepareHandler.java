@@ -6,7 +6,7 @@ import com.wingflare.engine.task.server.job.support.JobTaskConverter;
 import com.wingflare.engine.task.server.job.support.generator.batch.JobTaskBatchGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ import static com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum
 public class TerminalJobPrepareHandler extends AbstractJobPrepareHandler {
 
     private static final Logger log = LoggerFactory.getLogger(TerminalJobPrepareHandler.class);
-    @Autowired
+    @Resource
     private JobTaskBatchGenerator jobTaskBatchGenerator;
 
     @Override

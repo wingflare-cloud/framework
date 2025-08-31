@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.web.interceptor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,11 +17,11 @@ import java.util.List;
 @Configuration
 public class SnailJobWebMvcConfigurerAdapter implements WebMvcConfigurer {
 
-    @Autowired
+    @Resource
     private LoginUserMethodArgumentResolver loginUserMethodArgumentResolver;
-    @Autowired
+    @Resource
     private CORSInterceptor corsInterceptor;
-    @Autowired
+    @Resource
     private AuthenticationInterceptor authenticationInterceptor;
 
     @Override

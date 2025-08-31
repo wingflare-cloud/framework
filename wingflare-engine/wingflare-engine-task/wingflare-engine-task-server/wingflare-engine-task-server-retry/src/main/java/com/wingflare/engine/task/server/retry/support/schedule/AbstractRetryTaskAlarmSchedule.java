@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,9 +34,9 @@ import java.util.Set;
  * @since 1.3.0-beta1.1
  */
 public abstract class AbstractRetryTaskAlarmSchedule extends AbstractSchedule implements Lifecycle {
-    @Autowired
+    @Resource
     protected AccessTemplate accessTemplate;
-    @Autowired
+    @Resource
     private NotifyRecipientMapper recipientMapper;
 
     @Override

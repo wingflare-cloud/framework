@@ -15,7 +15,7 @@ import com.wingflare.task.datasource.template.persistence.mapper.WorkflowNodeMap
 import com.wingflare.task.datasource.template.persistence.po.Job;
 import com.wingflare.task.datasource.template.persistence.po.JobTaskBatch;
 import com.wingflare.task.datasource.template.persistence.po.WorkflowNode;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.Objects;
 
@@ -28,11 +28,11 @@ import java.util.Objects;
  * @date 2025-07-06
  */
 public abstract class AbstractJobBatchService implements JobBatchService {
-    @Autowired
+    @Resource
     protected JobTaskBatchMapper jobTaskBatchMapper;
-    @Autowired
+    @Resource
     protected JobMapper jobMapper;
-    @Autowired
+    @Resource
     protected WorkflowNodeMapper workflowNodeMapper;
 
     @Override

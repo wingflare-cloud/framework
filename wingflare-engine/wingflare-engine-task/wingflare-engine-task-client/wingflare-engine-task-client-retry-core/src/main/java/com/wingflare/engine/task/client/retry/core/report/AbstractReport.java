@@ -14,7 +14,7 @@ import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
 import com.wingflare.engine.task.common.core.model.IdempotentIdContext;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  * @since 1.3.0
  */
 public abstract class AbstractReport implements Report {
-    @Autowired
+    @Resource
     protected SnailJobProperties snailJobProperties;
 
     @Override

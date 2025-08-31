@@ -21,7 +21,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import org.apache.pekko.actor.ActorRef;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
@@ -34,11 +34,11 @@ import java.util.Objects;
  */
 public abstract class AbstractClientCallbackHandler implements ClientCallbackHandler, InitializingBean {
 
-    @Autowired
+    @Resource
     protected JobTaskMapper jobTaskMapper;
-    @Autowired
+    @Resource
     private JobMapper jobMapper;
-    @Autowired
+    @Resource
     private WorkflowTaskBatchMapper workflowTaskBatchMapper;
 
 

@@ -8,7 +8,7 @@ import com.wingflare.task.datasource.template.persistence.po.JobExecutor;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import static com.wingflare.task.datasource.template.utils.DbUtils.getDbType;
 @Component
 public class JobExecutorAccess implements JobAccess<JobExecutor> {
 
-    @Autowired
+    @Resource
     private JobExecutorMapper jobExecutorMapper;
 
     @Override

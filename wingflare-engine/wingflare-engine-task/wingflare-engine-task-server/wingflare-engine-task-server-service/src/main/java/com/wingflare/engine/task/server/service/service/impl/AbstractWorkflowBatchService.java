@@ -30,7 +30,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.graph.MutableGraph;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,17 +52,17 @@ import java.util.stream.Collectors;
 public abstract class AbstractWorkflowBatchService implements WorkflowBatchService {
     private static final Integer WORKFLOW_DECISION_FAILED_STATUS = 98;
 
-    @Autowired
+    @Resource
     protected WorkflowTaskBatchMapper workflowTaskBatchMapper;
-    @Autowired
+    @Resource
     protected WorkflowMapper workflowMapper;
-    @Autowired
+    @Resource
     protected WorkflowNodeMapper workflowNodeMapper;
-    @Autowired
+    @Resource
     protected JobTaskBatchMapper jobTaskBatchMapper;
-    @Autowired
+    @Resource
     protected JobMapper jobMapper;
-    @Autowired
+    @Resource
     protected WorkflowHandler workflowHandler;
 
     @Override

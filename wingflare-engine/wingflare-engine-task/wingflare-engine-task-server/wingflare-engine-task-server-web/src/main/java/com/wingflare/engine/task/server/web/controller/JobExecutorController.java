@@ -6,7 +6,7 @@ import com.wingflare.engine.task.server.web.model.request.JobExecutorQueryVO;
 import com.wingflare.engine.task.server.web.service.JobExecutorService;
 import com.wingflare.task.datasource.template.persistence.po.JobExecutor;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +28,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/job/executor")
 public class JobExecutorController {
-    @Autowired
+    @Resource
     private JobExecutorService jobExecutorService;
 
     @GetMapping("/page/list")

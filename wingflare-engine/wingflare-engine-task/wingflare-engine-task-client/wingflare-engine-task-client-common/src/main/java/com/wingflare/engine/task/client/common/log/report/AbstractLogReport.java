@@ -10,7 +10,7 @@ import com.wingflare.engine.task.common.log.dto.LogContentDTO;
 import com.wingflare.engine.task.common.model.request.LogTaskRequest;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -23,7 +23,7 @@ import java.util.Objects;
  */
 public abstract class AbstractLogReport<T extends LogTaskRequest> implements Lifecycle, InitializingBean, LogReport {
 
-    @Autowired
+    @Resource
     private SnailJobProperties snailJobProperties;
     private SlidingRingWindow<LogTaskRequest> slidingWindow;
 

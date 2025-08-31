@@ -6,7 +6,7 @@ import com.wingflare.engine.task.server.web.model.request.RetryTaskQueryVO;
 import com.wingflare.engine.task.server.web.model.response.RetryTaskResponseVO;
 import com.wingflare.engine.task.server.web.service.RetryTaskService;
 import jakarta.validation.constraints.NotEmpty;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +28,7 @@ import java.util.Set;
 @RequestMapping("/retry-task")
 public class RetryTaskController {
 
-    @Autowired
+    @Resource
     private RetryTaskService retryTaskService;
 
     @LoginRequired

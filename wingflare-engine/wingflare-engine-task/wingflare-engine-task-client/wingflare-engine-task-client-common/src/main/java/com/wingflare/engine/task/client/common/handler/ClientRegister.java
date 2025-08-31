@@ -10,7 +10,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants.BEAT;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.log.SnailJobLog;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -29,7 +29,7 @@ public class ClientRegister implements Lifecycle {
         r -> new Thread(r, "task-client-register"));
     public static RpcClient CLIENT;
     public static final int REGISTER_TIME = 10;
-    @Autowired
+    @Resource
     private SnailJobProperties snailJobProperties;
 
     @Override
