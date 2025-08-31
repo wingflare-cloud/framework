@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core;
 
 import com.wingflare.engine.task.common.core.network.TaskNetworkProperties;
-import com.wingflare.engine.task.common.core.util.SnailJobNetworkUtils;
+import com.wingflare.engine.task.common.core.util.TaskEngineNetworkUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class CommonCoreConfigure {
 
     @Bean
-    public SnailJobNetworkUtils snailJobNetworkUtils(TaskNetworkProperties taskNetworkProperties) {
-        return new SnailJobNetworkUtils(taskNetworkProperties);
+    public TaskEngineNetworkUtils taskEngineNetworkUtils(TaskNetworkProperties taskNetworkProperties) {
+        return new TaskEngineNetworkUtils(taskNetworkProperties);
     }
 
 }

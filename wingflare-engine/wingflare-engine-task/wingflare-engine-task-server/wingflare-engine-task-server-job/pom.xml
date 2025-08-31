@@ -50,16 +50,9 @@
             </exclusions>
         </dependency>
 
-        <!--   SnailJob     -->
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-common</artifactId>
-        </dependency>
-
-        <!-- 上报日志，采用logback打印，排除log4j2 -->
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-common-log</artifactId>
         </dependency>
 
         <dependency>

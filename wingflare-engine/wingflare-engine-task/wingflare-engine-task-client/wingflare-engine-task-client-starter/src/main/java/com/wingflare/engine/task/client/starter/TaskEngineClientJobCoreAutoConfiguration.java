@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.starter;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.lib.task.annotation.TaskExecutor;
-import com.wingflare.engine.task.common.core.util.SnailJobNetworkUtils;
+import com.wingflare.engine.task.common.core.util.TaskEngineNetworkUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,7 +22,7 @@ public class TaskEngineClientJobCoreAutoConfiguration {
     private static final String SNAIL_JOB_CLIENT_HOST = "snail-job.host";
 
     @Bean
-    public Object configureSnailJobHost(SnailJobNetworkUtils networkUtils, TaskProperties taskProperties) {
+    public Object configureSnailJobHost(TaskEngineNetworkUtils networkUtils, TaskProperties taskProperties) {
         String host = taskProperties.getHost();
         if (StrUtil.isBlank(host)) {
             host = System.getProperty(SNAIL_JOB_CLIENT_HOST);

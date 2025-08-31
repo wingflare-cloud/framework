@@ -34,11 +34,9 @@
             <artifactId>guava-retrying</artifactId>
         </dependency>
 
-        <!--    SnailJob    -->
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-common</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>

@@ -5,7 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.enums.NodeTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.core.util.SnailJobNetworkUtils;
+import com.wingflare.engine.task.common.core.util.TaskEngineNetworkUtils;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -47,17 +47,17 @@ public class ServerRegister extends AbstractRegister {
     private final InstanceManager instanceManager;
     private final SystemProperties systemProperties;
     private final ServerProperties serverProperties;
-    private final SnailJobNetworkUtils snailJobNetworkUtils;
+    private final TaskEngineNetworkUtils taskEngineNetworkUtils;
 
     static {
         CURRENT_CID = IdUtil.getSnowflakeNextIdStr();
     }
 
-    public ServerRegister(InstanceManager instanceManager, SystemProperties systemProperties, ServerProperties serverProperties, SnailJobNetworkUtils snailJobNetworkUtils) {
+    public ServerRegister(InstanceManager instanceManager, SystemProperties systemProperties, ServerProperties serverProperties, TaskEngineNetworkUtils taskEngineNetworkUtils) {
         this.instanceManager = instanceManager;
         this.systemProperties = systemProperties;
         this.serverProperties = serverProperties;
-        this.snailJobNetworkUtils = snailJobNetworkUtils;
+        this.taskEngineNetworkUtils = taskEngineNetworkUtils;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ServerRegister extends AbstractRegister {
         context.setGroupName(GROUP_NAME);
         context.setHostId(CURRENT_CID);
 
-        context.setHostIp(Optional.ofNullable(systemProperties.getServerHost()).filter(StrUtil::isNotBlank).orElse(snailJobNetworkUtils.findPreferredHostAddress()));
+        context.setHostIp(Optional.ofNullable(systemProperties.getServerHost()).filter(StrUtil::isNotBlank).orElse(taskEngineNetworkUtils.findPreferredHostAddress()));
         context.setHostPort(systemProperties.getServerPort());
         context.setContextPath(Optional.ofNullable(serverProperties.getServlet().getContextPath()).orElse(StrUtil.EMPTY));
         context.setNamespaceId(NAMESPACE_ID);

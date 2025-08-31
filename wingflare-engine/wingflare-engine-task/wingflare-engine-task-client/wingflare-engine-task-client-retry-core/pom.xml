@@ -29,6 +29,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <!-- java语言常用功能工具包 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
         <!--   libs     -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -49,27 +55,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>QLExpress</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <!--   SnailJob     -->
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-common-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-common-model</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-client-common</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

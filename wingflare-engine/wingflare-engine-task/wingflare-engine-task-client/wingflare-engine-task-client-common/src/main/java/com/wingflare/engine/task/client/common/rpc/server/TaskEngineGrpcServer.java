@@ -44,13 +44,13 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class SnailGrpcServer implements Lifecycle {
+public class TaskEngineGrpcServer implements Lifecycle {
     private final TaskProperties taskProperties;
     private final SnailDispatcherRequestHandler snailDispatcherRequestHandler;
     private volatile boolean started = false;
     private Server server;
 
-    public SnailGrpcServer(TaskProperties taskProperties, SnailDispatcherRequestHandler snailDispatcherRequestHandler) {
+    public TaskEngineGrpcServer(TaskProperties taskProperties, SnailDispatcherRequestHandler snailDispatcherRequestHandler) {
         this.taskProperties = taskProperties;
         this.snailDispatcherRequestHandler = snailDispatcherRequestHandler;
     }
@@ -100,7 +100,7 @@ public class SnailGrpcServer implements Lifecycle {
             server.start();
             this.started = true;
             TaskEngineLog.LOCAL.info("------> wingflare-task remoting server start success, grpc = {}, port = {}",
-                SnailGrpcServer.class.getName(), taskProperties.getPort());
+                TaskEngineGrpcServer.class.getName(), taskProperties.getPort());
         } catch (IOException e) {
             TaskEngineLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
             started = false;

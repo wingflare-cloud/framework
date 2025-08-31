@@ -18,20 +18,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-common-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-core</artifactId>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>

@@ -14,13 +14,13 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class SnailJobNetworkUtils {
+public class TaskEngineNetworkUtils {
     private static final Pattern IPV4_PATTERN = Pattern.compile(
             "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
     private final TaskNetworkProperties properties;
 
-    public SnailJobNetworkUtils(TaskNetworkProperties properties) {
+    public TaskEngineNetworkUtils(TaskNetworkProperties properties) {
         this.properties = properties;
     }
 

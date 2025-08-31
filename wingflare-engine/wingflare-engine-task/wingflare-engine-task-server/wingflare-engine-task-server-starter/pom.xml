@@ -55,11 +55,10 @@
             </exclusions>
         </dependency>
 
-        <!--   SnailJob     -->
+
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-web</artifactId>
-            <version>1.0.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>mybatis-spring</artifactId>

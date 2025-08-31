@@ -61,6 +61,61 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-server-web</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-template</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-dm8</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-kingbase</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-mariadb</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-mysql</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-oracle</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-postgres</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-engine-task-datasource-sqlserver</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

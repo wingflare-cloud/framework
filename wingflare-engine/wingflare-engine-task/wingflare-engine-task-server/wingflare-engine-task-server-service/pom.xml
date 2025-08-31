@@ -49,11 +49,9 @@
             <artifactId>hutool-crypto</artifactId>
         </dependency>
 
-        <!--   SnailJOb     -->
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-common</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -64,55 +62,46 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-mysql</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-postgres</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-mariadb</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-oracle</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-sqlserver</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-dm8</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-kingbase</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-retry</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-job</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
     </dependencies>
