@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.common.core.util;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 
 import java.io.IOException;
 import java.net.Inet6Address;
@@ -81,7 +81,7 @@ public class NetUtil {
                 return addressOp.get();
             }
         } catch (Throwable e) {
-            SnailJobLog.LOCAL.warn("get local address error", e);
+            TaskEngineLog.LOCAL.warn("get local address error", e);
         }
 
         try {
@@ -106,15 +106,15 @@ public class NetUtil {
                                 }
                             }
                         } catch (Throwable e) {
-                            SnailJobLog.LOCAL.warn("get local address error", e);
+                            TaskEngineLog.LOCAL.warn("get local address error", e);
                         }
                     }
                 } catch (Throwable e) {
-                    SnailJobLog.LOCAL.warn("get local address error", e);
+                    TaskEngineLog.LOCAL.warn("get local address error", e);
                 }
             }
         } catch (Throwable e) {
-            SnailJobLog.LOCAL.warn("get local address error", e);
+            TaskEngineLog.LOCAL.warn("get local address error", e);
         }
 
         return localAddress;
@@ -166,7 +166,7 @@ public class NetUtil {
                 return InetAddress.getByName(addr.substring(0, i) + '%' + address.getScopeId());
             } catch (UnknownHostException e) {
                 // ignore
-                SnailJobLog.LOCAL.debug("Unknown IPV6 address: ", e);
+                TaskEngineLog.LOCAL.debug("Unknown IPV6 address: ", e);
             }
         }
         return address;

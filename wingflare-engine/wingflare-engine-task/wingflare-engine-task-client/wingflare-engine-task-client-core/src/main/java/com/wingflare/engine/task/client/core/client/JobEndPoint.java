@@ -2,8 +2,8 @@ package com.wingflare.engine.task.client.core.client;
 
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
-import com.wingflare.engine.task.client.common.annotation.SnailEndPoint;
-import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
+import com.wingflare.engine.task.client.common.annotation.TaskEndPoint;
+import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
 import com.wingflare.engine.task.client.common.rpc.client.RequestMethod;
 import com.wingflare.engine.task.client.core.IJobExecutor;
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
@@ -18,7 +18,7 @@ import com.wingflare.engine.task.common.core.model.JobArgsHolder;
 import com.wingflare.engine.task.common.core.model.JobContext;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.request.DispatchJobRequest;
 import com.wingflare.engine.task.common.model.request.StopJobRequest;
@@ -36,7 +36,7 @@ import static com.wingflare.engine.task.common.core.constant.SystemConstants.HTT
  * @author: opensnail
  * @date : 2023-09-27 16:33
  */
-@SnailEndPoint
+@TaskEndPoint
 @Validated
 public class JobEndPoint {
 
@@ -50,18 +50,18 @@ public class JobEndPoint {
             initLogContext(jobContext);
 
             if (Objects.nonNull(dispatchJob.getRetryCount()) && dispatchJob.getRetryCount() > 0) {
-                SnailJobLog.REMOTE.info("Task execution/scheduling failed, executing retry. Retry count:[{}]",
+                TaskEngineLog.REMOTE.info("Task execution/scheduling failed, executing retry. Retry count:[{}]",
                         dispatchJob.getRetryCount());
             }
 
             if (ExecutorTypeEnum.JAVA.getType() != dispatchJob.getExecutorType()) {
-                SnailJobLog.REMOTE.error("Non-Java type executors are not supported. executorType:[{}]", dispatchJob.getExecutorType());
+                TaskEngineLog.REMOTE.error("Non-Java type executors are not supported. executorType:[{}]", dispatchJob.getExecutorType());
                 return new Result<>("Non-Java type executors are not supported", Boolean.FALSE);
             }
 
             JobExecutorInfo jobExecutorInfo = JobExecutorInfoCache.get(jobContext.getExecutorInfo());
             if (Objects.isNull(jobExecutorInfo)) {
-                SnailJobLog.REMOTE.error("Executor configuration is incorrect. executorInfo:[{}]", dispatchJob.getExecutorInfo());
+                TaskEngineLog.REMOTE.error("Executor configuration is incorrect. executorInfo:[{}]", dispatchJob.getExecutorInfo());
                 return new Result<>("Executor configuration is incorrect", Boolean.FALSE);
             }
 
@@ -86,7 +86,7 @@ public class JobEndPoint {
                 }
             }
 
-            SnailJobLog.REMOTE.info(" Task scheduler:[{}] Task ID:[{}] Task batch:[{}] Workflow batch:[{}] Task scheduled successfully.",
+            TaskEngineLog.REMOTE.info(" Task scheduler:[{}] Task ID:[{}] Task batch:[{}] Workflow batch:[{}] Task scheduled successfully.",
                     Objects.isNull(dispatchJob.getWorkflowTaskBatchId()) ? "job" : "workflow",
                     dispatchJob.getJobId(),
                     dispatchJob.getTaskBatchId(),
@@ -95,10 +95,10 @@ public class JobEndPoint {
             jobExecutor.jobExecute(jobContext);
 
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Client encountered an unexpected exception. taskBatchId:[{}]", dispatchJob.getTaskBatchId());
+            TaskEngineLog.REMOTE.error("Client encountered an unexpected exception. taskBatchId:[{}]", dispatchJob.getTaskBatchId());
             throw e;
         } finally {
-            SnailJobLogManager.removeLogMeta();
+            TaskLogManager.removeLogMeta();
         }
 
         return new Result<>(Boolean.TRUE);
@@ -111,7 +111,7 @@ public class JobEndPoint {
         logMeta.setGroupName(jobContext.getGroupName());
         logMeta.setJobId(jobContext.getJobId());
         logMeta.setTaskBatchId(jobContext.getTaskBatchId());
-        SnailJobLogManager.initLogInfo(logMeta, LogTypeEnum.JOB);
+        TaskLogManager.initLogInfo(logMeta, LogTypeEnum.JOB);
     }
 
 
@@ -139,7 +139,7 @@ public class JobEndPoint {
             try {
                 jobContext.setJobArgsHolder(JsonUtil.parseObject(dispatchJob.getArgsStr(), JobArgsHolder.class));
             } catch (Exception e) {
-                SnailJobLog.REMOTE.warn("argsStr parse error", e);
+                TaskEngineLog.REMOTE.warn("argsStr parse error", e);
                 JobArgsHolder jobArgsHolder = new JobArgsHolder();
                 jobArgsHolder.setJobParams(dispatchJob.getArgsStr());
                 jobContext.setJobArgsHolder(jobArgsHolder);
@@ -154,7 +154,7 @@ public class JobEndPoint {
             try {
                 jobContext.setWfContext(JsonUtil.parseConcurrentHashMap(wfContext));
             } catch (Exception e) {
-                SnailJobLog.REMOTE.warn("workflow context parse error", e);
+                TaskEngineLog.REMOTE.warn("workflow context parse error", e);
             }
         } else {
             jobContext.setWfContext(Maps.newConcurrentMap());

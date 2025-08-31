@@ -9,7 +9,7 @@ import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
@@ -54,7 +54,7 @@ public class OpenApiDeleteWorkflowRequestHandler extends PostHttpRequestHandler 
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Delete job content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Delete job content:[{}]", content);
         TaskRequest request = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = request.getArgs();
         Set<Long> ids = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), Set.class);

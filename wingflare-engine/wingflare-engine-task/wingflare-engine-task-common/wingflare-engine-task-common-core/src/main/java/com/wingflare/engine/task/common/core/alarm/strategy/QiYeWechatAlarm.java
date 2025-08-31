@@ -11,7 +11,7 @@ import com.wingflare.engine.task.common.core.alarm.attribute.QiYeWechatAttribute
 import com.wingflare.engine.task.common.core.enums.AlarmTypeEnum;
 import com.wingflare.engine.task.common.core.util.DingDingUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -54,11 +54,11 @@ public class QiYeWechatAlarm extends AbstractAlarm<AlarmContext> {
             HttpRequest post = HttpUtil.createPost(webhookUrl);
             HttpRequest request = post.body(JsonUtil.toJsonString(map), ContentType.JSON.toString());
             HttpResponse execute = request.execute();
-            SnailJobLog.LOCAL.debug(JsonUtil.toJsonString(execute));
+            TaskEngineLog.LOCAL.debug(JsonUtil.toJsonString(execute));
             if (execute.isOk()) {
                 return true;
             }
-            SnailJobLog.LOCAL.error("Sending Enterprise WeChat message failed: {}", execute.body());
+            TaskEngineLog.LOCAL.error("Sending Enterprise WeChat message failed: {}", execute.body());
             return false;
         } catch (Exception e) {
             log.error("Sending Enterprise WeChat message failed", e);

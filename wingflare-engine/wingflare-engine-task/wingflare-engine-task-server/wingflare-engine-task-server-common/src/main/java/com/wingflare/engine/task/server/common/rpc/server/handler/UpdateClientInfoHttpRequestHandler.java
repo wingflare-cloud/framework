@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.UpdateClientInfoDTO;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
@@ -38,7 +38,7 @@ public class UpdateClientInfoHttpRequestHandler extends PostHttpRequestHandler {
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Client Update Request. content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Client Update Request. content:[{}]", content);
 
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();

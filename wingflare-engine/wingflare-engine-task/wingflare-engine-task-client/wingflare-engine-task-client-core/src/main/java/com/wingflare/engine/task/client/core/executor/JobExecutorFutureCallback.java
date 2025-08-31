@@ -3,8 +3,8 @@ package com.wingflare.engine.task.client.core.executor;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
+import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.core.cache.ThreadPoolCache;
 import com.wingflare.engine.task.client.core.client.JobNettyClient;
@@ -21,7 +21,7 @@ import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
@@ -58,7 +58,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
                 if (nettyResult.getStatus() == StatusEnum.NO.getStatus()) {
                     sendMessage(nettyResult.getMessage());
                 }
-                SnailJobLog.LOCAL.debug("Job execute result report successfully requestId:[{}]",
+                TaskEngineLog.LOCAL.debug("Job execute result report successfully requestId:[{}]",
                         nettyResult.getReqId());
             }).build();
 
@@ -76,7 +76,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
             initLogContext();
 
             // 上报执行成功
-            SnailJobLog.REMOTE.info("Task executed successfully taskBatchId:[{}] [{}]", jobContext.getTaskBatchId(), JsonUtil.toJsonString(result));
+            TaskEngineLog.REMOTE.info("Task executed successfully taskBatchId:[{}] [{}]", jobContext.getTaskBatchId(), JsonUtil.toJsonString(result));
 
             if (Objects.isNull(result)) {
                 result = ExecuteResult.success();
@@ -91,10 +91,10 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
 
             CLIENT.dispatchResult(buildDispatchJobResultRequest(result, taskStatus));
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Execution result reporting exception.[{}]", jobContext.getTaskId(), e);
+            TaskEngineLog.REMOTE.error("Execution result reporting exception.[{}]", jobContext.getTaskId(), e);
             sendMessage(e.getMessage());
         } finally {
-            SnailJobLogManager.removeLogMeta();
+            TaskLogManager.removeLogMeta();
             stopThreadPool();
         }
     }
@@ -102,7 +102,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
     @Override
     public void onFailure(final Throwable t) {
         if (t instanceof CancellationException) {
-            SnailJobLog.LOCAL.debug("The task has been canceled, no status feedback will be made");
+            TaskEngineLog.LOCAL.debug("The task has been canceled, no status feedback will be made");
             return;
         }
         ExecuteResult failure = ExecuteResult.failure();
@@ -111,17 +111,17 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
             initLogContext();
 
             // 上报执行失败
-            SnailJobLog.REMOTE.error("Task execution failed taskBatchId:[{}]", jobContext.getTaskBatchId(), t);
+            TaskEngineLog.REMOTE.error("Task execution failed taskBatchId:[{}]", jobContext.getTaskBatchId(), t);
             failure.setMessage(t.getMessage());
 
             CLIENT.dispatchResult(
                     buildDispatchJobResultRequest(failure, JobTaskStatusEnum.FAIL.getStatus())
             );
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Execution result reporting exception.[{}]", jobContext.getTaskId(), e);
+            TaskEngineLog.REMOTE.error("Execution result reporting exception.[{}]", jobContext.getTaskId(), e);
             sendMessage(e.getMessage());
         } finally {
-            SnailJobLogManager.removeLogMeta();
+            TaskLogManager.removeLogMeta();
             stopThreadPool();
         }
     }
@@ -133,7 +133,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
         logMeta.setGroupName(jobContext.getGroupName());
         logMeta.setJobId(jobContext.getJobId());
         logMeta.setTaskBatchId(jobContext.getTaskBatchId());
-        SnailJobLogManager.initLogInfo(logMeta, LogTypeEnum.JOB);
+        TaskLogManager.initLogInfo(logMeta, LogTypeEnum.JOB);
     }
 
     private void stopThreadPool() {
@@ -168,8 +168,8 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
     private static void sendMessage(String message) {
 
         try {
-            SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
-            if (Objects.isNull(snailJobProperties)) {
+            TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+            if (Objects.isNull(taskProperties)) {
                 return;
             }
             ConfigRequest.Notify notify = GroupVersionCache.getJobNotifyAttribute(
@@ -181,18 +181,18 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
                             .text(TEXT_MESSAGE_FORMATTER,
                                     EnvironmentUtils.getActiveProfile(),
                                     NetUtil.getLocalIpStr(),
-                                    snailJobProperties.getNamespace(),
-                                    snailJobProperties.getGroup(),
+                                    taskProperties.getNamespace(),
+                                    taskProperties.getGroup(),
                                     LocalDateTime.now().format(DatePattern.NORM_DATETIME_FORMATTER),
                                     message)
-                            .title("Scheduled task execution result reporting exception:[{}]", snailJobProperties.getGroup())
+                            .title("Scheduled task execution result reporting exception:[{}]", taskProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
 
                     Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
                 }
             }
         } catch (Exception e1) {
-            SnailJobLog.LOCAL.error("Client failed to send component exception alert.", e1);
+            TaskEngineLog.LOCAL.error("Client failed to send component exception alert.", e1);
         }
     }
 }

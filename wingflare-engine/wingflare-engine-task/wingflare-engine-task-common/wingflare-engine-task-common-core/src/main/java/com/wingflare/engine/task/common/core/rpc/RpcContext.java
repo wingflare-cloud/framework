@@ -4,12 +4,10 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.exception.TaskRemotingTimeOutException;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
 import java.util.Objects;
@@ -54,7 +52,7 @@ public final class RpcContext {
                     });
 
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Callback processing failed requestId:[{}]", requestId, e);
+            TaskEngineLog.LOCAL.error("Callback processing failed requestId:[{}]", requestId, e);
         }
     }
 

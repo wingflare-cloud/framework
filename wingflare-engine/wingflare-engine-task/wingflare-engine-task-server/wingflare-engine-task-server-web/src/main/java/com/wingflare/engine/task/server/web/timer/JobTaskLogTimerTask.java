@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.web.timer;
 
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.enums.WebSocketSceneEnum;
 import com.wingflare.engine.task.server.common.vo.JobLogQueryVO;
@@ -31,14 +31,14 @@ public class JobTaskLogTimerTask implements TimerTask<String> {
 
     @Override
     public void run(final Timeout timeout) throws Exception {
-        SnailJobLog.LOCAL.debug("Start querying scheduled task logs. Current time:[{}] jobTaskId:[{}]", LocalDateTime.now(), logQueryVO.getTaskBatchId());
+        TaskEngineLog.LOCAL.debug("Start querying scheduled task logs. Current time:[{}] jobTaskId:[{}]", LocalDateTime.now(), logQueryVO.getTaskBatchId());
 
         try {
             LogTimerWheel.clearCache(idempotentKey());
             JobLogService logService = SnailSpringContext.getBean(JobLogService.class);
             logService.getJobLogPage(logQueryVO);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Scheduled task log query execution failed", e);
+            TaskEngineLog.LOCAL.error("Scheduled task log query execution failed", e);
         }
     }
 

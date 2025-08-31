@@ -6,7 +6,7 @@ import com.wingflare.engine.task.client.retry.core.context.CallbackContext;
 import com.wingflare.engine.task.common.core.enums.RetryTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.DispatchCallbackResultRequest;
 import com.google.common.util.concurrent.FutureCallback;
 
@@ -26,7 +26,7 @@ public class CallbackTaskExecutorFutureCallback implements FutureCallback<Boolea
             .client(RetryClient.class)
             .callback(nettyResult -> {
                 if (nettyResult.getStatus() == StatusEnum.NO.getStatus()) {
-                    SnailJobLog.LOCAL.error("Retry callback execute result report successfully requestId:[{}]",
+                    TaskEngineLog.LOCAL.error("Retry callback execute result report successfully requestId:[{}]",
                             nettyResult.getReqId());
                 }
 
@@ -45,7 +45,7 @@ public class CallbackTaskExecutorFutureCallback implements FutureCallback<Boolea
             request.setTaskStatus(RetryTaskStatusEnum.SUCCESS.getStatus());
             CLIENT.callbackResult(request);
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Callback execution result reporting exception.[{}]", context.getRetryTaskId(), e);
+            TaskEngineLog.REMOTE.error("Callback execution result reporting exception.[{}]", context.getRetryTaskId(), e);
 
         }
 
@@ -54,7 +54,7 @@ public class CallbackTaskExecutorFutureCallback implements FutureCallback<Boolea
     @Override
     public void onFailure(Throwable t) {
         if (t instanceof CancellationException) {
-            SnailJobLog.LOCAL.debug("The task has been canceled, no status feedback will be made");
+            TaskEngineLog.LOCAL.debug("The task has been canceled, no status feedback will be made");
             return;
         }
         try {
@@ -63,7 +63,7 @@ public class CallbackTaskExecutorFutureCallback implements FutureCallback<Boolea
             request.setExceptionMsg(t.getMessage());
             CLIENT.callbackResult(request);
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Callback execution result reporting exception.[{}]", context.getRetryTaskId(), e);
+            TaskEngineLog.REMOTE.error("Callback execution result reporting exception.[{}]", context.getRetryTaskId(), e);
         }
     }
 

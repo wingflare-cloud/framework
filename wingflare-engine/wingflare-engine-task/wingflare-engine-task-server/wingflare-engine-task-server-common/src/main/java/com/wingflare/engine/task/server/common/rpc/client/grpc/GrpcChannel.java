@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
 import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.core.util.NetUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.config.SystemProperties.RpcClientProperties;
 import com.wingflare.engine.task.server.common.config.SystemProperties.ThreadPoolConfig;
@@ -152,11 +152,11 @@ public class GrpcChannel {
      */
     private static void exceptionHandler(Throwable cause) {
         if (cause instanceof ConnectException) {
-            SnailJobLog.LOCAL.error("connect error:{}", cause.getMessage());
+            TaskEngineLog.LOCAL.error("connect error:{}", cause.getMessage());
         } else if (cause instanceof ClosedChannelException) {
-            SnailJobLog.LOCAL.error("connect error:{}", "client has destroy");
+            TaskEngineLog.LOCAL.error("connect error:{}", "client has destroy");
         } else {
-            SnailJobLog.LOCAL.error("connect error:", cause);
+            TaskEngineLog.LOCAL.error("connect error:", cause);
         }
     }
 

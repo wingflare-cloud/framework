@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants.HTTP_PATH;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.CallbackConfig;
 import com.wingflare.engine.task.common.model.request.DecisionConfigRequest;
 import com.wingflare.engine.task.server.common.convert.JobBatchResponseVOConverter;
@@ -58,7 +58,7 @@ public class OpenApiGetJobBatchDetailRequestHandler extends PostHttpRequestHandl
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("query job batch content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("query job batch content:[{}]", content);
         TaskRequest jobRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = jobRequest.getArgs();
         Long jobBatchId = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), Long.class);

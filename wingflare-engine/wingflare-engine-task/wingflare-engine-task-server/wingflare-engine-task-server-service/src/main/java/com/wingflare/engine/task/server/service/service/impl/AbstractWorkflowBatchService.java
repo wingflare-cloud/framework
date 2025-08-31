@@ -6,7 +6,7 @@ import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.JobTaskConfigRequest;
 import com.wingflare.engine.task.common.model.response.base.JobBatchResponse;
 import com.wingflare.engine.task.common.model.response.base.WorkflowDetailResponse;
@@ -178,7 +178,7 @@ public abstract class AbstractWorkflowBatchService implements WorkflowBatchServi
                     new HashMap<>(), workflowNodeMap);
             responseVO.setNodeConfig(config);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Deserialization failed. json:[{}]", flowInfo, e);
+            TaskEngineLog.LOCAL.error("Deserialization failed. json:[{}]", flowInfo, e);
             throw new TaskServerException("Failed to query workflow batch details");
         }
 

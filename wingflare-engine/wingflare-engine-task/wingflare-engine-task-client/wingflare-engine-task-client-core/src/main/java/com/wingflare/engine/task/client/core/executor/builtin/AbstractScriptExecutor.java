@@ -1,12 +1,12 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
 import com.wingflare.engine.task.common.core.util.TaskFileUtil;
 import com.wingflare.engine.task.common.core.util.TaskSystemUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -260,11 +260,11 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
 
     // Logging methods
     private void logInfo(String msg, Object... params) {
-        SnailJobLog.REMOTE.info("[wingflare-task] " + msg, params);
+        TaskEngineLog.REMOTE.info("[wingflare-task] " + msg, params);
     }
 
     private void logWarn(String msg, Object... params) {
-        SnailJobLog.REMOTE.warn("[wingflare-task] " + msg, params);
+        TaskEngineLog.REMOTE.warn("[wingflare-task] " + msg, params);
     }
 
     public static class SnailFileUtils {
@@ -275,14 +275,14 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
          * @return 允许用户通过启动配置文件自定义存储目录，默认为 user.home
          */
         public static String workspace() {
-            SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
-            String workspaceByDKey = snailJobProperties.getWorkspace();
+            TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+            String workspaceByDKey = taskProperties.getWorkspace();
             if (StrUtil.isNotEmpty(workspaceByDKey)) {
-                SnailJobLog.LOCAL.info("[FileUtils] [workspace] use custom workspace: {}", workspaceByDKey);
+                TaskEngineLog.LOCAL.info("[FileUtils] [workspace] use custom workspace: {}", workspaceByDKey);
                 return workspaceByDKey;
             }
             final String userHome = System.getProperty("user.home").concat("/snailJob/worker");
-            SnailJobLog.LOCAL.info("[FileUtils] [workspace] use user.home as workspace: {}", userHome);
+            TaskEngineLog.LOCAL.info("[FileUtils] [workspace] use user.home as workspace: {}", userHome);
             return userHome;
         }
     }

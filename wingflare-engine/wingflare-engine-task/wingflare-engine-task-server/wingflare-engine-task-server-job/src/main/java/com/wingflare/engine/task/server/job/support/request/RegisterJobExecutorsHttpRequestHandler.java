@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.JobExecutorRequest;
 import com.wingflare.engine.task.server.common.handler.GetHttpRequestHandler;
 import com.wingflare.engine.task.server.job.support.handler.DistributedLockHandler;
@@ -57,7 +57,7 @@ public class RegisterJobExecutorsHttpRequestHandler extends GetHttpRequestHandle
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Beat register job executors content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Beat register job executors content:[{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object arg = retryRequest.getArgs()[0];
         if (arg == null) {
@@ -77,7 +77,7 @@ public class RegisterJobExecutorsHttpRequestHandler extends GetHttpRequestHandle
             List<String> dbExecutorsList = dbExecutors.stream().map(JobExecutor::getExecutorInfo).toList();
             List<JobExecutorRequest> toAddExecutors = executors.stream().filter(e -> !dbExecutorsList.contains(e.getExecutorInfo())).toList();
             if (toAddExecutors.isEmpty()) {
-                SnailJobLog.LOCAL.warn("Beat register job executors toAddExecutors is empty");
+                TaskEngineLog.LOCAL.warn("Beat register job executors toAddExecutors is empty");
                 return;
             }
             List<JobExecutor> jobExecutorList = toAddExecutors.stream().map(e -> {

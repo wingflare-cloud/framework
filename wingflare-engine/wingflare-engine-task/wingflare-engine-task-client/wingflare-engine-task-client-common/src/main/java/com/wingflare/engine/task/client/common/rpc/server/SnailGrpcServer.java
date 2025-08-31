@@ -1,9 +1,9 @@
 package com.wingflare.engine.task.client.common.rpc.server;
 
 import com.wingflare.engine.task.client.common.Lifecycle;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties.RpcServerProperties;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties.ThreadPoolConfig;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties.RpcServerProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.grpc.GrpcChannel;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.SnailDispatcherRequestHandler;
@@ -12,7 +12,7 @@ import com.wingflare.engine.task.common.core.constant.GrpcServerConstants;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.grpc.CompressorRegistry;
 import io.grpc.DecompressorRegistry;
@@ -45,18 +45,18 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SnailGrpcServer implements Lifecycle {
-    private final SnailJobProperties snailJobProperties;
+    private final TaskProperties taskProperties;
     private final SnailDispatcherRequestHandler snailDispatcherRequestHandler;
     private volatile boolean started = false;
     private Server server;
 
-    public SnailGrpcServer(SnailJobProperties snailJobProperties, SnailDispatcherRequestHandler snailDispatcherRequestHandler) {
-        this.snailJobProperties = snailJobProperties;
+    public SnailGrpcServer(TaskProperties taskProperties, SnailDispatcherRequestHandler snailDispatcherRequestHandler) {
+        this.taskProperties = taskProperties;
         this.snailDispatcherRequestHandler = snailDispatcherRequestHandler;
     }
 
-    public SnailJobProperties getSnailJobProperties() {
-        return snailJobProperties;
+    public TaskProperties getSnailJobProperties() {
+        return taskProperties;
     }
 
     public SnailDispatcherRequestHandler getSnailDispatcherRequestHandler() {
@@ -73,11 +73,11 @@ public class SnailGrpcServer implements Lifecycle {
 
     @Override
     public void start() {
-        if (started || RpcTypeEnum.GRPC != snailJobProperties.getRpcType()) {
+        if (started || RpcTypeEnum.GRPC != taskProperties.getRpcType()) {
             return;
         }
 
-        RpcServerProperties grpc = snailJobProperties.getServerRpc();
+        RpcServerProperties grpc = taskProperties.getServerRpc();
 
         final MutableHandlerRegistry handlerRegistry = new MutableHandlerRegistry();
         addServices(handlerRegistry, new GrpcInterceptor());
@@ -99,10 +99,10 @@ public class SnailGrpcServer implements Lifecycle {
         try {
             server.start();
             this.started = true;
-            SnailJobLog.LOCAL.info("------> wingflare-task remoting server start success, grpc = {}, port = {}",
-                SnailGrpcServer.class.getName(), snailJobProperties.getPort());
+            TaskEngineLog.LOCAL.info("------> wingflare-task remoting server start success, grpc = {}, port = {}",
+                SnailGrpcServer.class.getName(), taskProperties.getPort());
         } catch (IOException e) {
-            SnailJobLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
+            TaskEngineLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
             started = false;
             throw new TaskClientException("wingflare-task server start error");
         }
@@ -120,7 +120,7 @@ public class SnailGrpcServer implements Lifecycle {
         // 创建服务UNARY类型定义
         ServerServiceDefinition serviceDefinition = createUnaryServiceDefinition(
             GrpcServerConstants.UNARY_SERVICE_NAME, GrpcServerConstants.UNARY_METHOD_NAME,
-            new UnaryRequestHandler(snailJobProperties.getServerRpc().getDispatcherTp(), snailDispatcherRequestHandler));
+            new UnaryRequestHandler(taskProperties.getServerRpc().getDispatcherTp(), snailDispatcherRequestHandler));
         handlerRegistry.addService(serviceDefinition);
         handlerRegistry.addService(ServerInterceptors.intercept(serviceDefinition, serverInterceptor));
     }

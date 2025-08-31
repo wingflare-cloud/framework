@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants.HTTP_PATH;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
 import com.wingflare.engine.task.server.common.vo.JobStatusUpdateRequestVO;
 import com.wingflare.task.datasource.template.persistence.mapper.WorkflowMapper;
@@ -51,7 +51,7 @@ public class OpenApiUpdateWorkFlowStatusRequestHandler extends PostHttpRequestHa
                         .eq(Workflow::getId, jobRequestVO.getId()));
 
         if (Objects.isNull(workflow)){
-            SnailJobLog.LOCAL.warn("Workflow does not exist");
+            TaskEngineLog.LOCAL.warn("Workflow does not exist");
             return new TaskRpcResult(false, retryRequest.getReqId());
         }
         workflow.setWorkflowStatus(jobRequestVO.getJobStatus());

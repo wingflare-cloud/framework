@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
@@ -92,7 +92,7 @@ public class CleanerSchedule extends AbstractSchedule implements Lifecycle {
         try {
             // 清除日志默认保存天数大于零、最少保留最近一天的日志数据
             if (systemProperties.getLogStorage() < 1) {
-                SnailJobLog.LOCAL.error("retry clear log storage error", systemProperties.getLogStorage());
+                TaskEngineLog.LOCAL.error("retry clear log storage error", systemProperties.getLogStorage());
                 return;
             }
 
@@ -101,9 +101,9 @@ public class CleanerSchedule extends AbstractSchedule implements Lifecycle {
             long total = PartitionTaskUtils.process(startId -> retryTaskBatchList(startId, endTime),
                     this::processRetryLogPartitionTasks, 0);
 
-            SnailJobLog.LOCAL.debug("Retry clear success total:[{}]", total);
+            TaskEngineLog.LOCAL.debug("Retry clear success total:[{}]", total);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("clear log error", e);
+            TaskEngineLog.LOCAL.error("clear log error", e);
         }
     }
 

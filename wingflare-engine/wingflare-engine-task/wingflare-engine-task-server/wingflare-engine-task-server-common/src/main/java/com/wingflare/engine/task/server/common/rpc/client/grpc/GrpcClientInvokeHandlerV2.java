@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.cache.CacheToken;
 import com.wingflare.engine.task.server.common.dto.GrpcClientInvokeConfig;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
@@ -17,7 +17,7 @@ import com.wingflare.engine.task.server.common.dto.RegisterNodeInfo;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.rpc.client.RequestMethod;
-import com.wingflare.engine.task.server.common.rpc.client.SnailJobRetryListener;
+import com.wingflare.engine.task.server.common.rpc.client.TaskEngineRetryListener;
 import com.wingflare.engine.task.server.common.rpc.client.annotation.Body;
 import com.wingflare.engine.task.server.common.rpc.client.annotation.Header;
 import com.wingflare.engine.task.server.common.rpc.client.annotation.Mapping;
@@ -63,7 +63,7 @@ public class GrpcClientInvokeHandlerV2 implements InvocationHandler {
     private final boolean failRetry;
     private final int retryTimes;
     private final int retryInterval;
-    private final SnailJobRetryListener retryListener;
+    private final TaskEngineRetryListener retryListener;
     private final boolean failover;
     private final Integer routeKey;
     private final String allocKey;
@@ -129,7 +129,7 @@ public class GrpcClientInvokeHandlerV2 implements InvocationHandler {
                     sw.stop();
                 }
 
-                SnailJobLog.LOCAL.debug("Request complete requestId:[{}] took [{}ms]", reqId, sw.getTotalTimeMillis());
+                TaskEngineLog.LOCAL.debug("Request complete requestId:[{}] took [{}ms]", reqId, sw.getTotalTimeMillis());
 
                 if (async) {
                     // 暂时不支持异步调用

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.alarm.AbstractRetryAlarm;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
@@ -68,7 +68,7 @@ public class RetryTaskFailDeadLetterAlarmListener extends
     @TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.AFTER_COMPLETION)
     public void doOnApplicationEvent(RetryTaskFailDeadLetterAlarmEvent event) {
         if (!queue.offer(event.getRetryDeadLetters())) {
-            SnailJobLog.LOCAL.warn("Task retry failure enters dead letter queue, alert queue is full");
+            TaskEngineLog.LOCAL.warn("Task retry failure enters dead letter queue, alert queue is full");
         }
     }
 
@@ -90,7 +90,7 @@ public class RetryTaskFailDeadLetterAlarmListener extends
 
     @Override
     protected void startLog() {
-        SnailJobLog.LOCAL.info("RetryTaskFailDeadLetterAlarmListener started");
+        TaskEngineLog.LOCAL.info("RetryTaskFailDeadLetterAlarmListener started");
     }
 
     @Override

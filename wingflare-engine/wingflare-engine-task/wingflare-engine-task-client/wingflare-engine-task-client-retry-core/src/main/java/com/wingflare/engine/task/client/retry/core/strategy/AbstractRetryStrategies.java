@@ -1,14 +1,14 @@
 package com.wingflare.engine.task.client.retry.core.strategy;
 
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.retry.core.Report;
 import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
-import com.wingflare.engine.task.client.retry.core.event.SnailJobListener;
+import com.wingflare.engine.task.client.retry.core.event.TaskListener;
 import com.wingflare.engine.task.client.retry.core.executor.GuavaRetryExecutor;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
-import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
+import com.wingflare.engine.task.client.retry.core.loader.TaskRetrySpiLoader;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
@@ -16,7 +16,7 @@ import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.NetUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.github.rholder.retry.Retryer;
@@ -51,14 +51,14 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                     "> 时间:{}  \n" +
                     "> 异常:{}  \n";
 
-    private final List<SnailJobListener> snailJobListeners = SnailRetrySpiLoader.loadSnailJobListener();
+    private final List<TaskListener> taskListeners = TaskRetrySpiLoader.loadSnailJobListener();
 
     private final static Logger log = LoggerFactory.getLogger(AbstractRetryStrategies.class);
 
     @Resource
     private List<Report> reports;
     @Resource
-    private SnailJobProperties snailJobProperties;
+    private TaskProperties taskProperties;
 
     @Override
     public RetryerResultContext openRetry(String sceneName, String executorClassName, Object[] params) {
@@ -83,8 +83,8 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
         retryerResultContext.setRetryerInfo(retryerInfo);
 
         try {
-            for (SnailJobListener snailJobListener : snailJobListeners) {
-                snailJobListener.beforeRetry(sceneName, executorClassName, params);
+            for (TaskListener taskListener : taskListeners) {
+                taskListener.beforeRetry(sceneName, executorClassName, params);
             }
 
             Object result = retryExecutor.call(retryer, doGetCallable(retryExecutor, params), getRetryErrorConsumer(retryerResultContext, params), getRetrySuccessConsumer(retryerResultContext));
@@ -116,8 +116,8 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
             Object result = retryerResultContext.getResult();
             RetryerInfo retryerInfo = retryerResultContext.getRetryerInfo();
 
-            for (SnailJobListener snailJobListener : snailJobListeners) {
-                snailJobListener.successOnRetry(result, retryerInfo.getScene(), retryerInfo.getExecutorClassName());
+            for (TaskListener taskListener : taskListeners) {
+                taskListener.successOnRetry(result, retryerInfo.getScene(), retryerInfo.getExecutorClassName());
             }
 
             doRetrySuccessConsumer(retryerResultContext).accept(retryerResultContext);
@@ -136,8 +136,8 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
 
             RetryerInfo retryerInfo = context.getRetryerInfo();
             try {
-                for (SnailJobListener snailJobListener : snailJobListeners) {
-                    snailJobListener
+                for (TaskListener taskListener : taskListeners) {
+                    taskListener
                             .failureOnRetry(retryerInfo.getScene(), retryerInfo.getExecutorClassName(), throwable);
                 }
             } catch (Exception e) {
@@ -193,17 +193,17 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                             .text(TEXT_MESSAGE_FORMATTER,
                                     EnvironmentUtils.getActiveProfile(),
                                     NetUtil.getLocalIpStr(),
-                                    snailJobProperties.getNamespace(),
-                                    snailJobProperties.getGroup(),
+                                    taskProperties.getNamespace(),
+                                    taskProperties.getGroup(),
                                     LocalDateTime.now().format(formatter),
                                     e.getMessage())
-                            .title("retry component handling exception:[{}]", snailJobProperties.getGroup())
+                            .title("retry component handling exception:[{}]", taskProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
                     Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
                 }
             }
         } catch (Exception e1) {
-            SnailJobLog.LOCAL.error("Client failed to send component exception alert.", e1);
+            TaskEngineLog.LOCAL.error("Client failed to send component exception alert.", e1);
         }
 
     }

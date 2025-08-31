@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.client.core.executor;
 
 import cn.hutool.core.util.ServiceLoaderUtil;
-import com.wingflare.engine.task.client.common.SnailJobLogThreadLocal;
-import com.wingflare.engine.task.client.common.SnailThreadLocal;
+import com.wingflare.engine.task.client.common.TaskLogThreadLocal;
+import com.wingflare.engine.task.client.common.TaskThreadLocal;
 import com.wingflare.engine.task.client.common.threadlocal.CommonThreadLocal;
 import com.wingflare.engine.task.common.core.model.JobContext;
 
@@ -16,13 +16,13 @@ import java.util.Objects;
 public final class JobContextManager {
     private JobContextManager() {}
 
-    private static final SnailThreadLocal<JobContext> JOB_CONTEXT_LOCAL = initThreadLocal();
-    private static SnailThreadLocal<JobContext> initThreadLocal() {
-        SnailThreadLocal<JobContext> snailThreadLocal = ServiceLoaderUtil.loadFirst(SnailJobLogThreadLocal.class);
-        if (Objects.isNull(snailThreadLocal)) {
-            snailThreadLocal = new CommonThreadLocal<>(new ThreadLocal<>());
+    private static final TaskThreadLocal<JobContext> JOB_CONTEXT_LOCAL = initThreadLocal();
+    private static TaskThreadLocal<JobContext> initThreadLocal() {
+        TaskThreadLocal<JobContext> taskThreadLocal = ServiceLoaderUtil.loadFirst(TaskLogThreadLocal.class);
+        if (Objects.isNull(taskThreadLocal)) {
+            taskThreadLocal = new CommonThreadLocal<>(new ThreadLocal<>());
         }
-        return snailThreadLocal;
+        return taskThreadLocal;
     }
 
     public static void setJobContext(JobContext jobContext) {

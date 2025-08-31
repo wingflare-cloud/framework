@@ -9,7 +9,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.JobTriggerDTO;
 import com.wingflare.engine.task.server.common.enums.JobTaskExecutorSceneEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -60,7 +60,7 @@ public class OpenApiTriggerWorkFlowRequestHandler extends PostHttpRequestHandler
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Trigger job content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Trigger job content:[{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
         JobTriggerDTO workflowDTO = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), JobTriggerDTO.class);
@@ -82,7 +82,7 @@ public class OpenApiTriggerWorkFlowRequestHandler extends PostHttpRequestHandler
                     );
 
                     if (count <= 0){
-                        SnailJobLog.LOCAL.warn("Group [{}] is closed, manual execution is not supported.", workflow.getGroupName());
+                        TaskEngineLog.LOCAL.warn("Group [{}] is closed, manual execution is not supported.", workflow.getGroupName());
                         return new TaskRpcResult(false, retryRequest.getReqId());
                     }
                 }

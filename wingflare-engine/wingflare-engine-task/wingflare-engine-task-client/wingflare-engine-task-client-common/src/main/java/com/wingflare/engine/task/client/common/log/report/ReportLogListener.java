@@ -4,7 +4,7 @@ import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.window.Listener;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.LogTaskRequest;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class ReportLogListener implements Listener<LogTaskRequest> {
 
     private static final RpcClient CLIENT = RequestBuilder.<RpcClient, TaskRpcResult>newBuilder()
             .client(RpcClient.class)
-            .callback(rpcResult -> SnailJobLog.LOCAL.info("Data report log successfully requestId:[{}]",
+            .callback(rpcResult -> TaskEngineLog.LOCAL.info("Data report log successfully requestId:[{}]",
                     rpcResult.getReqId())).build();
 
     @Override

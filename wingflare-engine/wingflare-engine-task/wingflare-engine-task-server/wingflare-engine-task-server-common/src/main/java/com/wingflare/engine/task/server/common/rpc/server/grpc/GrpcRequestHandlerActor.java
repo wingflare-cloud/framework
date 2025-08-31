@@ -11,7 +11,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.HttpRequestHandler;
 import com.wingflare.engine.task.server.common.cache.CacheToken;
 import com.wingflare.engine.task.server.common.dto.GrpcRequest;
@@ -47,7 +47,7 @@ public class GrpcRequestHandlerActor extends AbstractActor {
             Metadata metadata = taskGrpcRequest.getMetadata();
             final String uri = metadata.getUri();
             if (StrUtil.isBlank(uri)) {
-                SnailJobLog.LOCAL.error("uri can not be null");
+                TaskEngineLog.LOCAL.error("uri can not be null");
                 return;
             }
 
@@ -65,7 +65,7 @@ public class GrpcRequestHandlerActor extends AbstractActor {
                         taskGrpcRequest.getReqId());
                 }
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("http request error. [{}]", taskGrpcRequest, e);
+                TaskEngineLog.LOCAL.error("http request error. [{}]", taskGrpcRequest, e);
                 taskRpcResult = new TaskRpcResult(StatusEnum.NO.getStatus(), e.getMessage(), null,
                     taskGrpcRequest.getReqId());
             } finally {

@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.retry.support.dispatch;
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.InstanceSelectCondition;
 import com.wingflare.engine.task.server.common.dto.RegisterNodeInfo;
@@ -74,7 +74,7 @@ public class RetryExecutor extends AbstractActor {
                 Assert.notNull(execute.getRetryTaskId(), () -> new TaskServerException("retryTaskId can not be null"));
                 doExecute(execute);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Data scanner processing exception. [{}]", execute, e);
+                TaskEngineLog.LOCAL.error("Data scanner processing exception. [{}]", execute, e);
                 updateRetryTaskStatus(execute.getRetryTaskId(), RetryTaskStatusEnum.FAIL.getStatus(), RetryOperationReasonEnum.TASK_EXECUTION_ERROR);
             } finally {
                 getContext().stop(getSelf());

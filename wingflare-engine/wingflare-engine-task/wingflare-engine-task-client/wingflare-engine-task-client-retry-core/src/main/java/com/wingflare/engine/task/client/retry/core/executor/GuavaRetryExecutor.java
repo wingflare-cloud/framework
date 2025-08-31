@@ -12,8 +12,8 @@ import com.wingflare.engine.task.client.retry.core.RetryCondition;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
 import com.wingflare.engine.task.client.retry.core.exception.RetryIfResultException;
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 
 import java.util.Objects;
 import java.util.concurrent.Callable;
@@ -30,7 +30,7 @@ public class GuavaRetryExecutor extends AbstractRetryExecutor<WaitStrategy, Stop
 
     public GuavaRetryExecutor(String sceneName, String executorClassName) {
         retryerInfo = RetryerInfoCache.get(sceneName, executorClassName);
-        Assert.notNull(retryerInfo, () -> new SnailRetryClientException("retryerInfo is null sceneName:[{}] executorClassName:[{}]", sceneName, executorClassName));
+        Assert.notNull(retryerInfo, () -> new TaskRetryClientException("retryerInfo is null sceneName:[{}] executorClassName:[{}]", sceneName, executorClassName));
     }
 
     public GuavaRetryExecutor() {
@@ -67,9 +67,9 @@ public class GuavaRetryExecutor extends AbstractRetryExecutor<WaitStrategy, Stop
             Attempt<?> attempt = e.getLastFailedAttempt();
             if (attempt.hasException()) {
                 retryError.accept(e.getLastFailedAttempt().getExceptionCause());
-                SnailJobLog.LOCAL.debug("Business system retry exception:", e.getLastFailedAttempt().getExceptionCause());
+                TaskEngineLog.LOCAL.debug("Business system retry exception:", e.getLastFailedAttempt().getExceptionCause());
             } else {
-                SnailJobLog.LOCAL.debug("Business system retry exception:", e.getLastFailedAttempt().getResult());
+                TaskEngineLog.LOCAL.debug("Business system retry exception:", e.getLastFailedAttempt().getResult());
                 // 这里必须设置一个异常，本地重试才能上报
                 retryError.accept(new RetryIfResultException("Business system retry exception. result: {}", e.getLastFailedAttempt().getResult()));
             }
@@ -85,7 +85,7 @@ public class GuavaRetryExecutor extends AbstractRetryExecutor<WaitStrategy, Stop
             RetryCondition retryCondition = retryConditionClass.getDeclaredConstructor().newInstance();
             return retryCondition.shouldRetry(result);
         } catch (Throwable e) {
-            SnailJobLog.LOCAL.error("Retry condition fail. scene:[{}] executorClassName:[{}]", retryerInfo.getScene(),
+            TaskEngineLog.LOCAL.error("Retry condition fail. scene:[{}] executorClassName:[{}]", retryerInfo.getScene(),
                     retryerInfo.getExecutorClassName(), e);
         }
 

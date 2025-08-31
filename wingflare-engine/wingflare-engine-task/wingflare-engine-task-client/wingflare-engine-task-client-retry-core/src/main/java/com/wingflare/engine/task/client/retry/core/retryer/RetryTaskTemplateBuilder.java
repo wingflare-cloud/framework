@@ -36,13 +36,13 @@ public class RetryTaskTemplateBuilder {
         return this;
     }
 
-    public SnailJobTemplate build() {
-        SnailJobTemplate snailJobTemplate = new SnailJobTemplate();
-        snailJobTemplate.setParams(params);
-        snailJobTemplate.setExecutorMethodClass(executorMethodClass);
-        snailJobTemplate.setScene(scene);
+    public TaskTemplate build() {
+        TaskTemplate taskTemplate = new TaskTemplate();
+        taskTemplate.setParams(params);
+        taskTemplate.setExecutorMethodClass(executorMethodClass);
+        taskTemplate.setScene(scene);
         RetryStrategy retryStrategy = SnailSpringContext.getBeanByType(ManualRetryStrategies.class);
-        snailJobTemplate.setRetryStrategy(retryStrategy);
-        return snailJobTemplate;
+        taskTemplate.setRetryStrategy(retryStrategy);
+        return taskTemplate;
     }
 }

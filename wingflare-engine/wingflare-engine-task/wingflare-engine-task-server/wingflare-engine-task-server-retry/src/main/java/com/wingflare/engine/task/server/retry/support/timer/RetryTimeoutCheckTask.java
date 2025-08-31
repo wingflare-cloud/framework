@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.retry.support.timer;
 
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.RetryTaskStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.retry.dto.TaskStopJobDTO;
 import com.wingflare.engine.task.server.retry.support.RetryTaskConverter;
@@ -45,7 +45,7 @@ public class RetryTimeoutCheckTask implements TimerTask<String> {
         RetryTimerWheel.clearCache(idempotentKey());
         RetryTask retryTask = retryTaskMapper.selectById(retryTaskId);
         if (Objects.isNull(retryTask)) {
-            SnailJobLog.LOCAL.error("RetryTaskId:[{}] does not exist", retryTaskId);
+            TaskEngineLog.LOCAL.error("RetryTaskId:[{}] does not exist", retryTaskId);
             return;
         }
 
@@ -56,7 +56,7 @@ public class RetryTimeoutCheckTask implements TimerTask<String> {
 
         Retry retry = retryMapper.selectById(retryId);
         if (Objects.isNull(retry)) {
-            SnailJobLog.LOCAL.error("RetryId:[{}] does not exist", retryId);
+            TaskEngineLog.LOCAL.error("RetryId:[{}] does not exist", retryId);
             return;
         }
 
@@ -70,7 +70,7 @@ public class RetryTimeoutCheckTask implements TimerTask<String> {
         stopJobDTO.setNeedUpdateTaskStatus(true);
         retryTaskStopHandler.stop(stopJobDTO);
 
-        SnailJobLog.LOCAL.info(reason);
+        TaskEngineLog.LOCAL.info(reason);
     }
 
     @Override

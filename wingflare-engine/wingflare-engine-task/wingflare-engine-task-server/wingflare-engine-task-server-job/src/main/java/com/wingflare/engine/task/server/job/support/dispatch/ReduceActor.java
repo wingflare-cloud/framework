@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.job.dto.ReduceTaskDTO;
@@ -64,7 +64,7 @@ public class ReduceActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder().match(ReduceTaskDTO.class, reduceTask -> {
-            SnailJobLog.LOCAL.info("Executing Reduce, [{}]", JsonUtil.toJsonString(reduceTask));
+            TaskEngineLog.LOCAL.info("Executing Reduce, [{}]", JsonUtil.toJsonString(reduceTask));
             try {
 
                 Assert.notNull(reduceTask.getMrStage(), () -> new TaskServerException("mrStage can not be null"));
@@ -76,7 +76,7 @@ public class ReduceActor extends AbstractActor {
                     doReduce(reduceTask);
                 }, key, Duration.ofSeconds(1), Duration.ofSeconds(2), 6);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Reduce processing exception. [{}]", reduceTask, e);
+                TaskEngineLog.LOCAL.error("Reduce processing exception. [{}]", reduceTask, e);
             } finally {
                 getContext().stop(getSelf());
             }
@@ -116,7 +116,7 @@ public class ReduceActor extends AbstractActor {
         context.setArgsStr(argStr);
         List<JobTask> taskList = taskInstance.generate(context);
         if (CollUtil.isEmpty(taskList)) {
-            SnailJobLog.LOCAL.warn("Job task is empty, taskBatchId:[{}]", reduceTask.getTaskBatchId());
+            TaskEngineLog.LOCAL.warn("Job task is empty, taskBatchId:[{}]", reduceTask.getTaskBatchId());
             return;
         }
 

@@ -7,7 +7,7 @@ import com.wingflare.engine.task.client.retry.core.callback.complete.RetryComple
 import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -85,7 +85,7 @@ public class ExecutorMethodScanner implements Scanner, ApplicationContextAware {
                     null
             );
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Error loading retry information for {}: {}", executor.getClass().getName(), e);
+            TaskEngineLog.LOCAL.error("Error loading retry information for {}: {}", executor.getClass().getName(), e);
         }
 
         return null;

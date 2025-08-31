@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.executor.workflow;
 
 import com.wingflare.engine.task.common.core.enums.*;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.JobLogMetaDTO;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.common.util.DateUtils;
@@ -92,7 +92,7 @@ public class JobTaskWorkflowExecutor extends AbstractWorkflowExecutor {
         jobLogMetaDTO.setJobId(context.getJobId());
         jobLogMetaDTO.setTaskId(jobTask.getId());
 
-        SnailJobLog.REMOTE.warn("Node [{}] has canceled task execution. Cancellation reason: {}. <|>{}<|>",
+        TaskEngineLog.REMOTE.warn("Node [{}] has canceled task execution. Cancellation reason: {}. <|>{}<|>",
             context.getWorkflowNodeId(), cancelReason, jobLogMetaDTO);
     }
 }

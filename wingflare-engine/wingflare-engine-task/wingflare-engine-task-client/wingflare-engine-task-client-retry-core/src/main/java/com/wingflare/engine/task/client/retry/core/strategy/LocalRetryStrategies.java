@@ -8,13 +8,13 @@ import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -57,7 +57,7 @@ public class LocalRetryStrategies extends AbstractRetryStrategies {
                 // 这里标志结果为失败，是表示数据并未重试成功，等待服务端重试
                 context.setRetryResultStatusEnum(RetryResultStatusEnum.FAILURE);
             } else {
-                SnailJobLog.LOCAL.debug("doRetrySuccessConsumer retry successful");
+                TaskEngineLog.LOCAL.debug("doRetrySuccessConsumer retry successful");
             }
         };
     }
@@ -129,7 +129,7 @@ public class LocalRetryStrategies extends AbstractRetryStrategies {
                 RetrySiteSnapshot.setStage(RetrySiteSnapshot.EnumStage.REMOTE.getStage());
                 return () -> null;
             default:
-                throw new SnailRetryClientException("Exception retry mode [{}]", retryType.name());
+                throw new TaskRetryClientException("Exception retry mode [{}]", retryType.name());
         }
 
     }
@@ -159,13 +159,13 @@ public class LocalRetryStrategies extends AbstractRetryStrategies {
                             switch (retryType) {
                                 case ONLY_LOCAL:
                                 case LOCAL_REMOTE:
-                                    SnailJobLog.LOCAL.error("Local retry for [{}], retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
+                                    TaskEngineLog.LOCAL.error("Local retry for [{}], retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
                                     break;
                                 case ONLY_REMOTE:
-                                    SnailJobLog.LOCAL.error("Report service end execution for [{}], retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
+                                    TaskEngineLog.LOCAL.error("Report service end execution for [{}], retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
                                     break;
                                 default:
-                                    throw new SnailRetryClientException("Exception retry mode [{}]", retryType.name());
+                                    throw new TaskRetryClientException("Exception retry mode [{}]", retryType.name());
 
                             }
                         } else {
@@ -173,13 +173,13 @@ public class LocalRetryStrategies extends AbstractRetryStrategies {
                             switch (retryType) {
                                 case ONLY_LOCAL:
                                 case LOCAL_REMOTE:
-                                    SnailJobLog.LOCAL.info("Local retry for [{}]. retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
+                                    TaskEngineLog.LOCAL.info("Local retry for [{}]. retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
                                     break;
                                 case ONLY_REMOTE:
-                                    SnailJobLog.LOCAL.info("Report service end execution for [{}]. retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
+                                    TaskEngineLog.LOCAL.info("Report service end execution for [{}]. retry number [{}]", retryerInfo.getScene(), attempt.getAttemptNumber());
                                     break;
                                 default:
-                                    throw new SnailRetryClientException("Exception retry mode [{}]. retry number [{}]", retryType.name(), attempt.getAttemptNumber());
+                                    throw new TaskRetryClientException("Exception retry mode [{}]. retry number [{}]", retryType.name(), attempt.getAttemptNumber());
 
                             }
                         }

@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.retry.core.register;
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.retry.core.Scanner;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class RetryableRegistrar implements Lifecycle {
     public void registerRetryHandler(RetryerInfo retryerInfo) {
 
         if (Objects.nonNull(RetryerInfoCache.get(retryerInfo.getScene(), retryerInfo.getExecutorClassName()))) {
-            throw new SnailRetryClientException("Scene [{}] already exists in class [{}]", retryerInfo.getExecutorClassName(), retryerInfo.getScene());
+            throw new TaskRetryClientException("Scene [{}] already exists in class [{}]", retryerInfo.getExecutorClassName(), retryerInfo.getScene());
         }
 
         RetryerInfoCache.put(retryerInfo);

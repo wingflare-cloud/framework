@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.CallbackConfig;
 import com.wingflare.engine.task.common.model.request.CallbackParamsRequest;
 import com.wingflare.engine.task.server.common.dto.JobLogMetaDTO;
@@ -109,9 +109,9 @@ public class CallbackWorkflowExecutor extends AbstractWorkflowExecutor {
                             new HttpEntity<>(callbackParamsRequest, requestHeaders), String.class, uriVariables));
 
             result = response.getBody();
-            SnailJobLog.LOCAL.info("Callback result. WebHook:[{}], Result: [{}]", decisionConfig.getWebhook(), result);
+            TaskEngineLog.LOCAL.info("Callback result. WebHook:[{}], Result: [{}]", decisionConfig.getWebhook(), result);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Callback exception. WebHook:[{}], Parameter: [{}]", decisionConfig.getWebhook(),
+            TaskEngineLog.LOCAL.error("Callback exception. WebHook:[{}], Parameter: [{}]", decisionConfig.getWebhook(),
                     context.getWfContext(), e);
 
             context.setTaskBatchStatus(JobTaskBatchStatusEnum.FAIL.getStatus());
@@ -146,7 +146,7 @@ public class CallbackWorkflowExecutor extends AbstractWorkflowExecutor {
                     @Override
                     public <V> void onRetry(final Attempt<V> attempt) {
                         if (attempt.hasException()) {
-                            SnailJobLog.LOCAL.error("Callback interface attempt [{}]. Callback configuration information: [{}]",
+                            TaskEngineLog.LOCAL.error("Callback interface attempt [{}]. Callback configuration information: [{}]",
                                     attempt.getAttemptNumber(), JsonUtil.toJsonString(decisionConfig));
                         }
                     }
@@ -172,19 +172,19 @@ public class CallbackWorkflowExecutor extends AbstractWorkflowExecutor {
         jobLogMetaDTO.setJobId(SystemConstants.CALLBACK_JOB_ID);
         jobLogMetaDTO.setTaskId(jobTask.getId());
         if (jobTaskBatch.getTaskBatchStatus() == JobTaskStatusEnum.SUCCESS.getStatus()) {
-            SnailJobLog.REMOTE.info("Node [{}] callback success.\nCallback params: {} \nCallback result: [{}] <|>{}<|>",
+            TaskEngineLog.REMOTE.info("Node [{}] callback success.\nCallback params: {} \nCallback result: [{}] <|>{}<|>",
                     context.getWorkflowNodeId(), context.getWfContext(), context.getEvaluationResult(), jobLogMetaDTO);
         } else if (jobTaskBatch.getTaskBatchStatus() == JobTaskStatusEnum.CANCEL.getStatus()) {
             if (WORKFLOW_SUCCESSOR_SKIP_EXECUTION.contains(context.getParentOperationReason())) {
-                SnailJobLog.REMOTE.warn("Node [{}] cancels callback. Cancellation reason: Current task does not require processing <|>{}<|>",
+                TaskEngineLog.REMOTE.warn("Node [{}] cancels callback. Cancellation reason: Current task does not require processing <|>{}<|>",
                         context.getWorkflowNodeId(), jobLogMetaDTO);
             } else {
-                SnailJobLog.REMOTE.warn("Node [{}] cancels callback. Cancellation reason: Task status is closed <|>{}<|>",
+                TaskEngineLog.REMOTE.warn("Node [{}] cancels callback. Cancellation reason: Task status is closed <|>{}<|>",
                         context.getWorkflowNodeId(), jobLogMetaDTO);
             }
 
         } else {
-            SnailJobLog.REMOTE.error("Node [{}] fail to callback.\nReason: {} <|>{}<|>",
+            TaskEngineLog.REMOTE.error("Node [{}] fail to callback.\nReason: {} <|>{}<|>",
                     context.getWorkflowNodeId(),
                     context.getLogMessage(), jobLogMetaDTO);
         }

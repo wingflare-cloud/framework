@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.job.support.timer;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.enums.JobTaskExecutorSceneEnum;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
@@ -40,7 +40,7 @@ public class ResidentJobTimerTask implements TimerTask<String> {
             ActorRef actorRef = ActorGenerator.jobTaskPrepareActor();
             actorRef.tell(jobTaskPrepare, actorRef);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Task scheduling execution failed", e);
+            TaskEngineLog.LOCAL.error("Task scheduling execution failed", e);
         }
     }
 

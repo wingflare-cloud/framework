@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.retry.core.report;
 
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
@@ -12,7 +12,7 @@ import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
@@ -51,7 +51,7 @@ public class SyncReport extends AbstractReport {
                     "> 异常:{}  \n";
 
     @Resource
-    private SnailJobProperties snailJobProperties;
+    private TaskProperties taskProperties;
 
     @Override
     public boolean supports(boolean async) {
@@ -80,7 +80,7 @@ public class SyncReport extends AbstractReport {
 
         try {
             TaskRpcResult result = client.reportRetryInfo(Collections.singletonList(retryTaskRequest));
-            SnailJobLog.LOCAL.debug("Data report result result:[{}]", JsonUtil.toJsonString(result));
+            TaskEngineLog.LOCAL.debug("Data report result result:[{}]", JsonUtil.toJsonString(result));
             return (Boolean) result.getData();
         } catch (Exception e) {
             sendMessage(e);
@@ -103,18 +103,18 @@ public class SyncReport extends AbstractReport {
                         .text(reportErrorTextMessageFormatter,
                                 EnvironmentUtils.getActiveProfile(),
                                 NetUtil.getLocalIpStr(),
-                                snailJobProperties.getNamespace(),
-                                snailJobProperties.getGroup(),
+                                taskProperties.getNamespace(),
+                                taskProperties.getGroup(),
                                 LocalDateTime.now().format(formatter),
                                 e.getMessage())
-                        .title("Sync reporting exception: [{}]", snailJobProperties.getGroup())
+                        .title("Sync reporting exception: [{}]", taskProperties.getGroup())
                         .notifyAttribute(recipient.getNotifyAttribute());
 
                 Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
             }
 
         } catch (Exception e1) {
-            SnailJobLog.LOCAL.error("Client failed to send component exception alarm", e1);
+            TaskEngineLog.LOCAL.error("Client failed to send component exception alarm", e1);
         }
 
     }

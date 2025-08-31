@@ -6,7 +6,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants.HTTP_PATH;
 import com.wingflare.engine.task.common.core.enums.NodeTypeEnum;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.cache.CacheConsumerGroup;
 import com.wingflare.engine.task.server.common.client.CommonRpcClient;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;
@@ -164,17 +164,17 @@ public class ClientRegister extends AbstractRegister {
                 }
 
                 if (CollUtil.isEmpty(waitRefreshDBClientNodes)) {
-                    SnailJobLog.LOCAL.debug("clientNodes is empty");
+                    TaskEngineLog.LOCAL.debug("clientNodes is empty");
                     return;
                 }
 
-                SnailJobLog.LOCAL.debug("start refresh client nodes：{}", waitRefreshDBClientNodes);
+                TaskEngineLog.LOCAL.debug("start refresh client nodes：{}", waitRefreshDBClientNodes);
 
                 // 刷新DB
                 refreshExpireAt(waitRefreshDBClientNodes);
 
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Refresh failed", e);
+                TaskEngineLog.LOCAL.error("Refresh failed", e);
             }
         }
 

@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.retry.support.timer;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.retry.support.idempotent.IdempotentHolder;
 import com.wingflare.engine.task.server.retry.support.idempotent.TimerIdempotent;
@@ -51,7 +51,7 @@ public class RetryTimerWheel {
     public static synchronized void register(String idempotentKey, TimerTask<String> task, Duration delay) {
 
         register(idempotentKey, hashedWheelTimer -> {
-            SnailJobLog.LOCAL.debug("Join time wheel. Delay:[{}ms] Task type:[{}]", delay.toMillis(), idempotentKey);
+            TaskEngineLog.LOCAL.debug("Join time wheel. Delay:[{}ms] Task type:[{}]", delay.toMillis(), idempotentKey);
             timer.newTimeout(task, Math.max(delay.toMillis(), 0), TimeUnit.MILLISECONDS);
         });
     }
@@ -63,7 +63,7 @@ public class RetryTimerWheel {
                 consumer.accept(timer);
                 idempotent.set(idempotentKey);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Failed to join time wheel. uniqueId:[{}]", idempotentKey, e);
+                TaskEngineLog.LOCAL.error("Failed to join time wheel. uniqueId:[{}]", idempotentKey, e);
             }
         }
     }

@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.register;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.Register;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;
@@ -97,7 +97,7 @@ public abstract class AbstractRegister implements Register, Lifecycle {
                 serverNodeMapper.updateBatchExpireAt(updateDBs);
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Lease renewal failed", e);
+            TaskEngineLog.LOCAL.error("Lease renewal failed", e);
         }
 
         try {
@@ -106,7 +106,7 @@ public abstract class AbstractRegister implements Register, Lifecycle {
             }
         } catch (DuplicateKeyException ignored) {
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Node registration failed", e);
+            TaskEngineLog.LOCAL.error("Node registration failed", e);
         }
 
         for (final ServerNode serverNode : serverNodes) {

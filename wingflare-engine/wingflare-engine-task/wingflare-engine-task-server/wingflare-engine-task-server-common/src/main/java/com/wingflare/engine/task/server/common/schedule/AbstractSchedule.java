@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.schedule;
 
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Schedule;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.lock.LockBuilder;
@@ -44,7 +44,7 @@ public abstract class AbstractSchedule implements Schedule {
                 doExecute();
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error(this.getClass().getName() + " execute error. lockName:[{}]", lockName, e);
+            TaskEngineLog.LOCAL.error(this.getClass().getName() + " execute error. lockName:[{}]", lockName, e);
         } finally {
             if (lock) {
                 lockProvider.unlock();

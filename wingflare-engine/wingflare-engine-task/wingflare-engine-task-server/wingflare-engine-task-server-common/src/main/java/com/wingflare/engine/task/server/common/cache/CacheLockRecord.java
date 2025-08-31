@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.common.cache;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.lock.LockManager;
 import com.google.common.cache.Cache;
@@ -53,7 +53,7 @@ public class CacheLockRecord implements Lifecycle {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("CacheLockRecord start");
+        TaskEngineLog.LOCAL.info("CacheLockRecord start");
     }
 
     @Override

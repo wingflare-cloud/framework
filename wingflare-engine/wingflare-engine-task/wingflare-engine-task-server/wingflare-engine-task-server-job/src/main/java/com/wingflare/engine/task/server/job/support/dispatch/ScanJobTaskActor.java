@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.WaitStrategy;
 import com.wingflare.engine.task.server.common.cache.CacheConsumerGroup;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
@@ -70,7 +70,7 @@ public class ScanJobTaskActor extends AbstractActor {
             try {
                 doScan(config);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Data scanner processing exception. [{}]", config, e);
+                TaskEngineLog.LOCAL.error("Data scanner processing exception. [{}]", config, e);
             }
 
         }).build();

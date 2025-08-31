@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.JobArgsHolder;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.util.ClientInfoUtils;
@@ -51,13 +51,13 @@ public class ShardingTaskGenerator extends AbstractJobTaskGenerator {
         Set<InstanceLiveInfo> liveInfoSet = instanceManager.getInstanceALiveInfoSet(
                 context.getNamespaceId(), context.getGroupName(), context.getLabels());
         if (CollUtil.isEmpty(liveInfoSet)) {
-            SnailJobLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
+            TaskEngineLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
             return Lists.newArrayList();
         }
 
         String argsStr = context.getArgsStr();
         if (StrUtil.isBlank(argsStr)) {
-            SnailJobLog.LOCAL.error("Slice parameters are empty. Job ID:[{}]", context.getJobId());
+            TaskEngineLog.LOCAL.error("Slice parameters are empty. Job ID:[{}]", context.getJobId());
             return Lists.newArrayList();
         }
 
@@ -65,7 +65,7 @@ public class ShardingTaskGenerator extends AbstractJobTaskGenerator {
         try {
             argsStrs = JsonUtil.parseList(argsStr, String.class);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Slice parameter parsing failed. Job ID:[{}]", context.getJobId(), e);
+            TaskEngineLog.LOCAL.error("Slice parameter parsing failed. Job ID:[{}]", context.getJobId(), e);
             return Lists.newArrayList();
         }
 

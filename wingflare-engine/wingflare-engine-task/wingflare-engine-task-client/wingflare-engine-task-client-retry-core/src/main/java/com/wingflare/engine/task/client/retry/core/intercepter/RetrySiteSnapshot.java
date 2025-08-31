@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.client.retry.core.intercepter;
 
 import com.wingflare.engine.task.client.retry.core.RetrySiteSnapshotContext;
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
-import com.wingflare.engine.task.client.retry.core.loader.SnailRetrySpiLoader;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
+import com.wingflare.engine.task.client.retry.core.loader.TaskRetrySpiLoader;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.model.TaskHeaders;
 
@@ -28,37 +28,37 @@ public class RetrySiteSnapshot {
     /**
      * 重试阶段，1-内存重试阶段，2-服务端重试阶段
      */
-    private static final RetrySiteSnapshotContext<Integer> RETRY_STAGE = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<Integer> RETRY_STAGE = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 标记重试方法入口
      */
-    private static final RetrySiteSnapshotContext<Deque<MethodEntranceMeta>> RETRY_CLASS_METHOD_ENTRANCE = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<Deque<MethodEntranceMeta>> RETRY_CLASS_METHOD_ENTRANCE = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 重试状态
      */
-    private static final RetrySiteSnapshotContext<Integer> RETRY_STATUS = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<Integer> RETRY_STATUS = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 重试请求头
      */
-    private static final RetrySiteSnapshotContext<TaskHeaders> RETRY_HEADER = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<TaskHeaders> RETRY_HEADER = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 状态码
      */
-    private static final RetrySiteSnapshotContext<String> RETRY_STATUS_CODE = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<String> RETRY_STATUS_CODE = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 挂起重试的内存状态
      */
-    private static final RetrySiteSnapshotContext<Map<String, Object>> SUSPEND = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<Map<String, Object>> SUSPEND = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     /**
      * 进入方法入口时间标记
      */
-    private static final RetrySiteSnapshotContext<Long> ENTRY_METHOD_TIME = SnailRetrySpiLoader.loadRetrySiteSnapshotContext();
+    private static final RetrySiteSnapshotContext<Long> ENTRY_METHOD_TIME = TaskRetrySpiLoader.loadRetrySiteSnapshotContext();
 
     public static void suspend() {
         SUSPEND.set(new HashMap<>(){{
@@ -275,7 +275,7 @@ public class RetrySiteSnapshot {
                 }
             }
 
-            throw new SnailRetryClientException("unsupported stage");
+            throw new TaskRetryClientException("unsupported stage");
         }
 
     }

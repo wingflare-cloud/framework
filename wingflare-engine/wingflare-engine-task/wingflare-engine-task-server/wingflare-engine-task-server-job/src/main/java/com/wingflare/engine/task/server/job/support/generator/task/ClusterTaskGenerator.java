@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.model.JobArgsHolder;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.InstanceSelectCondition;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -58,7 +58,7 @@ public class ClusterTaskGenerator extends AbstractJobTaskGenerator {
 
         InstanceLiveInfo routeKey = instanceManager.getALiveInstanceByRouteKey(condition);
         if (Objects.isNull(routeKey)) {
-            SnailJobLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
+            TaskEngineLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
             return Lists.newArrayList();
         }
 

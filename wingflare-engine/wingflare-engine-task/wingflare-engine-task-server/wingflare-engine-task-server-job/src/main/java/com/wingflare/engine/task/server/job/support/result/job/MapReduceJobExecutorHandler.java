@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.result.job;
 
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.job.dto.ReduceTaskDTO;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
@@ -115,7 +115,7 @@ public class MapReduceJobExecutorHandler extends AbstractJobExecutorResultHandle
             actorRef.tell(reduceTaskDTO, actorRef);
             return true;
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("tell reduce actor error", e);
+            TaskEngineLog.LOCAL.error("tell reduce actor error", e);
         }
 
         return false;

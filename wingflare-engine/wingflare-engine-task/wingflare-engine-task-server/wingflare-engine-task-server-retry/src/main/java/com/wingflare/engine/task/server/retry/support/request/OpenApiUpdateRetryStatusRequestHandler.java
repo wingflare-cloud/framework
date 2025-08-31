@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.WaitStrategy;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
@@ -39,7 +39,7 @@ public class OpenApiUpdateRetryStatusRequestHandler extends PostHttpRequestHandl
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("update retry status:[{}]", content);
+        TaskEngineLog.LOCAL.debug("update retry status:[{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
         RequestUpdateRetryStatusVO updateRetryStatusVO = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), RequestUpdateRetryStatusVO.class);

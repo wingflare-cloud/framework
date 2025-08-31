@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.starter.dispatch;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.cache.CacheGroupScanActor;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.ScanTask;
@@ -52,7 +52,7 @@ public class ConsumerBucketActor extends AbstractActor {
             try {
                 doDispatch(consumerBucket);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Data dispatcher processing exception. [{}]", consumerBucket, e);
+                TaskEngineLog.LOCAL.error("Data dispatcher processing exception. [{}]", consumerBucket, e);
             }
 
         }).build();
@@ -83,7 +83,7 @@ public class ConsumerBucketActor extends AbstractActor {
         for (List<Integer> buckets : partitions) {
             String key = StrUtil.join(StrUtil.COMMA, new TreeSet<>(buckets));
             if (ScanRetryActor.REPEATED_PULL.contains(key)) {
-                SnailJobLog.LOCAL.warn("Discard the current scanning task because there are ongoing tasks in the current batch.[{}]", key);
+                TaskEngineLog.LOCAL.warn("Discard the current scanning task because there are ongoing tasks in the current batch.[{}]", key);
                 continue;
             }
             ScanTask scanTask = new ScanTask();

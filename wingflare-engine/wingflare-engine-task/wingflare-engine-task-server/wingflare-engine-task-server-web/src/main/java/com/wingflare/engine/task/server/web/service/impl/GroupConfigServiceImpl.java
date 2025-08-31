@@ -7,7 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
 import com.wingflare.engine.task.server.common.enums.IdGeneratorModeEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -312,7 +312,7 @@ public class GroupConfigServiceImpl implements GroupConfigService {
                     .distinct()
                     .collect(Collectors.toList());
         } catch (SQLException ignored) {
-            SnailJobLog.LOCAL.error("getTablePartitionList method error", ignored);
+            TaskEngineLog.LOCAL.error("getTablePartitionList method error", ignored);
         }
 
         return Collections.emptyList();

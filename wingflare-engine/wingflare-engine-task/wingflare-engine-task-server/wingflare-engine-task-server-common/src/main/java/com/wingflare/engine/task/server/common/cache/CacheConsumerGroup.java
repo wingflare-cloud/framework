@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.common.cache;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -46,7 +46,7 @@ public class CacheConsumerGroup implements Lifecycle {
     }
 
     public static void remove(String groupName) {
-        SnailJobLog.LOCAL.debug("Remove consumer cache. groupName:[{}]", groupName);
+        TaskEngineLog.LOCAL.debug("Remove consumer cache. groupName:[{}]", groupName);
         CACHE.invalidate(groupName);
     }
 
@@ -56,7 +56,7 @@ public class CacheConsumerGroup implements Lifecycle {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("CacheRegisterTable start");
+        TaskEngineLog.LOCAL.info("CacheRegisterTable start");
         CACHE = CacheBuilder.newBuilder()
                 // 设置并发级别为cpu核心数
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
@@ -67,7 +67,7 @@ public class CacheConsumerGroup implements Lifecycle {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("CacheRegisterTable stop");
+        TaskEngineLog.LOCAL.info("CacheRegisterTable stop");
         CACHE.invalidateAll();
     }
 }

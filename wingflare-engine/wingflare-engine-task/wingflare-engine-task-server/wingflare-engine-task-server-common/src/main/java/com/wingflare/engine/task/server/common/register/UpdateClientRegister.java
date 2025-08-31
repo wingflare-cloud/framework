@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.common.register;
 
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.client.CommonRpcClient;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.UpdateClientInfoDTO;
@@ -54,13 +54,13 @@ public class UpdateClientRegister {
                     Result<Boolean> result = future.get(1, TimeUnit.SECONDS);
                     if (StatusEnum.NO.getStatus() == result.getStatus()
                             || (Objects.nonNull(result.getData()) && !result.getData())) {
-                        SnailJobLog.LOCAL.error("update client info error. msg:[{}]", result.getMessage());
+                        TaskEngineLog.LOCAL.error("update client info error. msg:[{}]", result.getMessage());
                         results.add(false);
                     } else {
                         results.add(true);
                     }
                 } catch (Throwable e) {
-                    SnailJobLog.LOCAL.error("update client info error", e);
+                    TaskEngineLog.LOCAL.error("update client info error", e);
                     results.add(false);
                 }
             });

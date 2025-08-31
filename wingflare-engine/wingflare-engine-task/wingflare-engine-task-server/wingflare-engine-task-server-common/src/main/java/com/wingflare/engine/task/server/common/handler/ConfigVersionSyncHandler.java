@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.handler;
 
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.client.CommonRpcClient;
@@ -72,10 +72,10 @@ public class ConfigVersionSyncHandler implements Lifecycle, Runnable {
                         .nodeInfo(instanceLiveInfo)
                         .client(CommonRpcClient.class)
                         .build();
-                SnailJobLog.LOCAL.info("Synchronization result [{}]", rpcClient.syncConfig(configRequest));
+                TaskEngineLog.LOCAL.info("Synchronization result [{}]", rpcClient.syncConfig(configRequest));
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("version sync error. groupName:[{}]", groupName, e);
+            TaskEngineLog.LOCAL.error("version sync error. groupName:[{}]", groupName, e);
         }
     }
 
@@ -103,9 +103,9 @@ public class ConfigVersionSyncHandler implements Lifecycle, Runnable {
                     syncVersion(task.getGroupName(), task.getNamespaceId());
                 }
             } catch (InterruptedException e) {
-                SnailJobLog.LOCAL.info("[{}] thread stop.", Thread.currentThread().getName());
+                TaskEngineLog.LOCAL.info("[{}] thread stop.", Thread.currentThread().getName());
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("client refresh expireAt error.", e);
+                TaskEngineLog.LOCAL.error("client refresh expireAt error.", e);
             } finally {
                 try {
                     // 防止刷的过快，休眠1s

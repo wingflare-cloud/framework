@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,12 +82,12 @@ public class DingDingUtils {
             JsonNode bodyJson = JsonUtil.toJson(body);
             int errCode = bodyJson.get("errcode").asInt();
             if (errCode != 0) {
-                SnailJobLog.LOCAL.error("dingDingProcessNotify: DingTalk message sending failed, error code: {}, error message: {}", errCode, bodyJson.get("errmsg").asText());
+                TaskEngineLog.LOCAL.error("dingDingProcessNotify: DingTalk message sending failed, error code: {}, error message: {}", errCode, bodyJson.get("errmsg").asText());
                 return false;
             }
             return true;
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("dingDingProcessNotify", e);
+            TaskEngineLog.LOCAL.error("dingDingProcessNotify", e);
         }
 
         return false;

@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.service.handler;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.RetryArgsDeserializeRequest;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.InstanceSelectCondition;
@@ -76,7 +76,7 @@ public class RetryArgsDeserializeHandler {
 
             return JsonUtil.toJsonString(result.getData());
         } catch (Throwable e) {
-            SnailJobLog.LOCAL.error("deserialize is error. args:[{}]", retryArgsDeserializeVO.getArgsStr(), e);
+            TaskEngineLog.LOCAL.error("deserialize is error. args:[{}]", retryArgsDeserializeVO.getArgsStr(), e);
         }
 
         return retryArgsDeserializeVO.getArgsStr();

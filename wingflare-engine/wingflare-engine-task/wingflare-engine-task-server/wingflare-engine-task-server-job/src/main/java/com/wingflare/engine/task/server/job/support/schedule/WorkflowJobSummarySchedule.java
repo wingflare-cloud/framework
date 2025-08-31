@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.JobTaskBatchReason;
@@ -115,12 +115,12 @@ public class WorkflowJobSummarySchedule extends AbstractSchedule implements Life
                     insertTotalJobSummary = jobSummaryMapper.insertBatch(waitInserts);
                 }
 
-                SnailJobLog.LOCAL.debug(
+                TaskEngineLog.LOCAL.debug(
                         "workflow job summary dashboard success todayFrom:[{}] todayTo:[{}] updateTotalJobSummary:[{}] insertTotalJobSummary:[{}]",
                         todayFrom, todayTo, updateTotalJobSummary, insertTotalJobSummary);
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("workflow job summary dashboard log error", e);
+            TaskEngineLog.LOCAL.error("workflow job summary dashboard log error", e);
         }
     }
 

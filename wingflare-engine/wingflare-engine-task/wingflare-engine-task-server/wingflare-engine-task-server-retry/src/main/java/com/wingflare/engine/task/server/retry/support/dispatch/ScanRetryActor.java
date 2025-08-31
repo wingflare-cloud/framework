@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.WaitStrategy;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
@@ -81,7 +81,7 @@ public class ScanRetryActor extends AbstractActor {
             try {
                 doScan(config);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Data scanner processing exception. [{}]", config, e);
+                TaskEngineLog.LOCAL.error("Data scanner processing exception. [{}]", config, e);
             } finally {
                 REPEATED_PULL.remove(config.getBucketStr());
                 getContext().stop(getSelf());

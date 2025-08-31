@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.common.lock.persistence;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.cache.CacheLockRecord;
 import com.wingflare.engine.task.server.common.dto.LockConfig;
@@ -76,7 +76,7 @@ public class JdbcLockProvider implements LockStorage, Lifecycle {
             } catch (DuplicateKeyException | ConcurrencyFailureException | TransactionSystemException e) {
                 return false;
             } catch (DataIntegrityViolationException | BadSqlGrammarException | UncategorizedSQLException e) {
-                SnailJobLog.LOCAL.debug("Unexpected exception. lockName:[{}]", lockConfig.getLockName(), e);
+                TaskEngineLog.LOCAL.debug("Unexpected exception. lockName:[{}]", lockConfig.getLockName(), e);
                 return false;
             }
         }));
@@ -111,7 +111,7 @@ public class JdbcLockProvider implements LockStorage, Lifecycle {
                     return distributedLockMapper.delete(new LambdaUpdateWrapper<DistributedLock>()
                             .eq(DistributedLock::getName, lockName)) > 0;
                 } catch (Exception e) {
-                    SnailJobLog.LOCAL.error("unlock error. retrying attempt [{}] ", i, e);
+                    TaskEngineLog.LOCAL.error("unlock error. retrying attempt [{}] ", i, e);
                 } finally {
                     CacheLockRecord.remove(lockName);
                 }
@@ -133,7 +133,7 @@ public class JdbcLockProvider implements LockStorage, Lifecycle {
                     return distributedLockMapper.update(distributedLock, new LambdaUpdateWrapper<DistributedLock>()
                             .eq(DistributedLock::getName, lockName)) > 0;
                 } catch (Exception e) {
-                    SnailJobLog.LOCAL.error("unlock error. retrying attempt [{}] ", i, e);
+                    TaskEngineLog.LOCAL.error("unlock error. retrying attempt [{}] ", i, e);
                 }
             }
 

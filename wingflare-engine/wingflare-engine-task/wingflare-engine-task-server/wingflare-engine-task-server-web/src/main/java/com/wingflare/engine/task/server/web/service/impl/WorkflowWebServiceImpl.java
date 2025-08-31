@@ -11,7 +11,7 @@ import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
 import com.wingflare.engine.task.common.core.expression.ExpressionFactory;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.JobTaskConfigRequest;
 import com.wingflare.engine.task.common.model.response.base.WorkflowDetailResponse;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
@@ -266,7 +266,7 @@ public class WorkflowWebServiceImpl extends AbstractWorkflowService implements W
             Object eval = expressionEngine.eval(decisionVO.getNodeExpression(), decisionVO.getCheckContent());
             return Pair.of(StatusEnum.YES.getStatus(), eval);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Expression exception. [{}]", decisionVO.getNodeExpression(), e);
+            TaskEngineLog.LOCAL.error("Expression exception. [{}]", decisionVO.getNodeExpression(), e);
             return Pair.of(StatusEnum.NO.getStatus(), e.getMessage());
         }
     }

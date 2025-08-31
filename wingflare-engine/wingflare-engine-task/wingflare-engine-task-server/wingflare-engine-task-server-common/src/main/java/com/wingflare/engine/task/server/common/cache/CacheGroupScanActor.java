@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.common.cache;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
 import com.google.common.cache.Cache;
@@ -48,7 +48,7 @@ public class CacheGroupScanActor implements Lifecycle {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("CacheGroupScanActor start");
+        TaskEngineLog.LOCAL.info("CacheGroupScanActor start");
         CACHE = CacheBuilder.newBuilder()
                 // 设置并发级别为cpu核心数
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
@@ -57,7 +57,7 @@ public class CacheGroupScanActor implements Lifecycle {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("CacheGroupScanActor stop");
+        TaskEngineLog.LOCAL.info("CacheGroupScanActor stop");
         CACHE.invalidateAll();
     }
 }

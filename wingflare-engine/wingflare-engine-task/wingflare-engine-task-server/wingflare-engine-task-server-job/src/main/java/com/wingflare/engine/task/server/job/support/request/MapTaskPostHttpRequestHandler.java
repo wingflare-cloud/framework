@@ -10,7 +10,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.MapTaskRequest;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
@@ -68,7 +68,7 @@ public  class MapTaskPostHttpRequestHandler extends PostHttpRequestHandler {
 
     @Override
     public TaskRpcResult doHandler(final String content, final UrlQuery query, final HttpHeaders headers) {
-        SnailJobLog.LOCAL.info("map task Request. content:[{}]", content);
+        TaskEngineLog.LOCAL.info("map task Request. content:[{}]", content);
         String groupName = HttpHeaderUtil.getGroupName(headers);
         String namespace = HttpHeaderUtil.getNamespace(headers);
 
@@ -77,7 +77,7 @@ public  class MapTaskPostHttpRequestHandler extends PostHttpRequestHandler {
         try {
             return doHandlerMapTask(retryRequest, namespace, groupName);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("map task Request error. content:[{}]", content, e);
+            TaskEngineLog.LOCAL.error("map task Request error. content:[{}]", content, e);
             return new TaskRpcResult(StatusEnum.NO.getStatus(), e.getMessage(), Boolean.FALSE,
                     retryRequest.getReqId());
         }

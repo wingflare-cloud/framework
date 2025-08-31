@@ -3,7 +3,7 @@ package com.wingflare.engine.task.common.core.util;
 import com.wingflare.engine.task.common.core.config.ForyProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskCommonException;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.github.luben.zstd.Zstd;
 import org.apache.fory.Fory;
 import org.apache.fory.ThreadSafeFory;
@@ -70,9 +70,9 @@ public class ForyUtil {
                 }
             }
         } catch (NullPointerException e) {
-            SnailJobLog.LOCAL.error("foryBlackList.txt file not found in resources", e);
+            TaskEngineLog.LOCAL.error("foryBlackList.txt file not found in resources", e);
         } catch (IOException e) {
-            SnailJobLog.LOCAL.error("Failed to read foryBlackList.txt", e);
+            TaskEngineLog.LOCAL.error("Failed to read foryBlackList.txt", e);
         }
         return disallowClasses;
     }
@@ -98,7 +98,7 @@ public class ForyUtil {
         try {
             properties = SnailSpringContext.getBean(ForyProperties.class);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.warn("Get ForyProperties failed.", e);
+            TaskEngineLog.LOCAL.warn("Get ForyProperties failed.", e);
         }
         int decompressedSize = Objects.nonNull(properties) ? properties.getDecompressedSize() : DEFAULT_MAX_DECOMPRESSED_SIZE;
 

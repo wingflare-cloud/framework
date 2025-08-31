@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.common.util.DateUtils;
@@ -82,7 +82,7 @@ public class WorkflowExecutorActor extends AbstractActor {
                 doExecutor(taskExecute);
 
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("workflow executor exception. [{}]", taskExecute, e);
+                TaskEngineLog.LOCAL.error("workflow executor exception. [{}]", taskExecute, e);
                 handlerTaskBatch(taskExecute,
                         JobTaskBatchStatusEnum.FAIL.getStatus(),
                         JobOperationReasonEnum.TASK_EXECUTION_ERROR.getReason());
@@ -267,7 +267,7 @@ public class WorkflowExecutorActor extends AbstractActor {
             List<JobTaskBatch> jobTaskBatches = jobTaskBatchMap.get(nodeId);
             // 说明此节点未执行, 继续等待执行完成
             if (CollUtil.isEmpty(jobTaskBatches)) {
-                SnailJobLog.LOCAL.info("Batch is empty but there are unfinished sibling nodes. [{}] Nodes to be executed:[{}]", nodeId,
+                TaskEngineLog.LOCAL.info("Batch is empty but there are unfinished sibling nodes. [{}] Nodes to be executed:[{}]", nodeId,
                         waitExecWorkflowNode.getId());
                 return Boolean.FALSE;
             }
@@ -275,7 +275,7 @@ public class WorkflowExecutorActor extends AbstractActor {
             boolean isCompleted = jobTaskBatches.stream().anyMatch(
                     jobTaskBatch -> JobTaskBatchStatusEnum.NOT_COMPLETE.contains(jobTaskBatch.getTaskBatchStatus()));
             if (isCompleted) {
-                SnailJobLog.LOCAL.info("Unfinished sibling nodes exist. [{}] Nodes to be executed:[{}] Parent ID:[{}]", nodeId,
+                TaskEngineLog.LOCAL.info("Unfinished sibling nodes exist. [{}] Nodes to be executed:[{}] Parent ID:[{}]", nodeId,
                         taskExecute.getParentId(),
                         waitExecWorkflowNode.getId());
                 return Boolean.FALSE;
@@ -291,7 +291,7 @@ public class WorkflowExecutorActor extends AbstractActor {
                 WorkflowNode preWorkflowNode = workflowNodeMap.get(nodeId);
                 // 根据失败策略判断是否继续处理
                 if (Objects.equals(preWorkflowNode.getFailStrategy(), FailStrategyEnum.BLOCK.getCode())) {
-                    SnailJobLog.LOCAL.info("This node execution failed and the failure strategy is set to [Block], interrupting execution [{}] Nodes to be executed:[{}] Parent ID:[{}]", nodeId,
+                    TaskEngineLog.LOCAL.info("This node execution failed and the failure strategy is set to [Block], interrupting execution [{}] Nodes to be executed:[{}] Parent ID:[{}]", nodeId,
                             taskExecute.getParentId(),
                             waitExecWorkflowNode.getId());
                     workflowBatchHandler.complete(taskExecute.getWorkflowTaskBatchId(), workflowTaskBatch);

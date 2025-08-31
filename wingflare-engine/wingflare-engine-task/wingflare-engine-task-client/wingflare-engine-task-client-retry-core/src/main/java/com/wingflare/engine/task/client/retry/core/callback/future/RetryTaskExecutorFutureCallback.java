@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
 import com.wingflare.engine.task.common.core.enums.RetryTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.DispatchRetryResultDTO;
 import com.wingflare.engine.task.common.model.request.DispatchRetryResultRequest;
 import com.google.common.util.concurrent.FutureCallback;
@@ -29,7 +29,7 @@ public class RetryTaskExecutorFutureCallback implements FutureCallback<DispatchR
             .client(RetryClient.class)
             .callback(nettyResult -> {
                 if (nettyResult.getStatus() == StatusEnum.NO.getStatus()) {
-                    SnailJobLog.LOCAL.error("Retry execute result report successfully requestId:[{}]",
+                    TaskEngineLog.LOCAL.error("Retry execute result report successfully requestId:[{}]",
                             nettyResult.getReqId());
                 }
 
@@ -55,7 +55,7 @@ public class RetryTaskExecutorFutureCallback implements FutureCallback<DispatchR
             }
             CLIENT.dispatchResult(request);
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Execution result reporting exception.[{}]", retryContext.getRetryTaskId(), e);
+            TaskEngineLog.REMOTE.error("Execution result reporting exception.[{}]", retryContext.getRetryTaskId(), e);
         }
 
     }
@@ -64,7 +64,7 @@ public class RetryTaskExecutorFutureCallback implements FutureCallback<DispatchR
     @Override
     public void onFailure(Throwable t) {
         if (t instanceof CancellationException) {
-            SnailJobLog.LOCAL.debug("The task has been canceled, no status feedback will be made");
+            TaskEngineLog.LOCAL.debug("The task has been canceled, no status feedback will be made");
             return;
         }
 
@@ -74,7 +74,7 @@ public class RetryTaskExecutorFutureCallback implements FutureCallback<DispatchR
             request.setTaskStatus(RetryTaskStatusEnum.FAIL.getStatus());
             CLIENT.dispatchResult(request);
         } catch (Exception e) {
-            SnailJobLog.REMOTE.error("Execution result reporting exception.[{}]", retryContext.getRetryTaskId(), e);
+            TaskEngineLog.REMOTE.error("Execution result reporting exception.[{}]", retryContext.getRetryTaskId(), e);
         }
 
     }

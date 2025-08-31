@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.retry.support.dispatch;
 
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.StopRetryRequest;
 import com.wingflare.engine.task.server.common.dto.InstanceKey;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
@@ -70,14 +70,14 @@ public class RequestStopClientActor extends AbstractActor {
             RetryRpcClient rpcClient = buildRpcClient(instanceLiveInfo);
             Result<Boolean> dispatch = rpcClient.stop(stopRetryRequest);
             if (dispatch.getStatus() == StatusEnum.YES.getStatus()) {
-                SnailJobLog.LOCAL.info("RetryTaskId:[{}] Task stopped successfully.", executorDTO.getRetryTaskId());
+                TaskEngineLog.LOCAL.info("RetryTaskId:[{}] Task stopped successfully.", executorDTO.getRetryTaskId());
             } else {
                 // 客户端返回失败，则认为任务执行失败
-                SnailJobLog.LOCAL.warn("RetryTaskId:[{}] Task stop failed.", executorDTO.getRetryTaskId());
+                TaskEngineLog.LOCAL.warn("RetryTaskId:[{}] Task stop failed.", executorDTO.getRetryTaskId());
             }
 
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("RetryTaskId:[{}] Task stop failed.", executorDTO.getRetryTaskId(), e);
+            TaskEngineLog.LOCAL.error("RetryTaskId:[{}] Task stop failed.", executorDTO.getRetryTaskId(), e);
         }
 
     }

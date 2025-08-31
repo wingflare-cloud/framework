@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.client.retry.core.executor;
 
-import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
+import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
 import com.wingflare.engine.task.client.retry.core.context.RemoteRetryContext;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.client.retry.core.log.RetryLogMeta;
@@ -9,7 +9,7 @@ import com.wingflare.engine.task.client.retry.core.strategy.RemoteRetryStrategie
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.dto.DispatchRetryResultDTO;
 import org.springframework.stereotype.Component;
@@ -73,23 +73,23 @@ public class RemoteRetryExecutor {
 
             Integer retryCount = context.getRetryCount() + 1;
             if (Objects.equals(RetryResultStatusEnum.SUCCESS.getStatus(), executeRespDto.getStatusCode())) {
-                SnailJobLog.REMOTE.info("remote retry【SUCCESS】. retryTaskId:[{}] count:[{}] result:[{}]",
+                TaskEngineLog.REMOTE.info("remote retry【SUCCESS】. retryTaskId:[{}] count:[{}] result:[{}]",
                         context.getRetryTaskId(), retryCount, executeRespDto.getResultJson());
             } else if (Objects.equals(RetryResultStatusEnum.STOP.getStatus(), executeRespDto.getStatusCode())) {
-                SnailJobLog.REMOTE.warn("remote retry 【STOP】.retryTaskId:[{}] count:[{}]  exceptionMsg:[{}]",
+                TaskEngineLog.REMOTE.warn("remote retry 【STOP】.retryTaskId:[{}] count:[{}]  exceptionMsg:[{}]",
                         context.getRetryTaskId(), retryCount, executeRespDto.getExceptionMsg());
             } else if (Objects.equals(RetryResultStatusEnum.FAILURE.getStatus(), executeRespDto.getStatusCode())) {
-                SnailJobLog.REMOTE.error("remote retry 【FAILURE】. retryTaskId:[{}] count:[{}] ",
+                TaskEngineLog.REMOTE.error("remote retry 【FAILURE】. retryTaskId:[{}] count:[{}] ",
                         context.getRetryTaskId(), retryCount, retryerResultContext.getThrowable());
             } else {
-                SnailJobLog.REMOTE.error("remote retry 【UNKNOWN】. retryTaskId:[{}] count:[{}] result:[{}]",
+                TaskEngineLog.REMOTE.error("remote retry 【UNKNOWN】. retryTaskId:[{}] count:[{}] result:[{}]",
                         context.getRetryTaskId(), retryCount, executeRespDto.getResultJson(),
                         retryerResultContext.getThrowable());
             }
 
         } finally {
             RetrySiteSnapshot.removeAll();
-            SnailJobLogManager.removeAll();
+            TaskLogManager.removeAll();
         }
 
         return executeRespDto;
@@ -101,6 +101,6 @@ public class RemoteRetryExecutor {
         retryLogMeta.setNamespaceId(context.getNamespaceId());
         retryLogMeta.setRetryId(context.getRetryId());
         retryLogMeta.setRetryTaskId(context.getRetryTaskId());
-        SnailJobLogManager.initLogInfo(retryLogMeta, LogTypeEnum.RETRY);
+        TaskLogManager.initLogInfo(retryLogMeta, LogTypeEnum.RETRY);
     }
 }

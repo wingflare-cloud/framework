@@ -4,7 +4,7 @@ import com.wingflare.engine.task.common.core.constant.GrpcServerConstants;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.config.SystemProperties.RpcServerProperties;
@@ -96,10 +96,10 @@ public class GrpcServer implements Lifecycle {
         try {
             server.start();
             this.started = true;
-            SnailJobLog.LOCAL.info("------> wingflare-task remoting server start success, grpc = {}, port = {}",
+            TaskEngineLog.LOCAL.info("------> wingflare-task remoting server start success, grpc = {}, port = {}",
                     GrpcServer.class.getName(), systemProperties.getServerPort());
         } catch (IOException e) {
-            SnailJobLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
+            TaskEngineLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
             started = false;
             throw new TaskServerException("wingflare-task server start error");
         }

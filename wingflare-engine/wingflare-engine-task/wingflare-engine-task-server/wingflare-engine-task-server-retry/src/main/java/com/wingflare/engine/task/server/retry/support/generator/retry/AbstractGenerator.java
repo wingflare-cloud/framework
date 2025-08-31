@@ -10,7 +10,7 @@ import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.WaitStrategy;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.enums.DelayLevelEnum;
@@ -53,7 +53,7 @@ public abstract class AbstractGenerator implements TaskGenerator {
 
     @Override
     public void taskGenerator(TaskContext taskContext) {
-        SnailJobLog.LOCAL.debug("received report data. {}", JsonUtil.toJsonString(taskContext));
+        TaskEngineLog.LOCAL.debug("received report data. {}", JsonUtil.toJsonString(taskContext));
 
         RetrySceneConfig retrySceneConfig = checkAndInitScene(taskContext);
 
@@ -114,7 +114,7 @@ public abstract class AbstractGenerator implements TaskGenerator {
                                 && taskContext.getSceneName().equals(retryTask.getSceneName())).collect(Collectors.toList());
         // 说明存在相同的任务
         if (CollUtil.isNotEmpty(list)) {
-            SnailJobLog.LOCAL.warn("interrupted reporting in retrying task. [{}]", JsonUtil.toJsonString(taskInfo));
+            TaskEngineLog.LOCAL.warn("interrupted reporting in retrying task. [{}]", JsonUtil.toJsonString(taskInfo));
             return Pair.of(waitInsertRetryList, waitInsertTaskList);
         }
 

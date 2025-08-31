@@ -6,7 +6,7 @@ import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.enums.JobTaskExecutorSceneEnum;
 import com.wingflare.engine.task.server.job.dto.JobTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.dto.WorkflowNodeTaskExecuteDTO;
@@ -96,7 +96,7 @@ public abstract class AbstractJobExecutorResultHandler implements JobExecutorRes
                 stop(context);
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("update job task status failed", e);
+            TaskEngineLog.LOCAL.error("update job task status failed", e);
         } finally {
             // 开启下一个工作流节点
             openNextWorkflowNode(context);

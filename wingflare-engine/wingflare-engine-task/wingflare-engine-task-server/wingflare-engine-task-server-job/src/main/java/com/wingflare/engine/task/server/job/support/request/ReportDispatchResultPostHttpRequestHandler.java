@@ -6,7 +6,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.DispatchJobResultRequest;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
 import com.wingflare.engine.task.server.job.support.ClientCallbackHandler;
@@ -39,7 +39,7 @@ public class ReportDispatchResultPostHttpRequestHandler extends PostHttpRequestH
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Client Callback Request. content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Client Callback Request. content:[{}]", content);
 
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();

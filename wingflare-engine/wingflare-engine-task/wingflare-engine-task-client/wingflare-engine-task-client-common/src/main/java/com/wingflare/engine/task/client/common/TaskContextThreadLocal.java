@@ -1,0 +1,9 @@
+package com.wingflare.engine.task.client.common;
+
+/**
+ * @author: opensnail
+ * @date : 2024-03-22
+ * @since : sj_1.1.0
+ */
+public interface TaskContextThreadLocal<T> extends TaskThreadLocal<T> {
+}

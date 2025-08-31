@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.core.log;
 
 import com.wingflare.engine.task.client.common.log.report.AbstractLogReport;
-import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
+import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
 import com.wingflare.engine.task.common.log.dto.LogContentDTO;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.request.JobLogTaskRequest;
@@ -17,12 +17,12 @@ public class JobLogReport extends AbstractLogReport<JobLogTaskRequest> {
 
     @Override
     public boolean supports() {
-        return LogTypeEnum.JOB == SnailJobLogManager.getLogType();
+        return LogTypeEnum.JOB == TaskLogManager.getLogType();
     }
 
     @Override
     protected JobLogTaskRequest buildLogTaskDTO(LogContentDTO logContentDTO) {
-        JobLogMeta context = (JobLogMeta) SnailJobLogManager.getLogMeta();
+        JobLogMeta context = (JobLogMeta) TaskLogManager.getLogMeta();
         JobLogTaskRequest logTaskDTO = new JobLogTaskRequest();
         logTaskDTO.setJobId(context.getJobId());
         logTaskDTO.setLogType(LogTypeEnum.JOB.name());

@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.SnailJobNetworkUtils;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.cache.CacheConsumerGroup;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;
@@ -119,7 +119,7 @@ public class ServerRegister extends AbstractRegister {
                 }
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Client refresh failed", e);
+            TaskEngineLog.LOCAL.error("Client refresh failed", e);
         }
     }
 
@@ -130,13 +130,13 @@ public class ServerRegister extends AbstractRegister {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("ServerRegister start");
+        TaskEngineLog.LOCAL.info("ServerRegister start");
 
         serverRegisterNode.scheduleAtFixedRate(() -> {
             try {
                 this.register(new RegisterContext());
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Server-side registration failed", e);
+                TaskEngineLog.LOCAL.error("Server-side registration failed", e);
             }
         }, 0, DELAY_TIME * 2 / 3, TimeUnit.SECONDS);
 
@@ -144,6 +144,6 @@ public class ServerRegister extends AbstractRegister {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("ServerRegister close");
+        TaskEngineLog.LOCAL.info("ServerRegister close");
     }
 }

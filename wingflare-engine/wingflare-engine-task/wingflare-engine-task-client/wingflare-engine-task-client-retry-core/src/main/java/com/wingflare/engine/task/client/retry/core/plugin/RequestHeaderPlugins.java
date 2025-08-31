@@ -1,11 +1,11 @@
 package com.wingflare.engine.task.client.retry.core.plugin;
 
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
 import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.model.TaskHeaders;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,16 +35,16 @@ public class RequestHeaderPlugins {
             long callRemoteTime = System.currentTimeMillis();
             Long entryMethodTime = RetrySiteSnapshot.getEntryMethodTime();
             if (Objects.isNull(entryMethodTime)) {
-                SnailJobLog.LOCAL.warn("entry method time is null. retryId:[{}]", retryHeader.getRetryId());
+                TaskEngineLog.LOCAL.warn("entry method time is null. retryId:[{}]", retryHeader.getRetryId());
             } else {
                 long transmitTime = retryHeader.getDdl() - (callRemoteTime - entryMethodTime);
-                SnailJobLog.LOCAL.info("RPC passes header: callRemoteTime:[{}] - entryMethodTime:[{}] = transmitTime:[{}]", callRemoteTime, entryMethodTime, transmitTime);
+                TaskEngineLog.LOCAL.info("RPC passes header: callRemoteTime:[{}] - entryMethodTime:[{}] = transmitTime:[{}]", callRemoteTime, entryMethodTime, transmitTime);
                 if (transmitTime > 0) {
                     retryHeader.setDdl(transmitTime);
                     // 重新刷新进入时间
                     RetrySiteSnapshot.setEntryMethodTime(System.currentTimeMillis());
                 } else {
-                    throw new SnailRetryClientException("The call chain has timed out, no further requests will be made");
+                    throw new TaskRetryClientException("The call chain has timed out, no further requests will be made");
                 }
             }
 

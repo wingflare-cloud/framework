@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.enums.JobTaskExecutorSceneEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
@@ -393,7 +393,7 @@ public class WorkflowBatchHandler {
             ActorRef actorRef = ActorGenerator.workflowTaskExecutorActor();
             actorRef.tell(taskExecuteDTO, actorRef);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Task scheduling execution failed", e);
+            TaskEngineLog.LOCAL.error("Task scheduling execution failed", e);
         }
     }
 
@@ -426,7 +426,7 @@ public class WorkflowBatchHandler {
                             }
                         }
 
-                        SnailJobLog.LOCAL.info(" Attempt [{}] to update context. Task batch IDs:[{}] Result:[{}] Thread name:[{}]",
+                        TaskEngineLog.LOCAL.info(" Attempt [{}] to update context. Task batch IDs:[{}] Result:[{}] Thread name:[{}]",
                                 attempt.getAttemptNumber(), taskBatchIds, result, Thread.currentThread().getName());
                     }
                 }).build();
@@ -434,7 +434,7 @@ public class WorkflowBatchHandler {
         try {
             retryer.call(() -> mergeAllWorkflowContext(workflowTaskBatch, taskBatchIds));
         } catch (Exception e) {
-            SnailJobLog.LOCAL.warn("update workflow global context error. workflowTaskBatchId:[{}] taskBatchIds:[{}]",
+            TaskEngineLog.LOCAL.warn("update workflow global context error. workflowTaskBatchId:[{}] taskBatchIds:[{}]",
                     workflowTaskBatch.getId(), taskBatchIds, e);
             if (e.getClass().isAssignableFrom(RetryException.class)) {
                 // 如果自旋失败，就使用悲观锁
@@ -464,7 +464,7 @@ public class WorkflowBatchHandler {
                     return JsonUtil.parseHashMap(r.getWfContext(), Object.class);
                 }
             } catch (Exception e) {
-                SnailJobLog.LOCAL.warn("taskId:[{}] result value is not a JSON object. result:[{}]", r.getId(), r.getResultMessage());
+                TaskEngineLog.LOCAL.warn("taskId:[{}] result value is not a JSON object. result:[{}]", r.getId(), r.getResultMessage());
             }
             return new HashMap<String, Object>();
         }).collect(Collectors.toSet());
@@ -528,7 +528,7 @@ public class WorkflowBatchHandler {
     public static void mergeMaps(Map<String, Object> mainMap, Map<String, Object> waitMergeMap) {
         for (Map.Entry<String, Object> entry : waitMergeMap.entrySet()) {
             if (Objects.isNull(entry.getKey()) || Objects.isNull(entry.getValue())) {
-                SnailJobLog.LOCAL.warn("Context key and value do not support NULL");
+                TaskEngineLog.LOCAL.warn("Context key and value do not support NULL");
                 continue;
             }
             mainMap.merge(entry.getKey(), entry.getValue(), (v1, v2) -> v2);

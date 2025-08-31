@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.job.support.timer;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.idempotent.TimerIdempotent;
 import io.netty.util.HashedWheelTimer;
@@ -62,7 +62,7 @@ public class JobTimerWheel {
     public static synchronized void register(String idempotentKey, TimerTask<String> task, Duration delay) {
 
         register(idempotentKey, hashedWheelTimer -> {
-            SnailJobLog.LOCAL.debug("Joining time wheel. delay:[{}ms] idempotentKey:[{}]", delay, idempotentKey);
+            TaskEngineLog.LOCAL.debug("Joining time wheel. delay:[{}ms] idempotentKey:[{}]", delay, idempotentKey);
             timer.newTimeout(task, Math.max(delay.toMillis(), 0), TimeUnit.MILLISECONDS);
         });
     }
@@ -74,7 +74,7 @@ public class JobTimerWheel {
                 consumer.accept(timer);
                 idempotent.set(idempotentKey);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Failed to join time wheel. uniqueId:[{}]", idempotentKey, e);
+                TaskEngineLog.LOCAL.error("Failed to join time wheel. uniqueId:[{}]", idempotentKey, e);
             }
         }
     }

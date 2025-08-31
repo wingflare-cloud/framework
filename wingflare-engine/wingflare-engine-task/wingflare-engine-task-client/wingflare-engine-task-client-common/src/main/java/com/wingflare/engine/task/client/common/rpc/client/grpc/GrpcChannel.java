@@ -5,7 +5,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskRemoteException;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
@@ -15,7 +15,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
 import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.google.common.util.concurrent.ListenableFuture;
 import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor;
@@ -74,8 +74,8 @@ public final class GrpcChannel {
      * @return port
      */
     public static int getServerPort() {
-        SnailJobProperties snailJobProperties = SnailSpringContext.getContext().getBean(SnailJobProperties.class);
-        SnailJobProperties.ServerConfig serverConfig = snailJobProperties.getServer();
+        TaskProperties taskProperties = SnailSpringContext.getContext().getBean(TaskProperties.class);
+        TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
 
         String port = System.getProperty(SNAIL_JOB_SERVER_PORT);
         if (StrUtil.isBlank(port)) {
@@ -91,8 +91,8 @@ public final class GrpcChannel {
      * @return host
      */
     public static String getServerHost() {
-        SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
-        SnailJobProperties.ServerConfig serverConfig = snailJobProperties.getServer();
+        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
 
         String host = System.getProperty(SNAIL_JOB_SERVER_HOST);
         if (StrUtil.isBlank(host)) {
@@ -108,8 +108,8 @@ public final class GrpcChannel {
      * @return 客户端IP
      */
     public static String getClientHost() {
-        SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
-        return snailJobProperties.getHost();
+        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        return taskProperties.getHost();
     }
 
     /**
@@ -118,26 +118,26 @@ public final class GrpcChannel {
      * @return port 端口
      */
     public static Integer getClientPort() {
-        SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
+        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
         ServerProperties serverProperties = SnailSpringContext.getBean(ServerProperties.class);
 
-        Integer port = snailJobProperties.getPort();
+        Integer port = taskProperties.getPort();
         // 获取客户端指定的端口
         if (Objects.isNull(port)) {
             port = Optional.ofNullable(serverProperties.getPort()).orElse(PORT);
-            snailJobProperties.setPort(port);
-            SnailJobLog.LOCAL.info("snail job client port :{}", port);
+            taskProperties.setPort(port);
+            TaskEngineLog.LOCAL.info("snail job client port :{}", port);
         } else if (port.equals(RANDOM_CLIENT_PORT)) {
             // 使用随机算法获取端口
             PORT_LOCK.lock();
             try {
                 // 双重检查，避免重复获取端口
-                if (snailJobProperties.getPort().equals(RANDOM_CLIENT_PORT)) {
+                if (taskProperties.getPort().equals(RANDOM_CLIENT_PORT)) {
                     port = getAvailablePort();
-                    snailJobProperties.setPort(port);
-                    SnailJobLog.LOCAL.info("snail job client port :{}", port);
+                    taskProperties.setPort(port);
+                    TaskEngineLog.LOCAL.info("snail job client port :{}", port);
                 } else {
-                    port = snailJobProperties.getPort();
+                    port = taskProperties.getPort();
                 }
             } finally {
                 PORT_LOCK.unlock();
@@ -186,29 +186,29 @@ public final class GrpcChannel {
             return null;
         }
 
-        SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
+        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
 
         // server配置不能为空
-        SnailJobProperties.ServerConfig serverConfig = snailJobProperties.getServer();
+        TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
         if (Objects.isNull(serverConfig)) {
-            SnailJobLog.LOCAL.error("snail job server config is null");
+            TaskEngineLog.LOCAL.error("snail job server config is null");
             return null;
         }
 
-        Assert.notBlank(snailJobProperties.getGroup(),
+        Assert.notBlank(taskProperties.getGroup(),
             () -> new TaskRemoteException("The group is null, please check if your configuration is correct."));
 
         Map<String, String> headersMap = new HashMap<>();
 
         headersMap.put(HeadersEnum.HOST_ID.getKey(), HOST_ID);
         headersMap.put(HeadersEnum.HOST_IP.getKey(), getClientHost());
-        headersMap.put(HeadersEnum.GROUP_NAME.getKey(), snailJobProperties.getGroup());
+        headersMap.put(HeadersEnum.GROUP_NAME.getKey(), taskProperties.getGroup());
         headersMap.put(HeadersEnum.HOST_PORT.getKey(), String.valueOf(getClientPort()));
         headersMap.put(HeadersEnum.VERSION.getKey(), String.valueOf(GroupVersionCache.getVersion()));
         headersMap.put(HeadersEnum.HOST.getKey(), serverConfig.getHost());
-        headersMap.put(HeadersEnum.NAMESPACE.getKey(), Optional.ofNullable(snailJobProperties.getNamespace()).orElse(
+        headersMap.put(HeadersEnum.NAMESPACE.getKey(), Optional.ofNullable(taskProperties.getNamespace()).orElse(
             SystemConstants.DEFAULT_NAMESPACE));
-        headersMap.put(HeadersEnum.TOKEN.getKey(), Optional.ofNullable(snailJobProperties.getToken()).orElse(
+        headersMap.put(HeadersEnum.TOKEN.getKey(), Optional.ofNullable(taskProperties.getToken()).orElse(
             SystemConstants.DEFAULT_TOKEN));
         headersMap.put(HeadersEnum.SYSTEM_VERSION.getKey(), Optional.ofNullable(TaskVersion.getVersion()).orElse(
                 SystemConstants.DEFAULT_CLIENT_VERSION));

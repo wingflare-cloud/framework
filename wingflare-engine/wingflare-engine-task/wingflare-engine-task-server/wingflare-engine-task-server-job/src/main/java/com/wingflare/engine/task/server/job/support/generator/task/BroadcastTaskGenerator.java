@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.JobArgsHolder;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.RegisterNodeInfo;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
@@ -51,7 +51,7 @@ public class BroadcastTaskGenerator extends AbstractJobTaskGenerator {
         Set<InstanceLiveInfo> liveInfoSet = instanceManager.getInstanceALiveInfoSet(
                 context.getNamespaceId(), context.getGroupName(), context.getLabels());
         if (CollUtil.isEmpty(liveInfoSet)) {
-            SnailJobLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
+            TaskEngineLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
             return Lists.newArrayList();
         }
 

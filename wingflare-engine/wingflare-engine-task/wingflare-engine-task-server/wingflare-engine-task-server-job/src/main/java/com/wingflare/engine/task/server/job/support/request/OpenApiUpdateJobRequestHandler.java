@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.WaitStrategy;
 import com.wingflare.engine.task.server.common.convert.JobConverter;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -54,19 +54,19 @@ public class OpenApiUpdateJobRequestHandler extends PostHttpRequestHandler {
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Update job content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Update job content:[{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
         String namespace = HttpHeaderUtil.getNamespace(headers);
         JobRequestVO jobRequestVO = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), JobRequestVO.class);
         if (Objects.isNull(jobRequestVO.getId())){
-            SnailJobLog.LOCAL.warn("ID cannot be empty, update failed");
+            TaskEngineLog.LOCAL.warn("ID cannot be empty, update failed");
             return new TaskRpcResult(false, retryRequest.getReqId());
         }
 
         Job job = jobMapper.selectById(jobRequestVO.getId());
         if (Objects.isNull(job)){
-            SnailJobLog.LOCAL.warn("Job is null, update failed");
+            TaskEngineLog.LOCAL.warn("Job is null, update failed");
             return new TaskRpcResult(false, retryRequest.getReqId());
         }
 

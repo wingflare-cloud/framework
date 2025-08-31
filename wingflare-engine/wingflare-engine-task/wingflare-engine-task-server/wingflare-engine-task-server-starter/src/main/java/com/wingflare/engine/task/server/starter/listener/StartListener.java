@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.starter.listener;
 
 
 import com.wingflare.engine.task.common.core.util.TaskVersion;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -28,13 +28,13 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (isStarted) {
-            SnailJobLog.LOCAL.info("wingflare-task server already started v{}", TaskVersion.getVersion());
+            TaskEngineLog.LOCAL.info("wingflare-task server already started v{}", TaskVersion.getVersion());
             return;
         }
 
-        SnailJobLog.LOCAL.info("wingflare-task server is preparing to start... v{}", TaskVersion.getVersion());
+        TaskEngineLog.LOCAL.info("wingflare-task server is preparing to start... v{}", TaskVersion.getVersion());
         lifecycleList.forEach(Lifecycle::start);
-        SnailJobLog.LOCAL.info("wingflare-task server started successfully v{}", TaskVersion.getVersion());
+        TaskEngineLog.LOCAL.info("wingflare-task server started successfully v{}", TaskVersion.getVersion());
         isStarted = true;
     }
 }

@@ -11,7 +11,7 @@ import com.wingflare.engine.task.common.core.model.JobContext;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.engine.task.common.model.request.MapTaskRequest;
 import org.springframework.util.CollectionUtils;
@@ -51,7 +51,7 @@ public final class MapInvokeHandler implements InvocationHandler {
 
         // 超过200提醒用户注意分片数量过多
         if (taskList.size() > 200) {
-            SnailJobLog.LOCAL.warn("[{}] map task size is too large, network maybe overload... please try to split the tasks.", nextTaskName);
+            TaskEngineLog.LOCAL.warn("[{}] map task size is too large, network maybe overload... please try to split the tasks.", nextTaskName);
         }
 
         // 超过500强制禁止分片
@@ -85,7 +85,7 @@ public final class MapInvokeHandler implements InvocationHandler {
         // 2. 同步发送请求
         Result<Boolean> result = CLIENT.batchReportMapTask(mapTaskRequest);
         if (StatusEnum.YES.getStatus() == result.getStatus() || (Objects.nonNull(result.getData()) && result.getData())) {
-            SnailJobLog.LOCAL.info("Map task create successfully!. taskName:[{}] TaskId:[{}] ", nextTaskName, jobContext.getTaskId());
+            TaskEngineLog.LOCAL.info("Map task create successfully!. taskName:[{}] TaskId:[{}] ", nextTaskName, jobContext.getTaskId());
         } else {
             throw new TaskMapReduceException("map failed for task: {} errorMsg:{}", nextTaskName, result.getMessage());
         }

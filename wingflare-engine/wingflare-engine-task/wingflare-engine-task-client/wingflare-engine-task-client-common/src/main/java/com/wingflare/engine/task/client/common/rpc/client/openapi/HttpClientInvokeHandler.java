@@ -6,7 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.annotation.Header;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
 import com.wingflare.engine.task.client.common.annotation.Param;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
@@ -44,7 +44,7 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        SnailHttpClient snailHttpClient = loadSnailJobHttpClient();
+        TaskHttpClient taskHttpClient = loadSnailJobHttpClient();
         Mapping mapping = method.getAnnotation(Mapping.class);
         Parameter[] parameters = method.getParameters();
 
@@ -55,7 +55,7 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
         request.setHeaders(getHeaderInfo(method, args));
         request.setTimeout(unit.toMillis(timeout));
         request.setBody(JsonUtil.toJsonString(args[0]));
-        return snailHttpClient.execute(request);
+        return taskHttpClient.execute(request);
     }
 
     private String getParams(Object[] args, Parameter[] parameters) {
@@ -88,13 +88,13 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
                 }
             }
         }
-        SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
-        SnailJobProperties.ServerConfig serverConfig = snailJobProperties.getServer();
-        headersMap.put(HeadersEnum.GROUP_NAME.getKey(), snailJobProperties.getGroup());
+        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
+        headersMap.put(HeadersEnum.GROUP_NAME.getKey(), taskProperties.getGroup());
         headersMap.put(HeadersEnum.HOST.getKey(), serverConfig.getHost());
-        headersMap.put(HeadersEnum.NAMESPACE.getKey(), Optional.ofNullable(snailJobProperties.getNamespace()).orElse(
+        headersMap.put(HeadersEnum.NAMESPACE.getKey(), Optional.ofNullable(taskProperties.getNamespace()).orElse(
                 SystemConstants.DEFAULT_NAMESPACE));
-        headersMap.put(HeadersEnum.TOKEN.getKey(), Optional.ofNullable(snailJobProperties.getToken()).orElse(
+        headersMap.put(HeadersEnum.TOKEN.getKey(), Optional.ofNullable(taskProperties.getToken()).orElse(
                 SystemConstants.DEFAULT_TOKEN));
         headersMap.put(HeadersEnum.SYSTEM_VERSION.getKey(), Optional.ofNullable(TaskVersion.getVersion()).orElse(
                 SystemConstants.DEFAULT_CLIENT_VERSION));
@@ -106,16 +106,16 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
     /**
      * 或者Http客户端
      *
-     * @return {@link SnailHttpClient} 默认为RestTemplateClient
+     * @return {@link TaskHttpClient} 默认为RestTemplateClient
      */
-    public static SnailHttpClient loadSnailJobHttpClient() {
-        SnailJobProperties properties = SnailSpringContext.getBean(SnailJobProperties.class);
+    public static TaskHttpClient loadSnailJobHttpClient() {
+        TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
         Assert.notNull(properties, () -> new TaskClientException("snail job properties is null"));
-        SnailJobProperties.SnailOpenApiConfig openApiConfig = properties.getOpenapi();
+        TaskProperties.TaskOpenApiConfig openApiConfig = properties.getOpenapi();
 
         openApiConfig.setHost(Optional.ofNullable(openApiConfig.getHost()).orElse(properties.getServer().getHost()));
 
-        return ServiceLoaderUtil.loadList(SnailHttpClient.class)
+        return ServiceLoaderUtil.loadList(TaskHttpClient.class)
                 .stream()
                 .findAny()
                 .orElse(new DefaultHttpClient(openApiConfig));

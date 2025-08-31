@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.web.timer;
 
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.enums.WebSocketSceneEnum;
 import com.wingflare.engine.task.server.web.model.request.RetryTaskLogMessageQueryVO;
@@ -31,14 +31,14 @@ public class RetryTaskLogTimerTask implements TimerTask<String> {
 
     @Override
     public void run(final Timeout timeout) throws Exception {
-        SnailJobLog.LOCAL.debug("Start querying scheduled task logs. Current time:[{}] retryTaskId:[{}]", LocalDateTime.now(), logQueryVO.getRetryTaskId());
+        TaskEngineLog.LOCAL.debug("Start querying scheduled task logs. Current time:[{}] retryTaskId:[{}]", LocalDateTime.now(), logQueryVO.getRetryTaskId());
 
         try {
             LogTimerWheel.clearCache(idempotentKey());
             RetryTaskService logService = SnailSpringContext.getBean(RetryTaskService.class);
             logService.getRetryTaskLogMessagePage(logQueryVO);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Scheduled task log query execution failed", e);
+            TaskEngineLog.LOCAL.error("Scheduled task log query execution failed", e);
         }
     }
 

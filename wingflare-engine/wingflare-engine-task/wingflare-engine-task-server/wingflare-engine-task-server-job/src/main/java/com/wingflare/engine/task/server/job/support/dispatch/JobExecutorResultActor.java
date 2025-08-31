@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.job.support.dispatch;
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.job.dto.CompleteJobBatchDTO;
@@ -39,7 +39,7 @@ public class JobExecutorResultActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder().match(JobExecutorResultDTO.class, result -> {
-            SnailJobLog.LOCAL.debug("Update task status. Parameters:[{}]", JsonUtil.toJsonString(result));
+            TaskEngineLog.LOCAL.debug("Update task status. Parameters:[{}]", JsonUtil.toJsonString(result));
             try {
                 Assert.notNull(result.getTaskId(), ()-> new TaskServerException("taskId can not be null"));
                 Assert.notNull(result.getJobId(), ()-> new TaskServerException("jobId can not be null"));
@@ -68,7 +68,7 @@ public class JobExecutorResultActor extends AbstractActor {
 
                 tryCompleteAndStop(result);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error(" job executor result exception. [{}]", result, e);
+                TaskEngineLog.LOCAL.error(" job executor result exception. [{}]", result, e);
             } finally {
                 getContext().stop(getSelf());
             }

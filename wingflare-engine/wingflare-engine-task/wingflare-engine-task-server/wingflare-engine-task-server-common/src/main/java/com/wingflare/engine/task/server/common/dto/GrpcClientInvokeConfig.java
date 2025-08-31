@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.common.dto;
 
-import com.wingflare.engine.task.server.common.rpc.client.SnailJobRetryListener;
+import com.wingflare.engine.task.server.common.rpc.client.TaskEngineRetryListener;
 
 /**
  * <p>
@@ -17,7 +17,7 @@ public class GrpcClientInvokeConfig {
     private boolean failRetry;
     private int retryTimes;
     private int retryInterval;
-    private SnailJobRetryListener retryListener;
+    private TaskEngineRetryListener retryListener;
     private Integer routeKey;
     private String allocKey;
     private boolean failover;
@@ -66,11 +66,11 @@ public class GrpcClientInvokeConfig {
         this.retryInterval = retryInterval;
     }
 
-    public SnailJobRetryListener getRetryListener() {
+    public TaskEngineRetryListener getRetryListener() {
         return retryListener;
     }
 
-    public void setRetryListener(SnailJobRetryListener retryListener) {
+    public void setRetryListener(TaskEngineRetryListener retryListener) {
         this.retryListener = retryListener;
     }
 

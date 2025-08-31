@@ -12,7 +12,7 @@ import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.JobTaskConfigRequest;
 import com.wingflare.engine.task.server.common.convert.JobBatchResponseVOConverter;
 import com.wingflare.engine.task.server.common.convert.WorkflowConverter;
@@ -78,7 +78,7 @@ public class OpenApiGetWorkflowBatchDetailRequestHandler extends PostHttpRequest
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("query workflow batch content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("query workflow batch content:[{}]", content);
         TaskRequest jobRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = jobRequest.getArgs();
         Long workflowBatchId = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), Long.class);
@@ -194,7 +194,7 @@ public class OpenApiGetWorkflowBatchDetailRequestHandler extends PostHttpRequest
                     new HashMap<>(), workflowNodeMap);
             responseVO.setNodeConfig(config);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Deserialization failed. json:[{}]", flowInfo, e);
+            TaskEngineLog.LOCAL.error("Deserialization failed. json:[{}]", flowInfo, e);
             throw new TaskServerException("Failed to query workflow batch details");
         }
 

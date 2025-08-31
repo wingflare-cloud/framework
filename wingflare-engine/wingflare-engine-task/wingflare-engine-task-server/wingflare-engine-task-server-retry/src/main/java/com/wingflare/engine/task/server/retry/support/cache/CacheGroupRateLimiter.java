@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.retry.support.cache;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -43,7 +43,7 @@ public class CacheGroupRateLimiter implements Lifecycle {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("CacheGroupRateLimiter start");
+        TaskEngineLog.LOCAL.info("CacheGroupRateLimiter start");
         CACHE = CacheBuilder.newBuilder()
                 // 设置并发级别为cpu核心数
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
@@ -52,6 +52,6 @@ public class CacheGroupRateLimiter implements Lifecycle {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("CacheGroupRateLimiter stop");
+        TaskEngineLog.LOCAL.info("CacheGroupRateLimiter stop");
     }
 }

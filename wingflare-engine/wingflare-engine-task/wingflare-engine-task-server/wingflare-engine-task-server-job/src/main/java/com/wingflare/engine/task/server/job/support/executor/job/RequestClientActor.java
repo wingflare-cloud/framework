@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.engine.task.common.model.request.DispatchJobRequest;
 import com.wingflare.engine.task.server.common.dto.InstanceKey;
@@ -15,7 +15,7 @@ import com.wingflare.engine.task.server.common.dto.RegisterNodeInfo;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.common.rpc.client.RequestBuilder;
-import com.wingflare.engine.task.server.common.rpc.client.SnailJobRetryListener;
+import com.wingflare.engine.task.server.common.rpc.client.TaskEngineRetryListener;
 import com.wingflare.engine.task.server.common.rpc.client.grpc.GrpcClientInvokeHandlerV2;
 import com.wingflare.engine.task.server.common.util.ClientInfoUtils;
 import com.wingflare.engine.task.server.common.util.DateUtils;
@@ -89,10 +89,10 @@ public class RequestClientActor extends AbstractActor {
             JobLogMetaDTO jobLogMetaDTO = JobTaskConverter.INSTANCE.toJobLogDTO(realJobExecutorDTO);
             jobLogMetaDTO.setTimestamp(nowMilli);
             if (realJobExecutorDTO.getRetryStatus()) {
-                SnailJobLog.REMOTE.error("Task ID:[{}] Task scheduling failed, executing retry. Reason: No executable client. Retry count:[{}]. <|>{}<|>",
+                TaskEngineLog.REMOTE.error("Task ID:[{}] Task scheduling failed, executing retry. Reason: No executable client. Retry count:[{}]. <|>{}<|>",
                         realJobExecutorDTO.getTaskId(), realJobExecutorDTO.getRetryCount(), jobLogMetaDTO);
             } else {
-                SnailJobLog.REMOTE.error("Task ID:[{}] Task scheduling failed. Reason: No executable client <|>{}<|>", realJobExecutorDTO.getTaskId(),
+                TaskEngineLog.REMOTE.error("Task ID:[{}] Task scheduling failed. Reason: No executable client <|>{}<|>", realJobExecutorDTO.getTaskId(),
                         jobLogMetaDTO);
             }
             return;
@@ -108,7 +108,7 @@ public class RequestClientActor extends AbstractActor {
             JobRpcClient rpcClient = buildRpcClient(instanceLiveInfo, realJobExecutorDTO);
             Result<Boolean> dispatch = rpcClient.dispatch(dispatchJobRequest);
             if (dispatch.getStatus() == StatusEnum.YES.getStatus() && Objects.equals(dispatch.getData(), Boolean.TRUE)) {
-                SnailJobLog.LOCAL.info("Task ID:[{}] Task scheduled successfully.", realJobExecutorDTO.getTaskId());
+                TaskEngineLog.LOCAL.info("Task ID:[{}] Task scheduled successfully.", realJobExecutorDTO.getTaskId());
             } else {
                 // 客户端返回失败，则认为任务执行失败
                 ClientCallbackHandler clientCallback = ClientCallbackFactory.getClientCallback(realJobExecutorDTO.getTaskType());
@@ -133,10 +133,10 @@ public class RequestClientActor extends AbstractActor {
             JobLogMetaDTO jobLogMetaDTO = JobTaskConverter.INSTANCE.toJobLogDTO(realJobExecutorDTO);
             jobLogMetaDTO.setTimestamp(nowMilli);
             if (realJobExecutorDTO.getRetryStatus()) {
-                SnailJobLog.REMOTE.error("Task ID:[{}] Task scheduling failed, executing retry. Retry count:[{}]. <|>{}<|>", jobLogMetaDTO.getTaskId(),
+                TaskEngineLog.REMOTE.error("Task ID:[{}] Task scheduling failed, executing retry. Retry count:[{}]. <|>{}<|>", jobLogMetaDTO.getTaskId(),
                         realJobExecutorDTO.getRetryCount(), jobLogMetaDTO, throwable);
             } else {
-                SnailJobLog.REMOTE.error("Task ID:[{}] Task scheduling failed. <|>{}<|>",
+                TaskEngineLog.REMOTE.error("Task ID:[{}] Task scheduling failed. <|>{}<|>",
                         jobLogMetaDTO.getTaskId(),
                         jobLogMetaDTO, throwable);
             }
@@ -152,7 +152,7 @@ public class RequestClientActor extends AbstractActor {
 
     }
 
-    public static class JobExecutorRetryListener implements SnailJobRetryListener {
+    public static class JobExecutorRetryListener implements TaskEngineRetryListener {
 
         private final Map<String, Object> properties;
         private final RealJobExecutorDTO realJobExecutorDTO;
@@ -175,7 +175,7 @@ public class RequestClientActor extends AbstractActor {
             if (attempt.hasException()) {
                 JobLogMetaDTO jobLogMetaDTO = JobTaskConverter.INSTANCE.toJobLogDTO(realJobExecutorDTO);
                 jobLogMetaDTO.setTimestamp(DateUtils.toNowMilli());
-                SnailJobLog.REMOTE.error("Task scheduling failed attempt retry. Task instance ID:[{}] retryCount:[{}]. <|>{}<|>",
+                TaskEngineLog.REMOTE.error("Task scheduling failed attempt retry. Task instance ID:[{}] retryCount:[{}]. <|>{}<|>",
                         realJobExecutorDTO.getTaskBatchId(), attempt.getAttemptNumber(), jobLogMetaDTO, attempt.getExceptionCause());
                 return;
             }

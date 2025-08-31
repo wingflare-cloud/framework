@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.allocate.server;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.ServerLoadBalance;
 import com.google.common.collect.Lists;
 
@@ -29,7 +29,7 @@ public class AllocateMessageQueueAveragely implements ServerLoadBalance<Integer,
         // 找到当前消费者在消费者队列里面的下标
         int index = serverList.indexOf(currentCID);
         if (index < 0) {
-            SnailJobLog.LOCAL.warn("currentCID: [{}] not in serverList:[{}]", currentCID, serverList);
+            TaskEngineLog.LOCAL.warn("currentCID: [{}] not in serverList:[{}]", currentCID, serverList);
             return Lists.newArrayList();
         }
 

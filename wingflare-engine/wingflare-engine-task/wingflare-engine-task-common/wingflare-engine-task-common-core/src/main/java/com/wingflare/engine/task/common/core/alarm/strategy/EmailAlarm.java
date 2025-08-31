@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.alarm.email.TaskMailProperties;
 import com.wingflare.engine.task.common.core.enums.AlarmTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.MailUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class EmailAlarm extends AbstractAlarm<AlarmContext> {
     @Override
     public boolean syncSendMessage(AlarmContext alarmContext) {
         if (Objects.isNull(mailAccount)) {
-            SnailJobLog.LOCAL.warn("Please check if the email configuration is enabled");
+            TaskEngineLog.LOCAL.warn("Please check if the email configuration is enabled");
             return false;
         }
 
@@ -49,7 +49,7 @@ public class EmailAlarm extends AbstractAlarm<AlarmContext> {
             text = text.replaceAll("\n", "<br/>");
             MailUtils.send(mailAccount, emailAttribute.getTos(), alarmContext.getTitle(), text, true);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Sending email message failed:", e);
+            TaskEngineLog.LOCAL.error("Sending email message failed:", e);
             return false;
         }
 

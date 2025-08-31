@@ -10,7 +10,7 @@ import com.wingflare.lib.task.annotation.MergeReduceExecutor;
 import com.wingflare.lib.task.annotation.ReduceExecutor;
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.*;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.google.common.collect.Lists;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.beans.BeansException;
@@ -55,7 +55,7 @@ public class JobExecutorScanner implements Scanner, ApplicationContextAware {
                         (MethodIntrospector.MetadataLookup<TaskExecutor>) method -> AnnotatedElementUtils
                                 .findMergedAnnotation(method, TaskExecutor.class));
             } catch (Throwable ex) {
-                SnailJobLog.LOCAL.error("TaskExecutor load exception for {}: {}", beanDefinitionName, ex);
+                TaskEngineLog.LOCAL.error("TaskExecutor load exception for {}: {}", beanDefinitionName, ex);
             }
 
             Class executorNotProxy = AopProxyUtils.ultimateTargetClass(bean);

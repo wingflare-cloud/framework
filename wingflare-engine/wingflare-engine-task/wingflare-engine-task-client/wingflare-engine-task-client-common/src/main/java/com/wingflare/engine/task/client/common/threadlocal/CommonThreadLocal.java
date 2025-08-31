@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.common.threadlocal;
 
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.client.common.SnailThreadLocal;
+import com.wingflare.engine.task.client.common.TaskThreadLocal;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 
 /**
@@ -11,7 +11,7 @@ import com.wingflare.engine.task.client.common.exception.TaskClientException;
  * @date : 2024-06-27
  * @since sj_1.1.0
  */
-public class CommonThreadLocal<T> implements SnailThreadLocal<T> {
+public class CommonThreadLocal<T> implements TaskThreadLocal<T> {
 
     private final ThreadLocal<T> threadLocal;
 

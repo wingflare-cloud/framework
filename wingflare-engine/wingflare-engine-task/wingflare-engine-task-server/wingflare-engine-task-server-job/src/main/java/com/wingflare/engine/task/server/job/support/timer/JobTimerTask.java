@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.job.support.timer;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.job.dto.JobTimerTaskDTO;
@@ -27,7 +27,7 @@ public class JobTimerTask implements TimerTask<String> {
     @Override
     public void run(final Timeout timeout) throws Exception {
         // 执行任务调度
-        SnailJobLog.LOCAL.debug("Start task scheduling. Current time:[{}] Task ID:[{}]", LocalDateTime.now(), jobTimerTaskDTO.getTaskBatchId());
+        TaskEngineLog.LOCAL.debug("Start task scheduling. Current time:[{}] Task ID:[{}]", LocalDateTime.now(), jobTimerTaskDTO.getTaskBatchId());
 
         try {
             TaskExecuteDTO taskExecuteDTO = new TaskExecuteDTO();
@@ -41,7 +41,7 @@ public class JobTimerTask implements TimerTask<String> {
             actorRef.tell(taskExecuteDTO, actorRef);
 
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Task scheduling execution failed", e);
+            TaskEngineLog.LOCAL.error("Task scheduling execution failed", e);
         }
     }
 

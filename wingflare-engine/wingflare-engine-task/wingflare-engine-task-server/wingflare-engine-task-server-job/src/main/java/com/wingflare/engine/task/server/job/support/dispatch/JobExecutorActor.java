@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.enums.JobTaskExecutorSceneEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -104,7 +104,7 @@ public class JobExecutorActor extends AbstractActor {
                 });
 
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("job executor exception. [{}]", taskExecute, e);
+                TaskEngineLog.LOCAL.error("job executor exception. [{}]", taskExecute, e);
                 handleTaskBatch(taskExecute, JobTaskBatchStatusEnum.FAIL.getStatus(), JobOperationReasonEnum.TASK_EXECUTION_ERROR.getReason());
             } finally {
                 getContext().stop(getSelf());
@@ -176,7 +176,7 @@ public class JobExecutorActor extends AbstractActor {
             }
             List<JobTask> taskList = taskInstance.generate(instanceGenerateContext);
             if (CollUtil.isEmpty(taskList)) {
-                SnailJobLog.LOCAL.warn("Generate job task is empty, taskBatchId:[{}]", taskExecute.getTaskBatchId());
+                TaskEngineLog.LOCAL.warn("Generate job task is empty, taskBatchId:[{}]", taskExecute.getTaskBatchId());
                 return;
             }
 

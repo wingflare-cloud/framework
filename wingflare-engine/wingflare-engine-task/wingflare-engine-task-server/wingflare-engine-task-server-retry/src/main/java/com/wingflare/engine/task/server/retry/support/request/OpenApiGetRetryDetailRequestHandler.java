@@ -6,7 +6,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.convert.RetryResponseVOConverter;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
@@ -29,7 +29,7 @@ public class OpenApiGetRetryDetailRequestHandler extends PostHttpRequestHandler 
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("query retry content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("query retry content:[{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
         Long retryId = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), Long.class);

@@ -13,7 +13,7 @@ import com.wingflare.engine.task.client.retry.core.retryer.RetryType;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -39,7 +39,7 @@ public class ManualRetryStrategies extends AbstractRetryStrategies {
     @Override
     protected Consumer<Object> doRetrySuccessConsumer(final RetryerResultContext context) {
         return o -> {
-            SnailJobLog.LOCAL.debug("ManualRetryStrategies doRetrySuccessConsumer ");
+            TaskEngineLog.LOCAL.debug("ManualRetryStrategies doRetrySuccessConsumer ");
         };
     }
 
@@ -77,7 +77,7 @@ public class ManualRetryStrategies extends AbstractRetryStrategies {
     @Override
     protected Consumer<Throwable> doGetRetryErrorConsumer(final RetryerInfo retryerInfo, final Object[] params) {
         return throwable -> {
-            SnailJobLog.LOCAL.debug("ManualRetryStrategies doGetRetryErrorConsumer ");
+            TaskEngineLog.LOCAL.debug("ManualRetryStrategies doGetRetryErrorConsumer ");
         };
     }
 
@@ -108,11 +108,11 @@ public class ManualRetryStrategies extends AbstractRetryStrategies {
                     @Override
                     public <V> void onRetry(Attempt<V> attempt) {
                         if (attempt.hasResult()) {
-                            SnailJobLog.LOCAL.info("wingflare-task manually created retry data successfully, scheduled for the [{}] time", attempt.getAttemptNumber());
+                            TaskEngineLog.LOCAL.info("wingflare-task manually created retry data successfully, scheduled for the [{}] time", attempt.getAttemptNumber());
                         }
 
                         if (attempt.hasException()) {
-                            SnailJobLog.LOCAL.error(" Manually creating retry data for wingflare-task failed, attempt [{}]", attempt.getAttemptNumber(),
+                            TaskEngineLog.LOCAL.error(" Manually creating retry data for wingflare-task failed, attempt [{}]", attempt.getAttemptNumber(),
                                     attempt.getExceptionCause());
                         }
 

@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.job.support.alarm.listener;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.alarm.AbstractJobAlarm;
 import com.wingflare.engine.task.server.common.dto.JobAlarmInfo;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
@@ -87,7 +87,7 @@ public class JobTaskFailAlarmListener extends AbstractJobAlarm<JobTaskFailAlarmE
 
     @Override
     protected void startLog() {
-        SnailJobLog.LOCAL.info("JobTaskFailAlarmListener started");
+        TaskEngineLog.LOCAL.info("JobTaskFailAlarmListener started");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class JobTaskFailAlarmListener extends AbstractJobAlarm<JobTaskFailAlarmE
     @TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.AFTER_COMPLETION)
     public void doOnApplicationEvent(JobTaskFailAlarmEvent jobTaskFailAlarmEvent) {
         if (!queue.offer(jobTaskFailAlarmEvent.getJobTaskFailAlarmEventDTO())) {
-            SnailJobLog.LOCAL.warn("JOB task execution failure, alert queue is full");
+            TaskEngineLog.LOCAL.warn("JOB task execution failure, alert queue is full");
         }
     }
 }

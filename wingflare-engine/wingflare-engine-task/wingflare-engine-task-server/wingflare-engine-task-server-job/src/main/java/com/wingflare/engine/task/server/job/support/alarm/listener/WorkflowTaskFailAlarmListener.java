@@ -4,7 +4,7 @@ import com.wingflare.engine.task.common.core.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.alarm.AbstractWorkflowAlarm;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
 import com.wingflare.engine.task.server.common.dto.WorkflowAlarmInfo;
@@ -80,7 +80,7 @@ public class WorkflowTaskFailAlarmListener extends AbstractWorkflowAlarm<Workflo
 
     @Override
     protected void startLog() {
-        SnailJobLog.LOCAL.info("WorkflowTaskFailAlarmListener started");
+        TaskEngineLog.LOCAL.info("WorkflowTaskFailAlarmListener started");
     }
 
     @Override
@@ -97,7 +97,7 @@ public class WorkflowTaskFailAlarmListener extends AbstractWorkflowAlarm<Workflo
     @TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.AFTER_COMPLETION)
     public void doOnApplicationEvent(WorkflowTaskFailAlarmEvent event) {
         if (!queue.offer(event.getWorkflowTaskFailAlarmEventDTO())) {
-            SnailJobLog.LOCAL.warn("Workflow task execution failure, alert queue is full");
+            TaskEngineLog.LOCAL.warn("Workflow task execution failure, alert queue is full");
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.executor.job;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.job.support.JobExecutor;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -15,7 +15,7 @@ public abstract class AbstractJobExecutor implements JobExecutor, InitializingBe
     @Override
     public void execute(JobExecutorContext context) {
         if (CollUtil.isEmpty(context.getTaskList())) {
-            SnailJobLog.LOCAL.warn("List of tasks to be executed is empty. Task batch ID:[{}]", context.getTaskBatchId());
+            TaskEngineLog.LOCAL.warn("List of tasks to be executed is empty. Task batch ID:[{}]", context.getTaskBatchId());
             return;
         }
         doExecute(context);

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.enums.NodeTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.allocate.server.AllocateMessageQueueAveragely;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
@@ -53,12 +53,12 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
     private List<Integer> bucketList;
 
     public void doBalance(Set<String> remoteHostIds) {
-        SnailJobLog.LOCAL.info("rebalance start remoteHostIds:{}", JsonUtil.toJsonString(remoteHostIds));
+        TaskEngineLog.LOCAL.info("rebalance start remoteHostIds:{}", JsonUtil.toJsonString(remoteHostIds));
         DistributeInstance.RE_BALANCE_ING.set(Boolean.TRUE);
 
         try {
             if (CollUtil.isEmpty(remoteHostIds)) {
-                SnailJobLog.LOCAL.error("server node is empty");
+                TaskEngineLog.LOCAL.error("server node is empty");
             }
 
             // 删除本地缓存的消费桶的信息
@@ -73,9 +73,9 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
             // 重新覆盖本地分配的bucket
             DistributeInstance.INSTANCE.setConsumerBucket(allocate);
 
-            SnailJobLog.LOCAL.info("rebalance complete. allocate:[{}]", allocate);
+            TaskEngineLog.LOCAL.info("rebalance complete. allocate:[{}]", allocate);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("rebalance error. ", e);
+            TaskEngineLog.LOCAL.error("rebalance error. ", e);
         } finally {
             DistributeInstance.RE_BALANCE_ING.set(Boolean.FALSE);
         }
@@ -91,7 +91,7 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
             bucketList.add(i);
         }
 
-        SnailJobLog.LOCAL.info("ServerNodeBalance start");
+        TaskEngineLog.LOCAL.info("ServerNodeBalance start");
         thread = new Thread(this, "server-node-balance");
         thread.start();
     }
@@ -130,16 +130,16 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
         // 停止定时任务
         thread.interrupt();
 
-        SnailJobLog.LOCAL.info("ServerNodeBalance start. ");
+        TaskEngineLog.LOCAL.info("ServerNodeBalance start. ");
         int i = serverNodeMapper
                 .delete(new LambdaQueryWrapper<ServerNode>().eq(ServerNode::getHostId, ServerRegister.CURRENT_CID));
         if (1 == i) {
-            SnailJobLog.LOCAL.info("delete node success. [{}]", ServerRegister.CURRENT_CID);
+            TaskEngineLog.LOCAL.info("delete node success. [{}]", ServerRegister.CURRENT_CID);
         } else {
-            SnailJobLog.LOCAL.info("delete node  error. [{}]", ServerRegister.CURRENT_CID);
+            TaskEngineLog.LOCAL.info("delete node  error. [{}]", ServerRegister.CURRENT_CID);
         }
 
-        SnailJobLog.LOCAL.info("ServerNodeBalance close complete");
+        TaskEngineLog.LOCAL.info("ServerNodeBalance close complete");
     }
 
     @Override
@@ -173,7 +173,7 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
                         || checkConsumerBucket(remoteHostIds)
                 ) {
 
-                    SnailJobLog.LOCAL.info(
+                    TaskEngineLog.LOCAL.info(
                             "Node change detected, starting load balancing. localHostIds:{} remoteHostIds:{}",
                             JsonUtil.toJson(localHostIds),
                             JsonUtil.toJson(remoteHostIds)
@@ -198,10 +198,10 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
                 }
 
             } catch (InterruptedException e) {
-                SnailJobLog.LOCAL.info("check balance stop");
+                TaskEngineLog.LOCAL.info("check balance stop");
                 Thread.currentThread().interrupt();
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("check balance error", e);
+                TaskEngineLog.LOCAL.error("check balance error", e);
             } finally {
                 try {
                     TimeUnit.SECONDS.sleep(systemProperties.getLoadBalanceCycleTime());
@@ -216,7 +216,7 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
     private boolean isNodeNotMatch(Set<String> remoteHostIds, Set<String> localHostIds) {
         boolean b = !remoteHostIds.containsAll(localHostIds);
         if (b) {
-            SnailJobLog.LOCAL.info("Determine if remote nodes match local nodes. Remote host IDs:[{}] Local host IDs:[{}]",
+            TaskEngineLog.LOCAL.info("Determine if remote nodes match local nodes. Remote host IDs:[{}] Local host IDs:[{}]",
                     localHostIds,
                     remoteHostIds);
         }
@@ -236,7 +236,7 @@ public class ServerNodeBalance implements Lifecycle, Runnable {
     private boolean isNodeSizeNotEqual(int localNodeSize, int remoteNodeSize) {
         boolean b = localNodeSize != remoteNodeSize;
         if (b) {
-            SnailJobLog.LOCAL.info("If the number of nodes cached remotely and locally is inconsistent, trigger rebalance. Local node size:[{}] Remote node size:[{}]",
+            TaskEngineLog.LOCAL.info("If the number of nodes cached remotely and locally is inconsistent, trigger rebalance. Local node size:[{}] Remote node size:[{}]",
                     localNodeSize,
                     remoteNodeSize);
         }

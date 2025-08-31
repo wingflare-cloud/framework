@@ -7,7 +7,7 @@ import com.wingflare.engine.task.client.retry.core.strategy.ExecutorAnnotationMe
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 
 /**
  * @author: opensnail
@@ -26,11 +26,11 @@ public abstract class AbstractRetryExecutor<BR, SR> implements RetryExecutor<BR,
 
         Class<? extends ExecutorMethod> retryMethodClass = retryerInfo.getExecutorMethod();
         if (retryMethodClass.isAssignableFrom(ExecutorAnnotationMethod.class)) {
-            SnailJobLog.LOCAL.debug("Executing annotated retry method: {}, parameters: {}", retryMethodClass.getName(), JsonUtil.toJsonString(params));
+            TaskEngineLog.LOCAL.debug("Executing annotated retry method: {}, parameters: {}", retryMethodClass.getName(), JsonUtil.toJsonString(params));
             ExecutorAnnotationMethod retryAnnotationMethod = new ExecutorAnnotationMethod(retryerInfo);
             return retryAnnotationMethod.doExecute(params);
         } else {
-            SnailJobLog.LOCAL.debug("Executing custom retry method: {}, parameters: {}", retryMethodClass.getName(), JsonUtil.toJsonString(params));
+            TaskEngineLog.LOCAL.debug("Executing custom retry method: {}, parameters: {}", retryMethodClass.getName(), JsonUtil.toJsonString(params));
             ExecutorMethod executorMethod = SnailSpringContext.getBeanByType(retryMethodClass);
             return executorMethod.doExecute(params);
         }

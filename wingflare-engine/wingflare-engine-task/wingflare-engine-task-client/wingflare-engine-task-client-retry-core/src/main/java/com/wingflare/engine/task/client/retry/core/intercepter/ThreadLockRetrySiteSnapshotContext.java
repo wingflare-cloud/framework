@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.retry.core.intercepter;
 
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.client.retry.core.RetrySiteSnapshotContext;
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
 
 /**
  * ThreadLocal实现类
@@ -16,7 +16,7 @@ public class ThreadLockRetrySiteSnapshotContext<T> implements RetrySiteSnapshotC
     private final ThreadLocal<T> threadLocal;
 
     public ThreadLockRetrySiteSnapshotContext(ThreadLocal<T> threadLocal) {
-        Assert.notNull(threadLocal, () -> new SnailRetryClientException("thread local can not be null"));
+        Assert.notNull(threadLocal, () -> new TaskRetryClientException("thread local can not be null"));
         this.threadLocal = threadLocal;
     }
 

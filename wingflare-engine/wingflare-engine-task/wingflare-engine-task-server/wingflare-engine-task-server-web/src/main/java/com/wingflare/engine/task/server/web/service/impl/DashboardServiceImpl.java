@@ -12,7 +12,7 @@ import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.DistributeInstance;
 import com.wingflare.engine.task.server.common.dto.ServerNodeExtAttrs;
 import com.wingflare.engine.task.server.common.dto.UpdateClientInfoDTO;
@@ -323,7 +323,7 @@ public class DashboardServiceImpl implements DashboardService {
                             .collect(Collectors.toCollection(LinkedHashSet::new)));
                 }
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Failed to retrieve consumer group for node [{}:{}].", serverNodeResponseVO.getHostIp(), serverNodeExtAttrs.getWebPort());
+                TaskEngineLog.LOCAL.error("Failed to retrieve consumer group for node [{}:{}].", serverNodeResponseVO.getHostIp(), serverNodeExtAttrs.getWebPort());
             }
         }
         return new PageResult<>(serverNodePageDTO, responseVOList);

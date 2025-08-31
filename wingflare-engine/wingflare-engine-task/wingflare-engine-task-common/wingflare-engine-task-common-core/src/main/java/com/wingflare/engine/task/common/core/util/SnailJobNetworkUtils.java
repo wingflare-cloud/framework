@@ -2,7 +2,7 @@ package com.wingflare.engine.task.common.core.util;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.network.TaskNetworkProperties;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -44,7 +44,7 @@ public class SnailJobNetworkUtils {
             for (Enumeration<NetworkInterface> nics = NetworkInterface.getNetworkInterfaces(); nics.hasMoreElements(); ) {
                 NetworkInterface ifc = nics.nextElement();
                 if (ifc.isUp()) {
-                    SnailJobLog.LOCAL.trace("Testing interface: " + ifc.getDisplayName());
+                    TaskEngineLog.LOCAL.trace("Testing interface: " + ifc.getDisplayName());
                     if (ifc.getIndex() < lowest || result == null) {
                         lowest = ifc.getIndex();
                     } else if (result != null) {
@@ -55,7 +55,7 @@ public class SnailJobNetworkUtils {
                         for (Enumeration<InetAddress> addrs = ifc.getInetAddresses(); addrs.hasMoreElements(); ) {
                             InetAddress address = addrs.nextElement();
                             if (isValidAddress(address) && isPreferredAddress(address)) {
-                                SnailJobLog.LOCAL.trace("Found non-loopback interface: " + ifc.getDisplayName());
+                                TaskEngineLog.LOCAL.trace("Found non-loopback interface: " + ifc.getDisplayName());
                                 result = address;
                             }
                         }
@@ -63,7 +63,7 @@ public class SnailJobNetworkUtils {
                 }
             }
         } catch (IOException ex) {
-            SnailJobLog.LOCAL.error("Cannot get first non-loopback address", ex);
+            TaskEngineLog.LOCAL.error("Cannot get first non-loopback address", ex);
         }
 
         if (result != null) {
@@ -106,7 +106,7 @@ public class SnailJobNetworkUtils {
                 return true;
             }
         }
-        SnailJobLog.LOCAL.info("Ignoring address: " + address.getHostAddress());
+        TaskEngineLog.LOCAL.info("Ignoring address: " + address.getHostAddress());
         return false;
     }
 
@@ -115,7 +115,7 @@ public class SnailJobNetworkUtils {
     boolean ignoreInterface(String interfaceName) {
         for (String regex : this.properties.getIgnoredInterfaces()) {
             if (interfaceName.matches(regex)) {
-                SnailJobLog.LOCAL.trace("Ignoring interface: " + interfaceName);
+                TaskEngineLog.LOCAL.trace("Ignoring interface: " + interfaceName);
                 return true;
             }
         }

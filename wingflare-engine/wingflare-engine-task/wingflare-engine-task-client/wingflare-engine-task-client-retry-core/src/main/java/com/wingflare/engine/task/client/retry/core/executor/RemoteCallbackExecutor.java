@@ -1,15 +1,15 @@
 package com.wingflare.engine.task.client.retry.core.executor;
 
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
+import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
 import com.wingflare.engine.task.client.retry.core.callback.complete.RetryCompleteCallback;
 import com.wingflare.engine.task.client.retry.core.context.CallbackContext;
-import com.wingflare.engine.task.client.retry.core.exception.SnailRetryClientException;
+import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
 import com.wingflare.engine.task.client.retry.core.log.RetryLogMeta;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
@@ -47,12 +47,12 @@ public class RemoteCallbackExecutor {
             doCallbackForSpringBean(context);
 
             // 上报执行成功
-            SnailJobLog.REMOTE.info("Task executed successfully taskId:[{}]", context.getRetryTaskId());
+            TaskEngineLog.REMOTE.info("Task executed successfully taskId:[{}]", context.getRetryTaskId());
         } catch (NoSuchBeanDefinitionException e) {
             // 若不是SpringBean 则直接反射以普通类调用
             doCallbackForOrdinaryClass(context);
         } finally {
-            SnailJobLogManager.removeAll();
+            TaskLogManager.removeAll();
         }
     }
 
@@ -63,7 +63,7 @@ public class RemoteCallbackExecutor {
         retryLogMeta.setNamespaceId(context.getNamespaceId());
         retryLogMeta.setRetryTaskId(context.getRetryTaskId());
         retryLogMeta.setRetryId(context.getRetryId());
-        SnailJobLogManager.initLogInfo(retryLogMeta, LogTypeEnum.RETRY);
+        TaskLogManager.initLogInfo(retryLogMeta, LogTypeEnum.RETRY);
     }
 
     /**
@@ -87,7 +87,7 @@ public class RemoteCallbackExecutor {
                         deSerialize);
                 break;
             default:
-                throw new SnailRetryClientException("Callback status exception");
+                throw new TaskRetryClientException("Callback status exception");
         }
 
     }
@@ -114,14 +114,14 @@ public class RemoteCallbackExecutor {
                         Object[].class);
                 break;
             default:
-                throw new SnailRetryClientException("Callback status exception");
+                throw new TaskRetryClientException("Callback status exception");
         }
 
-        Assert.notNull(method, () -> new SnailRetryClientException("no such method"));
+        Assert.notNull(method, () -> new TaskRetryClientException("no such method"));
         ReflectionUtils.invokeMethod(method, retryCompleteCallback, retryerInfo.getScene(),
                 retryerInfo.getExecutorClassName(), deSerialize);
 
-        SnailJobLog.REMOTE.info("Task executed successfully taskId:[{}] [{}]", context.getRetryTaskId());
+        TaskEngineLog.REMOTE.info("Task executed successfully taskId:[{}] [{}]", context.getRetryTaskId());
 
     }
 

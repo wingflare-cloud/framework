@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.enums.RetryTaskExecutorSceneEnum;
 import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -44,7 +44,7 @@ public class OpenApiTriggerRetryRequestHandler extends PostHttpRequestHandler {
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("trigger retry:[{}]", content);
+        TaskEngineLog.LOCAL.debug("trigger retry:[{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
         RequestTriggerRetryVO triggerRetryVO = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), RequestTriggerRetryVO.class);

@@ -4,7 +4,7 @@ import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.job.dto.JobTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
@@ -46,7 +46,7 @@ public class JobTimeoutCheckTask implements TimerTask<String> {
         JobTaskBatchMapper jobTaskBatchMapper = SnailSpringContext.getBean(JobTaskBatchMapper.class);
         JobTaskBatch jobTaskBatch = jobTaskBatchMapper.selectById(taskBatchId);
         if (Objects.isNull(jobTaskBatch)) {
-            SnailJobLog.LOCAL.error("jobTaskBatch:[{}] does not exist", taskBatchId);
+            TaskEngineLog.LOCAL.error("jobTaskBatch:[{}] does not exist", taskBatchId);
             return;
         }
 
@@ -58,7 +58,7 @@ public class JobTimeoutCheckTask implements TimerTask<String> {
         JobMapper jobMapper = SnailSpringContext.getBean(JobMapper.class);
         Job job = jobMapper.selectById(jobId);
         if (Objects.isNull(job)) {
-            SnailJobLog.LOCAL.error("job:[{}] does not exist", jobId);
+            TaskEngineLog.LOCAL.error("job:[{}] does not exist", jobId);
             return;
         }
 
@@ -83,7 +83,7 @@ public class JobTimeoutCheckTask implements TimerTask<String> {
 
         SnailSpringContext.getContext().publishEvent(
                 new JobTaskFailAlarmEvent(jobTaskFailAlarmEventDTO));
-        SnailJobLog.LOCAL.info(reason);
+        TaskEngineLog.LOCAL.info(reason);
     }
 
     @Override

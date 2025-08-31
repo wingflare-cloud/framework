@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.client.core.executor;
 
-import com.wingflare.engine.task.client.common.log.support.SnailJobLogManager;
+import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
 import com.wingflare.engine.task.client.core.IJobExecutor;
 import com.wingflare.engine.task.client.core.cache.FutureCache;
 import com.wingflare.engine.task.client.core.cache.ThreadPoolCache;
@@ -77,7 +77,7 @@ public abstract class AbstractJobExecutor implements IJobExecutor {
                 initLogContext(jobContext);
                 return doJobExecute(jobArgs);
             } finally {
-                SnailJobLogManager.removeLogMeta();
+                TaskLogManager.removeLogMeta();
                 JobContextManager.removeJobContext();
             }
 
@@ -94,7 +94,7 @@ public abstract class AbstractJobExecutor implements IJobExecutor {
         logMeta.setGroupName(jobContext.getGroupName());
         logMeta.setJobId(jobContext.getJobId());
         logMeta.setTaskBatchId(jobContext.getTaskBatchId());
-        SnailJobLogManager.initLogInfo(logMeta, LogTypeEnum.JOB);
+        TaskLogManager.initLogInfo(logMeta, LogTypeEnum.JOB);
         JobContextManager.setJobContext(jobContext);
     }
 

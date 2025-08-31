@@ -1,10 +1,10 @@
 package com.wingflare.engine.task.client.retry.core.report;
 
 import com.wingflare.engine.task.client.common.Lifecycle;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.window.SlidingRingWindow;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Component;
@@ -50,7 +50,7 @@ public class AsyncReport extends AbstractReport implements Lifecycle {
     @Override
     public void start() {
 
-        SnailJobProperties.SlidingWindowConfig slidingWindowConfig = snailJobProperties.getRetry().getReportSlidingWindow();
+        TaskProperties.SlidingWindowConfig slidingWindowConfig = taskProperties.getRetry().getReportSlidingWindow();
 
         ChronoUnit chronoUnit = slidingWindowConfig.getChronoUnit();
         Duration duration = Duration.of(slidingWindowConfig.getDuration(), chronoUnit);
@@ -60,10 +60,10 @@ public class AsyncReport extends AbstractReport implements Lifecycle {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("AsyncReport about to shutdown");
+        TaskEngineLog.LOCAL.info("AsyncReport about to shutdown");
         if (Objects.nonNull(slidingWindow)) {
             slidingWindow.shutdown();
         }
-        SnailJobLog.LOCAL.info("AsyncReport has been shutdown");
+        TaskEngineLog.LOCAL.info("AsyncReport has been shutdown");
     }
 }

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
@@ -80,9 +80,9 @@ public class RetryLogMergeSchedule extends AbstractSchedule implements Lifecycle
             total = PartitionTaskUtils.process(startId -> retryLogList(startId, endTime),
                     this::processJobLogPartitionTasks, 0);
 
-            SnailJobLog.LOCAL.debug("job merge success total:[{}]", total);
+            TaskEngineLog.LOCAL.debug("job merge success total:[{}]", total);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("job merge log error", e);
+            TaskEngineLog.LOCAL.error("job merge log error", e);
         }
     }
 

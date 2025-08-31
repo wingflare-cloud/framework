@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.core.handler;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.core.enums.AllocationAlgorithmEnum;
 import com.wingflare.engine.task.client.core.enums.TriggerTypeEnum;
@@ -39,8 +39,8 @@ public abstract class AbstractParamsHandler<H, R> extends AbstractJobRequestHand
         // 默认java
         reqDTO.setExecutorType(ExecutorTypeEnum.JAVA.getType());
         // 设置 groupName
-        SnailJobProperties snailJobProperties = SnailSpringContext.getBean(SnailJobProperties.class);
-        reqDTO.setGroupName(snailJobProperties.getGroup());
+        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        reqDTO.setGroupName(taskProperties.getGroup());
     }
 
     public JobApiRequest getReqDTO() {

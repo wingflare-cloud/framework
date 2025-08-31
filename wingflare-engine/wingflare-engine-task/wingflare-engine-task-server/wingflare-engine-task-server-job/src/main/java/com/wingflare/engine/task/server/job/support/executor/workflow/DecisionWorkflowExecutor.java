@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
 import com.wingflare.engine.task.common.core.expression.ExpressionFactory;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.DecisionConfigRequest;
 import com.wingflare.engine.task.server.common.dto.JobLogMetaDTO;
 import com.wingflare.engine.task.server.common.enums.ExpressionTypeEnum;
@@ -143,10 +143,10 @@ public class DecisionWorkflowExecutor extends AbstractWorkflowExecutor {
         jobLogMetaDTO.setTaskId(jobTask.getId());
         if (jobTaskBatch.getTaskBatchStatus() == JobTaskStatusEnum.SUCCESS.getStatus()
                 || JobOperationReasonEnum.WORKFLOW_NODE_NO_REQUIRED.getReason() == context.getOperationReason()) {
-            SnailJobLog.REMOTE.info("Node ID:[{}] Decision completed. Context:[{}] Decision result:[{}] <|>{}<|>",
+            TaskEngineLog.REMOTE.info("Node ID:[{}] Decision completed. Context:[{}] Decision result:[{}] <|>{}<|>",
                     context.getWorkflowNodeId(), context.getWfContext(), context.getEvaluationResult(), jobLogMetaDTO);
         } else {
-            SnailJobLog.REMOTE.error("Node ID:[{}] Decision failed. Context:[{}] Failure reason:[{}] <|>{}<|>",
+            TaskEngineLog.REMOTE.error("Node ID:[{}] Decision failed. Context:[{}] Failure reason:[{}] <|>{}<|>",
                     context.getWorkflowNodeId(), context.getWfContext(), context.getLogMessage(), jobLogMetaDTO);
 
         }

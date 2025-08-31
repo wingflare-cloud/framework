@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.starter.dispatch;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.dto.DistributeInstance;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
@@ -51,7 +51,7 @@ public class DispatchService implements Lifecycle {
             try {
                 // 当正在rebalance时延迟10s，尽量等待所有节点都完成rebalance
                 if (DistributeInstance.RE_BALANCE_ING.get()) {
-                    SnailJobLog.LOCAL.info("Rebalancing in progress...");
+                    TaskEngineLog.LOCAL.info("Rebalancing in progress...");
                     TimeUnit.SECONDS.sleep(INITIAL_DELAY);
                 }
 
@@ -63,7 +63,7 @@ public class DispatchService implements Lifecycle {
                 }
 
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Dispatch exception", e);
+                TaskEngineLog.LOCAL.error("Dispatch exception", e);
             }
 
 

@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.common.core.model.TaskOpenApiResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 
@@ -18,13 +18,13 @@ import java.text.MessageFormat;
  * @author opensnail
  * @date 2025-07-05
  */
-public class DefaultHttpClient implements SnailHttpClient {
+public class DefaultHttpClient implements TaskHttpClient {
     private final static String URL = "{0}://{1}:{2,number,#}/{3}/{4}";
     private final static String HTTPS = "https";
     private final static String HTTP = "http";
-    private final SnailJobProperties.SnailOpenApiConfig config;
+    private final TaskProperties.TaskOpenApiConfig config;
 
-    public DefaultHttpClient(SnailJobProperties.SnailOpenApiConfig config) {
+    public DefaultHttpClient(TaskProperties.TaskOpenApiConfig config) {
         this.config = config;
     }
 

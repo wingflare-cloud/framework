@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.retry.support.dispatch;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.retry.dto.RetryExecutorResultDTO;
 import com.wingflare.engine.task.server.retry.support.RetryResultHandler;
@@ -36,7 +36,7 @@ public class RetryResultActor extends AbstractActor {
             try {
                 doResult(result);
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Result processing exception. [{}]", result, e);
+                TaskEngineLog.LOCAL.error("Result processing exception. [{}]", result, e);
             } finally {
                 getContext().stop(getSelf());
             }

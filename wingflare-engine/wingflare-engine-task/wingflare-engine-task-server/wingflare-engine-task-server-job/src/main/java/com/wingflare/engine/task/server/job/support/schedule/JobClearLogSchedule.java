@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.schedule;
 
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
@@ -79,7 +79,7 @@ public class JobClearLogSchedule extends AbstractSchedule implements Lifecycle {
         try {
             // 清除日志默认保存天数大于零、最少保留最近一天的日志数据
             if (systemProperties.getLogStorage() < 1) {
-                SnailJobLog.LOCAL.error("job clear log storage error", systemProperties.getLogStorage());
+                TaskEngineLog.LOCAL.error("job clear log storage error", systemProperties.getLogStorage());
                 return;
             }
             // clean job log
@@ -88,9 +88,9 @@ public class JobClearLogSchedule extends AbstractSchedule implements Lifecycle {
             total = PartitionTaskUtils.process(startId -> jobTaskBatchList(startId, endTime),
                     this::processJobLogPartitionTasks, 0);
 
-            SnailJobLog.LOCAL.debug("Job clear success total:[{}]", total);
+            TaskEngineLog.LOCAL.debug("Job clear success total:[{}]", total);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("job clear log error", e);
+            TaskEngineLog.LOCAL.error("job clear log error", e);
         }
     }
 

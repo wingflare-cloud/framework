@@ -12,7 +12,7 @@ import com.wingflare.engine.task.common.core.alarm.attribute.LarkAttribute;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.enums.AlarmTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +63,7 @@ public class LarkAlarm extends AbstractAlarm<AlarmContext> {
             if (execute.isOk()) {
                 return true;
             }
-            SnailJobLog.LOCAL.error("Sending Lark message failed: {}", execute.body());
+            TaskEngineLog.LOCAL.error("Sending Lark message failed: {}", execute.body());
             return false;
         } catch (Exception e) {
             log.error("Sending Lark message failed", e);

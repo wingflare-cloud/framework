@@ -2,9 +2,8 @@ package com.wingflare.engine.task.server.starter.schedule;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
-import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.register.ServerRegister;
 import com.wingflare.engine.task.server.common.schedule.AbstractSchedule;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -27,11 +26,9 @@ import java.util.List;
 @Component
 public class OfflineNodeSchedule extends AbstractSchedule implements Lifecycle {
     private final ServerNodeMapper serverNodeMapper;
-    private final InstanceManager instanceManager;
 
-    public OfflineNodeSchedule(ServerNodeMapper serverNodeMapper, InstanceManager instanceManager) {
+    public OfflineNodeSchedule(ServerNodeMapper serverNodeMapper) {
         this.serverNodeMapper = serverNodeMapper;
-        this.instanceManager = instanceManager;
     }
 
     @Override
@@ -50,28 +47,8 @@ public class OfflineNodeSchedule extends AbstractSchedule implements Lifecycle {
                 serverNodeMapper.deleteByIds(StreamUtils.toSet(serverNodes, ServerNode::getId));
             }
 
-//            Set<InstanceLiveInfo> allInstances = instanceManager.getAllInstances();
-//            Set<RegisterNodeInfo> waitOffline = allInstances
-//                    .stream()
-//                    .filter(instanceLiveInfo -> !instanceLiveInfo.isAlive())
-//                    .map(InstanceLiveInfo::getNodeInfo)
-//                    .collect(Collectors.toSet());
-//            Set<String> podIds = StreamUtils.toSet(waitOffline, RegisterNodeInfo::getHostId);
-//            if (CollUtil.isEmpty(podIds)) {
-//                return;
-//            }
-//
-//            for (final RegisterNodeInfo registerNodeInfo : waitOffline) {
-//                InstanceKey instanceKey = InstanceKey.builder()
-//                        .namespaceId(registerNodeInfo.getNamespaceId())
-//                        .groupName(registerNodeInfo.getGroupName())
-//                        .hostId(registerNodeInfo.getHostId())
-//                        .build();
-//                instanceManager.remove(instanceKey);
-//            }
-
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Clear offline node failed", e);
+            TaskEngineLog.LOCAL.error("Clear offline node failed", e);
         }
     }
 

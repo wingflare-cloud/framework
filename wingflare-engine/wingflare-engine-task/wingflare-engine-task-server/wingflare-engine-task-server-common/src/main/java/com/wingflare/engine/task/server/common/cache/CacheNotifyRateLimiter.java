@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.common.cache;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -58,7 +58,7 @@ public class CacheNotifyRateLimiter implements Lifecycle {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("CacheNotifyRateLimiter start");
+        TaskEngineLog.LOCAL.info("CacheNotifyRateLimiter start");
         CACHE = CacheBuilder.newBuilder()
                 // 设置并发级别为cpu核心数
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
@@ -68,6 +68,6 @@ public class CacheNotifyRateLimiter implements Lifecycle {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("CacheNotifyRateLimiter stop");
+        TaskEngineLog.LOCAL.info("CacheNotifyRateLimiter stop");
     }
 }

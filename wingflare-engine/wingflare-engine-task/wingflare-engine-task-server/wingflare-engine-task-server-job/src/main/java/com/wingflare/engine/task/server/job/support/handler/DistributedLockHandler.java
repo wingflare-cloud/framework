@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.job.support.handler;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.lock.LockBuilder;
 import com.wingflare.engine.task.server.common.lock.LockManager;
 import com.wingflare.engine.task.server.common.lock.LockProvider;
@@ -60,7 +60,7 @@ public class DistributedLockHandler {
                             }
                         }
 
-                        SnailJobLog.LOCAL.debug("Attempt [{}] to acquire lock. Lock name:[{}] Result:[{}] Thread name:[{}]",
+                        TaskEngineLog.LOCAL.debug("Attempt [{}] to acquire lock. Lock name:[{}] Result:[{}] Thread name:[{}]",
                                 attempt.getAttemptNumber(), lockName, result, Thread.currentThread().getName());
                     }
                 }).build();
@@ -81,11 +81,11 @@ public class DistributedLockHandler {
                 }
             }
 
-            SnailJobLog.LOCAL.warn("lock execute error. lockName:[{}]", lockName, throwable);
+            TaskEngineLog.LOCAL.warn("lock execute error. lockName:[{}]", lockName, throwable);
         } finally {
             if (lock) {
                 lockProvider.unlock();
-                SnailJobLog.LOCAL.debug("[{}] Lock has been released", lockName);
+                TaskEngineLog.LOCAL.debug("[{}] Lock has been released", lockName);
             } else {
                 // 未获取到锁直接清除线程中存储的锁信息
                 LockManager.clear();
@@ -114,11 +114,11 @@ public class DistributedLockHandler {
                 lockExecutor.execute();
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("lock execute error. lockName:[{}]", lockName, e);
+            TaskEngineLog.LOCAL.error("lock execute error. lockName:[{}]", lockName, e);
         } finally {
             if (lock) {
                 lockProvider.unlock();
-                SnailJobLog.LOCAL.debug("[{}] Lock has been released", lockName);
+                TaskEngineLog.LOCAL.debug("[{}] Lock has been released", lockName);
             } else {
                 // 未获取到锁直接清除线程中存储的锁信息
                 LockManager.clear();

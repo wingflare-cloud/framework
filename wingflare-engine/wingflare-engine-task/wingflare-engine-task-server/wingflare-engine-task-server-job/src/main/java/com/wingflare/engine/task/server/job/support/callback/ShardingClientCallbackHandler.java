@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.RegisterNodeInfo;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
@@ -54,7 +54,7 @@ public class ShardingClientCallbackHandler extends AbstractClientCallbackHandler
                 context.getNamespaceId(), context.getGroupName(), context.getLabels());
         Set<RegisterNodeInfo> nodes = StreamUtils.toSet(instanceALiveInfoSet, InstanceLiveInfo::getNodeInfo);
         if (CollUtil.isEmpty(nodes)) {
-            SnailJobLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
+            TaskEngineLog.LOCAL.error("No executable client information. Job ID:[{}]", context.getJobId());
             return null;
         }
 

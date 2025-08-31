@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.server.job.support.timer;
 
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import com.wingflare.engine.task.server.job.dto.RealJobExecutorDTO;
@@ -22,13 +22,13 @@ public class RetryJobTimerTask implements TimerTask<String> {
     @Override
     public void run(final Timeout timeout) throws Exception {
         // 执行任务调度
-        SnailJobLog.LOCAL.debug("Start retry task scheduling. Current time:[{}] Task ID:[{}]", LocalDateTime.now(), jobExecutorDTO.getTaskBatchId());
+        TaskEngineLog.LOCAL.debug("Start retry task scheduling. Current time:[{}] Task ID:[{}]", LocalDateTime.now(), jobExecutorDTO.getTaskBatchId());
         JobTimerWheel.clearCache(idempotentKey());
         try {
             ActorRef actorRef = ActorGenerator.jobRealTaskExecutorActor();
             actorRef.tell(jobExecutorDTO, actorRef);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Retry task scheduling execution failed", e);
+            TaskEngineLog.LOCAL.error("Retry task scheduling execution failed", e);
         }
     }
 

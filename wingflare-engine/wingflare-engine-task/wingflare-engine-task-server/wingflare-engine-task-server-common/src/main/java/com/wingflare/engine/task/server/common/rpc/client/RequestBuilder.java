@@ -27,7 +27,7 @@ public class RequestBuilder<T, R> {
     private boolean failRetry;
     private int retryTimes = 3;
     private int retryInterval = 1;
-    private SnailJobRetryListener retryListener = new SimpleRetryListener();
+    private TaskEngineRetryListener retryListener = new SimpleRetryListener();
     private boolean failover;
     private int routeKey;
     private String allocKey;
@@ -73,7 +73,7 @@ public class RequestBuilder<T, R> {
         return this;
     }
 
-    public RequestBuilder<T, R> retryListener(SnailJobRetryListener retryListener) {
+    public RequestBuilder<T, R> retryListener(TaskEngineRetryListener retryListener) {
         this.retryListener = retryListener;
         return this;
     }

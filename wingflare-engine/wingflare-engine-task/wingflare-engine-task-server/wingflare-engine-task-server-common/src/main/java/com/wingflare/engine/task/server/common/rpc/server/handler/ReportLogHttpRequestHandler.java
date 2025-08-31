@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.request.JobLogTaskRequest;
 import com.wingflare.engine.task.common.model.request.RetryLogTaskRequest;
@@ -49,7 +49,7 @@ public class ReportLogHttpRequestHandler extends PostHttpRequestHandler {
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery urlQuery, HttpHeaders headers) {
 
-        SnailJobLog.LOCAL.debug("Begin Handler Log Report Data. [{}]", content);
+        TaskEngineLog.LOCAL.debug("Begin Handler Log Report Data. [{}]", content);
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
 

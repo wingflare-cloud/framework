@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.client.core.handler;
 
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.common.rpc.openapi.AbstractRequestHandler;
 import com.wingflare.engine.task.client.core.openapi.JobOpenApiClient;
@@ -32,7 +32,7 @@ public abstract class AbstractJobRequestHandler<R> extends AbstractRequestHandle
             .build();
 
     protected boolean isOpenApiV2() {
-        SnailJobProperties properties = SnailSpringContext.getBean(SnailJobProperties.class);
+        TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
         return properties.isOpenapiV2();
     }
 }

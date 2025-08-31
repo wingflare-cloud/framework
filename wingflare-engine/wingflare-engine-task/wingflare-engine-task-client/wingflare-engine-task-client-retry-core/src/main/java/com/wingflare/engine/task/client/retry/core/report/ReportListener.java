@@ -9,7 +9,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
@@ -23,7 +23,7 @@ import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.core.window.Listener;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
@@ -58,7 +58,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
 
     private static final RpcClient CLIENT = RequestBuilder.<RpcClient, TaskRpcResult>newBuilder()
             .client(RpcClient.class)
-            .callback(nettyResult -> SnailJobLog.LOCAL.info("Data report successfully requestId:[{}]", nettyResult.getReqId())).build();
+            .callback(nettyResult -> TaskEngineLog.LOCAL.info("Data report successfully requestId:[{}]", nettyResult.getReqId())).build();
 
     @Override
     public void handler(List<RetryTaskRequest> list) {
@@ -69,15 +69,15 @@ public class ReportListener implements Listener<RetryTaskRequest> {
 
         try {
             retryExecutor.call(retryer, () -> {
-                SnailJobLog.LOCAL.info("Batch asynchronous reporting ... <|>{}<|>", JsonUtil.toJsonString(list));
+                TaskEngineLog.LOCAL.info("Batch asynchronous reporting ... <|>{}<|>", JsonUtil.toJsonString(list));
                 CLIENT.reportRetryInfo(list);
                 return null;
             }, throwable -> {
-                SnailJobLog.LOCAL.error("Data report failed. <|>{}<|>", JsonUtil.toJsonString(list));
+                TaskEngineLog.LOCAL.error("Data report failed. <|>{}<|>", JsonUtil.toJsonString(list));
                 sendMessage(throwable);
-            }, o -> SnailJobLog.LOCAL.info("Data report successful retry：<|>{}<|>", JsonUtil.toJsonString(list)));
+            }, o -> TaskEngineLog.LOCAL.info("Data report successful retry：<|>{}<|>", JsonUtil.toJsonString(list)));
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Data report failed. <|>{}<|>", JsonUtil.toJsonString(list), e);
+            TaskEngineLog.LOCAL.error("Data report failed. <|>{}<|>", JsonUtil.toJsonString(list), e);
         }
     }
 
@@ -101,7 +101,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                     public <V> void onRetry(Attempt<V> attempt) {
 
                         if (attempt.hasException()) {
-                            SnailJobLog.LOCAL.error(" SnailJob reports an exception when reporting abnormal data, attempt [{}]", attempt.getAttemptNumber(), attempt.getExceptionCause());
+                            TaskEngineLog.LOCAL.error(" SnailJob reports an exception when reporting abnormal data, attempt [{}]", attempt.getAttemptNumber(), attempt.getExceptionCause());
                         }
 
                     }
@@ -119,7 +119,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                 return;
             }
 
-            SnailJobProperties properties = SnailSpringContext.getBean(SnailJobProperties.class);
+            TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
             if (Objects.isNull(properties)) {
                 return;
             }
@@ -139,7 +139,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
             }
 
         } catch (Exception e1) {
-            SnailJobLog.LOCAL.error("Client failed to send component exception alarm", e1);
+            TaskEngineLog.LOCAL.error("Client failed to send component exception alarm", e1);
         }
 
     }

@@ -80,7 +80,7 @@
 
     <!-- SnailJob appender -->
     <appender name="snailJobLogServerAppender"
-              class="com.wingflare.engine.task.server.common.appender.SnailJobServerLogbackAppender">
+              class="com.wingflare.engine.task.server.common.appender.TaskEngineServerLogbackAppender">
     </appender>
 
     <logger name="io.grpc.internal.AtomicBackoff" level="ERROR"/>

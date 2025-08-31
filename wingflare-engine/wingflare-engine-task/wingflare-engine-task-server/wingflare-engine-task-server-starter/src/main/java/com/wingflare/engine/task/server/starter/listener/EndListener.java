@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.starter.listener;
 
 import com.wingflare.engine.task.common.core.util.TaskVersion;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import jakarta.annotation.Resource;
 import org.springframework.context.ApplicationListener;
@@ -24,8 +24,8 @@ public class EndListener implements ApplicationListener<ContextClosedEvent> {
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        SnailJobLog.LOCAL.info("wingflare-task client about to shutdown v{}", TaskVersion.getVersion());
+        TaskEngineLog.LOCAL.info("wingflare-task client about to shutdown v{}", TaskVersion.getVersion());
         lifecycleList.forEach(Lifecycle::close);
-        SnailJobLog.LOCAL.info("wingflare-task client closed successfully v{}", TaskVersion.getVersion());
+        TaskEngineLog.LOCAL.info("wingflare-task client closed successfully v{}", TaskVersion.getVersion());
     }
 }

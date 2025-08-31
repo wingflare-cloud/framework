@@ -6,7 +6,7 @@ import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +33,7 @@ public class SyncRemoteConfig implements Lifecycle {
                 .timeout(1000L)
                 .callback(rpcResult -> {
                     if (Objects.isNull(rpcResult.getData())) {
-                        SnailJobLog.LOCAL.debug("Configuration retrieval result is null");
+                        TaskEngineLog.LOCAL.debug("Configuration retrieval result is null");
                         return;
                     }
 
@@ -45,7 +45,7 @@ public class SyncRemoteConfig implements Lifecycle {
             try {
                 CLIENT.syncRemoteConfig();
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Notification configuration failed", e);
+                TaskEngineLog.LOCAL.error("Notification configuration failed", e);
             }
         }, 0, 1, TimeUnit.MINUTES);
     }

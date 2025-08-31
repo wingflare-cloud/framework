@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.retry.support.listener;
 import com.wingflare.engine.task.common.core.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.alarm.AbstractRetryAlarm;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
@@ -76,7 +76,7 @@ public class RetryTaskFailAlarmListener extends
     @TransactionalEventListener(fallbackExecution = true, phase = TransactionPhase.AFTER_COMPLETION)
     public void doOnApplicationEvent(RetryTaskFailAlarmEvent retryTaskFailAlarmEvent) {
         if (!queue.offer(retryTaskFailAlarmEvent.getRetryTaskFailAlarmEventDTO())) {
-            SnailJobLog.LOCAL.warn("Task retry failure, alert queue is full");
+            TaskEngineLog.LOCAL.warn("Task retry failure, alert queue is full");
         }
     }
 
@@ -101,7 +101,7 @@ public class RetryTaskFailAlarmListener extends
 
     @Override
     protected void startLog() {
-        SnailJobLog.LOCAL.info("RetryTaskFailAlarmListener started");
+        TaskEngineLog.LOCAL.info("RetryTaskFailAlarmListener started");
     }
 
     @Override

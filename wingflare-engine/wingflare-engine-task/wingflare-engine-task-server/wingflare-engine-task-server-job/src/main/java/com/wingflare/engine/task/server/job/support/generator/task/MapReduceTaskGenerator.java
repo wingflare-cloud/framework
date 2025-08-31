@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.exception.TaskMapReduceException;
 import com.wingflare.engine.task.common.core.model.JobArgsHolder;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.allocate.client.ClientLoadBalanceManager;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.dto.InstanceSelectCondition;
@@ -170,7 +170,7 @@ public class MapReduceTaskGenerator extends AbstractJobTaskGenerator {
     private List<JobTask> createMapJobTasks(final JobTaskGenerateContext context) {
         List<?> mapSubTask = context.getMapSubTask();
         if (CollUtil.isEmpty(mapSubTask)) {
-            SnailJobLog.LOCAL.warn("Map sub task is empty. TaskBatchId:[{}]", context.getTaskBatchId());
+            TaskEngineLog.LOCAL.warn("Map sub task is empty. TaskBatchId:[{}]", context.getTaskBatchId());
             return Lists.newArrayList();
         }
 
@@ -230,7 +230,7 @@ public class MapReduceTaskGenerator extends AbstractJobTaskGenerator {
         try {
             return JsonUtil.parseObject(context.getArgsStr(), MapReduceArgsStrDTO.class);
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("map reduce args parse error. argsStr:[{}]", context.getArgsStr());
+            TaskEngineLog.LOCAL.error("map reduce args parse error. argsStr:[{}]", context.getArgsStr());
         }
 
         return new MapReduceArgsStrDTO();

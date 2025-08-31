@@ -46,7 +46,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-client-starter</artifactId>
+            <artifactId>wingflare-engine-task-client-core</artifactId>
         </dependency>
 
         <dependency>
@@ -56,7 +56,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-client-core</artifactId>
+            <artifactId>wingflare-engine-task-client-starter</artifactId>
         </dependency>
 
     </dependencies>

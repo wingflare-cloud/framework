@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.cache.CacheNotifyRateLimiter;
 import com.wingflare.engine.task.server.common.convert.AlarmInfoConverter;
@@ -83,10 +83,10 @@ public abstract class AbstractAlarm<E extends ApplicationEvent, A extends AlarmI
                 });
             });
         } catch (InterruptedException e) {
-            SnailJobLog.LOCAL.info("retry task fail dead letter alarm stop");
+            TaskEngineLog.LOCAL.info("retry task fail dead letter alarm stop");
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("RetryTaskFailDeadLetterAlarmListener queue poll Exception", e);
+            TaskEngineLog.LOCAL.error("RetryTaskFailDeadLetterAlarmListener queue poll Exception", e);
         }
     }
 

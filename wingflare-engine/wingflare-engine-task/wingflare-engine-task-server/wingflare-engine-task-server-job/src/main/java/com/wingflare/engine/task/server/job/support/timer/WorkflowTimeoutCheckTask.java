@@ -4,7 +4,7 @@ import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.job.dto.WorkflowTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFailAlarmEvent;
@@ -53,7 +53,7 @@ public class WorkflowTimeoutCheckTask implements TimerTask<String> {
                 .with(WorkflowTaskFailAlarmEventDTO::setReason, reason)
                 .build()));
 
-        SnailJobLog.LOCAL.info(reason);
+        TaskEngineLog.LOCAL.info(reason);
     }
 
     @Override

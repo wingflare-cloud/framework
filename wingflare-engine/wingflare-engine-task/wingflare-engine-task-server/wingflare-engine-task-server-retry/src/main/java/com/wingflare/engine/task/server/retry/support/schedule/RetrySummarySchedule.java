@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.retry.support.schedule;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.schedule.AbstractSchedule;
@@ -120,10 +120,10 @@ public class RetrySummarySchedule extends AbstractSchedule implements Lifecycle 
                     updateTotalRetrySummary = retrySummaryMapper.updateBatch(waitUpdates);
                 }
 
-                SnailJobLog.LOCAL.debug("retry summary dashboard success todayFrom:[{}] todayTo:[{}] insertTotalRetrySummary:[{}] updateTotalRetrySummary:[{}]", todayFrom, todayTo, insertTotalRetrySummary, updateTotalRetrySummary);
+                TaskEngineLog.LOCAL.debug("retry summary dashboard success todayFrom:[{}] todayTo:[{}] insertTotalRetrySummary:[{}] updateTotalRetrySummary:[{}]", todayFrom, todayTo, insertTotalRetrySummary, updateTotalRetrySummary);
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("retry summary dashboard log error", e);
+            TaskEngineLog.LOCAL.error("retry summary dashboard log error", e);
         }
     }
 

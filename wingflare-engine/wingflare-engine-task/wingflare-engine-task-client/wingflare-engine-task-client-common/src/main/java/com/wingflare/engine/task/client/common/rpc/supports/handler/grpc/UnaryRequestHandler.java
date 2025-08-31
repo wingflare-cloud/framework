@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.common.rpc.supports.handler.grpc;
 
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties.ThreadPoolConfig;
+import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.SnailDispatcherRequestHandler;
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpRequest;
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpResponse;

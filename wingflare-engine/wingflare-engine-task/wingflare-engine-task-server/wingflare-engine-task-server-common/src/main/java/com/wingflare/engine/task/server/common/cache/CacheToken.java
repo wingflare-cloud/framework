@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.common.cache;
 
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.register.ServerRegister;
@@ -57,7 +57,7 @@ public class CacheToken implements Lifecycle {
 
     @Override
     public void start() {
-        SnailJobLog.LOCAL.info("CacheToken start");
+        TaskEngineLog.LOCAL.info("CacheToken start");
         CACHE = CacheBuilder.newBuilder()
                 // 设置并发级别为cpu核心数
                 .concurrencyLevel(Runtime.getRuntime().availableProcessors())
@@ -68,7 +68,7 @@ public class CacheToken implements Lifecycle {
 
     @Override
     public void close() {
-        SnailJobLog.LOCAL.info("CacheToken stop");
+        TaskEngineLog.LOCAL.info("CacheToken stop");
         CACHE.invalidateAll();
     }
 }

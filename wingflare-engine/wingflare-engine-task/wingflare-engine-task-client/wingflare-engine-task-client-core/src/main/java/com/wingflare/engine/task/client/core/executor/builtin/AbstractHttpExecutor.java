@@ -2,11 +2,11 @@ package com.wingflare.engine.task.client.core.executor.builtin;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public abstract class AbstractHttpExecutor implements InitializingBean {
 
     private static final int DEFAULT_TIMEOUT = 60;
-    private static SnailJobProperties snailJobProperties;
+    private static TaskProperties taskProperties;
     private static final String DEFAULT_REQUEST_METHOD = "GET";
     private static final String POST_REQUEST_METHOD = "POST";
     private static final String PUT_REQUEST_METHOD = "PUT";
@@ -59,7 +59,7 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
 
     private ExecuteResult executeRequestAndHandleResponse(HttpRequest httpRequest) {
         try (HttpResponse response = httpRequest.execute()) {
-            return validateResponse(response, httpRequest, snailJobProperties.getHttpResponse());
+            return validateResponse(response, httpRequest, taskProperties.getHttpResponse());
         } catch (Exception e) {
             throw new TaskInnerExecutorException("[wingflare-task] HTTP internal executor failed", e);
         }
@@ -80,12 +80,12 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
      * @param httpResponse
      * @return
      */
-    private ExecuteResult validateResponse(HttpResponse response, HttpRequest httpRequest, SnailJobProperties.HttpResponse httpResponse) {
+    private ExecuteResult validateResponse(HttpResponse response, HttpRequest httpRequest, TaskProperties.HttpResponse httpResponse) {
         int errCode = response.getStatus();
         String body = response.body();
         // 检查http响应状态码是否为成功状态码
         if (errCode != HTTP_SUCCESS_CODE) {
-            SnailJobLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
+            TaskEngineLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
                     httpRequest.getMethod(), httpRequest.getUrl(), errCode, body);
             return ExecuteResult.failure("HTTP request failed");
         }
@@ -123,18 +123,18 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
     private ExecuteResult validateJsonResponse(String body, int code, String field, HttpRequest httpRequest) {
         // 检查响应体是否为json格式
         if (!JsonUtil.isValidJson(body) || JsonUtil.isEmptyJson(body)) {
-            SnailJobLog.LOCAL.error("the responseType is json，but the response body fails to validate json or json is empty");
+            TaskEngineLog.LOCAL.error("the responseType is json，but the response body fails to validate json or json is empty");
             return ExecuteResult.failure("the responseType is json，but the response body fails to validate json or json is empty");
         }
         // 检查响应体是否包含指定的状态码字段
         Map<String, Object> objectObjectMap = JsonUtil.parseHashMap(body);
         if (!objectObjectMap.containsKey(field)) {
-            SnailJobLog.LOCAL.error("the responseType is json，but there is no status code field：{}", field);
+            TaskEngineLog.LOCAL.error("the responseType is json，but there is no status code field：{}", field);
             return ExecuteResult.failure("the responseType is json，but there is no status code field：" + field);
         }
         // 检查响应体中状态码是否与指定的状态码是否一致
         if (!Objects.equals(code, objectObjectMap.get(field))) {
-            SnailJobLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
+            TaskEngineLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
                     httpRequest.getMethod(), httpRequest.getUrl(), code, body);
             return ExecuteResult.failure("the response status code is not equal to the specified status code");
         }
@@ -152,12 +152,12 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
     private ExecuteResult validateTextResponse(String body, int code, HttpRequest httpRequest) {
         // 检查响应体是否为空
         if (!StringUtils.hasLength(body)) {
-            SnailJobLog.LOCAL.error("the responseType is text，but the response body is empty");
+            TaskEngineLog.LOCAL.error("the responseType is text，but the response body is empty");
             return ExecuteResult.failure("the responseType is text，but the response body is empty");
         }
         // 检查响应体是否与指定的状态码是否一致
         if (!Objects.equals(code + "", body)) {
-            SnailJobLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
+            TaskEngineLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
                     httpRequest.getMethod(), httpRequest.getUrl(), code, body);
             return ExecuteResult.failure("the response status code is not equal to the specified status code");
         }
@@ -302,15 +302,15 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
 
     // Logging methods
     private void logInfo(String msg, Object... params) {
-        SnailJobLog.REMOTE.info("[wingflare-task] " + msg, params);
+        TaskEngineLog.REMOTE.info("[wingflare-task] " + msg, params);
     }
 
     private void logWarn(String msg, Object... params) {
-        SnailJobLog.REMOTE.warn("[wingflare-task] " + msg, params);
+        TaskEngineLog.REMOTE.warn("[wingflare-task] " + msg, params);
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        snailJobProperties =  SnailSpringContext.getBean(SnailJobProperties.class);
+        taskProperties =  SnailSpringContext.getBean(TaskProperties.class);
     }
 }

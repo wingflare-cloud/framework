@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.common.window;
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.window.Listener;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -111,7 +111,7 @@ public class SlidingWindow<T> {
                     ConcurrentLinkedQueue<T> list = new ConcurrentLinkedQueue<>();
                     list.add(data);
 
-                    SnailJobLog.LOCAL.debug("Adding new data [{}] [{}] size:[{}]", windowPeriod, Thread.currentThread().getName(), list.size());
+                    TaskEngineLog.LOCAL.debug("Adding new data [{}] [{}] size:[{}]", windowPeriod, Thread.currentThread().getName(), list.size());
                     saveData.put(windowPeriod, list);
 
                     // 扫描n-1个窗口，是否过期，过期则删除
@@ -136,7 +136,7 @@ public class SlidingWindow<T> {
      */
     private void alarmWindowTotal() {
         if (saveData.size() > windowTotalThreshold) {
-            SnailJobLog.LOCAL.warn(" The number of currently active windows is too high Total:[{}] > Threshold:[{}]", saveData.size(), windowTotalThreshold);
+            TaskEngineLog.LOCAL.warn(" The number of currently active windows is too high Total:[{}] > Threshold:[{}]", saveData.size(), windowTotalThreshold);
         }
     }
 
@@ -181,7 +181,7 @@ public class SlidingWindow<T> {
             list.add(data);
         } else {
             // 这里一般走不到，作为兜底
-            SnailJobLog.LOCAL.error("Data loss. [{}]", JsonUtil.toJsonString(data));
+            TaskEngineLog.LOCAL.error("Data loss. [{}]", JsonUtil.toJsonString(data));
         }
 
         if (list.size() >= totalThreshold) {
@@ -216,7 +216,7 @@ public class SlidingWindow<T> {
             }
 
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("deep copy task queue is error", e);
+            TaskEngineLog.LOCAL.error("deep copy task queue is error", e);
         } finally {
             NOTICE_LOCK.unlock();
         }
@@ -227,7 +227,7 @@ public class SlidingWindow<T> {
                     listener.handler(new ArrayList<>(deepCopy));
                 }
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("notice is error", e);
+                TaskEngineLog.LOCAL.error("notice is error", e);
             }
         }
     }
@@ -241,7 +241,7 @@ public class SlidingWindow<T> {
         try {
             return saveData.firstKey();
         } catch (NoSuchElementException e) {
-            SnailJobLog.LOCAL.error("First window exception. saveData:[{}]", JsonUtil.toJsonString(saveData));
+            TaskEngineLog.LOCAL.error("First window exception. saveData:[{}]", JsonUtil.toJsonString(saveData));
             return null;
         }
 
@@ -256,7 +256,7 @@ public class SlidingWindow<T> {
         try {
             return saveData.lastKey();
         } catch (NoSuchElementException e) {
-            SnailJobLog.LOCAL.error("The last window is abnormal. SaveData:[{}]", JsonUtil.toJsonString(saveData));
+            TaskEngineLog.LOCAL.error("The last window is abnormal. SaveData:[{}]", JsonUtil.toJsonString(saveData));
             return null;
         }
     }
@@ -316,7 +316,7 @@ public class SlidingWindow<T> {
         alarmWindowTotal();
 
         if (windowPeriod.isBefore(condition)) {
-            SnailJobLog.LOCAL.debug("Time window reached [{}] [{}]", windowPeriod, JsonUtil.toJsonString(saveData));
+            TaskEngineLog.LOCAL.debug("Time window reached [{}] [{}]", windowPeriod, JsonUtil.toJsonString(saveData));
             doHandlerListener(windowPeriod);
         }
     }
@@ -339,7 +339,7 @@ public class SlidingWindow<T> {
             try {
                 extract(LocalDateTime.now());
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("Sliding window exception", e);
+                TaskEngineLog.LOCAL.error("Sliding window exception", e);
             }
         }, 1, 1, TimeUnit.SECONDS);
     }

@@ -10,7 +10,7 @@ import java.util.Map;
  * @date : 2023-10-09 09:24
  * @since : 2.4.0
  */
-public class SimpleRetryListener implements SnailJobRetryListener {
+public class SimpleRetryListener implements TaskEngineRetryListener {
 
     @Override
     public <V> void onRetry(final Attempt<V> attempt) {

@@ -5,7 +5,7 @@ import cn.hutool.core.net.url.UrlQuery;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.cache.CacheConsumerGroup;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;
 import com.wingflare.engine.task.server.common.handler.GetHttpRequestHandler;
@@ -47,7 +47,7 @@ public class GetRegNodesPostHttpRequestHandler extends GetHttpRequestHandler {
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Client Callback Request. content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Client Callback Request. content:[{}]", content);
 
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
 

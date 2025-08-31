@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants.HTTP_PATH;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.handler.PostHttpRequestHandler;
 import com.wingflare.engine.task.server.common.vo.JobStatusUpdateRequestVO;
 import com.wingflare.task.datasource.template.persistence.mapper.JobMapper;
@@ -45,7 +45,7 @@ public class OpenApiUpdateJobStatusRequestHandler extends PostHttpRequestHandler
         JobStatusUpdateRequestVO jobRequestVO = JsonUtil.parseObject(JsonUtil.toJsonString(args[0]), JobStatusUpdateRequestVO.class);
         Long count = jobMapper.selectCount(new LambdaQueryWrapper<Job>().eq(Job::getId, jobRequestVO.getId()));
         if (1 != count){
-            SnailJobLog.LOCAL.warn("Updating task failed");
+            TaskEngineLog.LOCAL.warn("Updating task failed");
             return new TaskRpcResult(false, retryRequest.getReqId());
         }
         Job job = new Job();

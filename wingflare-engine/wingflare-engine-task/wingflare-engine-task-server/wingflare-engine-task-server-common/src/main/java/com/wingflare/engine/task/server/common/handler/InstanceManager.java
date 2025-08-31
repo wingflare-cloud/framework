@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.ClientLoadBalance;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.allocate.client.ClientLoadBalanceManager;
@@ -84,7 +84,7 @@ public class InstanceManager implements Lifecycle {
      */
     public void registerOrUpdate(InstanceKey key, RegisterNodeInfo info) {
         if (Objects.isNull(key) || Objects.isNull(info)) {
-            SnailJobLog.LOCAL.error("Illegal registration of instance information");
+            TaskEngineLog.LOCAL.error("Illegal registration of instance information");
             return;
         }
 
@@ -103,7 +103,7 @@ public class InstanceManager implements Lifecycle {
                     ConnectivityState channelState = existing.getChannel().getState(true);
                     if (STATES.contains(channelState)) {
                         // 连接已经失败，先置为false,也有可能重新连接上
-                        SnailJobLog.LOCAL.warn("Node channel state check {}. {}", existing.getNodeInfo().address(), channelState);
+                        TaskEngineLog.LOCAL.warn("Node channel state check {}. {}", existing.getNodeInfo().address(), channelState);
                         // 直接返回等下下线即可
                         return existing;
                     }
@@ -240,7 +240,7 @@ public class InstanceManager implements Lifecycle {
 
         Set<InstanceLiveInfo> instanceLiveInfos = getInstanceALiveInfoSet(conditionDTO.getNamespaceId(), conditionDTO.getGroupName());
         if (CollUtil.isEmpty(instanceLiveInfos)) {
-            SnailJobLog.LOCAL.warn("client node is null. groupName:[{}]", conditionDTO.getGroupName());
+            TaskEngineLog.LOCAL.warn("client node is null. groupName:[{}]", conditionDTO.getGroupName());
             return null;
         }
 
@@ -308,7 +308,7 @@ public class InstanceManager implements Lifecycle {
                     ConnectivityState channelState = channel.getState(!info.isAlive());
                     if (STATES.contains(channelState)) {
                         // 连接已经失败，先置为false,也有可能重新连接上
-                        SnailJobLog.LOCAL.warn("Node channel state check {}. {}", info.getNodeInfo().address(), channelState);
+                        TaskEngineLog.LOCAL.warn("Node channel state check {}. {}", info.getNodeInfo().address(), channelState);
                         info.setAlive(Boolean.FALSE);
                     } else {
                         info.setAlive(Boolean.TRUE);
@@ -317,13 +317,13 @@ public class InstanceManager implements Lifecycle {
                     if (now - info.getLastUpdateAt() > TimeUnit.SECONDS.toMillis(timeout)
                             || channel.isShutdown()
                             || channel.isTerminated()) {
-                        SnailJobLog.LOCAL.info("Node {} is offline. Removing...", info.getNodeInfo().address());
+                        TaskEngineLog.LOCAL.info("Node {} is offline. Removing...", info.getNodeInfo().address());
                         INSTANCE_MAP.remove(entry.getKey());
                         channel.shutdown();
                     }
                 }
             } catch (Exception e) {
-                SnailJobLog.LOCAL.error("instance timeout check is error", e);
+                TaskEngineLog.LOCAL.error("instance timeout check is error", e);
             }
 
         }, 0, SystemConstants.SCHEDULE_PERIOD, TimeUnit.SECONDS);

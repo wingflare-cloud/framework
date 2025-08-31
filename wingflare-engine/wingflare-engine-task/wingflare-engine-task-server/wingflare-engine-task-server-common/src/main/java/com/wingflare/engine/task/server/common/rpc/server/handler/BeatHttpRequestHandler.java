@@ -7,7 +7,7 @@ import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Register;
 import com.wingflare.engine.task.server.common.dto.ServerNodeExtAttrs;
 import com.wingflare.engine.task.server.common.handler.GetHttpRequestHandler;
@@ -41,7 +41,7 @@ public class BeatHttpRequestHandler extends GetHttpRequestHandler {
 
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Beat check content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Beat check content:[{}]", content);
         Register register = SnailSpringContext.getBean(ClientRegister.BEAN_NAME, Register.class);
         RegisterContext registerContext = new RegisterContext();
         registerContext.setGroupName(headers.get(HeadersEnum.GROUP_NAME.getKey()));
@@ -59,7 +59,7 @@ public class BeatHttpRequestHandler extends GetHttpRequestHandler {
 
         boolean result = register.register(registerContext);
         if (!result) {
-            SnailJobLog.LOCAL.warn("client register error. groupName:[{}]", headers.get(HeadersEnum.GROUP_NAME.getKey()));
+            TaskEngineLog.LOCAL.warn("client register error. groupName:[{}]", headers.get(HeadersEnum.GROUP_NAME.getKey()));
         }
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         return new TaskRpcResult(PONG, retryRequest.getReqId());

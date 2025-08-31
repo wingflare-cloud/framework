@@ -2,10 +2,10 @@ package com.wingflare.engine.task.client.common.log.report;
 
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.LogReport;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.window.SlidingRingWindow;
 import com.wingflare.engine.task.common.core.window.Listener;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.dto.LogContentDTO;
 import com.wingflare.engine.task.common.model.request.LogTaskRequest;
 import com.google.common.collect.Lists;
@@ -24,7 +24,7 @@ import java.util.Objects;
 public abstract class AbstractLogReport<T extends LogTaskRequest> implements Lifecycle, InitializingBean, LogReport {
 
     @Resource
-    private SnailJobProperties snailJobProperties;
+    private TaskProperties taskProperties;
     private SlidingRingWindow<LogTaskRequest> slidingWindow;
 
     @Override
@@ -40,7 +40,7 @@ public abstract class AbstractLogReport<T extends LogTaskRequest> implements Lif
             return;
         }
 
-        SnailJobProperties.LogSlidingWindowConfig logSlidingWindow = snailJobProperties.getLogSlidingWindow();
+        TaskProperties.LogSlidingWindowConfig logSlidingWindow = taskProperties.getLogSlidingWindow();
 
         Listener<LogTaskRequest> reportLogListener = new ReportLogListener();
         ChronoUnit chronoUnit = logSlidingWindow.getChronoUnit();
@@ -54,9 +54,9 @@ public abstract class AbstractLogReport<T extends LogTaskRequest> implements Lif
             return;
         }
 
-        SnailJobLog.LOCAL.info("AsyncReport Log about to shutdown");
+        TaskEngineLog.LOCAL.info("AsyncReport Log about to shutdown");
         slidingWindow.shutdown();
-        SnailJobLog.LOCAL.info("AsyncReport Log has been shutdown");
+        TaskEngineLog.LOCAL.info("AsyncReport Log has been shutdown");
     }
 
     @Override

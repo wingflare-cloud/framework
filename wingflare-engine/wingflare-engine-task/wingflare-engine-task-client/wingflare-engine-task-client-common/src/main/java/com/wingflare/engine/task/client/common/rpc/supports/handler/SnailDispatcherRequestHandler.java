@@ -5,7 +5,7 @@ import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.ServiceLoaderUtil;
 import com.wingflare.engine.task.client.common.HandlerInterceptor;
 import com.wingflare.engine.task.client.common.cache.EndPointInfoCache;
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.RequestMethod;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.grpc.GrpcRequest;
@@ -19,7 +19,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,10 +44,10 @@ import java.util.stream.Collectors;
  */
 @Component
 public class SnailDispatcherRequestHandler {
-    private final SnailJobProperties snailJobProperties;
+    private final TaskProperties taskProperties;
 
-    public SnailDispatcherRequestHandler(SnailJobProperties snailJobProperties) {
-        this.snailJobProperties = snailJobProperties;
+    public SnailDispatcherRequestHandler(TaskProperties taskProperties) {
+        this.taskProperties = taskProperties;
     }
 
     public TaskRpcResult dispatch(GrpcRequest request) {
@@ -66,7 +66,7 @@ public class SnailDispatcherRequestHandler {
             Metadata metadata = snailJobRequest.getMetadata();
             Map<String, String> headersMap = metadata.getHeadersMap();
             String snailJobAuth = headersMap.get(SystemConstants.SNAIL_JOB_AUTH_TOKEN);
-            String configToken = Optional.ofNullable(snailJobProperties.getToken()).orElse(SystemConstants.DEFAULT_TOKEN);
+            String configToken = Optional.ofNullable(taskProperties.getToken()).orElse(SystemConstants.DEFAULT_TOKEN);
             if (!configToken.equals(snailJobAuth)) {
                 throw new TaskClientException("Authentication failed. [Please check if the configured Token is correct]");
             }
@@ -103,7 +103,7 @@ public class SnailDispatcherRequestHandler {
                 handlerInterceptor.postHandle(httpRequest, httpResponse, endPointInfo);
             }
         } catch (Throwable ex) {
-            SnailJobLog.LOCAL.error("http request error. [{}]", snailJobRequest, ex);
+            TaskEngineLog.LOCAL.error("http request error. [{}]", snailJobRequest, ex);
             taskRpcResult.setMessage(ex.getMessage()).setStatus(StatusEnum.NO.getStatus());
             e = ex;
         } finally {
@@ -142,7 +142,7 @@ public class SnailDispatcherRequestHandler {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = JsonUtil.toJson(infoStr);
         if (Objects.isNull(jsonNode)) {
-            SnailJobLog.LOCAL.warn("jsonNode is null. infoStr:[{}]", infoStr);
+            TaskEngineLog.LOCAL.warn("jsonNode is null. infoStr:[{}]", infoStr);
             return params;
         }
 

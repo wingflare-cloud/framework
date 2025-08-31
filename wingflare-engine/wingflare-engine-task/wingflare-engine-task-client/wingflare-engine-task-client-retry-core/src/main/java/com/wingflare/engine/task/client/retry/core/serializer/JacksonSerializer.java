@@ -4,7 +4,7 @@ package com.wingflare.engine.task.client.retry.core.serializer;
 import com.wingflare.engine.task.client.retry.core.RetryArgSerializer;
 import com.wingflare.engine.task.client.retry.core.exception.RetryArgSerializeException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,7 +41,7 @@ public class JacksonSerializer implements RetryArgSerializer {
             ObjectMapper mapper = JsonUtil.JsonMapper.jacksonObjectMapper();
             JsonNode jsonNode = JsonUtil.toJson(infoStr);
             if (Objects.isNull(jsonNode)) {
-                SnailJobLog.LOCAL.warn("jsonNode is null. infoStr:[{}]", infoStr);
+                TaskEngineLog.LOCAL.warn("jsonNode is null. infoStr:[{}]", infoStr);
                 return params;
             }
 

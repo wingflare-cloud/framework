@@ -10,7 +10,7 @@ import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.core.enums.AlarmTypeEnum;
 import com.wingflare.engine.task.common.core.enums.ContentTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -40,12 +40,12 @@ public class WebhookAlarm extends AbstractAlarm<AlarmContext> {
             HttpRequest request = post.body(JsonUtil.toJsonString(webhookMessage), ContentTypeEnum.valueOf(webhookAttribute.getContentType()).getMediaType().toString())
                     .header(SystemConstants.SECRET, webhookAttribute.getSecret());
             HttpResponse execute = request.execute();
-            SnailJobLog.LOCAL.info("Sending Webhook alert result. webHook:[{}], result: [{}]", webhookAttribute.getWebhookUrl(), execute.body());
+            TaskEngineLog.LOCAL.info("Sending Webhook alert result. webHook:[{}], result: [{}]", webhookAttribute.getWebhookUrl(), execute.body());
             if (execute.isOk()) {
                 return true;
             }
         } catch (Exception e) {
-            SnailJobLog.LOCAL.error("Sending Webhook alert exception. webHook:[{}]", webhookAttribute, e);
+            TaskEngineLog.LOCAL.error("Sending Webhook alert exception. webHook:[{}]", webhookAttribute, e);
             return false;
         }
         return true;

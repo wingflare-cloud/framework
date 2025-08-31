@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.retry.core.handler;
 
 
-import com.wingflare.engine.task.client.common.config.SnailJobProperties;
+import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.common.rpc.openapi.AbstractRequestHandler;
 import com.wingflare.engine.task.client.retry.core.openapi.RetryOpenApiClient;
@@ -24,7 +24,7 @@ public abstract class AbstractRetryRequestHandler<T> extends AbstractRequestHand
             .build();
 
     protected boolean isOpenApiV2() {
-        SnailJobProperties properties = SnailSpringContext.getBean(SnailJobProperties.class);
+        TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
         return properties.isOpenapiV2();
     }
 }

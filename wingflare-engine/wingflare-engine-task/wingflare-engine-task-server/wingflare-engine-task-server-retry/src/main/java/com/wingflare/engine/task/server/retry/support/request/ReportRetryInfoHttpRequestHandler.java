@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
-import com.wingflare.engine.task.common.log.SnailJobLog;
+import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.wingflare.engine.task.server.common.enums.TaskGeneratorSceneEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
@@ -72,7 +72,7 @@ public class ReportRetryInfoHttpRequestHandler extends PostHttpRequestHandler {
     @Override
     @Transactional
     public TaskRpcResult doHandler(String content, UrlQuery urlQuery, HttpHeaders headers) {
-        SnailJobLog.LOCAL.debug("Batch Report Retry Data. content:[{}]", content);
+        TaskEngineLog.LOCAL.debug("Batch Report Retry Data. content:[{}]", content);
 
         TaskRequest retryRequest = JsonUtil.parseObject(content, TaskRequest.class);
         Object[] args = retryRequest.getArgs();
@@ -86,7 +86,7 @@ public class ReportRetryInfoHttpRequestHandler extends PostHttpRequestHandler {
             Assert.notEmpty(args, () -> new TaskServerException("The reported data cannot be empty. ReqId:[{}]", retryRequest.getReqId()));
             List<RetryTaskRequest> retryTaskList = JsonUtil.parseList(JsonUtil.toJsonString(args[0]), RetryTaskRequest.class);
 
-            SnailJobLog.LOCAL.info("begin handler report data. <|>{}<|>", JsonUtil.toJsonString(retryTaskList));
+            TaskEngineLog.LOCAL.info("begin handler report data. <|>{}<|>", JsonUtil.toJsonString(retryTaskList));
 
             Set<String> set = StreamUtils.toSet(retryTaskList, RetryTaskRequest::getGroupName);
             Assert.isTrue(set.size() <= 1, () -> new TaskServerException("Batch report data, the same batch can only be the same group. ReqId:[{}]", retryRequest.getReqId()));
@@ -107,7 +107,7 @@ public class ReportRetryInfoHttpRequestHandler extends PostHttpRequestHandler {
                         @Override
                         public <V> void onRetry(final Attempt<V> attempt) {
                             if (attempt.hasException()) {
-                                SnailJobLog.LOCAL.error("Data reporting exception occurred, execute retry. ReqId:[{}] Count:[{}]",
+                                TaskEngineLog.LOCAL.error("Data reporting exception occurred, execute retry. ReqId:[{}] Count:[{}]",
                                         retryRequest.getReqId(), attempt.getAttemptNumber(), attempt.getExceptionCause());
                             }
                         }
@@ -150,7 +150,7 @@ public class ReportRetryInfoHttpRequestHandler extends PostHttpRequestHandler {
                 throwable = re.getLastFailedAttempt().getExceptionCause();
             }
 
-            SnailJobLog.LOCAL.error("Batch Report Retry Data Error. <|>{}<|>", args[0], throwable);
+            TaskEngineLog.LOCAL.error("Batch Report Retry Data Error. <|>{}<|>", args[0], throwable);
             return new TaskRpcResult(StatusEnum.YES.getStatus(), throwable.getMessage(), Boolean.FALSE, retryRequest.getReqId());
         }
     }
