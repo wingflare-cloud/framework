@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("com.wingflare.engine.task.server.openapi.*")
-public class SnailJobOpenApiStarter {
+public class TaskEngineOpenApiStarter {
 }

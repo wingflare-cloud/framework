@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("com.wingflare.engine.task.server.web.*")
-public class SnailJobWebStarter {
+public class TaskEngineWebStarter {
 
 }

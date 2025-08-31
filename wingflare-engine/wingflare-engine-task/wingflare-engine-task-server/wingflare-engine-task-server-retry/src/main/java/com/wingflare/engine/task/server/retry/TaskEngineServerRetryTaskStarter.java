@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("com.wingflare.engine.task.server.retry.*")
-public class SnailJobServerRetryTaskStarter {
+public class TaskEngineServerRetryTaskStarter {
 
 }

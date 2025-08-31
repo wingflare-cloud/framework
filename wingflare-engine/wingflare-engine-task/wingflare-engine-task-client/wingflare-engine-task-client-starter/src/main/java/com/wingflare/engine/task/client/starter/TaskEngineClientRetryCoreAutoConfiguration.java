@@ -23,14 +23,14 @@ import org.springframework.core.env.StandardEnvironment;
 @ConditionalOnClass(Retryable.class)
 @ComponentScan({"com.wingflare.engine.task.client.retry.core", "com.wingflare.engine.task.client.common"})
 @ConditionalOnProperty(prefix = "snail-job", name = "enabled", havingValue = "true")
-public class SnailJobClientRetryCoreAutoConfiguration {
+public class TaskEngineClientRetryCoreAutoConfiguration {
 
     @Bean("snailRetryInterceptor")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public MethodInterceptor snailJobInterceptor(StandardEnvironment standardEnvironment,
                                                  @Lazy RetryStrategy localRetryStrategies) {
         Integer order = standardEnvironment
-                .getProperty(SnailJobClientsRegistrar.AOP_ORDER_CONFIG, Integer.class, Ordered.HIGHEST_PRECEDENCE);
+                .getProperty(TaskEngineClientsRegistrar.AOP_ORDER_CONFIG, Integer.class, Ordered.HIGHEST_PRECEDENCE);
 
         return new SnailRetryInterceptor(order, localRetryStrategies);
     }

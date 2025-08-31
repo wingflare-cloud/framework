@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("com.wingflare.engine.task.server.service")
-public class SnailJobServiceStarter {
+public class TaskEngineServiceStarter {
 
 
 }

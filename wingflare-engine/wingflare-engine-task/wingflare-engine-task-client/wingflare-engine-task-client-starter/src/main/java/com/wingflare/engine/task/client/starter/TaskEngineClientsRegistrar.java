@@ -17,7 +17,7 @@ import java.util.Objects;
  * @author: opensnail
  * @date : 2022-03-04 18:44
  */
-public class SnailJobClientsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
+public class TaskEngineClientsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
     private static final String ENABLED_CONFIG = "snail-job.enabled";
     private static final String GROUP_CONFIG = "snail-job.group";
@@ -29,7 +29,7 @@ public class SnailJobClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        Map<String, Object> attrs = importingClassMetadata.getAnnotationAttributes(EnableSnailJob.class.getName());
+        Map<String, Object> attrs = importingClassMetadata.getAnnotationAttributes(EnableTaskEngine.class.getName());
         Map<String, Object> systemEnvironment = standardEnvironment.getSystemProperties();
         systemEnvironment.put(AOP_ORDER_CONFIG, attrs.get(ORDER_ATTR));
 
@@ -49,7 +49,7 @@ public class SnailJobClientsRegistrar implements ImportBeanDefinitionRegistrar, 
             return;
         }
 
-        // 添加了 EnableSnailJob 默认就是开启，无需手动配置
+        // 添加了 EnableTaskEngine 默认就是开启，无需手动配置
         systemEnvironment.put(ENABLED_CONFIG, Boolean.TRUE);
     }
 }

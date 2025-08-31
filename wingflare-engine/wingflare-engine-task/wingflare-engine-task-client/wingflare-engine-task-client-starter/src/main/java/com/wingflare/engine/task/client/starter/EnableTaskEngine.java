@@ -33,8 +33,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(SnailJobClientsRegistrar.class)
-public @interface EnableSnailJob {
+@Import(TaskEngineClientsRegistrar.class)
+public @interface EnableTaskEngine {
 
     /**
      * 请在服务端提前配置好组,并设置在这里

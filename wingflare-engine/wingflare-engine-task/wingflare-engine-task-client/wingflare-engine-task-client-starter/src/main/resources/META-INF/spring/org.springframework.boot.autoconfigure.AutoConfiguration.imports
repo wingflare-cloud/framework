@@ -1,2 +1,2 @@
-com.wingflare.engine.task.client.starter.SnailJobClientJobCoreAutoConfiguration
-com.wingflare.engine.task.client.starter.SnailJobClientRetryCoreAutoConfiguration
+com.wingflare.engine.task.client.starter.TaskEngineClientJobCoreAutoConfiguration
+com.wingflare.engine.task.client.starter.TaskEngineClientRetryCoreAutoConfiguration

@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Role;
 @ComponentScan({"com.wingflare.engine.task.client.core.*", "com.wingflare.engine.task.client.common.*"})
 @ConditionalOnClass(TaskExecutor.class)
 @ConditionalOnProperty(prefix = "snail-job", name = "enabled", havingValue = "true")
-public class SnailJobClientJobCoreAutoConfiguration {
+public class TaskEngineClientJobCoreAutoConfiguration {
     private static final String SNAIL_JOB_CLIENT_HOST = "snail-job.host";
 
     @Bean
