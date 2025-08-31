@@ -1,0 +1,10 @@
+.view-card-header .n-card-header__main {
+  --n-title-font-weight: 600;
+}
+
+.operate-dawer-header .n-drawer-header__main {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
