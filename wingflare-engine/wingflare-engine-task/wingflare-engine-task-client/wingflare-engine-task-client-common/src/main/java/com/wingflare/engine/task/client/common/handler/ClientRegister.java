@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ClientRegister implements Lifecycle {
     private static final ScheduledExecutorService SCHEDULE_EXECUTOR = Executors.newSingleThreadScheduledExecutor(
-        r -> new Thread(r, "sj-client-register"));
+        r -> new Thread(r, "task-client-register"));
     public static RpcClient CLIENT;
     public static final int REGISTER_TIME = 10;
     @Autowired
