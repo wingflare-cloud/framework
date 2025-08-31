@@ -3,10 +3,10 @@
 <mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobMapper">
 
     <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
-        UPDATE sj_job
+        UPDATE wf_task_job
            SET next_trigger_at = src.next_trigger_at,
                update_dt = CURRENT_TIMESTAMP
-          FROM sj_job AS dest
+          FROM wf_task_job AS dest
                JOIN (
                    <foreach collection="list" item="item" index="index" separator="UNION ALL">
                        SELECT

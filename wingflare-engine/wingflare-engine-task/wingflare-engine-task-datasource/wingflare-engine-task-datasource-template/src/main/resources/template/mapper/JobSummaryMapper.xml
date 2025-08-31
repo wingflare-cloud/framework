@@ -7,7 +7,7 @@
         SELECT group_name                                               AS groupName,
                SUM(CASE WHEN (job_status = 1) THEN 1 ELSE 0 END)        AS run,
                COUNT(*)                                                 AS total
-          FROM sj_job
+          FROM wf_task_job
         ${ew.customSqlSegment}
          GROUP BY namespace_id, group_name
          ORDER BY group_name
@@ -15,7 +15,7 @@
 
     <select id="selectJobTaskListCount" resultType="long">
         SELECT COUNT(DISTINCT group_name)
-          FROM sj_job
+          FROM wf_task_job
         ${ew.customSqlSegment}
     </select>
 
@@ -24,7 +24,7 @@
         SELECT group_name                                               AS groupName,
                SUM(CASE WHEN (workflow_status = 1) THEN 1 ELSE 0 END)   AS run,
                COUNT(*)                                                 AS total
-          FROM sj_workflow
+          FROM wf_task_workflow
         ${ew.customSqlSegment}
          GROUP BY namespace_id, group_name
          ORDER BY group_name
@@ -32,7 +32,7 @@
 
     <select id="selectWorkflowTaskListCount" resultType="long">
         SELECT COUNT(DISTINCT group_name)
-          FROM sj_workflow
+          FROM wf_task_workflow
         ${ew.customSqlSegment}
     </select>
 

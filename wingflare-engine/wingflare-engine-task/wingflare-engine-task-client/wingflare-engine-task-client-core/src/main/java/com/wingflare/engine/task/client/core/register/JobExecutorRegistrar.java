@@ -40,10 +40,10 @@ public class JobExecutorRegistrar implements Lifecycle {
 
     // 存储需要使用 equals 判断的字符串
     private static final Set<String> EQUALS_SET = new HashSet<>(Arrays.asList(
-            "snailJobCMDJobExecutor",
-            "snailJobHttpExecutor",
-            "snailJobPowerShellJobExecutor",
-            "snailJobShellJobExecutor"
+            "CMDJobExecutor",
+            "HttpExecutor",
+            "PowerShellJobExecutor",
+            "ShellJobExecutor"
     ));
 
     public JobExecutorRegistrar(List<Scanner> scanners) {

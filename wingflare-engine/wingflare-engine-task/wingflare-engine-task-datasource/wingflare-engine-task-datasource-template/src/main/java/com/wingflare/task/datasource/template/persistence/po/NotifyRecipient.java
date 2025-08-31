@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2024-04-17
  */
-@TableName("sj_notify_recipient")
+@TableName("wf_task_notify_recipient")
 public class NotifyRecipient extends CreateUpdateDt {
 
     /**

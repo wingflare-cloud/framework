@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author xiaowoniu
  * @since 2023-12-12
  */
-@TableName("sj_workflow_task_batch")
+@TableName("wf_task_workflow_task_batch")
 public class WorkflowTaskBatch extends CreateUpdateDt {
 
     /**

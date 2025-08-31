@@ -41,6 +41,7 @@ import java.util.Date;
  * @since 3.2.0
  */
 public class Mail implements Builder<MimeMessage> {
+
     @Serial
     private static final long serialVersionUID = 1L;
 

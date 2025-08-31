@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
 
 
-@TableName("sj_notify_config")
+@TableName("wf_task_notify_config")
 public class NotifyConfig extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

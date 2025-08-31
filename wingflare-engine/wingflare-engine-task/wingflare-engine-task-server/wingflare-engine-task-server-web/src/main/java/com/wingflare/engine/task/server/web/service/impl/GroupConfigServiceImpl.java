@@ -289,7 +289,7 @@ public class GroupConfigServiceImpl implements GroupConfigService {
             String catalog = connection.getCatalog();
             String schema = connection.getSchema();
 
-            String tableNamePattern = "sj_retry_task_%";
+            String tableNamePattern = "wf_task_retry_task_%";
             DbTypeEnum dbType = DbUtils.getDbType();
             // Oracle, DM 查询表名大写
             if (DbTypeEnum.ORACLE.getDb().equals(dbType.getDb()) || DbTypeEnum.DM.getDb().equals(dbType.getDb())) {

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 /**
  * 任务执行器
  */
-@TableName("sj_job_executor")
+@TableName("wf_task_job_executor")
 public class JobExecutor extends CreateUpdateDt {
 
     /**

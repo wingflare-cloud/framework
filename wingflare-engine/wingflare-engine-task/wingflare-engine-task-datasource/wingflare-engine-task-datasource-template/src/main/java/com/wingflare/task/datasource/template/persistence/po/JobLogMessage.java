@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-09-24
  */
-@TableName("sj_job_log_message")
+@TableName("wf_task_job_log_message")
 public class JobLogMessage extends CreateDt {
 
     /**

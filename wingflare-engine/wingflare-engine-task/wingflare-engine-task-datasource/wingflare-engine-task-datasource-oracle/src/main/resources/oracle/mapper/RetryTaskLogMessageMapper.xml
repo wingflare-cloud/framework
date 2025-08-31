@@ -4,7 +4,7 @@
 
     <insert id="insertBatch" parameterType="java.util.List">
         <foreach collection="list" item="item" open="BEGIN" separator=";" close=";END;">
-            INSERT INTO sj_retry_task_log_message (namespace_id, group_name, retry_task_id, retry_id, log_num, message,
+            INSERT INTO wf_task_retry_task_log_message (namespace_id, group_name, retry_task_id, retry_id, log_num, message,
                                                    create_dt, real_time)
             VALUES (
                 #{item.namespaceId},
@@ -21,7 +21,7 @@
 
     <update id="updateBatch" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="BEGIN" separator=";" close=";END;">
-            UPDATE sj_retry_task_log_message
+            UPDATE wf_task_retry_task_log_message
                SET message = #{item.message}, log_num = #{item.logNum},
                    update_dt = CURRENT_TIMESTAMP
              WHERE id = #{item.id}

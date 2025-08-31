@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @author opensnail
  * @since 2023-01-14
  */
-@TableName("sj_server_node")
+@TableName("wf_task_server_node")
 public class ServerNode extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

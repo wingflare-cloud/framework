@@ -1,15 +1,15 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
 
-import com.wingflare.engine.task.client.core.annotation.JobExecutor;
+import com.wingflare.lib.task.annotation.TaskExecutor;
 import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import org.springframework.stereotype.Component;
 
 @Component
-@JobExecutor(name = "snailJobShellJobExecutor")
-public class SnailJobShellJobExecutor extends AbstractShellExecutor {
+@TaskExecutor(name = "shellJobExecutor")
+public class ShellJobExecutor extends AbstractShellExecutor {
 
     public ExecuteResult jobExecute(JobArgs jobArgs) {
         Object jobParams = jobArgs.getJobParams();

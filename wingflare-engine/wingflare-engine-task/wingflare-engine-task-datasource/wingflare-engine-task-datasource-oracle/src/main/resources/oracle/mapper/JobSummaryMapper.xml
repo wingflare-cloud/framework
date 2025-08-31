@@ -4,7 +4,7 @@
 
     <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="false">
         <foreach collection="list" item="item" open="BEGIN" separator=";" close=";END;">
-            INSERT INTO sj_job_summary (namespace_id, group_name, business_id, trigger_at, system_task_type, success_num,
+            INSERT INTO wf_task_job_summary (namespace_id, group_name, business_id, trigger_at, system_task_type, success_num,
                                         fail_num, fail_reason, stop_num, stop_reason, cancel_num, cancel_reason)
             VALUES (
                 #{item.namespaceId},
@@ -25,7 +25,7 @@
 
     <update id="updateBatch" parameterType="java.util.List">
         <foreach collection="list" item="item" open="BEGIN" separator=";" close=";END;">
-            UPDATE sj_job_summary
+            UPDATE wf_task_job_summary
                SET success_num = #{item.successNum},
                    fail_num = #{item.failNum},
                    fail_reason = #{item.failReason},
@@ -56,7 +56,7 @@
                     fail_num,
                     stop_num,
                     cancel_num
-                FROM sj_job_summary
+                FROM wf_task_job_summary
                 ${ew.customSqlSegment}
           )
         GROUP BY createDt
@@ -69,7 +69,7 @@
                NVL(sum(cancel_num), 0)                                     AS cancelNum,
                NVL(sum(fail_num), 0)                                       AS failNum,
                NVL(sum(success_num + fail_num + stop_num + cancel_num), 0) AS totalNum
-        FROM sj_job_summary
+        FROM wf_task_job_summary
         ${ew.customSqlSegment}
     </select>
 
@@ -78,13 +78,13 @@
         SELECT * FROM (
                 SELECT
                     <if test="systemTaskType == 3">
-                        group_name || '/' || (SELECT job_name FROM sj_job WHERE id = business_id)           AS name,
+                        group_name || '/' || (SELECT job_name FROM wf_task_job WHERE id = business_id)           AS name,
                     </if>
                     <if test="systemTaskType == 4">
-                        group_name || '/' || (SELECT workflow_name FROM sj_workflow WHERE id = business_id) AS name,
+                        group_name || '/' || (SELECT workflow_name FROM wf_task_workflow WHERE id = business_id) AS name,
                     </if>
                     SUM(fail_num) AS total
-                FROM sj_job_summary
+                FROM wf_task_job_summary
                 ${ew.customSqlSegment}
                 HAVING SUM(fail_num) > 0
                 ORDER BY total DESC)

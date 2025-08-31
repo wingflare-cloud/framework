@@ -8,7 +8,7 @@ message Metadata {
   map<string, string> headers = 7;
 }
 
-message GrpcSnailJobRequest {
+message TaskGrpcRequest {
   int64 reqId = 1;
   Metadata metadata = 2;
   string body = 3;

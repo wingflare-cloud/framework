@@ -4,10 +4,10 @@ package com.wingflare.engine.task.client.core.register.scan;
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.client.core.IJobExecutor;
 import com.wingflare.engine.task.client.core.Scanner;
-import com.wingflare.engine.task.client.core.annotation.JobExecutor;
-import com.wingflare.engine.task.client.core.annotation.MapExecutor;
-import com.wingflare.engine.task.client.core.annotation.MergeReduceExecutor;
-import com.wingflare.engine.task.client.core.annotation.ReduceExecutor;
+import com.wingflare.lib.task.annotation.TaskExecutor;
+import com.wingflare.lib.task.annotation.MapExecutor;
+import com.wingflare.lib.task.annotation.MergeReduceExecutor;
+import com.wingflare.lib.task.annotation.ReduceExecutor;
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.*;
 import com.wingflare.engine.task.common.log.SnailJobLog;
@@ -49,13 +49,13 @@ public class JobExecutorScanner implements Scanner, ApplicationContextAware {
         for (String beanDefinitionName : beanDefinitionNames) {
             Object bean = applicationContext.getBean(beanDefinitionName);
 
-            Map<Method, JobExecutor> annotatedMethods = null;
+            Map<Method, TaskExecutor> annotatedMethods = null;
             try {
                 annotatedMethods = MethodIntrospector.selectMethods(bean.getClass(),
-                        (MethodIntrospector.MetadataLookup<JobExecutor>) method -> AnnotatedElementUtils
-                                .findMergedAnnotation(method, JobExecutor.class));
+                        (MethodIntrospector.MetadataLookup<TaskExecutor>) method -> AnnotatedElementUtils
+                                .findMergedAnnotation(method, TaskExecutor.class));
             } catch (Throwable ex) {
-                SnailJobLog.LOCAL.error("JobExecutor load exception for {}: {}", beanDefinitionName, ex);
+                SnailJobLog.LOCAL.error("TaskExecutor load exception for {}: {}", beanDefinitionName, ex);
             }
 
             Class executorNotProxy = AopProxyUtils.ultimateTargetClass(bean);
@@ -71,21 +71,21 @@ public class JobExecutorScanner implements Scanner, ApplicationContextAware {
             }
 
             // 扫描类的注解
-            JobExecutor jobExecutor = bean.getClass().getAnnotation(JobExecutor.class);
-            if (Objects.nonNull(jobExecutor)) {
-                String executorName = jobExecutor.name();
+            TaskExecutor taskExecutor = bean.getClass().getAnnotation(TaskExecutor.class);
+            if (Objects.nonNull(taskExecutor)) {
+                String executorName = taskExecutor.name();
                 if (!JobExecutorInfoCache.isExisted(executorName)) {
                     List<Class<? extends JobArgs>> classes = Lists.newArrayList(ShardingJobArgs.class, JobArgs.class);
                     Method method = null;
                     for (Class<? extends JobArgs> clazz : classes) {
-                        method = ReflectionUtils.findMethod(bean.getClass(), jobExecutor.method(), clazz);
+                        method = ReflectionUtils.findMethod(bean.getClass(), taskExecutor.method(), clazz);
                         if (Objects.nonNull(method)) {
                             break;
                         }
                     }
 
                     if (method == null) {
-                        method = ReflectionUtils.findMethod(bean.getClass(), jobExecutor.method());
+                        method = ReflectionUtils.findMethod(bean.getClass(), taskExecutor.method());
                     }
 
                     // 扫描MapExecutor、ReduceExecutor、MergeReduceExecutor注解
@@ -137,16 +137,16 @@ public class JobExecutorScanner implements Scanner, ApplicationContextAware {
             }
 
             // 扫描方法上的注解
-            for (Map.Entry<Method, JobExecutor> methodEntry : annotatedMethods.entrySet()) {
+            for (Map.Entry<Method, TaskExecutor> methodEntry : annotatedMethods.entrySet()) {
                 Method executeMethod = methodEntry.getKey();
-                jobExecutor = methodEntry.getValue();
-                if (JobExecutorInfoCache.isExisted(jobExecutor.name())) {
+                taskExecutor = methodEntry.getValue();
+                if (JobExecutorInfoCache.isExisted(taskExecutor.name())) {
                     continue;
                 }
 
                 JobExecutorInfo jobExecutorInfo =
                         new JobExecutorInfo(
-                                jobExecutor.name(),
+                                taskExecutor.name(),
                                 executeMethod,
                                 null, null, null,
                                 bean

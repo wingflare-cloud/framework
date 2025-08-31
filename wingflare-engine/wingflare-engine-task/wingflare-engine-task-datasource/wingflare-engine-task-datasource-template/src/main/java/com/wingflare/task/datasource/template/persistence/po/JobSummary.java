@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @version 2.6.0
  * @date 2023/11/22
  */
-@TableName("sj_job_summary")
+@TableName("wf_task_job_summary")
 public class JobSummary extends CreateUpdateDt {
 
     /**

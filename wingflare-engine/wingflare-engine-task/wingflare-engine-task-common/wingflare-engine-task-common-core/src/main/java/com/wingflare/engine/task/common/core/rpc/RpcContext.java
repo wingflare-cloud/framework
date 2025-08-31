@@ -26,8 +26,6 @@ import java.util.concurrent.TimeUnit;
  * @since 1.3.0
  */
 public final class RpcContext {
-    
-    private final static Logger LOGGER = LoggerFactory.getLogger(RpcContext.class);
 
     private RpcContext() {
     }

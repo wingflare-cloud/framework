@@ -47,7 +47,7 @@ import java.util.List;
  * 1. 删除日志信息
  * 2. 删除重试已完成的数据
  * 3. 删除回调任务数据
- * 4. 删除调度日志 sj_retry_task
+ * 4. 删除调度日志 wf_task_retry_task
  * 5. 迁移到达最大重试的数据
  *
  * @author: opensnail

@@ -2,7 +2,7 @@ package com.wingflare.engine.task.common.core.model;
 
 
 /**
- * 定时任务 sj_job_task的args_str对应的
+ * 定时任务 wf_task_job_task的args_str对应的
  * 参数模型
  *
  * @author: opensnail
@@ -12,7 +12,7 @@ package com.wingflare.engine.task.common.core.model;
 public class JobArgsHolder {
 
     /**
-     * sj_job表输入的参数
+     * wf_task_job表输入的参数
      */
     private Object jobParams;
 

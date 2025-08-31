@@ -1,4 +1,4 @@
-package com.wingflare.engine.task.client.core.annotation;
+package com.wingflare.lib.task.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -16,6 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface MergeReduceExecutor {
+public @interface ReduceExecutor {
 
 }

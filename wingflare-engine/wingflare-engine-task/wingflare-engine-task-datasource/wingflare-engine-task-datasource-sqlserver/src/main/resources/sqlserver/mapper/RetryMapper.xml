@@ -3,7 +3,7 @@
 <mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.RetryMapper">
 
     <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO sj_retry (namespace_id, group_name, group_id, scene_name, scene_id, idempotent_id, biz_no,
+        INSERT INTO wf_task_retry (namespace_id, group_name, group_id, scene_name, scene_id, idempotent_id, biz_no,
         executor_name, args_str, ext_attrs, serializer_name, next_trigger_at, task_type, retry_status,
         create_dt, bucket_index, parent_id, deleted)
         VALUES
@@ -32,10 +32,10 @@
     </insert>
 
     <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
-        UPDATE sj_retry
+        UPDATE wf_task_retry
            SET next_trigger_at = src.next_trigger_at,
                update_dt = CURRENT_TIMESTAMP
-          FROM sj_retry AS target
+          FROM wf_task_retry AS target
                 JOIN (
                 <foreach collection="list" item="item" index="index" separator="UNION ALL">
                     SELECT

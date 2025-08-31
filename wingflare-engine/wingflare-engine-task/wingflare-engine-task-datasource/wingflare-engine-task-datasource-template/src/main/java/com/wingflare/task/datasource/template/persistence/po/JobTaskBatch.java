@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-09-24
  */
-@TableName("sj_job_task_batch")
+@TableName("wf_task_job_task_batch")
 public class JobTaskBatch extends CreateUpdateDt {
 
     /**

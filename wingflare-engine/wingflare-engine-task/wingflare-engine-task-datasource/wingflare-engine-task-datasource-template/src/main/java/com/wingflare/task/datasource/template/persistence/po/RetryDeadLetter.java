@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 /**
  * 死信队列
  */
-@TableName("sj_retry_dead_letter")
+@TableName("wf_task_retry_dead_letter")
 public class RetryDeadLetter extends CreateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

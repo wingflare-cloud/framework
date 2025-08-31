@@ -7,8 +7,8 @@
             resultType="com.wingflare.task.datasource.template.persistence.dataobject.WorkflowBatchResponseDO">
         SELECT batch.*,
                flow.workflow_name
-          FROM sj_workflow_task_batch batch
-                JOIN sj_workflow flow ON batch.workflow_id = flow.id
+          FROM wf_task_workflow_task_batch batch
+                JOIN wf_task_workflow flow ON batch.workflow_id = flow.id
         ${ew.customSqlSegment}
     </select>
 
@@ -17,8 +17,8 @@
         SELECT batch.*,
                flow.workflow_name,
                flow.notify_ids
-        FROM sj_workflow_task_batch batch
-                 JOIN sj_workflow flow ON batch.workflow_id = flow.id
+        FROM wf_task_workflow_task_batch batch
+                 JOIN wf_task_workflow flow ON batch.workflow_id = flow.id
             ${ew.customSqlSegment}
     </select>
 

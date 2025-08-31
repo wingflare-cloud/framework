@@ -3,7 +3,7 @@
 <mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.WorkflowMapper">
 
     <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
-        UPDATE sj_workflow AS rt
+        UPDATE wf_task_workflow AS rt
            SET next_trigger_at = tt.next_trigger_at,
                update_dt = CURRENT_TIMESTAMP
          FROM (

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 /**
  * 重试数据
  */
-@TableName("sj_retry")
+@TableName("wf_task_retry")
 public class Retry extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

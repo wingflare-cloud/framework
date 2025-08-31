@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-06-16
  */
-@TableName("sj_retry_task_log_message")
+@TableName("wf_task_retry_task_log_message")
 public class RetryTaskLogMessage extends CreateDt {
 
     /**

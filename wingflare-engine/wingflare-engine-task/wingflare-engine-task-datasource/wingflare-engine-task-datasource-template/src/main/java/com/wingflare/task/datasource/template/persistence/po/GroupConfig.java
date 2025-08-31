@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-01-14
  */
-@TableName("sj_group_config")
+@TableName("wf_task_group_config")
 public class GroupConfig extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

@@ -3,7 +3,7 @@
 <mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobMapper">
 
     <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
-        UPDATE sj_job rt,
+        UPDATE wf_task_job rt,
                 (
                     <foreach collection="list" item="item" index="index" separator="UNION ALL">
                         SELECT

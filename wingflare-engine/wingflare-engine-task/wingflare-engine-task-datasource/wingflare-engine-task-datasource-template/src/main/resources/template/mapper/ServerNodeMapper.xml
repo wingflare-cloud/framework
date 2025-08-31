@@ -6,7 +6,7 @@
             resultType="com.wingflare.task.datasource.template.persistence.dataobject.ActivePodQuantityResponseDO">
         SELECT node_type AS nodeType,
                COUNT(*)  AS total
-          FROM sj_server_node
+          FROM wf_task_server_node
         ${ew.customSqlSegment}
     </select>
 

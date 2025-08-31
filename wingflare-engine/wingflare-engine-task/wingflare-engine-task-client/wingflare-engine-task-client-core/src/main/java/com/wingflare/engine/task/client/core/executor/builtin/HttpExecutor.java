@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
 
-import com.wingflare.engine.task.client.core.annotation.JobExecutor;
+import com.wingflare.lib.task.annotation.TaskExecutor;
 import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 
 @Component
-@JobExecutor(name = "snailJobHttpExecutor")
-public class SnailJobHttpExecutor extends AbstractHttpExecutor {
+@TaskExecutor(name = "HttpExecutor")
+public class HttpExecutor extends AbstractHttpExecutor {
 
     public ExecuteResult jobExecute(JobArgs jobArgs) {
         Object jobParams = jobArgs.getJobParams();

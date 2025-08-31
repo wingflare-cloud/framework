@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @date 2023-11-19 22:05:25
  * @since 2.5.0
  */
-@TableName("sj_retry_scene_config")
+@TableName("wf_task_retry_scene_config")
 public class RetrySceneConfig extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

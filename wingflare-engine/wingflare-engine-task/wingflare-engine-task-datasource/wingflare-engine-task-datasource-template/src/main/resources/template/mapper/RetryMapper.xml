@@ -11,9 +11,9 @@
                SUM(CASE WHEN (retry_status = 1) THEN 1 ELSE 0 END)   AS finishNum,
                SUM(CASE WHEN (retry_status = 2) THEN 1 ELSE 0 END)   AS maxCountNum,
                SUM(CASE WHEN (retry_status = 3) THEN 1 ELSE 0 END)   AS suspendNum
-        FROM sj_retry a
+        FROM wf_task_retry a
                  join (SELECT namespace_id AS namespaceId, group_name AS groupName, scene_name AS sceneName
-                       FROM sj_retry_scene_config) b
+                       FROM wf_task_retry_scene_config) b
                      on a.namespace_id = b.namespaceId and a.group_name = b.groupName and a.scene_name = b.sceneName
         ${ew.customSqlSegment}
     </select>

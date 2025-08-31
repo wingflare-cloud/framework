@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.starter;
 
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.SnailJobProperties;
-import com.wingflare.engine.task.client.core.annotation.JobExecutor;
+import com.wingflare.lib.task.annotation.TaskExecutor;
 import com.wingflare.engine.task.common.core.util.SnailJobNetworkUtils;
 import com.wingflare.engine.task.common.log.SnailJobLog;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Role;
 @Configuration
 @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 @ComponentScan({"com.wingflare.engine.task.client.core.*", "com.wingflare.engine.task.client.common.*"})
-@ConditionalOnClass(JobExecutor.class)
+@ConditionalOnClass(TaskExecutor.class)
 @ConditionalOnProperty(prefix = "snail-job", name = "enabled", havingValue = "true")
 public class SnailJobClientJobCoreAutoConfiguration {
     private static final String SNAIL_JOB_CLIENT_HOST = "snail-job.host";

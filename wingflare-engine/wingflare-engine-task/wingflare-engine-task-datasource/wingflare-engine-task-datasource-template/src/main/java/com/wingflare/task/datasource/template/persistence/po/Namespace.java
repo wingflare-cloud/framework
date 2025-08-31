@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author xiaowoniu
  * @since 2023-11-21
  */
-@TableName("sj_namespace")
+@TableName("wf_task_namespace")
 public class Namespace extends CreateUpdateDt {
 
     /**

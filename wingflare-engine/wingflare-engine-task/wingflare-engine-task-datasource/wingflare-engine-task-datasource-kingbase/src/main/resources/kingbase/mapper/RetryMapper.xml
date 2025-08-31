@@ -4,7 +4,7 @@
 
     <!-- 定义批量新增的 SQL 映射 -->
     <insert id="insertBatch" parameterType="java.util.List">
-        INSERT INTO sj_retry (namespace_id, group_name, group_id, scene_name, scene_id,
+        INSERT INTO wf_task_retry (namespace_id, group_name, group_id, scene_name, scene_id,
         idempotent_id, biz_no, executor_name, args_str, ext_attrs, serializer_name,
         next_trigger_at, task_type, retry_status, create_dt, bucket_index, parent_id, deleted)
         VALUES
@@ -19,7 +19,7 @@
     </insert>
 
     <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
-        UPDATE sj_retry AS rt
+        UPDATE wf_task_retry AS rt
            SET next_trigger_at = tt.next_trigger_at,
                update_dt = CURRENT_TIMESTAMP
           FROM (

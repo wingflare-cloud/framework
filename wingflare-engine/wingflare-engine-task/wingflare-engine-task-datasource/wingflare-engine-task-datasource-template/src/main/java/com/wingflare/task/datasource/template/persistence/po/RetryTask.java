@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-01-14
  */
-@TableName("sj_retry_task")
+@TableName("wf_task_retry_task")
 public class RetryTask extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2022-03-05
  */
-@TableName("sj_system_user")
+@TableName("wf_task_system_user")
 public class SystemUser extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)

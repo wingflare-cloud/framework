@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @version 2.6.0
  * @date 2023/11/28
  */
-@TableName("sj_retry_summary")
+@TableName("wf_task_retry_summary")
 public class RetrySummary extends CreateUpdateDt {
 
     /**

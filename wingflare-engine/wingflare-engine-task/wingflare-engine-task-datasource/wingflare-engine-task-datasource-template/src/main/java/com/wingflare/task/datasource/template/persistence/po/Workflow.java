@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @date : 2023-12-12
  * @since : 2.6.0
  */
-@TableName("sj_workflow")
+@TableName("wf_task_workflow")
 public class Workflow extends CreateUpdateDt {
 
     /**

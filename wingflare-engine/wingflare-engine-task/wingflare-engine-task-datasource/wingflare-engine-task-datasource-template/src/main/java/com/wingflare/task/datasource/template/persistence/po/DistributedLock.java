@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @author opensnail
  * @since 2023-07-20
  */
-@TableName("sj_distributed_lock")
+@TableName("wf_task_distributed_lock")
 public class DistributedLock extends CreateUpdateDt {
 
     /**

@@ -1,6 +1,5 @@
-package com.wingflare.engine.task.client.core.annotation;
+package com.wingflare.lib.task.annotation;
 
-import com.wingflare.engine.task.common.core.constant.SystemConstants;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,6 +24,6 @@ public @interface MapExecutor {
      *
      * @return
      */
-    String taskName() default SystemConstants.ROOT_MAP;
+    String taskName() default "ROOT_MAP";
 
 }

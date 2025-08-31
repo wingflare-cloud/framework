@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-09-24
  */
-@TableName("sj_job")
+@TableName("wf_task_job")
 public class Job extends CreateUpdateDt {
 
     /**

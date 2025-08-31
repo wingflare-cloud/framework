@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author opensnail
  * @since 2023-12-03
  */
-@TableName("sj_job_notify_config")
+@TableName("wf_task_job_notify_config")
 public class JobNotifyConfig extends CreateUpdateDt {
 
     @TableId(value = "id", type = IdType.AUTO)
