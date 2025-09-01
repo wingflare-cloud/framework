@@ -22,13 +22,6 @@
             <artifactId>wingflare-lib-task</artifactId>
         </dependency>
 
-        <!--   springboot     -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!--    libs    -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -53,13 +46,9 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-common-model</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-client-common</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>
