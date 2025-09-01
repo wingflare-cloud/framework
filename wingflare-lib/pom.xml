@@ -21,6 +21,7 @@
         <module>wingflare-lib-captcha</module>
         <module>wingflare-lib-tracing</module>
         <module>wingflare-lib-task</module>
+        <module>wingflare-lib-alarm</module>
     </modules>
 
     <artifactId>wingflare-lib</artifactId>

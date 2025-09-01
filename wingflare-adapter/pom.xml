@@ -19,6 +19,7 @@
         <module>wingflare-adapter-spring-servlet-session</module>
         <module>wingflare-adapter-spring-webflux-session</module>
         <module>wingflare-adapter-session-nosql-redis</module>
+        <module>wingflare-adapter-alarm</module>
     </modules>
 
     <dependencyManagement>
