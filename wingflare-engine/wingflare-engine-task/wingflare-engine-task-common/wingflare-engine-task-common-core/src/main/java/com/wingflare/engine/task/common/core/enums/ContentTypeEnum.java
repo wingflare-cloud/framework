@@ -1,8 +1,6 @@
 package com.wingflare.engine.task.common.core.enums;
 
 
-import org.springframework.http.MediaType;
-
 /**
  * @author: xiaowoniu
  * @date : 2024-01-03
@@ -10,13 +8,13 @@ import org.springframework.http.MediaType;
  */
 public enum ContentTypeEnum {
 
-    JSON(1, MediaType.APPLICATION_JSON),
-    FORM(2, MediaType.APPLICATION_FORM_URLENCODED);
+    JSON(1, "application/json"),
+    FORM(2, "application/x-www-form-urlencoded");
 
     private final Integer type;
-    private final MediaType mediaType;
+    private final String mediaType;
 
-    ContentTypeEnum(Integer type, MediaType mediaType) {
+    ContentTypeEnum(Integer type, String mediaType) {
         this.type = type;
         this.mediaType = mediaType;
     }
@@ -25,7 +23,7 @@ public enum ContentTypeEnum {
         return type;
     }
 
-    public MediaType getMediaType() {
+    public String getMediaType() {
         return mediaType;
     }
 

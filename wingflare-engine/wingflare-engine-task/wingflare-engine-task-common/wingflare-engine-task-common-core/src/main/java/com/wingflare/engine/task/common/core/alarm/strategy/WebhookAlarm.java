@@ -37,7 +37,8 @@ public class WebhookAlarm extends AbstractAlarm<AlarmContext> {
                     .build();
 
             HttpRequest post = HttpUtil.createPost(webhookAttribute.getWebhookUrl());
-            HttpRequest request = post.body(JsonUtil.toJsonString(webhookMessage), ContentTypeEnum.valueOf(webhookAttribute.getContentType()).getMediaType().toString())
+            HttpRequest request = post.body(JsonUtil.toJsonString(webhookMessage),
+                            ContentTypeEnum.valueOf(webhookAttribute.getContentType()).getMediaType())
                     .header(SystemConstants.SECRET, webhookAttribute.getSecret());
             HttpResponse execute = request.execute();
             TaskEngineLog.LOCAL.info("Sending Webhook alert result. webHook:[{}], result: [{}]", webhookAttribute.getWebhookUrl(), execute.body());

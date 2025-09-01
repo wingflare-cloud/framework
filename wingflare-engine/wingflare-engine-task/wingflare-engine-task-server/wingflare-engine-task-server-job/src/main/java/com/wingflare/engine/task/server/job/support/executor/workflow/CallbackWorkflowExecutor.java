@@ -25,6 +25,7 @@ import com.github.rholder.retry.WaitStrategies;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -93,7 +94,7 @@ public class CallbackWorkflowExecutor extends AbstractWorkflowExecutor {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set(SystemConstants.SECRET, decisionConfig.getSecret());
-        requestHeaders.setContentType(ContentTypeEnum.valueOf(decisionConfig.getContentType()).getMediaType());
+        requestHeaders.setContentType(MediaType.valueOf(ContentTypeEnum.valueOf(decisionConfig.getContentType()).getMediaType()));
         // 设置回调超时时间
         requestHeaders.set(RequestInterceptor.TIMEOUT_TIME, CALLBACK_TIMEOUT);
 
