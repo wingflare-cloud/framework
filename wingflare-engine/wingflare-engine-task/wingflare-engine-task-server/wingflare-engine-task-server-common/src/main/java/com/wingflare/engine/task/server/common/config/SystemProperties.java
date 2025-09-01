@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.common.config;
 
+
 import com.wingflare.engine.task.common.core.alarm.email.TaskMailProperties;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @date : 2021-12-21 10:19
  */
 @Configuration
-@ConfigurationProperties(value = "snail-job")
+@ConfigurationProperties(value = "task")
 public class SystemProperties {
 
     /**

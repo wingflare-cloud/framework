@@ -16,7 +16,6 @@ package com.wingflare.engine.task.client.starter;
 
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -54,7 +53,7 @@ public @interface EnableTaskEngine {
      * 控制多个Aop的执行顺序,
      * 需要注意的是这里顺序要比事务的Aop要提前
      * <p>
-     * see {@link  EnableTransactionManagement#order()}
+     * see {@link  org.springframework.transaction.annotation.EnableTransactionManagement#order()}
      * 默认值: Ordered.HIGHEST_PRECEDENCE
      */
     int order() default Ordered.HIGHEST_PRECEDENCE;

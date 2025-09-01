@@ -40,7 +40,7 @@ public class TaskRetryHeaderAspect {
             // 标记进入方法的时间
             RetrySiteSnapshot.setEntryMethodTime(System.currentTimeMillis());
 
-            TaskEngineLog.LOCAL.info("snail retry request header :[{}]", xRetry);
+            TaskEngineLog.LOCAL.info("task engine retry request header :[{}]", xRetry);
             RetrySiteSnapshot.setRetryHeader(JsonUtil.parseObject(xRetry, TaskHeaders.class));
         }
     }

@@ -13,7 +13,7 @@ import java.util.Map;
  * @since : sj_1.0.0
  */
 @Configuration
-@ConfigurationProperties(value = "snail-job.mail")
+@ConfigurationProperties(value = "task.mail")
 public class TaskMailProperties implements Serializable {
 
     /**
