@@ -2,6 +2,7 @@ package com.wingflare.engine.task.client.core.executor;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
@@ -9,8 +10,6 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.core.cache.ThreadPoolCache;
 import com.wingflare.engine.task.client.core.client.JobNettyClient;
 import com.wingflare.engine.task.client.core.log.JobLogMeta;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
@@ -29,6 +28,7 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recip
 import com.wingflare.engine.task.common.model.request.DispatchJobResultRequest;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
+import com.wingflare.lib.alarm.AlarmUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -188,7 +188,8 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
                             .title("Scheduled task execution result reporting exception:[{}]", taskProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
 
-                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                    Optional.ofNullable(AlarmUtil.getAlarmType(recipient.getNotifyType()))
+                            .ifPresent(alarm -> AlarmUtil.asyncSendMessage(recipient.getNotifyType(), context));
                 }
             }
         } catch (Exception e1) {

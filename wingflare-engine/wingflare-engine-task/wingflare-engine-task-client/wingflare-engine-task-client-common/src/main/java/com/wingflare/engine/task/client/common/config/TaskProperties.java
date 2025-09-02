@@ -1,6 +1,6 @@
 package com.wingflare.engine.task.client.common.config;
 
-import com.wingflare.engine.task.common.core.alarm.email.TaskMailProperties;
+
 import com.wingflare.engine.task.common.core.config.ForyProperties;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -87,12 +87,6 @@ public class TaskProperties {
     private Retry retry = new Retry();
 
     /**
-     * 邮件配置
-     */
-    @NestedConfigurationProperty
-    private TaskMailProperties mail = new TaskMailProperties();
-
-    /**
      * Fory 配置
      */
     @NestedConfigurationProperty
@@ -117,7 +111,6 @@ public class TaskProperties {
      * 服务端Rpc配置
      */
     private RpcServerProperties serverRpc = new RpcServerProperties();
-
 
 
     public String getNamespace() {
@@ -214,14 +207,6 @@ public class TaskProperties {
 
     public void setRetry(Retry retry) {
         this.retry = retry;
-    }
-
-    public TaskMailProperties getMail() {
-        return mail;
-    }
-
-    public void setMail(TaskMailProperties mail) {
-        this.mail = mail;
     }
 
     public ForyProperties getFory() {

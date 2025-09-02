@@ -24,6 +24,7 @@
         <module>wingflare-lib-alarm</module>
         <module>wingflare-lib-config</module>
         <module>wingflare-lib-email</module>
+        <module>wingflare-lib-container</module>
     </modules>
 
     <artifactId>wingflare-lib</artifactId>

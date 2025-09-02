@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.client.retry.core.strategy;
 
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.retry.core.Report;
@@ -11,8 +12,6 @@ import com.wingflare.engine.task.client.retry.core.intercepter.RetrySiteSnapshot
 import com.wingflare.engine.task.client.retry.core.loader.TaskRetrySpiLoader;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.NetUtil;
@@ -23,6 +22,7 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.alarm.AlarmUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.annotation.Resource;
@@ -199,7 +199,8 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                                     e.getMessage())
                             .title("retry component handling exception:[{}]", taskProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
-                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                    Optional.ofNullable(AlarmUtil.getAlarmType(recipient.getNotifyType()))
+                            .ifPresent(alarm -> AlarmUtil.asyncSendMessage(recipient.getNotifyType(), context));
                 }
             }
         } catch (Exception e1) {

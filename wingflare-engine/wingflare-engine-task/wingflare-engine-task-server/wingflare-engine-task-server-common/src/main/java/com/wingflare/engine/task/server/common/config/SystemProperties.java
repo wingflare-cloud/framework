@@ -1,10 +1,8 @@
 package com.wingflare.engine.task.server.common.config;
 
 
-import com.wingflare.engine.task.common.core.alarm.email.TaskMailProperties;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
@@ -94,12 +92,6 @@ public class SystemProperties {
     private RpcTypeEnum rpcType = RpcTypeEnum.GRPC;
 
     /**
-     * 邮件配置
-     */
-    @NestedConfigurationProperty
-    private TaskMailProperties mail = new TaskMailProperties();
-
-    /**
      * 客户端Rpc配置
      */
     private RpcClientProperties clientRpc = new RpcClientProperties();
@@ -112,7 +104,10 @@ public class SystemProperties {
     public SystemProperties() {
     }
 
-    public SystemProperties(int retryPullPageSize, int retryMaxPullParallel, int jobPullPageSize, int serverPort, String serverHost, String serverToken, int maxDispatchCapacity, int logStorage, int mergeLogDays, int mergeLogNum, int loadBalanceCycleTime, int bucketTotal, int summaryDay, RpcTypeEnum rpcType, TaskMailProperties mail, RpcClientProperties clientRpc, RpcServerProperties serverRpc) {
+    public SystemProperties(int retryPullPageSize, int retryMaxPullParallel, int jobPullPageSize, int serverPort, String serverHost,
+                            String serverToken, int maxDispatchCapacity, int logStorage, int mergeLogDays, int mergeLogNum,
+                            int loadBalanceCycleTime, int bucketTotal, int summaryDay, RpcTypeEnum rpcType, RpcClientProperties clientRpc,
+                            RpcServerProperties serverRpc) {
         this.retryPullPageSize = retryPullPageSize;
         this.retryMaxPullParallel = retryMaxPullParallel;
         this.jobPullPageSize = jobPullPageSize;
@@ -127,7 +122,6 @@ public class SystemProperties {
         this.bucketTotal = bucketTotal;
         this.summaryDay = summaryDay;
         this.rpcType = rpcType;
-        this.mail = mail;
         this.clientRpc = clientRpc;
         this.serverRpc = serverRpc;
     }
@@ -242,14 +236,6 @@ public class SystemProperties {
 
     public void setRpcType(RpcTypeEnum rpcType) {
         this.rpcType = rpcType;
-    }
-
-    public TaskMailProperties getMail() {
-        return mail;
-    }
-
-    public void setMail(TaskMailProperties mail) {
-        this.mail = mail;
     }
 
     public RpcClientProperties getClientRpc() {

@@ -1,9 +1,8 @@
 package com.wingflare.engine.task.server.retry.support.schedule;
 
+
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.core.alarm.Alarm;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
@@ -11,6 +10,7 @@ import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.retry.dto.NotifyConfigDTO;
 import com.wingflare.engine.task.server.retry.dto.RetrySceneConfigPartitionTask;
+import com.wingflare.lib.alarm.AlarmUtil;
 import com.wingflare.task.datasource.template.persistence.po.Retry;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.stereotype.Component;
@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 监控重试失败数据总量是否到达阈值
@@ -89,11 +90,11 @@ public class RetryErrorMoreThresholdAlarmSchedule extends AbstractRetryTaskAlarm
                                     DateUtils.format(now.minusMinutes(30),
                                             DateUtils.NORM_DATETIME_PATTERN),
                                     DateUtils.toNowFormat(DateUtils.NORM_DATETIME_PATTERN), count)
-                            .title("In {} environment, the number of scene retry failures exceeded the threshold", EnvironmentUtils.getActiveProfile())
+                            .title("In {} environment, the number of scene retry failures exceeded the threshold",
+                                    EnvironmentUtils.getActiveProfile())
                             .notifyAttribute(recipientInfo.getNotifyAttribute());
-                    Alarm<AlarmContext> alarmType = TaskAlarmFactory.getAlarmType(
-                            recipientInfo.getNotifyType());
-                    alarmType.asyncSendMessage(context);
+                    Optional.ofNullable(AlarmUtil.getAlarmType(recipientInfo.getNotifyType()))
+                            .ifPresent(alarm -> AlarmUtil.asyncSendMessage(recipientInfo.getNotifyType(), context));
                 }
 
             }

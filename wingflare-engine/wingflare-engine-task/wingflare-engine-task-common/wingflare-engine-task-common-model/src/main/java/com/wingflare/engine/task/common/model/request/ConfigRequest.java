@@ -139,18 +139,18 @@ public class ConfigRequest {
             /**
              * 通知类型 {@link com.wingflare.engine.task.common.core.enums.AlarmTypeEnum}
              */
-            private Integer notifyType;
+            private String notifyType;
 
             /**
              * 通知地址
              */
             private String notifyAttribute;
 
-            public Integer getNotifyType() {
+            public String getNotifyType() {
                 return notifyType;
             }
 
-            public void setNotifyType(Integer notifyType) {
+            public void setNotifyType(String notifyType) {
                 this.notifyType = notifyType;
             }
 

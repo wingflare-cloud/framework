@@ -17,7 +17,7 @@ public class EmailUtil {
 
     private static volatile EmailDrive drive;
 
-    public static EmailDrive getDrive() {
+    private static EmailDrive getDrive() {
         if (drive == null) {
             synchronized (EmailUtil.class) {
                 if (drive == null) {

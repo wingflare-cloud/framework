@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.job.support.alarm.listener;
 
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
+
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;

@@ -84,15 +84,15 @@ public class NotifyConfigDTO {
 
     public static class RecipientInfo {
 
-        private Integer notifyType;
+        private String notifyType;
 
         private String notifyAttribute;
 
-        public Integer getNotifyType() {
+        public String getNotifyType() {
             return notifyType;
         }
 
-        public void setNotifyType(Integer notifyType) {
+        public void setNotifyType(String notifyType) {
             this.notifyType = notifyType;
         }
 

@@ -7,6 +7,7 @@ import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
@@ -14,8 +15,6 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.executor.GuavaRetryExecutor;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
@@ -28,6 +27,7 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.alarm.AlarmUtil;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -135,7 +135,8 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                                 e.getMessage())
                         .title("Reporting exception: [{}]", properties.getGroup())
                         .notifyAttribute(recipient.getNotifyAttribute());
-                Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                Optional.ofNullable(AlarmUtil.getAlarmType(recipient.getNotifyType()))
+                        .ifPresent(alarm -> AlarmUtil.asyncSendMessage(recipient.getNotifyType(), context));
             }
 
         } catch (Exception e1) {

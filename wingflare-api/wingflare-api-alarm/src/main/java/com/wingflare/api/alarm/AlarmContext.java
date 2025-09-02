@@ -40,6 +40,10 @@ public class AlarmContext {
         return this;
     }
 
+    public static AlarmContext build() {
+        return new AlarmContext();
+    }
+
     public String getText() {
         return text;
     }

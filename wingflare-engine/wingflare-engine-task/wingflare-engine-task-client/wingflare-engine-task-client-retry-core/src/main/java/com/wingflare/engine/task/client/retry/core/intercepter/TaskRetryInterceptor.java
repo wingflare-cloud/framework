@@ -3,6 +3,7 @@ package com.wingflare.engine.task.client.retry.core.intercepter;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.retry.core.MethodResult;
@@ -13,8 +14,6 @@ import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
@@ -26,6 +25,7 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.google.common.base.Defaults;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.alarm.AlarmUtil;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ClassUtils;
@@ -288,8 +288,8 @@ public class TaskRetryInterceptor implements MethodInterceptor, AfterAdvice, Ser
                             .title("retry component handling exception:[{}]", taskProperties.getGroup())
                             .notifyAttribute(recipient.getNotifyAttribute());
 
-                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType()))
-                            .ifPresent(alarm -> alarm.asyncSendMessage(context));
+                    Optional.ofNullable(AlarmUtil.getAlarmType(recipient.getNotifyType()))
+                            .ifPresent(alarm -> AlarmUtil.asyncSendMessage(recipient.getNotifyType(), context));
                 }
 
             }

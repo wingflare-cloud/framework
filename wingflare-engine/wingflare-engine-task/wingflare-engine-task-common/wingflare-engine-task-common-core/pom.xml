@@ -27,6 +27,11 @@
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-alarm</artifactId>
+        </dependency>
+
         <!-- Spring context -->
         <dependency>
             <groupId>org.springframework</groupId>

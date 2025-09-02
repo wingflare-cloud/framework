@@ -1,9 +1,7 @@
 package com.wingflare.engine.task.server.common.alarm;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.core.alarm.Alarm;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
@@ -15,6 +13,7 @@ import com.wingflare.engine.task.server.common.dto.AlarmInfo;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo.RecipientInfo;
 import com.wingflare.engine.task.server.common.enums.SyetemTaskTypeEnum;
+import com.wingflare.lib.alarm.AlarmUtil;
 import com.wingflare.task.datasource.template.access.AccessTemplate;
 import com.wingflare.task.datasource.template.persistence.mapper.NotifyRecipientMapper;
 import com.wingflare.task.datasource.template.persistence.po.NotifyConfig;
@@ -181,8 +180,7 @@ public abstract class AbstractAlarm<E extends ApplicationEvent, A extends AlarmI
             }
             AlarmContext context = buildAlarmContext(alarmDTO, notifyConfig);
             context.setNotifyAttribute(recipientInfo.getNotifyAttribute());
-            Alarm<AlarmContext> alarm = TaskAlarmFactory.getAlarmType(recipientInfo.getNotifyType());
-            alarm.asyncSendMessage(context);
+            AlarmUtil.asyncSendMessage(recipientInfo.getNotifyType(), context);
         }
 
     }

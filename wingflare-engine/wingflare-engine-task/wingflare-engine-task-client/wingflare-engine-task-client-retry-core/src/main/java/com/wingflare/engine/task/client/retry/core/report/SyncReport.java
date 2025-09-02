@@ -1,12 +1,11 @@
 package com.wingflare.engine.task.client.retry.core.report;
 
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
@@ -17,6 +16,7 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recipient;
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.alarm.AlarmUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -110,7 +110,8 @@ public class SyncReport extends AbstractReport {
                         .title("Sync reporting exception: [{}]", taskProperties.getGroup())
                         .notifyAttribute(recipient.getNotifyAttribute());
 
-                Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipient.getNotifyType())).ifPresent(alarm -> alarm.asyncSendMessage(context));
+                Optional.ofNullable(AlarmUtil.getAlarmType(recipient.getNotifyType()))
+                        .ifPresent(alarm -> AlarmUtil.asyncSendMessage(recipient.getNotifyType(), context));
             }
 
         } catch (Exception e1) {

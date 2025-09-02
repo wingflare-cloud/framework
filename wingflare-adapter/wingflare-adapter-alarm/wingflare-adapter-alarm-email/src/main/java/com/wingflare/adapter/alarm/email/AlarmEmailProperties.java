@@ -154,4 +154,5 @@ public class AlarmEmailProperties implements Serializable {
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
+
 }

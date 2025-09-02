@@ -36,7 +36,7 @@ public class AlarmUtil {
     }
 
 
-    public static Map<String, AlarmDrive> getAlarms() {
+    private static Map<String, AlarmDrive> getAlarms() {
         if (alarmMap == null) {
             synchronized (ConfigUtil.class) {
                 if (alarmMap == null) {

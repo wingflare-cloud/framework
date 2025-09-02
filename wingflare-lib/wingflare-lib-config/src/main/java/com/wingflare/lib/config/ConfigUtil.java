@@ -16,7 +16,7 @@ public class ConfigUtil {
     private ConfigUtil() {
     }
 
-    public static List<ConfigInterface> getConfigs() {
+    private static List<ConfigInterface> getConfigs() {
         if (configInterfaceList == null) {
             synchronized (ConfigUtil.class) {
                 if (configInterfaceList == null) {

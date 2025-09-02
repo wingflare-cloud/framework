@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.retry.support.schedule;
 
-import com.wingflare.engine.task.common.core.alarm.AlarmContext;
-import com.wingflare.engine.task.common.core.alarm.TaskAlarmFactory;
+
+import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
@@ -9,6 +9,7 @@ import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.retry.dto.NotifyConfigDTO;
 import com.wingflare.engine.task.server.retry.dto.RetrySceneConfigPartitionTask;
+import com.wingflare.lib.alarm.AlarmUtil;
 import com.wingflare.task.datasource.template.persistence.po.Retry;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.stereotype.Component;
@@ -82,8 +83,8 @@ public class RetryTaskMoreThresholdAlarmSchedule extends AbstractRetryTaskAlarmS
                                     count)
                             .title("{} environment scenario retry count exceeds threshold", EnvironmentUtils.getActiveProfile())
                             .notifyAttribute(recipientInfo.getNotifyAttribute());
-                    Optional.ofNullable(TaskAlarmFactory.getAlarmType(recipientInfo.getNotifyType()))
-                            .ifPresent(alarmType -> alarmType.asyncSendMessage(context));
+                    Optional.ofNullable(AlarmUtil.getAlarmType(recipientInfo.getNotifyType()))
+                            .ifPresent(alarmType -> AlarmUtil.asyncSendMessage(recipientInfo.getNotifyType(), context));
 
                 }
             }
