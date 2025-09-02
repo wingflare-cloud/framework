@@ -1,7 +1,6 @@
 package com.wingflare.lib.email;
 
 
-import com.wingflare.lib.core.utils.CollectionUtil;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeUtility;
@@ -34,7 +33,7 @@ public class InternalMailUtil {
         InternetAddress[] addrs;
         for (String addrStr : addrStrs) {
             addrs = parseAddress(addrStr, charset);
-            if (CollectionUtil.isNotEmpty(addrs)) {
+            if (addrs != null && addrs.length > 0) {
                 Collections.addAll(resultList, addrs);
             }
         }
@@ -50,7 +49,7 @@ public class InternalMailUtil {
      */
     public static InternetAddress parseFirstAddress(String address, Charset charset) {
         final InternetAddress[] internetAddresses = parseAddress(address, charset);
-        if (CollectionUtil.isEmpty(internetAddresses)) {
+        if (internetAddresses != null && internetAddresses.length > 0) {
             try {
                 return new InternetAddress(address);
             } catch (AddressException e) {
@@ -76,7 +75,7 @@ public class InternalMailUtil {
             throw new MailException(e);
         }
         //编码用户名
-        if (CollectionUtil.isNotEmpty(addresses)) {
+        if (addresses != null && addresses.length > 0) {
             final String charsetStr = null == charset ? null : charset.name();
             for (InternetAddress internetAddress : addresses) {
                 try {
