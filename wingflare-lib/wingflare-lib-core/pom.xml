@@ -14,13 +14,8 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <commons.io.version>2.14.0</commons.io.version>
-        <commons-lang3.version>3.18.0</commons-lang3.version>
         <okhttp3.version>4.12.0</okhttp3.version>
-        <fastjson.version>2.0.53</fastjson.version>
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
-        <commons.beanutils.version>1.9.4</commons.beanutils.version>
-        <commons-codec.version>1.15</commons-codec.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <slf4j.version>1.7.36</slf4j.version>
         <logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
@@ -32,13 +27,11 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>${commons-codec.version}</version>
         </dependency>
 
         <!-- 线程传递值 -->
@@ -52,7 +45,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
         </dependency>
 
         <!-- okhttp常用工具类 -->
@@ -71,14 +63,12 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>${commons.beanutils.version}</version>
         </dependency>
 
         <!-- io常用工具类 -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${commons.io.version}</version>
         </dependency>
 
         <!-- 数据验证工具 -->
@@ -91,7 +81,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
         <dependency>

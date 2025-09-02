@@ -7,6 +7,14 @@
         <groupId>com.wingflare</groupId>
         <version>${revision}</version>
     </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>wingflare-adapter-alarm-dingding</module>
+        <module>wingflare-adapter-alarm-email</module>
+        <module>wingflare-adapter-alarm-lark</module>
+        <module>wingflare-adapter-alarm-qiyewechat</module>
+        <module>wingflare-adapter-alarm-webhook</module>
+    </modules>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>wingflare-adapter-alarm</artifactId>

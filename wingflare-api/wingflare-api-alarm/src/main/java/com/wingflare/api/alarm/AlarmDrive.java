@@ -1,11 +1,11 @@
-package com.wingflare.lib.alarm;
+package com.wingflare.api.alarm;
 
 
 /**
  * @author: opensnail
  * @date : 2021-11-25 09:19
  */
-public interface Alarm<T> {
+public interface AlarmDrive<T> {
 
     String getAlarmType();
 

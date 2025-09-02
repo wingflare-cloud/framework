@@ -22,6 +22,8 @@
         <module>wingflare-lib-tracing</module>
         <module>wingflare-lib-task</module>
         <module>wingflare-lib-alarm</module>
+        <module>wingflare-lib-config</module>
+        <module>wingflare-lib-email</module>
     </modules>
 
     <artifactId>wingflare-lib</artifactId>

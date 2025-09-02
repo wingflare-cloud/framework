@@ -1,4 +1,4 @@
-package com.wingflare.lib.alarm;
+package com.wingflare.api.alarm;
 
 
 import org.slf4j.helpers.MessageFormatter;
@@ -40,10 +40,6 @@ public class AlarmContext {
         return this;
     }
 
-    public static AlarmContext build() {
-        return new AlarmContext();
-    }
-
     public String getText() {
         return text;
     }
@@ -66,5 +62,14 @@ public class AlarmContext {
 
     public void setNotifyAttribute(String notifyAttribute) {
         this.notifyAttribute = notifyAttribute;
+    }
+
+    @Override
+    public String toString() {
+        return "AlarmContext{" +
+                "text='" + text + '\'' +
+                ", title='" + title + '\'' +
+                ", notifyAttribute='" + notifyAttribute + '\'' +
+                '}';
     }
 }
