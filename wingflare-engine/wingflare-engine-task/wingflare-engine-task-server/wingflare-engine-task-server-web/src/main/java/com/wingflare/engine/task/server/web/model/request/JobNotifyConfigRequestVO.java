@@ -24,7 +24,7 @@ public class JobNotifyConfigRequestVO {
     private Integer notifyStatus;
 
     @NotNull(message = "Notification type cannot be empty")
-    private Integer notifyType;
+    private String notifyType;
 
     @NotBlank(message = "Notification attributes cannot be empty")
     private String notifyAttribute;
@@ -80,11 +80,11 @@ public class JobNotifyConfigRequestVO {
         this.notifyStatus = notifyStatus;
     }
 
-    public Integer getNotifyType() {
+    public String getNotifyType() {
         return notifyType;
     }
 
-    public void setNotifyType(Integer notifyType) {
+    public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
 

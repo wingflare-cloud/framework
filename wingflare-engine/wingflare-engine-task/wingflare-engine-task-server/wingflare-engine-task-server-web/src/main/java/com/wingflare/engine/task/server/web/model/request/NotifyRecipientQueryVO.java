@@ -9,15 +9,15 @@ import com.wingflare.engine.task.server.common.vo.base.BaseQueryVO;
  */
 public class NotifyRecipientQueryVO extends BaseQueryVO {
 
-    private Integer notifyType;
+    private String notifyType;
 
     private String recipientName;
 
-    public Integer getNotifyType() {
+    public String getNotifyType() {
         return notifyType;
     }
 
-    public void setNotifyType(Integer notifyType) {
+    public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
 

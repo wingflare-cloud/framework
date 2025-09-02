@@ -12,7 +12,7 @@ public class ExportNotifyRecipientVO {
 
     private Set<Long> notifyRecipientIds;
 
-    private Integer notifyType;
+    private String notifyType;
 
     private String recipientName;
 
@@ -24,11 +24,11 @@ public class ExportNotifyRecipientVO {
         this.notifyRecipientIds = notifyRecipientIds;
     }
 
-    public Integer getNotifyType() {
+    public String getNotifyType() {
         return notifyType;
     }
 
-    public void setNotifyType(Integer notifyType) {
+    public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
 

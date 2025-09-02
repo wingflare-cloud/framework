@@ -25,7 +25,7 @@ public class NotifyRecipientRequestVO {
      * 通知类型 1、钉钉 2、邮件 3、企业微信 4 飞书
      */
     @NotNull(message = "Notification type cannot be empty")
-    private Integer notifyType;
+    private String notifyType;
 
     /**
      * 配置属性
@@ -54,11 +54,11 @@ public class NotifyRecipientRequestVO {
         this.recipientName = recipientName;
     }
 
-    public Integer getNotifyType() {
+    public String getNotifyType() {
         return notifyType;
     }
 
-    public void setNotifyType(Integer notifyType) {
+    public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
 

@@ -25,7 +25,7 @@ public class JobNotifyConfigResponseVO implements Serializable {
 
     private String notifyName;
 
-    private Integer notifyType;
+    private String notifyType;
 
     private String notifyAttribute;
 
@@ -101,11 +101,11 @@ public class JobNotifyConfigResponseVO implements Serializable {
         this.notifyName = notifyName;
     }
 
-    public Integer getNotifyType() {
+    public String getNotifyType() {
         return notifyType;
     }
 
-    public void setNotifyType(Integer notifyType) {
+    public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
 

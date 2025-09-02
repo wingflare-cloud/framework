@@ -22,7 +22,7 @@ public class JobNotifyConfigResponseDO {
 
     private Integer notifyStatus;
 
-    private Integer notifyType;
+    private String notifyType;
 
     private String notifyAttribute;
 
@@ -88,11 +88,11 @@ public class JobNotifyConfigResponseDO {
         this.notifyStatus = notifyStatus;
     }
 
-    public Integer getNotifyType() {
+    public String getNotifyType() {
         return notifyType;
     }
 
-    public void setNotifyType(Integer notifyType) {
+    public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
 
