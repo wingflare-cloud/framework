@@ -110,6 +110,7 @@
         <module>wingflare-abstraction</module>
         <module>wingflare-single</module>
         <module>wingflare-service</module>
+        <module>wingflare-api</module>
     </modules>
     <packaging>pom</packaging>
 

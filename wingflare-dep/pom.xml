@@ -22,6 +22,7 @@
         <module>wingflare-dep-abstraction</module>
         <module>wingflare-dep-engine</module>
         <module>wingflare-dep-module</module>
+        <module>wingflare-dep-api</module>
     </modules>
 
 </project>

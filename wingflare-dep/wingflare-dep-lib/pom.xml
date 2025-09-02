@@ -12,8 +12,6 @@
     <artifactId>wingflare-dep-lib</artifactId>
 
     <properties>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
         <QLExpress.version>3.3.1</QLExpress.version>
         <easyexcel.version>3.2.1</easyexcel.version>
     </properties>
