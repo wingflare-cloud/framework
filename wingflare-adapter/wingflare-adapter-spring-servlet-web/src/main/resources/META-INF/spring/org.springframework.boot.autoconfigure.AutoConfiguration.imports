@@ -1,0 +1,5 @@
+com.wingflare.adapter.spring.server.web.filter.ExceptionHandleFilter
+com.wingflare.adapter.spring.server.web.configure.ConfigArgumentResolvers
+com.wingflare.adapter.spring.server.web.MicroservicePackageImport
+com.wingflare.adapter.spring.server.web.properties.AccessLogProperties
+com.wingflare.adapter.spring.server.web.aspect.AccessLogAspect
