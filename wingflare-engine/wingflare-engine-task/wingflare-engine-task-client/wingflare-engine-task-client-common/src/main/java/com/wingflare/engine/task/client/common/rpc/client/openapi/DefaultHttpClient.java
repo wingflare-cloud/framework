@@ -1,12 +1,16 @@
 package com.wingflare.engine.task.client.common.rpc.client.openapi;
 
+
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.http.Method;
+import com.alibaba.fastjson2.JSONObject;
+import com.wingflare.api.core.Charset;
+import com.wingflare.api.http.HttpMethod;
+import com.wingflare.api.http.HttpRequest;
+import com.wingflare.api.http.HttpResponse;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.common.core.model.TaskOpenApiResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
+import com.wingflare.lib.container.Container;
 
 import java.text.MessageFormat;
 
@@ -46,10 +50,15 @@ public class DefaultHttpClient implements TaskHttpClient {
         if (StrUtil.isNotBlank(request.getParams())){
             url += request.getParams();
         }
-        HttpRequest httpRequest = HttpUtil.createRequest(Method.valueOf(request.getMethod()), url);
-        httpRequest.body(request.getBody());
-        httpRequest.addHeaders(request.getHeaders());
-        return httpRequest.thenFunction(httpResponse ->
-                JsonUtil.parseObject(httpResponse.body(), TaskOpenApiResult.class));
+
+        HttpRequest execute = Container.get(HttpRequest.class);
+        HttpResponse response = execute
+                .setUrl(url)
+                .setBody(request.getBody())
+                .setCharset(Charset.UTF_8)
+                .setContentType("application/json")
+                .setMethod(HttpMethod.valueOf(request.getMethod()))
+                .execute();
+        return JSONObject.parseObject(response.getBody(), TaskOpenApiResult.class);
     }
 }

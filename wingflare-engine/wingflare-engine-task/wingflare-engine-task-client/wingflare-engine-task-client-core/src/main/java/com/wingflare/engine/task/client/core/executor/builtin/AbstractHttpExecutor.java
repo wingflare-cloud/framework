@@ -1,13 +1,16 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
+
+import com.wingflare.api.http.HttpMethod;
+import com.wingflare.api.http.HttpRequest;
+import com.wingflare.api.http.HttpResponse;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
+import com.wingflare.lib.container.Container;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
@@ -58,7 +61,8 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
     }
 
     private ExecuteResult executeRequestAndHandleResponse(HttpRequest httpRequest) {
-        try (HttpResponse response = httpRequest.execute()) {
+        try {
+            HttpResponse response = httpRequest.execute();
             return validateResponse(response, httpRequest, taskProperties.getHttpResponse());
         } catch (Exception e) {
             throw new TaskInnerExecutorException("[wingflare-task] HTTP internal executor failed", e);
@@ -81,8 +85,8 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
      * @return
      */
     private ExecuteResult validateResponse(HttpResponse response, HttpRequest httpRequest, TaskProperties.HttpResponse httpResponse) {
-        int errCode = response.getStatus();
-        String body = response.body();
+        int errCode = response.getStatus().getCode();
+        String body = response.getBody();
         // 检查http响应状态码是否为成功状态码
         if (errCode != HTTP_SUCCESS_CODE) {
             TaskEngineLog.LOCAL.error("{} request to URL: {} failed with code: {}, response body: {}",
@@ -191,24 +195,18 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
 
 
     private HttpRequest buildhutoolRequest(HttpParams httpParams) {
-        HttpRequest request;
-        switch (httpParams.getMethod()) {
-            case PUT_REQUEST_METHOD:
-                request = HttpRequest.put(httpParams.url);
-                break;
-            case DELETE_REQUEST_METHOD:
-                request = HttpRequest.delete(httpParams.url);
-                break;
-            case POST_REQUEST_METHOD:
-                request = HttpRequest.post(httpParams.url);
-                break;
-            default:
-                request = HttpRequest.get(httpParams.url);
-                break;
-        }
+        HttpRequest request = switch (httpParams.getMethod()) {
+            case PUT_REQUEST_METHOD ->
+                    Container.get(HttpRequest.class).setMethod(HttpMethod.PUT).setUrl(httpParams.url);
+            case DELETE_REQUEST_METHOD ->
+                    Container.get(HttpRequest.class).setMethod(HttpMethod.DELETE).setUrl(httpParams.url);
+            case POST_REQUEST_METHOD ->
+                    Container.get(HttpRequest.class).setMethod(HttpMethod.POST).setUrl(httpParams.url);
+            default -> Container.get(HttpRequest.class).setMethod(HttpMethod.GET).setUrl(httpParams.url);
+        };
 
         if (Objects.nonNull(httpParams.getHeaders())) {
-            httpParams.getHeaders().forEach(request::header);
+            httpParams.getHeaders().forEach(request::addHeader);
         }
         // 有上下文时，在请求中透传上下文;即工作流中支持上下文的传递
         if (Objects.nonNull(httpParams.getWfContext())) {
@@ -219,17 +217,19 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
                     // 如果包含中文字符，则进行Base64编码
                     headerValue = Base64.getEncoder().encodeToString(headerValue.getBytes());
                 }
-                request.header(key, headerValue);
+                request.addHeader(key, headerValue);
             });
         }
 
         if (Objects.nonNull(httpParams.getBody()) && (httpParams.getMethod().equals(POST_REQUEST_METHOD)
                 || httpParams.getMethod().equals(PUT_REQUEST_METHOD)
                 || httpParams.getMethod().equals(DELETE_REQUEST_METHOD))) {
-            request.body(httpParams.getBody(), httpParams.getMediaType());
+            request.setContentType(httpParams.getMediaType());
+            request.setBody(httpParams.getBody());
         }
 
-        request.timeout(httpParams.getTimeout());
+        request.setConnectTimeout(httpParams.getTimeout());
+        request.setReadTimeout(httpParams.getTimeout());
 
         return request;
     }

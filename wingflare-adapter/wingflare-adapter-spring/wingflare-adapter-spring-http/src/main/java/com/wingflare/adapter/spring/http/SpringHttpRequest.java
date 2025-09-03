@@ -221,7 +221,7 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpResponse execute() throws Exception {
+    public HttpResponse execute() {
         HttpHeaders requestHeaders = ((SpringHttpHeader) header).getSpringHeaders();
 
         if (contentType != null) {

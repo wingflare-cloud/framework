@@ -108,5 +108,5 @@ public interface HttpRequest {
     Charset getCharset();
 
     // 执行请求并返回响应
-    HttpResponse execute() throws Exception;
+    HttpResponse execute();
 }
