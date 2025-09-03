@@ -3,7 +3,6 @@ package com.wingflare.adapter.spring.container;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -130,17 +129,6 @@ public class SpringUtil implements BeanFactoryPostProcessor, ApplicationContextA
      */
     public static String[] getAliases(String name) throws NoSuchBeanDefinitionException {
         return beanFactory.getAliases(name);
-    }
-
-    /**
-     * 获取aop代理对象
-     *
-     * @param invoker
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T getAopProxy(T invoker) {
-        return (T) AopContext.currentProxy();
     }
 
     /**

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wingflare-adapter-spring-container</artifactId>
+    <artifactId>wingflare-adapter-spring-http</artifactId>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -19,20 +19,18 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-container</artifactId>
+            <artifactId>wingflare-api-http</artifactId>
         </dependency>
 
-        <!-- Spring beans -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
+            <artifactId>spring-web</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Spring context -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
 
