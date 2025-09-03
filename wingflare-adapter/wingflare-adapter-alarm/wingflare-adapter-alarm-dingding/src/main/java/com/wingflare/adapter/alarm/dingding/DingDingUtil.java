@@ -2,9 +2,12 @@ package com.wingflare.adapter.alarm.dingding;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import com.alibaba.fastjson.JSONObject;
+import com.wingflare.api.core.Charset;
+import com.wingflare.api.http.HttpMethod;
+import com.wingflare.api.http.HttpRequest;
+import com.wingflare.api.http.HttpResponse;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,22 +63,30 @@ public class DingDingUtil {
     }
 
     /**
-     * @param request DingTalkRequest
+     * @param content DingTalkRequest
      */
-    public static boolean sendMessage(String request, String url) {
+    public static boolean sendMessage(String content, String url) {
 
         try {
             if (StrUtil.isBlank(url)) {
                 return false;
             }
 
-            // 发送POST请求
-            HttpResponse response = HttpRequest.post(url)
-                    .headerMap(getHeaders(), true)
-                    .body(request)
+            HttpRequest request = Container.get(HttpRequest.class);
+            HttpResponse response = request
+                    .setUrl(url)
+                    .setBody(content)
+                    .setCharset(Charset.UTF_8)
+                    .setContentType("application/json")
+                    .setMethod(HttpMethod.POST)
                     .execute();
 
-            String body = response.body();
+            if (!response.isOk()) {
+                log.error("dingDingProcessNotify: DingTalk message sending failed, {}", response);
+                return false;
+            }
+
+            String body = response.getBody();
             JSONObject bodyJson = JSONObject.parseObject(body);
             int errCode = bodyJson.getIntValue("errcode");
             if (errCode != 0) {
@@ -88,12 +99,6 @@ public class DingDingUtil {
         }
 
         return false;
-    }
-
-    public static Map<String, String> getHeaders() {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
-        return headers;
     }
 
 }

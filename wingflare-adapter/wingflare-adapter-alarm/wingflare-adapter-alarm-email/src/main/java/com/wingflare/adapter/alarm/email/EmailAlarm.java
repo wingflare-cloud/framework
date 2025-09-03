@@ -4,9 +4,9 @@ package com.wingflare.adapter.alarm.email;
 import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
+import com.wingflare.api.email.EmailDrive;
 import com.wingflare.api.email.MailAccount;
 import com.wingflare.lib.container.Container;
-import com.wingflare.lib.email.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,10 +36,12 @@ public class EmailAlarm implements AlarmDrive<AlarmContext> {
             String text = alarmContext.getText();
             text = text.replaceAll("\n", "<br/>");
 
+            EmailDrive drive = Container.get(EmailDrive.class);
+
             if (mailAccount != null) {
-                EmailUtil.send(mailAccount, alarmEmailAttribute.getTos(), alarmContext.getTitle(), text, true);
+                drive.send(mailAccount, alarmEmailAttribute.getTos(), alarmContext.getTitle(), text, true);
             } else {
-                EmailUtil.send(alarmEmailAttribute.getTos(), alarmContext.getTitle(), text, true);
+                drive.send(alarmEmailAttribute.getTos(), alarmContext.getTitle(), text, true);
             }
 
         } catch (Exception e) {

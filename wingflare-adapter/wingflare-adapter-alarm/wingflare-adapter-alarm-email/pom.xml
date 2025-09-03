@@ -25,7 +25,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
         </dependency>
 
 
@@ -36,7 +35,12 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-email</artifactId>
+            <artifactId>wingflare-api-email</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-container</artifactId>
         </dependency>
 
     </dependencies>

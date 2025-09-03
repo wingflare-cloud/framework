@@ -1,11 +1,14 @@
 package com.wingflare.adapter.alarm.webhook;
 
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
+
 import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
+import com.wingflare.api.core.Charset;
+import com.wingflare.api.http.HttpMethod;
+import com.wingflare.api.http.HttpRequest;
+import com.wingflare.api.http.HttpResponse;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,17 +33,20 @@ public class WebhookAlarm implements AlarmDrive<AlarmContext> {
             webhookMessage.setText(alarmContext.getText());
             webhookMessage.setTitle(alarmContext.getTitle());
 
-                    HttpRequest post = HttpUtil.createPost(webhookAttribute.getWebhookUrl());
-            HttpRequest request = post.body(JSONObject.toJSONString(webhookMessage),
-                            webhookAttribute.getContentType())
-                    .header("secret", webhookAttribute.getSecret());
-            HttpResponse execute = request.execute();
+            HttpRequest request = Container.get(HttpRequest.class);
+            HttpResponse response = request
+                    .setUrl(webhookAttribute.getWebhookUrl())
+                    .setBody(JSONObject.toJSONString(webhookMessage))
+                    .setCharset(Charset.UTF_8)
+                    .setContentType(webhookAttribute.getContentType())
+                    .setMethod(HttpMethod.POST)
+                    .execute();
 
             if (log.isDebugEnabled()) {
-                log.debug("Sending Webhook alert result. webHook:[{}], result: [{}]", webhookAttribute.getWebhookUrl(), execute.body());
+                log.debug("Sending Webhook alert result. webHook:[{}], result: [{}]", webhookAttribute.getWebhookUrl(), request.getBody());
             }
 
-            if (execute.isOk()) {
+            if (response.isOk()) {
                 return true;
             }
         } catch (Exception e) {

@@ -24,6 +24,12 @@ public interface HttpResponse {
     boolean isText();
 
     /**
+     * 是否执行成功
+     * @return
+     */
+    boolean isOk();
+
+    /**
      * 获取响应编码
      * @return
      */

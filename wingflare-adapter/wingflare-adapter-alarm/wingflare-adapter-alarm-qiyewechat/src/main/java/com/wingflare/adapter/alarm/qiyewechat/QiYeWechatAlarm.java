@@ -3,13 +3,14 @@ package com.wingflare.adapter.alarm.qiyewechat;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
+import com.wingflare.api.core.Charset;
+import com.wingflare.api.http.HttpMethod;
+import com.wingflare.api.http.HttpRequest;
+import com.wingflare.api.http.HttpResponse;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,15 +46,21 @@ public class QiYeWechatAlarm implements AlarmDrive<AlarmContext> {
             messageContent.setContent(StrUtil.sub(getAtText(qiYeWechatAttribute.getAts(), alarmContext.getText(), AT_LABEL), 0, 4096));
             map.put("msgtype", "markdown");
             map.put("markdown", messageContent);
-            HttpRequest post = HttpUtil.createPost(webhookUrl);
-            HttpRequest request = post.body(JSONObject.toJSONString(map), ContentType.JSON.toString());
-            HttpResponse execute = request.execute();
 
-            if (execute.isOk()) {
+            HttpRequest request = Container.get(HttpRequest.class);
+            HttpResponse response = request
+                    .setUrl(webhookUrl)
+                    .setBody(JSONObject.toJSONString(map))
+                    .setCharset(Charset.UTF_8)
+                    .setContentType("application/json")
+                    .setMethod(HttpMethod.POST)
+                    .execute();
+
+            if (response.isOk()) {
                 return true;
             }
 
-            log.error("Sending Enterprise WeChat message failed: {}", execute.body());
+            log.error("Sending Enterprise WeChat message failed: {}", response);
             return false;
         } catch (Exception e) {
             log.error("Sending Enterprise WeChat message failed", e);

@@ -1,15 +1,14 @@
 package com.wingflare.adapter.alarm.lark;
 
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
+import com.wingflare.api.core.Charset;
+import com.wingflare.api.http.HttpMethod;
+import com.wingflare.api.http.HttpRequest;
+import com.wingflare.api.http.HttpResponse;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,15 +44,20 @@ public class LarkAlarm implements AlarmDrive<AlarmContext> {
             larkMessage.setMsgType("interactive");
             larkMessage.setCard(map);
 
-            HttpRequest post = HttpUtil.createPost(larkAttribute.getWebhookUrl());
-            HttpRequest request = post.body(JSONObject.toJSONString(larkMessage), ContentType.JSON.toString());
-            HttpResponse execute = request.execute();
+            HttpRequest request = Container.get(HttpRequest.class);
+            HttpResponse response = request
+                    .setUrl(larkAttribute.getWebhookUrl())
+                    .setBody(JSONObject.toJSONString(larkMessage))
+                    .setCharset(Charset.UTF_8)
+                    .setContentType("application/json")
+                    .setMethod(HttpMethod.POST)
+                    .execute();
 
-            if (execute.isOk()) {
+            if (response.isOk()) {
                 return true;
             }
 
-            log.error("Sending Lark message failed: {}", execute.body());
+            log.error("Sending Lark message failed: {}", response);
             return false;
         } catch (Exception e) {
             log.error("Sending Lark message failed", e);
@@ -104,7 +108,7 @@ public class LarkAlarm implements AlarmDrive<AlarmContext> {
     }
 
     public String getAtText(String text, List<String> ats) {
-        if (CollUtil.isEmpty(ats)) {
+        if (ats == null || ats.isEmpty()) {
             return "";
         }
 
@@ -112,7 +116,7 @@ public class LarkAlarm implements AlarmDrive<AlarmContext> {
         if (ats.stream().map(String::toLowerCase).anyMatch("all"::equals)) {
             sb.append(MessageFormat.format(AT_LABEL, "all"));
         } else {
-            ats.stream().filter(StrUtil::isNotBlank)
+            ats.stream().filter((str) -> str != null && !str.isBlank())
                     .forEach(at -> sb.append(MessageFormat.format(AT_LABEL, at)));
         }
         return sb.toString();

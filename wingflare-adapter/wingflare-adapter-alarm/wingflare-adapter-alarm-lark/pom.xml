@@ -25,7 +25,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -34,13 +33,13 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-http</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-http</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-container</artifactId>
         </dependency>
 
     </dependencies>

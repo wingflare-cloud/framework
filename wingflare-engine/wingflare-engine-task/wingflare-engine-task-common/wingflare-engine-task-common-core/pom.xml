@@ -62,11 +62,6 @@
             <artifactId>spring-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>jakarta.mail</groupId>
-            <artifactId>jakarta.mail-api</artifactId>
-        </dependency>
-
         <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -76,11 +71,6 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-http</artifactId>
         </dependency>
 
         <dependency>
