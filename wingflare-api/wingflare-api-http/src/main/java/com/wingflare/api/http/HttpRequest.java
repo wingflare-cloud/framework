@@ -44,6 +44,9 @@ public interface HttpRequest {
     // 添加多个URL查询参数
     HttpRequest addQueryParams(Map<String, String> params);
 
+    // 设置URL查询参数
+    HttpRequest setQueryParams(Map<String, String> params);
+
     // 获取所有查询参数
     Map<String, String> getQueryParams();
 
@@ -52,6 +55,9 @@ public interface HttpRequest {
 
     // 添加多个表单参数
     HttpRequest addFormParams(Map<String, String> params);
+
+    // 设置表单参数
+    HttpRequest setFormParams(Map<String, String> params);
 
     // 获取所有表单参数
     Map<String, String> getFormParams();
@@ -90,10 +96,10 @@ public interface HttpRequest {
     HttpRequest addCookies(Map<String, String> cookies);
 
     // 设置cookie
-    HttpRequest setCookie(HttpCookie cookie);
+    HttpRequest setCookie(Map<String, String> cookies);
 
     // 获取所有Cookie
-    HttpCookie getCookies();
+    Map<String, String> getCookies();
 
     // 设置是否跟随重定向
     HttpRequest setFollowRedirects(boolean follow);

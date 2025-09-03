@@ -5,6 +5,7 @@ import com.wingflare.api.core.Charset;
 import com.wingflare.api.core.MimeType;
 
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * http响应
@@ -71,7 +72,7 @@ public interface HttpResponse {
      * 获取cookie
      * @return
      */
-    HttpCookie getCookie();
+    List<HttpCookie> getCookie();
 
     /**
      * 获取响应流

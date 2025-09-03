@@ -2,7 +2,6 @@ package com.wingflare.adapter.spring.http;
 
 
 import com.wingflare.api.core.Charset;
-import com.wingflare.api.http.HttpCookie;
 import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
@@ -14,24 +13,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 
 public class SpringHttpRequest implements HttpRequest {
 
     private String url;
     private HttpMethod method;
-    private final HttpHeader header = new SpringHttpHeader();
+    private HttpHeader header = new SpringHttpHeader();
     private String contentType;
-    private final Map<String, String> queryParams = new HashMap<>();
-    private final Map<String, String> formParams = new HashMap<>();
+    private Map<String, String> queryParams = new HashMap<>();
+    private Map<String, String> formParams = new HashMap<>();
     private String body;
-    private final Map<String, File> files = new HashMap<>();
+    private Map<String, File> files = new HashMap<>();
     private int connectTimeout = 30000;
     private int readTimeout = 30000;
-    private final SpringHttpCookie cookie = new SpringHttpCookie("");
+    private Map<String, String> cookies = new HashMap<>();
     private boolean followRedirects = true;
     private Charset charset;
     private final RestTemplate restTemplate;
@@ -70,8 +71,7 @@ public class SpringHttpRequest implements HttpRequest {
 
     @Override
     public HttpRequest setHeader(HttpHeader header) {
-        ((SpringHttpHeader) this.header).getSpringHeaders()
-                .putAll(((SpringHttpHeader) header).getSpringHeaders());
+        this.header = header;
         return this;
     }
 
@@ -104,6 +104,12 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
+    public HttpRequest setQueryParams(Map<String, String> params) {
+        queryParams = params;
+        return this;
+    }
+
+    @Override
     public Map<String, String> getQueryParams() {
         return queryParams;
     }
@@ -117,6 +123,12 @@ public class SpringHttpRequest implements HttpRequest {
     @Override
     public HttpRequest addFormParams(Map<String, String> params) {
         formParams.putAll(params);
+        return this;
+    }
+
+    @Override
+    public HttpRequest setFormParams(Map<String, String> params) {
+        formParams = params;
         return this;
     }
 
@@ -144,7 +156,7 @@ public class SpringHttpRequest implements HttpRequest {
 
     @Override
     public HttpRequest setFiles(Map<String, File> files) {
-        this.files.putAll(files);
+        this.files = files;
         return this;
     }
 
@@ -177,7 +189,7 @@ public class SpringHttpRequest implements HttpRequest {
 
     @Override
     public HttpRequest addCookie(String name, String value) {
-        cookie.setValue(value);
+        cookies.put(name, value);
         return this;
     }
 
@@ -188,15 +200,14 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setCookie(HttpCookie cookie) {
-        this.cookie.setValue(cookie.getValue());
-        this.cookie.setExpiry(cookie.getExpiry());
+    public HttpRequest setCookie(Map<String, String> cookies) {
+        this.cookies = cookies;
         return this;
     }
 
     @Override
-    public HttpCookie getCookies() {
-        return cookie;
+    public Map<String, String> getCookies() {
+        return cookies;
     }
 
     @Override
@@ -234,7 +245,19 @@ public class SpringHttpRequest implements HttpRequest {
             }
         }
 
+        if (!cookies.isEmpty()) {
+            StringJoiner cookieJoiner = new StringJoiner(";");
+
+            for (Map.Entry<String, String> entry : cookies.entrySet()) {
+                cookieJoiner.add(entry.getKey() + "=" + entry.getValue());
+            }
+
+            String cookieHeaderValue = cookieJoiner.toString();
+            requestHeaders.set("Cookie", cookieHeaderValue);
+        }
+
         HttpEntity<?> requestEntity;
+
         if (!formParams.isEmpty() || !files.isEmpty()) {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             formParams.forEach(body::add);

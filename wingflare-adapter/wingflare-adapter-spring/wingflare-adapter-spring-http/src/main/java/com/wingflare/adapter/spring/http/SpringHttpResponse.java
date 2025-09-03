@@ -11,20 +11,44 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class SpringHttpResponse implements HttpResponse {
 
+    private static final Pattern COOKIE_PATTERN = Pattern.compile("(\\w+)(=([^;]+))?;?");
     private final ResponseEntity<String> responseEntity;
     private final HttpHeader header;
-    private final HttpCookie cookie;
+    private final List<HttpCookie> cookies;
 
     public SpringHttpResponse(ResponseEntity<String> responseEntity) {
         this.responseEntity = responseEntity;
         this.header = new SpringHttpHeader();
+
+        List<String> setCookieHeaders = responseEntity.getHeaders().get("Set-Cookie");
+
+        if (setCookieHeaders != null && !setCookieHeaders.isEmpty()) {
+            cookies = new ArrayList<>();
+            for (String setCookie : setCookieHeaders) {
+                SpringHttpCookie springCookie = parseSingleCookie(setCookie);
+                if (springCookie != null) {
+                    cookies.add(springCookie);
+                }
+            }
+
+            responseEntity.getHeaders().remove("Set-Cookie");
+        } else {
+            cookies = null;
+        }
+
         responseEntity.getHeaders().forEach((k, v) ->
                 v.forEach(val -> this.header.addHeader(k, val)));
-        this.cookie = new SpringHttpCookie("");
     }
 
     @Override
@@ -94,8 +118,8 @@ public class SpringHttpResponse implements HttpResponse {
     }
 
     @Override
-    public HttpCookie getCookie() {
-        return cookie;
+    public List<HttpCookie> getCookie() {
+        return cookies;
     }
 
     @Override
@@ -111,6 +135,63 @@ public class SpringHttpResponse implements HttpResponse {
     @Override
     public boolean isStreamingSupported() {
         return false;
+    }
+
+    private static SpringHttpCookie parseSingleCookie(String setCookie) {
+        Matcher matcher = COOKIE_PATTERN.matcher(setCookie);
+        SpringHttpCookie cookie = null;
+
+        while (matcher.find()) {
+            String key = matcher.group(1);
+            String value = matcher.group(3); // 可能为null（如Secure、HttpOnly等标志）
+
+            if (cookie == null) {
+                // 第一个键值对是Cookie的名称和值（格式：name=value）
+                if (key == null || value == null) {
+                    return null; // 无效的Cookie格式
+                }
+                cookie = new SpringHttpCookie(key);
+                cookie.setValue(value);
+            } else {
+                // 解析Cookie属性（Expires、Path、Domain等）
+                parseCookieAttribute(cookie, key, value);
+            }
+        }
+
+        return cookie;
+    }
+
+    /**
+     * 解析Cookie属性并设置到SpringHttpCookie对象
+     */
+    private static void parseCookieAttribute(SpringHttpCookie cookie, String key, String value) {
+        switch (key.toLowerCase()) {
+            case "expires":
+                // 解析Expires（格式：EEE, dd-MMM-yyyy HH:mm:ss zzz）
+                if (value != null) {
+                    ZonedDateTime zonedDateTime = ZonedDateTime.parse(
+                            value,
+                            DateTimeFormatter.RFC_1123_DATE_TIME.withZone(ZoneId.of("GMT"))
+                    );
+                    cookie.setExpiry(zonedDateTime.toInstant());
+                }
+                break;
+            case "path":
+                cookie.setPath(value);
+                break;
+            case "domain":
+                cookie.setDomain(value);
+                break;
+            case "secure":
+                cookie.setSecure(true);
+                break;
+            case "httponly":
+                cookie.setHttpOnly(true);
+                break;
+            case "samesite":
+                cookie.setSameSite(value);
+                break;
+        }
     }
 
 }
