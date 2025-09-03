@@ -11,6 +11,8 @@ import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.lib.container.Container;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +26,7 @@ import java.util.regex.Pattern;
 public abstract class AbstractHttpExecutor implements InitializingBean {
 
     private static final int DEFAULT_TIMEOUT = 60;
+    private static final Logger log = LoggerFactory.getLogger(AbstractHttpExecutor.class);
     private static TaskProperties taskProperties;
     private static final String DEFAULT_REQUEST_METHOD = "GET";
     private static final String POST_REQUEST_METHOD = "POST";

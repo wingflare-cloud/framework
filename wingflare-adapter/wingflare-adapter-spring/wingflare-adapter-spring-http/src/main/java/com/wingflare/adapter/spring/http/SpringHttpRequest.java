@@ -2,6 +2,7 @@ package com.wingflare.adapter.spring.http;
 
 
 import com.wingflare.api.core.Charset;
+import com.wingflare.api.http.HttpCookie;
 import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
@@ -187,14 +188,14 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setCookie(com.wingflare.api.http.HttpCookie cookie) {
+    public HttpRequest setCookie(HttpCookie cookie) {
         this.cookie.setValue(cookie.getValue());
         this.cookie.setExpiry(cookie.getExpiry());
         return this;
     }
 
     @Override
-    public com.wingflare.api.http.HttpCookie getCookies() {
+    public HttpCookie getCookies() {
         return cookie;
     }
 
@@ -225,7 +226,12 @@ public class SpringHttpRequest implements HttpRequest {
         HttpHeaders requestHeaders = ((SpringHttpHeader) header).getSpringHeaders();
 
         if (contentType != null) {
-            requestHeaders.setContentType(MediaType.parseMediaType(contentType));
+            if (charset != null) {
+                requestHeaders.setContentType(
+                        MediaType.parseMediaType(String.format("%s; charset=%s", contentType, charset.name())));
+            } else {
+                requestHeaders.setContentType(MediaType.parseMediaType(contentType));
+            }
         }
 
         HttpEntity<?> requestEntity;
