@@ -55,25 +55,27 @@ public class EmailAlarm implements AlarmDrive<AlarmContext> {
     private void initMailAccount() {
         if (!isInt) {
             synchronized (this) {
-                isInt = true;
-                AlarmEmailProperties alarmEmailProperties = Container.get(AlarmEmailProperties.class);
+                if (!isInt) {
+                    isInt = true;
+                    AlarmEmailProperties alarmEmailProperties = Container.get(AlarmEmailProperties.class);
 
-                if (alarmEmailProperties != null) {
-                    mailAccount = new MailAccount();
-                    mailAccount.setHost(alarmEmailProperties.getHost());
-                    mailAccount.setPort(alarmEmailProperties.getPort());
-                    mailAccount.setAuth(Optional.ofNullable(alarmEmailProperties.getAuth()).orElse(Boolean.FALSE));
-                    mailAccount.setFrom(alarmEmailProperties.getFrom());
-                    mailAccount.setUser(alarmEmailProperties.getUser());
-                    mailAccount.setPass(alarmEmailProperties.getPass());
-                    mailAccount.setSocketFactoryPort(Optional.ofNullable(alarmEmailProperties.getPort()).orElse(465));
-                    mailAccount.setStarttlsEnable(Optional.ofNullable(alarmEmailProperties.getStarttlsEnable()).orElse(Boolean.FALSE));
-                    mailAccount.setSslEnable(Optional.ofNullable(alarmEmailProperties.getSslEnable()).orElse(Boolean.FALSE));
-                    mailAccount.setTimeout(Optional.ofNullable(alarmEmailProperties.getTimeout()).orElse(0L));
-                    mailAccount.setConnectionTimeout(Optional.ofNullable(alarmEmailProperties.getConnectionTimeout()).orElse(0L));
+                    if (alarmEmailProperties != null) {
+                        mailAccount = new MailAccount();
+                        mailAccount.setHost(alarmEmailProperties.getHost());
+                        mailAccount.setPort(alarmEmailProperties.getPort());
+                        mailAccount.setAuth(Optional.ofNullable(alarmEmailProperties.getAuth()).orElse(Boolean.FALSE));
+                        mailAccount.setFrom(alarmEmailProperties.getFrom());
+                        mailAccount.setUser(alarmEmailProperties.getUser());
+                        mailAccount.setPass(alarmEmailProperties.getPass());
+                        mailAccount.setSocketFactoryPort(Optional.ofNullable(alarmEmailProperties.getPort()).orElse(465));
+                        mailAccount.setStarttlsEnable(Optional.ofNullable(alarmEmailProperties.getStarttlsEnable()).orElse(Boolean.FALSE));
+                        mailAccount.setSslEnable(Optional.ofNullable(alarmEmailProperties.getSslEnable()).orElse(Boolean.FALSE));
+                        mailAccount.setTimeout(Optional.ofNullable(alarmEmailProperties.getTimeout()).orElse(0L));
+                        mailAccount.setConnectionTimeout(Optional.ofNullable(alarmEmailProperties.getConnectionTimeout()).orElse(0L));
 
-                    if (alarmEmailProperties.getProperties() != null) {
-                        alarmEmailProperties.getProperties().forEach(mailAccount::setCustomProperty);
+                        if (alarmEmailProperties.getProperties() != null) {
+                            alarmEmailProperties.getProperties().forEach(mailAccount::setCustomProperty);
+                        }
                     }
                 }
             }
