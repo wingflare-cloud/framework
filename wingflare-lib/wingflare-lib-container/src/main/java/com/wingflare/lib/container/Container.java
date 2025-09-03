@@ -7,16 +7,16 @@ import java.util.ServiceLoader;
 /**
  * 容器工具类
  */
-public class DiUtil {
+public class Container {
 
     private static volatile ContainerDrive container;
 
-    private DiUtil() {
+    private Container() {
     }
 
     private static ContainerDrive getContainer() {
         if (container == null) {
-            synchronized (DiUtil.class) {
+            synchronized (Container.class) {
                 if (container == null) {
                     ServiceLoader<ContainerDrive> drives = ServiceLoader.load(ContainerDrive.class);
                     for (ContainerDrive nowDrive : drives) {
@@ -65,6 +65,26 @@ public class DiUtil {
      */
     public static void set(Object bean) {
         getContainer().set(bean);
+    }
+
+    /**
+     * 是否存在bean对象
+     * @param clz
+     * @return
+     * @param <T>
+     */
+    public static <T> boolean has(Class<T> clz) {
+        return getContainer().has(clz);
+    }
+
+    /**
+     * 是否存在bean对象
+     * @param beanName
+     * @return
+     * @param <T>
+     */
+    public static <T> boolean has(String beanName) {
+        return getContainer().has(beanName);
     }
 
 }

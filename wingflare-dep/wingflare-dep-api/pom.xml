@@ -16,6 +16,12 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-api-core</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-api-config</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
@@ -35,6 +41,12 @@
             <dependency>
                 <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-api-email</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-api-http</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

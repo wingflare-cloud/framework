@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
 import com.wingflare.api.email.MailAccount;
-import com.wingflare.lib.container.DiUtil;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.email.EmailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class EmailAlarm implements AlarmDrive<AlarmContext> {
         if (!isInt) {
             synchronized (this) {
                 isInt = true;
-                AlarmEmailProperties alarmEmailProperties = DiUtil.get(AlarmEmailProperties.class);
+                AlarmEmailProperties alarmEmailProperties = Container.get(AlarmEmailProperties.class);
 
                 if (alarmEmailProperties != null) {
                     mailAccount = new MailAccount();

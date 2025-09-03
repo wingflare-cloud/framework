@@ -35,4 +35,20 @@ public interface ContainerDrive {
      */
     void set(Object bean);
 
+    /**
+     * 是否存在bean对象
+     * @param clz
+     * @return
+     * @param <T>
+     */
+    <T> boolean has(Class<T> clz);
+
+    /**
+     * 是否存在bean对象
+     * @param beanName
+     * @return
+     * @param <T>
+     */
+    <T> boolean has(String beanName);
+
 }
