@@ -15,7 +15,7 @@ import java.util.Objects;
 @TaskExecutor(name = "HttpExecutor")
 public class HttpExecutor extends AbstractHttpExecutor {
 
-    public ExecuteResult jobExecute(JobArgs jobArgs) {
+    public ExecuteResult taskExecute(JobArgs jobArgs) {
         Object jobParams = jobArgs.getJobParams();
         HttpParams httpParams = JsonUtil.parseObject((String) jobParams, HttpParams.class);
         if (Objects.nonNull(jobArgs.getWfContext())) {

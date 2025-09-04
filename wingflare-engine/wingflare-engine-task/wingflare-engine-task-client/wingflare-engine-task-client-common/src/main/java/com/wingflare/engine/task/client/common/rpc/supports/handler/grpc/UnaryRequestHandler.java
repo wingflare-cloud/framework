@@ -36,17 +36,17 @@ public class UnaryRequestHandler implements ServerCalls.UnaryMethod<TaskGrpcRequ
             dispatcherThreadPool.getCorePoolSize(), dispatcherThreadPool.getMaximumPoolSize(),
             dispatcherThreadPool.getKeepAliveTime(),
             dispatcherThreadPool.getTimeUnit(), new LinkedBlockingQueue<>(dispatcherThreadPool.getQueueCapacity()),
-            new CustomizableThreadFactory("snail-grpc-server-"));
+            new CustomizableThreadFactory("task-engine-grpc-server-"));
     }
 
     @Override
-    public void invoke(final TaskGrpcRequest snailJobRequest, final StreamObserver<GrpcResult> streamObserver) {
+    public void invoke(final TaskGrpcRequest taskGrpcRequest, final StreamObserver<GrpcResult> streamObserver) {
 
-        Metadata metadata = snailJobRequest.getMetadata();
+        Metadata metadata = taskGrpcRequest.getMetadata();
 
 
         GrpcRequest grpcRequest = new GrpcRequest(new HttpResponse(), new HttpRequest(metadata.getHeadersMap(), metadata.getUri()));
-        grpcRequest.setSnailJobRequest(snailJobRequest);
+        grpcRequest.setSnailJobRequest(taskGrpcRequest);
 
         // 执行任务
         dispatcherThreadPool.execute(() -> {

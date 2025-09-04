@@ -6,7 +6,6 @@ import com.wingflare.engine.task.datasource.template.persistence.dataobject.comm
 import com.wingflare.engine.task.datasource.template.persistence.dataobject.common.PageQueryDO;
 import com.wingflare.engine.task.datasource.template.persistence.dataobject.common.PageResponseDO;
 import com.wingflare.engine.task.datasource.template.persistence.dataobject.common.UpdateQueryDO;
-import com.wingflare.task.datasource.template.persistence.dataobject.common.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import java.io.Serializable;

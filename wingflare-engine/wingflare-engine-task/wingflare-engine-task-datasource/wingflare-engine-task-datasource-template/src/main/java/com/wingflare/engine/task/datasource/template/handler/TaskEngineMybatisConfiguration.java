@@ -9,7 +9,6 @@ import com.wingflare.engine.task.datasource.template.persistence.mapper.RetrySum
 import com.wingflare.engine.task.datasource.template.persistence.mapper.RetryTaskLogMessageMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.RetryTaskMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.ServerNodeMapper;
-import com.wingflare.task.datasource.template.persistence.mapper.*;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import org.apache.ibatis.mapping.MappedStatement;
 

@@ -30,8 +30,8 @@ import java.util.List;
  * @date : 2023-08-04 12:37
  */
 @Configuration
-@ComponentScan("com.wingflare.task.datasource.template.**")
-@MapperScan(value = "com.wingflare.task.datasource.template.persistence.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
+@ComponentScan("com.wingflare.engine.task.datasource.template.**")
+@MapperScan(value = "com.wingflare.engine.task.datasource.template.persistence.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class TaskEngineTemplateAutoConfiguration {
 
     @Bean("sqlSessionFactory")

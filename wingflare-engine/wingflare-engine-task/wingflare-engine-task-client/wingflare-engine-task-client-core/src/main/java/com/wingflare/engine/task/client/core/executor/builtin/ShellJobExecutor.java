@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @TaskExecutor(name = "shellJobExecutor")
 public class ShellJobExecutor extends AbstractShellExecutor {
 
-    public ExecuteResult jobExecute(JobArgs jobArgs) {
+    public ExecuteResult taskExecute(JobArgs jobArgs) {
         Object jobParams = jobArgs.getJobParams();
         ScriptParams scriptParams = JsonUtil.parseObject((String) jobParams, ScriptParams.class);
         return process(jobArgs.getJobId(), scriptParams);
