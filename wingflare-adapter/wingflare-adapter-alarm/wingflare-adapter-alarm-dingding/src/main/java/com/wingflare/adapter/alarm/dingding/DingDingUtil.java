@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.wingflare.api.core.Charset;
+import com.wingflare.api.core.MimeType;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;
@@ -76,8 +77,7 @@ public class DingDingUtil {
             HttpResponse response = request
                     .setUrl(url)
                     .setBody(content)
-                    .setCharset(Charset.UTF_8)
-                    .setContentType("application/json")
+                    .setContentType(MimeType.JSON.getContentType(Charset.UTF_8))
                     .setMethod(HttpMethod.POST)
                     .execute();
 

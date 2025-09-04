@@ -5,7 +5,7 @@ import com.wingflare.engine.task.common.model.response.base.JobResponse;
 import com.wingflare.engine.task.server.openapi.service.JobApiService;
 import com.wingflare.engine.task.server.openapi.util.OpenApiSessionUtils;
 import com.wingflare.engine.task.server.service.service.impl.AbstractJobService;
-import com.wingflare.task.datasource.template.persistence.po.Job;
+import com.wingflare.engine.task.datasource.template.persistence.po.Job;
 import org.springframework.stereotype.Service;
 
 /**

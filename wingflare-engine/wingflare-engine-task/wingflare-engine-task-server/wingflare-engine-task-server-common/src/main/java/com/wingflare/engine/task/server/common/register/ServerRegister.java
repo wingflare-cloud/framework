@@ -14,7 +14,7 @@ import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;
 import com.wingflare.engine.task.server.common.dto.ServerNodeExtAttrs;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
-import com.wingflare.task.datasource.template.persistence.po.ServerNode;
+import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import org.springframework.boot.autoconfigure.web.ServerProperties;

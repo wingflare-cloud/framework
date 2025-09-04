@@ -11,7 +11,7 @@ import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter
 import com.wingflare.engine.task.server.common.handler.GetHttpRequestHandler;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.register.ClientRegister;
-import com.wingflare.task.datasource.template.persistence.po.ServerNode;
+import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import org.springframework.stereotype.Component;

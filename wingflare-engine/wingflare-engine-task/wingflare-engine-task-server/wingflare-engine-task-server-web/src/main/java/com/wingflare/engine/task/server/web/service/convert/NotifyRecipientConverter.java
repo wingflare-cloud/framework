@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.web.service.convert;
 import com.wingflare.engine.task.server.web.model.request.NotifyRecipientRequestVO;
 import com.wingflare.engine.task.server.web.model.response.CommonLabelValueResponseVO;
 import com.wingflare.engine.task.server.web.model.response.NotifyRecipientResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.NotifyRecipient;
+import com.wingflare.engine.task.datasource.template.persistence.po.NotifyRecipient;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

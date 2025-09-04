@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.job.support.callback;
 
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
-import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
 import org.springframework.stereotype.Component;
 
 /**

@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.web.config;
 
 import com.wingflare.engine.task.common.core.exception.TaskAuthenticationException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.task.datasource.template.persistence.po.SystemUser;
+import com.wingflare.engine.task.datasource.template.persistence.po.SystemUser;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import jakarta.websocket.HandshakeResponse;

@@ -29,8 +29,8 @@ import com.wingflare.engine.task.server.job.support.alarm.event.JobTaskFailAlarm
 import com.wingflare.engine.task.server.job.support.callback.ClientCallbackContext;
 import com.wingflare.engine.task.server.job.support.callback.ClientCallbackFactory;
 import com.wingflare.lib.core.Builder;
-import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryException;
 import com.google.common.collect.Maps;

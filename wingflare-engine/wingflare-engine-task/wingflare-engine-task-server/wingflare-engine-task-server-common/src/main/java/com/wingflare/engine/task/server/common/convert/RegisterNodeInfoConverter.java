@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.convert;
 
 import com.wingflare.engine.task.server.common.dto.RegisterNodeInfo;
-import com.wingflare.task.datasource.template.persistence.po.ServerNode;
+import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

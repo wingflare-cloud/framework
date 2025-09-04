@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
 
-import com.wingflare.lib.task.annotation.TaskExecutor;
+import com.wingflare.api.task.annotation.TaskExecutor;
 import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;

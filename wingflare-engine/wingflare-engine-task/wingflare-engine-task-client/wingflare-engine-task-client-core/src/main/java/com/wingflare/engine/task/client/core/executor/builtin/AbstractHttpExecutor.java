@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
 
+import com.wingflare.api.core.MimeType;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;
@@ -186,7 +187,7 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
 
     private void setDefaultMediaType(HttpParams httpParams) {
         if (!DEFAULT_REQUEST_METHOD.equals(httpParams.getMethod()) && JsonUtil.isValidJson(httpParams.getBody()) && StringUtils.isEmpty(httpParams.getMediaType())) {
-            httpParams.setMediaType("application/json");
+            httpParams.setMediaType(MimeType.JSON.getContentType());
             logWarn("Using 'application/json' as media type");
         }
     }

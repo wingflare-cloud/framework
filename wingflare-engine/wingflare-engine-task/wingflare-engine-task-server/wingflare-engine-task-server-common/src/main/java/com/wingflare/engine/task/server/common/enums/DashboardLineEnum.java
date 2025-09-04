@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.enums;
 
-import com.wingflare.task.datasource.template.enums.DbTypeEnum;
-import com.wingflare.task.datasource.template.utils.DbUtils;
+import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
+import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 
 /**
  * 年、月、日

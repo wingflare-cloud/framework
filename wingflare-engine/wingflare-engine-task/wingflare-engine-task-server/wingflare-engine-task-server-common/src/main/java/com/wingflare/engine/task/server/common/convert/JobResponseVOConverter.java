@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.common.vo.JobResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.Job;
+import com.wingflare.engine.task.datasource.template.persistence.po.Job;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

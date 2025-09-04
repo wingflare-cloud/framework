@@ -10,8 +10,8 @@ import com.wingflare.engine.task.server.job.dto.WorkflowTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFailAlarmEvent;
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
 import com.wingflare.lib.core.Builder;
-import com.wingflare.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper;
-import com.wingflare.task.datasource.template.persistence.po.WorkflowTaskBatch;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowTaskBatch;
 import io.netty.util.Timeout;
 
 import java.text.MessageFormat;

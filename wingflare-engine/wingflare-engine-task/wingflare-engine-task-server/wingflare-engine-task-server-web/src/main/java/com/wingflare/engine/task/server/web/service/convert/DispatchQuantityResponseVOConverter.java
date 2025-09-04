@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.web.model.response.DashboardLineResponseVO;
-import com.wingflare.task.datasource.template.persistence.dataobject.DashboardLineResponseDO;
+import com.wingflare.engine.task.datasource.template.persistence.dataobject.DashboardLineResponseDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

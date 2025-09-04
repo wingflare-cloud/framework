@@ -31,6 +31,10 @@
         <module>wingflare-api-container</module>
         <module>wingflare-api-http</module>
         <module>wingflare-api-core</module>
+        <module>wingflare-api-lock</module>
+        <module>wingflare-api-cache</module>
+        <module>wingflare-api-thread-pool</module>
+        <module>wingflare-api-task</module>
     </modules>
 
 </project>

@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.web.model.response.RetryDeadLetterResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.RetryDeadLetter;
+import com.wingflare.engine.task.datasource.template.persistence.po.RetryDeadLetter;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

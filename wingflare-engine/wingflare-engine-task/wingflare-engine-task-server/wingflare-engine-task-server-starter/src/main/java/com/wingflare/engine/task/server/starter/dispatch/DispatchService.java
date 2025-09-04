@@ -3,6 +3,7 @@ package com.wingflare.engine.task.server.starter.dispatch;
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
+import com.wingflare.engine.task.datasource.template.persistence.po.GroupConfig;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.dto.DistributeInstance;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
@@ -74,7 +75,7 @@ public class DispatchService implements Lifecycle {
     /**
      * 分配当前POD负责消费的桶
      *
-     * @return {@link  com.wingflare.task.datasource.template.persistence.po.GroupConfig} 组上下文
+     * @return {@link  GroupConfig} 组上下文
      */
     private Set<Integer> getConsumerBucket() {
         return DistributeInstance.INSTANCE.getConsumerBucket();

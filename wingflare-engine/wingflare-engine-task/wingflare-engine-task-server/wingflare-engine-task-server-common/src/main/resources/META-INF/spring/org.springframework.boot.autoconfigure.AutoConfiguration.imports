@@ -1,1 +1,1 @@
-com.wingflare.engine.task.server.common.config.SnailJobServerCommonAutoConfiguration
+com.wingflare.engine.task.server.common.config.TaskServerCommonAutoConfiguration

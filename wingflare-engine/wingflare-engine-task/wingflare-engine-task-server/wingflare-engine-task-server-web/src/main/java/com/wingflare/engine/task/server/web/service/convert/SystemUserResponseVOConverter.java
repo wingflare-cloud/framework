@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.web.model.request.UserSessionVO;
 import com.wingflare.engine.task.server.web.model.response.SystemUserResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.SystemUser;
+import com.wingflare.engine.task.datasource.template.persistence.po.SystemUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

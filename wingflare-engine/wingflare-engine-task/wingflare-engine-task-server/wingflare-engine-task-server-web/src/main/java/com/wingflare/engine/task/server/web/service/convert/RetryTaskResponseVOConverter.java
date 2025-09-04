@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.web.model.response.RetryResponseWebVO;
-import com.wingflare.task.datasource.template.persistence.po.Retry;
+import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

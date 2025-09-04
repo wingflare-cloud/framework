@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.common.rpc.supports.handler.grpc;
 
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
-import com.wingflare.engine.task.client.common.rpc.supports.handler.SnailDispatcherRequestHandler;
+import com.wingflare.engine.task.client.common.rpc.supports.handler.TaskEngineDispatcherRequestHandler;
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpRequest;
 import com.wingflare.engine.task.client.common.rpc.supports.http.HttpResponse;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
@@ -27,10 +27,10 @@ public class UnaryRequestHandler implements ServerCalls.UnaryMethod<TaskGrpcRequ
 
 
     private final ThreadPoolExecutor dispatcherThreadPool;
-    private final SnailDispatcherRequestHandler dispatcher;
+    private final TaskEngineDispatcherRequestHandler dispatcher;
 
     public UnaryRequestHandler(final ThreadPoolConfig dispatcherThreadPool,
-        final SnailDispatcherRequestHandler handler) {
+        final TaskEngineDispatcherRequestHandler handler) {
         this.dispatcher = handler;
         this.dispatcherThreadPool = new ThreadPoolExecutor(
             dispatcherThreadPool.getCorePoolSize(), dispatcherThreadPool.getMaximumPoolSize(),

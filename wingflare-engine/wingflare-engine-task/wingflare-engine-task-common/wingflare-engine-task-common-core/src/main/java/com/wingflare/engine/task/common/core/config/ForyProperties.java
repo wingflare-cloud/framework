@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2025/8/11 22:23
  */
 @Configuration
-@ConfigurationProperties(value = "snail-job.fory")
+@ConfigurationProperties(value = "task.fory")
 public class ForyProperties {
     /**
      * 解压大小

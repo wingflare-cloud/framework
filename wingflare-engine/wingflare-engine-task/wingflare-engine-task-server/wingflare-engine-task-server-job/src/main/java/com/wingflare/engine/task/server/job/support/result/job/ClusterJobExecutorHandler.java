@@ -2,8 +2,8 @@ package com.wingflare.engine.task.server.job.support.result.job;
 
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
-import com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
-import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
 import org.springframework.stereotype.Component;
 
 /**

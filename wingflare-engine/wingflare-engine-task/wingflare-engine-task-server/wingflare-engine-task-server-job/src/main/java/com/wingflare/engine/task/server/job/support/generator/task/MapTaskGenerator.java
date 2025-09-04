@@ -3,8 +3,8 @@ package com.wingflare.engine.task.server.job.support.generator.task;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.job.dto.MapReduceArgsStrDTO;
-import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 

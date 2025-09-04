@@ -4,7 +4,7 @@ import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.NotifyConfigQueryVO;
 import com.wingflare.engine.task.server.web.model.request.NotifyConfigRequestVO;
 import com.wingflare.engine.task.server.web.model.response.NotifyConfigResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.NotifyConfig;
+import com.wingflare.engine.task.datasource.template.persistence.po.NotifyConfig;
 
 import java.util.List;
 import java.util.Set;

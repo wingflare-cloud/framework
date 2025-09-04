@@ -13,7 +13,7 @@ import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.util.ClientInfoUtils;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Component;
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobTaskBatchMapper">
+<mapper namespace="com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper">
 
     <select id="selectJobBatchPageList"
-        parameterType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchQueryDO"
-        resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchResponseDO">
+        parameterType="com.wingflare.engine.task.datasource.template.persistence.dataobject.JobBatchQueryDO"
+        resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.JobBatchResponseDO">
         SELECT batch.*,
                job.job_name,
                job.task_type,
@@ -18,7 +18,7 @@
     </select>
 
     <select id="selectJobBatchSummaryList"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO">
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO">
         SELECT namespace_id                                             AS namespaceId,
                job_id                                                   AS jobId,
                group_name                                               AS groupName,
@@ -35,7 +35,7 @@
     </select>
 
     <select id="selectWorkflowTaskBatchSummaryList"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO">
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.JobBatchSummaryResponseDO">
         SELECT namespace_id                                             AS namespaceId,
                workflow_id                                              AS jobId,
                group_name                                               AS groupName,
@@ -52,7 +52,7 @@
     </select>
 
     <select id="selectJobBatchListByIds"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.JobBatchResponseDO">
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.JobBatchResponseDO">
         SELECT batch.*,
                job.job_name,
                job.task_type,

@@ -4,7 +4,7 @@ import com.wingflare.engine.task.server.web.annotation.LoginRequired;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.JobExecutorQueryVO;
 import com.wingflare.engine.task.server.web.service.JobExecutorService;
-import com.wingflare.task.datasource.template.persistence.po.JobExecutor;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobExecutor;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.DeleteMapping;

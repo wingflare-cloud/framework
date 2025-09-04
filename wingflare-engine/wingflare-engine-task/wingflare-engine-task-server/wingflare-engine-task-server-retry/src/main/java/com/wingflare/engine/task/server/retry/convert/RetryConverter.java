@@ -2,7 +2,7 @@ package com.wingflare.engine.task.server.retry.convert;
 
 import com.wingflare.engine.task.server.retry.dto.RetryTaskPrepareDTO;
 import com.wingflare.engine.task.server.retry.dto.TaskStopJobDTO;
-import com.wingflare.task.datasource.template.persistence.po.Retry;
+import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

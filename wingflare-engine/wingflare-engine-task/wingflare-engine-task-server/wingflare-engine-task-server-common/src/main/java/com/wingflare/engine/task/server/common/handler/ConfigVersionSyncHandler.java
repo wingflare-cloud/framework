@@ -8,7 +8,7 @@ import com.wingflare.engine.task.server.common.client.CommonRpcClient;
 import com.wingflare.engine.task.server.common.dto.ConfigSyncTask;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
 import com.wingflare.engine.task.server.common.rpc.client.RequestBuilder;
-import com.wingflare.task.datasource.template.access.AccessTemplate;
+import com.wingflare.engine.task.datasource.template.access.AccessTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;

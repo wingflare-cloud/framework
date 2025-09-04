@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.service.convert;
 
 import com.wingflare.engine.task.common.model.response.base.RetryResponse;
-import com.wingflare.task.datasource.template.persistence.po.Retry;
+import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

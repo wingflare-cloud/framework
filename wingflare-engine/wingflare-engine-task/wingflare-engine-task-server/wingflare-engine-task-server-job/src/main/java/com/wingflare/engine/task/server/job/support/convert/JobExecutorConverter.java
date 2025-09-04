@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.convert;
 
 import com.wingflare.engine.task.common.model.request.JobExecutorRequest;
-import com.wingflare.task.datasource.template.persistence.po.JobExecutor;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobExecutor;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

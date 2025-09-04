@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
 import com.wingflare.api.core.Charset;
+import com.wingflare.api.core.MimeType;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;
@@ -48,8 +49,7 @@ public class LarkAlarm implements AlarmDrive<AlarmContext> {
             HttpResponse response = request
                     .setUrl(larkAttribute.getWebhookUrl())
                     .setBody(JSONObject.toJSONString(larkMessage))
-                    .setCharset(Charset.UTF_8)
-                    .setContentType("application/json")
+                    .setContentType(MimeType.JSON.getContentType(Charset.UTF_8))
                     .setMethod(HttpMethod.POST)
                     .execute();
 

@@ -8,9 +8,9 @@ import com.wingflare.engine.task.server.job.support.block.workflow.WorkflowBlock
 import com.wingflare.engine.task.server.job.support.executor.workflow.WorkflowExecutorContext;
 import com.wingflare.engine.task.server.job.support.generator.batch.JobTaskBatchGeneratorContext;
 import com.wingflare.engine.task.server.job.support.generator.batch.WorkflowTaskBatchGeneratorContext;
-import com.wingflare.task.datasource.template.persistence.po.Workflow;
-import com.wingflare.task.datasource.template.persistence.po.WorkflowNode;
-import com.wingflare.task.datasource.template.persistence.po.WorkflowTaskBatch;
+import com.wingflare.engine.task.datasource.template.persistence.po.Workflow;
+import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowNode;
+import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowTaskBatch;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

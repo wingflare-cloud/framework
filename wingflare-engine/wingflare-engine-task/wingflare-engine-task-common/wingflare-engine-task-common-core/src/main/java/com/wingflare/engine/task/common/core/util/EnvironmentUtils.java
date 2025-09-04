@@ -23,7 +23,7 @@ public class EnvironmentUtils {
 
         Environment environment = SnailSpringContext.getBean(Environment.class);
         if (Objects.nonNull(environment)) {
-            return environment.getProperty("snail.job.log.status", Boolean.class, Boolean.TRUE);
+            return environment.getProperty("task.job.log.status", Boolean.class, Boolean.TRUE);
         }
 
         return Boolean.TRUE;

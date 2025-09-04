@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.WorkflowMapper">
+<mapper namespace="com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowMapper">
 
     <update id="updateBatchNextTriggerAtById" parameterType="java.util.List">
         UPDATE wf_task_workflow

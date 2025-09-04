@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.web.model.response.JobNotifyConfigResponseVO;
-import com.wingflare.task.datasource.template.persistence.dataobject.JobNotifyConfigResponseDO;
-import com.wingflare.task.datasource.template.persistence.po.JobNotifyConfig;
+import com.wingflare.engine.task.datasource.template.persistence.dataobject.JobNotifyConfigResponseDO;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobNotifyConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

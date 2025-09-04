@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobExecutorMapper">
+<mapper namespace="com.wingflare.engine.task.datasource.template.persistence.mapper.JobExecutorMapper">
 
     <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="false">
         INSERT INTO wf_task_job_executor (namespace_id, group_name, executor_info, executor_type, create_dt)

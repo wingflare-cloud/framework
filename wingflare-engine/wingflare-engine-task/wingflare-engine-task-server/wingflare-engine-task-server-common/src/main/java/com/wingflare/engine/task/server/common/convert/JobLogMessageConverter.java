@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.convert;
 
 import com.wingflare.engine.task.common.model.request.JobLogTaskRequest;
-import com.wingflare.task.datasource.template.persistence.dataobject.log.JobLogMessageDO;
+import com.wingflare.engine.task.datasource.template.persistence.dataobject.log.JobLogMessageDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

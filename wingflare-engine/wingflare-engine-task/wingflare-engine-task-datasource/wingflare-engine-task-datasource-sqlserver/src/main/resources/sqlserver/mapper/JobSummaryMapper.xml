@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.JobSummaryMapper">
+<mapper namespace="com.wingflare.engine.task.datasource.template.persistence.mapper.JobSummaryMapper">
 
     <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO wf_task_job_summary (namespace_id, group_name, business_id, trigger_at, system_task_type, success_num,
@@ -56,7 +56,7 @@
     </update>
 
     <select id="selectJobLineList"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.DashboardLineResponseDO">
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.DashboardLineResponseDO">
         SELECT createDt                                                         AS createDt,
                ISNULL(SUM(success_num), 0)                                      AS success,
                ISNULL(SUM(stop_num), 0)                                         AS stop,
@@ -76,7 +76,7 @@
     </select>
 
     <select id="selectJobTask"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.DashboardCardResponseDO$JobTask">
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.DashboardCardResponseDO$JobTask">
         SELECT ISNULL(SUM(success_num), 0)                                      AS successNum,
                ISNULL(SUM(stop_num), 0)                                         AS stopNum,
                ISNULL(SUM(cancel_num), 0)                                       AS cancelNum,
@@ -87,7 +87,7 @@
     </select>
 
     <select id="selectDashboardRankList"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.DashboardRetryLineResponseDO$Rank">
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.DashboardRetryLineResponseDO$Rank">
         SELECT TOP 10
             <if test="systemTaskType == 3">
                 CONCAT(group_name, '/', (SELECT job_name FROM wf_task_job WHERE id = business_id))           AS name,

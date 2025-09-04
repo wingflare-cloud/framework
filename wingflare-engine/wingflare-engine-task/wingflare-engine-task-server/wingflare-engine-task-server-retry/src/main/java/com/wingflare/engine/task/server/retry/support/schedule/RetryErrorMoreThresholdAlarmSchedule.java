@@ -11,7 +11,7 @@ import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.retry.dto.NotifyConfigDTO;
 import com.wingflare.engine.task.server.retry.dto.RetrySceneConfigPartitionTask;
 import com.wingflare.lib.alarm.AlarmUtil;
-import com.wingflare.task.datasource.template.persistence.po.Retry;
+import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.stereotype.Component;
 

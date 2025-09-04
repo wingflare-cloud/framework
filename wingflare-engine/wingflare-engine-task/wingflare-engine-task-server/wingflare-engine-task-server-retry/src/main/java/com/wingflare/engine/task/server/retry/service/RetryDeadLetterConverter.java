@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.retry.service;
 
 import com.wingflare.engine.task.server.retry.dto.RetryPartitionTask;
-import com.wingflare.task.datasource.template.persistence.po.RetryDeadLetter;
+import com.wingflare.engine.task.datasource.template.persistence.po.RetryDeadLetter;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

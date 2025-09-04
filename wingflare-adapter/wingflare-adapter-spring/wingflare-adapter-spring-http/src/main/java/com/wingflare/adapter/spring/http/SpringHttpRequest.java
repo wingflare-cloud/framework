@@ -3,9 +3,12 @@ package com.wingflare.adapter.spring.http;
 
 import com.wingflare.api.core.Charset;
 import com.wingflare.api.http.HttpHeader;
+import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,6 +23,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 
+@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
 public class SpringHttpRequest implements HttpRequest {
 
     private String url;
@@ -253,7 +257,7 @@ public class SpringHttpRequest implements HttpRequest {
             }
 
             String cookieHeaderValue = cookieJoiner.toString();
-            requestHeaders.set("Cookie", cookieHeaderValue);
+            requestHeaders.set(HttpHeaderConstants.REQUEST_COOKIE, cookieHeaderValue);
         }
 
         HttpEntity<?> requestEntity;

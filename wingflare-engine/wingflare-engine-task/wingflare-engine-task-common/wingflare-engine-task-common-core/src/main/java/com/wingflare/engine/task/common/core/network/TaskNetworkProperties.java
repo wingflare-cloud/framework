@@ -16,9 +16,8 @@ import java.util.List;
  * @date 2025-07-31
  */
 @Configuration
-@ConfigurationProperties(prefix = TaskNetworkProperties.PREFIX)
+@ConfigurationProperties(prefix = "task.network")
 public class TaskNetworkProperties {
-    public static final String PREFIX = "snail-job.network";
 
     /**
      * 优先使用的网络段列表，

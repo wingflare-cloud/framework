@@ -3,7 +3,7 @@ package com.wingflare.engine.task.server.web.service.convert;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.server.web.model.response.NotifyConfigResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.NotifyConfig;
+import com.wingflare.engine.task.datasource.template.persistence.po.NotifyConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

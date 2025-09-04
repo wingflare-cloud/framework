@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.server.job.support.callback;
 
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
-import com.wingflare.task.datasource.template.persistence.po.Job;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.po.Job;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 
 /**
  * @author opensnail

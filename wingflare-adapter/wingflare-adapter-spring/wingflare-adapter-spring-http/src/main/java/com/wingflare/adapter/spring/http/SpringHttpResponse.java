@@ -5,6 +5,7 @@ import com.wingflare.api.core.Charset;
 import com.wingflare.api.core.MimeType;
 import com.wingflare.api.http.HttpCookie;
 import com.wingflare.api.http.HttpHeader;
+import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpResponse;
 import com.wingflare.api.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class SpringHttpResponse implements HttpResponse {
         this.responseEntity = responseEntity;
         this.header = new SpringHttpHeader();
 
-        List<String> setCookieHeaders = responseEntity.getHeaders().get("Set-Cookie");
+        List<String> setCookieHeaders = responseEntity.getHeaders().get(HttpHeaderConstants.RESPONSE_SET_COOKIE);
 
         if (setCookieHeaders != null && !setCookieHeaders.isEmpty()) {
             cookies = new ArrayList<>();
@@ -42,7 +43,7 @@ public class SpringHttpResponse implements HttpResponse {
                 }
             }
 
-            responseEntity.getHeaders().remove("Set-Cookie");
+            responseEntity.getHeaders().remove(HttpHeaderConstants.RESPONSE_SET_COOKIE);
         } else {
             cookies = null;
         }

@@ -8,8 +8,8 @@ import com.wingflare.engine.task.server.job.dto.WorkflowTimerTaskDTO;
 import com.wingflare.engine.task.server.job.support.WorkflowTaskConverter;
 import com.wingflare.engine.task.server.job.support.timer.JobTimerWheel;
 import com.wingflare.engine.task.server.job.support.timer.WorkflowTimerTask;
-import com.wingflare.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper;
-import com.wingflare.task.datasource.template.persistence.po.WorkflowTaskBatch;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowTaskBatch;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;

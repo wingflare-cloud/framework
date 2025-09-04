@@ -12,8 +12,8 @@ import com.wingflare.engine.task.common.model.response.base.WorkflowDetailRespon
 import com.wingflare.engine.task.server.common.convert.WorkflowConverter;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.vo.request.WorkflowRequestVO;
-import com.wingflare.task.datasource.template.persistence.mapper.WorkflowNodeMapper;
-import com.wingflare.task.datasource.template.persistence.po.WorkflowNode;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowNodeMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowNode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.graph.MutableGraph;

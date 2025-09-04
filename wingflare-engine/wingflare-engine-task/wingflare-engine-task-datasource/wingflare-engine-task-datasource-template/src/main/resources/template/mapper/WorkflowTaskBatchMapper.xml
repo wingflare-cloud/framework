@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wingflare.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper">
+<mapper namespace="com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper">
 
     <select id="selectWorkflowBatchPageList"
-            parameterType="com.wingflare.task.datasource.template.persistence.dataobject.WorkflowBatchQueryDO"
-            resultType="com.wingflare.task.datasource.template.persistence.dataobject.WorkflowBatchResponseDO">
+            parameterType="com.wingflare.engine.task.datasource.template.persistence.dataobject.WorkflowBatchQueryDO"
+            resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.WorkflowBatchResponseDO">
         SELECT batch.*,
                flow.workflow_name
           FROM wf_task_workflow_task_batch batch
@@ -13,7 +13,7 @@
     </select>
 
     <select id="selectWorkflowBatchList"
-        resultType="com.wingflare.task.datasource.template.persistence.dataobject.WorkflowBatchResponseDO">
+        resultType="com.wingflare.engine.task.datasource.template.persistence.dataobject.WorkflowBatchResponseDO">
         SELECT batch.*,
                flow.workflow_name,
                flow.notify_ids

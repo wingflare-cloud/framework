@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.web.model.response.ServerNodeResponseVO;
-import com.wingflare.task.datasource.template.persistence.po.ServerNode;
+import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

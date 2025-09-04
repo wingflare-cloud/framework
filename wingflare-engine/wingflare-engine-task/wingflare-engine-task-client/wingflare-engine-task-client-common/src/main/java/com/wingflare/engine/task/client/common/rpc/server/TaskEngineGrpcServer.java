@@ -6,7 +6,7 @@ import com.wingflare.engine.task.client.common.config.TaskProperties.RpcServerPr
 import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.grpc.GrpcChannel;
-import com.wingflare.engine.task.client.common.rpc.supports.handler.SnailDispatcherRequestHandler;
+import com.wingflare.engine.task.client.common.rpc.supports.handler.TaskEngineDispatcherRequestHandler;
 import com.wingflare.engine.task.client.common.rpc.supports.handler.grpc.UnaryRequestHandler;
 import com.wingflare.engine.task.common.core.constant.GrpcServerConstants;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
@@ -46,21 +46,21 @@ import java.util.concurrent.TimeUnit;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TaskEngineGrpcServer implements Lifecycle {
     private final TaskProperties taskProperties;
-    private final SnailDispatcherRequestHandler snailDispatcherRequestHandler;
+    private final TaskEngineDispatcherRequestHandler taskEngineDispatcherRequestHandler;
     private volatile boolean started = false;
     private Server server;
 
-    public TaskEngineGrpcServer(TaskProperties taskProperties, SnailDispatcherRequestHandler snailDispatcherRequestHandler) {
+    public TaskEngineGrpcServer(TaskProperties taskProperties, TaskEngineDispatcherRequestHandler taskEngineDispatcherRequestHandler) {
         this.taskProperties = taskProperties;
-        this.snailDispatcherRequestHandler = snailDispatcherRequestHandler;
+        this.taskEngineDispatcherRequestHandler = taskEngineDispatcherRequestHandler;
     }
 
     public TaskProperties getSnailJobProperties() {
         return taskProperties;
     }
 
-    public SnailDispatcherRequestHandler getSnailDispatcherRequestHandler() {
-        return snailDispatcherRequestHandler;
+    public TaskEngineDispatcherRequestHandler getSnailDispatcherRequestHandler() {
+        return taskEngineDispatcherRequestHandler;
     }
 
     public boolean isStarted() {
@@ -120,7 +120,7 @@ public class TaskEngineGrpcServer implements Lifecycle {
         // 创建服务UNARY类型定义
         ServerServiceDefinition serviceDefinition = createUnaryServiceDefinition(
             GrpcServerConstants.UNARY_SERVICE_NAME, GrpcServerConstants.UNARY_METHOD_NAME,
-            new UnaryRequestHandler(taskProperties.getServerRpc().getDispatcherTp(), snailDispatcherRequestHandler));
+            new UnaryRequestHandler(taskProperties.getServerRpc().getDispatcherTp(), taskEngineDispatcherRequestHandler));
         handlerRegistry.addService(serviceDefinition);
         handlerRegistry.addService(ServerInterceptors.intercept(serviceDefinition, serverInterceptor));
     }

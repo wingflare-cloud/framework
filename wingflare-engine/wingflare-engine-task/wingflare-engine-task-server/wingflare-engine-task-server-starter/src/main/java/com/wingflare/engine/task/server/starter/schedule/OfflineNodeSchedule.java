@@ -7,8 +7,8 @@ import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.register.ServerRegister;
 import com.wingflare.engine.task.server.common.schedule.AbstractSchedule;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.wingflare.task.datasource.template.persistence.mapper.ServerNodeMapper;
-import com.wingflare.task.datasource.template.persistence.po.ServerNode;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.ServerNodeMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;

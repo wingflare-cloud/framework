@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.server.common.lock.persistence;
 
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
-import com.wingflare.task.datasource.template.enums.DbTypeEnum;
-import com.wingflare.task.datasource.template.utils.DbUtils;
+import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
+import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 import com.google.common.collect.Lists;
 
 import java.util.List;

@@ -15,9 +15,9 @@ import com.wingflare.engine.task.server.web.service.convert.NotifyConfigConverte
 import com.wingflare.engine.task.server.web.service.convert.NotifyConfigResponseVOConverter;
 import com.wingflare.engine.task.server.web.service.handler.SyncConfigHandler;
 import com.wingflare.engine.task.server.web.util.UserSessionUtils;
-import com.wingflare.task.datasource.template.access.AccessTemplate;
-import com.wingflare.task.datasource.template.access.ConfigAccess;
-import com.wingflare.task.datasource.template.persistence.po.NotifyConfig;
+import com.wingflare.engine.task.datasource.template.access.AccessTemplate;
+import com.wingflare.engine.task.datasource.template.access.ConfigAccess;
+import com.wingflare.engine.task.datasource.template.persistence.po.NotifyConfig;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;

@@ -16,11 +16,11 @@ import com.wingflare.engine.task.server.job.support.generator.batch.JobTaskBatch
 import com.wingflare.engine.task.server.job.support.generator.task.JobTaskGenerateContext;
 import com.wingflare.engine.task.server.job.support.result.job.JobExecutorResultContext;
 import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
-import com.wingflare.task.datasource.template.persistence.dataobject.log.JobLogMessageDO;
-import com.wingflare.task.datasource.template.persistence.po.Job;
-import com.wingflare.task.datasource.template.persistence.po.JobLogMessage;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
-import com.wingflare.task.datasource.template.persistence.po.JobTaskBatch;
+import com.wingflare.engine.task.datasource.template.persistence.dataobject.log.JobLogMessageDO;
+import com.wingflare.engine.task.datasource.template.persistence.po.Job;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobLogMessage;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTaskBatch;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

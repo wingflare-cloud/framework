@@ -2,9 +2,9 @@ package com.wingflare.engine.task.server.web.service.convert;
 
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.web.model.request.JobBatchResponseWebVO;
-import com.wingflare.task.datasource.template.persistence.dataobject.JobBatchResponseDO;
-import com.wingflare.task.datasource.template.persistence.po.Job;
-import com.wingflare.task.datasource.template.persistence.po.JobTaskBatch;
+import com.wingflare.engine.task.datasource.template.persistence.dataobject.JobBatchResponseDO;
+import com.wingflare.engine.task.datasource.template.persistence.po.Job;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTaskBatch;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

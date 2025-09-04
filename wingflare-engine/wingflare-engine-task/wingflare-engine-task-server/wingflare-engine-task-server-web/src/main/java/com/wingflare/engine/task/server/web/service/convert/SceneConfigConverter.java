@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.server.web.model.request.SceneConfigRequestVO;
-import com.wingflare.task.datasource.template.persistence.po.RetrySceneConfig;
+import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

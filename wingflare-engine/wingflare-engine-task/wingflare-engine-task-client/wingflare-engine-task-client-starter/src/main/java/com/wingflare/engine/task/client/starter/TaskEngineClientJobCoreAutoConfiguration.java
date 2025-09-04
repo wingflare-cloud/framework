@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.starter;
 
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
-import com.wingflare.lib.task.annotation.TaskExecutor;
+import com.wingflare.api.task.annotation.TaskExecutor;
 import com.wingflare.engine.task.common.core.util.TaskEngineNetworkUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import org.springframework.beans.factory.config.BeanDefinition;

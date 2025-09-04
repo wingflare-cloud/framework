@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.result.job;
 
 import com.wingflare.engine.task.server.job.dto.BaseDTO;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 
 import java.util.List;
 

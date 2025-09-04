@@ -5,7 +5,7 @@ import com.wingflare.engine.task.server.common.dto.PointInTimeDTO;
 import com.wingflare.engine.task.server.common.strategy.WaitStrategies;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.web.model.response.JobResponseWebVO;
-import com.wingflare.task.datasource.template.persistence.po.Job;
+import com.wingflare.engine.task.datasource.template.persistence.po.Job;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

@@ -578,6 +578,11 @@ public enum MimeType {
         return type+"/"+subType;
     }
 
+    public String getContentType(Charset charset)
+    {
+        return String.format("%s/%s; charset=%s", type, subType, charset.getCharsetName());
+    }
+
     /**
      * 根据文件扩展名获取对应的MIME类型
      *

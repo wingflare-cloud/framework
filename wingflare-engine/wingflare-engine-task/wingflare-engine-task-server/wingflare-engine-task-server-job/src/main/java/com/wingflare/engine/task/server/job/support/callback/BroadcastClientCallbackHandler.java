@@ -12,7 +12,7 @@ import com.wingflare.engine.task.server.common.util.ClientInfoUtils;
 import com.wingflare.engine.task.server.job.dto.JobExecutorResultDTO;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
 import com.wingflare.lib.core.Builder;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Sets;
 import org.apache.pekko.actor.ActorRef;

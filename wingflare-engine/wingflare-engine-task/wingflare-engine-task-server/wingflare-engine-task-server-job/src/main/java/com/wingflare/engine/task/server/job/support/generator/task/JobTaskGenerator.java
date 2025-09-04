@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.generator.task;
 
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 
 import java.util.List;
 

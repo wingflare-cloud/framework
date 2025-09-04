@@ -2,10 +2,10 @@ package com.wingflare.engine.task.server.job.support.generator.task;
 
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
-import com.wingflare.task.datasource.template.enums.DbTypeEnum;
-import com.wingflare.task.datasource.template.persistence.mapper.JobTaskMapper;
-import com.wingflare.task.datasource.template.persistence.po.JobTask;
-import com.wingflare.task.datasource.template.utils.DbUtils;
+import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
+import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
+import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
+import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.InitializingBean;
 import jakarta.annotation.Resource;

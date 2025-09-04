@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
 import com.wingflare.engine.task.server.common.handler.GetHttpRequestHandler;
-import com.wingflare.task.datasource.template.access.AccessTemplate;
+import com.wingflare.engine.task.datasource.template.access.AccessTemplate;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import org.springframework.stereotype.Component;

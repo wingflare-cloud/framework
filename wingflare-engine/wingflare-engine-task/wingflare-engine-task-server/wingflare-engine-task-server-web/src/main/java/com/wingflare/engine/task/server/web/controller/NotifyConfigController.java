@@ -6,7 +6,7 @@ import com.wingflare.engine.task.server.web.model.request.NotifyConfigQueryVO;
 import com.wingflare.engine.task.server.web.model.request.NotifyConfigRequestVO;
 import com.wingflare.engine.task.server.web.model.response.NotifyConfigResponseVO;
 import com.wingflare.engine.task.server.web.service.NotifyConfigService;
-import com.wingflare.task.datasource.template.persistence.po.NotifyConfig;
+import com.wingflare.engine.task.datasource.template.persistence.po.NotifyConfig;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
