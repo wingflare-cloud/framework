@@ -3,63 +3,49 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>wingflare-dep</artifactId>
         <groupId>com.wingflare</groupId>
+        <artifactId>wingflare-dep-adapter</artifactId>
         <version>${revision}</version>
     </parent>
-    <packaging>pom</packaging>
-    <modules>
-        <module>wingflare-dep-adapter-spring</module>
-    </modules>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wingflare-dep-adapter</artifactId>
+    <artifactId>wingflare-dep-adapter-spring</artifactId>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
+                <artifactId>wingflare-adapter-spring-container</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-cloud-tencent</artifactId>
+                <artifactId>wingflare-adapter-spring-event</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-module-base-nosql-redis</artifactId>
+                <artifactId>wingflare-adapter-spring-thread-pool</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
+                <artifactId>wingflare-adapter-spring-http</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-spring-servlet-session</artifactId>
+                <artifactId>wingflare-adapter-spring-mail</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-spring-webflux-session</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-session-nosql-redis</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
 
         </dependencies>
+
     </dependencyManagement>
 
 </project>

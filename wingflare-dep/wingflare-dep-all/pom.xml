@@ -70,6 +70,14 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-dep-adapter-spring</artifactId>
+                <version>${project.parent.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-dep-facade</artifactId>
                 <version>${project.parent.version}</version>
                 <type>pom</type>

@@ -1,13 +1,13 @@
 package com.wingflare.engine.task.client.common.event;
 
-import org.springframework.context.ApplicationEvent;
+import com.wingflare.api.event.BaseEvent;
 
 /**
  * @author xiaowoniu
  * @date 2024-03-14 21:23:29
  * @since 3.1.0
  */
-public class TaskClientStartingEvent extends ApplicationEvent {
+public class TaskClientStartingEvent extends BaseEvent {
     private static final String SOURCE = "SnailJobStarting";
 
     public TaskClientStartingEvent() {

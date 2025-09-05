@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Role;
 @ConditionalOnClass(TaskExecutor.class)
 @ConditionalOnProperty(prefix = "task", name = "enabled", havingValue = "true")
 public class TaskEngineClientJobCoreAutoConfiguration {
-    private static final String SNAIL_JOB_CLIENT_HOST = "snail-job.host";
+    private static final String SNAIL_JOB_CLIENT_HOST = "task.host";
 
     @Bean
     public Object configureSnailJobHost(TaskEngineNetworkUtils networkUtils, TaskProperties taskProperties) {

@@ -2,6 +2,7 @@ package com.wingflare.engine.task.server.retry.support.schedule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
@@ -32,6 +33,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.container.Container;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
@@ -224,7 +226,7 @@ public class CleanerSchedule extends AbstractSchedule implements Lifecycle {
                         .in(Retry::getId, StreamUtils.toList(retries, RetryPartitionTask::getId))),
                 () -> new TaskServerException("Failed to delete retry data [{}]", JsonUtil.toJsonString(retries)));
 
-        SnailSpringContext.getContext().publishEvent(new RetryTaskFailDeadLetterAlarmEvent(
+        Container.get(EventPublisher.class).publishEvent(new RetryTaskFailDeadLetterAlarmEvent(
                 RetryTaskConverter.INSTANCE.toRetryTaskFailDeadLetterAlarmEventDTO(retryDeadLetters)
         ));
     }

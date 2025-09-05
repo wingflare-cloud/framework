@@ -19,9 +19,9 @@ import java.util.Objects;
  */
 public class TaskEngineClientsRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
 
-    private static final String ENABLED_CONFIG = "snail-job.enabled";
-    private static final String GROUP_CONFIG = "snail-job.group";
-    protected static final String AOP_ORDER_CONFIG = "snail-job.aop.order";
+    private static final String ENABLED_CONFIG = "task.enabled";
+    private static final String GROUP_CONFIG = "task.group";
+    protected static final String AOP_ORDER_CONFIG = "task.aop.order";
 
     protected static final String GROUP_ATTR = "group";
     protected static final String ORDER_ATTR = "order";

@@ -1,14 +1,15 @@
 package com.wingflare.engine.task.client.common.rpc.client.grpc;
 
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.RpcClientProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
 import com.wingflare.engine.task.client.common.event.TaskChannelReconnectEvent;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.wingflare.lib.container.Container;
 import io.grpc.ConnectivityState;
 import io.grpc.DecompressorRegistry;
 import io.grpc.ManagedChannel;
@@ -56,7 +57,8 @@ public class TaskGrpcClient implements Lifecycle {
             if (state == ConnectivityState.TRANSIENT_FAILURE) {
                 try {
                     // 抛出重连事件
-                    SnailSpringContext.getContext().publishEvent(new TaskChannelReconnectEvent());
+                    Container.get(EventPublisher.class).publishEvent(new TaskChannelReconnectEvent());
+
                     channel = connection();
                     GrpcChannel.setChannel(channel);
                 } catch (Exception e) {

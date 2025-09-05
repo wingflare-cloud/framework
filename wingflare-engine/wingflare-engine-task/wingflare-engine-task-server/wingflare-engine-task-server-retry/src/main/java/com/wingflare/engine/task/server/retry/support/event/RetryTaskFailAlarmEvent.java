@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.retry.support.event;
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.engine.task.server.retry.dto.RetryTaskFailAlarmEventDTO;
-import org.springframework.context.ApplicationEvent;
 
 /**
  * 重试任务失败事件
@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEvent;
  * @date : 2024-12-13 16:57
  * @since 1.3.0
  */
-public class RetryTaskFailAlarmEvent extends ApplicationEvent {
+public class RetryTaskFailAlarmEvent extends BaseEvent {
 
     private final RetryTaskFailAlarmEventDTO retryTaskFailAlarmEventDTO;
 

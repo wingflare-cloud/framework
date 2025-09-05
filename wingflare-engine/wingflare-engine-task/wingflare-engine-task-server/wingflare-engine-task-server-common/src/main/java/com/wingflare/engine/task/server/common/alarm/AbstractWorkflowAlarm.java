@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.common.alarm;
 
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
 import com.wingflare.engine.task.server.common.convert.AlarmInfoConverter;
@@ -11,7 +12,6 @@ import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowTask
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
-import org.springframework.context.ApplicationEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @date 2023-12-03 10:19:19
  * @since 2.5.0
  */
-public abstract class AbstractWorkflowAlarm<E extends ApplicationEvent> extends AbstractAlarm<E, WorkflowAlarmInfo> {
+public abstract class AbstractWorkflowAlarm<E extends BaseEvent> extends AbstractAlarm<E, WorkflowAlarmInfo> {
 
     @Resource
     private WorkflowTaskBatchMapper workflowTaskBatchMapper;

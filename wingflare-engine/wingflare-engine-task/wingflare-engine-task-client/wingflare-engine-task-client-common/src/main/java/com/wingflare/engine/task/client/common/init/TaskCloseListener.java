@@ -1,10 +1,11 @@
 package com.wingflare.engine.task.client.common.init;
 
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.event.TaskClientClosedEvent;
 import com.wingflare.engine.task.client.common.event.TaskClientClosingEvent;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -33,9 +34,9 @@ public class TaskCloseListener implements ApplicationListener<ContextClosedEvent
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
         log.info("wingflare-task client about to shutdown v{}", TaskVersion.getVersion());
-        SnailSpringContext.getContext().publishEvent(new TaskClientClosingEvent());
+        Container.get(EventPublisher.class).publishEvent(new TaskClientClosingEvent());
         lifecycleList.forEach(Lifecycle::close);
-        SnailSpringContext.getContext().publishEvent(new TaskClientClosedEvent());
+        Container.get(EventPublisher.class).publishEvent(new TaskClientClosedEvent());
         log.info("wingflare-task client closed successfully v{}", TaskVersion.getVersion());
     }
 }

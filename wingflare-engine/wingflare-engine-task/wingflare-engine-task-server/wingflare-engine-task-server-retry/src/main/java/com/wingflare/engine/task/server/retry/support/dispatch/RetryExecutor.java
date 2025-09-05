@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.retry.support.dispatch;
 
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;
@@ -23,6 +23,7 @@ import com.wingflare.engine.task.server.retry.support.event.RetryTaskFailAlarmEv
 import com.wingflare.engine.task.server.retry.support.handler.RetryTaskStopHandler;
 import com.wingflare.engine.task.server.retry.support.timer.RetryTimeoutCheckTask;
 import com.wingflare.engine.task.server.retry.support.timer.RetryTimerWheel;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.RetryMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.RetryTaskMapper;
@@ -128,7 +129,7 @@ public class RetryExecutor extends AbstractActor {
             RetryTaskFailAlarmEventDTO toRetryTaskFailAlarmEventDTO =
                     RetryTaskConverter.INSTANCE.toRetryTaskFailAlarmEventDTO(retry, "No client nodes",
                             RetryNotifySceneEnum.RETRY_NO_CLIENT_NODES_ERROR.getNotifyScene());
-            SnailSpringContext.getContext().publishEvent(new RetryTaskFailAlarmEvent(toRetryTaskFailAlarmEventDTO));
+            Container.get(EventPublisher.class).publishEvent(new RetryTaskFailAlarmEvent(toRetryTaskFailAlarmEventDTO));
             return;
         }
 

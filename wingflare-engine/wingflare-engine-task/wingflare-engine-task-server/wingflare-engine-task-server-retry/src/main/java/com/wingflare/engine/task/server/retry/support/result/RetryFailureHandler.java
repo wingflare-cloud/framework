@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.retry.support.result;
 
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.RetryOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.core.enums.RetryTaskStatusEnum;
@@ -18,6 +18,7 @@ import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetryTask;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wingflare.lib.container.Container;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -106,7 +107,7 @@ public class RetryFailureHandler extends AbstractRetryResultHandler {
             RetryTaskFailAlarmEventDTO retryTaskFailAlarmEventDTO =
                     RetryTaskConverter.INSTANCE.toRetryTaskFailAlarmEventDTO(
                             retry, context.getExceptionMsg(), RETRY_TASK_FAIL_ERROR.getNotifyScene());
-            SnailSpringContext.getContext().publishEvent(new RetryTaskFailAlarmEvent(retryTaskFailAlarmEventDTO));
+            Container.get(EventPublisher.class).publishEvent(new RetryTaskFailAlarmEvent(retryTaskFailAlarmEventDTO));
 
             return null;
         });

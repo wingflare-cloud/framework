@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.job.support.alarm.event;
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.engine.task.server.job.dto.JobTaskFailAlarmEventDTO;
-import org.springframework.context.ApplicationEvent;
 
 /**
  * job任务失败事件
@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEvent;
  * @date : 2023-12-02 21:40
  * @since 2.5.0
  */
-public class JobTaskFailAlarmEvent extends ApplicationEvent {
+public class JobTaskFailAlarmEvent extends BaseEvent {
 
     private JobTaskFailAlarmEventDTO jobTaskFailAlarmEventDTO;
 

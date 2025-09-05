@@ -13,6 +13,7 @@
         <module>wingflare-adapter-spring-mail</module>
         <module>wingflare-adapter-spring-http</module>
         <module>wingflare-adapter-spring-thread-pool</module>
+        <module>wingflare-adapter-spring-event</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

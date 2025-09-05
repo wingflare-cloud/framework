@@ -1,11 +1,12 @@
 package com.wingflare.engine.task.client.common.init;
 
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.event.TaskClientStartedEvent;
 import com.wingflare.engine.task.client.common.event.TaskClientStartingEvent;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
+import com.wingflare.lib.container.Container;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -35,9 +36,9 @@ public class TaskStartListener implements ApplicationRunner {
         }
 
         TaskEngineLog.LOCAL.info("wingflare-task client is preparing to start... v{}", TaskVersion.getVersion());
-        SnailSpringContext.getContext().publishEvent(new TaskClientStartingEvent());
+        Container.get(EventPublisher.class).publishEvent(new TaskClientStartingEvent());
         lifecycleList.forEach(Lifecycle::start);
-        SnailSpringContext.getContext().publishEvent(new TaskClientStartedEvent());
+        Container.get(EventPublisher.class).publishEvent(new TaskClientStartedEvent());
         isStarted = true;
         TaskEngineLog.LOCAL.info("wingflare-task client started successfully v{}", TaskVersion.getVersion());
     }

@@ -1,12 +1,12 @@
 package com.wingflare.engine.task.server.common.alarm;
 
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.server.common.dto.RetryAlarmInfo;
 import com.wingflare.engine.task.server.common.triple.ImmutableTriple;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.google.common.collect.Lists;
-import org.springframework.context.ApplicationEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @date 2023-12-03 10:19:19
  * @since 2.5.0
  */
-public abstract class AbstractRetryAlarm<E extends ApplicationEvent> extends AbstractAlarm<E, RetryAlarmInfo> {
+public abstract class AbstractRetryAlarm<E extends BaseEvent> extends AbstractAlarm<E, RetryAlarmInfo> {
 
     @Override
     protected Map<Long, List<RetryAlarmInfo>> convertAlarmDTO(List<RetryAlarmInfo> retryAlarmInfoList, Set<Integer> notifyScene) {

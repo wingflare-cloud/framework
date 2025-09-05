@@ -2,6 +2,7 @@ package com.wingflare.engine.task.server.common.alarm;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.api.alarm.AlarmContext;
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
@@ -23,7 +24,6 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.RateLimiter;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.scheduling.TaskScheduler;
 
 import java.time.Duration;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  * @date 2023-12-03 09:47:11
  * @since 2.5.0
  */
-public abstract class AbstractAlarm<E extends ApplicationEvent, A extends AlarmInfo> implements
+public abstract class AbstractAlarm<E extends BaseEvent, A extends AlarmInfo> implements
         Runnable,
         Lifecycle {
 

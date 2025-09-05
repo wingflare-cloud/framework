@@ -7,6 +7,8 @@ import java.util.EventObject;
  */
 public interface EventPublisher {
 
+    void publishEvent(BaseEvent event);
+
     void publishEvent(EventObject event);
 
     void publishEvent(Object event);

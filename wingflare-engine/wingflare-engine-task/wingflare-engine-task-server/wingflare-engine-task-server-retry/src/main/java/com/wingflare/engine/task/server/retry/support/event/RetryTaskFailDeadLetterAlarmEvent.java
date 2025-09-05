@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.retry.support.event;
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.engine.task.server.retry.dto.RetryTaskFailDeadLetterAlarmEventDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @date : 2023-11-20 21:40
  * @since 2.5.0
  */
-public class RetryTaskFailDeadLetterAlarmEvent extends ApplicationEvent {
+public class RetryTaskFailDeadLetterAlarmEvent extends BaseEvent {
     public List<RetryTaskFailDeadLetterAlarmEventDTO> getRetryDeadLetters() {
         return retryDeadLetters;
     }
