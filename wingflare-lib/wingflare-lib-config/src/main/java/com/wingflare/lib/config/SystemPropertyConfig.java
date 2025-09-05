@@ -1,11 +1,11 @@
 package com.wingflare.lib.config;
 
-import com.wingflare.api.config.ConfigInterface;
+import com.wingflare.api.config.ConfigReader;
 
 /**
  * 系统属性配置获取方法
  */
-public class SystemPropertyConfig implements ConfigInterface {
+public class SystemPropertyConfig implements ConfigReader {
 
     @Override
     public String getProperty(String key) {

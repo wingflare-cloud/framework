@@ -45,16 +45,16 @@ public final class GrpcChannel {
     /**
      * 服务端端口
      */
-    private static final String SNAIL_JOB_SERVER_PORT = "snail-job.server.port";
+    private static final String TASK_ENGINE_SERVER_PORT = "task.server.port";
     /**
      * 服务端host
      */
-    private static final String SNAIL_JOB_SERVER_HOST = "snail-job.server.host";
+    private static final String TASK_ENGINE_SERVER_HOST = "task.server.host";
 
     /**
      * 客户端端口
      */
-    private static final String SNAIL_JOB_CLIENT_PORT = "snail-job.port";
+    private static final String TASK_ENGINE_CLIENT_PORT = "task.port";
 
     private static final Integer MIN_PORT = 15000;
     private static final Integer MAX_PORT = 50000;
@@ -65,7 +65,7 @@ public final class GrpcChannel {
     private static final int PORT;
 
     static {
-        PORT = Integer.parseInt(System.getProperty(SNAIL_JOB_CLIENT_PORT, String.valueOf(1789)));
+        PORT = Integer.parseInt(System.getProperty(TASK_ENGINE_CLIENT_PORT, String.valueOf(1789)));
     }
 
     /**
@@ -77,12 +77,12 @@ public final class GrpcChannel {
         TaskProperties taskProperties = SnailSpringContext.getContext().getBean(TaskProperties.class);
         TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
 
-        String port = System.getProperty(SNAIL_JOB_SERVER_PORT);
+        String port = System.getProperty(TASK_ENGINE_SERVER_PORT);
         if (StrUtil.isBlank(port)) {
-            System.setProperty(SNAIL_JOB_SERVER_PORT, String.valueOf(serverConfig.getPort()));
+            System.setProperty(TASK_ENGINE_SERVER_PORT, String.valueOf(serverConfig.getPort()));
         }
 
-        return Integer.parseInt(System.getProperty(SNAIL_JOB_SERVER_PORT));
+        return Integer.parseInt(System.getProperty(TASK_ENGINE_SERVER_PORT));
     }
 
     /**
@@ -94,12 +94,12 @@ public final class GrpcChannel {
         TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
         TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
 
-        String host = System.getProperty(SNAIL_JOB_SERVER_HOST);
+        String host = System.getProperty(TASK_ENGINE_SERVER_HOST);
         if (StrUtil.isBlank(host)) {
-            System.setProperty(SNAIL_JOB_SERVER_HOST, serverConfig.getHost());
+            System.setProperty(TASK_ENGINE_SERVER_HOST, serverConfig.getHost());
         }
 
-        return System.getProperty(SNAIL_JOB_SERVER_HOST);
+        return System.getProperty(TASK_ENGINE_SERVER_HOST);
     }
 
     /**
@@ -126,7 +126,7 @@ public final class GrpcChannel {
         if (Objects.isNull(port)) {
             port = Optional.ofNullable(serverProperties.getPort()).orElse(PORT);
             taskProperties.setPort(port);
-            TaskEngineLog.LOCAL.info("snail job client port :{}", port);
+            TaskEngineLog.LOCAL.info("task engine client port :{}", port);
         } else if (port.equals(RANDOM_CLIENT_PORT)) {
             // 使用随机算法获取端口
             PORT_LOCK.lock();
@@ -135,7 +135,7 @@ public final class GrpcChannel {
                 if (taskProperties.getPort().equals(RANDOM_CLIENT_PORT)) {
                     port = getAvailablePort();
                     taskProperties.setPort(port);
-                    TaskEngineLog.LOCAL.info("snail job client port :{}", port);
+                    TaskEngineLog.LOCAL.info("task engine client port :{}", port);
                 } else {
                     port = taskProperties.getPort();
                 }

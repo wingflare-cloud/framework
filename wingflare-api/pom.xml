@@ -35,6 +35,8 @@
         <module>wingflare-api-cache</module>
         <module>wingflare-api-thread-pool</module>
         <module>wingflare-api-task</module>
+        <module>wingflare-api-event</module>
+        <module>wingflare-api-idgenerator</module>
     </modules>
 
 </project>

@@ -1,7 +1,7 @@
 package com.wingflare.lib.config;
 
 
-import com.wingflare.api.config.ConfigInterface;
+import com.wingflare.api.config.ConfigReader;
 
 import java.util.List;
 import java.util.ServiceLoader;
@@ -11,30 +11,30 @@ import java.util.ServiceLoader;
  */
 public class ConfigUtil {
 
-    private static volatile List<ConfigInterface> configInterfaceList;
+    private static volatile List<ConfigReader> configReaderList;
 
     private ConfigUtil() {
     }
 
-    private static List<ConfigInterface> getConfigs() {
-        if (configInterfaceList == null) {
+    private static List<ConfigReader> getConfigs() {
+        if (configReaderList == null) {
             synchronized (ConfigUtil.class) {
-                if (configInterfaceList == null) {
-                    ServiceLoader<ConfigInterface> cs = ServiceLoader.load(ConfigInterface.class);
-                    for (ConfigInterface configInterface : cs) {
-                        configInterfaceList.add(configInterface);
+                if (configReaderList == null) {
+                    ServiceLoader<ConfigReader> cs = ServiceLoader.load(ConfigReader.class);
+                    for (ConfigReader configReader : cs) {
+                        configReaderList.add(configReader);
                         break;
                     }
-                    configInterfaceList.add(new SystemPropertyConfig());
-                    configInterfaceList.add(new EnvironmentConfig());
-                    configInterfaceList.sort(
+                    configReaderList.add(new SystemPropertyConfig());
+                    configReaderList.add(new EnvironmentConfig());
+                    configReaderList.sort(
                             (o1, o2) ->
                                     Integer.compare(o2.order(), o1.order()));
                 }
             }
         }
 
-        return configInterfaceList;
+        return configReaderList;
     }
 
 
@@ -44,7 +44,7 @@ public class ConfigUtil {
      * @return 配置值，如果不存在则返回null
      */
     public static String getProperty(String key) {
-        for (ConfigInterface loader : getConfigs()) {
+        for (ConfigReader loader : getConfigs()) {
             String config = loader.getProperty(key);
             if (config != null) return config;
         }
@@ -59,7 +59,7 @@ public class ConfigUtil {
      * @return 配置值或默认值
      */
     public static String getProperty(String key, String defaultValue) {
-        for (ConfigInterface loader : getConfigs()) {
+        for (ConfigReader loader : getConfigs()) {
             String config = loader.getProperty(key);
             if (config != null) return config;
         }
@@ -71,7 +71,7 @@ public class ConfigUtil {
      * 获取整数类型的配置值
      */
     public static Integer getIntProperty(String key) {
-        for (ConfigInterface loader : getConfigs()) {
+        for (ConfigReader loader : getConfigs()) {
             Integer config = loader.getIntProperty(key);
             if (config != null) return config;
         }
@@ -83,7 +83,7 @@ public class ConfigUtil {
      * 获取整数类型的配置值，带默认值
      */
     public static Integer getIntProperty(String key, Integer defaultValue) {
-        for (ConfigInterface loader : getConfigs()) {
+        for (ConfigReader loader : getConfigs()) {
             Integer config = loader.getIntProperty(key);
             if (config != null) return config;
         }
@@ -95,7 +95,7 @@ public class ConfigUtil {
      * 获取布尔类型的配置值
      */
     public static Boolean getBooleanProperty(String key) {
-        for (ConfigInterface loader : getConfigs()) {
+        for (ConfigReader loader : getConfigs()) {
             Boolean config = loader.getBooleanProperty(key);
             if (config != null) return config;
         }
@@ -107,7 +107,7 @@ public class ConfigUtil {
      * 获取布尔类型的配置值，带默认值
      */
     public static Boolean getBooleanProperty(String key, Boolean defaultValue) {
-        for (ConfigInterface loader : getConfigs()) {
+        for (ConfigReader loader : getConfigs()) {
             Boolean config = loader.getBooleanProperty(key);
             if (config != null) return config;
         }

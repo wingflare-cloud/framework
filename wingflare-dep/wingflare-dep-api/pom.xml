@@ -74,6 +74,18 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-api-event</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-api-idgenerator</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

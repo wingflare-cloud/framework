@@ -1,11 +1,11 @@
 package com.wingflare.lib.config;
 
-import com.wingflare.api.config.ConfigInterface;
+import com.wingflare.api.config.ConfigReader;
 
 /**
  * 环境变量配置获取
  */
-public class EnvironmentConfig implements ConfigInterface {
+public class EnvironmentConfig implements ConfigReader {
 
     private String caseKey(String key) {
         return key.toUpperCase().replace('.', '_');
