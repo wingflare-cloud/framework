@@ -2,7 +2,6 @@ package com.wingflare.engine.task.server.common.rpc.server.handler;
 
 import cn.hutool.core.net.url.UrlQuery;
 import com.wingflare.engine.task.common.core.constant.SystemConstants.HTTP_PATH;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.model.TaskRequest;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
@@ -13,6 +12,7 @@ import com.wingflare.engine.task.server.common.dto.ServerNodeExtAttrs;
 import com.wingflare.engine.task.server.common.handler.GetHttpRequestHandler;
 import com.wingflare.engine.task.server.common.register.ClientRegister;
 import com.wingflare.engine.task.server.common.register.RegisterContext;
+import com.wingflare.lib.container.Container;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -42,7 +42,7 @@ public class BeatHttpRequestHandler extends GetHttpRequestHandler {
     @Override
     public TaskRpcResult doHandler(String content, UrlQuery query, HttpHeaders headers) {
         TaskEngineLog.LOCAL.debug("Beat check content:[{}]", content);
-        Register register = SnailSpringContext.getBean(ClientRegister.BEAN_NAME, Register.class);
+        Register register = Container.get(ClientRegister.BEAN_NAME, Register.class);
         RegisterContext registerContext = new RegisterContext();
         registerContext.setGroupName(headers.get(HeadersEnum.GROUP_NAME.getKey()));
         registerContext.setHostPort(Integer.valueOf(headers.get(HeadersEnum.HOST_PORT.getKey())));

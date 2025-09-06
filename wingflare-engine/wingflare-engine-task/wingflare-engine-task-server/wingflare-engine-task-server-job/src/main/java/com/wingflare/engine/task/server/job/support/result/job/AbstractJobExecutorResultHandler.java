@@ -1,7 +1,8 @@
 package com.wingflare.engine.task.server.job.support.result.job;
 
+
 import cn.hutool.core.collection.CollUtil;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
@@ -17,6 +18,7 @@ import com.wingflare.engine.task.server.job.support.alarm.event.JobTaskFailAlarm
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
 import com.wingflare.engine.task.server.job.support.stop.JobTaskStopFactory;
 import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
@@ -73,7 +75,7 @@ public abstract class AbstractJobExecutorResultHandler implements JobExecutorRes
         int taskBatchStatus;
         if (failCount > 0) {
             taskBatchStatus = JobTaskBatchStatusEnum.FAIL.getStatus();
-            SnailSpringContext.getContext().publishEvent(
+            Container.get(EventPublisher.class).publishEvent(
                     new JobTaskFailAlarmEvent(Builder.of(JobTaskFailAlarmEventDTO::new)
                             .with(JobTaskFailAlarmEventDTO::setJobTaskBatchId, context.getTaskBatchId())
                             .with(JobTaskFailAlarmEventDTO::setReason, context.getMessage())

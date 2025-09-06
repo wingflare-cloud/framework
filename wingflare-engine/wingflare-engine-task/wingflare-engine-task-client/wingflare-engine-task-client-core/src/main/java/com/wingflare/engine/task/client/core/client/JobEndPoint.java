@@ -11,7 +11,6 @@ import com.wingflare.engine.task.client.core.cache.ThreadPoolCache;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
 import com.wingflare.engine.task.client.core.executor.*;
 import com.wingflare.engine.task.client.core.log.JobLogMeta;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.ExecutorTypeEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.model.JobArgsHolder;
@@ -23,6 +22,7 @@ import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.request.DispatchJobRequest;
 import com.wingflare.engine.task.common.model.request.StopJobRequest;
 import com.google.common.collect.Maps;
+import com.wingflare.lib.container.Container;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
@@ -78,11 +78,11 @@ public class JobEndPoint {
                 }
             } else {
                 if (JobTaskTypeEnum.MAP.getType() == jobContext.getTaskType()) {
-                    jobExecutor = SnailSpringContext.getBeanByType(AnnotationMapJobExecutor.class);
+                    jobExecutor = Container.get(AnnotationMapJobExecutor.class);
                 } else if (JobTaskTypeEnum.MAP_REDUCE.getType() == jobContext.getTaskType()) {
-                    jobExecutor = SnailSpringContext.getBeanByType(AnnotationMapReduceJobExecutor.class);
+                    jobExecutor = Container.get(AnnotationMapReduceJobExecutor.class);
                 } else {
-                    jobExecutor = SnailSpringContext.getBeanByType(AnnotationJobExecutor.class);
+                    jobExecutor = Container.get(AnnotationJobExecutor.class);
                 }
             }
 

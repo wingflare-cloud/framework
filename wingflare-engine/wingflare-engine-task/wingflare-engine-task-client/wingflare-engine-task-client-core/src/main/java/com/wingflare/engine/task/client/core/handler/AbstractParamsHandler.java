@@ -7,10 +7,10 @@ import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.core.enums.AllocationAlgorithmEnum;
 import com.wingflare.engine.task.client.core.enums.TriggerTypeEnum;
 import com.wingflare.engine.task.client.core.util.TriggerIntervalUtils;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.model.request.JobApiRequest;
+import com.wingflare.lib.container.Container;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public abstract class AbstractParamsHandler<H, R> extends AbstractJobRequestHand
         // 默认java
         reqDTO.setExecutorType(ExecutorTypeEnum.JAVA.getType());
         // 设置 groupName
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
         reqDTO.setGroupName(taskProperties.getGroup());
     }
 

@@ -3,7 +3,6 @@ package com.wingflare.engine.task.server.job.support.alarm.listener;
 
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.alarm.AbstractJobAlarm;
 import com.wingflare.engine.task.server.common.dto.JobAlarmInfo;
@@ -14,6 +13,7 @@ import com.wingflare.engine.task.server.job.dto.JobTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.JobTaskConverter;
 import com.wingflare.engine.task.server.job.support.alarm.event.JobTaskFailAlarmEvent;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.config.ConfigUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -74,7 +74,7 @@ public class JobTaskFailAlarmListener extends AbstractJobAlarm<JobTaskFailAlarmE
         // 预警
         return AlarmContext.build()
                 .text(MESSAGES_FORMATTER,
-                        EnvironmentUtils.getActiveProfile(),
+                        ConfigUtil.getProfiles(),
                         alarmDTO.getNamespaceId(),
                         alarmDTO.getGroupName(),
                         alarmDTO.getJobName(),
@@ -83,7 +83,7 @@ public class JobTaskFailAlarmListener extends AbstractJobAlarm<JobTaskFailAlarmE
                         alarmDTO.getReason(),
                         alarmDTO.getArgsStr(),
                         DateUtils.toNowFormat(DateUtils.NORM_DATETIME_PATTERN))
-                .title("{} environment JOB task failed", EnvironmentUtils.getActiveProfile());
+                .title("{} environment JOB task failed", ConfigUtil.getProfiles());
     }
 
     @Override

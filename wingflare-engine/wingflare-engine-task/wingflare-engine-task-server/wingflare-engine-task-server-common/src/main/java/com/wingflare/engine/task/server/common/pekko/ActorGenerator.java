@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.common.pekko;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.lib.container.Container;
 import org.apache.pekko.actor.ActorRef;
 import org.apache.pekko.actor.ActorSystem;
 
@@ -327,7 +328,7 @@ public class ActorGenerator {
     }
 
     public static SpringExtension getSpringExtension() {
-        return SnailSpringContext.getBeanByType(SpringExtension.class);
+        return Container.get(SpringExtension.class);
     }
 
     /**
@@ -336,7 +337,7 @@ public class ActorGenerator {
      * @return
      */
     public static ActorSystem getRetryActorSystem() {
-        return SnailSpringContext.getBean("retryActorSystem", ActorSystem.class);
+        return Container.get("retryActorSystem", ActorSystem.class);
     }
 
     /**
@@ -345,7 +346,7 @@ public class ActorGenerator {
      * @return
      */
     public static ActorSystem getCommonActorSystemSystem() {
-        return SnailSpringContext.getBean("commonActorSystem", ActorSystem.class);
+        return Container.get("commonActorSystem", ActorSystem.class);
     }
 
 
@@ -355,7 +356,7 @@ public class ActorGenerator {
      * @return
      */
     public static ActorSystem getNettyActorSystem() {
-        return SnailSpringContext.getBean("nettyActorSystem", ActorSystem.class);
+        return Container.get("nettyActorSystem", ActorSystem.class);
     }
 
     /**
@@ -364,7 +365,7 @@ public class ActorGenerator {
      * @return
      */
     public static ActorSystem getJobActorSystem() {
-        return SnailSpringContext.getBean("jobActorSystem", ActorSystem.class);
+        return Container.get("jobActorSystem", ActorSystem.class);
     }
 
 }

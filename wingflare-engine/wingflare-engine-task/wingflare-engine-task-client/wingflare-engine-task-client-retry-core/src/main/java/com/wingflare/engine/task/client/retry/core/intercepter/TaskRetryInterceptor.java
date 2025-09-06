@@ -14,11 +14,9 @@ import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryResultStatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskHeaders;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
@@ -26,6 +24,8 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recip
 import com.google.common.base.Defaults;
 import com.google.common.collect.Lists;
 import com.wingflare.lib.alarm.AlarmUtil;
+import com.wingflare.lib.config.ConfigUtil;
+import com.wingflare.lib.container.Container;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ClassUtils;
@@ -271,7 +271,7 @@ public class TaskRetryInterceptor implements MethodInterceptor, AfterAdvice, Ser
             ConfigRequest.Notify notify = GroupVersionCache.getRetryNotifyAttribute(
                     RetryNotifySceneEnum.CLIENT_COMPONENT_ERROR.getNotifyScene());
             if (Objects.nonNull(notify)) {
-                TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+                TaskProperties taskProperties = Container.get(TaskProperties.class);
                 if (Objects.isNull(taskProperties)) {
                     return;
                 }
@@ -279,7 +279,7 @@ public class TaskRetryInterceptor implements MethodInterceptor, AfterAdvice, Ser
                 for (final Recipient recipient : recipients) {
                     AlarmContext context = AlarmContext.build()
                             .text(retryErrorMoreThresholdTextMessageFormatter,
-                                    EnvironmentUtils.getActiveProfile(),
+                                    ConfigUtil.getProfiles(),
                                     NetUtil.getLocalIpStr(),
                                     taskProperties.getNamespace(),
                                     taskProperties.getGroup(),

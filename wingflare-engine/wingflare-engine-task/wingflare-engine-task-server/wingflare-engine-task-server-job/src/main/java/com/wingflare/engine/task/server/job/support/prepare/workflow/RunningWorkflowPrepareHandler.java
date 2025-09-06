@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.job.support.prepare.workflow;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.JobBlockStrategyEnum;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
@@ -15,6 +16,7 @@ import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFail
 import com.wingflare.engine.task.server.job.support.block.workflow.WorkflowBlockStrategyContext;
 import com.wingflare.engine.task.server.job.support.block.workflow.WorkflowBlockStrategyFactory;
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +67,7 @@ public class RunningWorkflowPrepareHandler extends AbstractWorkflowPrePareHandle
 
                 // 超时停止任务
                 String reason = String.format("Task execution timeout. Workflow task batch ID:[%s] Delay:[%s] Executor timeout:[%s]", prepare.getWorkflowTaskBatchId(), delay, DateUtils.toEpochMilli(prepare.getExecutorTimeout()));
-                SnailSpringContext.getContext().publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
+                Container.get(EventPublisher.class).publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
                         .with(WorkflowTaskFailAlarmEventDTO::setWorkflowTaskBatchId, prepare.getWorkflowTaskBatchId())
                         .with(WorkflowTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.WORKFLOW_TASK_ERROR.getNotifyScene())
                         .with(WorkflowTaskFailAlarmEventDTO::setReason, reason)

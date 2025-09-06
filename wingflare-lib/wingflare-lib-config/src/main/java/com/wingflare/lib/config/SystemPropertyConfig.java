@@ -2,10 +2,13 @@ package com.wingflare.lib.config;
 
 import com.wingflare.api.config.ConfigReader;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 系统属性配置获取方法
  */
-public class SystemPropertyConfig implements ConfigReader {
+public final class SystemPropertyConfig implements ConfigReader {
 
     @Override
     public String getProperty(String key) {
@@ -47,6 +50,17 @@ public class SystemPropertyConfig implements ConfigReader {
         }
 
         return Boolean.valueOf(val);
+    }
+
+    @Override
+    public Collection<String> getProfiles() {
+        String profiles = System.getProperty("profiles.active");
+
+        if (profiles == null || profiles.trim().isEmpty()) {
+            return null;
+        }
+
+        return List.of(profiles.split(","));
     }
 
 }

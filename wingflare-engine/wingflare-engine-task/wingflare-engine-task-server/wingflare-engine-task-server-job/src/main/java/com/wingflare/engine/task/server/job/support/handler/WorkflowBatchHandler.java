@@ -1,10 +1,11 @@
 package com.wingflare.engine.task.server.job.support.handler;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
@@ -32,6 +33,7 @@ import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFail
 import com.wingflare.engine.task.server.job.support.cache.MutableGraphCache;
 import com.wingflare.engine.task.server.job.support.stop.JobTaskStopFactory;
 import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.rholder.retry.Attempt;
@@ -224,7 +226,7 @@ public class WorkflowBatchHandler {
                                 && JobOperationReasonEnum.WORKFLOW_NODE_CLOSED_SKIP_EXECUTION.getReason() != jobTaskBatch.getOperationReason()) {
                             taskStatus = JobTaskBatchStatusEnum.FAIL.getStatus();
 
-                            SnailSpringContext.getContext().publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
+                            Container.get(EventPublisher.class).publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
                                     .with(WorkflowTaskFailAlarmEventDTO::setWorkflowTaskBatchId, workflowTaskBatchId)
                                     .with(WorkflowTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.WORKFLOW_TASK_ERROR.getNotifyScene())
                                     .with(WorkflowTaskFailAlarmEventDTO::setReason, "Task execution failed jobTaskBatchId:" + jobTaskBatch.getId())
@@ -265,7 +267,7 @@ public class WorkflowBatchHandler {
                 () -> new TaskServerException("Stopping workflow batch failed. ID:[{}]",
                         workflowTaskBatchId));
 
-        SnailSpringContext.getContext().publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
+        Container.get(EventPublisher.class).publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
                 .with(WorkflowTaskFailAlarmEventDTO::setWorkflowTaskBatchId, workflowTaskBatchId)
                 .with(WorkflowTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.WORKFLOW_TASK_ERROR.getNotifyScene())
                 .with(WorkflowTaskFailAlarmEventDTO::setReason, "Stopping workflow batch failed")

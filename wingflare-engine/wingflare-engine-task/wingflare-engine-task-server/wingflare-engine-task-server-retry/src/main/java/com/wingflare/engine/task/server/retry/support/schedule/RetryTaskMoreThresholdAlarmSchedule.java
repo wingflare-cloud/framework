@@ -4,7 +4,6 @@ package com.wingflare.engine.task.server.retry.support.schedule;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.retry.dto.NotifyConfigDTO;
@@ -12,6 +11,7 @@ import com.wingflare.engine.task.server.retry.dto.RetrySceneConfigPartitionTask;
 import com.wingflare.lib.alarm.AlarmUtil;
 import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wingflare.lib.config.ConfigUtil;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -74,14 +74,14 @@ public class RetryTaskMoreThresholdAlarmSchedule extends AbstractRetryTaskAlarmS
                     // 预警
                     AlarmContext context = AlarmContext.build()
                             .text(retryTaskMoreThresholdTextMessageFormatter,
-                                    EnvironmentUtils.getActiveProfile(),
+                                    ConfigUtil.getProfiles(),
                                     count,
                                     partitionTask.getNamespaceId(),
                                     partitionTask.getGroupName(),
                                     partitionTask.getSceneName(),
                                     DateUtils.toNowFormat(DateUtils.NORM_DATETIME_PATTERN),
                                     count)
-                            .title("{} environment scenario retry count exceeds threshold", EnvironmentUtils.getActiveProfile())
+                            .title("{} environment scenario retry count exceeds threshold", ConfigUtil.getProfiles())
                             .notifyAttribute(recipientInfo.getNotifyAttribute());
                     Optional.ofNullable(AlarmUtil.getAlarmType(recipientInfo.getNotifyType()))
                             .ifPresent(alarmType -> AlarmUtil.asyncSendMessage(recipientInfo.getNotifyType(), context));

@@ -19,13 +19,13 @@ import org.springframework.context.annotation.Role;
 @ConditionalOnClass(TaskExecutor.class)
 @ConditionalOnProperty(prefix = "task", name = "enabled", havingValue = "true")
 public class TaskEngineClientJobCoreAutoConfiguration {
-    private static final String SNAIL_JOB_CLIENT_HOST = "task.host";
+    private static final String TASK_ENGINE_CLIENT_HOST = "task.host";
 
     @Bean
     public Object configureSnailJobHost(TaskEngineNetworkUtils networkUtils, TaskProperties taskProperties) {
         String host = taskProperties.getHost();
         if (StrUtil.isBlank(host)) {
-            host = System.getProperty(SNAIL_JOB_CLIENT_HOST);
+            host = System.getProperty(TASK_ENGINE_CLIENT_HOST);
             if (StrUtil.isNotBlank(host)) {
                 taskProperties.setHost(host);
             }
@@ -35,7 +35,7 @@ public class TaskEngineClientJobCoreAutoConfiguration {
             // 获取首选IP地址
             host = networkUtils.findPreferredHostAddress();
             taskProperties.setHost(host);
-            System.setProperty(SNAIL_JOB_CLIENT_HOST, host);
+            System.setProperty(TASK_ENGINE_CLIENT_HOST, host);
         }
 
         TaskEngineLog.LOCAL.info("Wingflare-task 客户端IP为: {}" , host);

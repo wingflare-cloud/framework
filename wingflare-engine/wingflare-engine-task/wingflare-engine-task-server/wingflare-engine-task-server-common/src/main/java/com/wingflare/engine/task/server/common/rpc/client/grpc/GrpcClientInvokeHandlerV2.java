@@ -3,7 +3,6 @@ package com.wingflare.engine.task.server.common.rpc.client.grpc;
 import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
@@ -28,6 +27,7 @@ import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import io.grpc.ManagedChannel;
 import org.slf4j.Logger;
@@ -145,7 +145,7 @@ public class GrpcClientInvokeHandlerV2 implements InvocationHandler {
                         log.error("request client I/O error, clientId:[{}] clientAddr:[{}:{}] serverIp:[{}]",
                                 nodeInfo.getHostId(), nodeInfo.getHostIp(), nodeInfo.getHostPort(),
                                 NetUtil.getLocalIpStr(), ex);
-                        InstanceManager instanceManager = SnailSpringContext.getBean(InstanceManager.class);
+                        InstanceManager instanceManager = Container.get(InstanceManager.class);
                         instanceLiveInfo.setAlive(Boolean.FALSE);
 
                         // 故障转移

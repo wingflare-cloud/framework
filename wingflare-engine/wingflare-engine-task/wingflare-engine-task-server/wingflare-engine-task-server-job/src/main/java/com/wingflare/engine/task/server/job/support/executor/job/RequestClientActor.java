@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.job.support.executor.job;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
@@ -28,6 +29,7 @@ import com.wingflare.engine.task.server.job.support.JobTaskConverter;
 import com.wingflare.engine.task.server.job.support.alarm.event.JobTaskFailAlarmEvent;
 import com.wingflare.engine.task.server.job.support.callback.ClientCallbackContext;
 import com.wingflare.engine.task.server.job.support.callback.ClientCallbackFactory;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
@@ -142,7 +144,7 @@ public class RequestClientActor extends AbstractActor {
             }
 
             taskExecuteFailure(realJobExecutorDTO, throwable.getMessage());
-            SnailSpringContext.getContext().publishEvent(
+            Container.get(EventPublisher.class).publishEvent(
                     new JobTaskFailAlarmEvent(Builder.of(JobTaskFailAlarmEventDTO::new)
                             .with(JobTaskFailAlarmEventDTO::setJobTaskBatchId, dispatchJobRequest.getTaskBatchId())
                             .with(JobTaskFailAlarmEventDTO::setReason, throwable.getMessage())

@@ -6,7 +6,6 @@ import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -315,6 +314,6 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        taskProperties =  SnailSpringContext.getBean(TaskProperties.class);
+        taskProperties =  Container.get(TaskProperties.class);
     }
 }

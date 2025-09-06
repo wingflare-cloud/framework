@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.client.common.rpc.client.grpc;
 
+
 import cn.hutool.core.date.StopWatch;
 import com.wingflare.engine.task.client.common.annotation.Header;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
@@ -7,7 +8,6 @@ import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.RpcClientProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
 import com.wingflare.engine.task.client.common.exception.TaskClientTimeOutException;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.model.Result;
@@ -18,6 +18,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.wingflare.lib.container.Container;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -131,7 +132,7 @@ public class GrpcClientInvokeHandler<R extends Result<Object>> implements Invoca
     }
 
     protected static ThreadPoolExecutor createGrpcExecutor() {
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
         RpcClientProperties clientRpc = taskProperties.getClientRpc();
         String serverIp = GrpcChannel.getServerHost().replaceAll("%", "-");
         ThreadPoolConfig threadPool = clientRpc.getClientTp();

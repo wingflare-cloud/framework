@@ -1,7 +1,6 @@
 package com.wingflare.engine.task.server.common.cache;
 
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
@@ -11,6 +10,7 @@ import com.wingflare.engine.task.datasource.template.access.AccessTemplate;
 import com.wingflare.engine.task.datasource.template.persistence.po.GroupConfig;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.wingflare.lib.container.Container;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -37,7 +37,7 @@ public class CacheToken implements Lifecycle {
         String token = CACHE.getIfPresent(Pair.of(groupName, namespaceId));
         if (StrUtil.isBlank(token)) {
             // 从DB获取数据
-            AccessTemplate template = SnailSpringContext.getBean(AccessTemplate.class);
+            AccessTemplate template = Container.get(AccessTemplate.class);
             GroupConfig config = template.getGroupConfigAccess().getGroupConfigByGroupName(groupName, namespaceId);
             if (Objects.isNull(config)) {
                 return StrUtil.EMPTY;
@@ -51,7 +51,7 @@ public class CacheToken implements Lifecycle {
     }
 
     private static String getServerToken() {
-        SystemProperties properties = SnailSpringContext.getBean(SystemProperties.class);
+        SystemProperties properties = Container.get(SystemProperties.class);
         return properties.getServerToken();
     }
 

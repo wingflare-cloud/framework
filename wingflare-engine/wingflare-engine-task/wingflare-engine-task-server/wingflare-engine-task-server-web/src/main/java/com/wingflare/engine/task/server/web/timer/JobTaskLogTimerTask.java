@@ -1,11 +1,12 @@
 package com.wingflare.engine.task.server.web.timer;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.TimerTask;
 import com.wingflare.engine.task.server.common.enums.WebSocketSceneEnum;
 import com.wingflare.engine.task.server.common.vo.JobLogQueryVO;
 import com.wingflare.engine.task.server.web.service.JobLogService;
+import com.wingflare.lib.container.Container;
 import io.netty.util.Timeout;
 
 import java.text.MessageFormat;
@@ -35,7 +36,7 @@ public class JobTaskLogTimerTask implements TimerTask<String> {
 
         try {
             LogTimerWheel.clearCache(idempotentKey());
-            JobLogService logService = SnailSpringContext.getBean(JobLogService.class);
+            JobLogService logService = Container.get(JobLogService.class);
             logService.getJobLogPage(logQueryVO);
         } catch (Exception e) {
             TaskEngineLog.LOCAL.error("Scheduled task log query execution failed", e);

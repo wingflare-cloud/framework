@@ -8,7 +8,6 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -17,6 +16,7 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recip
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
 import com.wingflare.lib.alarm.AlarmUtil;
+import com.wingflare.lib.config.ConfigUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -101,7 +101,7 @@ public class SyncReport extends AbstractReport {
             for (final Recipient recipient : recipients) {
                 AlarmContext context = AlarmContext.build()
                         .text(reportErrorTextMessageFormatter,
-                                EnvironmentUtils.getActiveProfile(),
+                                ConfigUtil.getProfiles(),
                                 NetUtil.getLocalIpStr(),
                                 taskProperties.getNamespace(),
                                 taskProperties.getGroup(),

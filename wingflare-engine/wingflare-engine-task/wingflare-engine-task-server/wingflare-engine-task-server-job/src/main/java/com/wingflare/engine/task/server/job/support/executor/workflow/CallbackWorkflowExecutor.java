@@ -1,8 +1,9 @@
 package com.wingflare.engine.task.server.job.support.executor.workflow;
 
+
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -12,6 +13,7 @@ import com.wingflare.engine.task.server.common.dto.JobLogMetaDTO;
 import com.wingflare.engine.task.server.common.rpc.okhttp.RequestInterceptor;
 import com.wingflare.engine.task.server.job.dto.WorkflowTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFailAlarmEvent;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobTaskBatch;
@@ -126,7 +128,7 @@ public class CallbackWorkflowExecutor extends AbstractWorkflowExecutor {
             }
 
             message = throwable.getMessage();
-            SnailSpringContext.getContext().publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
+            Container.get(EventPublisher.class).publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
                     .with(WorkflowTaskFailAlarmEventDTO::setWorkflowTaskBatchId, context.getWorkflowTaskBatchId())
                     .with(WorkflowTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.WORKFLOW_TASK_ERROR.getNotifyScene())
                     .with(WorkflowTaskFailAlarmEventDTO::setReason, message)

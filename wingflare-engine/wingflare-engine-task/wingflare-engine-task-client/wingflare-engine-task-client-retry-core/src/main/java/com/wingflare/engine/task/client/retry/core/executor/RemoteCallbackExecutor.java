@@ -7,10 +7,10 @@ import com.wingflare.engine.task.client.retry.core.context.CallbackContext;
 import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;
 import com.wingflare.engine.task.client.retry.core.log.RetryLogMeta;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
+import com.wingflare.lib.container.Container;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -76,7 +76,7 @@ public class RemoteCallbackExecutor {
         Object[] deSerialize = context.getDeSerialize();
         Class<? extends RetryCompleteCallback> retryCompleteCallbackClazz = retryerInfo.getRetryCompleteCallback();
 
-        RetryCompleteCallback retryCompleteCallback = SnailSpringContext.getBeanByType(retryCompleteCallbackClazz);
+        RetryCompleteCallback retryCompleteCallback = Container.get(retryCompleteCallbackClazz);
         switch (Objects.requireNonNull(RetryStatusEnum.getByStatus(context.getRetryStatus()))) {
             case FINISH:
                 retryCompleteCallback.doSuccessCallback(retryerInfo.getScene(), retryerInfo.getExecutorClassName(),

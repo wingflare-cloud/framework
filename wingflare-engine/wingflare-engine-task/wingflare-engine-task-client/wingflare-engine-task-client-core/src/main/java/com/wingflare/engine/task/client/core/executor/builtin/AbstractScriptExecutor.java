@@ -2,12 +2,12 @@ package com.wingflare.engine.task.client.core.executor.builtin;
 
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
 import com.wingflare.engine.task.common.core.util.TaskFileUtil;
 import com.wingflare.engine.task.common.core.util.TaskSystemUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
+import com.wingflare.lib.container.Container;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.BufferedReader;
@@ -275,7 +275,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
          * @return 允许用户通过启动配置文件自定义存储目录，默认为 user.home
          */
         public static String workspace() {
-            TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+            TaskProperties taskProperties = Container.get(TaskProperties.class);
             String workspaceByDKey = taskProperties.getWorkspace();
             if (StrUtil.isNotEmpty(workspaceByDKey)) {
                 TaskEngineLog.LOCAL.info("[FileUtils] [workspace] use custom workspace: {}", workspaceByDKey);

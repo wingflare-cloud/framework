@@ -2,10 +2,13 @@ package com.wingflare.lib.config;
 
 import com.wingflare.api.config.ConfigReader;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 环境变量配置获取
  */
-public class EnvironmentConfig implements ConfigReader {
+public final class EnvironmentConfig implements ConfigReader {
 
     private String caseKey(String key) {
         return key.toUpperCase().replace('.', '_');
@@ -57,6 +60,17 @@ public class EnvironmentConfig implements ConfigReader {
         }
 
         return Boolean.valueOf(val);
+    }
+
+    @Override
+    public Collection<String> getProfiles() {
+        String profiles = System.getenv("PROFILES_ACTIVE");
+
+        if (profiles == null || profiles.trim().isEmpty()) {
+            return null;
+        }
+
+        return List.of(profiles.split(","));
     }
 
     @Override

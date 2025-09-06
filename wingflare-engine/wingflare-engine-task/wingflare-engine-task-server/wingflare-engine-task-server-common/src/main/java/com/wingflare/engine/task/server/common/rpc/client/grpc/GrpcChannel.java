@@ -1,7 +1,6 @@
 package com.wingflare.engine.task.server.common.rpc.client.grpc;
 
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
@@ -15,6 +14,7 @@ import com.wingflare.engine.task.server.common.register.ServerRegister;
 import com.wingflare.engine.task.server.common.triple.Pair;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.wingflare.lib.container.Container;
 import io.grpc.DecompressorRegistry;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -98,12 +98,12 @@ public class GrpcChannel {
     }
 
     private static String getServerToken() {
-        SystemProperties properties = SnailSpringContext.getBean(SystemProperties.class);
+        SystemProperties properties = Container.get(SystemProperties.class);
         return properties.getServerToken();
     }
 
     private static String getServerPort() {
-        SystemProperties properties = SnailSpringContext.getBean(SystemProperties.class);
+        SystemProperties properties = Container.get(SystemProperties.class);
         return String.valueOf(properties.getServerPort());
     }
 
@@ -115,7 +115,7 @@ public class GrpcChannel {
     public static ManagedChannel connect(String ip, Integer port) {
 
         try {
-            RpcClientProperties clientRpc = SnailSpringContext.getBean(SystemProperties.class).getClientRpc();
+            RpcClientProperties clientRpc = Container.get(SystemProperties.class).getClientRpc();
             return ManagedChannelBuilder.forAddress(ip, port)
                     .usePlaintext()
                     .executor(grpcExecutor)
@@ -134,7 +134,7 @@ public class GrpcChannel {
     }
 
     private static ThreadPoolExecutor createGrpcExecutor() {
-        RpcClientProperties clientRpc = SnailSpringContext.getBean(SystemProperties.class).getClientRpc();
+        RpcClientProperties clientRpc = Container.get(SystemProperties.class).getClientRpc();
         ThreadPoolConfig clientTp = clientRpc.getClientTp();
         ThreadPoolExecutor grpcExecutor = new ThreadPoolExecutor(clientTp.getCorePoolSize(),
                 clientTp.getMaximumPoolSize(), clientTp.getKeepAliveTime(), TimeUnit.MILLISECONDS,

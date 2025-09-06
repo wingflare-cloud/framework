@@ -1,10 +1,11 @@
 package com.wingflare.engine.task.server.job.support.dispatch;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -30,6 +31,7 @@ import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler
 import com.wingflare.engine.task.server.job.support.timer.JobTimeoutCheckTask;
 import com.wingflare.engine.task.server.job.support.timer.JobTimerTask;
 import com.wingflare.engine.task.server.job.support.timer.JobTimerWheel;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
@@ -145,7 +147,7 @@ public class JobExecutorActor extends AbstractActor {
                     workflowBatchHandler.openNextNode(taskExecuteDTO);
 
                     // 无客户端节点-告警通知
-                    SnailSpringContext.getContext().publishEvent(
+                    Container.get(EventPublisher.class).publishEvent(
                             new JobTaskFailAlarmEvent(Builder.of(JobTaskFailAlarmEventDTO::new)
                                     .with(JobTaskFailAlarmEventDTO::setJobTaskBatchId, taskExecute.getTaskBatchId())
                                     .with(JobTaskFailAlarmEventDTO::setReason, JobNotifySceneEnum.JOB_NO_CLIENT_NODES_ERROR.getDesc())
@@ -252,7 +254,7 @@ public class JobExecutorActor extends AbstractActor {
                 () -> new TaskServerException("Updating task failed"));
 
         if (JobTaskBatchStatusEnum.NOT_SUCCESS.contains(taskStatus)) {
-            SnailSpringContext.getContext().publishEvent(
+            Container.get(EventPublisher.class).publishEvent(
                     new JobTaskFailAlarmEvent(Builder.of(JobTaskFailAlarmEventDTO::new)
                             .with(JobTaskFailAlarmEventDTO::setJobTaskBatchId, taskExecute.getTaskBatchId())
                             .with(JobTaskFailAlarmEventDTO::setReason, JobOperationReasonEnum.TASK_EXECUTION_ERROR.getDesc())

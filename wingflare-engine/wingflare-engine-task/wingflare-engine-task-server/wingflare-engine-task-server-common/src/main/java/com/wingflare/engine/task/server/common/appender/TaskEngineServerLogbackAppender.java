@@ -8,7 +8,6 @@ import ch.qos.logback.core.CoreConstants;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -22,6 +21,7 @@ import com.wingflare.engine.task.server.common.dto.LogMetaDTO;
 import com.wingflare.engine.task.server.common.dto.RetryLogMetaDTO;
 import com.wingflare.engine.task.server.common.log.LogStorageFactory;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wingflare.lib.container.Container;
 import org.slf4j.MDC;
 
 import java.util.Objects;
@@ -55,7 +55,7 @@ public class TaskEngineServerLogbackAppender<E> extends UnsynchronizedAppenderBa
         logContentDTO.addLocationField(getLocationField(event));
         logContentDTO.addThrowableField(getThrowableField(event));
         logContentDTO.addHostField(NetUtil.getLocalIpStr());
-        logContentDTO.addPortField(SnailSpringContext.getBean(SystemProperties.class).getServerPort());
+        logContentDTO.addPortField(Container.get(SystemProperties.class).getServerPort());
 
         LogMetaDTO logMetaDTO = null;
         try {

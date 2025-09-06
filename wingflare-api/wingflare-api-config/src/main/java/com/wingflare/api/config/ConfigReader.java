@@ -1,5 +1,7 @@
 package com.wingflare.api.config;
 
+import java.util.Collection;
+
 /**
  * 配置获取接口
  */
@@ -39,6 +41,12 @@ public interface ConfigReader {
      * 获取布尔类型的配置值，带默认值
      */
     Boolean getBooleanProperty(String key, Boolean defaultValue);
+
+    /**
+     * 获取当前环境
+     * @return
+     */
+    Collection<String> getProfiles();
 
     /**
      * 配置项获取的权重

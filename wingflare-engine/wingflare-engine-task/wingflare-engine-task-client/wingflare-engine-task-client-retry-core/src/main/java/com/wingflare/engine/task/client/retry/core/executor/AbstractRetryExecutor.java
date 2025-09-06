@@ -5,9 +5,9 @@ import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorAnnotationMethod;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
+import com.wingflare.lib.container.Container;
 
 /**
  * @author: opensnail
@@ -31,7 +31,7 @@ public abstract class AbstractRetryExecutor<BR, SR> implements RetryExecutor<BR,
             return retryAnnotationMethod.doExecute(params);
         } else {
             TaskEngineLog.LOCAL.debug("Executing custom retry method: {}, parameters: {}", retryMethodClass.getName(), JsonUtil.toJsonString(params));
-            ExecutorMethod executorMethod = SnailSpringContext.getBeanByType(retryMethodClass);
+            ExecutorMethod executorMethod = Container.get(retryMethodClass);
             return executorMethod.doExecute(params);
         }
     }

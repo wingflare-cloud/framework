@@ -3,7 +3,6 @@ package com.wingflare.engine.task.server.retry.support.listener;
 
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.alarm.AbstractRetryAlarm;
@@ -15,6 +14,7 @@ import com.wingflare.engine.task.server.retry.dto.RetryTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.retry.support.RetryTaskConverter;
 import com.wingflare.engine.task.server.retry.support.event.RetryTaskFailAlarmEvent;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.config.ConfigUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -86,7 +86,7 @@ public class RetryTaskFailAlarmListener extends
 
         // 预警
         return AlarmContext.build().text(retryTaskDeadTextMessagesFormatter,
-                        EnvironmentUtils.getActiveProfile(),
+                        ConfigUtil.getProfiles(),
                         notifyConfig.getNotifyThreshold(),
                         RetryNotifySceneEnum.getRetryNotifyScene(retryAlarmInfo.getNotifyScene()).getDesc(),
                         retryAlarmInfo.getNamespaceId(),

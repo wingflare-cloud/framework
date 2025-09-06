@@ -4,7 +4,6 @@ package com.wingflare.engine.task.server.job.support.alarm.listener;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.alarm.AbstractWorkflowAlarm;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
@@ -15,6 +14,7 @@ import com.wingflare.engine.task.server.job.dto.WorkflowTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.WorkflowTaskConverter;
 import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFailAlarmEvent;
 import com.google.common.collect.Lists;
+import com.wingflare.lib.config.ConfigUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -69,14 +69,14 @@ public class WorkflowTaskFailAlarmListener extends AbstractWorkflowAlarm<Workflo
         // 预警
         return AlarmContext.build()
                 .text(MESSAGES_FORMATTER,
-                        EnvironmentUtils.getActiveProfile(),
+                        ConfigUtil.getProfiles(),
                         alarmDTO.getNamespaceId(),
                         alarmDTO.getGroupName(),
                         alarmDTO.getWorkflowName(),
                         JobOperationReasonEnum.getWorkflowNotifyScene(alarmDTO.getOperationReason()).getDesc(),
                         alarmDTO.getReason(),
                         DateUtils.toNowFormat(DateUtils.NORM_DATETIME_PATTERN))
-                .title("{} environment Workflow task execution failed", EnvironmentUtils.getActiveProfile());
+                .title("{} environment Workflow task execution failed", ConfigUtil.getProfiles());
     }
 
     @Override

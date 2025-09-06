@@ -1,7 +1,8 @@
 package com.wingflare.engine.task.datasource.template.utils;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
 import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
+import com.wingflare.lib.container.Container;
 import org.springframework.core.env.Environment;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.core.env.Environment;
 public class DbUtils {
 
     public static DbTypeEnum getDbType() {
-        Environment environment = SnailSpringContext.getBean(Environment.class);
+        Environment environment = Container.get(Environment.class);
         String url = environment.getProperty("spring.datasource.url");
         return DbTypeEnum.modeOf(url);
     }

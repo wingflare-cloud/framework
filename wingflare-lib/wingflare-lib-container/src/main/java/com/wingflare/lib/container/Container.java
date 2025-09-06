@@ -2,6 +2,8 @@ package com.wingflare.lib.container;
 
 import com.wingflare.api.container.ContainerDrive;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.ServiceLoader;
 
 /**
@@ -48,6 +50,26 @@ public class Container {
      */
     public static <T> T get(String name, Class<T> clz) {
         return getContainer().get(name, clz);
+    }
+
+    /**
+     * 获取全部同类型bean对象
+     * @param type
+     * @return
+     * @param <T>
+     */
+    public static <T> Map<String, T> getAllMap(Class<T> type) {
+        return getContainer().getAllMap(type);
+    }
+
+    /**
+     * 获取全部同类型bean对象
+     * @param type
+     * @return
+     * @param <T>
+     */
+    public static <T> Collection<T> getAll(Class<T> type) {
+        return getContainer().getAll(type);
     }
 
     /**

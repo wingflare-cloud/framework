@@ -15,10 +15,8 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.retry.core.RetryExecutor;
 import com.wingflare.engine.task.client.retry.core.RetryExecutorParameter;
 import com.wingflare.engine.task.client.retry.core.executor.GuavaRetryExecutor;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.core.window.Listener;
@@ -28,6 +26,8 @@ import com.wingflare.engine.task.common.model.request.ConfigRequest.Notify.Recip
 import com.wingflare.engine.task.common.model.request.RetryTaskRequest;
 import com.google.common.collect.Lists;
 import com.wingflare.lib.alarm.AlarmUtil;
+import com.wingflare.lib.config.ConfigUtil;
+import com.wingflare.lib.container.Container;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -119,7 +119,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                 return;
             }
 
-            TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
+            TaskProperties properties = Container.get(TaskProperties.class);
             if (Objects.isNull(properties)) {
                 return;
             }
@@ -127,7 +127,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
             for (final Recipient recipient : recipients) {
                 AlarmContext context = AlarmContext.build()
                         .text(reportErrorTextMessageFormatter,
-                                EnvironmentUtils.getActiveProfile(),
+                                ConfigUtil.getProfiles(),
                                 NetUtil.getLocalIpStr(),
                                 properties.getNamespace(),
                                 properties.getGroup(),

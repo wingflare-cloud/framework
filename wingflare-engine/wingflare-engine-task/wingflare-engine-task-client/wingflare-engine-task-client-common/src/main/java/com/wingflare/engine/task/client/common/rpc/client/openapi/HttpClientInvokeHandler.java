@@ -9,12 +9,12 @@ import com.wingflare.engine.task.client.common.annotation.Param;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.ExecutorTypeEnum;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
+import com.wingflare.lib.container.Container;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -44,7 +44,7 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        TaskHttpClient taskHttpClient = loadSnailJobHttpClient();
+        TaskHttpClient taskHttpClient = loadTaskEngineHttpClient();
         Mapping mapping = method.getAnnotation(Mapping.class);
         Parameter[] parameters = method.getParameters();
 
@@ -88,7 +88,7 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
                 }
             }
         }
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
         TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
         headersMap.put(HeadersEnum.GROUP_NAME.getKey(), taskProperties.getGroup());
         headersMap.put(HeadersEnum.HOST.getKey(), serverConfig.getHost());
@@ -108,8 +108,8 @@ public class HttpClientInvokeHandler<R extends Result<Object>> implements Invoca
      *
      * @return {@link TaskHttpClient} 默认为RestTemplateClient
      */
-    public static TaskHttpClient loadSnailJobHttpClient() {
-        TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
+    public static TaskHttpClient loadTaskEngineHttpClient() {
+        TaskProperties properties = Container.get(TaskProperties.class);
         Assert.notNull(properties, () -> new TaskClientException("snail job properties is null"));
         TaskProperties.TaskOpenApiConfig openApiConfig = properties.getOpenapi();
 

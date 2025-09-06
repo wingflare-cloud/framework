@@ -3,13 +3,11 @@ package com.wingflare.engine.task.client.core.register;
 
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.RpcClient;
-import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.core.Scanner;
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -51,7 +49,6 @@ public class JobExecutorRegistrar implements Lifecycle {
     }
 
     public void registerRetryHandler(JobExecutorInfo jobExecutorInfo) {
-        TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
         String executorName = jobExecutorInfo.getExecutorName();
         if (JobExecutorInfoCache.isExisted(executorName)) {
             throw new TaskClientException("Duplicate executor names are not allowed: {}", executorName);

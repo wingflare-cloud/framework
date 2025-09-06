@@ -3,7 +3,7 @@ package com.wingflare.engine.task.client.retry.core.retryer;
 import com.wingflare.engine.task.client.retry.core.strategy.ExecutorMethod;
 import com.wingflare.engine.task.client.retry.core.strategy.ManualRetryStrategies;
 import com.wingflare.engine.task.client.retry.core.strategy.RetryStrategy;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+import com.wingflare.lib.container.Container;
 
 /**
  * 构建重试模板对象
@@ -41,7 +41,7 @@ public class RetryTaskTemplateBuilder {
         taskTemplate.setParams(params);
         taskTemplate.setExecutorMethodClass(executorMethodClass);
         taskTemplate.setScene(scene);
-        RetryStrategy retryStrategy = SnailSpringContext.getBeanByType(ManualRetryStrategies.class);
+        RetryStrategy retryStrategy = Container.get(ManualRetryStrategies.class);
         taskTemplate.setRetryStrategy(retryStrategy);
         return taskTemplate;
     }

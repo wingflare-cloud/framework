@@ -1,10 +1,12 @@
 package com.wingflare.engine.task.server.web.socket;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.server.common.enums.WebSocketSceneEnum;
 import com.wingflare.engine.task.server.web.config.WebSocketConfigurator;
 import com.wingflare.engine.task.server.web.model.event.WsRequestEvent;
 import com.wingflare.engine.task.server.web.model.event.WsSendEvent;
+import com.wingflare.lib.container.Container;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -72,7 +74,7 @@ public class LogServer {
         requestVO.setSceneEnum(WebSocketSceneEnum.valueOf(scene));
         requestVO.setMessage(message);
         requestVO.setSid(sid);
-        SnailSpringContext.getContext().publishEvent(requestVO);
+        Container.get(EventPublisher.class).publishEvent(requestVO);
     }
 
 

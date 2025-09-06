@@ -6,9 +6,9 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.common.rpc.openapi.AbstractRequestHandler;
 import com.wingflare.engine.task.client.retry.core.openapi.RetryOpenApiClient;
 import com.wingflare.engine.task.client.retry.core.openapi.RetryOpenApiClientV2;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.model.TaskOpenApiResult;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
+import com.wingflare.lib.container.Container;
 
 public abstract class AbstractRetryRequestHandler<T> extends AbstractRequestHandler<T> {
     RetryOpenApiClient client = RequestBuilder.<RetryOpenApiClient, TaskRpcResult>newBuilder()
@@ -24,7 +24,7 @@ public abstract class AbstractRetryRequestHandler<T> extends AbstractRequestHand
             .build();
 
     protected boolean isOpenApiV2() {
-        TaskProperties properties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties properties = Container.get(TaskProperties.class);
         return properties.isOpenapiV2();
     }
 }

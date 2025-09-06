@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.constant.LogFieldConstants;
 import com.wingflare.engine.task.server.common.vo.JobLogQueryVO;
@@ -15,6 +16,7 @@ import com.wingflare.engine.task.datasource.template.persistence.dataobject.log.
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobTaskBatch;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wingflare.lib.container.Container;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -80,7 +82,7 @@ public class JobLogServiceImpl implements JobLogService {
                     WsSendEvent sendEvent = new WsSendEvent(this);
                     sendEvent.setSid(sid);
                     sendEvent.setMessage(JsonUtil.toJsonString(logContent));
-                    SnailSpringContext.getContext().publishEvent(sendEvent);
+                    Container.get(EventPublisher.class).publishEvent(sendEvent);
                 }
             }
 
@@ -104,7 +106,7 @@ public class JobLogServiceImpl implements JobLogService {
             WsSendEvent sendEvent = new WsSendEvent(this);
             sendEvent.setMessage("END");
             sendEvent.setSid(sid);
-            SnailSpringContext.getContext().publishEvent(sendEvent);
+            Container.get(EventPublisher.class).publishEvent(sendEvent);
         } else {
             // 覆盖作为下次查询的起始条件
             queryVO.setStartRealTime(lastRealTime);

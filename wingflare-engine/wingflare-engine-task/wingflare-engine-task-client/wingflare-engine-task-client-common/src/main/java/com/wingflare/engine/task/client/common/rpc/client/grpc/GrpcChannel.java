@@ -8,7 +8,6 @@ import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.exception.TaskRemoteException;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.ExecutorTypeEnum;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
@@ -17,6 +16,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.core.util.TaskVersion;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.wingflare.lib.container.Container;
 import io.grpc.ManagedChannel;
 import io.grpc.MethodDescriptor;
 import io.grpc.protobuf.ProtoUtils;
@@ -74,7 +74,7 @@ public final class GrpcChannel {
      * @return port
      */
     public static int getServerPort() {
-        TaskProperties taskProperties = SnailSpringContext.getContext().getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
         TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
 
         String port = System.getProperty(TASK_ENGINE_SERVER_PORT);
@@ -91,7 +91,7 @@ public final class GrpcChannel {
      * @return host
      */
     public static String getServerHost() {
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
         TaskProperties.ServerConfig serverConfig = taskProperties.getServer();
 
         String host = System.getProperty(TASK_ENGINE_SERVER_HOST);
@@ -108,7 +108,7 @@ public final class GrpcChannel {
      * @return 客户端IP
      */
     public static String getClientHost() {
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
         return taskProperties.getHost();
     }
 
@@ -118,8 +118,8 @@ public final class GrpcChannel {
      * @return port 端口
      */
     public static Integer getClientPort() {
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
-        ServerProperties serverProperties = SnailSpringContext.getBean(ServerProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
+        ServerProperties serverProperties = Container.get(ServerProperties.class);
 
         Integer port = taskProperties.getPort();
         // 获取客户端指定的端口
@@ -186,7 +186,7 @@ public final class GrpcChannel {
             return null;
         }
 
-        TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+        TaskProperties taskProperties = Container.get(TaskProperties.class);
 
         // server配置不能为空
         TaskProperties.ServerConfig serverConfig = taskProperties.getServer();

@@ -1,9 +1,10 @@
 package com.wingflare.engine.task.server.job.support.executor.workflow;
 
+
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.expression.ExpressionEngine;
 import com.wingflare.engine.task.common.core.expression.ExpressionFactory;
@@ -16,6 +17,7 @@ import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.job.dto.WorkflowTaskFailAlarmEventDTO;
 import com.wingflare.engine.task.server.job.support.alarm.event.WorkflowTaskFailAlarmEvent;
 import com.wingflare.engine.task.server.job.support.expression.ExpressionInvocationHandler;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowTaskBatchMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobTask;
@@ -102,7 +104,7 @@ public class DecisionWorkflowExecutor extends AbstractWorkflowExecutor {
                     jobTaskStatus = JobTaskStatusEnum.FAIL.getStatus();
                     message = e.getMessage();
 
-                    SnailSpringContext.getContext().publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
+                    Container.get(EventPublisher.class).publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
                             .with(WorkflowTaskFailAlarmEventDTO::setWorkflowTaskBatchId, context.getWorkflowTaskBatchId())
                             .with(WorkflowTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.WORKFLOW_TASK_ERROR.getNotifyScene())
                             .with(WorkflowTaskFailAlarmEventDTO::setReason, message)

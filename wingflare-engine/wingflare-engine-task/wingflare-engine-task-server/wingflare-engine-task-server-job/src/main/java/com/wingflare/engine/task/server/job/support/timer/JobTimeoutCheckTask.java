@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.job.support.timer;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
@@ -12,6 +13,7 @@ import com.wingflare.engine.task.server.job.support.JobTaskStopHandler;
 import com.wingflare.engine.task.server.job.support.alarm.event.JobTaskFailAlarmEvent;
 import com.wingflare.engine.task.server.job.support.stop.JobTaskStopFactory;
 import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
@@ -43,7 +45,7 @@ public class JobTimeoutCheckTask implements TimerTask<String> {
     @Override
     public void run(Timeout timeout) throws Exception {
         JobTimerWheel.clearCache(idempotentKey());
-        JobTaskBatchMapper jobTaskBatchMapper = SnailSpringContext.getBean(JobTaskBatchMapper.class);
+        JobTaskBatchMapper jobTaskBatchMapper = Container.get(JobTaskBatchMapper.class);
         JobTaskBatch jobTaskBatch = jobTaskBatchMapper.selectById(taskBatchId);
         if (Objects.isNull(jobTaskBatch)) {
             TaskEngineLog.LOCAL.error("jobTaskBatch:[{}] does not exist", taskBatchId);
@@ -55,7 +57,7 @@ public class JobTimeoutCheckTask implements TimerTask<String> {
             return;
         }
 
-        JobMapper jobMapper = SnailSpringContext.getBean(JobMapper.class);
+        JobMapper jobMapper = Container.get(JobMapper.class);
         Job job = jobMapper.selectById(jobId);
         if (Objects.isNull(job)) {
             TaskEngineLog.LOCAL.error("job:[{}] does not exist", jobId);
@@ -81,7 +83,7 @@ public class JobTimeoutCheckTask implements TimerTask<String> {
                 .with(JobTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.JOB_TASK_ERROR.getNotifyScene())
                 .build();
 
-        SnailSpringContext.getContext().publishEvent(
+        Container.get(EventPublisher.class).publishEvent(
                 new JobTaskFailAlarmEvent(jobTaskFailAlarmEventDTO));
         TaskEngineLog.LOCAL.info(reason);
     }

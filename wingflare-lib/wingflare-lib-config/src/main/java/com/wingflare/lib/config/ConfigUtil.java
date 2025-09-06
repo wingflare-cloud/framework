@@ -3,6 +3,7 @@ package com.wingflare.lib.config;
 
 import com.wingflare.api.config.ConfigReader;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -113,6 +114,19 @@ public class ConfigUtil {
         }
 
         return defaultValue;
+    }
+
+    /**
+     * 获取当前环境
+     * @return
+     */
+    public static Collection<String> getProfiles() {
+        for (ConfigReader loader : getConfigs()) {
+            Collection<String> config = loader.getProfiles();
+            if (config != null) return config;
+        }
+
+        return List.of();
     }
 
 }

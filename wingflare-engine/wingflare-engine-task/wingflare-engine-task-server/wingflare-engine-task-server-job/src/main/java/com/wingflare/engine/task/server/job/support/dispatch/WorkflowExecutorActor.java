@@ -2,8 +2,8 @@ package com.wingflare.engine.task.server.job.support.dispatch;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.*;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
@@ -33,6 +33,7 @@ import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler
 import com.wingflare.engine.task.server.job.support.timer.JobTimerWheel;
 import com.wingflare.engine.task.server.job.support.timer.WorkflowTimeoutCheckTask;
 import com.wingflare.engine.task.server.job.support.timer.WorkflowTimerTask;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Sets;
@@ -95,7 +96,7 @@ public class WorkflowExecutorActor extends AbstractActor {
                         JobTaskBatchStatusEnum.FAIL.getStatus(),
                         JobOperationReasonEnum.TASK_EXECUTION_ERROR.getReason());
 
-                SnailSpringContext.getContext().publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
+                Container.get(EventPublisher.class).publishEvent(new WorkflowTaskFailAlarmEvent(Builder.of(WorkflowTaskFailAlarmEventDTO::new)
                         .with(WorkflowTaskFailAlarmEventDTO::setWorkflowTaskBatchId, taskExecute.getWorkflowTaskBatchId())
                         .with(WorkflowTaskFailAlarmEventDTO::setNotifyScene, JobNotifySceneEnum.WORKFLOW_TASK_ERROR.getNotifyScene())
                         .with(WorkflowTaskFailAlarmEventDTO::setReason, e.getMessage())

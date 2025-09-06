@@ -1,8 +1,9 @@
 package com.wingflare.engine.task.server.job.support.generator.batch;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
@@ -20,6 +21,7 @@ import com.wingflare.engine.task.server.job.support.handler.JobTaskBatchHandler;
 import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
 import com.wingflare.engine.task.server.job.support.timer.JobTimerTask;
 import com.wingflare.engine.task.server.job.support.timer.JobTimerWheel;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
@@ -90,7 +92,7 @@ public class JobTaskBatchGenerator {
 
         // 无客户端节点-告警通知
         if (JobTaskBatchStatusEnum.CANCEL.getStatus() == jobTaskBatch.getTaskBatchStatus() && JobOperationReasonEnum.NOT_CLIENT.getReason() == jobTaskBatch.getOperationReason()) {
-            SnailSpringContext.getContext().publishEvent(
+            Container.get(EventPublisher.class).publishEvent(
                     new JobTaskFailAlarmEvent(Builder.of(JobTaskFailAlarmEventDTO::new)
                             .with(JobTaskFailAlarmEventDTO::setJobTaskBatchId, jobTaskBatch.getId())
                             .with(JobTaskFailAlarmEventDTO::setReason, JobNotifySceneEnum.JOB_NO_CLIENT_NODES_ERROR.getDesc())

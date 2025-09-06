@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.RetryOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.RetryTaskStatusEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
@@ -41,6 +41,7 @@ import com.wingflare.engine.task.datasource.template.persistence.po.RetryTask;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetryTaskLogMessage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.wingflare.lib.container.Container;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -141,7 +142,7 @@ public class RetryTaskServiceImpl implements RetryTaskService {
                     WsSendEvent sendEvent = new WsSendEvent(this);
                     sendEvent.setSid(sid);
                     sendEvent.setMessage(JsonUtil.toJsonString(logContent));
-                    SnailSpringContext.getContext().publishEvent(sendEvent);
+                    Container.get(EventPublisher.class).publishEvent(sendEvent);
                 }
             }
 
@@ -162,7 +163,7 @@ public class RetryTaskServiceImpl implements RetryTaskService {
             WsSendEvent sendEvent = new WsSendEvent(this);
             sendEvent.setMessage("END");
             sendEvent.setSid(sid);
-            SnailSpringContext.getContext().publishEvent(sendEvent);
+            Container.get(EventPublisher.class).publishEvent(sendEvent);
         } else {
             // 覆盖作为下次查询的起始条件
             queryVO.setStartRealTime(lastRealTime);

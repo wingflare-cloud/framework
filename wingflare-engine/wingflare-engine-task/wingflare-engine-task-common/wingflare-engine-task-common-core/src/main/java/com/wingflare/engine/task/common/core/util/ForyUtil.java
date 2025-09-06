@@ -1,10 +1,10 @@
 package com.wingflare.engine.task.common.core.util;
 
 import com.wingflare.engine.task.common.core.config.ForyProperties;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.exception.TaskCommonException;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.github.luben.zstd.Zstd;
+import com.wingflare.lib.container.Container;
 import org.apache.fory.Fory;
 import org.apache.fory.ThreadSafeFory;
 import org.apache.fory.config.CompatibleMode;
@@ -96,7 +96,7 @@ public class ForyUtil {
 
         ForyProperties properties = null;
         try {
-            properties = SnailSpringContext.getBean(ForyProperties.class);
+            properties = Container.get(ForyProperties.class);
         } catch (Exception e) {
             TaskEngineLog.LOCAL.warn("Get ForyProperties failed.", e);
         }

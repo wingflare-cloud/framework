@@ -13,7 +13,6 @@ import com.wingflare.engine.task.client.retry.core.loader.TaskRetrySpiLoader;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerInfo;
 import com.wingflare.engine.task.client.retry.core.retryer.RetryerResultContext;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
@@ -23,6 +22,7 @@ import com.github.rholder.retry.StopStrategy;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.common.collect.Lists;
 import com.wingflare.lib.alarm.AlarmUtil;
+import com.wingflare.lib.config.ConfigUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.annotation.Resource;
@@ -191,7 +191,7 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                 for (final Recipient recipient : recipients) {
                     AlarmContext context = AlarmContext.build()
                             .text(TEXT_MESSAGE_FORMATTER,
-                                    EnvironmentUtils.getActiveProfile(),
+                                    ConfigUtil.getProfiles(),
                                     NetUtil.getLocalIpStr(),
                                     taskProperties.getNamespace(),
                                     taskProperties.getGroup(),

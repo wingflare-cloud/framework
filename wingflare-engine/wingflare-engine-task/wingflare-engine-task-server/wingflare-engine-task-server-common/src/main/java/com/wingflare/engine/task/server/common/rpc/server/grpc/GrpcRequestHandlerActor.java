@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.server.common.rpc.server.grpc;
 
+
 import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.StrUtil;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.HeadersEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
@@ -17,6 +17,7 @@ import com.wingflare.engine.task.server.common.cache.CacheToken;
 import com.wingflare.engine.task.server.common.dto.GrpcRequest;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
+import com.wingflare.lib.container.Container;
 import io.grpc.stub.StreamObserver;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import org.apache.pekko.actor.AbstractActor;
@@ -99,8 +100,8 @@ public class GrpcRequestHandlerActor extends AbstractActor {
         headersMap.forEach(headers::add);
 
         UrlBuilder builder = UrlBuilder.ofHttp(uri);
-        Collection<HttpRequestHandler> httpRequestHandlers = SnailSpringContext.getContext()
-            .getBeansOfType(HttpRequestHandler.class).values();
+        Collection<HttpRequestHandler> httpRequestHandlers = Container
+            .getAllMap(HttpRequestHandler.class).values();
         for (HttpRequestHandler httpRequestHandler : httpRequestHandlers) {
             if (httpRequestHandler.supports(builder.getPathStr())) {
                 return httpRequestHandler.doHandler(content, builder, headers);

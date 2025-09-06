@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.server.job.support.prepare.job;
 
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
+
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.engine.task.common.core.enums.JobBlockStrategyEnum;
 import com.wingflare.engine.task.common.core.enums.JobOperationReasonEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
@@ -17,6 +18,7 @@ import com.wingflare.engine.task.server.job.support.block.job.JobBlockStrategyFa
 import com.wingflare.engine.task.server.job.support.handler.JobTaskBatchHandler;
 import com.wingflare.engine.task.server.job.support.stop.JobTaskStopFactory;
 import com.wingflare.engine.task.server.job.support.stop.TaskStopJobContext;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +70,7 @@ public class RunningJobPrepareHandler extends AbstractJobPrepareHandler {
                 stopJobContext.setNeedUpdateTaskStatus(Boolean.TRUE);
                 instanceInterrupt.stop(stopJobContext);
 
-                SnailSpringContext.getContext().publishEvent(
+                Container.get(EventPublisher.class).publishEvent(
                         Builder.of(JobTaskFailAlarmEventDTO::new)
                                 .with(JobTaskFailAlarmEventDTO::setJobTaskBatchId, prepare.getTaskBatchId())
                                 .build());

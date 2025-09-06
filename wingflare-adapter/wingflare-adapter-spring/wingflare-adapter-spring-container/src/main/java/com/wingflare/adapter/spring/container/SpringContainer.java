@@ -2,10 +2,14 @@ package com.wingflare.adapter.spring.container;
 
 import com.wingflare.api.container.ContainerDrive;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * spring容器类
  */
-public class SpringContainer implements ContainerDrive {
+public final class SpringContainer implements ContainerDrive {
 
     @Override
     public <T> T get(Class<T> clz) {
@@ -15,6 +19,16 @@ public class SpringContainer implements ContainerDrive {
     @Override
     public <T> T get(String name, Class<T> clz) {
         return SpringUtil.getBean(name);
+    }
+
+    @Override
+    public <T> Map<String, T> getAllMap(Class<T> type) {
+        return SpringUtil.getApplicationContext().getBeansOfType(type);
+    }
+
+    @Override
+    public <T> Collection<T> getAll(Class<T> type) {
+        return SpringUtil.getApplicationContext().getBeansOfType(type).values();
     }
 
     @Override
@@ -33,7 +47,7 @@ public class SpringContainer implements ContainerDrive {
     }
 
     @Override
-    public <T> boolean has(String beanName) {
+    public boolean has(String beanName) {
         return SpringUtil.containsBean(beanName);
     }
 

@@ -10,14 +10,12 @@ import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.client.core.cache.ThreadPoolCache;
 import com.wingflare.engine.task.client.core.client.JobNettyClient;
 import com.wingflare.engine.task.client.core.log.JobLogMeta;
-import com.wingflare.engine.task.common.core.context.SnailSpringContext;
 import com.wingflare.engine.task.common.core.enums.JobNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskStatusEnum;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.JobContext;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
-import com.wingflare.engine.task.common.core.util.EnvironmentUtils;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
@@ -29,6 +27,8 @@ import com.wingflare.engine.task.common.model.request.DispatchJobResultRequest;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.FutureCallback;
 import com.wingflare.lib.alarm.AlarmUtil;
+import com.wingflare.lib.config.ConfigUtil;
+import com.wingflare.lib.container.Container;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -168,7 +168,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
     private static void sendMessage(String message) {
 
         try {
-            TaskProperties taskProperties = SnailSpringContext.getBean(TaskProperties.class);
+            TaskProperties taskProperties = Container.get(TaskProperties.class);
             if (Objects.isNull(taskProperties)) {
                 return;
             }
@@ -179,7 +179,7 @@ public class JobExecutorFutureCallback implements FutureCallback<ExecuteResult> 
                 for (final Recipient recipient : recipients) {
                     AlarmContext context = AlarmContext.build()
                             .text(TEXT_MESSAGE_FORMATTER,
-                                    EnvironmentUtils.getActiveProfile(),
+                                    ConfigUtil.getProfiles(),
                                     NetUtil.getLocalIpStr(),
                                     taskProperties.getNamespace(),
                                     taskProperties.getGroup(),
