@@ -20,12 +20,10 @@ import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -41,18 +39,20 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Thu Mar 09 10:13:02 CST 2023
  */
-@Component
 @Validated
 public class RolePermissionBizImpl implements RolePermissionBiz {
 
-    @Resource
-    private RolePermissionServer rolePermissionServer;
+    private final RolePermissionServer rolePermissionServer;
 
-    @Resource
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
-    @Resource
-    private RoleBiz roleBiz;
+    private final RoleBiz roleBiz;
+
+    public RolePermissionBizImpl(RolePermissionServer rolePermissionServer, TransactionTemplate transactionTemplate, RoleBiz roleBiz) {
+        this.rolePermissionServer = rolePermissionServer;
+        this.transactionTemplate = transactionTemplate;
+        this.roleBiz = roleBiz;
+    }
 
     /**
      * 查询系统角色权限列表

@@ -1,6 +1,7 @@
 package com.wingflare.business.auth.biz;
 
 
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.auth.ErrorCode;
 import com.wingflare.business.auth.SettingCode;
 import com.wingflare.facade.module.auth.biz.LoginBiz;
@@ -13,6 +14,7 @@ import com.wingflare.facade.module.auth.event.UserLogoutEvent;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
+import com.wingflare.lib.config.ConfigUtil;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.enums.SensitiveType;
@@ -35,12 +37,8 @@ import com.wingflare.lib.spring.utils.SnowflakeUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import com.wingflare.lib.standard.utils.SecurityUtil;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -57,30 +55,31 @@ import java.util.concurrent.TimeUnit;
  * @email chenxi2511@qq.com
  * @description 登陆业务
  */
-@Component
 @Validated
 public class LoginBizImpl implements LoginBiz {
 
-    @Resource
-    private UserBiz userBiz;
+    private final UserBiz userBiz;
 
-    @Resource
-    private SettingUtil settingUtil;
+    private final SettingUtil settingUtil;
 
-    @Resource
-    private SnowflakeUtil snowflakeUtil;
+    private final SnowflakeUtil snowflakeUtil;
 
-    @Resource
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    @Value("${login.secret:" + Ctx.LOGIN_DEFAULT_SECRET + "}")
-    private String secret;
+    private final UserAuthUtil userAuthUtil;
 
-    @Resource
-    private UserAuthUtil userAuthUtil;
+    private final EventPublisher eventPublisher;
 
-    @Resource
-    private ApplicationEventPublisher appEventPublisher;
+
+    public LoginBizImpl(UserBiz userBiz, SettingUtil settingUtil, SnowflakeUtil snowflakeUtil, JwtUtil jwtUtil,
+                        UserAuthUtil userAuthUtil, EventPublisher eventPublisher) {
+        this.userBiz = userBiz;
+        this.settingUtil = settingUtil;
+        this.snowflakeUtil = snowflakeUtil;
+        this.jwtUtil = jwtUtil;
+        this.userAuthUtil = userAuthUtil;
+        this.eventPublisher = eventPublisher;
+    }
 
     /**
      * 获取token过期时间
@@ -186,7 +185,7 @@ public class LoginBizImpl implements LoginBiz {
                 .setLastLoginTime(now)
                 .setLastLoginIp(bo.getIpaddr()));
 
-        appEventPublisher.publishEvent(new UserLoginEvent(userAuth));
+        eventPublisher.publishEvent(new UserLoginEvent(userAuth));
 
         return tokenDto;
     }
@@ -200,7 +199,7 @@ public class LoginBizImpl implements LoginBiz {
         UserAuth userAuth = userAuthUtil.removeToken(tokenId);
 
         if (userAuth != null) {
-            appEventPublisher.publishEvent(new UserLogoutEvent(userAuth));
+            eventPublisher.publishEvent(new UserLogoutEvent(userAuth));
         }
 
         return userAuth;
@@ -306,7 +305,7 @@ public class LoginBizImpl implements LoginBiz {
     private Map<String, Object> parseRefreshToken(String refreshToken) {
         Map<String, Object> claimsMap = jwtUtil.parseToken(refreshToken);
 
-        if (!SecurityUtil.checkTokenClaimsMap(claimsMap, secret)) {
+        if (!SecurityUtil.checkTokenClaimsMap(claimsMap, ConfigUtil.getProperty("login.secret"))) {
             throw new BusinessLogicException(ErrorCode.REFRESH_TOKEN_EXCEPTION);
         }
 
@@ -315,7 +314,7 @@ public class LoginBizImpl implements LoginBiz {
 
 
     private String tokenGen(String systemCode, String id, Date date) {
-        return jwtUtil.createToken(SecurityUtil.getClaimsMap(systemCode, id, date, secret));
+        return jwtUtil.createToken(SecurityUtil.getClaimsMap(systemCode, id, date, ConfigUtil.getProperty("login.secret")));
     }
 
 }

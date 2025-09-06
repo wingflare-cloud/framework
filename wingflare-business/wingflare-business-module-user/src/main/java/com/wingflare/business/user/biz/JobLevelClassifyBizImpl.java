@@ -20,10 +20,8 @@ import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -36,12 +34,14 @@ import jakarta.validation.groups.Default;
  * @author naizui_ycx
  * @since 2023-04-28
  */
-@Component
 @Validated
 public class JobLevelClassifyBizImpl implements JobLevelClassifyBiz {
 
-    @Resource
-    private JobLevelClassifyServer jobLevelClassifyServer;
+    private final JobLevelClassifyServer jobLevelClassifyServer;
+
+    public JobLevelClassifyBizImpl(JobLevelClassifyServer jobLevelClassifyServer) {
+        this.jobLevelClassifyServer = jobLevelClassifyServer;
+    }
 
     /**
      * 查询jobLevelClassify列表

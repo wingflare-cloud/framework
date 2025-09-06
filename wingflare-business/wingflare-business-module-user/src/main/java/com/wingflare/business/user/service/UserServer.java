@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.user.db.UserDO;
 import com.wingflare.business.user.mapper.UserMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Tue Mar 07 17:34:13 CST 2023
  */
-@Service
 public class UserServer extends BaseService<UserMapper, UserDO>
 {
 

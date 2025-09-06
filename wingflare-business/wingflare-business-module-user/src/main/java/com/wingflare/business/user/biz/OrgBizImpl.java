@@ -16,11 +16,9 @@ import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -32,12 +30,14 @@ import jakarta.validation.groups.Default;
  * @author naizui_ycx
  * @date Fri Mar 10 15:36:56 CST 2023
  */
-@Component
 @Validated
 public class OrgBizImpl implements OrgBiz {
 
-    @Resource
-    private OrgServer orgServer;
+    private final OrgServer orgServer;
+
+    public OrgBizImpl(OrgServer orgServer) {
+        this.orgServer = orgServer;
+    }
 
     /**
      * 查询组织机构列表

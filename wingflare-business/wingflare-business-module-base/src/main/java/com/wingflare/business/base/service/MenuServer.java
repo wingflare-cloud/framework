@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.base.db.MenuDO;
 import com.wingflare.business.base.mapper.MenuMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Sat Mar 04 21:30:08 CST 2023
  */
-@Service
 public class MenuServer extends BaseService<MenuMapper, MenuDO> {
 
     /**

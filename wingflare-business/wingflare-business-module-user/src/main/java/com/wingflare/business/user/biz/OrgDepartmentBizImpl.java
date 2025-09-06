@@ -7,7 +7,6 @@ import com.wingflare.business.user.convert.OrgDepartmentConvert;
 import com.wingflare.business.user.db.OrgDepartmentDO;
 import com.wingflare.business.user.service.OrgDepartmentServer;
 import com.wingflare.business.user.service.OrgServer;
-import com.wingflare.business.user.service.UserRoleServer;
 import com.wingflare.business.user.wrapper.OrgDepartmentWrapper;
 import com.wingflare.facade.module.user.biz.OrgDepartmentBiz;
 import com.wingflare.facade.module.user.bo.OrgDepartmentBO;
@@ -20,11 +19,9 @@ import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -38,18 +35,17 @@ import java.math.BigInteger;
  * @author naizui_ycx
  * @date Fri Mar 10 15:40:11 CST 2023
  */
-@Component
 @Validated
 public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
 
-    @Resource
-    private OrgDepartmentServer orgDepartmentServer;
+    private final OrgDepartmentServer orgDepartmentServer;
 
-    @Resource
-    private OrgServer orgServer;
+    private final OrgServer orgServer;
 
-    @Resource
-    private UserRoleServer userRoleServer;
+    public OrgDepartmentBizImpl(OrgDepartmentServer orgDepartmentServer, OrgServer orgServer) {
+        this.orgDepartmentServer = orgDepartmentServer;
+        this.orgServer = orgServer;
+    }
 
     /**
      * 查询机构部门列表

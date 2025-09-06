@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.user.db.IdentityDO;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import com.wingflare.business.user.mapper.IdentityMapper;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Sun Apr 02 10:15:03 CST 2023
  */
-@Service
 public class IdentityServer extends BaseService<IdentityMapper, IdentityDO>
 {
 

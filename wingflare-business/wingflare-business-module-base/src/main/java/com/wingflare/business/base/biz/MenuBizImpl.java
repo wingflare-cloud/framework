@@ -2,6 +2,7 @@ package com.wingflare.business.base.biz;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.MenuConvert;
 import com.wingflare.business.base.db.MenuDO;
@@ -31,13 +32,10 @@ import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -57,20 +55,22 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author naizui_ycx
  * @date Sat Mar 04 21:30:08 CST 2023
  */
-@Component
 @Validated
 public class MenuBizImpl implements MenuBiz {
 
-    @Resource
-    private MenuServer menuServer;
+    private final MenuServer menuServer;
 
-    @Resource
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
-    @Resource
-    private ApplicationEventPublisher appEventPublisher;
+    private final EventPublisher eventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(MenuBizImpl.class);
+
+    public MenuBizImpl(MenuServer menuServer, TransactionTemplate transactionTemplate, EventPublisher eventPublisher) {
+        this.menuServer = menuServer;
+        this.transactionTemplate = transactionTemplate;
+        this.eventPublisher = eventPublisher;
+    }
 
     /**
      * 查询系统菜单列表
@@ -123,7 +123,7 @@ public class MenuBizImpl implements MenuBiz {
                         ), ErrorCode.SYS_MENU_NOT_DELETE);
                 Assert.isTrue(menuServer.removeById(bo.getId()), ErrorCode.SYS_MENU_DELETE_ERROR);
                 menuDto = MenuConvert.convert.doToDto(menuDo);
-                appEventPublisher.publishEvent(new MenuDeleteEvent(menuDto));
+                eventPublisher.publishEvent(new MenuDeleteEvent(menuDto));
             }
 
             return menuDto;
@@ -132,7 +132,7 @@ public class MenuBizImpl implements MenuBiz {
         Optional.ofNullable(ret)
                 .ifPresent(val -> {
                     try {
-                        appEventPublisher.publishEvent(new MenuDeletedEvent(val));
+                        eventPublisher.publishEvent(new MenuDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -150,12 +150,12 @@ public class MenuBizImpl implements MenuBiz {
             MenuDO menuDo = MenuConvert.convert.boToDo(bo);
             Assert.isTrue(menuServer.save(menuDo), ErrorCode.SYS_MENU_CREATE_ERROR);
             MenuDTO menuDto = MenuConvert.convert.doToDto(menuDo);
-            appEventPublisher.publishEvent(new MenuCreateEvent(bo, menuDto));
+            eventPublisher.publishEvent(new MenuCreateEvent(bo, menuDto));
             return menuDto;
         });
 
         try {
-            appEventPublisher.publishEvent(new MenuCreatedEvent(bo, ret));
+            eventPublisher.publishEvent(new MenuCreatedEvent(bo, ret));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -192,7 +192,7 @@ public class MenuBizImpl implements MenuBiz {
                 oldField.set(MenuConvert.convert.doToDto(oldFieldDo));
                 Assert.isTrue(menuServer.updateById(oldMenuDO), ErrorCode.SYS_MENU_UPDATE_ERROR);
                 menuDto = MenuConvert.convert.doToDto(oldMenuDO);
-                appEventPublisher.publishEvent(new MenuUpdateEvent(oldField.get(), menuDto));
+                eventPublisher.publishEvent(new MenuUpdateEvent(oldField.get(), menuDto));
             } else {
                 menuDto = MenuConvert.convert.doToDto(oldMenuDO);
             }
@@ -201,7 +201,7 @@ public class MenuBizImpl implements MenuBiz {
 
         if (oldField.get() != null) {
             try {
-                appEventPublisher.publishEvent(new MenuUpdatedEvent(oldField.get(), ret));
+                eventPublisher.publishEvent(new MenuUpdatedEvent(oldField.get(), ret));
             } catch (Throwable e) {
                 logger.warn(e.getMessage());
             }

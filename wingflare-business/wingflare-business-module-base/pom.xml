@@ -45,14 +45,17 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-event</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-http</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-container</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <dependency>

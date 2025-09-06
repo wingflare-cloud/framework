@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.base.db.DictDO;
 import com.wingflare.business.base.mapper.DictMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Sat Mar 04 17:48:17 CST 2023
  */
-@Service
 public class DictServer extends BaseService<DictMapper, DictDO> {
 
     /**

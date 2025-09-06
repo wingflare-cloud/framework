@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.user.db.JobLevelClassifyDO;
 import com.wingflare.business.user.mapper.JobLevelClassifyMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @since 2023-04-28
  */
-@Service
 public class JobLevelClassifyServer extends BaseService<JobLevelClassifyMapper, JobLevelClassifyDO> {
 
     /**

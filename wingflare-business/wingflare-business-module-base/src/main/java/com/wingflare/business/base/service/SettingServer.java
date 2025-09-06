@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.base.db.SettingDO;
 import com.wingflare.business.base.mapper.SettingMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Fri Mar 03 09:48:21 CST 2023
  */
-@Service
 public class SettingServer extends BaseService<SettingMapper, SettingDO> {
 
     /**

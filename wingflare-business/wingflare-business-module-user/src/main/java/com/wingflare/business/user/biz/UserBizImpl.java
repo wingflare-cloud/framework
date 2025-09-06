@@ -3,6 +3,7 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.UserConvert;
 import com.wingflare.business.user.db.RoleDO;
@@ -42,12 +43,9 @@ import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -68,32 +66,35 @@ import java.util.Set;
  * @author naizui_ycx
  * @date Sun Mar 05 09:45:12 CST 2023
  */
-@Component
 @Validated
 public class UserBizImpl implements UserBiz {
 
-    @Resource
-    private UserServer userServer;
+    private final UserServer userServer;
 
-    @Resource
-    private BusinessSystemProperties businessSystemProperties;
+    private final BusinessSystemProperties businessSystemProperties;
 
-    @Resource
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
-    @Resource
-    private ApplicationEventPublisher appEventPublisher;
+    private final EventPublisher eventPublisher;
 
-    @Resource
-    private UserAuthUtil userAuthUtil;
+    private final UserAuthUtil userAuthUtil;
 
-    @Resource
-    private UserRoleServer userRoleServer;
+    private final UserRoleServer userRoleServer;
 
-    @Resource
-    private RoleServer roleServer;
+    private final RoleServer roleServer;
 
     private static final Logger logger = LoggerFactory.getLogger(UserBizImpl.class);
+
+    public UserBizImpl(UserServer userServer, BusinessSystemProperties businessSystemProperties, TransactionTemplate transactionTemplate,
+                       EventPublisher eventPublisher, UserAuthUtil userAuthUtil, UserRoleServer userRoleServer, RoleServer roleServer) {
+        this.userServer = userServer;
+        this.businessSystemProperties = businessSystemProperties;
+        this.transactionTemplate = transactionTemplate;
+        this.eventPublisher = eventPublisher;
+        this.userAuthUtil = userAuthUtil;
+        this.userRoleServer = userRoleServer;
+        this.roleServer = roleServer;
+    }
 
     /**
      * 查询系统用户列表
@@ -245,7 +246,7 @@ public class UserBizImpl implements UserBiz {
             if (userDo != null) {
                 userServer.removeById(bo.getId());
                 dto = UserConvert.convert.doToDto(userDo);
-                appEventPublisher.publishEvent(new UserDeleteEvent(dto));
+                eventPublisher.publishEvent(new UserDeleteEvent(dto));
             }
 
             return dto;
@@ -256,7 +257,7 @@ public class UserBizImpl implements UserBiz {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
-                        appEventPublisher.publishEvent(new UserDeletedEvent(val));
+                        eventPublisher.publishEvent(new UserDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -332,14 +333,14 @@ public class UserBizImpl implements UserBiz {
             }
 
             UserDTO userDto = UserConvert.convert.doToDto(userDo);
-            appEventPublisher.publishEvent(new UserCreateEvent(bo, userDto));
+            eventPublisher.publishEvent(new UserCreateEvent(bo, userDto));
             return userDto;
         });
     }
 
     public void afterCreate(UserBO bo, UserDTO dto) {
         try {
-            appEventPublisher.publishEvent(new UserCreateEvent(bo, dto));
+            eventPublisher.publishEvent(new UserCreateEvent(bo, dto));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -432,7 +433,7 @@ public class UserBizImpl implements UserBiz {
             if (oldField != null) {
                 Assert.isTrue(userServer.updateById(oldUserDO), ErrorCode.SYS_USER_UPDATE_ERROR);
                 userDto = UserConvert.convert.doToDto(oldUserDO);
-                appEventPublisher.publishEvent(new UserUpdateEvent(UserConvert.convert.doToDto(oldField), userDto));
+                eventPublisher.publishEvent(new UserUpdateEvent(UserConvert.convert.doToDto(oldField), userDto));
             }
 
             return userDto;
@@ -443,7 +444,7 @@ public class UserBizImpl implements UserBiz {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
-                        appEventPublisher.publishEvent(new UserUpdateEvent(UserConvert.convert.boToDto(bo), val));
+                        eventPublisher.publishEvent(new UserUpdateEvent(UserConvert.convert.boToDto(bo), val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -527,7 +528,7 @@ public class UserBizImpl implements UserBiz {
             userDo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getPasswd()));
             Assert.isTrue(userServer.updateById(userDo), ErrorCode.SYS_USER_UPDATE_ERROR);
             UserDTO userDto = UserConvert.convert.doToDto(userDo);
-            appEventPublisher.publishEvent(new UserChangePwdEvent(userDto));
+            eventPublisher.publishEvent(new UserChangePwdEvent(userDto));
             return userDto;
         });
     }
@@ -535,7 +536,7 @@ public class UserBizImpl implements UserBiz {
 
     public void afterUpdatePasswd(UserDTO dto) {
         try {
-            appEventPublisher.publishEvent(new UserChangedPwdEvent(dto));
+            eventPublisher.publishEvent(new UserChangedPwdEvent(dto));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }

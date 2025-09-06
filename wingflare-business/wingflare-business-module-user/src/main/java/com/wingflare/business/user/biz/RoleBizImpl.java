@@ -3,6 +3,7 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.RoleConvert;
 import com.wingflare.business.user.db.RoleDO;
@@ -25,12 +26,9 @@ import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -45,20 +43,22 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author naizui_ycx
  * @date Thu Mar 09 10:04:01 CST 2023
  */
-@Component
 @Validated
 public class RoleBizImpl implements RoleBiz {
 
-    @Resource
-    private RoleServer roleServer;
+    private final RoleServer roleServer;
 
-    @Resource
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
-    @Resource
-    private ApplicationEventPublisher appEventPublisher;
+    private final EventPublisher eventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(RoleBizImpl.class);
+
+    public RoleBizImpl(RoleServer roleServer, TransactionTemplate transactionTemplate, EventPublisher eventPublisher) {
+        this.roleServer = roleServer;
+        this.transactionTemplate = transactionTemplate;
+        this.eventPublisher = eventPublisher;
+    }
 
     /**
      * 查询系统角色列表
@@ -108,7 +108,7 @@ public class RoleBizImpl implements RoleBiz {
             if (roleDo != null) {
                 Assert.isTrue(roleServer.removeById(bo.getId()), ErrorCode.SYS_ROLE_DELETE_ERROR);
                 roleDto = RoleConvert.convert.doToDto(roleDo);
-                appEventPublisher.publishEvent(new RoleDeleteEvent(roleDto));
+                eventPublisher.publishEvent(new RoleDeleteEvent(roleDto));
             }
             return roleDto;
         });
@@ -116,7 +116,7 @@ public class RoleBizImpl implements RoleBiz {
         Optional.ofNullable(ret)
                 .ifPresent(val -> {
                     try {
-                        appEventPublisher.publishEvent(new RoleDeletedEvent(val));
+                        eventPublisher.publishEvent(new RoleDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -136,12 +136,12 @@ public class RoleBizImpl implements RoleBiz {
             RoleDO roleDo = RoleConvert.convert.boToDo(bo);
             Assert.isTrue(roleServer.save(roleDo), ErrorCode.SYS_ROLE_CREATE_ERROR);
             RoleDTO roleDto = RoleConvert.convert.doToDto(roleDo);
-            appEventPublisher.publishEvent(new RoleCreateEvent(bo, roleDto));
+            eventPublisher.publishEvent(new RoleCreateEvent(bo, roleDto));
             return roleDto;
         });
 
         try {
-            appEventPublisher.publishEvent(new RoleCreatedEvent(bo, ret));
+            eventPublisher.publishEvent(new RoleCreatedEvent(bo, ret));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -172,7 +172,7 @@ public class RoleBizImpl implements RoleBiz {
                 oldDto.set(RoleConvert.convert.doToDto(oldField));
                 Assert.isTrue(roleServer.updateById(oldRoleDO), ErrorCode.SYS_ROLE_UPDATE_ERROR);
                 roleDto = RoleConvert.convert.doToDto(oldRoleDO);
-                appEventPublisher.publishEvent(new RoleUpdateEvent(oldDto.get(), roleDto));
+                eventPublisher.publishEvent(new RoleUpdateEvent(oldDto.get(), roleDto));
             } else {
                 roleDto = RoleConvert.convert.doToDto(oldRoleDO);
             }
@@ -182,7 +182,7 @@ public class RoleBizImpl implements RoleBiz {
 
         if (oldDto.get() != null) {
             try {
-                appEventPublisher.publishEvent(new RoleUpdateEvent(oldDto.get(), ret));
+                eventPublisher.publishEvent(new RoleUpdateEvent(oldDto.get(), ret));
             } catch (Throwable e) {
                 logger.warn(e.getMessage());
             }

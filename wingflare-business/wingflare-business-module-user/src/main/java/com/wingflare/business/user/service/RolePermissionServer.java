@@ -7,7 +7,6 @@ import com.wingflare.business.user.mapper.RolePermissionMapper;
 import com.wingflare.business.user.wrapper.RolePermissionWrapper;
 import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Thu Mar 09 10:13:02 CST 2023
  */
-@Service
 public class RolePermissionServer extends BaseService<RolePermissionMapper, RolePermissionDO>
 {
 

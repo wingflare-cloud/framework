@@ -9,9 +9,7 @@ import com.wingflare.facade.module.base.event.SettingUpdatedEvent;
 import com.wingflare.lib.standard.CacheService;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 
 /**
  * @ClassName SettingRefresh
@@ -19,13 +17,13 @@ import jakarta.annotation.Resource;
  * @Date 2023/03/03 03
  * @Description 刷新系统设置
  */
-
-@Component
 public class SettingRefresh {
 
-    @Resource
-    private CacheService cacheService;
+    private final CacheService cacheService;
 
+    public SettingRefresh(CacheService cacheService) {
+        this.cacheService = cacheService;
+    }
 
     @EventListener({ SettingCreatedEvent.class })
     public void createHandle(SettingCreatedEvent event) {

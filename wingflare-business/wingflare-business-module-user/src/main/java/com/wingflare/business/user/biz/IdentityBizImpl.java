@@ -2,6 +2,7 @@ package com.wingflare.business.user.biz;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.db.IdentityDO;
 import com.wingflare.business.user.service.JobLevelServer;
@@ -24,13 +25,10 @@ import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -45,29 +43,33 @@ import java.util.Optional;
  * @author naizui_ycx
  * @date Sun Apr 02 10:15:03 CST 2023
  */
-@Component
 @Validated
 public class IdentityBizImpl implements IdentityBiz {
 
-    @Resource
     private IdentityServer identityServer;
 
-    @Resource
     private OrgServer orgServer;
 
-    @Resource
     private JobLevelServer jobLevelServer;
 
-    @Resource
     private OrgDepartmentServer orgDepartmentServer;
 
-    @Resource
     private TransactionTemplate transactionTemplate;
 
-    @Resource
-    private ApplicationEventPublisher appEventPublisher;
+    private EventPublisher eventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(IdentityBizImpl.class);
+
+    public IdentityBizImpl(IdentityServer identityServer, OrgServer orgServer, JobLevelServer jobLevelServer,
+                           OrgDepartmentServer orgDepartmentServer, TransactionTemplate transactionTemplate,
+                           EventPublisher eventPublisher) {
+        this.identityServer = identityServer;
+        this.orgServer = orgServer;
+        this.jobLevelServer = jobLevelServer;
+        this.orgDepartmentServer = orgDepartmentServer;
+        this.transactionTemplate = transactionTemplate;
+        this.eventPublisher = eventPublisher;
+    }
 
     /**
      * 查询岗位身份列表
@@ -119,7 +121,7 @@ public class IdentityBizImpl implements IdentityBiz {
             if (identityDo != null) {
                 identityServer.removeById(bo.getId());
                 dto = IdentityConvert.convert.doToDto(identityDo);
-                appEventPublisher.publishEvent(new IdentityDeleteEvent(dto));
+                eventPublisher.publishEvent(new IdentityDeleteEvent(dto));
             }
 
             return dto;
@@ -130,7 +132,7 @@ public class IdentityBizImpl implements IdentityBiz {
         Optional.ofNullable(dto)
                 .ifPresent(val -> {
                     try {
-                        appEventPublisher.publishEvent(new IdentityDeleteEvent(val));
+                        eventPublisher.publishEvent(new IdentityDeleteEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }

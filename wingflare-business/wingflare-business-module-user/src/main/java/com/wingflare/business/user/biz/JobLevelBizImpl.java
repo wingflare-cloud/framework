@@ -19,11 +19,9 @@ import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -35,15 +33,17 @@ import jakarta.validation.groups.Default;
  * @author naizui_ycx
  * @date Fri Mar 10 15:42:34 CST 2023
  */
-@Component
 @Validated
 public class JobLevelBizImpl implements JobLevelBiz {
 
-    @Resource
-    private JobLevelServer jobLevelServer;
+    private final JobLevelServer jobLevelServer;
 
-    @Resource
-    private JobLevelClassifyServer jobLevelClassifyServer;
+    private final JobLevelClassifyServer jobLevelClassifyServer;
+
+    public JobLevelBizImpl(JobLevelServer jobLevelServer, JobLevelClassifyServer jobLevelClassifyServer) {
+        this.jobLevelServer = jobLevelServer;
+        this.jobLevelClassifyServer = jobLevelClassifyServer;
+    }
 
     /**
      * 查询职级列表

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wingflare.business.user.db.RoleDO;
 import com.wingflare.business.user.mapper.RoleMapper;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Thu Mar 09 10:04:01 CST 2023
  */
-@Service
 public class RoleServer extends BaseService<RoleMapper, RoleDO>
 {
 

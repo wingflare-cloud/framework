@@ -11,7 +11,6 @@ import com.wingflare.business.user.mapper.UserRoleMapper;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.lib.mybatis.plus.base.BaseService;
 import com.wingflare.lib.mybatis.plus.wrapper.JoinLambdaQueryWrapper;
-import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -27,7 +26,6 @@ import java.util.Map;
  * @author naizui_ycx
  * @since 2025-03-11
  */
-@Service
 public class UserRoleServer extends BaseService<UserRoleMapper, UserRoleDO> {
 
     /**

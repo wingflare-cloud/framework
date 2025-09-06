@@ -30,6 +30,11 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-event</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-security</artifactId>
         </dependency>
 

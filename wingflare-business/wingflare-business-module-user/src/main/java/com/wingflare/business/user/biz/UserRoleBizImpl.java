@@ -13,10 +13,8 @@ import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.security.annotation.Desensitize;
 import com.wingflare.lib.security.annotation.DesensitizeGroups;
 import com.wingflare.lib.standard.PageDto;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -29,13 +27,15 @@ import jakarta.validation.constraints.NotNull;
  * @author naizui_ycx
  * @since 2025-03-10
  */
-@Component
 @Validated
 public class UserRoleBizImpl implements UserRoleBiz
 {
 
-    @Resource
-    private UserRoleServer userRoleServer;
+    private final UserRoleServer userRoleServer;
+
+    public UserRoleBizImpl(UserRoleServer userRoleServer) {
+        this.userRoleServer = userRoleServer;
+    }
 
     @Override
     @DesensitizeGroups(

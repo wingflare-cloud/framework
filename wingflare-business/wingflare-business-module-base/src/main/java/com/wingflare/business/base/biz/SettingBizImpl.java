@@ -3,6 +3,7 @@ package com.wingflare.business.base.biz;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.SettingConvert;
 import com.wingflare.business.base.db.SettingDO;
@@ -29,12 +30,9 @@ import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
@@ -48,20 +46,22 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author naizui_ycx
  * @date Fri Mar 03 09:48:21 CST 2023
  */
-@Component
 @Validated
 public class SettingBizImpl implements SettingBiz {
 
-    @Resource
-    private SettingServer settingServer;
+    private final SettingServer settingServer;
 
-    @Resource
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
-    @Resource
-    private ApplicationEventPublisher appEventPublisher;
+    private final EventPublisher eventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(SettingBizImpl.class);
+
+    public SettingBizImpl(SettingServer settingServer, TransactionTemplate transactionTemplate, EventPublisher eventPublisher) {
+        this.settingServer = settingServer;
+        this.transactionTemplate = transactionTemplate;
+        this.eventPublisher = eventPublisher;
+    }
 
     /**
      * 查询系统设置列表
@@ -112,7 +112,7 @@ public class SettingBizImpl implements SettingBiz {
             if (settingDo != null) {
                 Assert.isTrue(settingServer.removeById(bo.getId()), ErrorCode.SYS_SETTING_DELETE_ERROR);
                 settingDto = SettingConvert.convert.doToDto(settingDo);
-                appEventPublisher.publishEvent(new SettingDeleteEvent(settingDto));
+                eventPublisher.publishEvent(new SettingDeleteEvent(settingDto));
             }
 
             return settingDto;
@@ -121,7 +121,7 @@ public class SettingBizImpl implements SettingBiz {
         Optional.ofNullable(ret)
                 .ifPresent(val -> {
                     try {
-                        appEventPublisher.publishEvent(new SettingDeletedEvent(val));
+                        eventPublisher.publishEvent(new SettingDeletedEvent(val));
                     } catch (Throwable e) {
                         logger.warn(e.getMessage());
                     }
@@ -139,12 +139,12 @@ public class SettingBizImpl implements SettingBiz {
             SettingDO settingDo = SettingConvert.convert.boToDo(bo);
             Assert.isTrue(settingServer.save(settingDo), ErrorCode.SYS_SETTING_CREATE_ERROR);
             SettingDTO settingDto = SettingConvert.convert.doToDto(settingDo);
-            appEventPublisher.publishEvent(new SettingCreateEvent(bo, settingDto));
+            eventPublisher.publishEvent(new SettingCreateEvent(bo, settingDto));
             return settingDto;
         });
 
         try {
-            appEventPublisher.publishEvent(new SettingCreateEvent(bo, ret));
+            eventPublisher.publishEvent(new SettingCreateEvent(bo, ret));
         } catch (Throwable e) {
             logger.warn(e.getMessage());
         }
@@ -178,7 +178,7 @@ public class SettingBizImpl implements SettingBiz {
             if (oldField != null) {
                 oldDto.set(SettingConvert.convert.doToDto(oldField));
                 settingDto = SettingConvert.convert.doToDto(oldSettingDO);
-                appEventPublisher.publishEvent(new SettingUpdateEvent(oldDto.get(), settingDto));
+                eventPublisher.publishEvent(new SettingUpdateEvent(oldDto.get(), settingDto));
                 Assert.isTrue(settingServer.updateById(oldSettingDO), ErrorCode.SYS_SETTING_UPDATE_ERROR);
             } else {
                 settingDto = SettingConvert.convert.doToDto(oldSettingDO);
@@ -189,7 +189,7 @@ public class SettingBizImpl implements SettingBiz {
 
         if (oldDto.get() != null) {
             try {
-                appEventPublisher.publishEvent(new SettingUpdatedEvent(oldDto.get(), ret));
+                eventPublisher.publishEvent(new SettingUpdatedEvent(oldDto.get(), ret));
             } catch (Throwable e) {
                 logger.warn(e.getMessage());
             }
