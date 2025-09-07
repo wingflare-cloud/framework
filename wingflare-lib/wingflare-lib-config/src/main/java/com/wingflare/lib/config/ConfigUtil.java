@@ -3,6 +3,7 @@ package com.wingflare.lib.config;
 
 import com.wingflare.api.config.ConfigReader;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -21,6 +22,7 @@ public class ConfigUtil {
         if (configReaderList == null) {
             synchronized (ConfigUtil.class) {
                 if (configReaderList == null) {
+                    configReaderList = new ArrayList<>();
                     ServiceLoader<ConfigReader> cs = ServiceLoader.load(ConfigReader.class);
                     for (ConfigReader configReader : cs) {
                         configReaderList.add(configReader);

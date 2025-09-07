@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.datasource.template.config;
 
+
 import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
 import com.wingflare.engine.task.datasource.template.handler.InjectionMetaObjectHandler;
 import com.wingflare.engine.task.datasource.template.handler.TaskEngineMybatisConfiguration;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -35,8 +35,7 @@ import java.util.List;
 public class TaskEngineTemplateAutoConfiguration {
 
     @Bean("sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, Environment environment,
-                                               MybatisPlusInterceptor mybatisPlusInterceptor,
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, MybatisPlusInterceptor mybatisPlusInterceptor,
                                                MybatisPlusProperties mybatisPlusProperties,
                                                TaskEngineMybatisConfiguration taskEngineMybatisConfiguration) throws Exception {
         MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
@@ -77,7 +76,7 @@ public class TaskEngineTemplateAutoConfiguration {
     }
 
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor(Environment environment) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
