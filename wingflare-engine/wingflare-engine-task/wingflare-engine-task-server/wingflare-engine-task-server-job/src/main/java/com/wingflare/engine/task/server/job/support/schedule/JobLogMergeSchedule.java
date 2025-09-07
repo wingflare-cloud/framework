@@ -62,12 +62,12 @@ public class JobLogMergeSchedule extends AbstractSchedule implements Lifecycle {
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT1H";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT1M";
     }
 

@@ -2,7 +2,6 @@ package com.wingflare.engine.task.datasource.template.access.task;
 
 import com.wingflare.engine.task.datasource.template.access.TaskAccess;
 import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
-import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
@@ -24,10 +23,6 @@ public abstract class AbstractTaskAccess<T> implements TaskAccess<T> {
             DbTypeEnum.SQLSERVER.getDb(),
             DbTypeEnum.DM.getDb(),
             DbTypeEnum.KINGBASE.getDb());
-
-    protected DbTypeEnum getDbType() {
-        return DbUtils.getDbType();
-    }
 
     @Override
     public List<T> list(LambdaQueryWrapper<T> query) {

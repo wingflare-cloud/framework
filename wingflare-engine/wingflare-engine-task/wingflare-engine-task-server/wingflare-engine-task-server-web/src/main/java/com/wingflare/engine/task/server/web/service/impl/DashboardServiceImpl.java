@@ -13,6 +13,7 @@ import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.NetUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
+import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
 import com.wingflare.engine.task.datasource.template.persistence.po.Job;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobSummary;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
@@ -52,6 +53,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.google.common.collect.Lists;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -83,14 +85,18 @@ public class DashboardServiceImpl implements DashboardService {
     private final RetrySummaryMapper retrySummaryMapper;
     private final ServerProperties serverProperties;
     private final UpdateClientRegister updateClientRegister;
+    private final Environment environment;
 
-    public DashboardServiceImpl(ServerNodeMapper serverNodeMapper, RestTemplate restTemplate, JobSummaryMapper jobSummaryMapper, RetrySummaryMapper retrySummaryMapper, ServerProperties serverProperties, UpdateClientRegister updateClientRegister) {
+    public DashboardServiceImpl(ServerNodeMapper serverNodeMapper, RestTemplate restTemplate, JobSummaryMapper jobSummaryMapper,
+                                RetrySummaryMapper retrySummaryMapper, ServerProperties serverProperties,
+                                UpdateClientRegister updateClientRegister, Environment environment) {
         this.serverNodeMapper = serverNodeMapper;
         this.restTemplate = restTemplate;
         this.jobSummaryMapper = jobSummaryMapper;
         this.retrySummaryMapper = retrySummaryMapper;
         this.serverProperties = serverProperties;
         this.updateClientRegister = updateClientRegister;
+        this.environment = environment;
     }
 
     @Override
@@ -190,6 +196,7 @@ public class DashboardServiceImpl implements DashboardService {
                 new PageDTO(pager.getCurrent(), pager.getSize(), pager.getTotal()),
                 taskList);
         responseVO.setTaskList(pageResult);
+        String url = environment.getProperty("spring.datasource.url");
 
         // 折线图
         DateTypeEnum dateTypeEnum = DateTypeEnum.valueOf(queryVO.getType());
@@ -198,7 +205,7 @@ public class DashboardServiceImpl implements DashboardService {
         LocalDateTime endDateTime = dateTypeEnum.getEndTime().apply(
                 ObjUtil.isNotNull(queryVO.getEndDt()) ? queryVO.getEndDt() : LocalDateTime.now());
         List<DashboardLineResponseDO> dashboardRetryLinkeResponseDOList = retrySummaryMapper.selectRetryLineList(
-                DashboardLineEnum.dateFormat(queryVO.getType()),
+                DashboardLineEnum.dateFormat(queryVO.getType(), DbTypeEnum.modeOf(url)),
                 new LambdaQueryWrapper<RetrySummary>()
                         .in(CollUtil.isNotEmpty(groupNames), RetrySummary::getGroupName, groupNames)
                         .eq(StrUtil.isNotBlank(queryVO.getGroupName()), RetrySummary::getGroupName, queryVO.getGroupName())
@@ -254,6 +261,7 @@ public class DashboardServiceImpl implements DashboardService {
                 new PageDTO(pager.getCurrent(), pager.getSize(), pager.getTotal()),
                 taskList);
         responseVO.setTaskList(pageResult);
+        String url = environment.getProperty("spring.datasource.url");
 
         // 折线图
         DateTypeEnum dateTypeEnum = DateTypeEnum.valueOf(queryVO.getType());
@@ -262,7 +270,7 @@ public class DashboardServiceImpl implements DashboardService {
         LocalDateTime endDateTime = dateTypeEnum.getEndTime().apply(
                 ObjUtil.isNotNull(queryVO.getEndDt()) ? queryVO.getEndDt() : LocalDateTime.now());
         List<DashboardLineResponseDO> dashboardLineResponseDOList = jobSummaryMapper.selectJobLineList(
-                DashboardLineEnum.dateFormat(queryVO.getType()),
+                DashboardLineEnum.dateFormat(queryVO.getType(), DbTypeEnum.modeOf(url)),
                 new LambdaQueryWrapper<JobSummary>()
                         .in(CollUtil.isNotEmpty(groupNames), JobSummary::getGroupName, groupNames)
                         .eq(StrUtil.isNotBlank(queryVO.getGroupName()), JobSummary::getGroupName, queryVO.getGroupName())

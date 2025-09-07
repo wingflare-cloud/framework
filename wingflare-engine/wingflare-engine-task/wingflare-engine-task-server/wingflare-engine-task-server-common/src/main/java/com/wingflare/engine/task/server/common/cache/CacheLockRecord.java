@@ -2,7 +2,6 @@ package com.wingflare.engine.task.server.common.cache;
 
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Lifecycle;
-import com.wingflare.engine.task.server.common.lock.LockManager;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.core.Ordered;
@@ -44,7 +43,6 @@ public class CacheLockRecord implements Lifecycle {
 
     public static void remove(String lockName) {
         CACHE.invalidate(lockName);
-        LockManager.clear();
     }
 
     public static void clear() {

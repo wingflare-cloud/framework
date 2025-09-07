@@ -93,6 +93,12 @@
             <artifactId>wingflare-adapter-spring-event</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-redission-lock</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

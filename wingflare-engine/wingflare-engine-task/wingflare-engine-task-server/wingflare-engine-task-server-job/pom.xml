@@ -58,6 +58,7 @@
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-datasource-template</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

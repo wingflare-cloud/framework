@@ -52,12 +52,12 @@ public class RetrySummarySchedule extends AbstractSchedule implements Lifecycle 
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT1M";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT20S";
     }
 

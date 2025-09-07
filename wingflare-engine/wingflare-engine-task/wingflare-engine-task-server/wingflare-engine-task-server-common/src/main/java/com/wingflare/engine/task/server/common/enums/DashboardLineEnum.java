@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.common.enums;
 
+
 import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
-import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 
 /**
  * 年、月、日
@@ -37,10 +37,10 @@ public enum DashboardLineEnum {
         return DashboardLineEnum.WEEK;
     }
 
-    public static String dateFormat(String unit) {
+    public static String dateFormat(String unit, DbTypeEnum dbType) {
         DashboardLineEnum mode = modeOf(unit);
 
-        if (DbUtils.getDbType().equals(DbTypeEnum.MYSQL)) {
+        if (dbType.equals(DbTypeEnum.MYSQL)) {
             switch (mode) {
                 case YEAR:
                     return "%Y-%m";
@@ -49,7 +49,7 @@ public enum DashboardLineEnum {
                 default:
                     return "%Y-%m-%d";
             }
-        } else if (DbUtils.getDbType().equals(DbTypeEnum.MARIADB)) {
+        } else if (dbType.equals(DbTypeEnum.MARIADB)) {
             switch (mode) {
                 case YEAR:
                     return "%Y-%m";
@@ -58,7 +58,7 @@ public enum DashboardLineEnum {
                 default:
                     return "%Y-%m-%d";
             }
-        } else if (DbUtils.getDbType().equals(DbTypeEnum.SQLSERVER)) {
+        } else if (dbType.equals(DbTypeEnum.SQLSERVER)) {
             switch (mode) {
                 case YEAR:
                     return "yyyy-MM";

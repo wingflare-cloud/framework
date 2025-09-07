@@ -80,12 +80,12 @@ public class CleanerSchedule extends AbstractSchedule implements Lifecycle {
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT4H";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT1M";
     }
 

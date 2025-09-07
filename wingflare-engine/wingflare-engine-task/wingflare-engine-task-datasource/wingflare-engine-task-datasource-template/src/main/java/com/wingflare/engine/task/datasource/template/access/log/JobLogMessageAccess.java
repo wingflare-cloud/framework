@@ -15,11 +15,11 @@ import com.wingflare.engine.task.datasource.template.persistence.mapper.JobLogMe
 import com.wingflare.engine.task.datasource.template.persistence.po.JobLogMessage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import org.springframework.core.env.Environment;
 
 import java.io.Serializable;
 import java.util.List;
 
-import static com.wingflare.engine.task.datasource.template.utils.DbUtils.getDbType;
 
 /**
  * <p>
@@ -31,14 +31,17 @@ import static com.wingflare.engine.task.datasource.template.utils.DbUtils.getDbT
  */
 public class JobLogMessageAccess implements JobLogAccess<JobLogMessageDO> {
     private final JobLogMessageMapper jobLogMessageMapper;
+    private final Environment env;
 
-    public JobLogMessageAccess(JobLogMessageMapper jobLogMessageMapper) {
+    public JobLogMessageAccess(JobLogMessageMapper jobLogMessageMapper, Environment env) {
         this.jobLogMessageMapper = jobLogMessageMapper;
+        this.env = env;
     }
 
     @Override
     public boolean supports(String operationType) {
-        return DbTypeEnum.all().contains(getDbType()) && OperationTypeEnum.JOB_LOG.name().equals(operationType);
+        String url = env.getProperty("spring.datasource.url");
+        return DbTypeEnum.all().contains(DbTypeEnum.modeOf(url)) && OperationTypeEnum.JOB_LOG.name().equals(operationType);
     }
 
     @Override

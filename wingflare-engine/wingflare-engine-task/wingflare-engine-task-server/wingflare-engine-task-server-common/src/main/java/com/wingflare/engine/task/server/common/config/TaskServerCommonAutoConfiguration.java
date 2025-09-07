@@ -3,7 +3,6 @@ package com.wingflare.engine.task.server.common.config;
 import com.wingflare.engine.task.server.common.Schedule;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.register.ClientRegister;
-import com.wingflare.engine.task.datasource.template.persistence.mapper.ServerNodeMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -40,10 +39,9 @@ public class TaskServerCommonAutoConfiguration {
 
     @DependsOn(value = ClientRegister.BEAN_NAME)
     @Bean
-    public Schedule refreshNodeSchedule(ClientRegister clientRegister, ServerNodeMapper serverNodeMapper,
-                                        InstanceManager instanceManager) {
+    public Schedule refreshNodeSchedule(ClientRegister clientRegister, InstanceManager instanceManager) {
         ClientRegister.RefreshNodeSchedule refreshNodeSchedule =
-                clientRegister.newRefreshNodeSchedule(serverNodeMapper, instanceManager);
+                clientRegister.newRefreshNodeSchedule(instanceManager);
         clientRegister.setRefreshNodeSchedule(refreshNodeSchedule);
         return refreshNodeSchedule;
     }

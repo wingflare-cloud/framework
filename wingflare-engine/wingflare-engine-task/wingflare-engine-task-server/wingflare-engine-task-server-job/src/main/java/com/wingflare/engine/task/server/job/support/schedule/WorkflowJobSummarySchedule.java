@@ -55,12 +55,12 @@ public class WorkflowJobSummarySchedule extends AbstractSchedule implements Life
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT1M";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT20S";
     }
 

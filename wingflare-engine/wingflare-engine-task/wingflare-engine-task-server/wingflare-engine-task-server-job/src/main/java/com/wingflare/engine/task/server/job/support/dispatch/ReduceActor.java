@@ -53,7 +53,8 @@ public class ReduceActor extends AbstractActor {
     private final WorkflowTaskBatchMapper workflowTaskBatchMapper;
     private final JobTaskBatchHandler jobTaskBatchHandler;
 
-    public ReduceActor(DistributedLockHandler distributedLockHandler, JobMapper jobMapper, JobTaskMapper jobTaskMapper, WorkflowTaskBatchMapper workflowTaskBatchMapper, JobTaskBatchHandler jobTaskBatchHandler) {
+    public ReduceActor(DistributedLockHandler distributedLockHandler, JobMapper jobMapper, JobTaskMapper jobTaskMapper,
+                       WorkflowTaskBatchMapper workflowTaskBatchMapper, JobTaskBatchHandler jobTaskBatchHandler) {
         this.distributedLockHandler = distributedLockHandler;
         this.jobMapper = jobMapper;
         this.jobTaskMapper = jobTaskMapper;

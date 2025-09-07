@@ -15,7 +15,6 @@ import com.wingflare.engine.task.server.common.dto.PullRemoteNodeClientRegisterI
 import com.wingflare.engine.task.server.common.handler.InstanceManager;
 import com.wingflare.engine.task.server.common.rpc.client.RequestBuilder;
 import com.wingflare.engine.task.server.common.schedule.AbstractSchedule;
-import com.wingflare.engine.task.datasource.template.persistence.mapper.ServerNodeMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
 import com.google.common.collect.Lists;
 
@@ -123,18 +122,16 @@ public class ClientRegister extends AbstractRegister {
         return expireNodes;
     }
 
-    public RefreshNodeSchedule newRefreshNodeSchedule(ServerNodeMapper serverNodeMapper, InstanceManager instanceManager) {
-        return new RefreshNodeSchedule(serverNodeMapper, instanceManager);
+    public RefreshNodeSchedule newRefreshNodeSchedule(InstanceManager instanceManager) {
+        return new RefreshNodeSchedule(instanceManager);
     }
 
 
     public class RefreshNodeSchedule extends AbstractSchedule {
         private ThreadPoolExecutor refreshNodePool;
-        private final ServerNodeMapper serverNodeMapper;
         private final InstanceManager instanceManager;
 
-        public RefreshNodeSchedule(ServerNodeMapper serverNodeMapper, InstanceManager instanceManager) {
-            this.serverNodeMapper = serverNodeMapper;
+        public RefreshNodeSchedule(InstanceManager instanceManager) {
             this.instanceManager = instanceManager;
         }
 
@@ -227,12 +224,12 @@ public class ClientRegister extends AbstractRegister {
         }
 
         @Override
-        public String lockAtMost() {
+        public String lockExpire() {
             return "PT10S";
         }
 
         @Override
-        public String lockAtLeast() {
+        public String lockTimeout() {
             return "PT5S";
         }
 

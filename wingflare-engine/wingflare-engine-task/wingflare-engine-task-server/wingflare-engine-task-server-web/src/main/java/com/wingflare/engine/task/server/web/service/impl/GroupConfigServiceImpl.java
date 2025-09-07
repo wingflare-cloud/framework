@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReUtil;
@@ -38,12 +39,12 @@ import com.wingflare.engine.task.server.web.util.UserSessionUtils;
 import com.wingflare.engine.task.datasource.template.access.AccessTemplate;
 import com.wingflare.engine.task.datasource.template.access.ConfigAccess;
 import com.wingflare.engine.task.datasource.template.enums.DbTypeEnum;
-import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,8 +84,12 @@ public class GroupConfigServiceImpl implements GroupConfigService {
     private final JobMapper jobMapper;
     private final WorkflowMapper workflowMapper;
     private final SystemUserPermissionMapper systemUserPermissionMapper;
+    private final Environment environment;
 
-    public GroupConfigServiceImpl(ServerNodeMapper serverNodeMapper, AccessTemplate accessTemplate, ConfigVersionSyncHandler configVersionSyncHandler, JdbcTemplate jdbcTemplate, NamespaceMapper namespaceMapper, JobMapper jobMapper, WorkflowMapper workflowMapper, SystemUserPermissionMapper systemUserPermissionMapper) {
+    public GroupConfigServiceImpl(ServerNodeMapper serverNodeMapper, AccessTemplate accessTemplate,
+                                  ConfigVersionSyncHandler configVersionSyncHandler, JdbcTemplate jdbcTemplate,
+                                  NamespaceMapper namespaceMapper, JobMapper jobMapper, WorkflowMapper workflowMapper,
+                                  SystemUserPermissionMapper systemUserPermissionMapper, Environment environment) {
         this.serverNodeMapper = serverNodeMapper;
         this.accessTemplate = accessTemplate;
         this.configVersionSyncHandler = configVersionSyncHandler;
@@ -93,6 +98,7 @@ public class GroupConfigServiceImpl implements GroupConfigService {
         this.jobMapper = jobMapper;
         this.workflowMapper = workflowMapper;
         this.systemUserPermissionMapper = systemUserPermissionMapper;
+        this.environment = environment;
     }
 
     @Override
@@ -300,7 +306,8 @@ public class GroupConfigServiceImpl implements GroupConfigService {
             String schema = connection.getSchema();
 
             String tableNamePattern = "wf_task_retry_task_%";
-            DbTypeEnum dbType = DbUtils.getDbType();
+            String url = environment.getProperty("spring.datasource.url");
+            DbTypeEnum dbType = DbTypeEnum.modeOf(url);
             // Oracle, DM 查询表名大写
             if (DbTypeEnum.ORACLE.getDb().equals(dbType.getDb()) || DbTypeEnum.DM.getDb().equals(dbType.getDb())) {
                 tableNamePattern = tableNamePattern.toUpperCase();

@@ -11,19 +11,20 @@ import com.wingflare.engine.task.datasource.template.persistence.mapper.RetryTas
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 @Configuration
 public class LogConfig {
 
     @ConditionalOnMissingBean
     @Bean
-    public JobLogAccess<JobLogMessageDO> defaultJobLogAccess(JobLogMessageMapper jobLogMessageMapper) {
-        return new JobLogMessageAccess(jobLogMessageMapper);
+    public JobLogAccess<JobLogMessageDO> defaultJobLogAccess(JobLogMessageMapper jobLogMessageMapper, Environment env) {
+        return new JobLogMessageAccess(jobLogMessageMapper, env);
     }
 
     @ConditionalOnMissingBean
     @Bean
-    public RetryLogAccess<RetryTaskLogMessageDO> defaultRetryLogAccess(RetryTaskLogMessageMapper retryTaskLogMessageMapper) {
-        return new RetryTaskLogMessageAccess(retryTaskLogMessageMapper);
+    public RetryLogAccess<RetryTaskLogMessageDO> defaultRetryLogAccess(RetryTaskLogMessageMapper retryTaskLogMessageMapper, Environment env) {
+        return new RetryTaskLogMessageAccess(retryTaskLogMessageMapper, env);
     }
 }

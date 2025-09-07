@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import jakarta.annotation.Resource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,10 +23,13 @@ public class RetryDeadLetterTaskAccess extends AbstractTaskAccess<RetryDeadLette
 
     @Resource
     private RetryDeadLetterMapper retryDeadLetterMapper;
+    @Resource
+    private Environment env;
 
     @Override
     public boolean supports(String operationType) {
-        DbTypeEnum dbType = getDbType();
+        String url = env.getProperty("spring.datasource.url");
+        DbTypeEnum dbType = DbTypeEnum.modeOf(url);
         return OperationTypeEnum.RETRY_DEAD_LETTER.name().equals(operationType)
                 && ALLOW_DB.contains(dbType.getDb());
     }

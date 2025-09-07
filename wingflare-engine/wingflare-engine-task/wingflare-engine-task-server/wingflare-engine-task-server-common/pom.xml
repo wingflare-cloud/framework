@@ -99,6 +99,11 @@
             <artifactId>wingflare-engine-task-datasource-template</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-lock</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

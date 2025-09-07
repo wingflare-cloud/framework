@@ -50,7 +50,9 @@ public class JobClearLogSchedule extends AbstractSchedule implements Lifecycle {
     private final WorkflowTaskBatchMapper workflowTaskBatchMapper;
     private final TransactionTemplate transactionTemplate;
 
-    public JobClearLogSchedule(SystemProperties systemProperties, JobTaskBatchMapper jobTaskBatchMapper, JobTaskMapper jobTaskMapper, JobLogMessageMapper jobLogMessageMapper, WorkflowTaskBatchMapper workflowTaskBatchMapper, TransactionTemplate transactionTemplate) {
+    public JobClearLogSchedule(SystemProperties systemProperties, JobTaskBatchMapper jobTaskBatchMapper,
+                               JobTaskMapper jobTaskMapper, JobLogMessageMapper jobLogMessageMapper,
+                               WorkflowTaskBatchMapper workflowTaskBatchMapper, TransactionTemplate transactionTemplate) {
         this.systemProperties = systemProperties;
         this.jobTaskBatchMapper = jobTaskBatchMapper;
         this.jobTaskMapper = jobTaskMapper;
@@ -65,12 +67,12 @@ public class JobClearLogSchedule extends AbstractSchedule implements Lifecycle {
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT4H";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT1M";
     }
 

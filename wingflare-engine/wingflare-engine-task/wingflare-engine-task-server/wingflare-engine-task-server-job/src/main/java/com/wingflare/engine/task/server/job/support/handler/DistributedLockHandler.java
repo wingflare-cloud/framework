@@ -1,9 +1,7 @@
 package com.wingflare.engine.task.server.job.support.handler;
 
+import com.wingflare.api.lock.RemoveLockDrive;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.lock.LockBuilder;
-import com.wingflare.engine.task.server.common.lock.LockManager;
-import com.wingflare.engine.task.server.common.lock.LockProvider;
 import com.wingflare.engine.task.server.job.support.LockExecutor;
 import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryException;
@@ -12,6 +10,7 @@ import com.github.rholder.retry.Retryer;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
+import com.wingflare.lib.container.Container;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -33,16 +32,14 @@ public class DistributedLockHandler {
      *
      * @param lockExecutor  执行器
      * @param lockName      锁名称
-     * @param lockAtMost    锁超时时间
+     * @param expire    锁超时时间
      * @param sleepTime     重试间隔
      * @param maxRetryTimes 重试次数
      */
     public void lockWithDisposableAndRetry(LockExecutor lockExecutor,
-                                           String lockName, Duration lockAtMost,
+                                           String lockName, Duration expire,
                                            Duration sleepTime, Integer maxRetryTimes) {
-        LockProvider lockProvider = LockBuilder.newBuilder()
-                .withDisposable(lockName)
-                .build();
+        RemoveLockDrive lockProvider = Container.get(RemoveLockDrive.class);
 
         Retryer<Boolean> retryer = RetryerBuilder.<Boolean>newBuilder()
                 .retryIfResult(result -> result.equals(Boolean.FALSE))
@@ -67,7 +64,7 @@ public class DistributedLockHandler {
 
         boolean lock = false;
         try {
-            lock = retryer.call(() -> lockProvider.lock(lockAtMost));
+            lock = retryer.call(() -> lockProvider.tryLockNoTimeOut(lockName, expire));
             if (lock) {
                 lockExecutor.execute();
             }
@@ -86,44 +83,9 @@ public class DistributedLockHandler {
             if (lock) {
                 lockProvider.unlock();
                 TaskEngineLog.LOCAL.debug("[{}] Lock has been released", lockName);
-            } else {
-                // 未获取到锁直接清除线程中存储的锁信息
-                LockManager.clear();
             }
         }
 
-    }
-
-    /**
-     * 获取分布式锁
-     *
-     * @param lockExecutor 执行器
-     * @param lockName     锁名称
-     * @param lockAtMost   锁超时时间
-     */
-    public void lockWithDisposable(LockExecutor lockExecutor, String lockName, Duration lockAtMost) {
-
-        LockProvider lockProvider = LockBuilder.newBuilder()
-                .withDisposable(lockName)
-                .build();
-
-        boolean lock = false;
-        try {
-            lock = lockProvider.lock(lockAtMost);
-            if (lock) {
-                lockExecutor.execute();
-            }
-        } catch (Exception e) {
-            TaskEngineLog.LOCAL.error("lock execute error. lockName:[{}]", lockName, e);
-        } finally {
-            if (lock) {
-                lockProvider.unlock();
-                TaskEngineLog.LOCAL.debug("[{}] Lock has been released", lockName);
-            } else {
-                // 未获取到锁直接清除线程中存储的锁信息
-                LockManager.clear();
-            }
-        }
     }
 
 }

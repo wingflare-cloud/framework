@@ -43,7 +43,8 @@ public class JobSummarySchedule extends AbstractSchedule implements Lifecycle {
     private final JobSummaryMapper jobSummaryMapper;
     private final SystemProperties systemProperties;
 
-    public JobSummarySchedule(JobTaskBatchMapper jobTaskBatchMapper, JobSummaryMapper jobSummaryMapper, SystemProperties systemProperties) {
+    public JobSummarySchedule(JobTaskBatchMapper jobTaskBatchMapper, JobSummaryMapper jobSummaryMapper,
+                              SystemProperties systemProperties) {
         this.jobTaskBatchMapper = jobTaskBatchMapper;
         this.jobSummaryMapper = jobSummaryMapper;
         this.systemProperties = systemProperties;
@@ -55,12 +56,12 @@ public class JobSummarySchedule extends AbstractSchedule implements Lifecycle {
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT1M";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT20S";
     }
 

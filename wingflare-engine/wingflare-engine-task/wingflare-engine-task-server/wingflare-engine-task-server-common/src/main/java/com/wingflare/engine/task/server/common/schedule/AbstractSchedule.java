@@ -1,12 +1,12 @@
 package com.wingflare.engine.task.server.common.schedule;
 
+
 import cn.hutool.core.lang.Assert;
+import com.wingflare.api.lock.RemoveLockDrive;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.server.common.Schedule;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
-import com.wingflare.engine.task.server.common.lock.LockBuilder;
-import com.wingflare.engine.task.server.common.lock.LockManager;
-import com.wingflare.engine.task.server.common.lock.LockProvider;
+import com.wingflare.lib.container.Container;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.TaskScheduler;
@@ -28,18 +28,17 @@ public abstract class AbstractSchedule implements Schedule {
     public void execute() {
 
         String lockName = lockName();
-        String lockAtMost = lockAtMost();
-        String lockAtLeast = lockAtLeast();
-        Assert.notBlank(lockAtMost, () -> new TaskServerException("lockAtLeast can not be null."));
-        Assert.notBlank(lockAtLeast, () -> new TaskServerException("lockAtLeast can not be null."));
+        String lockTimeout = lockTimeout();
+        String lockExpire = lockExpire();
+        Assert.notBlank(lockTimeout, () -> new TaskServerException("lockTimeout can not be null."));
+        Assert.notBlank(lockExpire, () -> new TaskServerException("lockExpire can not be null."));
         Assert.notBlank(lockName, () -> new TaskServerException("lockName can not be null."));
 
-        LockProvider lockProvider = LockBuilder.newBuilder()
-                .withResident(lockName)
-                .build();
+        RemoveLockDrive lockDrive = Container.get(RemoveLockDrive.class);
+
         boolean lock = false;
         try {
-            lock = lockProvider.lock(Duration.parse(lockAtLeast), Duration.parse(lockAtMost));
+            lock = lockDrive.tryLock(lockName, Duration.parse(lockTimeout), Duration.parse(lockExpire));
             if (lock) {
                 doExecute();
             }
@@ -47,9 +46,7 @@ public abstract class AbstractSchedule implements Schedule {
             TaskEngineLog.LOCAL.error(this.getClass().getName() + " execute error. lockName:[{}]", lockName, e);
         } finally {
             if (lock) {
-                lockProvider.unlock();
-            } else {
-                LockManager.clear();
+                lockDrive.unlock();
             }
         }
 
@@ -59,9 +56,9 @@ public abstract class AbstractSchedule implements Schedule {
 
     protected abstract String lockName();
 
-    protected abstract String lockAtMost();
+    protected abstract String lockTimeout();
 
-    protected abstract String lockAtLeast();
+    protected abstract String lockExpire();
 
 
 }

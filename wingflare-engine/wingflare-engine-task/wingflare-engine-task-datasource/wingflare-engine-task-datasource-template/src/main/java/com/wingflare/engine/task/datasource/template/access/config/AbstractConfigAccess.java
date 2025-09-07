@@ -17,9 +17,9 @@ import com.wingflare.engine.task.datasource.template.persistence.po.GroupConfig;
 import com.wingflare.engine.task.datasource.template.persistence.po.NotifyConfig;
 import com.wingflare.engine.task.datasource.template.persistence.po.NotifyRecipient;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
-import com.wingflare.engine.task.datasource.template.utils.DbUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
+import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +45,8 @@ public abstract class AbstractConfigAccess<T> implements ConfigAccess<T> {
     protected GroupConfigMapper groupConfigMapper;
     @Resource
     protected NotifyRecipientMapper notifyRecipientMapper;
+    @Resource
+    protected Environment env;
 
     protected static final List<String> ALLOW_DB = Arrays.asList(
             DbTypeEnum.MYSQL.getDb(),
@@ -56,7 +58,8 @@ public abstract class AbstractConfigAccess<T> implements ConfigAccess<T> {
             DbTypeEnum.KINGBASE.getDb());
 
     protected DbTypeEnum getDbType() {
-        return DbUtils.getDbType();
+        String url = env.getProperty("spring.datasource.url");
+        return DbTypeEnum.modeOf(url);
     }
 
     protected RetrySceneConfig getByGroupNameAndSceneName(String groupName, String sceneName, String namespaceId) {

@@ -113,12 +113,12 @@ public class RetryErrorMoreThresholdAlarmSchedule extends AbstractRetryTaskAlarm
     }
 
     @Override
-    public String lockAtMost() {
+    public String lockExpire() {
         return "PT10M";
     }
 
     @Override
-    public String lockAtLeast() {
+    public String lockTimeout() {
         return "PT1M";
     }
 }

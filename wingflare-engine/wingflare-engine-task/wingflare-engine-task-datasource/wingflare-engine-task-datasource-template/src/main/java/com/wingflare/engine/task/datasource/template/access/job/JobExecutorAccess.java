@@ -9,11 +9,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import jakarta.annotation.Resource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.wingflare.engine.task.datasource.template.utils.DbUtils.getDbType;
 
 /**
  * @Author：srzou
@@ -27,10 +27,13 @@ public class JobExecutorAccess implements JobAccess<JobExecutor> {
 
     @Resource
     private JobExecutorMapper jobExecutorMapper;
+    @Resource
+    private Environment env;
 
     @Override
     public boolean supports(String operationType) {
-        return DbTypeEnum.all().contains(getDbType()) && OperationTypeEnum.JOB_EXECUTORS.name().equals(operationType);
+        String url = env.getProperty("spring.datasource.url");
+        return DbTypeEnum.all().contains(DbTypeEnum.modeOf(url)) && OperationTypeEnum.JOB_EXECUTORS.name().equals(operationType);
     }
 
     @Override

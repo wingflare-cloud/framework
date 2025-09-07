@@ -15,11 +15,11 @@ import com.wingflare.engine.task.datasource.template.persistence.mapper.RetryTas
 import com.wingflare.engine.task.datasource.template.persistence.po.RetryTaskLogMessage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import org.springframework.core.env.Environment;
 
 import java.io.Serializable;
 import java.util.List;
 
-import static com.wingflare.engine.task.datasource.template.utils.DbUtils.getDbType;
 
 /**
  * <p>
@@ -32,14 +32,17 @@ import static com.wingflare.engine.task.datasource.template.utils.DbUtils.getDbT
 public class RetryTaskLogMessageAccess implements RetryLogAccess<RetryTaskLogMessageDO> {
 
     private final RetryTaskLogMessageMapper retryTaskLogMessageMapper;
+    private final Environment env;
 
-    public RetryTaskLogMessageAccess(RetryTaskLogMessageMapper retryTaskLogMessageMapper) {
+    public RetryTaskLogMessageAccess(RetryTaskLogMessageMapper retryTaskLogMessageMapper, Environment env) {
         this.retryTaskLogMessageMapper = retryTaskLogMessageMapper;
+        this.env = env;
     }
 
     @Override
     public boolean supports(String operationType) {
-        return DbTypeEnum.all().contains(getDbType()) && OperationTypeEnum.RETRY_LOG.name().equals(operationType);
+        String url = env.getProperty("spring.datasource.url");
+        return DbTypeEnum.all().contains(DbTypeEnum.modeOf(url)) && OperationTypeEnum.RETRY_LOG.name().equals(operationType);
 
     }
     @Override
