@@ -4,7 +4,6 @@ package com.wingflare.adapter.spring.security.aspect;
 import com.wingflare.adapter.spring.common.constants.Wf;
 import com.wingflare.adapter.spring.common.utils.ApiHelperUtil;
 import com.wingflare.adapter.spring.security.constants.SecurityErrorCode;
-import com.wingflare.adapter.spring.security.utils.AuthUtil;
 import com.wingflare.adapter.spring.security.utils.UserAuthUtil;
 import com.wingflare.api.security.annotation.BusinessSystem;
 import com.wingflare.api.security.annotation.InternalApi;
@@ -44,10 +43,8 @@ import static net.logstash.logback.argument.StructuredArguments.e;
  */
 @Aspect
 @Component
-@ConditionalOnBean({AuthUtil.class})
+@ConditionalOnBean({UserAuthUtil.class})
 public class PreAuthorizeAspect implements Ordered {
-
-    private final AuthUtil authUtil;
 
     private final UserAuthUtil userAuthUtil;
 
@@ -72,8 +69,7 @@ public class PreAuthorizeAspect implements Ordered {
             + "@annotation(com.wingflare.lib.security.annotation.PermissionGroups)";
 
 
-    public PreAuthorizeAspect(AuthUtil authUtil, UserAuthUtil userAuthUtil) {
-        this.authUtil = authUtil;
+    public PreAuthorizeAspect(UserAuthUtil userAuthUtil) {
         this.userAuthUtil = userAuthUtil;
     }
 
@@ -161,7 +157,7 @@ public class PreAuthorizeAspect implements Ordered {
                             "permissionCode", requiresPermissions.value()
                     )));
                 }
-                authUtil.checkPermissions(requiresPermissions);
+                userAuthUtil.checkPermissions(requiresPermissions);
             }
 
             ContextHolder.set(Wf.PERMISSION_RESULT_CONTEXT_KEY, true);

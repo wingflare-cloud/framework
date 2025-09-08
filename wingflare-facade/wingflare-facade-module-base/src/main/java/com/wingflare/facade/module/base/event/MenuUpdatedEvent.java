@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.base.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.base.dto.MenuDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -10,7 +10,7 @@ import java.time.Clock;
  * 菜单更新成功事件
  *
  */
-public class MenuUpdatedEvent extends ApplicationEvent {
+public class MenuUpdatedEvent extends BaseEvent {
 
     protected transient MenuDTO source;
 

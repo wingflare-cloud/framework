@@ -1,16 +1,16 @@
 package com.wingflare.facade.module.base.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.base.bo.SettingBO;
 import com.wingflare.facade.module.base.dto.SettingDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
 /**
  * 设置创建成功事件
  */
-public class SettingCreatedEvent extends ApplicationEvent {
+public class SettingCreatedEvent extends BaseEvent {
 
     protected transient SettingDTO source;
 

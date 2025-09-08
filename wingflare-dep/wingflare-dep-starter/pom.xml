@@ -7,6 +7,10 @@
         <groupId>com.wingflare</groupId>
         <version>${revision}</version>
     </parent>
+    <packaging>pom</packaging>
+    <modules>
+        <module>spring-dep-starter-spring</module>
+    </modules>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>wingflare-dep-starter</artifactId>

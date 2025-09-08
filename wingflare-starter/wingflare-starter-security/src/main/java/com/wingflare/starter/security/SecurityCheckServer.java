@@ -8,7 +8,6 @@ import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.security.standard.SecurityCheckUser;
-import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
 
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
  * @date {2023/01/11}
  * @description 微服务自动鉴权服务
  */
-@Component
 public class SecurityCheckServer implements SecurityCheckUser {
 
     @Resource

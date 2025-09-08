@@ -17,6 +17,7 @@ import com.wingflare.facade.module.auth.event.UserLogoutEvent;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
+import com.wingflare.lib.config.ConfigUtil;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;

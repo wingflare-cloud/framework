@@ -1,7 +1,7 @@
 package com.wingflare.facade.module.auth.event;
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.lib.standard.model.UserAuth;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -9,7 +9,7 @@ import java.time.Clock;
  * 用户登录事件
  *
  */
-public class UserLoginEvent extends ApplicationEvent {
+public class UserLoginEvent extends BaseEvent {
 
     protected transient UserAuth source;
 

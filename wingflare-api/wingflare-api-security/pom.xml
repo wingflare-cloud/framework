@@ -16,4 +16,12 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-core</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>

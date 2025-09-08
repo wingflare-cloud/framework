@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.auth.bo;
 
-import com.wingflare.lib.standard.annotation.security.Decrypt;
+
+import com.wingflare.api.security.annotation.Decrypt;
 
 public class TokenIdBO {
 

@@ -8,10 +8,8 @@ import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.model.UserAuth;
-import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+
 
 /**
  * @ClassName LoginBiz
@@ -19,7 +17,6 @@ import jakarta.validation.constraints.NotNull;
  * @Date 2023/03/10
  * @Description 登陆业务
  */
-@Validated
 public interface LoginBiz {
 
     /**
@@ -28,14 +25,14 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    TokenDTO login(@Valid @NotNull LoginBO bo);
+    TokenDTO login(LoginBO bo);
 
     /**
      * 登出
      *
      * @param bo token id bo
      */
-    UserAuth logout(@Valid @NotNull StringIdBo bo);
+    UserAuth logout(StringIdBo bo);
 
     /**
      * 获取用户登录信息
@@ -44,7 +41,7 @@ public interface LoginBiz {
      *
      * @return
      */
-    UserAuth getUserLoginInfo(@Valid @NotNull StringIdBo bo);
+    UserAuth getUserLoginInfo(StringIdBo bo);
 
     /**
      * 刷新token
@@ -53,7 +50,7 @@ public interface LoginBiz {
      *
      * @return
      */
-    TokenDTO refreshToken(@Valid @NotNull RefreshTokenBO bo);
+    TokenDTO refreshToken(RefreshTokenBO bo);
 
     /**
      * 获取登录用户信息列表
@@ -61,7 +58,7 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBO bo);
+    PageResult<UserAuth> getLoginUsers(GetLoginUsersBO bo);
 
     /**
      * 获取指定用户登录用户信息列表
@@ -69,6 +66,6 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBO bo);
+    PageResult<UserAuth> getUserLoginInfos(GetLoginUsersBO bo);
 
 }

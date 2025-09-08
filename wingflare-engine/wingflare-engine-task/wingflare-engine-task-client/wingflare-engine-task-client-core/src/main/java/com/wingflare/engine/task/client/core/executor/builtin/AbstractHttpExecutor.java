@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
 
-import com.wingflare.api.core.MimeType;
+import com.wingflare.api.core.enums.MimeType;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;

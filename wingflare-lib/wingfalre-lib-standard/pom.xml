@@ -17,12 +17,18 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-core</artifactId>
+        </dependency>
+
         <!-- 核心依赖 -->
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-core</artifactId>
-            <scope>provided</scope>
         </dependency>
+
+
     </dependencies>
 
 </project>

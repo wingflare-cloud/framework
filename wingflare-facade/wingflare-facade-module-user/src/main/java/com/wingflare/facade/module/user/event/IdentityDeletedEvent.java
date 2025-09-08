@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.user.dto.IdentityDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -10,7 +10,7 @@ import java.time.Clock;
  * 岗位身份删除成功事件
  *
  */
-public class IdentityDeletedEvent extends ApplicationEvent {
+public class IdentityDeletedEvent extends BaseEvent {
 
     protected transient IdentityDTO source;
 

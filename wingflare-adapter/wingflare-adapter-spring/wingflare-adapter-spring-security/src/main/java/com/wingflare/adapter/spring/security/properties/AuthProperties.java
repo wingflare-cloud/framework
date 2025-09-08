@@ -2,7 +2,6 @@ package com.wingflare.adapter.spring.security.properties;
 
 import com.wingflare.lib.standard.Ctx;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.List;
  * @description
  */
 @Configuration
-@RefreshScope
 @ConfigurationProperties(prefix = "security.auth")
 public class AuthProperties
 {

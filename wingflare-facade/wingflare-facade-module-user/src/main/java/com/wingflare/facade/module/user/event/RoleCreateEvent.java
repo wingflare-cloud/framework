@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.user.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.user.bo.RoleBO;
 import com.wingflare.facade.module.user.dto.RoleDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -11,7 +11,7 @@ import java.time.Clock;
  * 角色创建事件
  *
  */
-public class RoleCreateEvent extends ApplicationEvent {
+public class RoleCreateEvent extends BaseEvent {
 
     protected transient RoleDTO source;
 

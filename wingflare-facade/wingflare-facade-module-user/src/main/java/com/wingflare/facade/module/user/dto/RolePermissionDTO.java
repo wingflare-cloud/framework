@@ -2,8 +2,6 @@ package com.wingflare.facade.module.user.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -108,18 +106,18 @@ public class RolePermissionDTO
     {
         return createUserId;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("roleId", getRoleId())
-            .append("systemCode", getSystemCode())
-            .append("permissionCode", getPermissionCode())
-            .append("createdTime", getCreatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .toString();
+        return "RolePermissionDTO{" +
+                "id=" + id +
+                ", roleId=" + roleId +
+                ", systemCode='" + systemCode + '\'' +
+                ", permissionCode='" + permissionCode + '\'' +
+                ", createdTime=" + createdTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId=" + createUserId +
+                '}';
     }
-	
+
 }

@@ -78,4 +78,17 @@ public class MenuPermissionDTO {
     public void setChildren(List<MenuPermissionDTO> children) {
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "MenuPermissionDTO{" +
+                "name='" + name + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", permissionCode='" + permissionCode + '\'' +
+                ", systemCode='" + systemCode + '\'' +
+                ", key='" + key + '\'' +
+                ", menuType='" + menuType + '\'' +
+                ", children=" + children +
+                '}';
+    }
 }

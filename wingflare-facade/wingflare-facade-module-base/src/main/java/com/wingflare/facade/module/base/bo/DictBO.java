@@ -7,8 +7,6 @@ import com.wingflare.lib.core.validation.Enum;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.enums.OnOffEnum;
 import jakarta.validation.constraints.Min;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.Digits;
@@ -178,19 +176,19 @@ public class DictBO
         return version;
     }
 
-	@Override
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("dictId", getDictId())
-            .append("state", getState())
-            .append("dictType", getDictType())
-            .append("dictCode", getDictCode())
-            .append("dictName", getDictName())
-            .append("dictValue", getDictValue())
-            .append("dictText", getDictText())
-            .append("sort", getSort())
-            .append("version", getVersion())
-            .toString();
+        return "DictBO{" +
+                "dictId=" + dictId +
+                ", state=" + state +
+                ", dictType='" + dictType + '\'' +
+                ", dictCode='" + dictCode + '\'' +
+                ", dictName='" + dictName + '\'' +
+                ", dictValue='" + dictValue + '\'' +
+                ", dictText='" + dictText + '\'' +
+                ", sort=" + sort +
+                ", version=" + version +
+                '}';
     }
-	
+
 }

@@ -2,8 +2,6 @@ package com.wingflare.facade.module.base.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -231,26 +229,25 @@ public class DictDTO
     {
         return version;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("dictId", getDictId())
-            .append("state", getState())
-            .append("dictType", getDictType())
-            .append("dictCode", getDictCode())
-            .append("dictName", getDictName())
-            .append("dictValue", getDictValue())
-            .append("dictText", getDictText())
-            .append("sort", getSort())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+        return "DictDTO{" +
+                "dictId=" + dictId +
+                ", state=" + state +
+                ", dictType='" + dictType + '\'' +
+                ", dictCode='" + dictCode + '\'' +
+                ", dictName='" + dictName + '\'' +
+                ", dictValue='" + dictValue + '\'' +
+                ", dictText='" + dictText + '\'' +
+                ", sort=" + sort +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId=" + createUserId +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateUserId=" + updateUserId +
+                ", version=" + version +
+                '}';
     }
-	
 }

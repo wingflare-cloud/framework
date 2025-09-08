@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.base.dict;
 
-import com.wingflare.lib.core.enums.ValueEnum;
+
+import com.wingflare.api.core.ValueEnum;
 
 /**
  * @EnumName MenuTypes

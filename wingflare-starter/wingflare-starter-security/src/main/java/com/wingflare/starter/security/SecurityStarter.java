@@ -1,8 +1,7 @@
 package com.wingflare.starter.security;
 
-import com.wingflare.abstraction.secuirty.starter.SecurityStarterInterface;
+
 import com.wingflare.lib.security.aspect.PreAuthorizeAspect;
-import com.wingflare.lib.security.utils.AuthUtil;
 import com.wingflare.lib.security.utils.UserAuthUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -11,9 +10,8 @@ import org.springframework.context.annotation.Import;
 @Import({
         SecurityCheckServer.class,
         UserAuthUtil.class,
-        AuthUtil.class,
         PreAuthorizeAspect.class,
 })
-public class SecurityStarter implements SecurityStarterInterface {
+public class SecurityStarter {
 
 }

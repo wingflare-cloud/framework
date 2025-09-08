@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.base.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.base.dto.MenuDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -10,7 +10,7 @@ import java.time.Clock;
  * 菜单删除成功事件
  *
  */
-public class MenuDeletedEvent extends ApplicationEvent {
+public class MenuDeletedEvent extends BaseEvent {
 
     protected transient MenuDTO source;
 

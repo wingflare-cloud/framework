@@ -1,11 +1,14 @@
 package com.wingflare.lib.standard;
 
 
+import com.wingflare.api.core.PageResult;
+
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * @author naizui_ycx
@@ -27,10 +30,9 @@ public interface CacheService {
      *
      * @param key      缓存的键值
      * @param value    缓存的值
-     * @param timeout  时间
-     * @param timeUnit 时间颗粒度
+     * @param duration 过期时间
      */
-    <T> void setCacheObject(final String key, final T value, final Long timeout, final TimeUnit timeUnit);
+    <T> void setCacheObject(final String key, final T value, final Duration duration);
 
     /**
      * 设置有效时间
@@ -45,11 +47,10 @@ public interface CacheService {
      * 设置有效时间
      *
      * @param key     Redis键
-     * @param timeout 超时时间
-     * @param unit    时间单位
+     * @param duration 过期时间
      * @return true=设置成功；false=设置失败
      */
-    Boolean expire(final String key, final long timeout, final TimeUnit unit);
+    Boolean expire(final String key, final Duration duration);
 
     /**
      * 获取有效时间

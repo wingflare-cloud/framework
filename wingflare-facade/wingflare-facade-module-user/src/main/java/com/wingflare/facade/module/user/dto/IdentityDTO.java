@@ -4,8 +4,6 @@ package com.wingflare.facade.module.user.dto;
 import java.math.BigInteger;
 import java.util.Date;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -186,23 +184,22 @@ public class IdentityDTO
     {
         return version;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("identityId", getIdentityId())
-            .append("orgId", getOrgId())
-            .append("departmentId", getDepartmentId())
-            .append("identityName", getIdentityName())
-            .append("jobLevelId", getJobLevelId())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+        return "IdentityDTO{" +
+                "identityId=" + identityId +
+                ", orgId=" + orgId +
+                ", departmentId=" + departmentId +
+                ", identityName='" + identityName + '\'' +
+                ", jobLevelId=" + jobLevelId +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId=" + createUserId +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateUserId=" + updateUserId +
+                ", version=" + version +
+                '}';
     }
-	
 }

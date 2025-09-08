@@ -1,7 +1,7 @@
 package com.wingflare.api.http;
 
 
-import com.wingflare.api.core.Charset;
+import com.wingflare.api.core.enums.Charset;
 
 import java.io.File;
 import java.util.Map;

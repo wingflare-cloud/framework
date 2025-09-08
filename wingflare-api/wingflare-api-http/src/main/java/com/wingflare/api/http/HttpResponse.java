@@ -1,8 +1,8 @@
 package com.wingflare.api.http;
 
 
-import com.wingflare.api.core.Charset;
-import com.wingflare.api.core.MimeType;
+import com.wingflare.api.core.enums.Charset;
+import com.wingflare.api.core.enums.MimeType;
 
 import java.io.OutputStream;
 import java.util.List;

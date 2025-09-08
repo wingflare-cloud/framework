@@ -1,8 +1,9 @@
 package com.wingflare.facade.module.auth.bo;
 
 import com.wingflare.lib.core.validation.MustUserId;
-
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigInteger;
 

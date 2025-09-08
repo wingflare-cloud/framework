@@ -6,14 +6,8 @@ import com.wingflare.facade.module.user.bo.RolePermissionBO;
 import com.wingflare.facade.module.user.dto.RolePermissionDTO;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
-import com.wingflare.lib.core.validation.Create;
-import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.PageDto;
-import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.groups.Default;
 import java.util.List;
 
 
@@ -23,48 +17,45 @@ import java.util.List;
  * @author naizui_ycx
  * @date Thu Mar 09 10:13:02 CST 2023
  */
-@Validated
 public interface RolePermissionBiz
 {
 	
 	/**
      * 查询系统角色权限列表
      */
-    PageDto<RolePermissionDTO> list(@Valid RolePermissionSearchBO bo);
+    PageDto<RolePermissionDTO> list(RolePermissionSearchBO bo);
 	
 	/**
      * 查询系统角色权限详情
      */
-	RolePermissionDTO get(@Valid @NotNull IdBo bo);
+	RolePermissionDTO get(IdBo bo);
 	
 	/**
      * 通过条件查询单个系统角色权限详情
      */
-	RolePermissionDTO getOnlyOne(@Valid @NotNull RolePermissionSearchBO searchBo);
+	RolePermissionDTO getOnlyOne(RolePermissionSearchBO searchBo);
 	
 	/**
      * 删除系统角色权限
      */
-	void delete(@Valid @NotNull IdBo bo);
+	void delete(IdBo bo);
 
 	/**
      * 新增系统角色权限
      */
-	@Validated({Default.class, Create.class})
-	RolePermissionDTO create(@Valid @NotNull RolePermissionBO bo);
+	RolePermissionDTO create(RolePermissionBO bo);
 	
 	/**
      * 更新系统角色权限
      */
-	@Validated({Default.class, Update.class})
-	RolePermissionDTO update(@Valid @NotNull RolePermissionBO bo);
+	RolePermissionDTO update(RolePermissionBO bo);
 
 	/**
 	 * 保存角色权限
 	 * @param existBo
 	 * @return
 	 */
-	Boolean savePermission(@Valid @NotNull PermissionCodesExistBO existBo);
+	Boolean savePermission(PermissionCodesExistBO existBo);
 
 	/**
 	 * 获取角色权限
@@ -72,6 +63,6 @@ public interface RolePermissionBiz
 	 * @param bo
 	 * @return
 	 */
-	List<PermissionCodesExistBO.CodesExist> permission(@Valid @NotNull IdBo bo);
+	List<PermissionCodesExistBO.CodesExist> permission(IdBo bo);
 
 }

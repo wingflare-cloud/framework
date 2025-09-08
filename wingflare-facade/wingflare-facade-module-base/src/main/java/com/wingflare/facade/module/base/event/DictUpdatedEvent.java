@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.base.event;
 
-import com.wingflare.facade.module.base.bo.DictBO;
+
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.base.dto.DictDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -10,7 +10,7 @@ import java.time.Clock;
  * 字典更新成功事件
  *
  */
-public class DictUpdatedEvent extends ApplicationEvent {
+public class DictUpdatedEvent extends BaseEvent {
 
     protected transient DictDTO source;
 

@@ -10,7 +10,7 @@ import java.util.List;
  * @date {2021/12/13}
  * @description 数据翻页模型
  */
-public class PageDto<T> implements Serializable{
+public class PageDto<T> implements Serializable {
     private int page = 1;
     private int pageSize = 0;
     private List<T> list;

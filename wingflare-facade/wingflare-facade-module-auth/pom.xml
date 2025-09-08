@@ -22,6 +22,12 @@
             <artifactId>mapstruct</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingfalre-lib-standard</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -30,20 +36,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-event</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingfalre-lib-standard</artifactId>
+            <artifactId>wingflare-api-security</artifactId>
             <scope>provided</scope>
         </dependency>
 

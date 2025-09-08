@@ -287,4 +287,30 @@ public class SimpleMenuDTO
     public void setChildren(List<SimpleMenuDTO> children) {
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleMenuDTO{" +
+                "menuId='" + menuId + '\'' +
+                ", parentMenuId='" + parentMenuId + '\'' +
+                ", state=" + state +
+                ", hide=" + hide +
+                ", constant=" + constant +
+                ", multiTab=" + multiTab +
+                ", menuType='" + menuType + '\'' +
+                ", systemCode='" + systemCode + '\'' +
+                ", permissionCode='" + permissionCode + '\'' +
+                ", menuName='" + menuName + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", menuIcon='" + menuIcon + '\'' +
+                ", iconType='" + iconType + '\'' +
+                ", routeName='" + routeName + '\'' +
+                ", routePath='" + routePath + '\'' +
+                ", component='" + component + '\'' +
+                ", query='" + query + '\'' +
+                ", href='" + href + '\'' +
+                ", sort=" + sort +
+                ", children=" + children +
+                '}';
+    }
 }

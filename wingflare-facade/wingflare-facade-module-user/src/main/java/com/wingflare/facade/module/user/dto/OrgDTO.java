@@ -2,8 +2,6 @@ package com.wingflare.facade.module.user.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -250,27 +248,27 @@ public class OrgDTO
     {
         return version;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("orgId", getOrgId())
-            .append("parentOrgId", getParentOrgId())
-            .append("state", getState())
-            .append("orgType", getOrgType())
-            .append("orgName", getOrgName())
-            .append("orgPhone", getOrgPhone())
-            .append("orgAddress", getOrgAddress())
-            .append("roleId", getRoleId())
-            .append("userId", getUserId())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+        return "OrgDTO{" +
+                "orgId=" + orgId +
+                ", parentOrgId=" + parentOrgId +
+                ", state=" + state +
+                ", orgType='" + orgType + '\'' +
+                ", orgName='" + orgName + '\'' +
+                ", orgPhone='" + orgPhone + '\'' +
+                ", orgAddress='" + orgAddress + '\'' +
+                ", roleId=" + roleId +
+                ", userId=" + userId +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId=" + createUserId +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateUserId=" + updateUserId +
+                ", version=" + version +
+                '}';
     }
-	
+
 }

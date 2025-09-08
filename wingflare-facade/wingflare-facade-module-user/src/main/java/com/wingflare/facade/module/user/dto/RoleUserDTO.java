@@ -89,4 +89,19 @@ public class RoleUserDTO {
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
+
+    @Override
+    public String toString() {
+        return "RoleUserDTO{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", banState=" + banState +
+                ", userEmail='" + userEmail + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
+                ", lastLoginTime=" + lastLoginTime +
+                '}';
+    }
+
 }

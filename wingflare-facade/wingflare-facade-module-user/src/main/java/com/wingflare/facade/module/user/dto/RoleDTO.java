@@ -2,8 +2,6 @@ package com.wingflare.facade.module.user.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -170,22 +168,22 @@ public class RoleDTO
     {
         return version;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("roleId", getRoleId())
-            .append("state", getState())
-            .append("roleName", getRoleName())
-            .append("roleRemark", getRoleRemark())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+        return "RoleDTO{" +
+                "roleId=" + roleId +
+                ", state=" + state +
+                ", roleName='" + roleName + '\'' +
+                ", roleRemark='" + roleRemark + '\'' +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId=" + createUserId +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateUserId=" + updateUserId +
+                ", version=" + version +
+                '}';
     }
-	
+
 }

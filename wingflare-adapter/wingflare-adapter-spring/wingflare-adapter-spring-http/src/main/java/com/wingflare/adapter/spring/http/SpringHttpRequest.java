@@ -1,7 +1,7 @@
 package com.wingflare.adapter.spring.http;
 
 
-import com.wingflare.api.core.Charset;
+import com.wingflare.api.core.enums.Charset;
 import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpMethod;

@@ -133,4 +133,18 @@ public class SimpleDictDTO
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleDictDTO{" +
+                "dictId=" + dictId +
+                ", systemCode='" + systemCode + '\'' +
+                ", dictType='" + dictType + '\'' +
+                ", dictCode='" + dictCode + '\'' +
+                ", dictName='" + dictName + '\'' +
+                ", dictValue='" + dictValue + '\'' +
+                ", dictText='" + dictText + '\'' +
+                ", sort=" + sort +
+                '}';
+    }
 }

@@ -1,8 +1,8 @@
 package com.wingflare.facade.module.user.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -10,7 +10,7 @@ import java.time.Clock;
  * 用户密码更改成功事件
  *
  */
-public class UserChangedPwdEvent extends ApplicationEvent {
+public class UserChangedPwdEvent extends BaseEvent {
 
     protected transient UserDTO source;
 

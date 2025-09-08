@@ -1,8 +1,8 @@
 package com.wingflare.adapter.spring.http;
 
 
-import com.wingflare.api.core.Charset;
-import com.wingflare.api.core.MimeType;
+import com.wingflare.api.core.enums.Charset;
+import com.wingflare.api.core.enums.MimeType;
 import com.wingflare.api.http.HttpCookie;
 import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpHeaderConstants;

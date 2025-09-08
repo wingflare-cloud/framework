@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.user.event;
 
 
+import com.wingflare.api.event.BaseEvent;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import org.springframework.context.ApplicationEvent;
 
 import java.time.Clock;
 
@@ -11,7 +11,7 @@ import java.time.Clock;
  * 用户创建成功事件
  *
  */
-public class UserCreatedEvent extends ApplicationEvent {
+public class UserCreatedEvent extends BaseEvent {
 
     protected transient UserDTO source;
 

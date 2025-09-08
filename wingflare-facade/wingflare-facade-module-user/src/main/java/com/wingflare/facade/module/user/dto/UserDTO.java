@@ -1,10 +1,7 @@
 package com.wingflare.facade.module.user.dto;
 
 
-import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -47,7 +44,7 @@ public class UserDTO
 	/**
      * 账户类型
      */
-    private JSONArray accountType;
+    private List<String> accountType;
 	
 	/**
      * 用户名
@@ -174,13 +171,13 @@ public class UserDTO
         return userChannel;
     }
 	
-    public UserDTO setAccountType(JSONArray accountType)
+    public UserDTO setAccountType(List<String> accountType)
     {
         this.accountType = accountType;
         return this;
     }
 
-    public JSONArray getAccountType()
+    public List<String> getAccountType()
     {
         return accountType;
     }
@@ -358,32 +355,34 @@ public class UserDTO
     {
         return version;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("userId", getUserId())
-            .append("superAdministrator", getSuperAdministrator())
-            .append("banState", getBanState())
-            .append("sex", getSex())
-            .append("userChannel", getUserChannel())
-            .append("accountType", getAccountType())
-            .append("userName", getUserName())
-            .append("avatar", getAvatar())
-            .append("userAccount", getUserAccount())
-            .append("userPhone", getUserPhone())
-            .append("userEmail", getUserEmail())
-            .append("userPasswd", getUserPasswd())
-            .append("lastLoginIp", getLastLoginIp())
-            .append("lastLoginTime", getLastLoginTime())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+        return "UserDTO{" +
+                "userId=" + userId +
+                ", userRoleId=" + userRoleId +
+                ", superAdministrator=" + superAdministrator +
+                ", banState=" + banState +
+                ", sex=" + sex +
+                ", userChannel='" + userChannel + '\'' +
+                ", accountType=" + accountType +
+                ", userName='" + userName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", userAccount='" + userAccount + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userPasswd='" + userPasswd + '\'' +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
+                ", userRole=" + userRole +
+                ", lastLoginTime=" + lastLoginTime +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId='" + createUserId + '\'' +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateUserId='" + updateUserId + '\'' +
+                ", version=" + version +
+                '}';
     }
-	
+
 }

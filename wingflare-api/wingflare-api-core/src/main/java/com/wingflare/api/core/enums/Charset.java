@@ -1,4 +1,4 @@
-package com.wingflare.api.core;
+package com.wingflare.api.core.enums;
 
 
 /**

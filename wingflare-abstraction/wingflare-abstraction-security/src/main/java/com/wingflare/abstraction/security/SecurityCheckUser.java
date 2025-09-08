@@ -1,11 +1,11 @@
-package com.wingflare.adapter.spring.security.standard;
+package com.wingflare.abstraction.security;
 
 
-import com.wingflare.lib.standard.PageResult;
-import com.wingflare.lib.standard.model.UserAuth;
+import com.wingflare.api.core.PageResult;
+import com.wingflare.api.security.UserAuth;
 
 import java.math.BigInteger;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 
 public interface SecurityCheckUser {
@@ -54,7 +54,7 @@ public interface SecurityCheckUser {
      *
      * @param user
      */
-    void setUser(UserAuth user, final Long timeout, final TimeUnit timeUnit);
+    void setUser(UserAuth user, Duration duration);
 
     /**
      * 获取登录用户列表

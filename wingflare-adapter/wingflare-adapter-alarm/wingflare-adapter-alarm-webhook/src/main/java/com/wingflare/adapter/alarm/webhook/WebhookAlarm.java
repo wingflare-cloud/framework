@@ -4,7 +4,7 @@ package com.wingflare.adapter.alarm.webhook;
 import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
-import com.wingflare.api.core.Charset;
+import com.wingflare.api.core.enums.Charset;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
 import com.wingflare.api.http.HttpResponse;

@@ -15,6 +15,7 @@
     <modules>
         <module>wingflare-starter-security</module>
         <module>wingflare-starter-datascope</module>
+        <module>wingflare-starter-spring</module>
     </modules>
 
     <dependencyManagement>

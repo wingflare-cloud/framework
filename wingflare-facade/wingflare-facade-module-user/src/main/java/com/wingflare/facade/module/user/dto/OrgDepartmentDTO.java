@@ -2,8 +2,6 @@ package com.wingflare.facade.module.user.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -218,25 +216,25 @@ public class OrgDepartmentDTO
     {
         return version;
     }
-	
-	@Override
+
+    @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("departmentId", getDepartmentId())
-            .append("state", getState())
-            .append("orgId", getOrgId())
-            .append("parentDepartmentId", getParentDepartmentId())
-            .append("departmentName", getDepartmentName())
-            .append("roleId", getRoleId())
-            .append("userId", getUserId())
-            .append("createdTime", getCreatedTime())
-            .append("updatedTime", getUpdatedTime())
-            .append("createUser", getCreateUser())
-            .append("createUserId", getCreateUserId())
-            .append("updateUser", getUpdateUser())
-            .append("updateUserId", getUpdateUserId())
-            .append("version", getVersion())
-            .toString();
+        return "OrgDepartmentDTO{" +
+                "departmentId=" + departmentId +
+                ", state=" + state +
+                ", orgId=" + orgId +
+                ", parentDepartmentId=" + parentDepartmentId +
+                ", departmentName='" + departmentName + '\'' +
+                ", roleId=" + roleId +
+                ", userId=" + userId +
+                ", createdTime=" + createdTime +
+                ", updatedTime=" + updatedTime +
+                ", createUser='" + createUser + '\'' +
+                ", createUserId='" + createUserId + '\'' +
+                ", updateUser='" + updateUser + '\'' +
+                ", updateUserId='" + updateUserId + '\'' +
+                ", version=" + version +
+                '}';
     }
-	
+
 }
