@@ -1,15 +1,15 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.api.security.annotation.BusinessSystem;
+import com.wingflare.api.security.annotation.InternalApi;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
 import com.wingflare.facade.module.user.bo.UserBindRoleBO;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import com.wingflare.lib.security.annotation.BusinessSystem;
-import com.wingflare.lib.security.annotation.RequiresPermissions;
-import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.annotation.security.Secret;
 import com.wingflare.lib.standard.bo.IdBo;
@@ -17,7 +17,6 @@ import com.wingflare.module.user.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,10 +31,13 @@ import java.util.Map;
 public class UserController
 {
 
-	@Resource
-    private UserBiz userBiz;
+    private final UserBiz userBiz;
 
-    /**
+	public UserController(UserBiz userBiz) {
+		this.userBiz = userBiz;
+	}
+
+	/**
      * 查询系统用户列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 
 /**
  * 岗位身份Controller
@@ -26,10 +25,13 @@ import jakarta.annotation.Resource;
 public class IdentityController
 {
 
-	@Resource
-    private IdentityBiz identityBiz;
+    private final IdentityBiz identityBiz;
 
-    /**
+	public IdentityController(IdentityBiz identityBiz) {
+		this.identityBiz = identityBiz;
+	}
+
+	/**
      * 查询岗位身份列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

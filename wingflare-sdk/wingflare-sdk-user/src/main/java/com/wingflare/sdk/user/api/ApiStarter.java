@@ -1,6 +1,6 @@
 package com.wingflare.sdk.user.api;
 
-import com.wingflare.lib.spring.annotation.ConditionalOnPackageNotExists;
+
 import com.wingflare.lib.spring.annotation.WingFlareFeignClient;
 import com.wingflare.sdk.user.api.fallback.UserApiFallbackFactory;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +17,5 @@ import org.springframework.context.annotation.Import;
 @Import({
         UserApiFallbackFactory.class
 })
-@ConditionalOnPackageNotExists("com.wingflare.business.user")
 public class ApiStarter {
 }

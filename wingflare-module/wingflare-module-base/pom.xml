@@ -30,7 +30,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-security</artifactId>
+            <artifactId>wingflare-api-security</artifactId>
             <scope>provided</scope>
         </dependency>
 

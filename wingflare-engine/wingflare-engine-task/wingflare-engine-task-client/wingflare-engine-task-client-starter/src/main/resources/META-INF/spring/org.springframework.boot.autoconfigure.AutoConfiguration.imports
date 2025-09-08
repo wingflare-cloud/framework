@@ -1,2 +1,4 @@
 com.wingflare.engine.task.client.starter.TaskEngineClientJobCoreAutoConfiguration
 com.wingflare.engine.task.client.starter.TaskEngineClientRetryCoreAutoConfiguration
+com.wingflare.engine.task.client.starter.TaskNetworkProperties
+com.wingflare.engine.task.common.core.util.TaskEngineNetworkUtils

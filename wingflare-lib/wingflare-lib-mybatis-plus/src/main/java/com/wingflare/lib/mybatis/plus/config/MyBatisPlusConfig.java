@@ -1,6 +1,8 @@
 package com.wingflare.lib.mybatis.plus.config;
 
 
+import com.wingflare.adapter.spring.common.utils.SpringUtil;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.mybatis.plus.InnerInterceptorRegister;
 import com.wingflare.lib.mybatis.plus.injector.CustomSqlInjector;
 import com.wingflare.lib.mybatis.plus.plugin.MybatisPlusInterceptor;
@@ -10,7 +12,6 @@ import com.wingflare.lib.mybatis.plus.plugin.handler.SelectHandlerInterface;
 import com.wingflare.lib.mybatis.plus.plugin.handler.SelectWhereHandlerInterface;
 import com.wingflare.lib.mybatis.plus.plugin.handler.SqlBeforePrepareInterface;
 import com.wingflare.lib.mybatis.plus.plugin.inner.CustomInterceptor;
-import com.wingflare.lib.spring.utils.SpringUtil;
 import com.wingflare.lib.standard.utils.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -59,15 +60,9 @@ public class MyBatisPlusConfig {
      */
     private CustomInterceptor customInterceptor() {
         return new CustomInterceptor(
-                OrderUtil.asc(SpringUtil.getApplicationContext()
-                        .getBeansOfType(SelectWhereHandlerInterface.class)
-                        .values()),
-                OrderUtil.asc(SpringUtil.getApplicationContext()
-                        .getBeansOfType(SelectHandlerInterface.class)
-                        .values()),
-                OrderUtil.asc(SpringUtil.getApplicationContext()
-                        .getBeansOfType(SqlBeforePrepareInterface.class)
-                        .values())
+                OrderUtil.asc(Container.getAll(SelectWhereHandlerInterface.class)),
+                OrderUtil.asc(Container.getAll(SelectHandlerInterface.class)),
+                OrderUtil.asc(Container.getAll(SqlBeforePrepareInterface.class))
         );
     }
 

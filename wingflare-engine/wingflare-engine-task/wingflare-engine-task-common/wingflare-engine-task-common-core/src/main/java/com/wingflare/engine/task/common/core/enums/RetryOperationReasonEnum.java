@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core.enums;
 
 
-import com.wingflare.lib.core.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 标识某个操作的具体原因
@@ -12,7 +12,7 @@ import com.wingflare.lib.core.utils.StringUtil;
  */
 public enum RetryOperationReasonEnum {
 
-    NONE(0, StringUtil.EMPTY),
+    NONE(0, StrUtil.EMPTY),
     TASK_EXECUTION_TIMEOUT(1, "Task execution timeout"),
     NOT_CLIENT(2, "No client nodes"),
     RETRY_SUSPEND(3, "Retry paused"),

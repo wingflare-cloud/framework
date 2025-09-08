@@ -43,19 +43,6 @@ public interface ContainerDrive {
     <T> Collection<T> getAll(Class<T> type);
 
     /**
-     * 注入bean对象
-     * @param beanName
-     * @param bean
-     */
-    void set(String beanName, Object bean);
-
-    /**
-     * 注入bean对象
-     * @param bean
-     */
-    void set(Object bean);
-
-    /**
      * 是否存在bean对象
      * @param clz
      * @return

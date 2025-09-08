@@ -53,7 +53,8 @@ public class ServerRegister extends AbstractRegister {
         CURRENT_CID = IdUtil.getSnowflakeNextIdStr();
     }
 
-    public ServerRegister(InstanceManager instanceManager, SystemProperties systemProperties, ServerProperties serverProperties, TaskEngineNetworkUtils taskEngineNetworkUtils) {
+    public ServerRegister(InstanceManager instanceManager, SystemProperties systemProperties, ServerProperties serverProperties,
+                          TaskEngineNetworkUtils taskEngineNetworkUtils) {
         this.instanceManager = instanceManager;
         this.systemProperties = systemProperties;
         this.serverProperties = serverProperties;

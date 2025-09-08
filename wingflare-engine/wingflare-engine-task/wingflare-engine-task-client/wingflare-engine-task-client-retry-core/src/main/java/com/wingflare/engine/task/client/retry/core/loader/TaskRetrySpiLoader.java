@@ -74,7 +74,8 @@ public class TaskRetrySpiLoader {
      * @return {@link RetrySiteSnapshotContext} 默认序列化类为ThreadLockRetrySiteSnapshotContext
      */
     public static <T> RetrySiteSnapshotContext<T> loadRetrySiteSnapshotContext() {
-        return Optional.ofNullable(ServiceLoaderUtil.loadFirst(RetrySiteSnapshotContext.class)).orElse(new ThreadLockRetrySiteSnapshotContext<T>(new ThreadLocal<>()));
+        return Optional.ofNullable(ServiceLoaderUtil.loadFirst(RetrySiteSnapshotContext.class))
+                .orElse(new ThreadLockRetrySiteSnapshotContext<T>(new ThreadLocal<>()));
     }
 
     /**
@@ -83,7 +84,8 @@ public class TaskRetrySpiLoader {
      * @return {@link SpELExpressionEngine} 默认序列化类为SpELExpressionEngine
      */
     public static ExpressionEngine loadExpressionEngine() {
-        ExpressionEngine expressionEngine = Optional.ofNullable(ServiceLoaderUtil.loadFirst(ExpressionEngine.class)).orElse(new SpELExpressionEngine());
+        ExpressionEngine expressionEngine = Optional.ofNullable(ServiceLoaderUtil.loadFirst(ExpressionEngine.class))
+                .orElse(new SpELExpressionEngine());
         return ExpressionFactory.getExpressionEngine(new ExpressionInvocationHandler(expressionEngine));
     }
 

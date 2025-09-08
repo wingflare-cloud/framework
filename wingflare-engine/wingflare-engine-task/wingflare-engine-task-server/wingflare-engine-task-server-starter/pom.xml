@@ -80,6 +80,11 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-container</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-engine-task-server-ui</artifactId>
         </dependency>
 
@@ -95,8 +100,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-redission-lock</artifactId>
-            <version>1.0.0</version>
+            <artifactId>wingflare-adapter-spring-redis</artifactId>
         </dependency>
 
     </dependencies>

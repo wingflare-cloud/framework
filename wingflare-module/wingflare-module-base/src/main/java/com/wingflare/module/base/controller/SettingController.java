@@ -1,13 +1,13 @@
 package com.wingflare.module.base.controller;
 
 
+import com.wingflare.api.security.annotation.BusinessSystem;
+import com.wingflare.api.security.annotation.InternalApi;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.facade.module.base.biz.SettingBiz;
 import com.wingflare.facade.module.base.bo.SettingBO;
 import com.wingflare.facade.module.base.bo.SettingSearchBO;
 import com.wingflare.facade.module.base.dto.SettingDTO;
-import com.wingflare.lib.security.annotation.BusinessSystem;
-import com.wingflare.lib.security.annotation.RequiresPermissions;
-import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.base.PermissionCode;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 
 /**
  * 系统设置Controller
@@ -30,10 +29,13 @@ import jakarta.annotation.Resource;
 public class SettingController
 {
 
-	@Resource
-    private SettingBiz settingBiz;
+    private final SettingBiz settingBiz;
 
-    /**
+	public SettingController(SettingBiz settingBiz) {
+		this.settingBiz = settingBiz;
+	}
+
+	/**
      * 查询系统设置列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

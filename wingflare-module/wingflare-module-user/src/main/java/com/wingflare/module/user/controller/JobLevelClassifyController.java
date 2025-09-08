@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
-
 
 /**
  * <p>
@@ -28,8 +26,11 @@ import jakarta.annotation.Resource;
 @RequestMapping("JobLevelClassify")
 public class JobLevelClassifyController {
 
-    @Resource
-    private JobLevelClassifyBizImpl jobLevelClassifyBizImpl;
+    private final JobLevelClassifyBizImpl jobLevelClassifyBizImpl;
+
+    public JobLevelClassifyController(JobLevelClassifyBizImpl jobLevelClassifyBizImpl) {
+        this.jobLevelClassifyBizImpl = jobLevelClassifyBizImpl;
+    }
 
     @RequestMapping(value="/list", method={RequestMethod.GET})
     @ResponseBody

@@ -37,6 +37,8 @@
         <module>wingflare-api-task</module>
         <module>wingflare-api-event</module>
         <module>wingflare-api-idgenerator</module>
+        <module>wingflare-api-security</module>
+        <module>wingflare-api-aop</module>
     </modules>
 
 </project>

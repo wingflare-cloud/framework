@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * feign客户端请求自动补充头信息
+ * 客户端请求自动补充头信息
  *
  * @author naizui_ycx
  * @date Sun Feb 05 16:44:49 CST 2023

@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-container</artifactId>
+        </dependency>
+
         <!-- 核心依赖 -->
         <dependency>
             <groupId>com.wingflare</groupId>
@@ -28,28 +33,9 @@
             <artifactId>wingflare-lib-core</artifactId>
         </dependency>
 
-        <!-- Spring context -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-
-        <!-- Spring aop -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-        </dependency>
-
-        <!-- Spring beans -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-        </dependency>
-
-        <!-- Spring core -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
         </dependency>
 
         <!-- Spring expression -->

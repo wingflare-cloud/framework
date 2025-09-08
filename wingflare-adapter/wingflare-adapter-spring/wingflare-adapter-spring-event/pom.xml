@@ -22,9 +22,10 @@
             <artifactId>wingflare-api-event</artifactId>
         </dependency>
 
+        <!-- Spring common -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
         </dependency>
 
     </dependencies>

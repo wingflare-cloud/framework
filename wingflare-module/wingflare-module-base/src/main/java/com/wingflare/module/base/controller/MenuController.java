@@ -1,6 +1,8 @@
 package com.wingflare.module.base.controller;
 
 
+import com.wingflare.api.security.annotation.BusinessSystem;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.facade.module.base.biz.MenuBiz;
 import com.wingflare.facade.module.base.bo.MenuBO;
 import com.wingflare.facade.module.base.bo.MenuSearchBO;
@@ -9,8 +11,6 @@ import com.wingflare.facade.module.base.dto.MenuDTO;
 import com.wingflare.facade.module.base.dto.MenuPermissionDTO;
 import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.core.utils.CollectionUtil;
-import com.wingflare.lib.security.annotation.BusinessSystem;
-import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.spring.annotation.InternalApi;
 import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
 import com.wingflare.lib.standard.PageDto;
@@ -20,7 +20,6 @@ import com.wingflare.module.base.PermissionCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,13 +35,16 @@ import java.util.Set;
 public class MenuController
 {
 
-	@Resource
-    private MenuBiz menuBiz;
+    private final MenuBiz menuBiz;
 
-	@Resource
-	private BusinessSystemProperties properties;
+	private final BusinessSystemProperties properties;
 
-    /**
+	public MenuController(MenuBiz menuBiz, BusinessSystemProperties properties) {
+		this.menuBiz = menuBiz;
+		this.properties = properties;
+	}
+
+	/**
      * 查询系统菜单列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

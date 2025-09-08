@@ -1,22 +1,14 @@
 package com.wingflare.engine.task.common.core.network;
 
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>
  *
- * </p>
- *
- * @author opensnail
+ * @author 奶嘴
  * @date 2025-07-31
  */
-@Configuration
-@ConfigurationProperties(prefix = "task.network")
 public class TaskNetworkProperties {
 
     /**

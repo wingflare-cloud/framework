@@ -1,8 +1,8 @@
 package com.wingflare.lib.spring.utils;
 
 
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
-import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.spring.constants.Wf;
@@ -44,7 +44,7 @@ public class ApiHelperUtil {
             Boolean permissionSuccess = ContextHolder.get(Wf.PERMISSION_RESULT_CONTEXT_KEY, null, Boolean.class);
 
             if (permissionSuccess == null || !permissionSuccess) {
-                SystemContextProperties systemInternalProperties = SpringUtil.getBean(SystemContextProperties.class);
+                SystemContextProperties systemInternalProperties = Container.get(SystemContextProperties.class);
                 String secret = ContextHolder.get(Wf.INTERNAL_API_AUTH_CONTEXT_KEY, null, String.class);
                 String secretKey = systemInternalProperties.getPassSecret();
 
@@ -74,7 +74,7 @@ public class ApiHelperUtil {
         Boolean fromSource;
 
         if (!ContextHolder.has(Wf.FROM_SOURCE_RESULT_CONTEXT_KEY)) {
-            SystemContextProperties systemInternalProperties = SpringUtil.getBean(SystemContextProperties.class);
+            SystemContextProperties systemInternalProperties = Container.get(SystemContextProperties.class);
             String secret = ContextHolder.get(Wf.INTERNAL_API_AUTH_CONTEXT_KEY, null, String.class);
             String secretKey = systemInternalProperties.getPassSecret();
 

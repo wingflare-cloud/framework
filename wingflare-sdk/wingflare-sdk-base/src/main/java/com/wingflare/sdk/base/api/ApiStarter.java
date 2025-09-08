@@ -1,6 +1,6 @@
 package com.wingflare.sdk.base.api;
 
-import com.wingflare.lib.spring.annotation.ConditionalOnPackageNotExists;
+
 import com.wingflare.lib.spring.annotation.WingFlareFeignClient;
 import com.wingflare.sdk.base.api.fallback.MenuApiFallbackFactory;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +17,5 @@ import org.springframework.context.annotation.Import;
 @Import({
         MenuApiFallbackFactory.class
 })
-@ConditionalOnPackageNotExists("com.wingflare.business.base")
 public class ApiStarter {
 }

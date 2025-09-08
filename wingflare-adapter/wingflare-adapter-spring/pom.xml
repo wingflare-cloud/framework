@@ -14,7 +14,9 @@
         <module>wingflare-adapter-spring-http</module>
         <module>wingflare-adapter-spring-thread-pool</module>
         <module>wingflare-adapter-spring-event</module>
-        <module>wingflare-adapter-spring-redission-lock</module>
+        <module>wingflare-adapter-spring-redis</module>
+        <module>wingflare-adapter-spring-common</module>
+        <module>wingflare-adapter-spring-security</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

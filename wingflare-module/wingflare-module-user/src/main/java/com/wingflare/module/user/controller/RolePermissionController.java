@@ -1,10 +1,10 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.api.security.annotation.BusinessSystem;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.facade.module.user.biz.RolePermissionBiz;
 import com.wingflare.facade.module.user.bo.PermissionCodesExistBO;
-import com.wingflare.lib.security.annotation.BusinessSystem;
-import com.wingflare.lib.security.annotation.RequiresPermissions;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.user.PermissionCode;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
@@ -27,8 +26,11 @@ import java.util.List;
 public class RolePermissionController
 {
 
-	@Resource
-    private RolePermissionBiz rolePermissionBiz;
+    private final RolePermissionBiz rolePermissionBiz;
+
+	public RolePermissionController(RolePermissionBiz rolePermissionBiz) {
+		this.rolePermissionBiz = rolePermissionBiz;
+	}
 
 	/**
 	 * 角色权限保存

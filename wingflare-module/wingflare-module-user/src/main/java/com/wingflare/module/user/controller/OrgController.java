@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 
 /**
  * 组织机构Controller
@@ -26,10 +25,13 @@ import jakarta.annotation.Resource;
 public class OrgController
 {
 
-	@Resource
-    private OrgBiz orgBiz;
+    private final OrgBiz orgBiz;
 
-    /**
+	public OrgController(OrgBiz orgBiz) {
+		this.orgBiz = orgBiz;
+	}
+
+	/**
      * 查询组织机构列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

@@ -22,18 +22,10 @@
             <artifactId>wingflare-api-container</artifactId>
         </dependency>
 
-        <!-- Spring beans -->
+        <!-- Spring common -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Spring context -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <scope>provided</scope>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
         </dependency>
 
     </dependencies>

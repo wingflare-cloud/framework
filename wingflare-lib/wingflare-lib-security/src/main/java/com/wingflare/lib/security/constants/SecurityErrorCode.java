@@ -13,11 +13,6 @@ public interface SecurityErrorCode {
     String AUTH_TOKEN_INVALID = "sec.auth.token.invalid";
 
     /**
-     * 应用认证已失效
-     */
-    String AUTH_APP_INVALID = "sec.auth.app.invalid";
-
-    /**
      * 无权限
      */
     String AUTH_NOT_PERMISSION = "sec.auth.noPermission";

@@ -40,18 +40,17 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-event</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-security</artifactId>
-            <scope>provided</scope>
+            <artifactId>wingflare-api-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-config</artifactId>
         </dependency>
 
         <dependency>

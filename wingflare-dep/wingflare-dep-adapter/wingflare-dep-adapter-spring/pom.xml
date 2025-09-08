@@ -15,6 +15,12 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-spring-common</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-adapter-spring-container</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
@@ -40,6 +46,18 @@
             <dependency>
                 <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-adapter-spring-mail</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-spring-redis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-spring-security</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

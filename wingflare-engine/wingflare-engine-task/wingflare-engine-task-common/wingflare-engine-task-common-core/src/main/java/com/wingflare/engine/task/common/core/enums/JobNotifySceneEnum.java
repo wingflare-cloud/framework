@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core.enums;
 
 
-import com.wingflare.lib.core.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 通知场景枚举
@@ -12,7 +12,7 @@ import com.wingflare.lib.core.utils.StringUtil;
 public enum JobNotifySceneEnum {
 
     /********************************Job****************************************/
-    NONE(0, StringUtil.EMPTY, NodeTypeEnum.SERVER),
+    NONE(0, StrUtil.EMPTY, NodeTypeEnum.SERVER),
     JOB_TASK_ERROR(1, "JOB task execution failed", NodeTypeEnum.SERVER),
     JOB_CLIENT_ERROR(2, "Client execution failed", NodeTypeEnum.CLIENT),
     JOB_NO_CLIENT_NODES_ERROR(3, "No executable client nodes", NodeTypeEnum.SERVER),

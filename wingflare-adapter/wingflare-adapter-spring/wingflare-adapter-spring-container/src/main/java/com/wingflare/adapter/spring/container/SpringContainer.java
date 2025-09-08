@@ -1,54 +1,69 @@
 package com.wingflare.adapter.spring.container;
 
+
 import com.wingflare.api.container.ContainerDrive;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
+
 
 /**
  * spring容器类
  */
-public final class SpringContainer implements ContainerDrive {
+public class SpringContainer implements ContainerDrive, ApplicationContextAware {
+
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public <T> T get(Class<T> clz) {
-        return SpringUtil.getBean(clz);
+        try {
+            return applicationContext.getBean(clz);
+        } catch (BeansException e) {
+            return null;
+        }
     }
 
     @Override
     public <T> T get(String name, Class<T> clz) {
-        return SpringUtil.getBean(name);
+        try {
+            return applicationContext.getBean(name, clz);
+        } catch (BeansException e) {
+            return null;
+        }
     }
 
     @Override
     public <T> Map<String, T> getAllMap(Class<T> type) {
-        return SpringUtil.getApplicationContext().getBeansOfType(type);
+        try {
+            return applicationContext.getBeansOfType(type);
+        } catch (BeansException e) {
+            return null;
+        }
     }
 
     @Override
     public <T> Collection<T> getAll(Class<T> type) {
-        return SpringUtil.getApplicationContext().getBeansOfType(type).values();
-    }
-
-    @Override
-    public void set(String beanName, Object bean) {
-        SpringUtil.registerBean(beanName, bean);
-    }
-
-    @Override
-    public void set(Object bean) {
-        SpringUtil.registerBean(bean.getClass().getName(), bean);
+        Map<String, T> beansOfType = getAllMap(type);
+        return beansOfType != null ? beansOfType.values() : null;
     }
 
     @Override
     public <T> boolean has(Class<T> clz) {
-        return SpringUtil.containsBean(clz.getName());
+        String[] beanNamesForType = applicationContext.getBeanNamesForType(clz);
+        return beanNamesForType != null && beanNamesForType.length > 0;
     }
 
     @Override
     public boolean has(String beanName) {
-        return SpringUtil.containsBean(beanName);
+        return applicationContext.containsBean(beanName);
     }
 
 }

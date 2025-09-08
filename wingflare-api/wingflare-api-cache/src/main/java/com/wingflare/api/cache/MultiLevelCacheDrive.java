@@ -1,7 +1,8 @@
 package com.wingflare.api.cache;
 
+
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 多级缓存接口，支持管理多个级别的缓存
@@ -32,7 +33,7 @@ public interface MultiLevelCacheDrive<K, V> extends CacheDrive<K, V> {
      * @param level 级别索引
      * @return 缓存值，如不存在或已过期则返回null
      */
-    V getFromLevel(K key, int level);
+    V getFromLevel(final K key, int level);
 
     /**
      * 将缓存项同步到所有级别
@@ -40,5 +41,5 @@ public interface MultiLevelCacheDrive<K, V> extends CacheDrive<K, V> {
      * @param value 缓存值
      * @param ttl 生存时间（毫秒）
      */
-    void syncToAllLevels(K key, V value, long ttl, TimeUnit unit);
+    void syncToAllLevels(final K key, final V value, Duration ttl);
 }

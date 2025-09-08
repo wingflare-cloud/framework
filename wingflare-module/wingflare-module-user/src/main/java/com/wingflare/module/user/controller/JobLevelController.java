@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 
 /**
  * 职级Controller
@@ -26,10 +25,13 @@ import jakarta.annotation.Resource;
 public class JobLevelController
 {
 
-	@Resource
-    private JobLevelBiz jobLevelBiz;
+    private final JobLevelBiz jobLevelBiz;
 
-    /**
+	public JobLevelController(JobLevelBiz jobLevelBiz) {
+		this.jobLevelBiz = jobLevelBiz;
+	}
+
+	/**
      * 查询职级列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

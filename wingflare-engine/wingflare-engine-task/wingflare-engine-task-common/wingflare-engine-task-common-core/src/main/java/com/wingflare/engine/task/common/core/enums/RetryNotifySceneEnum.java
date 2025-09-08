@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.common.core.enums;
 
 
-import com.wingflare.lib.core.utils.StringUtil;
+import cn.hutool.core.util.StrUtil;
 
 /**
  * 通知场景枚举
@@ -12,7 +12,7 @@ import com.wingflare.lib.core.utils.StringUtil;
  */
 public enum RetryNotifySceneEnum {
 
-    NONE(0, StringUtil.EMPTY, NodeTypeEnum.SERVER),
+    NONE(0, StrUtil.EMPTY, NodeTypeEnum.SERVER),
 
     MAX_RETRY(1, "Scene retry count exceeds threshold", NodeTypeEnum.SERVER),
 

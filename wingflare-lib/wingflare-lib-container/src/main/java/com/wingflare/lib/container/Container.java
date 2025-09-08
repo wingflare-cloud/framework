@@ -73,23 +73,6 @@ public class Container {
     }
 
     /**
-     * 注入bean对象
-     * @param beanName
-     * @param bean
-     */
-    public static void set(String beanName, Object bean) {
-        getContainer().set(beanName, bean);
-    }
-
-    /**
-     * 注入bean对象
-     * @param bean
-     */
-    public static void set(Object bean) {
-        getContainer().set(bean);
-    }
-
-    /**
      * 是否存在bean对象
      * @param clz
      * @return

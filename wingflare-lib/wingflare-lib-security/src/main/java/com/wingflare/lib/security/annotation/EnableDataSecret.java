@@ -1,7 +1,6 @@
 package com.wingflare.lib.security.annotation;
 
 import com.wingflare.lib.security.aspect.DataSecretAspect;
-import com.wingflare.lib.spring.configure.properties.ApiProperties;
 import com.wingflare.lib.security.properties.DataSecretProperties;
 import com.wingflare.lib.security.secret.AESDataSecret;
 import com.wingflare.lib.security.secret.DESDataSecret;

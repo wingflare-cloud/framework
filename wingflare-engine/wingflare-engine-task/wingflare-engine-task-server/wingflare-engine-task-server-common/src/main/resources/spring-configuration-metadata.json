@@ -1,14 +1,14 @@
 {
   "groups": [
     {
-      "name": "snail-job",
+      "name": "task",
       "type": "com.wingflare.engine.task.server.common.config.SystemProperties",
       "sourceType": "com.wingflare.engine.task.server.common.config.SystemProperties"
     }
   ],
   "properties": [
     {
-      "name": "snail-job.callback",
+      "name": "task.callback",
       "type": "com.wingflare.engine.task.server.common.config.SystemProperties$Callback",
       "defaultValue": "30",
       "description": "服务端的地址，若服务端集群部署则此处配置域名",

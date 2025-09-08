@@ -10,8 +10,6 @@ import com.wingflare.lib.standard.PageDto;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
-
 
 /**
  * <p>
@@ -25,9 +23,11 @@ import jakarta.annotation.Resource;
 @RequestMapping("/role/user")
 public class UserRoleController {
 
-    @Resource
-    private UserRoleBiz userRoleBiz;
+    private final UserRoleBiz userRoleBiz;
 
+    public UserRoleController(UserRoleBiz userRoleBiz) {
+        this.userRoleBiz = userRoleBiz;
+    }
 
     @RequestMapping(value="/list", method={RequestMethod.GET})
     @ResponseBody

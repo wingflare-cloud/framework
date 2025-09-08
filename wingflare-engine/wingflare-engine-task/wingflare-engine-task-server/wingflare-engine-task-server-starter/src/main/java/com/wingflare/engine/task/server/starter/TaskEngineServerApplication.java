@@ -1,17 +1,3 @@
-/*
- * Copyright (c) 2024 .
- *
- * SnailJob - 灵活，可靠和快速的分布式任务重试和分布式任务调度平台
- * > ✅️ 可重放，可管控、为提高分布式业务系统一致性的分布式任务重试平台
- * > ✅️ 支持秒级、可中断、可编排的高性能分布式任务调度平台
- *
- * Aizuda/SnailJob 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点:
- *
- *
- * 1. 不得修改产品相关代码的源码头注释和出处;
- * 2. 不得应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法目的;
- *
- */
 package com.wingflare.engine.task.server.starter;
 
 import com.wingflare.engine.task.server.common.rpc.server.grpc.GrpcServer;
@@ -27,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootApplication(scanBasePackages = {"com.wingflare.engine.task.server.starter.*"})
+@SpringBootApplication
 @EnableTransactionManagement(proxyTargetClass = true)
 public class TaskEngineServerApplication {
 
