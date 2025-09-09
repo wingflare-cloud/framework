@@ -11,7 +11,7 @@ import java.util.Date;
  * @date {2021/12/30}
  * @description
  */
-public class R<T> extends com.wingflare.lib.standard.R<T> {
+public class R<T> extends com.wingflare.api.core.R<T> {
 
     /**
      * 响应状态码

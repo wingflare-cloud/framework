@@ -1,12 +1,12 @@
 package com.wingflare.facade.module.base.biz;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.base.bo.MenuBO;
 import com.wingflare.facade.module.base.bo.MenuSearchBO;
 import com.wingflare.facade.module.base.bo.PermissionCodesExistBO;
 import com.wingflare.facade.module.base.dto.MenuDTO;
 import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 
 import java.util.List;

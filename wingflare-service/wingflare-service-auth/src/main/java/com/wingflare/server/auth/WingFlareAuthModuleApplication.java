@@ -1,10 +1,10 @@
 package com.wingflare.server.auth;
 
 
-import com.wingflare.lib.security.annotation.EnableDataSecret;
-import com.wingflare.lib.security.annotation.EnableDataSensitive;
-import com.wingflare.lib.spring.annotation.BaseConfig;
-import com.wingflare.lib.spring.annotation.MicroserviceMode;
+import com.wingflare.adapter.spring.common.annotation.BaseConfig;
+import com.wingflare.api.core.annotation.MicroserviceMode;
+import com.wingflare.api.security.annotation.EnableDataSecret;
+import com.wingflare.api.security.annotation.EnableDataSensitive;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

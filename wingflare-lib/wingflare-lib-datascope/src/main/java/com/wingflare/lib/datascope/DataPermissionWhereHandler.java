@@ -1,7 +1,7 @@
 package com.wingflare.lib.datascope;
 
 
-import com.wingflare.lib.standard.Ctx;
+import com.wingflare.api.core.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.datascope.entity.Condition;

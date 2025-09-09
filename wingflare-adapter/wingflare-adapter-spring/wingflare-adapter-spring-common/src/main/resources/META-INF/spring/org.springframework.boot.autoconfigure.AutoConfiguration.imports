@@ -1,0 +1,10 @@
+com.wingflare.adapter.spring.common.utils.PointUtil
+com.wingflare.adapter.spring.common.converter.String2JSONArray
+com.wingflare.adapter.spring.common.converter.String2JSONObject
+com.wingflare.adapter.spring.common.configure.JacksonConfig
+com.wingflare.adapter.spring.common.configure.properties.SystemContextProperties
+com.wingflare.adapter.spring.common.configure.MicroserviceConfig
+com.wingflare.adapter.spring.common.configure.properties.OkHttpProperties
+com.wingflare.adapter.spring.common.configure.properties.WebProperties
+com.wingflare.adapter.spring.common.configure.OkHttpConfig
+com.wingflare.adapter.spring.common.feign.FeignRequestInterceptor

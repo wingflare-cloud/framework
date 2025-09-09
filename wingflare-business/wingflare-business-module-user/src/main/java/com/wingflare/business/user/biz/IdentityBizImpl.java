@@ -2,6 +2,7 @@ package com.wingflare.business.user.biz;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.core.PageDto;
 import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.db.IdentityDO;
@@ -19,7 +20,6 @@ import com.wingflare.facade.module.user.event.IdentityDeleteEvent;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.bo.IdBo;

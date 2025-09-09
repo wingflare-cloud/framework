@@ -1,9 +1,9 @@
 package com.wingflare.facade.module.user.biz;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.RoleUserDTO;
-import com.wingflare.lib.standard.PageDto;
 
 
 /**

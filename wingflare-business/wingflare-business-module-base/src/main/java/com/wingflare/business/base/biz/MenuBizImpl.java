@@ -2,6 +2,7 @@ package com.wingflare.business.base.biz;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.core.PageDto;
 import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.MenuConvert;
@@ -28,7 +29,6 @@ import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

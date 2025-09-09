@@ -1,8 +1,8 @@
 package com.wingflare.lib.spring.feign;
 
 import com.alibaba.fastjson.JSON;
+import com.wingflare.api.core.R;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.standard.R;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.Std;

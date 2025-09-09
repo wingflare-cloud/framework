@@ -25,6 +25,11 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-aop</artifactId>
         </dependency>
 
@@ -55,6 +60,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
     </dependencies>

@@ -37,7 +37,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-core</artifactId>
+            <artifactId>wingflare-api-security</artifactId>
         </dependency>
 
         <dependency>

@@ -11,7 +11,6 @@
     <modules>
         <module>wingflare-lib-core</module>
         <module>wingflare-lib-spring</module>
-        <module>wingflare-lib-security</module>
         <module>wingflare-lib-redis</module>
         <module>wingflare-lib-jwt</module>
         <module>wingflare-lib-rabbitmq</module>

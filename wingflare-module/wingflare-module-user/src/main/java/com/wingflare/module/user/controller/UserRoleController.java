@@ -1,12 +1,12 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.biz.UserRoleBiz;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.RoleUserDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.wingflare.lib.standard.PageDto;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 

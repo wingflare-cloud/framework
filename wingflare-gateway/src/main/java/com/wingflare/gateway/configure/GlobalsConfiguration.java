@@ -6,7 +6,6 @@ import com.wingflare.gateway.filter.SessionGatewayFilterFactory;
 import com.wingflare.lib.core.constants.HttpHeader;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

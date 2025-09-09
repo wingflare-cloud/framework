@@ -3,7 +3,9 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.core.PageDto;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.security.UserAuthServer;
 import com.wingflare.api.security.annotation.Desensitize;
 import com.wingflare.api.security.annotation.DesensitizeGroups;
 import com.wingflare.api.security.enums.SensitiveType;
@@ -37,9 +39,7 @@ import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.security.utils.UserAuthUtil;
 import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +77,7 @@ public class UserBizImpl implements UserBiz {
 
     private final EventPublisher eventPublisher;
 
-    private final UserAuthUtil userAuthUtil;
+    private final UserAuthServer userAuthServer;
 
     private final UserRoleServer userRoleServer;
 
@@ -86,12 +86,12 @@ public class UserBizImpl implements UserBiz {
     private static final Logger logger = LoggerFactory.getLogger(UserBizImpl.class);
 
     public UserBizImpl(UserServer userServer, BusinessSystemProperties businessSystemProperties, TransactionTemplate transactionTemplate,
-                       EventPublisher eventPublisher, UserAuthUtil userAuthUtil, UserRoleServer userRoleServer, RoleServer roleServer) {
+                       EventPublisher eventPublisher, UserAuthServer userAuthServer, UserRoleServer userRoleServer, RoleServer roleServer) {
         this.userServer = userServer;
         this.businessSystemProperties = businessSystemProperties;
         this.transactionTemplate = transactionTemplate;
         this.eventPublisher = eventPublisher;
-        this.userAuthUtil = userAuthUtil;
+        this.userAuthServer = userAuthServer;
         this.userRoleServer = userRoleServer;
         this.roleServer = roleServer;
     }
@@ -314,7 +314,7 @@ public class UserBizImpl implements UserBiz {
         return transactionTemplate.execute(status -> {
             checkUserCanSave(bo, null);
             bo.setSuperAdministrator(0);
-            bo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getUserPasswd()));
+            bo.setUserPasswd(userAuthServer.encryptPassword(bo.getUserPasswd()));
             UserDO userDo = UserConvert.convert.boToDo(bo);
             Assert.isTrue(userServer.save(userDo), ErrorCode.SYS_USER_CREATE_ERROR);
 
@@ -474,8 +474,8 @@ public class UserBizImpl implements UserBiz {
             }
     )
     public UserDTO updatePasswd(@Valid @NotNull UpdatePasswdBO bo) {
-        if (userAuthUtil.getUser() != null && !userAuthUtil.getUser().isSuperAdmin()) {
-            BigInteger limitUserId = userAuthUtil.getUser()
+        if (userAuthServer.getUser() != null && !userAuthServer.getUser().isSuperAdmin()) {
+            BigInteger limitUserId = userAuthServer.getUser()
                     .getUserId();
             Assert.isTrue(bo.getUserId().compareTo(limitUserId) != 0, ErrorCode.SYS_USER_UPDATE_PASSWD_NO_POWER);
         }
@@ -520,12 +520,12 @@ public class UserBizImpl implements UserBiz {
 
             if (StringUtil.isNotEmpty(bo.getOldPasswd())) {
                 Assert.isTrue(
-                        UserAuthUtil.matchesPassword(bo.getOldPasswd(), userDo.getUserPasswd()),
+                        userAuthServer.matchesPassword(bo.getOldPasswd(), userDo.getUserPasswd()),
                         ErrorCode.SYS_USER_OLD_PWD_ERR
                 );
             }
 
-            userDo.setUserPasswd(UserAuthUtil.encryptPassword(bo.getPasswd()));
+            userDo.setUserPasswd(userAuthServer.encryptPassword(bo.getPasswd()));
             Assert.isTrue(userServer.updateById(userDo), ErrorCode.SYS_USER_UPDATE_ERROR);
             UserDTO userDto = UserConvert.convert.doToDto(userDo);
             eventPublisher.publishEvent(new UserChangePwdEvent(userDto));

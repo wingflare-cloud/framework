@@ -1,7 +1,7 @@
 package com.wingflare.lib.datascope.entity;
 
 
-import com.wingflare.lib.security.enums.Logical;
+import com.wingflare.api.security.enums.Logical;
 
 /**
  * @author naizui_ycx

@@ -1,10 +1,10 @@
 package com.wingflare.facade.module.user.biz;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.bo.OrgBO;
 import com.wingflare.facade.module.user.bo.OrgSearchBO;
 import com.wingflare.facade.module.user.dto.OrgDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 
 

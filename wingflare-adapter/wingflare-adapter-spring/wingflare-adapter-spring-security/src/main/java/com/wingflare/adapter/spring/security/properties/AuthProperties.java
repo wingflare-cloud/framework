@@ -1,6 +1,7 @@
 package com.wingflare.adapter.spring.security.properties;
 
-import com.wingflare.lib.standard.Ctx;
+
+import com.wingflare.api.core.Ctx;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

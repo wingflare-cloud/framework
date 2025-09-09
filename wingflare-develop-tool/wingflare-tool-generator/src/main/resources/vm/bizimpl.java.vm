@@ -12,7 +12,7 @@ import ${pkg.Bo}.${SearchBo};
 import ${pkg.Wrapper}.${Wrapper};
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.standard.PageDto;
+import com.wingflare.api.core.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;

@@ -1,6 +1,7 @@
 package com.wingflare.module.base.controller;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.api.security.annotation.BusinessSystem;
 import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.facade.module.base.biz.DictBiz;
@@ -8,7 +9,6 @@ import com.wingflare.facade.module.base.bo.DictBO;
 import com.wingflare.facade.module.base.bo.DictSearchBO;
 import com.wingflare.facade.module.base.dto.DictDTO;
 import com.wingflare.facade.module.base.dto.SimpleDictDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.base.PermissionCode;
 import org.springframework.stereotype.Controller;

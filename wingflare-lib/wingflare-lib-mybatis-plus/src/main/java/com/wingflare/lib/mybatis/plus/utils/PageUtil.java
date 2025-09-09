@@ -1,7 +1,8 @@
 package com.wingflare.lib.mybatis.plus.utils;
 
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wingflare.lib.standard.PageDto;
+import com.wingflare.api.core.PageDto;
 
 import java.util.List;
 

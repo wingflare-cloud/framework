@@ -1,9 +1,9 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.biz.IdentityBiz;
 import com.wingflare.facade.module.user.bo.IdentityBO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.facade.module.user.bo.IdentitySearchBO;
 import com.wingflare.facade.module.user.dto.IdentityDTO;
 import com.wingflare.lib.standard.bo.IdBo;

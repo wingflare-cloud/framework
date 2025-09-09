@@ -17,7 +17,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-mybatis-plus</artifactId>
@@ -25,7 +24,13 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-security</artifactId>
+            <artifactId>wingflare-api-security</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
         </dependency>
 
     </dependencies>

@@ -1,12 +1,12 @@
 package com.wingflare.facade.module.user.biz;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.bo.PermissionCodesExistBO;
 import com.wingflare.facade.module.user.bo.RolePermissionBO;
 import com.wingflare.facade.module.user.dto.RolePermissionDTO;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
-import com.wingflare.lib.standard.PageDto;
 
 import java.util.List;
 

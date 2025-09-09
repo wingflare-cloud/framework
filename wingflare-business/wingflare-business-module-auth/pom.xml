@@ -36,6 +36,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-jwt</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

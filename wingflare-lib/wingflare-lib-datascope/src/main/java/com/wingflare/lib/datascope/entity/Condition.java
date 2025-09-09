@@ -1,7 +1,7 @@
 package com.wingflare.lib.datascope.entity;
 
 
-import com.wingflare.lib.security.enums.Logical;
+import com.wingflare.api.security.enums.Logical;
 
 import java.util.ArrayList;
 import java.util.List;

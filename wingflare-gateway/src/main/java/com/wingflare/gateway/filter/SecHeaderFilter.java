@@ -1,9 +1,10 @@
 package com.wingflare.gateway.filter;
 
+
+import com.wingflare.adapter.spring.common.configure.properties.SystemContextProperties;
+import com.wingflare.api.core.Ctx;
 import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.spring.configure.properties.SystemContextProperties;
-import com.wingflare.lib.standard.Ctx;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

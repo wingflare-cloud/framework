@@ -1,11 +1,11 @@
 package com.wingflare.facade.module.base.biz;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.base.bo.DictBO;
 import com.wingflare.facade.module.base.bo.DictSearchBO;
 import com.wingflare.facade.module.base.dto.DictDTO;
 import com.wingflare.facade.module.base.dto.SimpleDictDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 
 import java.util.List;

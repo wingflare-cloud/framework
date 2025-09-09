@@ -1,8 +1,8 @@
 package com.wingflare.adapter.spring.server.web;
 
 import com.wingflare.adapter.spring.server.web.utils.ServletUtil;
-import com.wingflare.lib.standard.ContextSource;
 
+import com.wingflare.api.core.ContextSource;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 

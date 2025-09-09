@@ -2,6 +2,8 @@ package com.wingflare.module.auth.controller;
 
 
 import com.wingflare.adapter.spring.server.web.utils.ServletUtil;
+import com.wingflare.api.core.PageResult;
+import com.wingflare.api.security.UserAuth;
 import com.wingflare.api.security.annotation.BusinessSystem;
 import com.wingflare.api.security.annotation.RequiresLogin;
 import com.wingflare.api.security.annotation.RequiresPermissions;
@@ -15,10 +17,8 @@ import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.core.constants.HttpHeader;
-import com.wingflare.lib.standard.PageResult;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.bo.StringIdBo;
-import com.wingflare.lib.standard.model.UserAuth;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.module.auth.PermissionCode;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -41,12 +40,14 @@ import jakarta.validation.constraints.NotNull;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Resource
-    private LoginBiz loginBiz;
+    private final LoginBiz loginBiz;
 
-    @Resource
-    private UserBiz userBiz;
+    private final UserBiz userBiz;
 
+    public AuthController(LoginBiz loginBiz, UserBiz userBiz) {
+        this.loginBiz = loginBiz;
+        this.userBiz = userBiz;
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody

@@ -1,12 +1,12 @@
 package com.wingflare.sdk.user.api.fallback;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.bo.UserBindRoleBO;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.sdk.user.api.service.UserApiServer;
 import org.slf4j.Logger;

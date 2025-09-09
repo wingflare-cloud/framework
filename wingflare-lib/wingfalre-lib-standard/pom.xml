@@ -22,6 +22,11 @@
             <artifactId>wingflare-api-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-security</artifactId>
+        </dependency>
+
         <!-- 核心依赖 -->
         <dependency>
             <groupId>com.wingflare</groupId>

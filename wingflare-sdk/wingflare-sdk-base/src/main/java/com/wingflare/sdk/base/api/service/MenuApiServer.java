@@ -1,5 +1,6 @@
 package com.wingflare.sdk.base.api.service;
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.base.biz.MenuBiz;
 import com.wingflare.facade.module.base.bo.MenuBO;
 import com.wingflare.facade.module.base.bo.MenuSearchBO;
@@ -8,7 +9,6 @@ import com.wingflare.facade.module.base.dto.MenuDTO;
 import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.spring.annotation.ApiClient;
 import com.wingflare.lib.spring.annotation.RequestAutoHeader;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.sdk.base.Info;
 import com.wingflare.sdk.base.api.fallback.MenuApiFallbackFactory;

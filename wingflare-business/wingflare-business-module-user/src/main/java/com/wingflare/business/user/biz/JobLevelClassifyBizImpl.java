@@ -3,6 +3,7 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wingflare.api.core.PageDto;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.db.JobLevelClassifyDO;
 import com.wingflare.facade.module.user.biz.JobLevelClassifyBiz;
@@ -16,7 +17,6 @@ import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Update;

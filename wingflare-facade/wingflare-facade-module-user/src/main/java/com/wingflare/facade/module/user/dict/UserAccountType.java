@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.user.dict;
 
-import com.wingflare.lib.core.enums.ValueEnum;
+
+import com.wingflare.api.core.ValueEnum;
 
 /**
  * @EnumName UserAccountType

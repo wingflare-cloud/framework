@@ -1,16 +1,22 @@
 package com.wingflare.lib.redis.service;
 
 
+import com.wingflare.api.core.PageResult;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.CacheService;
-import com.wingflare.lib.standard.PageResult;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
-import java.util.*;
+
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,13 +51,12 @@ public class RedisService implements CacheService {
      *
      * @param key 缓存的键值
      * @param value 缓存的值
-     * @param timeout 时间
-     * @param timeUnit 时间颗粒度
+     * @param duration 超时时间
      */
     @Override
-    public <T> void setCacheObject(final String key, final T value, final Long timeout, final TimeUnit timeUnit)
+    public <T> void setCacheObject(final String key, final T value, final Duration duration)
     {
-        redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
+        redisTemplate.opsForValue().set(key, value, duration);
     }
 
     /**
@@ -64,21 +69,20 @@ public class RedisService implements CacheService {
     @Override
     public Boolean expire(final String key, final long timeout)
     {
-        return expire(key, timeout, TimeUnit.SECONDS);
+        return redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
     }
 
     /**
      * 设置有效时间
      *
      * @param key Redis键
-     * @param timeout 超时时间
-     * @param unit 时间单位
+     * @param duration 超时时间
      * @return true=设置成功；false=设置失败
      */
     @Override
-    public Boolean expire(final String key, final long timeout, final TimeUnit unit)
+    public Boolean expire(final String key, final Duration duration)
     {
-        return redisTemplate.expire(key, timeout, unit);
+        return redisTemplate.expire(key, duration);
     }
 
     /**

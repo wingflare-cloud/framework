@@ -1,7 +1,7 @@
 package com.wingflare.facade.module.user.bo;
 
-import com.wingflare.lib.standard.annotation.security.Decrypt;
 
+import com.wingflare.api.security.annotation.Decrypt;
 import jakarta.validation.constraints.Min;
 
 import java.math.BigInteger;

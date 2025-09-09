@@ -1,9 +1,9 @@
 package com.wingflare.lib.spring;
 
 
+import com.wingflare.api.core.R;
 import com.wingflare.lib.spring.utils.ApiHelperUtil;
 import com.wingflare.lib.standard.Ordered;
-import com.wingflare.lib.standard.R;
 
 public interface ResponseConverter {
 

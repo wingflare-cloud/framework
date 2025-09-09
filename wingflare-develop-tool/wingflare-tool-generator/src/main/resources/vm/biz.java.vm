@@ -1,7 +1,7 @@
 package ${pkg.Biz};
 
 #if($controllerMethods.hasMethod)
-import com.wingflare.lib.standard.PageDto;
+import com.wingflare.api.core.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import ${pkg.Dto}.${Dto};
 import ${pkg.Bo}.${Bo};

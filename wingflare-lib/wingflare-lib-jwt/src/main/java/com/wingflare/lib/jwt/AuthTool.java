@@ -1,13 +1,12 @@
 package com.wingflare.lib.jwt;
 
 
+import com.wingflare.api.core.Ctx;
+import com.wingflare.api.security.AuthResponseDTO;
+import com.wingflare.api.security.UserAuthServer;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.utils.JwtUtil;
-import com.wingflare.lib.security.utils.UserAuthUtil;
-import com.wingflare.lib.standard.AuthResponseDTO;
-import com.wingflare.lib.standard.Ctx;
 import io.jsonwebtoken.Claims;
-import jakarta.annotation.Resource;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -17,12 +16,14 @@ import java.util.Date;
  */
 public class AuthTool {
 
-    @Resource
-    private UserAuthUtil userAuthUtil;
+    private final UserAuthServer userAuthServer;
 
-    @Resource
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
+    public AuthTool(UserAuthServer userAuthServer, JwtUtil jwtUtil) {
+        this.userAuthServer = userAuthServer;
+        this.jwtUtil = jwtUtil;
+    }
 
     public AuthResponseDTO checkLogin(String token, String headerBusinessSystem) {
         Date now = new Date();
@@ -55,7 +56,7 @@ public class AuthTool {
                 return authResponseDTO.setError(ErrorCode.NO_ACCESS);
             }
 
-            authResponseDTO.setUserAuth(userAuthUtil.getUser(tokenId));
+            authResponseDTO.setUserAuth(userAuthServer.getUser(tokenId));
 
             if (authResponseDTO.getUserAuth() == null || authResponseDTO.getUserAuth().getUserId() == null
                     || authResponseDTO.getUserAuth().getUserId().compareTo(BigInteger.ZERO) == 0

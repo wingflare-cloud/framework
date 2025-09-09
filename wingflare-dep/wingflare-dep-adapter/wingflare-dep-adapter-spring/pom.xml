@@ -61,6 +61,12 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-spring-jwt</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
 
         </dependencies>
 

@@ -1,6 +1,7 @@
 package com.wingflare.lib.standard.utils;
 
-import com.wingflare.lib.standard.Ordered;
+
+import com.wingflare.api.core.Ordered;
 
 import java.util.ArrayList;
 import java.util.Collection;

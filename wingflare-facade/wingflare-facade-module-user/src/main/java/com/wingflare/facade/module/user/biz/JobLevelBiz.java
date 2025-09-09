@@ -1,10 +1,10 @@
 package com.wingflare.facade.module.user.biz;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.bo.JobLevelBO;
 import com.wingflare.facade.module.user.bo.JobLevelSearchBO;
 import com.wingflare.facade.module.user.dto.JobLevelDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 
 

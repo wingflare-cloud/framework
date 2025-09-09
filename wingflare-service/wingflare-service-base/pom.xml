@@ -39,17 +39,12 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-starter-security</artifactId>
+            <artifactId>wingflare-starter-spring-security</artifactId>
         </dependency>
 
     </dependencies>

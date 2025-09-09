@@ -1,11 +1,14 @@
 package com.wingflare.lib.datascope.utils;
 
+
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wingflare.api.core.Ctx;
+import com.wingflare.api.security.UserAuthServer;
+import com.wingflare.api.security.enums.Logical;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.datascope.DPInfo;
-import com.wingflare.lib.standard.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.utils.SecurityUtil;
@@ -18,9 +21,6 @@ import com.wingflare.lib.datascope.entity.LogicalPayload;
 import com.wingflare.lib.datascope.entity.Operator;
 import com.wingflare.lib.datascope.parser.expression.IAndExpression;
 import com.wingflare.lib.datascope.parser.expression.IOrExpression;
-import com.wingflare.lib.security.enums.Logical;
-import com.wingflare.lib.security.utils.AuthUtil;
-import com.wingflare.lib.security.utils.UserAuthUtil;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.util.ArrayList;
@@ -53,18 +52,21 @@ import java.util.stream.Collectors;
  */
 @Component
 @ConditionalOnBean({
-        AuthUtil.class,
+        UserAuthServer.class,
         DataScopeHandle.class
 })
 public class DataScopeUtil {
 
-    @Resource
-    private DataScopeHandle dataScopeHandle;
+    private final DataScopeHandle dataScopeHandle;
 
-    @Resource
-    private UserAuthUtil userAuthUtil;
+    private final UserAuthServer userAuthServer;
 
     private static final Logger logger = LoggerFactory.getLogger(DataScopeUtil.class);
+
+    public DataScopeUtil(DataScopeHandle dataScopeHandle, UserAuthServer userAuthServer) {
+        this.dataScopeHandle = dataScopeHandle;
+        this.userAuthServer = userAuthServer;
+    }
 
     /**
      * 从线程上下文数据中获取数据权限数据
@@ -104,7 +106,7 @@ public class DataScopeUtil {
         }
 
         // 判断登录用户是否为超管，超管不用做数据权限处理
-        Boolean isSuperAdmin = userAuthUtil.getUser() != null ? userAuthUtil.getUser().isSuperAdmin() : Boolean.FALSE;
+        Boolean isSuperAdmin = userAuthServer.getUser() != null ? userAuthServer.getUser().isSuperAdmin() : Boolean.FALSE;
 
         if (Boolean.TRUE.equals(isSuperAdmin)) {
             return;

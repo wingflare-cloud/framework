@@ -1,10 +1,10 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.dto.JobLevelClassifyDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.business.user.biz.JobLevelClassifyBizImpl;
 import com.wingflare.facade.module.user.bo.JobLevelClassifyBO;

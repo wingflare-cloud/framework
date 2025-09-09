@@ -2,7 +2,7 @@ package com.wingflare.gateway.utils;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wingflare.lib.container.Container;
+import com.wingflare.adapter.spring.common.utils.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -44,7 +44,7 @@ public class WebFluxUtil {
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(Mono.create(monoSink -> {
             try {
-                ObjectMapper objectMapper = Container.get(ObjectMapper.class);
+                ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
                 DataBuffer dataBuffer = response.bufferFactory().wrap(objectMapper.writeValueAsBytes(value));
                 monoSink.success(dataBuffer);
             } catch (Throwable e) {

@@ -2,7 +2,7 @@ package com.wingflare.facade.module.auth.event;
 
 
 import com.wingflare.api.event.BaseEvent;
-import com.wingflare.lib.standard.model.UserAuth;
+import com.wingflare.api.security.UserAuth;
 
 import java.time.Clock;
 

@@ -1,11 +1,11 @@
 package com.wingflare.module.user.controller;
 
 
+import com.wingflare.api.core.PageDto;
 import com.wingflare.facade.module.user.biz.OrgBiz;
 import com.wingflare.facade.module.user.bo.OrgBO;
 import com.wingflare.facade.module.user.bo.OrgSearchBO;
 import com.wingflare.facade.module.user.dto.OrgDTO;
-import com.wingflare.lib.standard.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

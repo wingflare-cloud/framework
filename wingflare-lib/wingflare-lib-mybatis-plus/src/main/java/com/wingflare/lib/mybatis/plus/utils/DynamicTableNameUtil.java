@@ -1,6 +1,7 @@
 package com.wingflare.lib.mybatis.plus.utils;
 
-import com.wingflare.lib.standard.Ctx;
+
+import com.wingflare.api.core.Ctx;
 import com.wingflare.lib.mybatis.plus.bo.DynamicTableNameBuffer;
 import com.wingflare.lib.mybatis.plus.bo.DynamicTableNameData;
 import com.wingflare.lib.mybatis.plus.bo.TablesNamesFactory;
