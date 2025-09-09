@@ -3,6 +3,9 @@ package com.wingflare.business.base.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.MenuConvert;
@@ -26,15 +29,12 @@ import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.core.validation.Create;
-import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

@@ -20,6 +20,7 @@
         <commons-codec.version>1.15</commons-codec.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
         <commons.io.version>2.14.0</commons.io.version>
+        <snack3.version>3.2.123</snack3.version>
     </properties>
 
     <dependencyManagement>
@@ -45,18 +46,6 @@
             <dependency>
                 <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-lib-jwt</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-lib-spring</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-lib-redis</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
@@ -145,6 +134,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.noear</groupId>
+                <artifactId>snack3</artifactId>
+                <version>${snack3.version}</version>
             </dependency>
 
         </dependencies>

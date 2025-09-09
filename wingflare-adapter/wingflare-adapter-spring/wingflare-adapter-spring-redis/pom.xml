@@ -20,6 +20,12 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingfalre-lib-standard</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-lock</artifactId>
         </dependency>
 

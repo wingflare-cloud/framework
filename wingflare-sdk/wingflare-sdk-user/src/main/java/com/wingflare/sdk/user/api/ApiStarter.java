@@ -1,7 +1,7 @@
 package com.wingflare.sdk.user.api;
 
 
-import com.wingflare.lib.spring.annotation.WingFlareFeignClient;
+import com.wingflare.adapter.spring.common.annotation.WingFlareFeignClient;
 import com.wingflare.sdk.user.api.fallback.UserApiFallbackFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

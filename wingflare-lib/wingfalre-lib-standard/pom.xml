@@ -19,11 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
         </dependency>
 
@@ -31,6 +26,11 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
 
 

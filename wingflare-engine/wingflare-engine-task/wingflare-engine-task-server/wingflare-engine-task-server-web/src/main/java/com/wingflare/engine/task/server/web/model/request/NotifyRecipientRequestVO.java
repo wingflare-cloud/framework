@@ -1,7 +1,7 @@
 package com.wingflare.engine.task.server.web.model.request;
 
 
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Update;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

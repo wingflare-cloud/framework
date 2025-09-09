@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.auth.bo;
 
-import com.wingflare.lib.core.validation.MustUserId;
+
+import com.wingflare.api.core.validate.MustUserId;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

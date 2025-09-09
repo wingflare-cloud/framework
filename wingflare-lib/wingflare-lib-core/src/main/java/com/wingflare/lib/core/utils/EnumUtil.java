@@ -1,7 +1,8 @@
 package com.wingflare.lib.core.utils;
 
-import com.wingflare.lib.core.enums.KeyValueEnum;
-import com.wingflare.lib.core.enums.ValueEnum;
+
+import com.wingflare.api.core.KeyValueEnum;
+import com.wingflare.api.core.ValueEnum;
 
 import java.util.Arrays;
 import java.util.Objects;

@@ -1,14 +1,14 @@
 package com.wingflare.sdk.user.api.service;
 
+import com.wingflare.adapter.spring.common.annotation.ApiClient;
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.annotation.RequestAutoHeader;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
 import com.wingflare.facade.module.user.bo.UserBindRoleBO;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import com.wingflare.lib.spring.annotation.ApiClient;
-import com.wingflare.lib.spring.annotation.RequestAutoHeader;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.sdk.user.Info;
 import com.wingflare.sdk.user.api.fallback.UserApiFallbackFactory;

@@ -3,6 +3,9 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
 import com.wingflare.business.user.convert.OrgConvert;
 import com.wingflare.business.user.db.OrgDO;
 import com.wingflare.business.user.service.OrgServer;
@@ -12,12 +15,9 @@ import com.wingflare.facade.module.user.bo.OrgBO;
 import com.wingflare.facade.module.user.bo.OrgSearchBO;
 import com.wingflare.facade.module.user.dto.OrgDTO;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import com.wingflare.lib.core.validation.Create;
-import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

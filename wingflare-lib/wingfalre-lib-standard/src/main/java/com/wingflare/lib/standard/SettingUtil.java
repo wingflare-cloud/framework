@@ -17,7 +17,7 @@ public interface SettingUtil {
      *
      * @return
      */
-    public JSONObject getJSON(String settingKey);
+    JSONObject getJSON(String settingKey);
 
     /**
      * 获取设置string值
@@ -26,7 +26,7 @@ public interface SettingUtil {
      *
      * @return
      */
-    public String get(String settingKey);
+    String get(String settingKey);
 
     /**
      * 获取设置string值，带默认值
@@ -36,7 +36,7 @@ public interface SettingUtil {
      *
      * @return
      */
-    public String get(String settingKey, String defaultValue);
+    String get(String settingKey, String defaultValue);
 
     /**
      * 获取设置值，泛型
@@ -48,7 +48,7 @@ public interface SettingUtil {
      *
      * @return
      */
-    public <T> T get(String settingKey, T defaultValue, Class<T> tClass);
+    <T> T get(String settingKey, T defaultValue, Class<T> tClass);
 
 
     /**
@@ -59,7 +59,7 @@ public interface SettingUtil {
      *
      * @return
      */
-    public JSONObject getJSON(String settingKey, JSONObject defaultValue);
+    JSONObject getJSON(String settingKey, JSONObject defaultValue);
 
     /**
      * 获取json array类型的设置值
@@ -68,7 +68,7 @@ public interface SettingUtil {
      *
      * @return
      */
-    public JSONArray getJSONArray(String settingKey);
+    JSONArray getJSONArray(String settingKey);
 
     /**
      * 获取json array类型的设置值，带默认值
@@ -78,5 +78,5 @@ public interface SettingUtil {
      *
      * @return
      */
-    public JSONArray getJSONArray(String settingKey, JSONArray defaultValue);
+    JSONArray getJSONArray(String settingKey, JSONArray defaultValue);
 }

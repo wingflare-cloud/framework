@@ -1,8 +1,8 @@
 package com.wingflare.lib.rabbitmq;
 
 
+import com.wingflare.api.idgenerate.IdGenerate;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.spring.utils.SnowflakeUtil;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -16,11 +16,11 @@ public class AmqpHelper {
 
     private final MessageConverter messageConverter;
 
-    private SnowflakeUtil snowflakeUtil;
+    private IdGenerate idGenerate;
 
 
-    public AmqpHelper(SnowflakeUtil snowflakeUtil, MessageConverter messageConverter) {
-        this.snowflakeUtil = snowflakeUtil;
+    public AmqpHelper(IdGenerate idGenerate, MessageConverter messageConverter) {
+        this.idGenerate = idGenerate;
         this.messageConverter = messageConverter;
     }
 
@@ -43,7 +43,7 @@ public class AmqpHelper {
         }
 
         if (StringUtil.isEmpty(message.getMessageProperties().getMessageId())) {
-            message.getMessageProperties().setMessageId(snowflakeUtil.nextStringId());
+            message.getMessageProperties().setMessageId(String.valueOf(idGenerate.nextId()));
         }
 
         return message;

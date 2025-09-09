@@ -3,7 +3,11 @@ package com.wingflare.business.auth.biz;
 
 import com.wingflare.api.core.Ctx;
 import com.wingflare.api.core.PageResult;
+import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.core.enums.OnOffEnum;
+import com.wingflare.api.core.validate.MustUserId;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.idgenerate.IdGenerate;
 import com.wingflare.api.security.UserAuth;
 import com.wingflare.api.security.UserAuthServer;
 import com.wingflare.api.security.annotation.Desensitize;
@@ -29,15 +33,11 @@ import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.DateUtil;
 import com.wingflare.lib.core.utils.ObjectUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.core.validation.MustUserId;
 import com.wingflare.lib.jwt.utils.JwtUtil;
 import com.wingflare.lib.standard.SettingUtil;
 import com.wingflare.lib.standard.bo.StringIdBo;
-import com.wingflare.lib.spring.utils.SnowflakeUtil;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.lib.standard.enums.OnOffEnum;
 import com.wingflare.lib.standard.utils.SecurityUtil;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -62,7 +62,7 @@ public class LoginBizImpl implements LoginBiz {
 
     private final SettingUtil settingUtil;
 
-    private final SnowflakeUtil snowflakeUtil;
+    private final IdGenerate idGenerate;
 
     private final JwtUtil jwtUtil;
 
@@ -71,11 +71,11 @@ public class LoginBizImpl implements LoginBiz {
     private final EventPublisher eventPublisher;
 
 
-    public LoginBizImpl(UserBiz userBiz, SettingUtil settingUtil, SnowflakeUtil snowflakeUtil, JwtUtil jwtUtil,
+    public LoginBizImpl(UserBiz userBiz, SettingUtil settingUtil, IdGenerate idGenerate, JwtUtil jwtUtil,
                         UserAuthServer userAuthServer, EventPublisher eventPublisher) {
         this.userBiz = userBiz;
         this.settingUtil = settingUtil;
-        this.snowflakeUtil = snowflakeUtil;
+        this.idGenerate = idGenerate;
         this.jwtUtil = jwtUtil;
         this.userAuthServer = userAuthServer;
         this.eventPublisher = eventPublisher;
@@ -165,8 +165,8 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setIdentity(bo.getIdentityId());
         userAuth.setUserAgent(bo.getUserAgent());
 
-        String tokenId = snowflakeUtil.nextStringId();
-        String refreshId = snowflakeUtil.nextStringId();
+        String tokenId = String.valueOf(idGenerate.nextId());
+        String refreshId = String.valueOf(idGenerate.nextId());
 
         userAuth.setRefreshId(refreshId);
         userAuth.setTokenId(tokenId);
@@ -277,13 +277,13 @@ public class LoginBizImpl implements LoginBiz {
         Assert.isTrue(StringUtil.equals(userAuth.getRefreshId(), oldRefreshTokenMap.get(Ctx.HEADER_KEY_TOKEN_ID).toString()),
                 ErrorCode.REFRESH_TOKEN_DEFEATED);
 
-        String refreshId = snowflakeUtil.nextStringId();
+        String refreshId = String.valueOf(idGenerate.nextId());
         Long tokenExpireTime = getTokenExpireTime();
         Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
         Date now = new Date();
         String systemCode = oldRefreshTokenMap.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM).toString();
 
-        String tokenId = snowflakeUtil.nextStringId();
+        String tokenId = String.valueOf(idGenerate.nextId());
         String token = tokenGen(systemCode, tokenId, now);
 
         userAuthServer.removeToken(userAuth.getTokenId());

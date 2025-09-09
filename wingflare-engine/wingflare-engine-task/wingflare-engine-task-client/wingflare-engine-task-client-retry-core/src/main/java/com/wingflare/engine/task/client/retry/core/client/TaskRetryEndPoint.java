@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.retry.core.client;
 
 import cn.hutool.core.lang.Assert;
+import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.engine.task.client.common.Lifecycle;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
 import com.wingflare.engine.task.client.common.annotation.TaskEndPoint;
@@ -42,7 +43,6 @@ import com.google.common.util.concurrent.MoreExecutors;
 import jakarta.validation.Valid;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.validation.annotation.Validated;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;

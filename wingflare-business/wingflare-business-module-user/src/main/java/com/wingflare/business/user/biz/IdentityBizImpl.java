@@ -3,6 +3,9 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.db.IdentityDO;
@@ -20,14 +23,11 @@ import com.wingflare.facade.module.user.event.IdentityDeleteEvent;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.core.validation.Create;
-import com.wingflare.lib.core.validation.Update;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -46,17 +46,17 @@ import java.util.Optional;
 @Validated
 public class IdentityBizImpl implements IdentityBiz {
 
-    private IdentityServer identityServer;
+    private final IdentityServer identityServer;
 
-    private OrgServer orgServer;
+    private final OrgServer orgServer;
 
-    private JobLevelServer jobLevelServer;
+    private final JobLevelServer jobLevelServer;
 
-    private OrgDepartmentServer orgDepartmentServer;
+    private final OrgDepartmentServer orgDepartmentServer;
 
-    private TransactionTemplate transactionTemplate;
+    private final TransactionTemplate transactionTemplate;
 
-    private EventPublisher eventPublisher;
+    private final EventPublisher eventPublisher;
 
     private static final Logger logger = LoggerFactory.getLogger(IdentityBizImpl.class);
 

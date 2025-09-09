@@ -1,11 +1,11 @@
 package com.wingflare.facade.module.base.bo;
 
 
+import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.facade.module.base.dict.DictTypes;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Enum;
 import com.wingflare.lib.core.validation.Update;
-import com.wingflare.lib.standard.enums.OnOffEnum;
 import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 

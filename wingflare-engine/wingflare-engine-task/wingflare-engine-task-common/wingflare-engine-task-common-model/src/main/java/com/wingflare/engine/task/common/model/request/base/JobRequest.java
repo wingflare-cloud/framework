@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.common.model.request.base;
 
 
-import com.wingflare.lib.core.validation.Create;
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

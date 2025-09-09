@@ -1,4 +1,7 @@
+com.wingflare.adapter.spring.common.utils.SpringUtil
 com.wingflare.adapter.spring.common.utils.PointUtil
+com.wingflare.adapter.spring.common.configure.ValidationConfig
+com.wingflare.adapter.spring.common.aspect.ValiInterceptor
 com.wingflare.adapter.spring.common.converter.String2JSONArray
 com.wingflare.adapter.spring.common.converter.String2JSONObject
 com.wingflare.adapter.spring.common.configure.JacksonConfig

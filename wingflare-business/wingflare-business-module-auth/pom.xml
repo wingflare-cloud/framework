@@ -17,10 +17,14 @@
     </properties>
 
     <dependencies>
-        <!-- Hibernate Validator -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-idgenerator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingfalre-lib-standard</artifactId>
         </dependency>
 
         <dependency>
@@ -62,11 +66,6 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-sdk-user</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-spring</artifactId>
         </dependency>
 
     </dependencies>

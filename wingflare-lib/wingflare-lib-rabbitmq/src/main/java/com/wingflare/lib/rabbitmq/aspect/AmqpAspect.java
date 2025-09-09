@@ -1,8 +1,8 @@
 package com.wingflare.lib.rabbitmq.aspect;
 
 
+import com.wingflare.api.idgenerate.IdGenerate;
 import com.wingflare.lib.rabbitmq.AmqpHelper;
-import com.wingflare.lib.spring.utils.SnowflakeUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,7 +31,7 @@ public class AmqpAspect {
     private static final Logger log = LoggerFactory.getLogger(AmqpAspect.class);
 
     @Resource
-    private SnowflakeUtil snowflakeUtil;
+    private IdGenerate idGenerate;
 
     private final String exchange;
     private final String routingKey;
@@ -322,7 +322,7 @@ public class AmqpAspect {
     }
 
     private AmqpHelper createHelper() {
-        return new AmqpHelper(snowflakeUtil, messageConverter);
+        return new AmqpHelper(idGenerate, messageConverter);
     }
 
     private Object proceedReplacingMessage(ProceedingJoinPoint pjp, String exchange, String routingKey, Message convertedMessage, int messageArgumentIndex)

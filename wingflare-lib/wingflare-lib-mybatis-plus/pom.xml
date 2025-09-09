@@ -56,15 +56,10 @@
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
-        <!-- <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency> -->
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-spring</artifactId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.servlet</groupId>
@@ -86,6 +81,7 @@
                     <artifactId>spring-cloud-starter-openfeign</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

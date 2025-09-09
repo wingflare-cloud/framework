@@ -31,7 +31,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-redis</artifactId>
+            <artifactId>wingflare-adapter-spring-redis</artifactId>
             <scope>provided</scope>
         </dependency>
 

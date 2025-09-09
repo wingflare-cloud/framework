@@ -3,6 +3,7 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.security.annotation.Desensitize;
 import com.wingflare.api.security.annotation.DesensitizeGroups;
 import com.wingflare.api.security.enums.SensitiveType;
@@ -13,7 +14,6 @@ import com.wingflare.facade.module.user.biz.UserRoleBiz;
 import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.RoleUserDTO;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

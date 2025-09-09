@@ -1,13 +1,13 @@
 package com.wingflare.business.base.listener;
 
 
+import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.facade.module.base.constants.Base;
 import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.facade.module.base.event.SettingCreatedEvent;
 import com.wingflare.facade.module.base.event.SettingDeletedEvent;
 import com.wingflare.facade.module.base.event.SettingUpdatedEvent;
 import com.wingflare.lib.standard.CacheService;
-import com.wingflare.lib.standard.enums.OnOffEnum;
 import org.springframework.context.event.EventListener;
 
 
@@ -25,17 +25,17 @@ public class SettingRefresh {
         this.cacheService = cacheService;
     }
 
-    @EventListener({ SettingCreatedEvent.class })
+    @EventListener({SettingCreatedEvent.class})
     public void createHandle(SettingCreatedEvent event) {
         saveCache(event.getSource());
     }
 
-    @EventListener({ SettingUpdatedEvent.class })
+    @EventListener({SettingUpdatedEvent.class})
     public void updateHandle(SettingUpdatedEvent event) {
         saveCache(event.getSource());
     }
 
-    @EventListener({ SettingDeletedEvent.class })
+    @EventListener({SettingDeletedEvent.class})
     public void deleteHandle(SettingDeletedEvent event) {
         cacheService.delCacheMapValue(Base.SETTING_CACHE_KEY, event.getSource().getSettingCode());
     }

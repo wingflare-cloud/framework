@@ -41,7 +41,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-spring</artifactId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
         </dependency>
 
     </dependencies>

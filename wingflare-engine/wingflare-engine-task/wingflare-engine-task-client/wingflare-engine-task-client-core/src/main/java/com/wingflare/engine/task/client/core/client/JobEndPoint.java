@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.core.client;
 
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
 import com.wingflare.engine.task.client.common.annotation.TaskEndPoint;
 import com.wingflare.engine.task.client.common.log.support.TaskLogManager;
@@ -24,7 +25,6 @@ import com.wingflare.engine.task.common.model.request.StopJobRequest;
 import com.google.common.collect.Maps;
 import com.wingflare.lib.container.Container;
 import jakarta.validation.Valid;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 import java.util.concurrent.ThreadPoolExecutor;
