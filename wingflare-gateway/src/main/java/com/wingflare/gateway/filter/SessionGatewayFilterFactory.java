@@ -1,11 +1,11 @@
 package com.wingflare.gateway.filter;
 
 
+import com.wingflare.adapter.spring.common.configure.properties.SessionProperties;
+import com.wingflare.adapter.spring.common.configure.properties.WebProperties;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.spring.configure.properties.SessionProperties;
-import com.wingflare.lib.spring.configure.properties.WebProperties;
 import jakarta.annotation.Resource;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;

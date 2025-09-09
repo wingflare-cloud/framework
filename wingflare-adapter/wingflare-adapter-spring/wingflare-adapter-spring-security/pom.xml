@@ -18,6 +18,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.noear</groupId>
+            <artifactId>snack3</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
             <scope>provided</scope>
