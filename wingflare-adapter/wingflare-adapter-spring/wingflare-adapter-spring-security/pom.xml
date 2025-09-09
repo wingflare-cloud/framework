@@ -25,12 +25,6 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-abstraction-security</artifactId>
             <scope>provided</scope>
         </dependency>
