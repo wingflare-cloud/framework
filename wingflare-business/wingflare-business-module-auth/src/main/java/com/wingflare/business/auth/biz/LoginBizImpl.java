@@ -44,6 +44,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
 
 import java.math.BigInteger;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -178,7 +179,7 @@ public class LoginBizImpl implements LoginBiz {
                 .with(TokenDTO::setRefreshToken, tokenGen(SecurityUtil.getBusinessSystem(), refreshId, now))
                 .build();
 
-        userAuthServer.setUser(userAuth, (long) DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())), TimeUnit.SECONDS);
+        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime()))));
 
         userBiz.update(new UserBO()
                 .setUserId(userDto.getUserId())
@@ -291,7 +292,7 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setTokenId(tokenId);
         userAuth.setTokenExpireTime(DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)).getTime());
         userAuth.setExpireTime(DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime)).getTime());
-        userAuthServer.setUser(userAuth, (long) DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())), TimeUnit.MINUTES);
+        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime()))));
 
         return Builder.of(TokenDTO::new)
                 .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
