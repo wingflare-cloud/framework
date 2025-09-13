@@ -39,6 +39,7 @@
         <module>wingflare-api-idgenerator</module>
         <module>wingflare-api-security</module>
         <module>wingflare-api-aop</module>
+        <module>wingflare-api-transaction</module>
     </modules>
 
 </project>

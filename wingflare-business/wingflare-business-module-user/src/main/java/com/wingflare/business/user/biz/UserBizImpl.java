@@ -12,6 +12,7 @@ import com.wingflare.api.security.UserAuthServer;
 import com.wingflare.api.security.annotation.Desensitize;
 import com.wingflare.api.security.annotation.DesensitizeGroups;
 import com.wingflare.api.security.enums.SensitiveType;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.UserConvert;
 import com.wingflare.business.user.db.RoleDO;
@@ -44,7 +45,6 @@ import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -239,7 +239,7 @@ public class UserBizImpl implements UserBiz {
             }
     )
     public UserDTO deleteHandle(@Valid @NotNull IdBo bo) {
-        return transactionTemplate.execute(status -> {
+        return transactionTemplate.execute(() -> {
             UserDTO dto = null;
             UserDO userDo = userServer.getById(bo.getId());
 
@@ -311,7 +311,7 @@ public class UserBizImpl implements UserBiz {
     )
     @Validated({Default.class, Create.class})
     public UserDTO createHandle(@Valid @NotNull UserBO bo) {
-        return transactionTemplate.execute(status -> {
+        return transactionTemplate.execute(() -> {
             checkUserCanSave(bo, null);
             bo.setSuperAdministrator(0);
             bo.setUserPasswd(userAuthServer.encryptPassword(bo.getUserPasswd()));
@@ -391,7 +391,7 @@ public class UserBizImpl implements UserBiz {
     )
     @Validated({Default.class, Update.class})
     public UserDTO updateHandle(@Valid @NotNull UserBO bo) {
-        return transactionTemplate.execute(status -> {
+        return transactionTemplate.execute(() -> {
             UserDO oldUserDO = userServer.getById(bo.getUserId());
             UserDTO userDto = null;
 
@@ -514,7 +514,7 @@ public class UserBizImpl implements UserBiz {
             }
     )
     public UserDTO updatePasswdHandle(@Valid @NotNull UpdatePasswdBO bo) {
-        return transactionTemplate.execute(status -> {
+        return transactionTemplate.execute(() -> {
             UserDO userDo = userServer.getById(bo.getUserId());
             Assert.isTrue(userDo != null, ErrorCode.SYS_USER_NON_EXISTENT);
 
@@ -611,7 +611,7 @@ public class UserBizImpl implements UserBiz {
             Assert.isTrue(roleServer.count(wrapper) == roleIds.size(), ErrorCode.SYS_ROLE_NON_EXISTENT);
         }
 
-        Object ret = transactionTemplate.execute(status -> {
+        Object ret = transactionTemplate.execute(() -> {
             List<UserRoleDO> userRoleDOS = new ArrayList<>();
 
             Optional.ofNullable(bo.getRoleIds())

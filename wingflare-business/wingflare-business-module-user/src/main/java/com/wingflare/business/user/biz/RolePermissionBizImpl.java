@@ -6,6 +6,7 @@ import com.wingflare.api.core.PageDto;
 import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.user.convert.RolePermissionConvert;
 import com.wingflare.business.user.db.RolePermissionDO;
 import com.wingflare.business.user.service.RolePermissionServer;
@@ -21,8 +22,6 @@ import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.facade.module.user.bo.RolePermissionSearchBO;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -92,7 +91,6 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
      * 删除系统角色权限
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
         RolePermissionDO rolePermissionDo = rolePermissionServer.getById(bo.getId());
 
@@ -116,7 +114,6 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
      * 更新系统角色权限
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
     public RolePermissionDTO update(@Valid @NotNull RolePermissionBO bo) {
         RolePermissionDO oldRolePermissionDO = rolePermissionServer.getById(bo.getId());
@@ -133,7 +130,7 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
 
     @Override
     public Boolean savePermission(@Valid @NotNull PermissionCodesExistBO existBo) {
-        Boolean ret = transactionTemplate.execute(status -> {
+        return transactionTemplate.execute(() -> {
             RoleDTO roleDo = roleBiz.get(new IdBo().setId(existBo.getRoleId()));
 
             if (roleDo == null) {
@@ -158,8 +155,6 @@ public class RolePermissionBizImpl implements RolePermissionBiz {
 
             return true;
         });
-
-        return ret;
     }
 
     @Override

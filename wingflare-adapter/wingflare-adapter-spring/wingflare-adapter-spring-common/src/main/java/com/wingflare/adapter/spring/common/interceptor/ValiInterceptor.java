@@ -1,4 +1,4 @@
-package com.wingflare.adapter.spring.common.aspect;
+package com.wingflare.adapter.spring.common.interceptor;
 
 
 import com.wingflare.api.core.annotation.Validated;

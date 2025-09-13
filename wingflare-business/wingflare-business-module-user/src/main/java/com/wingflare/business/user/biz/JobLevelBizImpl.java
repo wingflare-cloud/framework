@@ -20,7 +20,6 @@ import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.mybatis.plus.injector.method.update.Update;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -83,7 +82,6 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * 删除职级
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
         JobLevelDO jobLevelDo = jobLevelServer.getById(bo.getId());
 
@@ -108,7 +106,6 @@ public class JobLevelBizImpl implements JobLevelBiz {
      * 更新职级
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
     public JobLevelDTO update(@Valid @NotNull JobLevelBO bo) {
         JobLevelDO oldJobLevelDO = jobLevelServer.getById(bo.getJobLevelId());

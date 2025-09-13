@@ -10,6 +10,7 @@ import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.DictConvert;
 import com.wingflare.business.base.db.DictDO;
@@ -38,7 +39,6 @@ import com.wingflare.lib.standard.CacheService;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -121,7 +121,7 @@ public class DictBizImpl implements DictBiz {
      */
     @Override
     public void delete(@Valid @NotNull IdBo bo) {
-        DictDTO ret = transactionTemplate.execute(status -> {
+        DictDTO ret = transactionTemplate.execute(() -> {
             DictDTO dictDto = null;
             DictDO dictDo = dictServer.getById(bo.getId());
             if (dictDo != null) {
@@ -155,7 +155,7 @@ public class DictBizImpl implements DictBiz {
     @Override
     @Validated({Default.class, Create.class})
     public DictDTO create(@Valid @NotNull DictBO bo) {
-        DictDTO ret = transactionTemplate.execute(status -> {
+        DictDTO ret = transactionTemplate.execute(() -> {
             checkDictCanSave(bo, null);
             DictDO dictDo = DictConvert.convert.boToDo(bo);
             Assert.isTrue(dictServer.save(dictDo), ErrorCode.SYS_DICT_CREATE_ERROR);
@@ -180,7 +180,7 @@ public class DictBizImpl implements DictBiz {
     @Validated({Default.class, Update.class})
     public DictDTO update(@Valid @NotNull DictBO bo) {
         AtomicReference<DictDTO> oldDictDto = new AtomicReference<>(null);
-        DictDTO ret = transactionTemplate.execute(status -> {
+        DictDTO ret = transactionTemplate.execute(() -> {
             DictDO oldDictDO = dictServer.getById(bo.getDictId());
             DictDTO dictDto = null;
 

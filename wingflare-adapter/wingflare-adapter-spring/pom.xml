@@ -21,6 +21,7 @@
         <module>wingflare-adapter-spring-servlet-web</module>
         <module>wingflare-adapter-spring-servlet-session</module>
         <module>wingflare-adapter-spring-webflux-session</module>
+        <module>wingflare-adapter-spring-transaction</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 

@@ -8,6 +8,7 @@ import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.SettingConvert;
 import com.wingflare.business.base.db.SettingDO;
@@ -31,7 +32,6 @@ import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -105,7 +105,7 @@ public class SettingBizImpl implements SettingBiz {
      */
     @Override
     public void delete(@Valid @NotNull IdBo bo) {
-        SettingDTO ret = transactionTemplate.execute(status -> {
+        SettingDTO ret = transactionTemplate.execute(() -> {
             SettingDTO settingDto = null;
             SettingDO settingDo = settingServer.getById(bo.getId());
 
@@ -134,7 +134,7 @@ public class SettingBizImpl implements SettingBiz {
     @Override
     @Validated({Default.class, Create.class})
     public SettingDTO create(@Valid @NotNull SettingBO bo) {
-        SettingDTO ret = transactionTemplate.execute(status -> {
+        SettingDTO ret = transactionTemplate.execute(() -> {
             checkSettingCanSave(bo, null);
             SettingDO settingDo = SettingConvert.convert.boToDo(bo);
             Assert.isTrue(settingServer.save(settingDo), ErrorCode.SYS_SETTING_CREATE_ERROR);
@@ -159,7 +159,7 @@ public class SettingBizImpl implements SettingBiz {
     @Validated({Default.class, Update.class})
     public SettingDTO update(@Valid @NotNull SettingBO bo) {
         AtomicReference<SettingDTO> oldDto = new AtomicReference<>(null);
-        SettingDTO ret = transactionTemplate.execute(status -> {
+        SettingDTO ret = transactionTemplate.execute(() -> {
             SettingDO oldSettingDO = settingServer.getById(bo.getSettingId());
             SettingDTO settingDto = null;
 

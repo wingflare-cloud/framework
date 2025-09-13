@@ -32,6 +32,11 @@
             <artifactId>wingflare-api-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-transaction</artifactId>
+        </dependency>
+
         <!-- Spring context -->
         <dependency>
             <groupId>org.springframework</groupId>

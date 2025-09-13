@@ -42,6 +42,11 @@
             <artifactId>wingflare-api-event</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-transaction</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

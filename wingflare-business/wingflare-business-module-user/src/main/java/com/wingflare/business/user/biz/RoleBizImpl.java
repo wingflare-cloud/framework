@@ -8,6 +8,7 @@ import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.convert.RoleConvert;
 import com.wingflare.business.user.db.RoleDO;
@@ -27,7 +28,6 @@ import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -102,7 +102,7 @@ public class RoleBizImpl implements RoleBiz {
      */
     @Override
     public RoleDTO delete(@Valid @NotNull IdBo bo) {
-        RoleDTO ret = transactionTemplate.execute(status -> {
+        RoleDTO ret = transactionTemplate.execute(() -> {
             RoleDTO roleDto = null;
             RoleDO roleDo = roleServer.getById(bo.getId());
             if (roleDo != null) {
@@ -131,7 +131,7 @@ public class RoleBizImpl implements RoleBiz {
     @Override
     @Validated({Default.class, Create.class})
     public RoleDTO create(@Valid @NotNull RoleBO bo) {
-        RoleDTO ret = transactionTemplate.execute(status -> {
+        RoleDTO ret = transactionTemplate.execute(() -> {
             checkRoleCanSave(bo, null);
             RoleDO roleDo = RoleConvert.convert.boToDo(bo);
             Assert.isTrue(roleServer.save(roleDo), ErrorCode.SYS_ROLE_CREATE_ERROR);
@@ -156,7 +156,7 @@ public class RoleBizImpl implements RoleBiz {
     @Validated({Default.class, Update.class})
     public RoleDTO update(@Valid @NotNull RoleBO bo) {
         AtomicReference<RoleDTO> oldDto = new AtomicReference<>(null);
-        RoleDTO ret = transactionTemplate.execute(status -> {
+        RoleDTO ret = transactionTemplate.execute(() -> {
             RoleDO oldRoleDO = roleServer.getById(bo.getRoleId());
             RoleDTO roleDto = null;
 

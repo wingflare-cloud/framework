@@ -17,7 +17,6 @@ import com.wingflare.facade.module.user.dto.OrgDTO;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -77,7 +76,6 @@ public class OrgBizImpl implements OrgBiz {
      * 删除组织机构
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
         OrgDO orgDo = orgServer.getById(bo.getId());
 
@@ -101,7 +99,6 @@ public class OrgBizImpl implements OrgBiz {
      * 更新组织机构
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
     public OrgDTO update(@Valid @NotNull OrgBO bo) {
         OrgDO oldOrgDO = orgServer.getById(bo.getOrgId());

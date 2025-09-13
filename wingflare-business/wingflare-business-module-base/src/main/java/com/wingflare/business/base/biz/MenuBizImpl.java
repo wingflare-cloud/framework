@@ -7,6 +7,7 @@ import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.base.ErrorCode;
 import com.wingflare.business.base.convert.MenuConvert;
 import com.wingflare.business.base.db.MenuDO;
@@ -33,8 +34,6 @@ import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -110,9 +109,8 @@ public class MenuBizImpl implements MenuBiz {
      * 删除系统菜单
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
-        MenuDTO ret = transactionTemplate.execute(status -> {
+        MenuDTO ret = transactionTemplate.execute(() -> {
             MenuDO menuDo = menuServer.getById(bo.getId());
             MenuDTO menuDto = null;
 
@@ -145,7 +143,7 @@ public class MenuBizImpl implements MenuBiz {
     @Override
     @Validated({Default.class, Create.class})
     public MenuDTO create(@Valid @NotNull MenuBO bo) {
-        MenuDTO ret = transactionTemplate.execute(status -> {
+        MenuDTO ret = transactionTemplate.execute(() -> {
             checkMenuCanSave(bo, null);
             MenuDO menuDo = MenuConvert.convert.boToDo(bo);
             Assert.isTrue(menuServer.save(menuDo), ErrorCode.SYS_MENU_CREATE_ERROR);
@@ -167,11 +165,10 @@ public class MenuBizImpl implements MenuBiz {
      * 更新系统菜单
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
     public MenuDTO update(@Valid @NotNull MenuBO bo) {
         AtomicReference<MenuDTO> oldField = new AtomicReference<>(null);
-        MenuDTO ret = transactionTemplate.execute(status -> {
+        MenuDTO ret = transactionTemplate.execute(() -> {
             MenuDO oldMenuDO = menuServer.getById(bo.getMenuId());
             MenuDTO menuDto = null;
 

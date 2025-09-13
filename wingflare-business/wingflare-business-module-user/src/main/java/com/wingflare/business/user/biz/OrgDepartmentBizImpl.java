@@ -20,7 +20,6 @@ import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -85,7 +84,6 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      * 删除机构部门
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     public void delete(@Valid @NotNull IdBo bo) {
         OrgDepartmentDO orgDepartmentDo = orgDepartmentServer.getById(bo.getId());
 
@@ -110,7 +108,6 @@ public class OrgDepartmentBizImpl implements OrgDepartmentBiz {
      * 更新机构部门
      */
     @Override
-    @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
     public OrgDepartmentDTO update(@Valid @NotNull OrgDepartmentBO bo) {
         OrgDepartmentDO oldOrgDepartmentDO = orgDepartmentServer.getById(bo.getDepartmentId());

@@ -7,6 +7,7 @@ import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.event.EventPublisher;
+import com.wingflare.api.transaction.TransactionTemplate;
 import com.wingflare.business.user.ErrorCode;
 import com.wingflare.business.user.db.IdentityDO;
 import com.wingflare.business.user.service.JobLevelServer;
@@ -26,8 +27,6 @@ import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.standard.bo.IdBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -114,7 +113,7 @@ public class IdentityBizImpl implements IdentityBiz {
     }
 
     public IdentityDTO deleteHandle(@Valid @NotNull IdBo bo) {
-        return transactionTemplate.execute(status -> {
+        return transactionTemplate.execute(() -> {
             IdentityDTO dto = null;
             IdentityDO identityDo = identityServer.getById(bo.getId());
 
@@ -154,8 +153,6 @@ public class IdentityBizImpl implements IdentityBiz {
     /**
      * 更新岗位身份
      */
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
     @Validated({Default.class, Update.class})
     public IdentityDTO update(@Valid @NotNull IdentityBO bo) {
         IdentityDO oldIdentityDO = identityServer.getById(bo.getIdentityId());
