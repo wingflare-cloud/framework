@@ -1,56 +1,40 @@
 package com.wingflare.maven.plugin.annotation;
 
 
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseResult;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.ImportDeclaration;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.expr.NormalAnnotationExpr;
-import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
-import com.github.javaparser.ast.visitor.ModifierVisitor;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Maven 插件用于将指定注解替换为另一个包下的同名注解
+ * 注解替换Maven插件的主类
+ * 在编译前执行，替换源代码中的指定注解
  */
-@Mojo(name = "replace", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+@Mojo(name = "replace-annotations", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
 public class AnnotationReplacerMojo extends AbstractMojo {
 
+    /**
+     * Maven项目对象
+     */
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
-
-    /**
-     * 需要被替换的注解的全限定名（例如：com.old.Annotation）
-     */
-    @Parameter(required = true)
-    private String sourceAnnotation;
-
-    /**
-     * 替换后的注解的全限定名（例如：com.new.Annotation）
-     */
-    @Parameter(required = true)
-    private String targetAnnotation;
 
     /**
      * 源代码目录
@@ -59,174 +43,115 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     private File sourceDirectory;
 
     /**
-     * 测试源代码目录
+     * 注解替换规则列表
      */
-    @Parameter(defaultValue = "${project.build.testSourceDirectory}", required = true)
-    private File testSourceDirectory;
+    @Parameter(required = true)
+    private List<AnnotationReplacement> replacements;
 
     @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("Starting annotation replacement...");
-        getLog().info("Source annotation: " + sourceAnnotation);
-        getLog().info("Target annotation: " + targetAnnotation);
+    public void execute() throws MojoExecutionException {
+        getLog().info("Starting annotation replacement process...");
 
-        try {
-            // 处理主源代码
-            processDirectory(sourceDirectory);
-
-            // 处理测试源代码
-            processDirectory(testSourceDirectory);
-
-            getLog().info("Annotation replacement completed successfully");
-        } catch (Exception e) {
-            getLog().error("Error during annotation replacement", e);
-            throw new MojoExecutionException("Failed to replace annotations", e);
-        }
-    }
-
-    private void processDirectory(File directory) throws IOException {
-        if (directory == null || !directory.exists() || !directory.isDirectory()) {
-            getLog().debug("Directory does not exist or is not a directory: " +
-                    (directory != null ? directory.getAbsolutePath() : "null"));
+        if (replacements == null || replacements.isEmpty()) {
+            getLog().warn("No annotation replacements configured. Nothing to do.");
             return;
         }
 
-        getLog().info("Processing sources in: " + directory.getAbsolutePath());
+        if (!sourceDirectory.exists() || !sourceDirectory.isDirectory()) {
+            getLog().warn("Source directory does not exist: " + sourceDirectory.getAbsolutePath());
+            return;
+        }
 
-        // 查找所有 Java 文件
-        List<File> javaFiles = findJavaFiles(directory.toPath());
+        try {
+            // 遍历所有Java源文件
+            try (Stream<Path> stream = Files.walk(Paths.get(sourceDirectory.getAbsolutePath()))) {
+                stream.filter(Files::isRegularFile)
+                        .filter(path -> path.toString().endsWith(".java"))
+                        .forEach(this::processJavaFile);
+            }
 
-        getLog().info("Found " + javaFiles.size() + " Java files to process in directory");
-
-        // 处理每个 Java 文件
-        for (File javaFile : javaFiles) {
-            processJavaFile(javaFile);
+            getLog().info("Annotation replacement process completed successfully.");
+        } catch (IOException e) {
+            throw new MojoExecutionException("Error processing source files", e);
         }
     }
 
-    private List<File> findJavaFiles(Path startPath) throws IOException {
-        try (Stream<Path> stream = Files.walk(startPath)) {
-            return stream
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().endsWith(".java"))
-                    .map(Path::toFile)
-                    .collect(Collectors.toList());
+    /**
+     * 处理单个Java文件，替换其中的注解
+     */
+    private void processJavaFile(Path filePath) {
+        try {
+            getLog().debug("Processing file: " + filePath);
+
+            // 读取文件内容
+            String content = new String(Files.readAllBytes(filePath));
+
+            // 解析Java代码
+            CompilationUnit cu = StaticJavaParser.parse(content);
+
+            // 启用词法保留，确保格式化不受影响
+            LexicalPreservingPrinter.setup(cu);
+
+            // 替换注解
+            boolean modified = replaceAnnotations(cu);
+
+            // 如果有修改，保存文件
+            if (modified) {
+                try (FileWriter writer = new FileWriter(filePath.toFile())) {
+                    writer.write(LexicalPreservingPrinter.print(cu));
+                    getLog().info("Modified file: " + filePath);
+                }
+            }
+        } catch (Exception e) {
+            getLog().error("Error processing file " + filePath, e);
         }
     }
 
-    private void processJavaFile(File javaFile) throws IOException {
-        getLog().debug("Processing file: " + javaFile.getAbsolutePath());
+    /**
+     * 在编译单元中替换注解
+     */
+    private boolean replaceAnnotations(CompilationUnit cu) {
+        boolean modified = false;
 
-        // 解析 Java 文件
-        JavaParser parser = new JavaParser();
-        try (FileInputStream in = new FileInputStream(javaFile)) {
-            ParseResult<CompilationUnit> result = parser.parse(in);
+        // 遍历所有带有注解的节点
+        cu.findAll(NodeWithAnnotations.class).forEach(node -> {
+            NodeList<AnnotationExpr> annotations = node.getAnnotations();
 
-            if (result.isSuccessful() && result.getResult().isPresent()) {
-                CompilationUnit cu = result.getResult().get();
+            // 检查每个注解是否需要替换
+            for (int i = 0; i < annotations.size(); i++) {
+                AnnotationExpr annotation = annotations.get(i);
+                String annotationName = annotation.getNameAsString();
 
-                // 替换注解和导入
-                AnnotationReplacementVisitor visitor = new AnnotationReplacementVisitor(cu);
-                cu.accept(visitor, null);
+                // 查找匹配的替换规则
+                for (AnnotationReplacement replacement : replacements) {
+                    // 检查简单类名或全类名是否匹配
+                    if (annotationName.equals(getSimpleName(replacement.getOldAnnotation())) ||
+                            annotationName.equals(replacement.getOldAnnotation())) {
 
-                // 如果文件被修改，保存更改
-                if (visitor.isFileModified()) {
-                    try (FileWriter writer = new FileWriter(javaFile)) {
-                        writer.write(cu.toString());
-                        getLog().info("Modified file: " + javaFile.getAbsolutePath());
+                        // 创建新注解
+                        AnnotationExpr newAnnotation = StaticJavaParser.parseAnnotation(replacement.getNewAnnotation() + "");
+                        annotations.set(i, newAnnotation);
+
+                        getLog().debug("Replaced annotation: " + replacement.getOldAnnotation() +
+                                " with: " + replacement.getNewAnnotation());
+                        modified = true;
+                        break;
                     }
                 }
-            } else {
-                getLog().warn("Failed to parse file: " + javaFile.getAbsolutePath());
-                result.getProblems().forEach(problem ->
-                        getLog().warn("Parse problem: " + problem.getMessage()));
             }
-        }
+        });
+
+        return modified;
     }
 
-    private class AnnotationReplacementVisitor extends ModifierVisitor<Void> {
-        private final CompilationUnit compilationUnit;
-        private boolean fileModified = false;
-        private final String sourceAnnotationSimpleName;
-        private final String targetAnnotationSimpleName;
-
-        public AnnotationReplacementVisitor(CompilationUnit cu) {
-            this.compilationUnit = cu;
-            this.sourceAnnotationSimpleName = getSimpleName(sourceAnnotation);
-            this.targetAnnotationSimpleName = getSimpleName(targetAnnotation);
+    /**
+     * 从全类名中获取简单类名
+     */
+    private String getSimpleName(String fullyQualifiedName) {
+        if (fullyQualifiedName == null || fullyQualifiedName.isEmpty()) {
+            return fullyQualifiedName;
         }
-
-        private String getSimpleName(String qualifiedName) {
-            int lastDotIndex = qualifiedName.lastIndexOf('.');
-            return lastDotIndex >= 0 ? qualifiedName.substring(lastDotIndex + 1) : qualifiedName;
-        }
-
-        @Override
-        public Node visit(ImportDeclaration importDecl, Void arg) {
-            // 替换导入语句
-            String importName = importDecl.getNameAsString();
-            if (importName.equals(sourceAnnotation) ||
-                    (importName.endsWith("." + sourceAnnotationSimpleName) &&
-                            importName.equals(sourceAnnotation))) {
-
-                // 创建新的导入声明
-                ImportDeclaration newImport = new ImportDeclaration(
-                        new Name(targetAnnotation),
-                        importDecl.isStatic(),
-                        importDecl.isAsterisk()
-                );
-
-                fileModified = true;
-                return newImport;
-            }
-
-            return super.visit(importDecl, arg);
-        }
-
-        private String resolveAnnotationQualifiedName(AnnotationExpr annotation) {
-            String annotationName = annotation.getNameAsString();
-
-            // 如果是全限定名，直接使用
-            if (annotationName.contains(".")) {
-                return annotationName;
-            }
-
-            // 否则，尝试从导入语句中解析
-            Optional<ImportDeclaration> matchingImport = compilationUnit.getImports().stream()
-                    .filter(importDecl -> !importDecl.isAsterisk())
-                    .filter(importDecl -> {
-                        String importName = importDecl.getNameAsString();
-                        return importName.equals(sourceAnnotation) ||
-                                importName.endsWith("." + annotationName);
-                    })
-                    .findFirst();
-
-            return matchingImport.map(importDecl -> importDecl.getNameAsString())
-                    .orElse(annotationName); // 如果找不到导入，返回简单名称
-        }
-
-        private AnnotationExpr createReplacementAnnotation(AnnotationExpr original) {
-            // 根据原注解类型创建相应的新注解
-            if (original instanceof NormalAnnotationExpr) {
-                NormalAnnotationExpr normalAnnotation = (NormalAnnotationExpr) original;
-                return new NormalAnnotationExpr(
-                        new Name(targetAnnotationSimpleName),
-                        normalAnnotation.getPairs()
-                );
-            } else if (original instanceof SingleMemberAnnotationExpr) {
-                SingleMemberAnnotationExpr singleAnnotation = (SingleMemberAnnotationExpr) original;
-                return new SingleMemberAnnotationExpr(
-                        new Name(targetAnnotationSimpleName),
-                        singleAnnotation.getMemberValue()
-                );
-            } else {
-                // 标记注解（没有参数）
-                return new MarkerAnnotationExpr(new Name(targetAnnotationSimpleName));
-            }
-        }
-
-        public boolean isFileModified() {
-            return fileModified;
-        }
+        int lastDotIndex = fullyQualifiedName.lastIndexOf('.');
+        return lastDotIndex == -1 ? fullyQualifiedName : fullyQualifiedName.substring(lastDotIndex + 1);
     }
 }
