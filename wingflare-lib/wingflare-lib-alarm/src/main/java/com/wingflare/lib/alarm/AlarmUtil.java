@@ -26,7 +26,7 @@ public class AlarmUtil {
 
     private static Map<String, AlarmDrive> getAlarms() {
         if (alarmMap == null) {
-            synchronized (ConfigUtil.class) {
+            synchronized (AlarmUtil.class) {
                 if (alarmMap == null) {
                     ServiceLoader<AlarmDrive> alarms = ServiceLoader.load(AlarmDrive.class);
                     for (AlarmDrive alarm : alarms) {

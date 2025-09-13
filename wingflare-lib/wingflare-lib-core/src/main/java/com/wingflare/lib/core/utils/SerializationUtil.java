@@ -1,11 +1,15 @@
 package com.wingflare.lib.core.utils;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @ClassName SerializationUtil
@@ -14,6 +18,8 @@ import java.io.Serializable;
  * @Description 序列化工具来源于spring
  */
 public abstract class SerializationUtil {
+
+    private static final Pattern pattern = Pattern.compile("@S\\[(.*?)]");
 
     /**
      * Serialize the given object to a byte array.
@@ -71,6 +77,44 @@ public abstract class SerializationUtil {
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> T clone(T object) {
         return (T) SerializationUtil.deserialize(SerializationUtil.serialize(object));
+    }
+
+    /**
+     * 带类型信息的数据编码
+     *
+     * @param value
+     *
+     * @return
+     */
+    public static String typeValueEncode(Object value) {
+        return String.format(
+                "@S[%s]",
+                Base64.encodeBase64URLSafeString(
+                        SerializationUtil.serialize(value)
+                )
+        );
+    }
+
+    /**
+     * 匹配带类型的值
+     *
+     * @param s
+     * @return
+     */
+    public static Matcher typeValueMatch(String s) {
+        return pattern.matcher(s);
+    }
+
+    /**
+     * 带类型值字符串解码
+     *
+     * @param s
+     * @param <T>
+     *
+     * @return
+     */
+    public static <T> T typeValueDecode(String s) {
+        return ObjectUtil.cast(SerializationUtil.deserialize(Base64.decodeBase64(s)));
     }
 
 }

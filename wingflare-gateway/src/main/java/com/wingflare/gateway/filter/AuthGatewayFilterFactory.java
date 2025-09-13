@@ -6,10 +6,10 @@ import com.wingflare.api.core.Std;
 import com.wingflare.gateway.R;
 import com.wingflare.gateway.utils.WebFluxUtil;
 import com.wingflare.lib.core.exceptions.RiskException;
+import com.wingflare.lib.core.utils.SerializationUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.jwt.ErrorCode;
-import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
@@ -82,7 +82,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
 
                             // 认证成功：添加用户认证头信息
                             ServerHttpRequest mutatedRequest = request.mutate()
-                                    .header(Ctx.HEADER_KEY_AUTH_USER, SecurityUtil.typeValueEncode(authResponseDTO.getUserAuth()))
+                                    .header(Ctx.HEADER_KEY_AUTH_USER, SerializationUtil.typeValueEncode(authResponseDTO.getUserAuth()))
                                     .build();
                             ctx.getAttributes().put(Ctx.CONTEXT_KEY_AUTH_USER, authResponseDTO.getUserAuth());
 

@@ -8,20 +8,45 @@ import java.util.function.Supplier;
 /**
  * @author naizui_ycx
  * @date {2023/03/06}
- * @description 通用对象构造类
+ * @description 通用对象构造类，支持创建新对象和修改已有对象
  */
 public class Builder<T> {
 
     private final Supplier<T> instantiator;
-
+    private final T existingInstance;  // 用于存储已存在的对象
     private final List<Consumer<T>> modifiers = new ArrayList<>();
 
-    public Builder(Supplier<T> instant) {
+    /**
+     * 构造方法，用于创建新对象
+     */
+    private Builder(Supplier<T> instant) {
         this.instantiator = instant;
+        this.existingInstance = null;
     }
 
+    /**
+     * 构造方法，用于修改已有对象
+     */
+    private Builder(T existingInstance) {
+        this.instantiator = null;
+        this.existingInstance = existingInstance;
+    }
+
+    /**
+     * 创建一个用于构建新对象的Builder
+     */
     public static <T> Builder<T> of(Supplier<T> instant) {
         return new Builder<>(instant);
+    }
+
+    /**
+     * 创建一个用于修改已有对象的Builder
+     */
+    public static <T> Builder<T> modify(T existingInstance) {
+        if (existingInstance == null) {
+            throw new IllegalArgumentException("Cannot modify a null instance");
+        }
+        return new Builder<>(existingInstance);
     }
 
     public <P1> Builder<T> with(Consumer1<T, P1> consumer, P1 p1) {
@@ -89,8 +114,21 @@ public class Builder<T> {
         return this;
     }
 
+    /**
+     * 执行构建或修改操作
+     * 如果是新对象构建模式，则创建对象并应用修改
+     * 如果是已有对象修改模式，则直接对已有对象应用修改并返回
+     */
     public T build() {
-        T value = instantiator.get();
+        T value;
+        // 确定要操作的对象：如果有已有对象则使用它，否则创建新对象
+        if (existingInstance != null) {
+            value = existingInstance;
+        } else {
+            value = instantiator.get();
+        }
+
+        // 应用所有修改
         modifiers.forEach(modifier -> modifier.accept(value));
         modifiers.clear();
         return value;
@@ -106,7 +144,7 @@ public class Builder<T> {
          * 接收参数方法
          *
          * @param t  对象
-         * @param p1 参数二
+         * @param p1 参数一
          */
         void accept(T t, P1 p1);
     }

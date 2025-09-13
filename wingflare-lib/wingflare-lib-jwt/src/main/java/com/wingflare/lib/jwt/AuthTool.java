@@ -1,12 +1,14 @@
 package com.wingflare.lib.jwt;
 
 
-import com.wingflare.api.core.Ctx;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 import com.wingflare.api.security.AuthResponseDTO;
 import com.wingflare.api.security.UserAuthServer;
+import com.wingflare.lib.config.ConfigUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.jwt.utils.JwtUtil;
-import io.jsonwebtoken.Claims;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -18,54 +20,29 @@ public class AuthTool {
 
     private final UserAuthServer userAuthServer;
 
-    private final JwtUtil jwtUtil;
-
-    public AuthTool(UserAuthServer userAuthServer, JwtUtil jwtUtil) {
+    public AuthTool(UserAuthServer userAuthServer) {
         this.userAuthServer = userAuthServer;
-        this.jwtUtil = jwtUtil;
     }
 
     public AuthResponseDTO checkLogin(String token, String headerBusinessSystem) {
-        Date now = new Date();
         boolean hasToken = StringUtil.isNotEmpty(token);
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();
 
         if (hasToken) {
-            Claims claims = jwtUtil.parseToken(token);
+            DecodedJWT decodedJWT;
 
-            if (claims == null) {
+            try {
+                decodedJWT = verifyToken(token, headerBusinessSystem);
+            } catch (JWTVerificationException e) {
                 return authResponseDTO.setError(ErrorCode.TOKEN_EXPIRATION_OR_ERROR);
             }
 
-            String tokenId = "";
-            String businessSystem = "";
-
-            if (claims.containsKey(Ctx.HEADER_KEY_TOKEN_ID)) {
-                tokenId = claims.get(Ctx.HEADER_KEY_TOKEN_ID, String.class);
-            }
-
-            if (claims.containsKey(Ctx.HEADER_KEY_BUSINESS_SYSTEM)) {
-                businessSystem = claims.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM, String.class);
-            }
-
-            if (StringUtil.isBlank(tokenId) || StringUtil.isBlank(businessSystem)) {
-                return authResponseDTO.setError(ErrorCode.TOKEN_EXPIRATION_OR_ERROR);
-            }
-
-            if (!StringUtil.contains(headerBusinessSystem, businessSystem)) {
-                return authResponseDTO.setError(ErrorCode.NO_ACCESS);
-            }
-
-            authResponseDTO.setUserAuth(userAuthServer.getUser(tokenId));
+            authResponseDTO.setUserAuth(userAuthServer.getUser(decodedJWT.getId()));
 
             if (authResponseDTO.getUserAuth() == null || authResponseDTO.getUserAuth().getUserId() == null
                     || authResponseDTO.getUserAuth().getUserId().compareTo(BigInteger.ZERO) == 0
                     || StringUtil.isEmpty(authResponseDTO.getUserAuth().getUserName())) {
                 return authResponseDTO.setError(ErrorCode.TOKEN_LOGIN_EXPIRATION);
-            }
-
-            if (now.getTime() > authResponseDTO.getUserAuth().getTokenExpireTime()) {
-                return authResponseDTO.setError(ErrorCode.TOKEN_EXPIRATION);
             }
         } else {
             return authResponseDTO.setError(ErrorCode.NOT_LOGIN);
@@ -73,5 +50,105 @@ public class AuthTool {
 
         return authResponseDTO;
     }
+
+    /**
+     * 创建登录token
+     *
+     * @param tokenId
+     * @param userId
+     * @param audience
+     * @return
+     */
+    public String createLoginToken(String tokenId, String userId, Date expireTime, String ... audience) {
+        return JWT.create()
+                .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
+                .withIssuedAt(new Date())
+                .withSubject(userId)
+                .withAudience(audience)
+                .withJWTId(tokenId)
+                .withExpiresAt(expireTime)
+                .sign(AlgorithmFactory.getInstance().createAlgorithm());
+    }
+
+    /**
+     * 创建刷新token
+     *
+     * @param refreshId
+     * @param tokenId
+     * @return
+     */
+    public String createRefreshToken(String refreshId, String tokenId, Date expireTime) {
+        return JWT.create()
+                .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
+                .withIssuedAt(new Date())
+                .withSubject(tokenId)
+                .withJWTId(refreshId)
+                .withExpiresAt(expireTime)
+                .sign(AlgorithmFactory.getInstance().createAlgorithm());
+    }
+
+    /**
+     * 验证 JWT 令牌并返回解析结果
+     * @param token 要验证的 JWT 令牌
+     * @return 解析后的 JWT 对象
+     * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
+     */
+    public static DecodedJWT verifyToken(String token, String id, String subject) throws JWTVerificationException {
+        JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
+                .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
+                .withSubject(subject)
+                .withJWTId(id)
+                .build();
+
+        return verifier.verify(token);
+    }
+
+    /**
+     * 验证 JWT 令牌并返回解析结果
+     * @param token 要验证的 JWT 令牌
+     * @return 解析后的 JWT 对象
+     * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
+     */
+    public static DecodedJWT verifyToken(String token, String audience) throws JWTVerificationException {
+        JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
+                .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
+                .withAnyOfAudience(audience)
+                .build();
+
+        return verifier.verify(token);
+    }
+
+    /**
+     * 验证 JWT 令牌并返回解析结果
+     * @param token 要验证的 JWT 令牌
+     * @return 解析后的 JWT 对象
+     * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
+     */
+    public static DecodedJWT verifyToken(String token) throws JWTVerificationException {
+        JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
+                .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
+                .build();
+
+        return verifier.verify(token);
+    }
+
+
+    /**
+     * 验证 JWT 令牌并返回解析结果
+     * @param token 要验证的 JWT 令牌
+     * @return 解析后的 JWT 对象
+     * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
+     */
+    public static DecodedJWT verifyToken(String token, String id, String subject, String audience) throws JWTVerificationException {
+        JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
+                .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
+                .withSubject(subject)
+                .withJWTId(id)
+                .withAnyOfAudience(audience)
+                .build();
+
+        return verifier.verify(token);
+    }
+
 
 }

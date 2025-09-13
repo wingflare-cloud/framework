@@ -1,7 +1,7 @@
 package com.wingflare.business.auth.biz;
 
 
-import com.wingflare.api.core.Ctx;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.wingflare.api.core.PageResult;
 import com.wingflare.api.core.annotation.Validated;
 import com.wingflare.api.core.enums.OnOffEnum;
@@ -25,15 +25,13 @@ import com.wingflare.facade.module.auth.event.UserLogoutEvent;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import com.wingflare.lib.config.ConfigUtil;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.DateUtil;
 import com.wingflare.lib.core.utils.ObjectUtil;
-import com.wingflare.lib.core.utils.StringUtil;
-import com.wingflare.lib.jwt.utils.JwtUtil;
+import com.wingflare.lib.jwt.AuthTool;
 import com.wingflare.lib.standard.SettingUtil;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.bo.IdBo;
@@ -48,7 +46,6 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author naizui_ycx
@@ -65,19 +62,19 @@ public class LoginBizImpl implements LoginBiz {
 
     private final IdGenerate idGenerate;
 
-    private final JwtUtil jwtUtil;
+    private final AuthTool authTool;
 
     private final UserAuthServer userAuthServer;
 
     private final EventPublisher eventPublisher;
 
 
-    public LoginBizImpl(UserBiz userBiz, SettingUtil settingUtil, IdGenerate idGenerate, JwtUtil jwtUtil,
+    public LoginBizImpl(UserBiz userBiz, SettingUtil settingUtil, IdGenerate idGenerate, AuthTool authTool,
                         UserAuthServer userAuthServer, EventPublisher eventPublisher) {
         this.userBiz = userBiz;
         this.settingUtil = settingUtil;
         this.idGenerate = idGenerate;
-        this.jwtUtil = jwtUtil;
+        this.authTool = authTool;
         this.userAuthServer = userAuthServer;
         this.eventPublisher = eventPublisher;
     }
@@ -113,8 +110,6 @@ public class LoginBizImpl implements LoginBiz {
         Assert.isTrue(OnOffEnum.ON.getValue().equals(userDto.getBanState()), ErrorCode.USER_BAN);
 
         Date now = new Date();
-        Long tokenExpireTime = getTokenExpireTime();
-        Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
 
         UserAuth userAuth = Builder.of(UserAuth::new)
                 .with(UserAuth::setUserId, userDto.getUserId())
@@ -122,8 +117,6 @@ public class LoginBizImpl implements LoginBiz {
                 .with(UserAuth::setClientId, SecurityUtil.getClientId())
                 .with(UserAuth::setSuperAdmin, OnOffEnum.ON.getValue().equals(userDto.getSuperAdministrator()))
                 .with(UserAuth::setLoginTime, now.getTime())
-                .with(UserAuth::setExpireTime, DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime)).getTime())
-                .with(UserAuth::setTokenExpireTime, DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)).getTime())
                 .with(UserAuth::setCurrentOrg, bo.getOrgId())
                 .with(UserAuth::setIpAddress, bo.getIpaddr())
                 .with(UserAuth::setClientType, bo.getClientType())
@@ -172,14 +165,20 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setRefreshId(refreshId);
         userAuth.setTokenId(tokenId);
 
+        Long tokenExpireTime = getTokenExpireTime();
+        Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
+        Date tokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime));
+        Date refreshTokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime));
+
         TokenDTO tokenDto = Builder.of(TokenDTO::new)
                 .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
                 .with(TokenDTO::setRefreshExpiresIn, Math.toIntExact(maxRefreshTokenExpireTime))
-                .with(TokenDTO::setToken, tokenGen(SecurityUtil.getBusinessSystem(), tokenId, now))
-                .with(TokenDTO::setRefreshToken, tokenGen(SecurityUtil.getBusinessSystem(), refreshId, now))
+                .with(TokenDTO::setToken, authTool.createLoginToken(tokenId, String.valueOf(userAuth.getUserId()),
+                        tokenExpireDate, SecurityUtil.getBusinessSystem()))
+                .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(refreshId, tokenId, refreshTokenExpireDate))
                 .build();
 
-        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime()))));
+        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, refreshTokenExpireDate)));
 
         userBiz.update(new UserBO()
                 .setUserId(userDto.getUserId())
@@ -270,52 +269,38 @@ public class LoginBizImpl implements LoginBiz {
      */
     @Override
     public TokenDTO refreshToken(@Valid @NotNull RefreshTokenBO bo) {
-        Map<String, Object> oldRefreshTokenMap = parseRefreshToken(bo.getRefreshToken());
-
         UserAuth userAuth = userAuthServer.getUser();
 
         Assert.isTrue(userAuth != null, ErrorCode.LOGIN_INFO_NOTFOUND_OR_EXPIRE);
-        Assert.isTrue(StringUtil.equals(userAuth.getRefreshId(), oldRefreshTokenMap.get(Ctx.HEADER_KEY_TOKEN_ID).toString()),
-                ErrorCode.REFRESH_TOKEN_DEFEATED);
+
+        try {
+            authTool.verifyToken(bo.getRefreshToken(), userAuth.getRefreshId(), userAuth.getTokenId());
+        } catch (JWTVerificationException e) {
+            throw new BusinessLogicException(ErrorCode.REFRESH_TOKEN_EXCEPTION);
+        }
 
         String refreshId = String.valueOf(idGenerate.nextId());
+        Date now = new Date();
         Long tokenExpireTime = getTokenExpireTime();
         Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
-        Date now = new Date();
-        String systemCode = oldRefreshTokenMap.get(Ctx.HEADER_KEY_BUSINESS_SYSTEM).toString();
+        Date tokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime));
+        Date refreshTokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime));
 
         String tokenId = String.valueOf(idGenerate.nextId());
-        String token = tokenGen(systemCode, tokenId, now);
+        String token = authTool.createLoginToken(tokenId, String.valueOf(userAuth.getUserId()),
+                tokenExpireDate, SecurityUtil.getBusinessSystem());
 
         userAuthServer.removeToken(userAuth.getTokenId());
         userAuth.setRefreshId(refreshId);
         userAuth.setTokenId(tokenId);
-        userAuth.setTokenExpireTime(DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)).getTime());
-        userAuth.setExpireTime(DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime)).getTime());
-        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime()))));
+        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, refreshTokenExpireDate)));
 
         return Builder.of(TokenDTO::new)
                 .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
-                .with(TokenDTO::setRefreshExpiresIn, DateUtil.getOffsetSeconds(now, new Date(userAuth.getExpireTime())))
+                .with(TokenDTO::setRefreshExpiresIn, DateUtil.getOffsetSeconds(now, refreshTokenExpireDate))
                 .with(TokenDTO::setToken, token)
-                .with(TokenDTO::setRefreshToken, tokenGen(systemCode, refreshId, now))
+                .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(refreshId, tokenId, refreshTokenExpireDate))
                 .build();
-    }
-
-
-    private Map<String, Object> parseRefreshToken(String refreshToken) {
-        Map<String, Object> claimsMap = jwtUtil.parseToken(refreshToken);
-
-        if (!SecurityUtil.checkTokenClaimsMap(claimsMap, ConfigUtil.getProperty("login.secret"))) {
-            throw new BusinessLogicException(ErrorCode.REFRESH_TOKEN_EXCEPTION);
-        }
-
-        return claimsMap;
-    }
-
-
-    private String tokenGen(String systemCode, String id, Date date) {
-        return jwtUtil.createToken(SecurityUtil.getClaimsMap(systemCode, id, date, ConfigUtil.getProperty("login.secret")));
     }
 
 }

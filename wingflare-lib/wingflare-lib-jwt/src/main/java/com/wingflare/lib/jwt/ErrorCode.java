@@ -22,9 +22,4 @@ public interface ErrorCode {
      */
     String NOT_LOGIN = "jwt.login.notLogin";
 
-    /**
-     * 禁止访问
-     */
-    String NO_ACCESS = "jwt.noAccess";
-
 }

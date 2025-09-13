@@ -46,16 +46,6 @@ public class UserAuth implements Serializable
     private Long loginTime;
 
     /**
-     * 过期时间
-     */
-    private Long expireTime;
-
-    /**
-     * token过期时间
-     */
-    private Long tokenExpireTime;
-
-    /**
      * 客户端类型
      */
     private String clientType;
@@ -162,22 +152,6 @@ public class UserAuth implements Serializable
 
     public void setLoginTime(Long loginTime) {
         this.loginTime = loginTime;
-    }
-
-    public Long getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Long expireTime) {
-        this.expireTime = expireTime;
-    }
-
-    public Long getTokenExpireTime() {
-        return tokenExpireTime;
-    }
-
-    public void setTokenExpireTime(Long tokenExpireTime) {
-        this.tokenExpireTime = tokenExpireTime;
     }
 
     public String getClientType() {

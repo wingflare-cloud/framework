@@ -48,9 +48,4 @@ public interface ErrorCode {
      */
     String LOGIN_INFO_NOTFOUND_OR_EXPIRE = "sys.loginInfo.notfoundOrExpire";
 
-    /**
-     * 刷新token失败
-     */
-    String REFRESH_TOKEN_DEFEATED = "sys.refreshToken.defeated";
-
 }

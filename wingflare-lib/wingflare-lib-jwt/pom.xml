@@ -14,7 +14,7 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <jjwt.version>0.12.5</jjwt.version>
+        <java-jwt.version>4.5.0</java-jwt.version>
     </properties>
 
     <dependencies>
@@ -36,11 +36,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Jwt -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
         </dependency>
 
     </dependencies>

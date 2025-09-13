@@ -21,10 +21,6 @@ public interface Ctx {
      * 授权标识
      */
     String AUTHENTICATION_PREFIX = "Bearer ";
-    /**
-     * TOKEN ID
-     */
-    String HEADER_KEY_TOKEN_ID = "token-id";
 
     /**
      * 登录用户头信息
@@ -78,11 +74,6 @@ public interface Ctx {
     String PREFIX_ACCESS_TOKEN_MARK = "user_mark";
 
     /**
-     * 登录数据SECRET
-     */
-    String LOGIN_DEFAULT_SECRET = "wingflarelogin";
-
-    /**
      * 权限存储标识
      */
     String PREFIX_USER_PERMISSION_KEY = "permission";
@@ -112,11 +103,6 @@ public interface Ctx {
      * 数据权限上下文
      */
     String DATA_PERMISSION_CONTEXT = "sys:ctx:dataPermission";
-
-    /**
-     * 认证json验签字段key
-     */
-    String AUTH_JSON_SIGN_KEY = "sign";
 
     /**
      * 动态表名上下文

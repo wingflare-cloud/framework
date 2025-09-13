@@ -63,11 +63,6 @@
             <artifactId>wingflare-lib-mybatis-plus</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-sdk-user</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>
