@@ -2,13 +2,13 @@ package com.wingflare.business.base.listener;
 
 
 import com.wingflare.api.core.enums.OnOffEnum;
+import com.wingflare.api.event.EventListener;
 import com.wingflare.facade.module.base.constants.Base;
 import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.facade.module.base.event.SettingCreatedEvent;
 import com.wingflare.facade.module.base.event.SettingDeletedEvent;
 import com.wingflare.facade.module.base.event.SettingUpdatedEvent;
 import com.wingflare.lib.standard.CacheService;
-import org.springframework.context.event.EventListener;
 
 
 /**

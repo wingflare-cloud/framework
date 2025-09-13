@@ -111,6 +111,7 @@
         <module>wingflare-single</module>
         <module>wingflare-service</module>
         <module>wingflare-api</module>
+        <module>wingvlare-maven-plugin</module>
     </modules>
     <packaging>pom</packaging>
 
