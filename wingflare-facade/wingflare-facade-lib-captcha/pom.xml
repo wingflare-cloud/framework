@@ -7,10 +7,10 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-facade</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
     <artifactId>wingflare-facade-lib-captcha</artifactId>
-
+    <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>

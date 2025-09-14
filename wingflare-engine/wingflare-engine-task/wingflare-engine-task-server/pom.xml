@@ -6,13 +6,13 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-engine-task</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>pom</packaging>
     <modules>
         <module>wingflare-engine-task-server-common</module>
         <module>wingflare-engine-task-server-job</module>
         <module>wingflare-engine-task-server-retry</module>
-
         <module>wingflare-engine-task-server-openapi</module>
         <module>wingflare-engine-task-server-service</module>
         <module>wingflare-engine-task-server-ui</module>
@@ -20,7 +20,6 @@
         <module>wingflare-engine-task-server-starter</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>wingflare-engine-task-server</artifactId>
 
     <dependencyManagement>

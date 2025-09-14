@@ -1,10 +1,9 @@
 package com.wingflare.facade.module.user.bo;
 
 
-import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wingflare.api.core.validate.Update;
 import com.wingflare.api.security.annotation.Decrypt;
-import com.wingflare.lib.core.validation.Update;
 import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -48,7 +47,7 @@ public class UserBO {
     /**
      * 账户类型
      */
-    private JSONArray accountType;
+    private List<String> accountType;
 
     /**
      * 用户名
@@ -144,12 +143,12 @@ public class UserBO {
         return userChannel;
     }
 
-    public UserBO setAccountType(JSONArray accountType) {
+    public UserBO setAccountType(List<String> accountType) {
         this.accountType = accountType;
         return this;
     }
 
-    public JSONArray getAccountType() {
+    public List<String> getAccountType() {
         return accountType;
     }
 

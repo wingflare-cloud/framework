@@ -6,11 +6,11 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-engine-task-datasource</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>wingflare-engine-task-datasource-postgres</artifactId>
-
+    <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>

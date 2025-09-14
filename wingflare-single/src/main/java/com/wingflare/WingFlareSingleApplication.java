@@ -2,9 +2,9 @@ package com.wingflare;
 
 
 import com.wingflare.adapter.spring.jwt.ServletAuthFilter;
-import com.wingflare.adapter.spring.server.web.filter.HeaderConvertContextFilter;
-import com.wingflare.adapter.spring.server.web.handler.ApiResponseAdviceHandler;
-import com.wingflare.adapter.spring.server.web.handler.WebApiExceptionHandler;
+import com.wingflare.adapter.spring.servlet.web.filter.HeaderConvertContextFilter;
+import com.wingflare.adapter.spring.servlet.web.handler.ApiResponseAdviceHandler;
+import com.wingflare.adapter.spring.servlet.web.handler.WebApiExceptionHandler;
 import com.wingflare.api.security.annotation.EnableDataSecret;
 import com.wingflare.api.security.annotation.EnableDataSensitive;
 import com.wingflare.lib.spring.ResponseConverter;

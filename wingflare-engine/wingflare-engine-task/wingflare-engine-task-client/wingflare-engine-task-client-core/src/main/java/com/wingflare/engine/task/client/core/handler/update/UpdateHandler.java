@@ -10,7 +10,7 @@ import com.wingflare.engine.task.client.core.handler.AbstractParamsHandler;
 import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Update;
 
 import java.util.Objects;
 

@@ -8,6 +8,7 @@
         <artifactId>wingflare-dep-starter</artifactId>
         <version>${revision}</version>
     </parent>
+    <packaging>jar</packaging>
 
     <artifactId>spring-dep-starter-spring</artifactId>
 

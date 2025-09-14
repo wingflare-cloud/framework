@@ -6,6 +6,7 @@
         <groupId>com.wingflare</groupId>
         <artifactId>cloud</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>pom</packaging>
     <modules>
@@ -14,7 +15,6 @@
         <module>wingflare-service-user</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>wingflare-service</artifactId>
 
     <dependencyManagement>

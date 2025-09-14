@@ -6,8 +6,10 @@
         <artifactId>wingflare-dep</artifactId>
         <groupId>com.wingflare</groupId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
 
     <artifactId>wingflare-dep-all</artifactId>
 
@@ -127,14 +129,6 @@
             <dependency>
                 <groupId>com.wingflare</groupId>
                 <artifactId>spring-dep-starter-spring</artifactId>
-                <version>${project.parent.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingvlare-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
                 <type>pom</type>
                 <scope>import</scope>

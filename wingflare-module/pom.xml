@@ -5,6 +5,7 @@
         <groupId>com.wingflare</groupId>
         <artifactId>cloud</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,7 +14,6 @@
         <module>wingflare-module-user</module>
         <module>wingflare-module-auth</module>
     </modules>
-
     <artifactId>wingflare-module</artifactId>
     <packaging>pom</packaging>
 

@@ -23,7 +23,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
     #end
 #end
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Update;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotBlank;

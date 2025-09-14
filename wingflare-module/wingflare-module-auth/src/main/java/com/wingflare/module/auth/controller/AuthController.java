@@ -1,7 +1,7 @@
 package com.wingflare.module.auth.controller;
 
 
-import com.wingflare.adapter.spring.server.web.utils.ServletUtil;
+import com.wingflare.adapter.spring.servlet.web.utils.ServletUtil;
 import com.wingflare.api.core.PageResult;
 import com.wingflare.api.security.UserAuth;
 import com.wingflare.api.security.annotation.BusinessSystem;

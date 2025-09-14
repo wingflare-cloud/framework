@@ -7,8 +7,9 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-adapter-spring</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
+    <packaging>jar</packaging>
     <artifactId>wingflare-adapter-spring-transaction</artifactId>
 
     <properties>

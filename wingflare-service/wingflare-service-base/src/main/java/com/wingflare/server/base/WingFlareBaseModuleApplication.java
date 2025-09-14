@@ -1,7 +1,8 @@
 package com.wingflare.server.base;
 
-import com.wingflare.lib.spring.annotation.BaseConfig;
-import com.wingflare.lib.spring.annotation.MicroserviceMode;
+
+import com.wingflare.adapter.spring.common.annotation.BaseConfig;
+import com.wingflare.api.core.annotation.MicroserviceMode;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

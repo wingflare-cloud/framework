@@ -6,6 +6,7 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-engine-task</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>pom</packaging>
     <modules>
@@ -14,7 +15,6 @@
         <module>wingflare-engine-task-common-log</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>wingflare-engine-task-common</artifactId>
 
 </project>

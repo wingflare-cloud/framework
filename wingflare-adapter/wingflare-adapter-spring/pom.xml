@@ -6,6 +6,7 @@
         <artifactId>wingflare-adapter</artifactId>
         <groupId>com.wingflare</groupId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>pom</packaging>
     <modules>

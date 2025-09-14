@@ -7,8 +7,9 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-api</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
+    <packaging>jar</packaging>
     <artifactId>wingflare-api-alarm</artifactId>
 
     <properties>

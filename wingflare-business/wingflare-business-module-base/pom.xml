@@ -6,9 +6,10 @@
         <artifactId>wingflare-business</artifactId>
         <groupId>com.wingflare</groupId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <packaging>jar</packaging>
     <artifactId>wingflare-business-module-base</artifactId>
 
     <properties>

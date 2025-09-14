@@ -6,9 +6,10 @@
         <groupId>com.wingflare</groupId>
         <artifactId>wingflare-api</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <packaging>jar</packaging>
     <artifactId>wingflare-api-cache</artifactId>
 
     <properties>

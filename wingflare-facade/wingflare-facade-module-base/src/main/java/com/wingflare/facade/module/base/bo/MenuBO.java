@@ -6,7 +6,7 @@ import com.wingflare.facade.module.base.dict.IconTypes;
 import com.wingflare.facade.module.base.dict.MenuTypes;
 import com.wingflare.lib.core.validation.Create;
 import com.wingflare.lib.core.validation.Enum;
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Update;
 import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.Length;
 

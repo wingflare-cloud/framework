@@ -6,6 +6,7 @@
         <artifactId>cloud</artifactId>
         <groupId>com.wingflare</groupId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -23,7 +24,6 @@
         <module>wingflare-dep-engine</module>
         <module>wingflare-dep-module</module>
         <module>wingflare-dep-api</module>
-        <module>wingflare-dep-maven-plugin</module>
     </modules>
 
 </project>

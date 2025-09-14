@@ -1,6 +1,6 @@
 package com.wingflare.facade.module.user.bo;
 
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Update;
 import jakarta.validation.constraints.Min;
 import org.hibernate.validator.constraints.UniqueElements;
 

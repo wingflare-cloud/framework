@@ -1,7 +1,7 @@
 package com.wingflare.facade.module.user.bo;
 
 
-import com.wingflare.lib.core.validation.Update;
+import com.wingflare.api.core.validate.Update;
 import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
