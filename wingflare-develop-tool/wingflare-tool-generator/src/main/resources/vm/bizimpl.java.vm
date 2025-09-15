@@ -14,7 +14,7 @@ import com.wingflare.lib.mybatis.plus.utils.PageUtil;
 import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.api.core.PageDto;
 import com.wingflare.lib.standard.bo.IdBo;
-import com.wingflare.lib.core.validation.Create;
+import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;

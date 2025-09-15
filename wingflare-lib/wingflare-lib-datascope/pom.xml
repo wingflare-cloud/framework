@@ -24,6 +24,11 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingfalre-lib-standard</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
             <scope>provided</scope>
         </dependency>

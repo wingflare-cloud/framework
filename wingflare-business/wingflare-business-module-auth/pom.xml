@@ -78,7 +78,7 @@
                 <executions>
                     <execution>
                         <id>auto-replace-annotations-in-compile</id>
-                        <phase>compile</phase>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>replace-annotations</goal>
                         </goals>

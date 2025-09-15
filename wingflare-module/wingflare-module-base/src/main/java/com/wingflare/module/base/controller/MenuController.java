@@ -1,9 +1,11 @@
 package com.wingflare.module.base.controller;
 
 
+import com.wingflare.adapter.spring.common.configure.properties.BusinessSystemProperties;
 import com.wingflare.api.core.PageDto;
 import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.api.security.annotation.BusinessSystem;
+import com.wingflare.api.security.annotation.InternalApi;
 import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.facade.module.base.biz.MenuBiz;
 import com.wingflare.facade.module.base.bo.MenuBO;
@@ -13,8 +15,6 @@ import com.wingflare.facade.module.base.dto.MenuDTO;
 import com.wingflare.facade.module.base.dto.MenuPermissionDTO;
 import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.core.utils.CollectionUtil;
-import com.wingflare.lib.spring.annotation.InternalApi;
-import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.base.PermissionCode;
 import org.springframework.stereotype.Controller;

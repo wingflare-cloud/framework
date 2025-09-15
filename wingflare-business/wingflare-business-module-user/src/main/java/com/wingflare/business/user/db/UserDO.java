@@ -1,7 +1,6 @@
 package com.wingflare.business.user.db;
 
 
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -15,6 +14,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统用户Do
@@ -52,7 +52,7 @@ public class UserDO extends BaseDoAbstract
 	/**
      * 账户类型
      */
-    private JSONArray accountType;
+    private List<String> accountType;
 
 	/**
      * 用户名
@@ -193,14 +193,14 @@ public class UserDO extends BaseDoAbstract
         return userChannel;
     }
 	
-    public UserDO setAccountType(JSONArray accountType)
+    public UserDO setAccountType(List<String> accountType)
     {
 		addNewField("accountType");
         this.accountType = accountType;
         return this;
     }
 
-    public JSONArray getAccountType()
+    public List<String> getAccountType()
     {
         return accountType;
     }

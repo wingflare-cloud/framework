@@ -31,6 +31,16 @@
         </dependency>
 
         <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-idgenerator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-container</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>
             <version>${jsqlparser.version}</version>

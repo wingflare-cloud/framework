@@ -2,8 +2,8 @@ package com.wingflare.lib.mybatis.plus.generator;
 
 
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
-import com.wingflare.lib.spring.utils.SnowflakeUtil;
 
+import com.wingflare.api.idgenerate.IdGenerate;
 import jakarta.annotation.Resource;
 
 /**
@@ -15,11 +15,11 @@ import jakarta.annotation.Resource;
 public class CustomIdGenerator implements IdentifierGenerator {
 
     @Resource
-    private SnowflakeUtil snowflakeUtil;
+    private IdGenerate idGenerate;
 
     @Override
     public Number nextId(Object entity) {
-        return snowflakeUtil.nextLongId();
+        return idGenerate.nextId();
     }
 
 }

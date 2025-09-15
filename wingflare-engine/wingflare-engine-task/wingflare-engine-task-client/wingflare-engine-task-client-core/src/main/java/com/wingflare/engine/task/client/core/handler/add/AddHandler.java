@@ -9,7 +9,7 @@ import com.wingflare.engine.task.common.core.enums.JobTaskTypeEnum;
 import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
-import com.wingflare.lib.core.validation.Create;
+import com.wingflare.api.core.validate.Create;
 
 import static com.wingflare.engine.task.client.core.enums.TriggerTypeEnum.WORK_FLOW;
 
