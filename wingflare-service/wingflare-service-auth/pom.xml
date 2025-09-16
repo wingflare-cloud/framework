@@ -87,32 +87,4 @@
 
     </profiles>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.wingflare.maven</groupId>
-                <artifactId>wingflare-maven-plugin-annotation-replacer</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <replacements>
-                        <!-- 子模块的替换规则 -->
-                        <replacement>
-                            <oldAnnotation>com.wingflare.api.core.annotation.Validated</oldAnnotation>
-                            <newAnnotation>org.springframework.validation.annotation.Validated</newAnnotation>
-                        </replacement>
-                    </replacements>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>auto-replace-annotations-in-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>replace-annotations</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

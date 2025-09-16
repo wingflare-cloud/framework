@@ -2,16 +2,16 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.mvc.RequestMethod;
+import com.wingflare.api.mvc.annotation.Controller;
+import com.wingflare.api.mvc.annotation.RequestBody;
+import com.wingflare.api.mvc.annotation.RequestMapping;
+import com.wingflare.api.mvc.annotation.ResponseBody;
 import com.wingflare.facade.module.user.biz.JobLevelBiz;
 import com.wingflare.facade.module.user.bo.JobLevelBO;
 import com.wingflare.facade.module.user.bo.JobLevelSearchBO;
 import com.wingflare.facade.module.user.dto.JobLevelDTO;
 import com.wingflare.lib.standard.bo.IdBo;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**

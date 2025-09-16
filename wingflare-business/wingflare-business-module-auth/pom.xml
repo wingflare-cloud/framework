@@ -60,7 +60,7 @@
 
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>com.wingflare.maven</groupId>
@@ -68,7 +68,7 @@
                 <version>1.0.0</version>
                 <configuration>
                     <replacements>
-                        <!-- 子模块的替换规则 -->
+                        &lt;!&ndash; 子模块的替换规则 &ndash;&gt;
                         <replacement>
                             <oldAnnotation>com.wingflare.api.core.annotation.Validated</oldAnnotation>
                             <newAnnotation>org.springframework.validation.annotation.Validated</newAnnotation>
@@ -86,6 +86,6 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>

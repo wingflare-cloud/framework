@@ -18,17 +18,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>mybatis-spring</artifactId>
-                    <groupId>org.mybatis</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
             <scope>provided</scope>
@@ -41,7 +30,8 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-common</artifactId>
+            <artifactId>wingflare-api-mvc</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

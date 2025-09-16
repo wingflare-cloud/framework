@@ -2,6 +2,12 @@ package com.wingflare.module.user.controller;
 
 
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.mvc.RequestMethod;
+import com.wingflare.api.mvc.annotation.Controller;
+import com.wingflare.api.mvc.annotation.RequestBody;
+import com.wingflare.api.mvc.annotation.RequestMapping;
+import com.wingflare.api.mvc.annotation.RequestParam;
+import com.wingflare.api.mvc.annotation.ResponseBody;
 import com.wingflare.api.security.annotation.BusinessSystem;
 import com.wingflare.api.security.annotation.InternalApi;
 import com.wingflare.api.security.annotation.RequiresPermissions;
@@ -14,8 +20,6 @@ import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.module.user.PermissionCode;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;

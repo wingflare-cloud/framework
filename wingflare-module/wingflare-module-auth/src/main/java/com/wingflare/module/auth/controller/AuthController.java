@@ -3,6 +3,11 @@ package com.wingflare.module.auth.controller;
 
 import com.wingflare.adapter.spring.servlet.web.utils.ServletUtil;
 import com.wingflare.api.core.PageResult;
+import com.wingflare.api.mvc.RequestMethod;
+import com.wingflare.api.mvc.annotation.Controller;
+import com.wingflare.api.mvc.annotation.RequestBody;
+import com.wingflare.api.mvc.annotation.RequestMapping;
+import com.wingflare.api.mvc.annotation.ResponseBody;
 import com.wingflare.api.security.UserAuth;
 import com.wingflare.api.security.annotation.BusinessSystem;
 import com.wingflare.api.security.annotation.RequiresLogin;
@@ -21,11 +26,6 @@ import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.utils.SecurityUtil;
 import com.wingflare.module.auth.PermissionCode;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
