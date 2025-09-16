@@ -7,14 +7,24 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MemberValuePair;
+import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.visitor.ModifierVisitor;
+import com.github.javaparser.ast.visitor.Visitable;
 import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -32,14 +42,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@Mojo(name = "replace-annotations", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+@Mojo(name = "replace", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
 public class AnnotationReplacerMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
-    @Parameter(required = true)
-    private List<AnnotationReplacement> replacements;
+    @Parameter(required = false)
+    private List<AnnotationReplacement> replacementAnnotations;
+
+    @Parameter(required = false)
+    private List<ClassesReplacement> replacementClasses;
 
     @Parameter(defaultValue = "${project.build.sourceDirectory}", required = true)
     private File sourceDirectory;
@@ -53,7 +66,8 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("=== Starting annotation replacement ===");
-        getLog().info("Found " + replacements.size() + " replacement rules");
+        getLog().info("Found " + replacementAnnotations.size() + " replacementAnnotation rules");
+        getLog().info("Found " + replacementClasses.size() + " replacementClass rules");
 
         javaParser = new JavaParser();
 
@@ -194,8 +208,29 @@ public class AnnotationReplacerMojo extends AbstractMojo {
 
                 if (importModified || annotationsModified) {
                     try (FileWriter writer = new FileWriter(file)) {
+
+                        if (replacementClasses != null) {
+                            for (ClassesReplacement replacement: replacementClasses) {
+                                // 创建修改器访问者并应用修改
+                                ClassNameReplacerVisitor visitor = new ClassNameReplacerVisitor(replacement.getOldClass(), replacement.getNewClass(), getLog());
+                                if (visitor.isModified()) {
+                                    cu = (CompilationUnit) visitor.visit(cu, null);
+                                }
+                            }
+                        }
+
                         writer.write(LexicalPreservingPrinter.print(cu));
                         getLog().debug("Modified file: " + file.getAbsolutePath());
+                    }
+                } else {
+                    if (replacementClasses != null) {
+                        for (ClassesReplacement replacement: replacementClasses) {
+                            // 创建修改器访问者并应用修改
+                            ClassNameReplacerVisitor visitor = new ClassNameReplacerVisitor(replacement.getOldClass(), replacement.getNewClass(), getLog());
+                            if (visitor.isModified()) {
+                                cu = (CompilationUnit) visitor.visit(cu, null);
+                            }
+                        }
                     }
                 }
             } else {
@@ -235,7 +270,7 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     }
 
     private Optional<AnnotationReplacement> findImportReplacement(String importName) {
-        for (AnnotationReplacement replacement : replacements) {
+        for (AnnotationReplacement replacement : replacementAnnotations) {
             if (importName.equals(replacement.getOldAnnotation())) {
                 return Optional.of(replacement);
             }
@@ -371,7 +406,7 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     }
 
     private AnnotationReplacement findReplacement(String annotationName) {
-        for (AnnotationReplacement replacement : replacements) {
+        for (AnnotationReplacement replacement : replacementAnnotations) {
             String oldAnnotation = replacement.getOldAnnotation();
 
             if (annotationName.equals(oldAnnotation)) {
@@ -387,6 +422,142 @@ public class AnnotationReplacerMojo extends AbstractMojo {
             }
         }
         return null;
+    }
+
+    /**
+     * 自定义访问者，用于遍历AST并替换类名
+     */
+    private static class ClassNameReplacerVisitor extends ModifierVisitor<Void> {
+
+        private final String originalClass;
+        private final String targetClass;
+        private boolean modified = false;
+        private final Log log;
+
+        public ClassNameReplacerVisitor(String originalClass, String targetClass, Log log) {
+            this.originalClass = originalClass;
+            this.targetClass = targetClass;
+            this.log = log;
+        }
+
+        public boolean isModified() {
+            return modified;
+        }
+
+        // 处理类或接口声明
+        @Override
+        public Visitable visit(ClassOrInterfaceDeclaration n, Void arg) {
+            if (n.getNameAsString().equals(originalClass)) {
+                n.setName(targetClass);
+                modified = true;
+                log.debug("Renamed class/interface: " + originalClass + " -> " + targetClass);
+            }
+            return super.visit(n, arg);
+        }
+
+        // 处理类或接口类型引用（如变量声明、返回类型等）
+        @Override
+        public Visitable visit(ClassOrInterfaceType n, Void arg) {
+            if (n.getNameAsString().equals(originalClass)) {
+                n.setName(targetClass);
+                modified = true;
+                log.debug("Replaced class reference: " + originalClass + " -> " + targetClass);
+            }
+            return super.visit(n, arg);
+        }
+
+        // 处理注解
+        @Override
+        public Visitable visit(NormalAnnotationExpr n, Void arg) {
+            // 处理注解本身的类名
+            if (n.getNameAsString().equals(originalClass)) {
+                n.setName(targetClass);
+                modified = true;
+                log.debug("Replaced annotation class: " + originalClass + " -> " + targetClass);
+            }
+
+            // 处理注解参数中的类名引用
+            for (MemberValuePair pair : n.getPairs()) {
+                processAnnotationValue(pair.getValue());
+            }
+
+            return super.visit(n, arg);
+        }
+
+        // 处理注解参数值中的类名
+        private void processAnnotationValue(Expression expr) {
+            if (expr instanceof ClassExpr) {
+                ClassExpr classExpr = (ClassExpr) expr;
+                if (classExpr.getTypeAsString().equals(originalClass)) {
+                    classExpr.setType(targetClass);
+                    modified = true;
+                    log.debug("Replaced class reference in annotation: " + originalClass + " -> " + targetClass);
+                }
+            } else if (expr instanceof NameExpr) {
+                NameExpr nameExpr = (NameExpr) expr;
+                if (nameExpr.getNameAsString().equals(originalClass)) {
+                    nameExpr.setName(targetClass);
+                    modified = true;
+                }
+            } else if (expr instanceof ArrayInitializerExpr) {
+                ArrayInitializerExpr arrayExpr = (ArrayInitializerExpr) expr;
+                arrayExpr.getValues().forEach(this::processAnnotationValue);
+            }
+        }
+
+        // 处理枚举常量（可能作为注解参数）
+        @Override
+        public Visitable visit(FieldAccessExpr n, Void arg) {
+            if (n.getNameAsString().equals(originalClass)) {
+                n.setName(targetClass);
+                modified = true;
+            } else if (n.getScope().toString().equals(originalClass)) {
+                n.setScope(new NameExpr(targetClass));
+                modified = true;
+            }
+            return super.visit(n, arg);
+        }
+
+        // 处理类名作为方法调用的一部分
+        @Override
+        public Visitable visit(NameExpr n, Void arg) {
+            if (n.getNameAsString().equals(originalClass)) {
+                n.setName(targetClass);
+                modified = true;
+                log.debug("Replaced name reference: " + originalClass + " -> " + targetClass);
+            }
+            return super.visit(n, arg);
+        }
+
+        // 处理导入声明（包括静态导入）
+        @Override
+        public Node visit(ImportDeclaration n, Void arg) {
+            String importName = n.getNameAsString();
+
+            // 处理普通类导入
+            if (importName.endsWith("." + originalClass)) {
+                String newImportName = importName.replace("." + originalClass, "." + targetClass);
+                n.setName(newImportName);
+                modified = true;
+                log.debug("Updated import: " + importName + " -> " + newImportName);
+            }
+            // 处理静态导入
+            else if (n.isStatic() && importName.startsWith(originalClass + ".")) {
+                String newImportName = importName.replace(originalClass + ".", targetClass + ".");
+                n.setName(newImportName);
+                modified = true;
+                log.debug("Updated static import: " + importName + " -> " + newImportName);
+            }
+            // 处理通配符静态导入
+            else if (n.isStatic() && importName.equals(originalClass + ".*")) {
+                n.setName(targetClass + ".*");
+                modified = true;
+                log.debug("Updated static wildcard import: " + importName + " -> " + targetClass + ".*");
+            }
+
+            return super.visit(n, arg);
+        }
+
     }
 
 }
