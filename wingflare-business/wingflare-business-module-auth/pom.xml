@@ -58,34 +58,23 @@
             <artifactId>wingflare-lib-config</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-validation</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>com.wingflare.maven</groupId>
                 <artifactId>wingflare-maven-plugin-replacer</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <replacements>
-                        &lt;!&ndash; 子模块的替换规则 &ndash;&gt;
-                        <replacement>
-                            <oldAnnotation>com.wingflare.api.core.annotation.Validated</oldAnnotation>
-                            <newAnnotation>org.springframework.validation.annotation.Validated</newAnnotation>
-                        </replacement>
-                    </replacements>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>auto-replace-annotations-in-compile</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>replace-annotations</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
+
+
         </plugins>
-    </build>-->
+    </build>
 
 </project>

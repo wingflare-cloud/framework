@@ -46,8 +46,27 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-validation</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-mybatis-plus</artifactId>
         </dependency>
 
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.wingflare.maven</groupId>
+                <artifactId>wingflare-maven-plugin-replacer</artifactId>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
 </project>

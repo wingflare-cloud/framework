@@ -3,7 +3,7 @@ package com.wingflare.business.user.biz;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.api.core.PageDto;
-import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.api.security.annotation.Desensitize;
 import com.wingflare.api.security.annotation.DesensitizeGroups;
 import com.wingflare.api.security.enums.SensitiveType;

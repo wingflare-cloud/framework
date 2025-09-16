@@ -4,7 +4,7 @@ package com.wingflare.business.user.biz;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.api.core.PageDto;
-import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;
 import com.wingflare.business.user.ErrorCode;

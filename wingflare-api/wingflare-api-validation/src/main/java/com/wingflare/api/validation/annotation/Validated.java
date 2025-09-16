@@ -1,4 +1,4 @@
-package com.wingflare.api.core.annotation;
+package com.wingflare.api.validation.annotation;
 
 
 import java.lang.annotation.Documented;

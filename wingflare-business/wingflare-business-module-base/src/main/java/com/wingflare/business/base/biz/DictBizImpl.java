@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wingflare.abstraction.module.base.DictStorage;
 import com.wingflare.api.core.PageDto;
-import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.api.core.validate.Create;
 import com.wingflare.api.core.validate.Update;

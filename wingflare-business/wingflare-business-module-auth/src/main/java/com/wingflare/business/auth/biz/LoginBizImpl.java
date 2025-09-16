@@ -3,7 +3,7 @@ package com.wingflare.business.auth.biz;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.wingflare.api.core.PageResult;
-import com.wingflare.api.core.annotation.Validated;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.api.core.validate.MustUserId;
 import com.wingflare.api.event.EventPublisher;

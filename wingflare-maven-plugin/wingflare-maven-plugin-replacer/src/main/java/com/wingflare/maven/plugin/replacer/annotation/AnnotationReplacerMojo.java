@@ -57,7 +57,7 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.sourceDirectory}", required = true)
     private File sourceDirectory;
 
-    @Parameter(defaultValue = "${project.build.directory}/generated-sources/annotation-replacer", required = true)
+    @Parameter(defaultValue = "${project.build.directory}/generated-sources/wingflare", required = true)
     private File tempDirectory;
 
     private JavaParser javaParser;
@@ -201,37 +201,24 @@ public class AnnotationReplacerMojo extends AbstractMojo {
                 CompilationUnit cu = result.getResult().get();
                 LexicalPreservingPrinter.setup(cu);
 
+                boolean isModified = false;
                 // 先处理import语句
                 boolean importModified = processImports(cu);
                 // 再处理注解使用
-                boolean annotationsModified = replaceAnnotations(cu);
+                boolean annotationModified = replaceAnnotations(cu);
 
-                if (importModified || annotationsModified) {
+                boolean classModified = replaceClassReferences(cu);
+
+                // 合并修改标记
+                isModified = importModified || annotationModified || classModified;
+
+                if (isModified) {
                     try (FileWriter writer = new FileWriter(file)) {
-
-                        if (replacementClasses != null) {
-                            for (ClassesReplacement replacement: replacementClasses) {
-                                // 创建修改器访问者并应用修改
-                                ClassNameReplacerVisitor visitor = new ClassNameReplacerVisitor(replacement.getOldClass(), replacement.getNewClass(), getLog());
-                                if (visitor.isModified()) {
-                                    cu = (CompilationUnit) visitor.visit(cu, null);
-                                }
-                            }
-                        }
-
                         writer.write(LexicalPreservingPrinter.print(cu));
                         getLog().debug("Modified file: " + file.getAbsolutePath());
                     }
                 } else {
-                    if (replacementClasses != null) {
-                        for (ClassesReplacement replacement: replacementClasses) {
-                            // 创建修改器访问者并应用修改
-                            ClassNameReplacerVisitor visitor = new ClassNameReplacerVisitor(replacement.getOldClass(), replacement.getNewClass(), getLog());
-                            if (visitor.isModified()) {
-                                cu = (CompilationUnit) visitor.visit(cu, null);
-                            }
-                        }
-                    }
+                    getLog().debug("File not Modify");
                 }
             } else {
                 getLog().warn("Could not parse file: " + file.getAbsolutePath());
@@ -316,6 +303,33 @@ public class AnnotationReplacerMojo extends AbstractMojo {
         }
 
         return modified;
+    }
+
+    /**
+     * 处理类名替换（全场景覆盖：类引用、枚举、导入、注解参数等）
+     */
+    private boolean replaceClassReferences(CompilationUnit cu) {
+        boolean isModified = false;
+        if (replacementClasses == null || replacementClasses.isEmpty()) {
+            return false;
+        }
+
+        // 遍历所有类名替换规则，逐个执行替换
+        for (ClassesReplacement replacement : replacementClasses) {
+            ClassNameReplacerVisitor visitor = new ClassNameReplacerVisitor(
+                    replacement.getOldClass(),  // 旧类全类名
+                    replacement.getNewClass(),   // 新类全类名
+                    getLog()
+            );
+            // 执行AST遍历替换
+            visitor.visit(cu, null);
+
+            if (visitor.isModified()) {
+                isModified = true;
+            }
+
+        }
+        return isModified;
     }
 
     private AnnotationExpr processAnnotationReplacement(AnnotationExpr originalAnnotation,
@@ -424,140 +438,133 @@ public class AnnotationReplacerMojo extends AbstractMojo {
         return null;
     }
 
+    // ============================== 类名替换访问者：全场景覆盖 ==============================
     /**
-     * 自定义访问者，用于遍历AST并替换类名
+     * 自定义AST访问者：遍历并替换所有旧类引用（支持类声明、枚举、导入、注解参数等）
      */
     private static class ClassNameReplacerVisitor extends ModifierVisitor<Void> {
-
-        private final String originalClass;
-        private final String targetClass;
-        private boolean modified = false;
+        private final String oldClassFullName;  // 旧类全类名（如com.wingflare...RequestMethod）
+        private final String newClassFullName;  // 新类全类名（如org.springframework...RequestMethod）
+        private final String oldClassSimpleName;// 旧类简单类名（如RequestMethod）
+        private final String newClassSimpleName;// 新类简单类名（如RequestMethod）
         private final Log log;
+        private boolean isModified = false;     // 是否有修改
 
-        public ClassNameReplacerVisitor(String originalClass, String targetClass, Log log) {
-            this.originalClass = originalClass;
-            this.targetClass = targetClass;
+        // 构造器：初始化全类名和简单类名
+        public ClassNameReplacerVisitor(String oldClassFullName, String newClassFullName, Log log) {
+            this.oldClassFullName = oldClassFullName;
+            this.newClassFullName = newClassFullName;
+            this.oldClassSimpleName = getClassSimpleName(oldClassFullName);
+            this.newClassSimpleName = getClassSimpleName(newClassFullName);
             this.log = log;
         }
 
+        // 工具方法：提取简单类名
+        private static String getClassSimpleName(String fullClassName) {
+            if (fullClassName == null || fullClassName.isEmpty()) {
+                return "";
+            }
+            int lastDotIndex = fullClassName.lastIndexOf('.');
+            return lastDotIndex == -1 ? fullClassName : fullClassName.substring(lastDotIndex + 1);
+        }
+
+        // Getter：是否有修改
         public boolean isModified() {
-            return modified;
+            return isModified;
         }
 
-        // 处理类或接口声明
+        // 1. 处理类/接口声明（如public class RequestMethod → 极少用，用于类重命名）
         @Override
-        public Visitable visit(ClassOrInterfaceDeclaration n, Void arg) {
-            if (n.getNameAsString().equals(originalClass)) {
-                n.setName(targetClass);
-                modified = true;
-                log.debug("Renamed class/interface: " + originalClass + " -> " + targetClass);
+        public Visitable visit(ClassOrInterfaceDeclaration node, Void arg) {
+            if (node.getNameAsString().equals(oldClassSimpleName)) {
+                node.setName(newClassSimpleName);
+                isModified = true;
+                this.log.debug("[类声明替换] 旧类名：" + oldClassSimpleName + " → 新类名：" + newClassSimpleName);
             }
-            return super.visit(n, arg);
+            return super.visit(node, arg);
         }
 
-        // 处理类或接口类型引用（如变量声明、返回类型等）
+        // 2. 处理类/接口类型引用（如变量类型、返回值、参数类型等）
         @Override
-        public Visitable visit(ClassOrInterfaceType n, Void arg) {
-            if (n.getNameAsString().equals(originalClass)) {
-                n.setName(targetClass);
-                modified = true;
-                log.debug("Replaced class reference: " + originalClass + " -> " + targetClass);
+        public Visitable visit(ClassOrInterfaceType node, Void arg) {
+            String nodeTypeName = node.getNameAsString(); // 如RequestMethod
+            if (nodeTypeName.equals(oldClassSimpleName)) {
+                node.setName(newClassSimpleName);
+                isModified = true;
+                this.log.debug("[类型引用替换] 旧类型：" + oldClassSimpleName + " → 新类型：" + newClassSimpleName);
             }
-            return super.visit(n, arg);
+            return super.visit(node, arg);
         }
 
-        // 处理注解
+        // 3. 处理枚举常量/静态字段引用（如RequestMethod.GET、Math.PI）
         @Override
-        public Visitable visit(NormalAnnotationExpr n, Void arg) {
-            // 处理注解本身的类名
-            if (n.getNameAsString().equals(originalClass)) {
-                n.setName(targetClass);
-                modified = true;
-                log.debug("Replaced annotation class: " + originalClass + " -> " + targetClass);
-            }
-
-            // 处理注解参数中的类名引用
-            for (MemberValuePair pair : n.getPairs()) {
-                processAnnotationValue(pair.getValue());
-            }
-
-            return super.visit(n, arg);
-        }
-
-        // 处理注解参数值中的类名
-        private void processAnnotationValue(Expression expr) {
-            if (expr instanceof ClassExpr) {
-                ClassExpr classExpr = (ClassExpr) expr;
-                if (classExpr.getTypeAsString().equals(originalClass)) {
-                    classExpr.setType(targetClass);
-                    modified = true;
-                    log.debug("Replaced class reference in annotation: " + originalClass + " -> " + targetClass);
+        public Visitable visit(FieldAccessExpr node, Void arg) {
+            // 场景1：scope是旧类简单类名（如RequestMethod.GET → 替换RequestMethod）
+            if (node.getScope() instanceof NameExpr) {
+                NameExpr scopeNameExpr = (NameExpr) node.getScope();
+                if (scopeNameExpr.getNameAsString().equals(oldClassSimpleName)) {
+                    scopeNameExpr.setName(newClassSimpleName);
+                    isModified = true;
+                    this.log.debug("[枚举引用替换] 旧枚举类：" + oldClassSimpleName + " → 新枚举类：" + newClassSimpleName);
                 }
-            } else if (expr instanceof NameExpr) {
-                NameExpr nameExpr = (NameExpr) expr;
-                if (nameExpr.getNameAsString().equals(originalClass)) {
-                    nameExpr.setName(targetClass);
-                    modified = true;
-                }
-            } else if (expr instanceof ArrayInitializerExpr) {
-                ArrayInitializerExpr arrayExpr = (ArrayInitializerExpr) expr;
-                arrayExpr.getValues().forEach(this::processAnnotationValue);
             }
+            // 场景2：scope是旧类全类名（如com.wingflare...RequestMethod.GET → 极少用）
+            else if (node.getScope().toString().equals(oldClassFullName)) {
+                node.setScope(new NameExpr(newClassFullName));
+                isModified = true;
+                this.log.debug("[枚举引用替换] 旧枚举类：" + oldClassFullName + " → 新枚举类：" + newClassFullName);
+            }
+            return super.visit(node, arg);
         }
 
-        // 处理枚举常量（可能作为注解参数）
+        // 4. 处理普通名称引用（如Class<?> cls = RequestMethod.class中的RequestMethod）
         @Override
-        public Visitable visit(FieldAccessExpr n, Void arg) {
-            if (n.getNameAsString().equals(originalClass)) {
-                n.setName(targetClass);
-                modified = true;
-            } else if (n.getScope().toString().equals(originalClass)) {
-                n.setScope(new NameExpr(targetClass));
-                modified = true;
+        public Visitable visit(NameExpr node, Void arg) {
+            String nodeName = node.getNameAsString();
+            if (nodeName.equals(oldClassSimpleName) || nodeName.equals(oldClassFullName)) {
+                String newName = nodeName.contains(".") ? newClassFullName : newClassSimpleName;
+                node.setName(newName);
+                isModified = true;
+                this.log.debug("[名称引用替换] 旧名称：" + nodeName + " → 新名称：" + newName);
             }
-            return super.visit(n, arg);
+            return super.visit(node, arg);
         }
 
-        // 处理类名作为方法调用的一部分
+        // 5. 处理导入声明（补充processImports未覆盖的场景，如静态导入单个常量）
         @Override
-        public Visitable visit(NameExpr n, Void arg) {
-            if (n.getNameAsString().equals(originalClass)) {
-                n.setName(targetClass);
-                modified = true;
-                log.debug("Replaced name reference: " + originalClass + " -> " + targetClass);
+        public Node visit(ImportDeclaration node, Void arg) {
+            String importFullName = node.getNameAsString();
+            // 场景1：普通导入旧类（如com.wingflare...RequestMethod）
+            if (importFullName.equals(oldClassFullName)) {
+                node.setName(newClassFullName);
+                isModified = true;
+                this.log.debug("[导入补充替换] 旧导入：" + importFullName + " → 新导入：" + newClassFullName);
             }
-            return super.visit(n, arg);
+            // 场景2：静态导入旧类的单个常量（如com.wingflare...RequestMethod.GET）
+            else if (node.isStatic() && importFullName.startsWith(oldClassFullName + ".")) {
+                String newImportFullName = importFullName.replace(oldClassFullName + ".", newClassFullName + ".");
+                node.setName(newImportFullName);
+                isModified = true;
+                this.log.debug("[导入补充替换] 旧静态导入：" + importFullName + " → 新静态导入：" + newImportFullName);
+            }
+            return super.visit(node, arg);
         }
 
-        // 处理导入声明（包括静态导入）
+        // 6. 处理类字面量（如RequestMethod.class）
         @Override
-        public Node visit(ImportDeclaration n, Void arg) {
-            String importName = n.getNameAsString();
-
-            // 处理普通类导入
-            if (importName.endsWith("." + originalClass)) {
-                String newImportName = importName.replace("." + originalClass, "." + targetClass);
-                n.setName(newImportName);
-                modified = true;
-                log.debug("Updated import: " + importName + " -> " + newImportName);
+        public Visitable visit(ClassExpr node, Void arg) {
+            String typeName = node.getTypeAsString();
+            if (typeName.equals(oldClassSimpleName)) {
+                node.setType(newClassSimpleName);
+                isModified = true;
+                this.log.debug("[类字面量替换] 旧类字面量：" + typeName + ".class → 新类字面量：" + newClassSimpleName + ".class");
+            } else if (typeName.equals(oldClassFullName)) {
+                node.setType(newClassFullName);
+                isModified = true;
+                this.log.debug("[类字面量替换] 旧类字面量：" + typeName + ".class → 新类字面量：" + newClassFullName + ".class");
             }
-            // 处理静态导入
-            else if (n.isStatic() && importName.startsWith(originalClass + ".")) {
-                String newImportName = importName.replace(originalClass + ".", targetClass + ".");
-                n.setName(newImportName);
-                modified = true;
-                log.debug("Updated static import: " + importName + " -> " + newImportName);
-            }
-            // 处理通配符静态导入
-            else if (n.isStatic() && importName.equals(originalClass + ".*")) {
-                n.setName(targetClass + ".*");
-                modified = true;
-                log.debug("Updated static wildcard import: " + importName + " -> " + targetClass + ".*");
-            }
-
-            return super.visit(n, arg);
+            return super.visit(node, arg);
         }
-
     }
 
 }
