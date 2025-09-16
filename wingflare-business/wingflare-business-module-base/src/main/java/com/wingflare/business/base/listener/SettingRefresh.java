@@ -2,7 +2,7 @@ package com.wingflare.business.base.listener;
 
 
 import com.wingflare.api.core.enums.OnOffEnum;
-import com.wingflare.api.event.EventListener;
+import com.wingflare.api.listener.EventListener;
 import com.wingflare.facade.module.base.constants.Base;
 import com.wingflare.facade.module.base.dto.SettingDTO;
 import com.wingflare.facade.module.base.event.SettingCreatedEvent;
