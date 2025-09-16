@@ -6,7 +6,6 @@ import com.wingflare.adapter.spring.common.configure.properties.WebProperties;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import jakarta.annotation.Resource;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,11 +25,14 @@ import java.util.Map;
  */
 public class SessionInitializationFilter implements WebFilter, Ordered {
 
-    @Resource
-    private SessionProperties sessionProperties;
+    private final SessionProperties sessionProperties;
 
-    @Resource
-    private WebProperties webProperties;
+    private final WebProperties webProperties;
+
+    public SessionInitializationFilter(SessionProperties sessionProperties, WebProperties webProperties) {
+        this.sessionProperties = sessionProperties;
+        this.webProperties = webProperties;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {

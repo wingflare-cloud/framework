@@ -1,6 +1,7 @@
 package com.wingflare.gateway.configure;
 
 
+import com.wingflare.adapter.spring.common.configure.properties.WebProperties;
 import com.wingflare.gateway.configure.properties.CorsProperties;
 import com.wingflare.gateway.filter.SessionGatewayFilterFactory;
 import com.wingflare.lib.core.constants.HttpHeader;
@@ -73,8 +74,8 @@ public class GlobalsConfiguration {
 
 
     @Bean
-    public SessionGatewayFilterFactory sessionInitializationFilter() {
-        return new SessionGatewayFilterFactory();
+    public SessionGatewayFilterFactory sessionInitializationFilter(WebProperties webProperties) {
+        return new SessionGatewayFilterFactory(webProperties);
     }
 
 }

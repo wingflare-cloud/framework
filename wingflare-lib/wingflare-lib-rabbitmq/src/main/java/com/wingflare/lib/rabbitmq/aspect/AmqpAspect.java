@@ -14,8 +14,6 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.MessageConverter;
 
-import jakarta.annotation.Resource;
-
 import java.util.Map;
 
 import static net.logstash.logback.argument.StructuredArguments.e;
@@ -30,18 +28,18 @@ public class AmqpAspect {
 
     private static final Logger log = LoggerFactory.getLogger(AmqpAspect.class);
 
-    @Resource
-    private IdGenerate idGenerate;
+    private final IdGenerate idGenerate;
 
     private final String exchange;
     private final String routingKey;
     private final MessageConverter messageConverter;
 
 
-    AmqpAspect(RabbitTemplate rabbitTemplate) {
+    AmqpAspect(RabbitTemplate rabbitTemplate, IdGenerate idGenerate) {
         this.exchange = rabbitTemplate.getExchange();
         this.routingKey = rabbitTemplate.getRoutingKey();
         this.messageConverter = rabbitTemplate.getMessageConverter();
+        this.idGenerate = idGenerate;
     }
 
     /**

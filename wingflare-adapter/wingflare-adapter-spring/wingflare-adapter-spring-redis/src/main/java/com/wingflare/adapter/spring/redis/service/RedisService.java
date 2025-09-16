@@ -5,7 +5,6 @@ import com.wingflare.api.core.PageResult;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.CacheService;
-import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
@@ -35,8 +34,11 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisService implements CacheService {
 
-    @Resource
-    public RedisTemplate redisTemplate;
+    public final RedisTemplate redisTemplate;
+
+    public RedisService(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     /**
      * 缓存基本的对象，Integer、String、实体类等

@@ -4,7 +4,6 @@ package com.wingflare.adapter.spring.common.configure;
 import com.wingflare.adapter.spring.common.configure.properties.OkHttpProperties;
 import com.wingflare.adapter.spring.common.feign.FeignAutoConfiguration;
 import feign.Feign;
-import jakarta.annotation.Resource;
 import okhttp3.ConnectionPool;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,9 +21,12 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnClass(Feign.class)
 @AutoConfigureBefore(FeignAutoConfiguration.class)
 public class OkHttpConfig {
+    
+    private final OkHttpProperties okHttpProperties;
 
-    @Resource
-    private OkHttpProperties okHttpProperties;
+    public OkHttpConfig(OkHttpProperties okHttpProperties) {
+        this.okHttpProperties = okHttpProperties;
+    }
 
     @Bean
     public okhttp3.OkHttpClient okHttpClient(){

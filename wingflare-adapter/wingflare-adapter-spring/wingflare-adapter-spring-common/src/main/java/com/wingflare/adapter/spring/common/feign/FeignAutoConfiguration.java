@@ -7,7 +7,6 @@ import feign.Retryer;
 import feign.codec.Encoder;
 import feign.codec.ErrorDecoder;
 import feign.form.spring.SpringFormEncoder;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -29,8 +28,11 @@ import java.util.List;
 @ConditionalOnClass(Feign.class)
 public class FeignAutoConfiguration {
 
-    @Resource
-    private ObjectFactory<HttpMessageConverters> httpMessageConvertersObjectFactory;
+    private final ObjectFactory<HttpMessageConverters> httpMessageConvertersObjectFactory;
+
+    public FeignAutoConfiguration(ObjectFactory<HttpMessageConverters> httpMessageConvertersObjectFactory) {
+        this.httpMessageConvertersObjectFactory = httpMessageConvertersObjectFactory;
+    }
 
     @Bean
     public Retryer feignRetryer() {

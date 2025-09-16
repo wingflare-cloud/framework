@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import jakarta.annotation.Resource;
-
 import java.util.Set;
 
 /**
@@ -26,8 +24,11 @@ import java.util.Set;
 @Component
 public class SecHeaderFilter implements GlobalFilter, Ordered {
 
-    @Resource
-    private SystemContextProperties systemContextProperties;
+    private final SystemContextProperties systemContextProperties;
+
+    public SecHeaderFilter(SystemContextProperties systemContextProperties) {
+        this.systemContextProperties = systemContextProperties;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
@@ -31,10 +30,13 @@ import java.util.List;
 public class DictController
 {
 
-	@Resource
-    private DictBiz dictBiz;
+    private final DictBiz dictBiz;
 
-    /**
+	public DictController(DictBiz dictBiz) {
+		this.dictBiz = dictBiz;
+	}
+
+	/**
      * 查询系统字典列表
      */
 	@RequestMapping(value="/list", method={RequestMethod.GET})

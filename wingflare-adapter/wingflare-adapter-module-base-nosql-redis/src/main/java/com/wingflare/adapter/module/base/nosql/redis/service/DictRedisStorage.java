@@ -8,7 +8,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.util.Collections;
 
 /**
@@ -21,8 +20,7 @@ import java.util.Collections;
 public class DictRedisStorage implements DictStorage {
 
     @SuppressWarnings("rawtypes" )
-    @Resource
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
     DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>("local key = KEYS[1]\n" +
             "local args = ARGV\n" +
@@ -37,6 +35,10 @@ public class DictRedisStorage implements DictStorage {
             "    redis.call('RPUSH', key, unpack(batch))\n" +
             "end\n" +
             "return total", Long.class);
+
+    public DictRedisStorage(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public Long save(SimpleDictDTO... simpleDictDTOS) {

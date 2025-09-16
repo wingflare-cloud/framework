@@ -1,6 +1,8 @@
 package com.wingflare.adapter.spring.servlet.web.configure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wingflare.adapter.spring.common.annotation.ConditionalOnAnnotationPresent;
+import com.wingflare.adapter.spring.common.configure.properties.SystemContextProperties;
 import com.wingflare.adapter.spring.servlet.web.WebCtxSource;
 import com.wingflare.adapter.spring.servlet.web.filter.HeaderConvertContextFilter;
 import com.wingflare.adapter.spring.servlet.web.handler.ApiResponseAdviceHandler;
@@ -18,8 +20,8 @@ public class MicroserviceImportConfig {
 
     @Bean
     @ConditionalOnAnnotationPresent(MicroserviceMode.class)
-    public WebMvcConfig webMvcConfig() {
-        return new WebMvcConfig();
+    public WebMvcConfig webMvcConfig(ObjectMapper objectMapper) {
+        return new WebMvcConfig(objectMapper);
     }
 
     @Bean
@@ -30,14 +32,14 @@ public class MicroserviceImportConfig {
 
     @Bean
     @ConditionalOnAnnotationPresent(MicroserviceMode.class)
-    public WebApiExceptionHandler webApiExceptionHandler() {
-        return new WebApiExceptionHandler();
+    public WebApiExceptionHandler webApiExceptionHandler(ObjectMapper objectMapper) {
+        return new WebApiExceptionHandler(objectMapper);
     }
 
     @Bean
     @ConditionalOnAnnotationPresent(MicroserviceMode.class)
-    public HeaderConvertContextFilter headerConvertContextFilter() {
-        return new HeaderConvertContextFilter();
+    public HeaderConvertContextFilter headerConvertContextFilter(SystemContextProperties systemContextProperties) {
+        return new HeaderConvertContextFilter(systemContextProperties);
     }
 
     @Bean

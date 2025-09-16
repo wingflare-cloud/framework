@@ -6,7 +6,6 @@ import com.wingflare.adapter.spring.common.converter.StringOrMappingJackson2Http
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,8 +16,11 @@ import java.util.List;
  */
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Resource
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+
+    public WebMvcConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

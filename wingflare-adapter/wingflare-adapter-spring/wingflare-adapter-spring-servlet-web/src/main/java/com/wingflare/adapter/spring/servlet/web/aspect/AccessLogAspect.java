@@ -19,7 +19,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -36,18 +35,20 @@ import static net.logstash.logback.argument.StructuredArguments.e;
 @Aspect
 public class AccessLogAspect {
 
-    @Resource
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    @Resource
-    private AccessLogProperties accessLogProperties;
+    private final AccessLogProperties accessLogProperties;
 
-    @Resource
-    private PointUtil pointUtil;
+    private final PointUtil pointUtil;
 
 
     private final Logger logger = LoggerFactory.getLogger(AccessLogAspect.class);
 
+    public AccessLogAspect(ObjectMapper objectMapper, AccessLogProperties accessLogProperties, PointUtil pointUtil) {
+        this.objectMapper = objectMapper;
+        this.accessLogProperties = accessLogProperties;
+        this.pointUtil = pointUtil;
+    }
 
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void pointcut() {

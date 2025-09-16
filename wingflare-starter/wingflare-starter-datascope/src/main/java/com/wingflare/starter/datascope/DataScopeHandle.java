@@ -2,7 +2,6 @@ package com.wingflare.starter.datascope;
 
 
 import com.wingflare.lib.standard.CacheService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,8 +10,11 @@ import java.util.Map;
 @Component
 public class DataScopeHandle implements com.wingflare.lib.datascope.DataScopeHandle {
 
-    @Resource
-    private CacheService cacheService;
+    private final CacheService cacheService;
+
+    public DataScopeHandle(CacheService cacheService) {
+        this.cacheService = cacheService;
+    }
 
     @Override
     public String getCondition(String key) {

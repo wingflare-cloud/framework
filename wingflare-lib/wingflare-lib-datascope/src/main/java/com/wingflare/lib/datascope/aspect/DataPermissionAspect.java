@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +30,12 @@ import java.util.List;
 })
 public class DataPermissionAspect {
 
-    @Resource
-    private DataScopeUtil dataScopeUtil;
+
+    private final DataScopeUtil dataScopeUtil;
+
+    public DataPermissionAspect(DataScopeUtil dataScopeUtil) {
+        this.dataScopeUtil = dataScopeUtil;
+    }
 
     @Before("execution(* com.wingflare..*.controller..*(..)) || execution(* com.wingflare..*.service..*(..))")
     public void deBefore(JoinPoint joinPoint) {

@@ -6,7 +6,6 @@ import com.wingflare.adapter.spring.common.configure.properties.WebProperties;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import jakarta.annotation.Resource;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,11 +20,11 @@ import java.net.InetSocketAddress;
 
 public class SessionGatewayFilterFactory extends AbstractGatewayFilterFactory<SessionGatewayFilterFactory.Config> {
 
-    @Resource
-    private WebProperties webProperties;
+    private final WebProperties webProperties;
 
-    public SessionGatewayFilterFactory() {
+    public SessionGatewayFilterFactory(WebProperties webProperties) {
         super(Config.class);
+        this.webProperties = webProperties;
     }
 
     @Override

@@ -18,8 +18,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import jakarta.annotation.Resource;
-
 import java.util.HashMap;
 
 /**
@@ -29,11 +27,11 @@ import java.util.HashMap;
  */
 public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthGatewayFilterFactory.Config> {
 
-    @Resource
-    private AuthTool authTool;
+    private final AuthTool authTool;
 
-    public AuthGatewayFilterFactory() {
+    public AuthGatewayFilterFactory(AuthTool authTool) {
         super(Config.class);
+        this.authTool = authTool;
     }
 
     @Override

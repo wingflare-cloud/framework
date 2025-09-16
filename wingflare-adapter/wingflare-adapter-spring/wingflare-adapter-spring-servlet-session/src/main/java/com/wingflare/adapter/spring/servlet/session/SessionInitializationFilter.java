@@ -8,7 +8,6 @@ import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
 import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -31,11 +30,14 @@ import java.util.Map;
 @WebFilter
 public class SessionInitializationFilter implements Filter, Ordered {
 
-    @Resource
-    private SessionProperties sessionProperties;
+    private final SessionProperties sessionProperties;
 
-    @Resource
-    private WebProperties webProperties;
+    private final WebProperties webProperties;
+
+    public SessionInitializationFilter(SessionProperties sessionProperties, WebProperties webProperties) {
+        this.sessionProperties = sessionProperties;
+        this.webProperties = webProperties;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

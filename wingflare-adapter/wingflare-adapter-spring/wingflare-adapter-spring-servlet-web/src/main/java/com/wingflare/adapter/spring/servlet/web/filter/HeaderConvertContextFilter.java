@@ -7,7 +7,6 @@ import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.SerializationUtil;
 import com.wingflare.lib.core.utils.StringUtil;
-import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,11 +31,14 @@ import static net.logstash.logback.argument.StructuredArguments.e;
  */
 public class HeaderConvertContextFilter implements Filter, Ordered {
 
-    @Resource
-    private SystemContextProperties systemContextProperties;
+    private final SystemContextProperties systemContextProperties;
 
 
     private final Logger logger = LoggerFactory.getLogger(HeaderConvertContextFilter.class);
+
+    public HeaderConvertContextFilter(SystemContextProperties systemContextProperties) {
+        this.systemContextProperties = systemContextProperties;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)

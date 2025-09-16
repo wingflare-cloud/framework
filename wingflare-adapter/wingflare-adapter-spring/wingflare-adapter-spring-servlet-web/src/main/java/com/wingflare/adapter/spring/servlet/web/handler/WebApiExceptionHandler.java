@@ -35,7 +35,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -57,8 +56,11 @@ public class WebApiExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Resource
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+
+    public WebApiExceptionHandler(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * 业务异常
