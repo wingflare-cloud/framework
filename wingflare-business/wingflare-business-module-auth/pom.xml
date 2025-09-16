@@ -64,7 +64,7 @@
         <plugins>
             <plugin>
                 <groupId>com.wingflare.maven</groupId>
-                <artifactId>wingflare-maven-plugin-annotation-replacer</artifactId>
+                <artifactId>wingflare-maven-plugin-replacer</artifactId>
                 <version>1.0.0</version>
                 <configuration>
                     <replacements>

@@ -1,4 +1,4 @@
-package com.wingflare.maven.plugin.annotation;
+package com.wingflare.maven.plugin.replacer.annotation;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.wingflare.maven.plugin.annotation;
+package com.wingflare.maven.plugin.replacer.annotation;
 
 /**
  * 表示注解参数名的替换规则
