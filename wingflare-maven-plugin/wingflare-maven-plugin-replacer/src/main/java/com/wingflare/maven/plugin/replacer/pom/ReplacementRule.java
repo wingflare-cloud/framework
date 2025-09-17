@@ -1,26 +1,25 @@
 package com.wingflare.maven.plugin.replacer.pom;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class ReplacementRule {
 
-    private List<String> sourceArtifacts = new ArrayList<>();
-    private List<String> targetArtifacts = new ArrayList<>();
+    private String sourceDepId;
+    private String targetDepId;
 
-    public List<String> getSourceArtifacts() {
-        return sourceArtifacts;
+    public String getSourceDepId() {
+        return sourceDepId;
     }
 
-    public void setSourceArtifacts(List<String> sourceArtifacts) {
-        this.sourceArtifacts = sourceArtifacts;
+    public void setSourceDepId(String sourceDepId) {
+        this.sourceDepId = sourceDepId;
     }
 
-    public List<String> getTargetArtifacts() {
-        return targetArtifacts;
+    public String getTargetDepId() {
+        return targetDepId;
     }
 
-    public void setTargetArtifacts(List<String> targetArtifacts) {
-        this.targetArtifacts = targetArtifacts;
+    public void setTargetDepId(String targetDepId) {
+        this.targetDepId = targetDepId;
     }
+
 }

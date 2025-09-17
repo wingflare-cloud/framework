@@ -223,8 +223,16 @@
                             <id>auto-replace-dependencies</id>
                             <phase>initialize</phase>
                             <goals>
-                                <goal>replace-dependencies</goal>
+                                <goal>replace-dependency</goal>
                             </goals>
+                            <configuration>
+                                <replacementRules>
+                                    <replacementRule>
+
+                                    </replacementRule>
+                                </replacementRules>
+
+                            </configuration>
                         </execution>
 
                     </executions>

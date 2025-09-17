@@ -9,7 +9,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Mojo(name = "replace-dependencies", defaultPhase = LifecyclePhase.INITIALIZE, requiresProject = true)
+@Mojo(name = "replace-dependency", defaultPhase = LifecyclePhase.INITIALIZE, requiresProject = true)
 public class DependencyReplacerMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
@@ -42,16 +41,12 @@ public class DependencyReplacerMojo extends AbstractMojo {
         try {
             // 读取原始POM模型
             Model originalModel = project.getModel();
-
             // 创建模型副本以避免修改原始模型
             Model modifiedModel = createModelCopy(originalModel);
-
             // 处理依赖替换
             processDependencies(modifiedModel);
-
             // 保存修改后的POM
             saveModifiedPom(modifiedModel);
-
             // 使用修改后的POM进行后续构建
             project.setFile(outputPomFile);
 
@@ -81,34 +76,26 @@ public class DependencyReplacerMojo extends AbstractMojo {
         List<Dependency> originalDependencies = new ArrayList<>(model.getDependencies());
         List<Dependency> newDependencies = new ArrayList<>();
 
+        // 首先处理所有依赖，应用替换规则
         for (Dependency dep : originalDependencies) {
             String depId = dep.getGroupId() + ":" + dep.getArtifactId();
-            boolean replaced = false;
 
-            // 检查是否需要替换当前依赖
-            for (ReplacementRule rule : replacementRules) {
-                if (rule.getSourceArtifacts().contains(depId)) {
-                    getLog().info("Replacing dependency: " + depId);
+            // 检查是否需要替换当前依赖，同时记录规则索引
+            for (int ruleIndex = 0; ruleIndex < replacementRules.size(); ruleIndex++) {
+                ReplacementRule rule = replacementRules.get(ruleIndex);
 
-                    // 添加目标依赖（如果不重复）
-                    for (String target : rule.getTargetArtifacts()) {
-                        Dependency targetDep = createDependencyFromId(target);
-                        if (!isDependencyPresent(newDependencies, targetDep) &&
-                                !isDependencyPresent(originalDependencies, targetDep)) {
-                            newDependencies.add(targetDep);
-                            getLog().info("Added replacement dependency: " + target);
-                        } else {
-                            getLog().warn("Skipping duplicate dependency: " + target);
-                        }
+                if (rule.getSourceDepId().contains(depId)) {
+                    getLog().info("Replacing dependency: " + depId + " using rule at index: " + ruleIndex);
+                    String[] parts = rule.getTargetDepId().split(":");
+
+                    if (parts.length < 2) {
+                        throw new IllegalArgumentException("Invalid dependency format: " + depId + ". Use groupId:artifactId[:version]");
                     }
 
-                    replaced = true;
-                    break;
+                    dep.setGroupId(parts[0]);
+                    dep.setArtifactId(parts[1]);
                 }
-            }
 
-            // 如果没有被替换，保留原始依赖
-            if (!replaced) {
                 newDependencies.add(dep);
             }
         }
@@ -116,35 +103,7 @@ public class DependencyReplacerMojo extends AbstractMojo {
         model.setDependencies(newDependencies);
     }
 
-    private boolean isDependencyPresent(List<Dependency> dependencies, Dependency target) {
-        String targetId = target.getGroupId() + ":" + target.getArtifactId();
-        for (Dependency dep : dependencies) {
-            String depId = dep.getGroupId() + ":" + dep.getArtifactId();
-            if (depId.equals(targetId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Dependency createDependencyFromId(String depId) {
-        String[] parts = depId.split(":");
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid dependency format: " + depId + ". Use groupId:artifactId[:version]");
-        }
-
-        Dependency dep = new Dependency();
-        dep.setGroupId(parts[0]);
-        dep.setArtifactId(parts[1]);
-
-        if (parts.length > 2) {
-            dep.setVersion(parts[2]);
-        }
-
-        return dep;
-    }
-
-    private void saveModifiedPom(Model model) throws IOException, XmlPullParserException {
+    private void saveModifiedPom(Model model) throws IOException {
         // 确保输出目录存在
         if (!outputPomFile.getParentFile().exists()) {
             outputPomFile.getParentFile().mkdirs();
@@ -156,5 +115,5 @@ public class DependencyReplacerMojo extends AbstractMojo {
             modelWriter.write(writer, null, model);
         }
     }
-}
 
+}
