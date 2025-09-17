@@ -208,6 +208,12 @@
                                         <oldAnnotation>com.wingflare.api.mvc.annotation.ResponseBody</oldAnnotation>
                                         <newAnnotation>org.springframework.web.bind.annotation.ResponseBody</newAnnotation>
                                     </replacement>
+
+                                    <replacement>
+                                        <oldAnnotation>com.wingflare.api.listener.EventListener</oldAnnotation>
+                                        <newAnnotation>org.springframework.context.event.EventListener</newAnnotation>
+                                    </replacement>
+
                                 </replacementAnnotations>
 
                                 <replacementClasses>
@@ -228,8 +234,20 @@
                             <configuration>
                                 <replacementRules>
                                     <replacementRule>
-
+                                        <sourceDepId>com.wingflare:wingflare-api-validation</sourceDepId>
+                                        <targetDepId>org.springframework:spring-context</targetDepId>
                                     </replacementRule>
+
+                                    <replacementRule>
+                                        <sourceDepId>com.wingflare:wingflare-api-listener</sourceDepId>
+                                        <targetDepId>org.springframework:spring-context</targetDepId>
+                                    </replacementRule>
+
+                                    <replacementRule>
+                                        <sourceDepId>com.wingflare:wingflare-api-mvc</sourceDepId>
+                                        <targetDepId>org.springframework:spring-web</targetDepId>
+                                    </replacementRule>
+
                                 </replacementRules>
 
                             </configuration>

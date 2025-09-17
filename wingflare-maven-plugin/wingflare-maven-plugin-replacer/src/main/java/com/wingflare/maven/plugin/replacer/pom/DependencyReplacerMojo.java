@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Mojo(name = "replace-dependency", defaultPhase = LifecyclePhase.INITIALIZE, requiresProject = true)
@@ -101,7 +103,18 @@ public class DependencyReplacerMojo extends AbstractMojo {
             }
         }
 
-        model.setDependencies(newDependencies);
+        Map<String, Boolean> hasDep = new HashMap<>();
+        List<Dependency> lastDependencies = new ArrayList<>();
+
+        for (Dependency dep : newDependencies) {
+            String depId = dep.getGroupId() + ":" + dep.getArtifactId();
+            if (!hasDep.containsKey(depId)) {
+                hasDep.put(depId, true);
+                lastDependencies.add(dep);
+            }
+        }
+
+        model.setDependencies(lastDependencies);
     }
 
     private void saveModifiedPom(Model model) throws IOException {
