@@ -65,6 +65,7 @@ public interface HttpHeaderConstants {
     String REQUEST_X_REAL_IP = "X-Real-IP";
     String REQUEST_WL_PROXY_CLIENT_IP = "WL-Proxy-Client-IP";
     String REQUEST_PROXY_CLIENT_IP = "Proxy-Client-IP";
+    String REQUEST_HTTP_CLIENT_IP = "HTTP_CLIENT_IP";
 
 
     /**

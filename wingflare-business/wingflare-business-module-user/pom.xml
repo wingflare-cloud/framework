@@ -26,11 +26,13 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-facade-module-user</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-event</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -42,6 +44,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-transaction</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

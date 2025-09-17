@@ -21,6 +21,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-idgenerator</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -41,21 +42,25 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-jwt</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-event</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-config</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

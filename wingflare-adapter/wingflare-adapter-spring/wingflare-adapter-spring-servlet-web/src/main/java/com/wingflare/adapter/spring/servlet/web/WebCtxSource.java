@@ -1,9 +1,7 @@
 package com.wingflare.adapter.spring.servlet.web;
 
-import com.wingflare.adapter.spring.servlet.web.utils.ServletUtil;
 
 import com.wingflare.api.core.ContextSource;
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -14,9 +12,15 @@ import java.util.Map;
  */
 public class WebCtxSource implements ContextSource {
 
+    private final SpringServletHttpContainer container;
+
+    public WebCtxSource(SpringServletHttpContainer container) {
+        this.container = container;
+    }
+
     @Override
     public Map<String, String> all() {
-        HttpServletRequest httpServletRequest = ServletUtil.getRequest();
-        return ServletUtil.getHeaders(httpServletRequest);
+        return container.getHeaders();
     }
+
 }

@@ -3,10 +3,10 @@ package com.wingflare.adapter.spring.servlet.session;
 
 import com.wingflare.adapter.spring.common.configure.properties.SessionProperties;
 import com.wingflare.adapter.spring.common.configure.properties.WebProperties;
+import com.wingflare.adapter.spring.servlet.web.SpringServletHttpContainer;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.exceptions.NoPermissionException;
-import com.wingflare.lib.core.utils.IPAddressUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletRequest;
@@ -34,9 +34,13 @@ public class SessionInitializationFilter implements Filter, Ordered {
 
     private final WebProperties webProperties;
 
-    public SessionInitializationFilter(SessionProperties sessionProperties, WebProperties webProperties) {
+    private final SpringServletHttpContainer container;
+
+    public SessionInitializationFilter(SessionProperties sessionProperties, WebProperties webProperties,
+                                       SpringServletHttpContainer container) {
         this.sessionProperties = sessionProperties;
         this.webProperties = webProperties;
+        this.container = container;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class SessionInitializationFilter implements Filter, Ordered {
             if (session == null) {
                 session = request.getSession(true);
                 session.setAttribute("sid", session.getId());
-                session.setAttribute("ip", getClientIp(request));
+                session.setAttribute("ip", container.getClientIp());
                 session.setAttribute("userAgent", request.getHeader("User-Agent"));
             } else {
                 if (StringUtil.isNoneBlank(sessionProperties.getStrictModel())) {
@@ -59,7 +63,7 @@ public class SessionInitializationFilter implements Filter, Ordered {
                     }
 
                     if ("strict".equals(sessionProperties.getStrictModel())) {
-                        if (!ObjectUtils.nullSafeEquals(getClientIp(request), session.getAttribute("ip"))) {
+                        if (!ObjectUtils.nullSafeEquals(container.getClientIp(), session.getAttribute("ip"))) {
                             throw new NoPermissionException("Illegal IP");
                         }
                     }
@@ -89,28 +93,6 @@ public class SessionInitializationFilter implements Filter, Ordered {
 
             filterChain.doFilter(servletRequest, servletResponse);
         }
-    }
-
-    private String getClientIp(HttpServletRequest request) {
-        // 检查是否可信代理环境
-        boolean trustedEnvironment = isTrustedProxy(request.getRemoteAddr());
-
-        if (trustedEnvironment) {
-            String[] headersToCheck = {"X-Forwarded-For", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "X-Real-IP"};
-
-            for (String header : headersToCheck) {
-                String ipAddresses = request.getHeader(header);
-                if (ipAddresses != null && !"unknown".equalsIgnoreCase(ipAddresses)) {
-                    return ipAddresses.split(",")[0].trim();
-                }
-            }
-        }
-
-        return request.getRemoteAddr();
-    }
-
-    private boolean isTrustedProxy(String clientIp) {
-        return IPAddressUtil.isIpInRange(clientIp, webProperties.getTrustedProxies());
     }
 
     @Override

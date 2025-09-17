@@ -2,7 +2,7 @@ package com.wingflare.adapter.spring.servlet.web.filter;
 
 
 import com.wingflare.adapter.spring.common.configure.properties.SystemContextProperties;
-import com.wingflare.adapter.spring.servlet.web.utils.ServletUtil;
+import com.wingflare.adapter.spring.servlet.web.SpringServletHttpContainer;
 import com.wingflare.lib.core.context.ContextHolder;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.SerializationUtil;
@@ -12,7 +12,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
@@ -33,22 +32,23 @@ public class HeaderConvertContextFilter implements Filter, Ordered {
 
     private final SystemContextProperties systemContextProperties;
 
+    private final SpringServletHttpContainer container;
+
 
     private final Logger logger = LoggerFactory.getLogger(HeaderConvertContextFilter.class);
 
-    public HeaderConvertContextFilter(SystemContextProperties systemContextProperties) {
+    public HeaderConvertContextFilter(SystemContextProperties systemContextProperties, SpringServletHttpContainer container) {
         this.systemContextProperties = systemContextProperties;
+        this.container = container;
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
-        if (servletRequest instanceof HttpServletRequest request) {
-            if (CollectionUtil.isNotEmpty(systemContextProperties.getGlobalCtx())) {
-                cxtSetter(systemContextProperties.getGlobalCtx(),
-                        key -> ServletUtil.getHeader(request, key));
-            }
+        if (CollectionUtil.isNotEmpty(systemContextProperties.getGlobalCtx())) {
+            cxtSetter(systemContextProperties.getGlobalCtx(),
+                    container::getHeader);
         }
 
         try {

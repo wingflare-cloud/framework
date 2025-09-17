@@ -3,7 +3,7 @@ package com.wingflare.lib.alarm;
 
 import com.wingflare.api.alarm.AlarmContext;
 import com.wingflare.api.alarm.AlarmDrive;
-import com.wingflare.api.thread.pool.ThreadPoolManageDrive;
+import com.wingflare.api.threadpool.ThreadPoolManageDrive;
 import com.wingflare.lib.config.ConfigUtil;
 import com.wingflare.lib.container.Container;
 

@@ -27,6 +27,12 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-common</artifactId>
             <scope>provided</scope>
         </dependency>

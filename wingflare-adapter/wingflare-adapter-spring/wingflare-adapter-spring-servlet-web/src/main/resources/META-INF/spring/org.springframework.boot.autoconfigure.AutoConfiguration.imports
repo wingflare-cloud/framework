@@ -1,3 +1,4 @@
+com.wingflare.adapter.spring.servlet.web.SpringServletHttpContainer
 com.wingflare.adapter.spring.servlet.web.filter.ExceptionHandleFilter
 com.wingflare.adapter.spring.servlet.web.configure.ConfigArgumentResolvers
 com.wingflare.adapter.spring.servlet.web.properties.AccessLogProperties

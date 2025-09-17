@@ -1,4 +1,4 @@
-package com.wingflare.api.thread.pool;
+package com.wingflare.api.threadpool;
 
 
 import java.util.Collection;
@@ -78,6 +78,7 @@ public interface ThreadPoolManageDrive {
 
     /**
      * 提交一个 Runnable 任务到指定线程池执行，无返回值
+     * @param key 线程池标识
      * @param command
      */
     void execute(String key, Runnable command);
@@ -85,6 +86,7 @@ public interface ThreadPoolManageDrive {
     /**
      * 提交一个 Callable 任务（有返回值），返回 Future<T> 对象，可通过该对象获取任务执行结果（get() 方法）或取消任务（cancel() 方法）
      *
+     * @param key 线程池标识
      * @param task
      * @return
      * @param <T>

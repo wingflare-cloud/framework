@@ -80,7 +80,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-container</artifactId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
         </dependency>
 
         <dependency>

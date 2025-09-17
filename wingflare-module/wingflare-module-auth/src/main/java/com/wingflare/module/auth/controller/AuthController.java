@@ -1,8 +1,8 @@
 package com.wingflare.module.auth.controller;
 
 
-import com.wingflare.adapter.spring.servlet.web.utils.ServletUtil;
 import com.wingflare.api.core.PageResult;
+import com.wingflare.api.http.HttpContainer;
 import com.wingflare.api.mvc.RequestMethod;
 import com.wingflare.api.mvc.annotation.Controller;
 import com.wingflare.api.mvc.annotation.RequestBody;
@@ -44,17 +44,20 @@ public class AuthController {
 
     private final UserBiz userBiz;
 
-    public AuthController(LoginBiz loginBiz, UserBiz userBiz) {
+    private final HttpContainer httpContainer;
+
+    public AuthController(LoginBiz loginBiz, UserBiz userBiz, HttpContainer httpContainer) {
         this.loginBiz = loginBiz;
         this.userBiz = userBiz;
+        this.httpContainer = httpContainer;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     @Secret
     public TokenDTO login(@Secret @RequestBody LoginBO bo) {
-        bo.setUserAgent(ServletUtil.getHeader(HttpHeader.REQUEST_USER_AGENT));
-        bo.setIpaddr(ServletUtil.getClientIpAddr());
+        bo.setUserAgent(httpContainer.getHeader(HttpHeader.REQUEST_USER_AGENT));
+        bo.setIpaddr(httpContainer.getClientIp());
         return loginBiz.login(bo);
     }
 

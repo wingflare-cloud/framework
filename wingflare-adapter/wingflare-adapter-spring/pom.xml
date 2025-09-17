@@ -10,7 +10,6 @@
     </parent>
     <packaging>pom</packaging>
     <modules>
-        <module>wingflare-adapter-spring-container</module>
         <module>wingflare-adapter-spring-mail</module>
         <module>wingflare-adapter-spring-http</module>
         <module>wingflare-adapter-spring-thread-pool</module>

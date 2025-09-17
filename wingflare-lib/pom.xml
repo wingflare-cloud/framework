@@ -21,6 +21,8 @@
         <module>wingflare-lib-alarm</module>
         <module>wingflare-lib-config</module>
         <module>wingflare-lib-container</module>
+        <module>wingflare-lib-idgenerator</module>
+        <module>wingflare-lib-thread-pool</module>
     </modules>
     <artifactId>wingflare-lib</artifactId>
     <packaging>pom</packaging>

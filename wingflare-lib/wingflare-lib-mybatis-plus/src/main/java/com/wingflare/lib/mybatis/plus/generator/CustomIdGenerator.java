@@ -4,7 +4,6 @@ package com.wingflare.lib.mybatis.plus.generator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 
 import com.wingflare.api.idgenerate.IdGenerate;
-import jakarta.annotation.Resource;
 
 /**
  * 自定义主键生成器
@@ -14,8 +13,11 @@ import jakarta.annotation.Resource;
  */
 public class CustomIdGenerator implements IdentifierGenerator {
 
-    @Resource
-    private IdGenerate idGenerate;
+    private final IdGenerate idGenerate;
+
+    public CustomIdGenerator(IdGenerate idGenerate) {
+        this.idGenerate = idGenerate;
+    }
 
     @Override
     public Number nextId(Object entity) {

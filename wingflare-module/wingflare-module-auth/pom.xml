@@ -42,7 +42,8 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
+            <artifactId>wingflare-api-http</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

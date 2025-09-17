@@ -1,4 +1,4 @@
-package com.wingflare.adapter.spring.container;
+package com.wingflare.adapter.spring.common.container;
 
 import com.wingflare.adapter.spring.common.utils.SpringUtil;
 import com.wingflare.api.container.ContainerDrive;

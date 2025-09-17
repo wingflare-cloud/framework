@@ -1,7 +1,6 @@
 package com.wingflare.module.base.controller;
 
 
-import com.wingflare.adapter.spring.common.configure.properties.BusinessSystemProperties;
 import com.wingflare.api.core.PageDto;
 import com.wingflare.api.core.enums.OnOffEnum;
 import com.wingflare.api.mvc.RequestMethod;
@@ -22,6 +21,7 @@ import com.wingflare.facade.module.base.dto.MenuPermissionDTO;
 import com.wingflare.facade.module.base.dto.SimpleMenuDTO;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.lib.standard.properties.BusinessSystemProperties;
 import com.wingflare.module.base.PermissionCode;
 
 import java.util.ArrayList;
