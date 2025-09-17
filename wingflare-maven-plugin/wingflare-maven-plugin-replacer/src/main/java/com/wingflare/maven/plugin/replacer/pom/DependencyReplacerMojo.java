@@ -2,14 +2,24 @@ package com.wingflare.maven.plugin.replacer.pom;
 
 
 import org.apache.maven.model.Dependency;
+import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.DefaultModelWriter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.repository.RemoteRepository;
+import org.eclipse.aether.resolution.VersionRangeRequest;
+import org.eclipse.aether.resolution.VersionRangeResolutionException;
+import org.eclipse.aether.resolution.VersionRangeResult;
+import org.eclipse.aether.version.Version;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @Mojo(name = "replace-dependency", defaultPhase = LifecyclePhase.INITIALIZE, requiresProject = true)
 public class DependencyReplacerMojo extends AbstractMojo {
@@ -32,6 +41,17 @@ public class DependencyReplacerMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}/modified-pom.xml")
     private File outputPomFile;
 
+    @Component
+    private RepositorySystem repositorySystem;
+
+    @Parameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
+    private List<RemoteRepository> remoteRepositories;
+
+    // 不直接注入RepositorySystemSession，而是从project中获取
+    private RepositorySystemSession getRepositorySession() {
+        return project.getProjectBuildingRequest().getRepositorySession();
+    }
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Starting dependency replacement process...");
@@ -42,15 +62,11 @@ public class DependencyReplacerMojo extends AbstractMojo {
         }
 
         try {
-            // 读取原始POM模型
             Model originalModel = project.getModel();
-            // 创建模型副本以避免修改原始模型
             Model modifiedModel = createModelCopy(originalModel);
-            // 处理依赖替换
             processDependencies(modifiedModel);
-            // 保存修改后的POM
             saveModifiedPom(modifiedModel);
-            // 使用修改后的POM进行后续构建
+            project.setModel(modifiedModel);
             project.setFile(outputPomFile);
 
             getLog().info("Successfully replaced dependencies. Modified POM saved to: " + outputPomFile.getAbsolutePath());
@@ -67,67 +83,165 @@ public class DependencyReplacerMojo extends AbstractMojo {
         copy.setPackaging(original.getPackaging());
         copy.setName(original.getName());
         copy.setDescription(original.getDescription());
-        copy.setDependencies(new ArrayList<>(original.getDependencies()));
-        copy.setDependencyManagement(original.getDependencyManagement());
+        copy.setDependencies(original.getDependencies());
         copy.setParent(original.getParent());
-        copy.setModules(new ArrayList<>(original.getModules()));
-        // 复制其他必要的模型属性
+        copy.setModules(original.getModules());
+        copy.setProperties(original.getProperties());
+        copy.setBuild(original.getBuild());
+        copy.setProfiles(original.getProfiles());
         return copy;
     }
 
-    private void processDependencies(Model model) {
+    private void processDependencies(Model model) throws MojoExecutionException {
         List<Dependency> originalDependencies = new ArrayList<>(model.getDependencies());
         List<Dependency> newDependencies = new ArrayList<>();
 
-        // 首先处理所有依赖，应用替换规则
+        // 收集所有可用的依赖管理信息（包括当前项目和父项目）
+        List<DependencyManagement> allDependencyManagements = collectAllDependencyManagements(project);
+
         for (Dependency dep : originalDependencies) {
             String depId = dep.getGroupId() + ":" + dep.getArtifactId();
+            boolean isReplaced = false;
 
-            // 检查是否需要替换当前依赖，同时记录规则索引
-            for (int ruleIndex = 0; ruleIndex < replacementRules.size(); ruleIndex++) {
-                ReplacementRule rule = replacementRules.get(ruleIndex);
-
-                if (rule.getSourceDepId().contains(depId)) {
-                    getLog().info("Replacing dependency: " + depId + " using rule at index: " + ruleIndex);
+            for (ReplacementRule rule : replacementRules) {
+                if (rule.getSourceDepId().equals(depId)) {
+                    getLog().info("Replacing dependency: " + depId);
                     String[] parts = rule.getTargetDepId().split(":");
 
                     if (parts.length < 2) {
-                        throw new IllegalArgumentException("Invalid dependency format: " + depId + ". Use groupId:artifactId[:version]");
+                        throw new IllegalArgumentException("Invalid dependency format: " + rule.getTargetDepId() +
+                                ". Use groupId:artifactId[:version]");
                     }
 
-                    dep.setGroupId(parts[0]);
-                    dep.setArtifactId(parts[1]);
-                }
+                    Dependency newDep = new Dependency();
+                    newDep.setGroupId(parts[0]);
+                    newDep.setArtifactId(parts[1]);
 
+                    // 处理版本
+                    if (parts.length >= 3) {
+                        newDep.setVersion(parts[2]);
+                    } else {
+                        // 从所有可用的依赖管理中查找版本
+                        String managedVersion = findVersionInAllDependencyManagements(
+                                allDependencyManagements, parts[0], parts[1]);
+
+                        if (managedVersion != null) {
+                            newDep.setVersion(managedVersion);
+                            getLog().info("Using version " + managedVersion + " from dependency management");
+                        } else {
+                            // 通过Aether解析版本
+                            try {
+                                String resolvedVersion = resolveVersionFromRepositories(parts[0], parts[1]);
+                                newDep.setVersion(resolvedVersion);
+                                getLog().info("Resolved version " + resolvedVersion + " from repositories");
+                            } catch (Exception e) {
+                                getLog().warn("Could not resolve version for " + parts[0] + ":" + parts[1] +
+                                        ", using original version");
+                                newDep.setVersion(dep.getVersion());
+                            }
+                        }
+                    }
+
+                    // 处理其他属性
+                    newDep.setScope(dep.getScope());
+                    newDep.setExclusions(new ArrayList<>(dep.getExclusions()));
+                    newDep.setClassifier(dep.getClassifier());
+
+                    newDependencies.add(newDep);
+                    isReplaced = true;
+                    break;
+                }
+            }
+
+            if (!isReplaced) {
                 newDependencies.add(dep);
             }
         }
 
-        Map<String, Boolean> hasDep = new HashMap<>();
-        List<Dependency> lastDependencies = new ArrayList<>();
-
+        // 去重处理
+        Map<String, Dependency> uniqueDependencies = new HashMap<>();
         for (Dependency dep : newDependencies) {
-            String depId = dep.getGroupId() + ":" + dep.getArtifactId();
-            if (!hasDep.containsKey(depId)) {
-                hasDep.put(depId, true);
-                lastDependencies.add(dep);
+            String depId = dep.getGroupId() + ":" + dep.getArtifactId() +
+                    (dep.getClassifier() != null ? ":" + dep.getClassifier() : "") +
+                    (dep.getScope() != null ? ":" + dep.getScope() : "");
+            if (!uniqueDependencies.containsKey(depId)) {
+                uniqueDependencies.put(depId, dep);
+            } else {
+                getLog().warn("Duplicate dependency found and skipped: " + depId);
             }
         }
 
-        model.setDependencies(lastDependencies);
+        model.setDependencies(new ArrayList<>(uniqueDependencies.values()));
+    }
+
+    /**
+     * 收集当前项目及所有父项目的dependencyManagement
+     */
+    private List<DependencyManagement> collectAllDependencyManagements(MavenProject project) {
+        List<DependencyManagement> result = new ArrayList<>();
+        MavenProject current = project;
+
+        while (current != null) {
+            DependencyManagement dm = current.getModel().getDependencyManagement();
+            if (dm != null) {
+                result.add(dm);
+            }
+            current = current.getParent();
+        }
+
+        return result;
+    }
+
+    /**
+     * 从所有收集到的dependencyManagement中查找版本
+     */
+    private String findVersionInAllDependencyManagements(List<DependencyManagement> managements,
+                                                         String groupId, String artifactId) {
+        for (DependencyManagement dm : managements) {
+            if (dm.getDependencies() != null) {
+                for (Dependency dep : dm.getDependencies()) {
+                    if (groupId.equals(dep.getGroupId()) && artifactId.equals(dep.getArtifactId())) {
+                        return dep.getVersion();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 通过Aether从仓库解析版本
+     */
+    private String resolveVersionFromRepositories(String groupId, String artifactId)
+            throws VersionRangeResolutionException {
+        org.eclipse.aether.artifact.Artifact artifact = new DefaultArtifact(
+                groupId, artifactId, null, "[0,)");
+
+        VersionRangeRequest rangeRequest = new VersionRangeRequest();
+        rangeRequest.setArtifact(artifact);
+        rangeRequest.setRepositories(repositorySystem.newResolutionRepositories(
+                getRepositorySession(), remoteRepositories));
+
+        VersionRangeResult rangeResult = repositorySystem.resolveVersionRange(
+                getRepositorySession(), rangeRequest);
+
+        Version highestVersion = rangeResult.getHighestVersion();
+        if (highestVersion != null) {
+            return highestVersion.toString();
+        }
+
+        throw new VersionRangeResolutionException(rangeResult,
+                "Could not resolve version for " + groupId + ":" + artifactId);
     }
 
     private void saveModifiedPom(Model model) throws IOException {
-        // 确保输出目录存在
         if (!outputPomFile.getParentFile().exists()) {
             outputPomFile.getParentFile().mkdirs();
         }
 
-        // 使用Maven的模型写入器保存修改后的POM
         try (FileWriter writer = new FileWriter(outputPomFile)) {
             DefaultModelWriter modelWriter = new DefaultModelWriter();
             modelWriter.write(writer, null, model);
         }
     }
-
 }
