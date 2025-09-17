@@ -3,6 +3,7 @@ package com.wingflare.maven.plugin.replacer.pom;
 
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
+import org.apache.maven.model.io.DefaultModelWriter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -111,7 +112,7 @@ public class DependencyReplacerMojo extends AbstractMojo {
 
         // 使用Maven的模型写入器保存修改后的POM
         try (FileWriter writer = new FileWriter(outputPomFile)) {
-            org.apache.maven.model.io.DefaultModelWriter modelWriter = new org.apache.maven.model.io.DefaultModelWriter();
+            DefaultModelWriter modelWriter = new DefaultModelWriter();
             modelWriter.write(writer, null, model);
         }
     }
