@@ -76,8 +76,6 @@ public class DependencyReplacerMojo extends AbstractMojo {
     }
 
     private Model createModelCopy(Model original) {
-        original.getParent().setRelativePath("../../pom.xml");
-
         Model copy = new Model();
         copy.setGroupId(original.getGroupId());
         copy.setArtifactId(original.getArtifactId());
