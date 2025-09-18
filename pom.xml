@@ -146,8 +146,8 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>com.wingflare.maven</groupId>
-                    <artifactId>wingflare-maven-plugin-replacer</artifactId>
+                    <groupId>com.wingflare.maven.plugin</groupId>
+                    <artifactId>wingflare-replacer-maven-plugin</artifactId>
                     <version>1.0.0</version>
                     <executions>
                         <execution>

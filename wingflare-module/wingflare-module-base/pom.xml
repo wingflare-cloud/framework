@@ -45,8 +45,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.wingflare.maven</groupId>
-                <artifactId>wingflare-maven-plugin-replacer</artifactId>
+                <groupId>com.wingflare.maven.plugin</groupId>
+                <artifactId>wingflare-replacer-maven-plugin</artifactId>
             </plugin>
 
 
