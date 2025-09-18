@@ -4,6 +4,7 @@ package com.wingflare.lib.standard.bo;
 import com.wingflare.lib.core.utils.ObjectUtil;
 import org.apache.commons.beanutils.BeanUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 public class MessageBean implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 6053882511563830102L;
 
     private Map<String, Object> body;

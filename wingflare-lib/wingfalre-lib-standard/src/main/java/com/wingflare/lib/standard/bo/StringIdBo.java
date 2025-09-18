@@ -1,5 +1,6 @@
 package com.wingflare.lib.standard.bo;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
