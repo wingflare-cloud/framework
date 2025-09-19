@@ -43,6 +43,16 @@
             <artifactId>wingflare-api-transaction</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-lifecycle</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-lifecycle</artifactId>
+        </dependency>
+
         <!-- Spring context -->
         <dependency>
             <groupId>org.springframework</groupId>

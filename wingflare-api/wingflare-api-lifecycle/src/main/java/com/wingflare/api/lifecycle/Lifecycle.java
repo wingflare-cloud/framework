@@ -17,12 +17,6 @@ public interface Lifecycle {
     void close();
 
     /**
-     * 获取服务状态
-     * @return
-     */
-    LifecycleStatus getStatus();
-
-    /**
      * 关闭权重，顺序
      *
      * @return

@@ -1,3 +1,4 @@
+com.wingflare.adapter.spring.common.AppSmartLifecycle
 com.wingflare.adapter.spring.common.utils.SpringUtil
 com.wingflare.adapter.spring.common.utils.PointUtil
 com.wingflare.adapter.spring.common.AutoConfigImportSelector
