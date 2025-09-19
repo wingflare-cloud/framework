@@ -46,6 +46,7 @@
         <module>wingflare-api-validation</module>
         <module>wingflare-api-listener</module>
         <module>wingflare-api-mq</module>
+        <module>wingflare-api-lifecycle</module>
     </modules>
 
 </project>

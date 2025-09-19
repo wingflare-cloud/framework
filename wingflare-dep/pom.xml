@@ -24,6 +24,7 @@
         <module>wingflare-dep-engine</module>
         <module>wingflare-dep-module</module>
         <module>wingflare-dep-api</module>
+        <module>wingflare-dep-grpc</module>
     </modules>
 
 </project>

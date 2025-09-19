@@ -23,6 +23,7 @@
         <module>wingflare-lib-container</module>
         <module>wingflare-lib-idgenerator</module>
         <module>wingflare-lib-thread-pool</module>
+        <module>wingflare-lib-lifecycle</module>
     </modules>
     <artifactId>wingflare-lib</artifactId>
     <packaging>pom</packaging>
