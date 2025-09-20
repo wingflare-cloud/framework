@@ -2,8 +2,8 @@ package com.wingflare.api.alarm;
 
 
 /**
- * @author: opensnail
- * @date : 2021-11-25 09:19
+ * @author: 奶嘴
+ * @date : 2023-10-05 06:08
  */
 public interface AlarmDrive<T> {
 
