@@ -32,7 +32,13 @@ public final class EnvironmentConfig implements ConfigReader {
 
     @Override
     public Integer getIntProperty(String key) {
-        return Integer.valueOf(System.getenv(caseKey(key)));
+        String val = System.getenv(caseKey(key));
+
+        if (val == null) {
+            return null;
+        }
+
+        return Integer.valueOf(val);
     }
 
     @Override

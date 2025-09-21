@@ -1,5 +1,6 @@
 package com.wingflare.lib.scheduler;
 
+
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -14,7 +15,7 @@ public final class SchedulerUtils {
     
     // 私有构造函数，防止实例化
     private SchedulerUtils() {
-        throw new UnsupportedOperationException("工具类不能被实例化");
+        throw new UnsupportedOperationException("Utility classes cannot be instantiated");
     }
     
     /**

@@ -246,7 +246,7 @@ public class SchedulerTest {
     private static void testPerformanceAndConcurrency() {
         System.out.println("\n--- 测试性能和并发 ---");
         
-        TaskScheduler scheduler = new TaskScheduler(8, 16, 2000);
+        TaskScheduler scheduler = new TaskScheduler();
         
         try {
             scheduler.start();

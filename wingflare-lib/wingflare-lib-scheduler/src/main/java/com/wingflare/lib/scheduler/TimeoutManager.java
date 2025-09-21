@@ -1,5 +1,8 @@
 package com.wingflare.lib.scheduler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +19,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * 负责监控任务执行时间，处理超时任务
  */
 public class TimeoutManager {
-    
+
+    private static final Logger logger = LoggerFactory.getLogger(TimeoutManager.class);
     // 执行中的任务映射
     private final ConcurrentHashMap<Long, ExecutingTaskInfo> executingTasks;
     
@@ -146,16 +150,13 @@ public class TimeoutManager {
             // 标记任务为取消状态
             taskNode.cancel();
             task.cancel();
-            
-            // 记录超时信息
-            String errorMessage = String.format(
-                "任务执行超时: %s, 超时时间: %dms, 实际执行时间: %dms",
-                task.getName(),
-                taskInfo.getTimeoutMs(),
-                Duration.between(taskInfo.getStartTime(), LocalDateTime.now()).toMillis()
-            );
-            
-            System.err.println(errorMessage);
+
+            logger.error(String.format(
+                    "Task execution timeout: %s, timeout time: %dms, actual execution time: %dms",
+                    task.getName(),
+                    taskInfo.getTimeoutMs(),
+                    Duration.between(taskInfo.getStartTime(), LocalDateTime.now()).toMillis()
+            ));
         }
     }
     

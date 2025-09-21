@@ -16,4 +16,17 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-config</artifactId>
+        </dependency>
+
+    </dependencies>
+
 </project>

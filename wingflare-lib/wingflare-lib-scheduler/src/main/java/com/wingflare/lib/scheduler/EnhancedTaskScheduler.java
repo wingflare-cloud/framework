@@ -1,13 +1,17 @@
 package com.wingflare.lib.scheduler;
 
-import java.util.concurrent.Future;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 增强版任务调度器
  * 集成超时管理和资源管理功能
  */
 public class EnhancedTaskScheduler extends TaskScheduler {
-    
+
+
+    private static final Logger logger = LoggerFactory.getLogger(EnhancedTaskScheduler.class);
     // 超时管理器
     private final TimeoutManager timeoutManager;
     
@@ -15,19 +19,10 @@ public class EnhancedTaskScheduler extends TaskScheduler {
     private final ResourceManager resourceManager;
     
     /**
-     * 使用默认配置创建增强调度器
+     * 创建增强调度器
      */
     public EnhancedTaskScheduler() {
         super();
-        this.timeoutManager = new TimeoutManager();
-        this.resourceManager = new ResourceManager();
-    }
-    
-    /**
-     * 创建增强调度器
-     */
-    public EnhancedTaskScheduler(int corePoolSize, int maxPoolSize, int queueCapacity) {
-        super(corePoolSize, maxPoolSize, queueCapacity);
         this.timeoutManager = new TimeoutManager();
         this.resourceManager = new ResourceManager();
     }
@@ -77,7 +72,7 @@ public class EnhancedTaskScheduler extends TaskScheduler {
         try {
             // 检查任务超时
             if (taskNode.isTimeout()) {
-                System.err.println("任务执行超时: " + task.getName());
+                logger.warn("Task execution timeout: {}", task.getName());
                 return;
             }
             
@@ -90,7 +85,7 @@ public class EnhancedTaskScheduler extends TaskScheduler {
             }
             
         } catch (Exception e) {
-            System.err.println("任务执行异常: " + task.getName() + ", 错误: " + e.getMessage());
+            logger.warn("Task execution exception: {}, error: {}", task.getName(), e.getMessage());
             
             // 如果是重复任务且允许重试，重新调度
             if (!task.isCompleted() && task.getCurrentRetries() < task.getMaxRetries()) {

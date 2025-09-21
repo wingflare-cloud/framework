@@ -1,5 +1,8 @@
 package com.wingflare.lib.scheduler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -13,13 +16,16 @@ import java.util.concurrent.atomic.AtomicLong;
  * 负责管理调度器的资源分配和回收
  */
 public class ResourceManager {
+
+
     
     // 默认配置
     private static final int DEFAULT_INITIAL_NODE_POOL_SIZE = 1000;
     private static final int DEFAULT_MAX_NODE_POOL_SIZE = 10000;
     private static final double DEFAULT_POOL_EXPANSION_THRESHOLD = 0.8; // 80%使用率时扩容
     private static final double DEFAULT_POOL_SHRINK_THRESHOLD = 0.2;    // 20%使用率时缩容
-    
+    private static final Logger logger = LoggerFactory.getLogger(ResourceManager.class);
+
     // 节点池
     private final NodePool nodePool;
     
@@ -102,7 +108,7 @@ public class ResourceManager {
         try {
             monitorNodePool();
         } catch (Exception e) {
-            System.err.println("资源监控异常: " + e.getMessage());
+            logger.warn("Resource monitoring exception: {}", e.getMessage());
         }
     }
     
@@ -121,9 +127,13 @@ public class ResourceManager {
             if (expandSize > 0) {
                 nodePool.expand(expandSize);
                 totalExpansions.incrementAndGet();
-                System.out.println(String.format(
-                    "节点池扩容: %d -> %d (使用率: %.2f%%)", 
-                    currentCapacity, nodePool.getCapacity(), utilizationRate * 100));
+
+                if (logger.isDebugEnabled()) {
+                    logger.info(String.format(
+                            "节点池扩容: %d -> %d (使用率: %.2f%%)",
+                            currentCapacity, nodePool.getCapacity(), utilizationRate * 100));
+                }
+
             }
         }
         

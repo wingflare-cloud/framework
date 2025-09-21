@@ -1,14 +1,20 @@
 package com.wingflare.lib.scheduler;
 
-import java.time.LocalDateTime;
+
+import com.wingflare.lib.config.ConfigUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,16 +30,12 @@ public class TaskScheduler extends TimingWheel {
     // 默认配置
     private static final int DEFAULT_CORE_POOL_SIZE = Math.max(2, Runtime.getRuntime().availableProcessors());
     private static final int DEFAULT_MAX_POOL_SIZE = DEFAULT_CORE_POOL_SIZE * 4;
-    private static final int DEFAULT_QUEUE_CAPACITY = 1000;
-    
+    private static final int DEFAULT_QUEUE_CAPACITY = 1024;
+    private static final Logger logger = LoggerFactory.getLogger(TaskScheduler.class);
+
     // 调度器状态
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicBoolean shutdown = new AtomicBoolean(false);
-    
-    // 线程池配置
-    private final int corePoolSize;
-    private final int maxPoolSize;
-    private final int queueCapacity;
     
     // 线程池
     private ExecutorService taskExecutor;
@@ -53,21 +55,11 @@ public class TaskScheduler extends TimingWheel {
     private final AtomicLong totalCancelledTasks = new AtomicLong(0);
     
     /**
-     * 使用默认配置创建调度器
-     */
-    public TaskScheduler() {
-        this(DEFAULT_CORE_POOL_SIZE, DEFAULT_MAX_POOL_SIZE, DEFAULT_QUEUE_CAPACITY);
-    }
-    
-    /**
      * 创建调度器
      */
-    public TaskScheduler(int corePoolSize, int maxPoolSize, int queueCapacity) {
+    public TaskScheduler() {
         super();
-        this.corePoolSize = corePoolSize;
-        this.maxPoolSize = maxPoolSize;
-        this.queueCapacity = queueCapacity;
-        this.readyTaskQueue = new ArrayBlockingQueue<>(queueCapacity);
+        this.readyTaskQueue = new ArrayBlockingQueue<>(ConfigUtil.getIntProperty("scheduler.queueCapacity", DEFAULT_QUEUE_CAPACITY));
         
         initializeThreadPools();
     }
@@ -77,16 +69,22 @@ public class TaskScheduler extends TimingWheel {
      */
     private void initializeThreadPools() {
         // 任务执行线程池
-        this.taskExecutor = Executors.newFixedThreadPool(corePoolSize, 
-            new NamedThreadFactory("TaskExecutor"));
+        this.taskExecutor = new ThreadPoolExecutor(ConfigUtil.getIntProperty("scheduler.corePoolSize", DEFAULT_CORE_POOL_SIZE),
+                ConfigUtil.getIntProperty("scheduler.maxPoolSize", DEFAULT_MAX_POOL_SIZE),
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(),
+                new NamedThreadFactory("TaskExecutor"));
         
         // 时间轮推进器（单线程）
         this.wheelAdvancer = Executors.newSingleThreadScheduledExecutor(
             new NamedThreadFactory("WheelAdvancer"));
         
         // 超时检查线程池（单线程）
-        this.timeoutChecker = Executors.newSingleThreadExecutor(
-            new NamedThreadFactory("TimeoutChecker"));
+        this.timeoutChecker = new ThreadPoolExecutor(ConfigUtil.getIntProperty("scheduler.timeoutChecker.corePoolSize", 1),
+                ConfigUtil.getIntProperty("scheduler.timeoutChecker.maxPoolSize", 1),
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(),
+                new NamedThreadFactory("TimeoutChecker"));
     }
     
     /**
@@ -98,7 +96,7 @@ public class TaskScheduler extends TimingWheel {
         }
         
         if (shutdown.get()) {
-            throw new IllegalStateException("调度器已关闭，无法重新启动");
+            throw new IllegalStateException("The scheduler has been shut down and cannot be restarted.");
         }
         
         running.set(true);
@@ -209,7 +207,7 @@ public class TaskScheduler extends TimingWheel {
      */
     private Future<Void> submitTask(ScheduledTask task) {
         if (!running.get()) {
-            throw new IllegalStateException("调度器未启动");
+            throw new IllegalStateException("The scheduler has not been started.");
         }
         
         CompletableFuture<Void> future = new CompletableFuture<>();
@@ -220,7 +218,7 @@ public class TaskScheduler extends TimingWheel {
             totalSubmittedTasks.incrementAndGet();
             future.complete(null);
         } else {
-            future.completeExceptionally(new RuntimeException("任务添加失败"));
+            future.completeExceptionally(new RuntimeException("Task addition failed"));
         }
         
         return future;
@@ -236,11 +234,11 @@ public class TaskScheduler extends TimingWheel {
             if (!readyTaskQueue.offer(taskNode)) {
                 // 队列满了，记录失败并释放节点
                 totalFailedTasks.incrementAndGet();
-                System.err.println("任务队列已满，丢弃任务: " + taskNode.getTask().getName());
+                logger.error("Task queue is full, discarding task: {}", taskNode.getTask().getName());
             }
         } catch (Exception e) {
             totalFailedTasks.incrementAndGet();
-            System.err.println("提交任务执行失败: " + e.getMessage());
+            logger.error("Failed to submit task for execution: {}", e.getMessage());
         }
     }
     
@@ -268,8 +266,6 @@ public class TaskScheduler extends TimingWheel {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
-            } catch (Exception e) {
-                System.err.println("任务分发器异常: " + e.getMessage());
             }
         }
     }
@@ -288,7 +284,7 @@ public class TaskScheduler extends TimingWheel {
         try {
             // 检查任务超时
             if (taskNode.isTimeout()) {
-                System.err.println("任务执行超时: " + task.getName());
+                logger.error("Task execution timeout: {}", task.getName());
                 totalFailedTasks.incrementAndGet();
                 return;
             }
@@ -304,7 +300,7 @@ public class TaskScheduler extends TimingWheel {
             
         } catch (Exception e) {
             totalFailedTasks.incrementAndGet();
-            System.err.println("任务执行异常: " + task.getName() + ", 错误: " + e.getMessage());
+            logger.error("Task execution exception: {}, error: {}",task.getName(), e.getMessage());
             
             // 如果是重复任务且允许重试，重新调度
             if (!task.isCompleted() && task.getCurrentRetries() < task.getMaxRetries()) {

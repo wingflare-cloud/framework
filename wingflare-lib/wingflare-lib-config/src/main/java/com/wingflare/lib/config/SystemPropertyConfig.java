@@ -22,7 +22,13 @@ public final class SystemPropertyConfig implements ConfigReader {
 
     @Override
     public Integer getIntProperty(String key) {
-        return Integer.valueOf(System.getProperty(key));
+        String val = System.getProperty(key);
+
+        if (val == null) {
+            return null;
+        }
+
+        return Integer.valueOf(val);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.wingflare.lib.scheduler;
 
+
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -169,7 +170,7 @@ public class TimingWheel {
             int slotIndex = (int) (tick % WHEEL_SIZES[level]);
             
             // 处理当前槽位的任务
-            processSlot(level, slotIndex, currentTimeMs);
+            processSlot(level, slotIndex);
             
             // 更新时间指针
             currentTicks[level].set(tick);
@@ -184,7 +185,7 @@ public class TimingWheel {
     /**
      * 处理指定槽位的任务
      */
-    private void processSlot(int level, int slotIndex, long currentTimeMs) {
+    private void processSlot(int level, int slotIndex) {
         TimeSlot slot = wheels[level][slotIndex];
         TaskNode expiredTasks = slot.pollExpiredTasks();
         
@@ -202,7 +203,7 @@ public class TimingWheel {
                 nodePool.release(current);
             } else {
                 // 重新调度或执行任务
-                rescheduleOrExecuteTask(current, currentTimeMs);
+                rescheduleOrExecuteTask(current);
             }
             
             current = next;
@@ -212,7 +213,7 @@ public class TimingWheel {
     /**
      * 重新调度或执行任务
      */
-    private void rescheduleOrExecuteTask(TaskNode taskNode, long currentTimeMs) {
+    private void rescheduleOrExecuteTask(TaskNode taskNode) {
         ScheduledTask task = taskNode.getTask();
         if (task == null) {
             nodePool.release(taskNode);
@@ -234,8 +235,7 @@ public class TimingWheel {
      * 提交任务执行（需要在调度器中实现）
      */
     protected void submitTaskForExecution(TaskNode taskNode) {
-        // 这个方法将在TaskScheduler中被重写
-        throw new UnsupportedOperationException("需要在调度器中实现任务执行逻辑");
+        throw new UnsupportedOperationException("Need to implement the task execution logic in the scheduler");
     }
     
     /**
