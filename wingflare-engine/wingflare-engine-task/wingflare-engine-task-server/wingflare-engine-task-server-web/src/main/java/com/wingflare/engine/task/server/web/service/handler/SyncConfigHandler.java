@@ -1,9 +1,10 @@
 package com.wingflare.engine.task.server.web.service.handler;
 
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.core.model.Result;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.ConfigRequest;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.client.CommonRpcClient;
 import com.wingflare.engine.task.server.common.dto.ConfigSyncTask;
 import com.wingflare.engine.task.server.common.dto.InstanceLiveInfo;

@@ -3,9 +3,9 @@ package com.wingflare.engine.task.server.retry.support.schedule;
 
 import cn.hutool.core.collection.CollUtil;
 import com.wingflare.api.alarm.AlarmContext;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.core.enums.RetryStatusEnum;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.util.DateUtils;
 import com.wingflare.engine.task.server.retry.dto.NotifyConfigDTO;
 import com.wingflare.engine.task.server.retry.dto.RetrySceneConfigPartitionTask;

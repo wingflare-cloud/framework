@@ -1,8 +1,9 @@
 package com.wingflare.engine.task.client.retry.core.client;
 
+
 import cn.hutool.core.lang.Assert;
-import com.wingflare.api.core.annotation.Validated;
-import com.wingflare.engine.task.client.common.Lifecycle;
+import com.wingflare.api.lifecycle.Lifecycle;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.engine.task.client.common.annotation.Mapping;
 import com.wingflare.engine.task.client.common.annotation.TaskEndPoint;
 import com.wingflare.engine.task.client.common.config.TaskProperties;

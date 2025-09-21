@@ -1,10 +1,11 @@
 package com.wingflare.engine.task.server.starter.dispatch;
 
+
 import cn.hutool.core.collection.CollUtil;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.core.constant.SystemConstants;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.datasource.template.persistence.po.GroupConfig;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.dto.DistributeInstance;
 import com.wingflare.engine.task.server.common.pekko.ActorGenerator;
 import org.apache.pekko.actor.ActorRef;

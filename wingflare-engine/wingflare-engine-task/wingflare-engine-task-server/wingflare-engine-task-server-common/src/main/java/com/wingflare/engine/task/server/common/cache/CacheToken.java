@@ -1,8 +1,8 @@
 package com.wingflare.engine.task.server.common.cache;
 
 import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.register.ServerRegister;
 import com.wingflare.engine.task.server.common.triple.Pair;

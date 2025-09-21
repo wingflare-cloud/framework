@@ -1,8 +1,9 @@
 package com.wingflare.engine.task.server.common.register;
 
+
 import cn.hutool.core.collection.CollUtil;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.Register;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;
 import com.wingflare.engine.task.server.common.handler.InstanceManager;

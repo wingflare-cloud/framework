@@ -1,15 +1,16 @@
 package com.wingflare.engine.task.server.common.rpc.server.grpc;
 
+
+import com.wingflare.api.lifecycle.Lifecycle;
+import com.wingflare.api.lifecycle.ServerStopException;
 import com.wingflare.engine.task.common.core.constant.GrpcServerConstants;
 import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
 import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
 import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.config.SystemProperties.RpcServerProperties;
 import com.wingflare.engine.task.server.common.config.SystemProperties.ThreadPoolConfig;
-import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.grpc.CompressorRegistry;
 import io.grpc.DecompressorRegistry;
@@ -22,9 +23,6 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import io.grpc.protobuf.ProtoUtils;
 import io.grpc.stub.ServerCalls;
 import io.grpc.util.MutableHandlerRegistry;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -39,8 +37,6 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022-03-07 15:54
  * @since 1.0.0
  */
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GrpcServer implements Lifecycle {
 
     private final SystemProperties systemProperties;
@@ -101,8 +97,18 @@ public class GrpcServer implements Lifecycle {
         } catch (IOException e) {
             TaskEngineLog.LOCAL.error("--------> wingflare-task remoting server error.", e);
             started = false;
-            throw new TaskServerException("wingflare-task server start error");
+            throw new ServerStopException("wingflare-task server start error");
         }
+    }
+
+    @Override
+    public int startSort() {
+        return Integer.MIN_VALUE;
+    }
+
+    @Override
+    public int closeSort() {
+        return Integer.MIN_VALUE;
     }
 
     @Override

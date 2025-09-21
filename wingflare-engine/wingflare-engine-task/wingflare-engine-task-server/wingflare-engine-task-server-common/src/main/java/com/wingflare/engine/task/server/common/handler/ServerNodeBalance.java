@@ -1,11 +1,12 @@
 package com.wingflare.engine.task.server.common.handler;
 
+
 import cn.hutool.core.collection.CollUtil;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.core.enums.NodeTypeEnum;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.allocate.server.AllocateMessageQueueAveragely;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.convert.RegisterNodeInfoConverter;

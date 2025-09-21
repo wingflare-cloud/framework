@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.common.handler;
 
-import com.wingflare.engine.task.client.common.Lifecycle;
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.client.common.RpcClient;
 import com.wingflare.engine.task.client.common.cache.GroupVersionCache;
 import com.wingflare.engine.task.client.common.rpc.client.RequestBuilder;

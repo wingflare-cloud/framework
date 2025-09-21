@@ -1,7 +1,8 @@
 package com.wingflare.engine.task.client.common.rpc.client.grpc;
 
+
 import com.wingflare.api.event.EventPublisher;
-import com.wingflare.engine.task.client.common.Lifecycle;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.RpcClientProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;

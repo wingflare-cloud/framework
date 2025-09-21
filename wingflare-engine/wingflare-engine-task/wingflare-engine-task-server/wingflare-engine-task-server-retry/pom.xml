@@ -18,6 +18,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-lifecycle</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
         </dependency>

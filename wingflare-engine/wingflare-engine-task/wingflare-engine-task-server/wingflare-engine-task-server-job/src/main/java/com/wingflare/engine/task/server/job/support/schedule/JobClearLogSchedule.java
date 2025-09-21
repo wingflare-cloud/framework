@@ -1,8 +1,9 @@
 package com.wingflare.engine.task.server.job.support.schedule;
 
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.core.util.StreamUtils;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
 import com.wingflare.engine.task.server.common.schedule.AbstractSchedule;

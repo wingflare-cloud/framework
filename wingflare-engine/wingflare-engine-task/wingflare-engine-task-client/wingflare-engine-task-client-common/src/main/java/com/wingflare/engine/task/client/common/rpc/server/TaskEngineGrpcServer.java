@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.common.rpc.server;
 
-import com.wingflare.engine.task.client.common.Lifecycle;
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.RpcServerProperties;
 import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;

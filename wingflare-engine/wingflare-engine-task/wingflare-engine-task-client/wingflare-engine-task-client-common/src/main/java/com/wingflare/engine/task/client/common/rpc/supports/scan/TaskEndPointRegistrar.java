@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.common.rpc.supports.scan;
 
-import com.wingflare.engine.task.client.common.Lifecycle;
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.client.common.cache.EndPointInfoCache;
 import com.wingflare.engine.task.client.common.exception.TaskClientException;
 import org.springframework.stereotype.Component;

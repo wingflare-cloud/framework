@@ -22,6 +22,12 @@
             <artifactId>wingflare-engine-task-common-model</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-lifecycle</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!--    libs    -->
         <dependency>
             <groupId>com.github.rholder</groupId>

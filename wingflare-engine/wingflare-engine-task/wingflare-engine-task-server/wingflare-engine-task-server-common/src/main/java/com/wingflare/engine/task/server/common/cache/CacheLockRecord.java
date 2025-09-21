@@ -1,7 +1,8 @@
 package com.wingflare.engine.task.server.common.cache;
 
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.core.Ordered;

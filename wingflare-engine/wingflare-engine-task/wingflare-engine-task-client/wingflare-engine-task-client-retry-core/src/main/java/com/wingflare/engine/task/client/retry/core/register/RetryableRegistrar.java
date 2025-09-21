@@ -1,6 +1,7 @@
 package com.wingflare.engine.task.client.retry.core.register;
 
-import com.wingflare.engine.task.client.common.Lifecycle;
+
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.client.retry.core.Scanner;
 import com.wingflare.engine.task.client.retry.core.cache.RetryerInfoCache;
 import com.wingflare.engine.task.client.retry.core.exception.TaskRetryClientException;

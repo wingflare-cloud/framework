@@ -2,9 +2,9 @@ package com.wingflare.engine.task.server.retry.support.listener;
 
 
 import com.wingflare.api.alarm.AlarmContext;
+import com.wingflare.api.lifecycle.Lifecycle;
 import com.wingflare.engine.task.common.core.enums.RetryNotifySceneEnum;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
-import com.wingflare.engine.task.server.common.Lifecycle;
 import com.wingflare.engine.task.server.common.alarm.AbstractRetryAlarm;
 import com.wingflare.engine.task.server.common.dto.NotifyConfigInfo;
 import com.wingflare.engine.task.server.common.dto.RetryAlarmInfo;

@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-lifecycle</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- java语言常用功能工具包 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
