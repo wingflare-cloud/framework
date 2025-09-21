@@ -46,6 +46,11 @@ public class AppSmartLifecycle implements SmartLifecycle, ApplicationContextAwar
             for (Lifecycle component : sortedComponents) {
                 try {
                     component.start();
+
+                    if (logger.isDebugEnabled()) {
+                        logger.info("组件[{}]启动", component.getClass().getName());
+                    }
+
                 } catch (ServerStopException stopException) {
                     stopException.setLifecycle(component);
                     throw stopException;
@@ -77,6 +82,10 @@ public class AppSmartLifecycle implements SmartLifecycle, ApplicationContextAwar
             for (Lifecycle component : sortedComponents) {
                 try {
                     component.close();
+
+                    if (logger.isDebugEnabled()) {
+                        logger.info("组件[{}]关闭", component.getClass().getName());
+                    }
                 } catch (ServerStopException stopException) {
                     stopException.setLifecycle(component);
                     throw stopException;

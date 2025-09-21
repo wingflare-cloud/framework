@@ -19,6 +19,11 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-facade-module-base</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-module-base</artifactId>
         </dependency>
 
@@ -95,5 +100,14 @@
         </profile>
 
     </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
