@@ -36,6 +36,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -65,6 +66,15 @@ public class AnnotationReplacerMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+
+        if (replacementAnnotations==null) {
+            replacementAnnotations = new ArrayList<>();
+        }
+
+        if (replacementClasses==null) {
+            replacementClasses = new ArrayList<>();
+        }
+
         getLog().info("=== Starting annotation replacement ===");
         getLog().info("Found " + replacementAnnotations.size() + " replacementAnnotation rules");
         getLog().info("Found " + replacementClasses.size() + " replacementClass rules");
@@ -565,6 +575,17 @@ public class AnnotationReplacerMojo extends AbstractMojo {
             }
             return super.visit(node, arg);
         }
+    }
+
+    private File getRootProjectDirectory(MavenProject project) {
+        // 从当前项目开始向上查找，直到找到没有父项目的根项目
+        MavenProject rootProject = project;
+
+        while (rootProject.getParent() != null) {
+            rootProject = rootProject.getParent();
+        }
+        // 返回根项目的基础目录
+        return rootProject.getBasedir();
     }
 
 }
