@@ -9,9 +9,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.ClassExpr;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NameExpr;
@@ -29,11 +27,15 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.codehaus.plexus.util.xml.Xpp3DomBuilder;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -49,59 +51,64 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
-    @Parameter(required = false)
+    private List<ReplacementRule> replacementRules;
+
     private List<AnnotationReplacement> replacementAnnotations;
 
-    @Parameter(required = false)
     private List<ClassesReplacement> replacementClasses;
 
     @Parameter(defaultValue = "${project.build.sourceDirectory}", required = true)
     private File sourceDirectory;
 
-    @Parameter(defaultValue = "${project.build.directory}/generated-sources/wingflare", required = true)
+    @Parameter(defaultValue = "${project.build.directory}/generated-sources/wingflare/main-java", required = true)
     private File tempDirectory;
+
+    @Parameter(defaultValue = "${project.build.directory}/generated-sources/wingflare/pom.xml")
+    private File outputPomFile;
 
     private JavaParser javaParser;
     private static final Pattern ANNOTATION_PATTERN = Pattern.compile("^(@[^(]+)(\\(.*\\))?$");
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (project.getProperties().getProperty("wingflare.replace", "false").equals("true")) {
+            getLog().info("=== Starting annotation replacement ===");
 
-        if (replacementAnnotations==null) {
-            replacementAnnotations = new ArrayList<>();
-        }
+            try {
+                loadReplacements();
+                // 准备临时目录
+                prepareTempDirectory();
 
-        if (replacementClasses==null) {
-            replacementClasses = new ArrayList<>();
-        }
+                MavenPomUpdater mavenPomUpdater = new MavenPomUpdater(replacementRules);
+                mavenPomUpdater.updatePomDependencies(project.getFile(), outputPomFile);
+            } catch (Exception e) {
+                getLog().error("解析配置出错: " + e.getMessage());
+            }
 
-        getLog().info("=== Starting annotation replacement ===");
-        getLog().info("Found " + replacementAnnotations.size() + " replacementAnnotation rules");
-        getLog().info("Found " + replacementClasses.size() + " replacementClass rules");
+            getLog().info("Found " + replacementAnnotations.size() + " replacementAnnotation rules");
+            getLog().info("Found " + replacementClasses.size() + " replacementClass rules");
 
-        javaParser = new JavaParser();
+            javaParser = new JavaParser();
 
-        if (!sourceDirectory.exists()) {
-            getLog().warn("Source directory does not exist: " + sourceDirectory.getAbsolutePath());
-            return;
-        }
+            if (!sourceDirectory.exists()) {
+                getLog().warn("Source directory does not exist: " + sourceDirectory.getAbsolutePath());
+                return;
+            }
 
-        try {
-            // 准备临时目录
-            prepareTempDirectory();
+            try {
+                // 复制源代码到临时目录（修复多级目录问题）
+                copySourceToTempDirectory(sourceDirectory, tempDirectory);
 
-            // 复制源代码到临时目录（修复多级目录问题）
-            copySourceToTempDirectory(sourceDirectory, tempDirectory);
+                // 处理临时目录中的代码
+                processDirectory(tempDirectory);
 
-            // 处理临时目录中的代码
-            processDirectory(tempDirectory);
+                // 替换项目的源目录为临时目录
+                replaceSourceDirectoryInProject();
 
-            // 替换项目的源目录为临时目录
-            replaceSourceDirectoryInProject();
-
-            getLog().info("=== Annotation replacement setup completed successfully ===");
-        } catch (IOException e) {
-            throw new MojoExecutionException("Error during annotation replacement process", e);
+                getLog().info("=== Annotation replacement setup completed successfully ===");
+            } catch (IOException e) {
+                throw new MojoExecutionException("Error during annotation replacement process", e);
+            }
         }
     }
 
@@ -124,7 +131,7 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     /**
      * 递归删除目录
      */
-    private void deleteDirectory(File directory) throws IOException {
+    private void deleteDirectory(File directory) {
         if (directory.isDirectory()) {
             File[] files = directory.listFiles();
             if (files != null) {
@@ -586,6 +593,80 @@ public class AnnotationReplacerMojo extends AbstractMojo {
         }
         // 返回根项目的基础目录
         return rootProject.getBasedir();
+    }
+
+    /**
+     * 从.mvn/extensions.xml加载替换规则，修复Xpp3DomBuilder参数问题
+     */
+    private void loadReplacements() throws IOException {
+        File extensionsFile = new File(getRootProjectDirectory(project), "/wingflare.xml");
+
+        replacementAnnotations = new ArrayList<>();
+        replacementClasses = new ArrayList<>();
+        replacementRules = new ArrayList<>();
+
+        getLog().info("====项目:"+ project.getName() +"=====配置目录:" + extensionsFile.getAbsolutePath() + "========");
+
+        if (!extensionsFile.exists() || !extensionsFile.isFile()) {
+            getLog().warn("配置文件不存在");
+            return;
+        }
+
+        // 使用try-with-resources确保流正确关闭
+        try (InputStream is = new FileInputStream(extensionsFile)) {
+            Xpp3Dom rootDom = Xpp3DomBuilder.build(is, "UTF-8");
+
+            Xpp3Dom annotationsDom = rootDom.getChild("annotations");
+            if (annotationsDom != null) {
+                Xpp3Dom[] annotationDom = annotationsDom.getChildren("replacement");
+
+                for (Xpp3Dom annotation : annotationDom) {
+                    AnnotationReplacement replacement = new AnnotationReplacement();
+                    replacement.setOldAnnotation(getChildValue(annotation, "oldAnnotation"));
+                    replacement.setNewAnnotation(getChildValue(annotation, "newAnnotation"));
+                    replacementAnnotations.add(replacement);
+                }
+            } else {
+                getLog().warn("annotations为空或读取失败");
+            }
+
+            Xpp3Dom classesDom = rootDom.getChild("classes");
+
+            if (classesDom != null) {
+                Xpp3Dom[] classDoms = classesDom.getChildren("replacement");
+
+                for (Xpp3Dom classItem : classDoms) {
+                    ClassesReplacement replacement = new ClassesReplacement();
+                    replacement.setOldClass(getChildValue(classItem, "oldClass"));
+                    replacement.setNewClass(getChildValue(classItem, "newClass"));
+                    replacementClasses.add(replacement);
+                }
+            } else {
+                getLog().warn("classes为空或读取失败");
+            }
+
+            Xpp3Dom dependenciesDom = rootDom.getChild("dependencies");
+
+            if (dependenciesDom != null) {
+                Xpp3Dom[] dependenciesDoms = dependenciesDom.getChildren("replacement");
+
+                for (Xpp3Dom dependencyItem : dependenciesDoms) {
+                    ReplacementRule replacement = new ReplacementRule();
+                    replacement.setSourceDepId(getChildValue(dependencyItem, "sourceDepId"));
+                    replacement.setTargetDepId(getChildValue(dependencyItem, "targetDepId"));
+                    replacementRules.add(replacement);
+                }
+            } else {
+                getLog().warn("dependencies为空或读取失败");
+            }
+        } catch (XmlPullParserException e) {
+            throw new IOException("解析wingflare.xml失败: " + e.getMessage(), e);
+        }
+    }
+
+    private String getChildValue(Xpp3Dom parent, String childName) {
+        Xpp3Dom child = parent.getChild(childName);
+        return (child != null) ? child.getValue() : null;
     }
 
 }

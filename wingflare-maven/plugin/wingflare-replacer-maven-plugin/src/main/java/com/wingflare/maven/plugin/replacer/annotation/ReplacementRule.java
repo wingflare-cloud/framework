@@ -1,4 +1,4 @@
-package com.wingflare.maven.plugin.replacer.pom;
+package com.wingflare.maven.plugin.replacer.annotation;
 
 public class ReplacementRule {
 
