@@ -54,11 +54,6 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-client-common</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

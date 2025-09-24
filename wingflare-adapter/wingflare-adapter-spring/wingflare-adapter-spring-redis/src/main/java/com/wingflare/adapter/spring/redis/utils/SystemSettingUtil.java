@@ -1,7 +1,8 @@
 package com.wingflare.adapter.spring.redis.utils;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.adapter.spring.redis.service.RedisService;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.standard.SettingUtil;

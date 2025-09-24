@@ -16,7 +16,7 @@
     <properties>
         <QLExpress.version>3.3.1</QLExpress.version>
         <easyexcel.version>3.2.1</easyexcel.version>
-        <fastjson.version>2.0.53</fastjson.version>
+        <fastjson2.version>2.0.59</fastjson2.version>
         <slf4j.version>1.7.36</slf4j.version>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <commons-codec.version>1.15</commons-codec.version>
@@ -119,9 +119,9 @@
 
             <!-- JSON 解析器和生成器 -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
 
             <dependency>

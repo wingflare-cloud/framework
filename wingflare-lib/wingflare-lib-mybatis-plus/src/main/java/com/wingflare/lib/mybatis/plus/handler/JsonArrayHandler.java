@@ -1,6 +1,7 @@
 package com.wingflare.lib.mybatis.plus.handler;
 
-import com.alibaba.fastjson.JSONArray;
+
+import com.alibaba.fastjson2.JSONArray;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;

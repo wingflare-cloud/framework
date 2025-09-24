@@ -1,5 +1,6 @@
 package com.wingflare.adapter.alarm.qiyewechat;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;

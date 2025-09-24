@@ -1,6 +1,7 @@
 package com.wingflare.adapter.spring.common.converter;
 
-import com.alibaba.fastjson.JSONArray;
+
+import com.alibaba.fastjson2.JSONArray;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
