@@ -13,8 +13,8 @@
 
     <properties>
         <grpc.version>1.75.0</grpc.version>
-        <google.protobuf.version>2.61.1</google.protobuf.version>
-        <google.protobuf>4.32.1</google.protobuf>
+        <google.protobuf.common.version>2.61.1</google.protobuf.common.version>
+        <google.protobuf.version>4.32.1</google.protobuf.version>
     </properties>
 
     <dependencies>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>${google.protobuf}</version>
+            <version>${google.protobuf.version}</version>
         </dependency>
 
         <dependency>
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>com.google.api.grpc</groupId>
             <artifactId>proto-google-common-protos</artifactId>
-            <version>${google.protobuf.version}</version>
+            <version>${google.protobuf.common.version}</version>
         </dependency>
 
         <dependency>

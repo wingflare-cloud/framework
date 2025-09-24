@@ -48,11 +48,6 @@
             <artifactId>wingflare-api-lifecycle</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-lifecycle</artifactId>
-        </dependency>
-
         <!-- Spring context -->
         <dependency>
             <groupId>org.springframework</groupId>
