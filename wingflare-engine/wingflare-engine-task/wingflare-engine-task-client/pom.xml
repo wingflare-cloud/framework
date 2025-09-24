@@ -23,12 +23,13 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-engine-task-client-common</artifactId>
+                <artifactId>wingflare-dep-all</artifactId>
                 <version>${project.parent.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
         </dependencies>
-
     </dependencyManagement>
 
 </project>
