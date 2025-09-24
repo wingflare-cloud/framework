@@ -1,4 +1,4 @@
-package com.wingflare.maven.plugin.replacer.annotation;
+package com.wingflare.maven.plugin.replacer;
 
 
 import com.github.javaparser.JavaParser;
@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 
 
 @Mojo(name = "replace", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
-public class AnnotationReplacerMojo extends AbstractMojo {
+public class ReplacerMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
