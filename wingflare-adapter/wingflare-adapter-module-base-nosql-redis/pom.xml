@@ -27,7 +27,6 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-abstraction-module-base</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

@@ -1,6 +1,7 @@
 package com.wingflare.adapter.spring.servlet.web.filter;
 
 
+import jakarta.annotation.Resource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,11 +21,8 @@ import java.io.IOException;
  */
 public class ExceptionHandleFilter implements Filter, Ordered {
 
-    private final HandlerExceptionResolver handlerExceptionResolver;
-
-    public ExceptionHandleFilter(HandlerExceptionResolver handlerExceptionResolver) {
-        this.handlerExceptionResolver = handlerExceptionResolver;
-    }
+    @Resource
+    private HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

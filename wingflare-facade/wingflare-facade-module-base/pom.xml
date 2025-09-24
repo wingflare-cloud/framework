@@ -43,7 +43,6 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-event</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

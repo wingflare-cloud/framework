@@ -63,9 +63,6 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}/generated-sources/wingflare/main-java", required = true)
     private File tempDirectory;
 
-    @Parameter(defaultValue = "${project.build.directory}/generated-sources/wingflare/pom.xml")
-    private File outputPomFile;
-
     private JavaParser javaParser;
     private static final Pattern ANNOTATION_PATTERN = Pattern.compile("^(@[^(]+)(\\(.*\\))?$");
 
@@ -73,16 +70,17 @@ public class AnnotationReplacerMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         if (project.getProperties().getProperty("wingflare.replace", "false").equals("true")) {
             getLog().info("=== Starting annotation replacement ===");
+            MavenPomUpdater mavenPomUpdater;
 
             try {
                 loadReplacements();
+                mavenPomUpdater = new MavenPomUpdater(replacementRules);
+                mavenPomUpdater.setSourceDirectory(getRelativePath(new File(tempDirectory.getAbsolutePath()), project.getFile().getParentFile()));
                 // 准备临时目录
                 prepareTempDirectory();
-
-                MavenPomUpdater mavenPomUpdater = new MavenPomUpdater(replacementRules);
-                mavenPomUpdater.updatePomDependencies(project.getFile(), outputPomFile);
             } catch (Exception e) {
                 getLog().error("解析配置出错: " + e.getMessage());
+                return;
             }
 
             getLog().info("Found " + replacementAnnotations.size() + " replacementAnnotation rules");
@@ -102,11 +100,10 @@ public class AnnotationReplacerMojo extends AbstractMojo {
                 // 处理临时目录中的代码
                 processDirectory(tempDirectory);
 
-                // 替换项目的源目录为临时目录
-                replaceSourceDirectoryInProject();
+                mavenPomUpdater.updatePomDependencies(project.getFile());
 
                 getLog().info("=== Annotation replacement setup completed successfully ===");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new MojoExecutionException("Error during annotation replacement process", e);
             }
         }
@@ -126,6 +123,55 @@ public class AnnotationReplacerMojo extends AbstractMojo {
             throw new IOException("Failed to create temp directory: " + tempDirectory.getAbsolutePath());
         }
         getLog().info("Prepared temp directory: " + tempDirectory.getAbsolutePath());
+    }
+
+    /**
+     * 计算目标文件相对于基准目录的相对路径
+     * @param targetFile 目标文件
+     * @param baseDir 基准目录（必须是目录，否则计算可能出错）
+     * @return 相对路径字符串
+     */
+    private static String getRelativePath(File targetFile, File baseDir) {
+        try {
+            // 1. 获取绝对路径（处理符号链接、相对路径等问题）
+            String targetAbsPath = targetFile.getCanonicalPath(); // 规范路径（更准确）
+            String baseAbsPath = baseDir.getCanonicalPath();
+
+            // 2. 分割路径为目录数组（处理不同系统的路径分隔符）
+            String separator = File.separator;
+            String[] targetParts = targetAbsPath.split(separator.replace("\\", "\\\\")); // 处理Windows反斜杠
+            String[] baseParts = baseAbsPath.split(separator.replace("\\", "\\\\"));
+
+            // 3. 找到共同父目录的索引
+            int commonIndex = 0;
+            while (commonIndex < targetParts.length && commonIndex < baseParts.length) {
+                if (!targetParts[commonIndex].equals(baseParts[commonIndex])) {
+                    break;
+                }
+                commonIndex++;
+            }
+
+            // 4. 构建相对路径
+            List<String> relativeParts = new ArrayList<>();
+            // 基准目录中，从共同父目录到基准目录的部分：用".."回退
+            for (int i = commonIndex; i < baseParts.length; i++) {
+                relativeParts.add("..");
+            }
+            // 拼接目标文件中，从共同父目录到目标文件的部分
+            for (int i = commonIndex; i < targetParts.length; i++) {
+                relativeParts.add(targetParts[i]);
+            }
+
+            // 5. 组合路径（用系统默认分隔符）
+            if (relativeParts.isEmpty()) {
+                return "."; // 目标文件就是基准目录本身
+            }
+            return String.join(separator, relativeParts);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // 异常时返回null
+        }
     }
 
     /**
@@ -177,19 +223,6 @@ public class AnnotationReplacerMojo extends AbstractMojo {
             Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
             getLog().debug("Copied file: " + source.getAbsolutePath() + " to " + target.getAbsolutePath());
         }
-    }
-
-    /**
-     * 将项目的源目录替换为临时目录
-     */
-    private void replaceSourceDirectoryInProject() {
-        // 移除原始源目录
-        project.getCompileSourceRoots().remove(sourceDirectory.getAbsolutePath());
-        getLog().info("Removed original source directory from compilation: " + sourceDirectory.getAbsolutePath());
-
-        // 添加临时目录作为新的源目录
-        project.addCompileSourceRoot(tempDirectory.getAbsolutePath());
-        getLog().info("Added modified temp directory to compilation: " + tempDirectory.getAbsolutePath());
     }
 
     private void processDirectory(File directory) throws MojoExecutionException {

@@ -4,6 +4,7 @@ package com.wingflare.adapter.module.base.nosql.redis.service;
 import com.wingflare.abstraction.module.base.DictStorage;
 import com.wingflare.facade.module.base.constants.Base;
 import com.wingflare.facade.module.base.dto.SimpleDictDTO;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
@@ -19,8 +20,10 @@ import java.util.Collections;
 @Component
 public class DictRedisStorage implements DictStorage {
 
+
+    @Resource
     @SuppressWarnings("rawtypes" )
-    private final RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
     DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>("local key = KEYS[1]\n" +
             "local args = ARGV\n" +
@@ -35,10 +38,6 @@ public class DictRedisStorage implements DictStorage {
             "    redis.call('RPUSH', key, unpack(batch))\n" +
             "end\n" +
             "return total", Long.class);
-
-    public DictRedisStorage(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
 
     @Override
     public Long save(SimpleDictDTO... simpleDictDTOS) {
