@@ -17,12 +17,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-engine-task-client-all</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-engine-task-client-retry-core</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
