@@ -54,7 +54,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
         LOG_AND_IGNORE   // 记录日志后忽略
     }
 
-    private final Map<String, ExecutorService> threadPools = new ConcurrentHashMap<>();
+    private final Map<String, ThreadPoolExecutor> threadPools = new ConcurrentHashMap<>();
     private final Map<String, AtomicBoolean> poolShutdownStatus = new ConcurrentHashMap<>();
     private final ThreadFactory threadFactory;
     private final Map<String, ThreadFactory> threadFactories = new ConcurrentHashMap<>();
@@ -177,7 +177,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
         return DEFAULT_TIME_UNIT;
     }
 
-    private ExecutorService createThreadPool(String poolKey) {
+    private ThreadPoolExecutor createThreadPool(String poolKey) {
         int corePoolSize = getPoolConfigInt(poolKey, CORE_POOL_SIZE_CONFIG_KEY, DEFAULT_CORE_POOL_SIZE);
         int maxPoolSize = getPoolConfigInt(poolKey, MAX_POOL_SIZE_CONFIG_KEY, DEFAULT_MAX_POOL_SIZE);
         int queueCapacity = getPoolConfigInt(poolKey, QUEUE_CAPACITY_CONFIG_KEY, DEFAULT_QUEUE_CAPACITY);
@@ -204,7 +204,11 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
         );
     }
 
-    private ExecutorService getThreadPool(String key) {
+    public ThreadPoolExecutor getThreadPool() {
+        return getThreadPool(null);
+    }
+
+    public ThreadPoolExecutor getThreadPool(String key) {
         String poolKey = key != null ? key : DEFAULT_POOL_KEY;
 
         AtomicBoolean shutdownStatus = poolShutdownStatus.computeIfAbsent(poolKey, k -> new AtomicBoolean(false));
@@ -213,10 +217,10 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
             throw new IllegalStateException("ThreadPool with key '" + poolKey + "' is shutting down or already shut down");
         }
 
-        ExecutorService executor = threadPools.get(poolKey);
+        ThreadPoolExecutor executor = threadPools.get(poolKey);
 
         if (executor == null || executor.isShutdown() || executor.isTerminated()) {
-            ExecutorService newExecutor = createThreadPool(poolKey);
+            ThreadPoolExecutor newExecutor = createThreadPool(poolKey);
             executor = threadPools.putIfAbsent(poolKey, newExecutor);
 
             if (executor == null) {

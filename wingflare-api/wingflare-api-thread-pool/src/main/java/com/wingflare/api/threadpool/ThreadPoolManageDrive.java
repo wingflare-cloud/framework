@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -76,6 +77,13 @@ public interface ThreadPoolManageDrive {
                     long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException;
 
+
+    /**
+     * 获取线程池
+     * @return
+     */
+    ThreadPoolExecutor getThreadPool();
+
     /**
      * 提交一个 Runnable 任务到指定线程池执行，无返回值
      * @param key 线程池标识
@@ -110,6 +118,13 @@ public interface ThreadPoolManageDrive {
     <T> T invokeAny(String key, Collection<? extends Callable<T>> tasks,
                     long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException;
+
+    /**
+     * 获取线程池
+     * @param key
+     * @return
+     */
+    ThreadPoolExecutor getThreadPool(String key);
 
     /**
      * 获取线程池工厂
