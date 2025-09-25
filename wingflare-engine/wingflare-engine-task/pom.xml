@@ -23,14 +23,9 @@
 
     <properties>
         <aviator.version>5.3.3</aviator.version>
-        <fory.version>0.11.2</fory.version>
         <zstd.version>1.5.5-5</zstd.version>
         <guava-retrying.version>2.0.0</guava-retrying.version>
-        <guava.version>33.3.0-jre</guava.version>
-        <pekko.version>1.2.0-M1</pekko.version>
-        <scala.version>2.13.9</scala.version>
         <perf4j.version>0.9.16</perf4j.version>
-        <java-jwt.version>4.4.0</java-jwt.version>
         <mybatis-spring.version>3.0.3</mybatis-spring.version>
     </properties>
 
@@ -45,12 +40,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.fory</groupId>
-                <artifactId>fory-core</artifactId>
-                <version>${fory.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.github.luben</groupId>
                 <artifactId>zstd-jni</artifactId>
                 <version>${zstd.version}</version>
@@ -60,36 +49,6 @@
                 <groupId>com.github.rholder</groupId>
                 <artifactId>guava-retrying</artifactId>
                 <version>${guava-retrying.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.pekko</groupId>
-                <artifactId>pekko-actor-typed_2.13</artifactId>
-                <version>${pekko.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.pekko</groupId>
-                <artifactId>pekko-actor-testkit-typed_2.13</artifactId>
-                <version>${pekko.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-library</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>${java-jwt.version}</version>
             </dependency>
 
             <dependency>

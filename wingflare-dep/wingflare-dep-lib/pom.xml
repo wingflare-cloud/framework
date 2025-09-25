@@ -13,18 +13,6 @@
 
     <artifactId>wingflare-dep-lib</artifactId>
 
-    <properties>
-        <QLExpress.version>3.3.1</QLExpress.version>
-        <easyexcel.version>3.2.1</easyexcel.version>
-        <fastjson2.version>2.0.59</fastjson2.version>
-        <slf4j.version>1.7.36</slf4j.version>
-        <commons-lang3.version>3.18.0</commons-lang3.version>
-        <commons-codec.version>1.15</commons-codec.version>
-        <commons.beanutils.version>1.9.4</commons.beanutils.version>
-        <commons.io.version>2.14.0</commons.io.version>
-        <snack3.version>3.2.123</snack3.version>
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -103,63 +91,6 @@
                 <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-lib-scheduler</artifactId>
                 <version>${project.parent.version}</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>QLExpress</artifactId>
-                <version>${QLExpress.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easyexcel.version}</version>
-            </dependency>
-
-            <!-- JSON 解析器和生成器 -->
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j.version}</version>
-            </dependency>
-
-            <!-- java语言常用功能工具包 -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${commons-codec.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-beanutils</groupId>
-                <artifactId>commons-beanutils</artifactId>
-                <version>${commons.beanutils.version}</version>
-            </dependency>
-
-            <!-- io常用工具类 -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.noear</groupId>
-                <artifactId>snack3</artifactId>
-                <version>${snack3.version}</version>
             </dependency>
 
         </dependencies>
