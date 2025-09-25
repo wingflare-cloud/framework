@@ -14,7 +14,6 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <grpc.version>1.75.0</grpc.version>
     </properties>
 
     <dependencies>

@@ -14,9 +14,6 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <grpc.version>1.75.0</grpc.version>
-        <google.protobuf.version>4.32.1</google.protobuf.version>
-        <google.protobuf.common.version>2.61.1</google.protobuf.common.version>
     </properties>
 
     <dependencies>
@@ -73,25 +70,21 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>${grpc.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>${google.protobuf.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.api.grpc</groupId>
             <artifactId>proto-google-common-protos</artifactId>
-            <version>${google.protobuf.common.version}</version>
         </dependency>
 
         <dependency>
