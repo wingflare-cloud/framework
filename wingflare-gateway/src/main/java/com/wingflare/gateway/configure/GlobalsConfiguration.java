@@ -2,9 +2,9 @@ package com.wingflare.gateway.configure;
 
 
 import com.wingflare.adapter.spring.common.configure.properties.WebProperties;
+import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.gateway.configure.properties.CorsProperties;
 import com.wingflare.gateway.filter.SessionGatewayFilterFactory;
-import com.wingflare.lib.core.constants.HttpHeader;
 import io.micrometer.tracing.Span;
 import io.micrometer.tracing.Tracer;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +45,7 @@ public class GlobalsConfiguration {
             Span span = tracer.currentSpan();
 
             if (span != null) {
-                responseHeaders.add(HttpHeader.X_RESPONSE_ID, span.context().traceId());
+                responseHeaders.add(HttpHeaderConstants.X_RESPONSE_ID, span.context().traceId());
             }
 
             if (CorsUtils.isCorsRequest(request)) {
@@ -53,11 +53,11 @@ public class GlobalsConfiguration {
 
                 for (String domain : corsProperties.getDomains()) {
                     if (domain.equalsIgnoreCase(origin)) {
-                        responseHeaders.add(HttpHeader.RESPONSE_ACCESS_CONTROL_ALLOW_ORIGIN, origin);
-                        responseHeaders.add(HttpHeader.RESPONSE_ACCESS_CONTROL_ALLOW_HEADERS, corsProperties.getAllowHeaders());
-                        responseHeaders.add(HttpHeader.RESPONSE_ACCESS_CONTROL_EXPOSE_HEADERS, corsProperties.getExposeHeaders());
-                        responseHeaders.add(HttpHeader.RESPONSE_ACCESS_CONTROL_ALLOW_METHODS, corsProperties.getAllowMethods());
-                        responseHeaders.add(HttpHeader.RESPONSE_ACCESS_CONTROL_ALLOW_CREDENTIALS, corsProperties.getAllowCredentials());
+                        responseHeaders.add(HttpHeaderConstants.RESPONSE_ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+                        responseHeaders.add(HttpHeaderConstants.RESPONSE_ACCESS_CONTROL_ALLOW_HEADERS, corsProperties.getAllowHeaders());
+                        responseHeaders.add(HttpHeaderConstants.RESPONSE_ACCESS_CONTROL_EXPOSE_HEADERS, corsProperties.getExposeHeaders());
+                        responseHeaders.add(HttpHeaderConstants.RESPONSE_ACCESS_CONTROL_ALLOW_METHODS, corsProperties.getAllowMethods());
+                        responseHeaders.add(HttpHeaderConstants.RESPONSE_ACCESS_CONTROL_ALLOW_CREDENTIALS, corsProperties.getAllowCredentials());
                         break;
                     }
                 }

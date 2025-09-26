@@ -3,6 +3,7 @@ package com.wingflare.module.auth.controller;
 
 import com.wingflare.api.core.PageResult;
 import com.wingflare.api.http.HttpContainer;
+import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.mvc.RequestMethod;
 import com.wingflare.api.mvc.annotation.Controller;
 import com.wingflare.api.mvc.annotation.RequestBody;
@@ -21,7 +22,6 @@ import com.wingflare.facade.module.auth.bo.TokenIdBO;
 import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.dto.UserDTO;
-import com.wingflare.lib.core.constants.HttpHeader;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.utils.SecurityUtil;
@@ -56,7 +56,7 @@ public class AuthController {
     @ResponseBody
     @Secret
     public TokenDTO login(@Secret @RequestBody LoginBO bo) {
-        bo.setUserAgent(httpContainer.getHeader(HttpHeader.REQUEST_USER_AGENT));
+        bo.setUserAgent(httpContainer.getHeader(HttpHeaderConstants.REQUEST_USER_AGENT));
         bo.setIpaddr(httpContainer.getClientIp());
         return loginBiz.login(bo);
     }
