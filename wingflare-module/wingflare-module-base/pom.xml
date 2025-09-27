@@ -3,30 +3,41 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <artifactId>wingflare-module</artifactId>
         <groupId>com.wingflare</groupId>
-        <artifactId>wingflare-adapter-spring</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>wingflare-module-base</artifactId>
     <packaging>jar</packaging>
-    <artifactId>wingflare-adapter-spring-event</artifactId>
-
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <wingflare.replace>true</wingflare.replace>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-event</artifactId>
+            <artifactId>wingflare-api-security</artifactId>
+            <scope>provided</scope>
         </dependency>
 
-        <!-- Spring common -->
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-common</artifactId>
+            <artifactId>wingflare-business-module-base</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-mvc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-validation</artifactId>
             <scope>provided</scope>
         </dependency>
 

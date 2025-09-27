@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-common</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

@@ -3,6 +3,7 @@ package com.wingflare.server.base;
 
 import com.wingflare.adapter.spring.common.annotation.BaseConfig;
 import com.wingflare.api.core.annotation.MicroserviceMode;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import java.util.TimeZone;
 @BaseConfig
 @MicroserviceMode
 @SpringBootApplication
+@MapperScan("com.wingflare.business.base.mapper")
 public class WingFlareBaseModuleApplication {
 
     public static void main(String[] args) {

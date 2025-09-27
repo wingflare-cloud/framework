@@ -81,6 +81,12 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wingflare</groupId>
+                <artifactId>wingflare-adapter-spring-transaction</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
 
         </dependencies>
 

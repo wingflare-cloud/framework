@@ -62,6 +62,21 @@
             <artifactId>wingflare-engine-task-client-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-transaction</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-event</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-http</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>
