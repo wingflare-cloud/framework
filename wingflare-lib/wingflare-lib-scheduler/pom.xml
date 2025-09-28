@@ -33,6 +33,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-container</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

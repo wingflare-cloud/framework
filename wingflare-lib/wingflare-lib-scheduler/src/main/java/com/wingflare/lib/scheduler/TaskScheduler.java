@@ -1,7 +1,9 @@
 package com.wingflare.lib.scheduler;
 
 
+import com.wingflare.api.threadpool.ThreadPoolManageDrive;
 import com.wingflare.lib.config.ConfigUtil;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,13 +13,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -68,23 +66,13 @@ public class TaskScheduler extends TimingWheel {
      * 初始化线程池
      */
     private void initializeThreadPools() {
+        ThreadPoolManageDrive threadPoolManage = Container.get(ThreadPoolManageDrive.class);
         // 任务执行线程池
-        this.taskExecutor = new ThreadPoolExecutor(ConfigUtil.getIntProperty("scheduler.corePoolSize", DEFAULT_CORE_POOL_SIZE),
-                ConfigUtil.getIntProperty("scheduler.maxPoolSize", DEFAULT_MAX_POOL_SIZE),
-                0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(),
-                new NamedThreadFactory("TaskExecutor"));
-        
+        this.taskExecutor = threadPoolManage.getThreadPool("SchedulerTaskExecutor");
         // 时间轮推进器（单线程）
-        this.wheelAdvancer = Executors.newSingleThreadScheduledExecutor(
-            new NamedThreadFactory("WheelAdvancer"));
-        
+        this.wheelAdvancer = Executors.newSingleThreadScheduledExecutor(threadPoolManage.factory("SchedulerWheelAdvancer"));
         // 超时检查线程池（单线程）
-        this.timeoutChecker = new ThreadPoolExecutor(ConfigUtil.getIntProperty("scheduler.timeoutChecker.corePoolSize", 1),
-                ConfigUtil.getIntProperty("scheduler.timeoutChecker.maxPoolSize", 1),
-                0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(),
-                new NamedThreadFactory("TimeoutChecker"));
+        this.timeoutChecker = threadPoolManage.getThreadPool("SchedulerTimeoutChecker");
     }
     
     /**
@@ -355,25 +343,6 @@ public class TaskScheduler extends TimingWheel {
             readyTaskQueue.size(),
             wheelStats
         );
-    }
-    
-    /**
-     * 自定义线程工厂
-     */
-    private static class NamedThreadFactory implements ThreadFactory {
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        private final String namePrefix;
-        
-        NamedThreadFactory(String namePrefix) {
-            this.namePrefix = "Scheduler-" + namePrefix + "-";
-        }
-        
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r, namePrefix + threadNumber.getAndIncrement());
-            t.setDaemon(true);
-            return t;
-        }
     }
     
     /**

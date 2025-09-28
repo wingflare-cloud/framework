@@ -1,6 +1,8 @@
 package com.wingflare.lib.scheduler;
 
 
+import com.wingflare.api.threadpool.ThreadPoolManageDrive;
+import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,10 +11,8 @@ import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -42,9 +42,11 @@ public class TimeoutManager {
      * 创建超时管理器
      */
     public TimeoutManager() {
+        ThreadPoolManageDrive threadPoolManage = Container.get(ThreadPoolManageDrive.class);
+
         this.executingTasks = new ConcurrentHashMap<>();
         this.timeoutChecker = Executors.newSingleThreadScheduledExecutor(
-            new TimeoutThreadFactory());
+                threadPoolManage.factory("SchedulerTimeoutChecker"));
     }
     
     /**
@@ -207,18 +209,5 @@ public class TimeoutManager {
         public LocalDateTime getStartTime() { return startTime; }
         public long getTimeoutMs() { return timeoutMs; }
     }
-    
-    /**
-     * 超时检查线程工厂
-     */
-    private static class TimeoutThreadFactory implements ThreadFactory {
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r, "TimeoutChecker-" + threadNumber.getAndIncrement());
-            t.setDaemon(true);
-            return t;
-        }
-    }
+
 }
