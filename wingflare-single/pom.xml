@@ -76,6 +76,31 @@
             <artifactId>wingflare-module-base</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-servlet-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-transaction</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-event</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-adapter-spring-http</artifactId>
+        </dependency>
+
     </dependencies>
 
     <profiles>
