@@ -2,6 +2,7 @@ package com.wingflare.lib.scheduler;
 
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -338,7 +339,7 @@ public class TimingWheel {
         @Override
         public String toString() {
             return String.format("TimingWheelStats[total=%d, byLevel=%s, availableNodes=%d]",
-                               totalTasks, java.util.Arrays.toString(tasksByLevel), availableNodes);
+                               totalTasks, Arrays.toString(tasksByLevel), availableNodes);
         }
     }
 }
