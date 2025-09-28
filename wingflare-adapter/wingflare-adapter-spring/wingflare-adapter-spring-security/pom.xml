@@ -26,13 +26,11 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-abstraction-security</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -43,6 +41,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-common</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
