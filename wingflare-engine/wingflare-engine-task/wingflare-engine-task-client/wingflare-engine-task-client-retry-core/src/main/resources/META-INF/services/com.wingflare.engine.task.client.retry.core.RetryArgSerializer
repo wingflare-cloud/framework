@@ -1,3 +1,0 @@
-com.wingflare.engine.task.client.retry.core.serializer.FurySerializer
-com.wingflare.engine.task.client.retry.core.serializer.ForySerializer
-com.wingflare.engine.task.client.retry.core.serializer.JacksonSerializer

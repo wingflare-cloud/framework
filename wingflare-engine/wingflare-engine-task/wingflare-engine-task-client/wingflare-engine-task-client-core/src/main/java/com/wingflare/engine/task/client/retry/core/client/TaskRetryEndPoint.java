@@ -68,7 +68,8 @@ public class TaskRetryEndPoint implements Lifecycle {
     private final TaskProperties taskProperties;
     private ThreadPoolExecutor dispatcherThreadPool = null;
 
-    public TaskRetryEndPoint(RemoteRetryExecutor remoteRetryExecutor, RemoteCallbackExecutor remoteCallbackExecutor, TaskProperties taskProperties) {
+    public TaskRetryEndPoint(RemoteRetryExecutor remoteRetryExecutor, RemoteCallbackExecutor remoteCallbackExecutor,
+                             TaskProperties taskProperties) {
         this.remoteRetryExecutor = remoteRetryExecutor;
         this.remoteCallbackExecutor = remoteCallbackExecutor;
         this.taskProperties = taskProperties;
