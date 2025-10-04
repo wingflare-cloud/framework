@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
+        <artifactId>wingflare-module</artifactId>
         <groupId>com.wingflare</groupId>
-        <artifactId>wingflare-lib</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>wingflare-lib-thread-pool</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>wingflare-module-base</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -19,30 +19,25 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-thread-pool</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-config</artifactId>
+            <artifactId>wingflare-api-security</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-lib-container</artifactId>
+            <artifactId>wingflare-business-module-base</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-mvc</artifactId>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-listener</artifactId>
+            <artifactId>wingflare-api-validation</artifactId>
             <scope>provided</scope>
         </dependency>
 

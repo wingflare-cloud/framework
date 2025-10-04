@@ -10,22 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 import com.wingflare.lib.container.Container;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * 可通过配置的线程池管理驱动实现
@@ -42,6 +39,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
     private static final String QUEUE_CAPACITY_CONFIG_KEY = "queue.capacity";
     private static final String KEEP_ALIVE_TIME_CONFIG_KEY = "keep.alive.time";
     private static final String TIME_UNIT_CONFIG_KEY = "time.unit";
+    private static final String ALLOW_CORE_THREAD_TIMEOUT_KEY = "allow.core.thread.timeout";
 
     // 新增：剩余任务处理策略配置键
     private static final String REMAINING_TASKS_HANDLER_CONFIG_KEY = "remaining.tasks.handler";
@@ -54,7 +52,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
         LOG_AND_IGNORE   // 记录日志后忽略
     }
 
-    private final Map<String, ThreadPoolExecutor> threadPools = new ConcurrentHashMap<>();
+    private final Map<String, DynamicThreadPool> threadPools = new ConcurrentHashMap<>();
     private final Map<String, AtomicBoolean> poolShutdownStatus = new ConcurrentHashMap<>();
     private final ThreadFactory threadFactory;
     private final Map<String, ThreadFactory> threadFactories = new ConcurrentHashMap<>();
@@ -64,6 +62,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
     private static final int DEFAULT_MAX_POOL_SIZE = 20;
     private static final int DEFAULT_QUEUE_CAPACITY = 1000;
     private static final long DEFAULT_KEEP_ALIVE_TIME = 60;
+    private static final boolean DEFAULT_KEEP_ALIVE_TIME_CONFIG = false;
     private static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
     private static final RemainingTasksHandler DEFAULT_REMAINING_TASKS_HANDLER = RemainingTasksHandler.WAIT_COMPLETION;
     private static final long DEFAULT_REMAINING_TASKS_TIMEOUT = 30; // 30秒
@@ -157,6 +156,33 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
         return defaultValue;
     }
 
+    private Boolean getPoolConfigBool(String poolKey, String configKey, Boolean defaultValue) {
+        String specificKey = THREAD_POOL_CONFIG_PREFIX + poolKey + "." + configKey;
+        String valueStr = ConfigUtil.getProperty(specificKey);
+
+        if (valueStr != null) {
+            try {
+                return Boolean.parseBoolean(valueStr);
+            } catch (NumberFormatException e) {
+                logger.warn("Invalid long value '{}' for config '{}' in pool '{}'",
+                        valueStr, configKey, poolKey);
+            }
+        }
+
+        String globalKey = THREAD_POOL_CONFIG_PREFIX + configKey;
+        valueStr = ConfigUtil.getProperty(globalKey);
+
+        if (valueStr != null) {
+            try {
+                return Boolean.parseBoolean(valueStr);
+            } catch (NumberFormatException e) {
+                logger.warn("Invalid long value '{}' for global config '{}'", valueStr, configKey);
+            }
+        }
+
+        return defaultValue;
+    }
+
     private TimeUnit getTimeUnit(String poolKey) {
         String specificKey = THREAD_POOL_CONFIG_PREFIX + poolKey + "." + TIME_UNIT_CONFIG_KEY;
         String timeUnitStr = ConfigUtil.getProperty(specificKey);
@@ -177,30 +203,23 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
         return DEFAULT_TIME_UNIT;
     }
 
-    private ThreadPoolExecutor createThreadPool(String poolKey) {
+    private DynamicThreadPool createThreadPool(String poolKey) {
         int corePoolSize = getPoolConfigInt(poolKey, CORE_POOL_SIZE_CONFIG_KEY, DEFAULT_CORE_POOL_SIZE);
         int maxPoolSize = getPoolConfigInt(poolKey, MAX_POOL_SIZE_CONFIG_KEY, DEFAULT_MAX_POOL_SIZE);
         int queueCapacity = getPoolConfigInt(poolKey, QUEUE_CAPACITY_CONFIG_KEY, DEFAULT_QUEUE_CAPACITY);
         long keepAliveTime = getPoolConfigLong(poolKey, KEEP_ALIVE_TIME_CONFIG_KEY, DEFAULT_KEEP_ALIVE_TIME);
+        boolean allowCoreThreadTimeout = getPoolConfigBool(poolKey, ALLOW_CORE_THREAD_TIMEOUT_KEY, DEFAULT_KEEP_ALIVE_TIME_CONFIG);
         TimeUnit timeUnit = getTimeUnit(poolKey);
 
         // 确保核心线程数不大于最大线程数
         corePoolSize = Math.min(corePoolSize, maxPoolSize);
 
-        ThreadFactory factory = threadFactories.getOrDefault(poolKey, threadFactory);
-        RejectedExecutionHandler handler = new AbortPolicy();
-
         logger.info("creating.thread.pool [name={}, coreSize={}, maxSize={}, queueCapacity={}, keepAliveTime={}{}]",
                 poolKey, corePoolSize, maxPoolSize, queueCapacity, keepAliveTime, timeUnit);
 
-        return new ThreadPoolExecutor(
-                corePoolSize,
-                maxPoolSize,
-                keepAliveTime,
-                timeUnit,
-                new LinkedBlockingQueue<>(queueCapacity),
-                factory,
-                handler
+        return new DynamicThreadPool(
+                new DynamicThreadPoolConfig(corePoolSize, maxPoolSize, queueCapacity, keepAliveTime,
+                        timeUnit, allowCoreThreadTimeout, poolKey)
         );
     }
 
@@ -217,26 +236,26 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
             throw new IllegalStateException("ThreadPool with key '" + poolKey + "' is shutting down or already shut down");
         }
 
-        ThreadPoolExecutor executor = threadPools.get(poolKey);
+        DynamicThreadPool threadPool = threadPools.get(poolKey);
 
-        if (executor == null || executor.isShutdown() || executor.isTerminated()) {
-            ThreadPoolExecutor newExecutor = createThreadPool(poolKey);
-            executor = threadPools.putIfAbsent(poolKey, newExecutor);
+        if (threadPool == null || threadPool.isShutdown() || threadPool.isTerminated()) {
+            DynamicThreadPool newThreadPool = createThreadPool(poolKey);
+            threadPool = threadPools.putIfAbsent(poolKey, newThreadPool);
 
-            if (executor == null) {
-                executor = newExecutor;
+            if (threadPool == null) {
+                threadPool = newThreadPool;
             } else {
-                newExecutor.shutdown();
+                newThreadPool.shutdown();
             }
         }
 
-        return executor;
+        return threadPool.getExecutor();
     }
 
     /**
      * 处理剩余任务，根据配置的策略执行不同操作
      */
-    private void handleRemainingTasks(String poolKey, List<Runnable> remainingTasks, ExecutorService executor) {
+    private void handleRemainingTasks(String poolKey, List<Runnable> remainingTasks, DynamicThreadPool threadPool) {
 
         if (remainingTasks == null || remainingTasks.isEmpty()) {
             logger.debug("No remaining tasks in pool '{}'", poolKey);
@@ -258,9 +277,9 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
                 try {
                     logger.debug("Waiting up to {} seconds for remaining tasks in pool '{}' to complete",
                             timeout, poolKey);
-                    if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+                    if (!threadPool.awaitTermination(timeout, TimeUnit.SECONDS)) {
                         logger.warn("Timeout waiting for remaining tasks in pool '{}' to complete", poolKey);
-                        List<Runnable> stillRemaining = executor.shutdownNow();
+                        List<Runnable> stillRemaining = threadPool.shutdownNow();
                         logger.warn("{} tasks still remaining after timeout in pool '{}'",
                                 stillRemaining.size(), poolKey);
                     } else {
@@ -269,7 +288,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     logger.warn("Interrupted while waiting for remaining tasks in pool '{}'", poolKey, e);
-                    executor.shutdownNow();
+                    threadPool.shutdownNow();
                 }
                 break;
 
@@ -291,20 +310,20 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
 
         AtomicBoolean shutdownStatus = poolShutdownStatus.get(poolKey);
         if (shutdownStatus != null && shutdownStatus.compareAndSet(false, true)) {
-            ExecutorService executorService = threadPools.remove(poolKey);
-            if (executorService != null) {
+            DynamicThreadPool threadPool = threadPools.remove(poolKey);
+            if (threadPool != null) {
                 try {
                     // 首先尝试优雅关闭
-                    executorService.shutdown();
+                    threadPool.shutdown();
 
                     // 获取并处理剩余任务
                     List<Runnable> remainingTasks = new ArrayList<>();
-                    if (executorService instanceof ThreadPoolExecutor threadPool) {
-                        remainingTasks = new ArrayList<>(threadPool.getQueue());
+                    if (threadPool.getExecutor() instanceof ThreadPoolExecutor threadPoolExecutor) {
+                        remainingTasks = new ArrayList<>(threadPoolExecutor.getQueue());
                     }
 
                     // 根据配置处理剩余任务
-                    handleRemainingTasks(poolKey, remainingTasks, executorService);
+                    handleRemainingTasks(poolKey, remainingTasks, threadPool);
 
                 } finally {
                     // 确保即使处理过程中出现异常，状态也会被清理
