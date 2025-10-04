@@ -1,0 +1,73 @@
+package com.wingflare.engine.task.client.common.rpc.supports.handler.grpc;
+
+
+import cn.hutool.core.util.StrUtil;
+import com.wingflare.api.threadpool.ThreadPoolManageDrive;
+import com.wingflare.engine.task.client.common.config.TaskProperties.ThreadPoolConfig;
+import com.wingflare.engine.task.client.common.rpc.supports.handler.TaskEngineDispatcherRequestHandler;
+import com.wingflare.engine.task.client.common.rpc.supports.http.HttpRequest;
+import com.wingflare.engine.task.client.common.rpc.supports.http.HttpResponse;
+import com.wingflare.engine.task.common.core.enums.StatusEnum;
+import com.wingflare.engine.task.common.core.grpc.auto.GrpcResult;
+import com.wingflare.engine.task.common.core.grpc.auto.Metadata;
+import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
+import com.wingflare.engine.task.common.core.model.TaskRpcResult;
+import com.wingflare.engine.task.common.core.util.JsonUtil;
+import com.wingflare.lib.container.Container;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+
+import java.util.Optional;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+
+/**
+ * @author: opensnail
+ * @date : 2024-08-22
+ */
+public class UnaryRequestHandler implements ServerCalls.UnaryMethod<TaskGrpcRequest, GrpcResult> {
+
+
+    private final ThreadPoolExecutor dispatcherThreadPool;
+    private final TaskEngineDispatcherRequestHandler dispatcher;
+
+    public UnaryRequestHandler(final ThreadPoolConfig dispatcherThreadPool,
+        final TaskEngineDispatcherRequestHandler handler) {
+        this.dispatcher = handler;
+        this.dispatcherThreadPool = new ThreadPoolExecutor(
+            dispatcherThreadPool.getCorePoolSize(), dispatcherThreadPool.getMaximumPoolSize(),
+            dispatcherThreadPool.getKeepAliveTime(),
+            dispatcherThreadPool.getTimeUnit(), new LinkedBlockingQueue<>(dispatcherThreadPool.getQueueCapacity()),
+                Container.get(ThreadPoolManageDrive.class).factory("task-engine-grpc-server"));
+    }
+
+    @Override
+    public void invoke(final TaskGrpcRequest taskGrpcRequest, final StreamObserver<GrpcResult> streamObserver) {
+
+        Metadata metadata = taskGrpcRequest.getMetadata();
+
+
+        GrpcRequest grpcRequest = new GrpcRequest(new HttpResponse(), new HttpRequest(metadata.getHeadersMap(), metadata.getUri()));
+        grpcRequest.setSnailJobRequest(taskGrpcRequest);
+
+        // 执行任务
+        dispatcherThreadPool.execute(() -> {
+            TaskRpcResult taskRpcResult = null;
+            try {
+                taskRpcResult = dispatcher.dispatch(grpcRequest);
+            } catch (Throwable e) {
+                taskRpcResult = new TaskRpcResult(StatusEnum.NO.getStatus(), e.getMessage(), null, 0);
+            } finally {
+                GrpcResult grpcResult = GrpcResult.newBuilder()
+                    .setStatus(Optional.ofNullable(taskRpcResult.getStatus()).orElse(StatusEnum.NO.getStatus()))
+                    .setMessage(Optional.ofNullable(taskRpcResult.getMessage()).orElse(StrUtil.EMPTY))
+                    .setData(JsonUtil.toJsonString(taskRpcResult.getData()))
+                    .build();
+
+                streamObserver.onNext(grpcResult);
+                streamObserver.onCompleted();
+            }
+        });
+
+    }
+}

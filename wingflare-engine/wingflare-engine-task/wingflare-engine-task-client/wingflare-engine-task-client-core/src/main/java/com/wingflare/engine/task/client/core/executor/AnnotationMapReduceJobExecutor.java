@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.client.core.executor;
 
+
 import com.wingflare.engine.task.client.core.MapHandler;
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
@@ -8,8 +9,7 @@ import com.wingflare.engine.task.client.core.dto.MergeReduceArgs;
 import com.wingflare.engine.task.client.core.dto.ReduceArgs;
 import com.wingflare.engine.task.common.core.exception.TaskMapReduceException;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
+import com.wingflare.lib.core.utils.ReflectionUtil;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -21,7 +21,6 @@ import java.util.Objects;
  * @date 2024-06-26 22:20:36
  * @since sj_1.1.0
  */
-@Component
 public class AnnotationMapReduceJobExecutor extends AbstractMapReduceExecutor {
 
     @Override
@@ -39,7 +38,7 @@ public class AnnotationMapReduceJobExecutor extends AbstractMapReduceExecutor {
 
         Class<?>[] paramTypes = jobExecutorInfo.getReduceExecutor().getParameterTypes();
         if (paramTypes.length > 0) {
-            return (ExecuteResult) ReflectionUtils.invokeMethod(jobExecutorInfo.getReduceExecutor(),
+            return (ExecuteResult) ReflectionUtil.invokeMethod(jobExecutorInfo.getReduceExecutor(),
                 jobExecutorInfo.getExecutor(), reduceArgs);
         }
 
@@ -63,7 +62,7 @@ public class AnnotationMapReduceJobExecutor extends AbstractMapReduceExecutor {
 
         Class<?>[] paramTypes = mergeReduceExecutor.getParameterTypes();
         if (paramTypes.length > 0) {
-            return (ExecuteResult) ReflectionUtils.invokeMethod(mergeReduceExecutor,
+            return (ExecuteResult) ReflectionUtil.invokeMethod(mergeReduceExecutor,
                 jobExecutorInfo.getExecutor(), mergeReduceArgs);
         }
 

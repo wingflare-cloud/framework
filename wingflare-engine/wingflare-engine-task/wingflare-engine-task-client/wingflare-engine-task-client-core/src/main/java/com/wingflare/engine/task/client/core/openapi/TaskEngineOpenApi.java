@@ -1,15 +1,28 @@
 package com.wingflare.engine.task.client.core.openapi;
 
+
 import com.wingflare.engine.task.client.core.handler.add.*;
 import com.wingflare.engine.task.client.core.handler.delete.DeleteJobHandler;
 import com.wingflare.engine.task.client.core.handler.delete.DeleteWorkflowHandler;
 import com.wingflare.engine.task.client.core.handler.query.RequestQueryHandler;
 import com.wingflare.engine.task.client.core.handler.query.RequestQueryJobBatchHandler;
 import com.wingflare.engine.task.client.core.handler.query.RequestQueryWorkflowBatchHandler;
-import com.wingflare.engine.task.client.core.handler.trigger.*;
-import com.wingflare.engine.task.client.core.handler.update.*;
+import com.wingflare.engine.task.client.core.handler.trigger.BroadcastTriggerHandler;
+import com.wingflare.engine.task.client.core.handler.trigger.ClusterTriggerHandler;
+import com.wingflare.engine.task.client.core.handler.trigger.MapReduceTriggerHandler;
+import com.wingflare.engine.task.client.core.handler.trigger.MapTriggerHandler;
+import com.wingflare.engine.task.client.core.handler.trigger.ShardingTriggerHandler;
+import com.wingflare.engine.task.client.core.handler.trigger.TriggerWorkflowHandler;
+import com.wingflare.engine.task.client.core.handler.update.BroadcastUpdateHandler;
+import com.wingflare.engine.task.client.core.handler.update.ClusterUpdateHandler;
+import com.wingflare.engine.task.client.core.handler.update.MapReduceUpdateHandler;
+import com.wingflare.engine.task.client.core.handler.update.MapUpdateHandler;
+import com.wingflare.engine.task.client.core.handler.update.ShardingUpdateHandler;
+import com.wingflare.engine.task.client.core.handler.update.UpdateJobStatusHandler;
+import com.wingflare.engine.task.client.core.handler.update.UpdateWorkflowStatusHandler;
 
 import java.util.Set;
+
 
 /**
  * @author opensnail

@@ -55,7 +55,8 @@ public class AppSmartLifecycle implements SmartLifecycle, ApplicationContextAwar
                     stopException.setLifecycle(component);
                     throw stopException;
                 } catch (Throwable throwable) {
-                    logger.warn("component.start.err [{}]", component.getClass().getName());
+                    logger.warn("component.start.err [{}]({})", component.getClass().getName(),
+                            throwable.getMessage());
                 }
             }
 
@@ -90,7 +91,8 @@ public class AppSmartLifecycle implements SmartLifecycle, ApplicationContextAwar
                     stopException.setLifecycle(component);
                     throw stopException;
                 } catch (Throwable throwable) {
-                    logger.warn("component.close.err [{}]", component.getClass().getName());
+                    logger.warn("component.close.err [{}]({})", component.getClass().getName(),
+                            throwable.getMessage());
                 }
             }
 

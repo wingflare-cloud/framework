@@ -5,13 +5,12 @@ import com.wingflare.api.task.annotation.TaskExecutor;
 import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Component
+
 @TaskExecutor(name = "HttpExecutor")
 public class HttpExecutor extends AbstractHttpExecutor {
 

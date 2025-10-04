@@ -1,11 +1,12 @@
 package com.wingflare.engine.task.client.core.executor;
 
+
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
 import com.wingflare.engine.task.client.core.dto.JobArgs;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
-import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
+import com.wingflare.lib.core.utils.ReflectionUtil;
+
 
 /**
  * 基于注解的执行器
@@ -14,7 +15,6 @@ import org.springframework.util.ReflectionUtils;
  * @date 2023-09-27 22:20:36
  * @since 2.4.0
  */
-@Component
 public class AnnotationJobExecutor extends AbstractJobExecutor {
 
     @Override
@@ -23,9 +23,9 @@ public class AnnotationJobExecutor extends AbstractJobExecutor {
         Class<?>[] paramTypes = jobExecutorInfo.getMethod().getParameterTypes();
 
         if (paramTypes.length > 0) {
-            return (ExecuteResult) ReflectionUtils.invokeMethod(jobExecutorInfo.getMethod(), jobExecutorInfo.getExecutor(), jobArgs);
+            return (ExecuteResult) ReflectionUtil.invokeMethod(jobExecutorInfo.getMethod(), jobExecutorInfo.getExecutor(), jobArgs);
         } else {
-            return (ExecuteResult) ReflectionUtils.invokeMethod(jobExecutorInfo.getMethod(), jobExecutorInfo.getExecutor());
+            return (ExecuteResult) ReflectionUtil.invokeMethod(jobExecutorInfo.getMethod(), jobExecutorInfo.getExecutor());
         }
     }
 }

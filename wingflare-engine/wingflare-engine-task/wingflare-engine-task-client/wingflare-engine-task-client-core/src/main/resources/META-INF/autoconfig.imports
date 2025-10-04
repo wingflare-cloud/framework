@@ -1,0 +1,10 @@
+com.wingflare.engine.task.client.core.cache.ThreadPoolCache
+com.wingflare.engine.task.client.core.client.JobEndPoint
+com.wingflare.engine.task.client.core.register.JobExecutorRegistrar
+com.wingflare.engine.task.client.core.executor.AnnotationMapReduceJobExecutor
+com.wingflare.engine.task.client.core.executor.AnnotationMapJobExecutor
+com.wingflare.engine.task.client.core.executor.AnnotationJobExecutor
+com.wingflare.engine.task.client.core.executor.builtin.ShellJobExecutor
+com.wingflare.engine.task.client.core.executor.builtin.PowerShellJobExecutor
+com.wingflare.engine.task.client.core.executor.builtin.HttpExecutor
+com.wingflare.engine.task.client.core.executor.builtin.CMDJobExecutor

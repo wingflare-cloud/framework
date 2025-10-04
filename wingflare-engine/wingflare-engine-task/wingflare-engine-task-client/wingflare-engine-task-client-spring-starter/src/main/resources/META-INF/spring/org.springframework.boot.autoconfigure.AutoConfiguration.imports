@@ -1,0 +1,7 @@
+com.wingflare.engine.task.client.spring.starter.config.TaskProperties
+com.wingflare.engine.task.client.spring.starter.rpc.scan.TaskEndPointScanner
+com.wingflare.engine.task.client.spring.starter.rpc.scan.TaskEndPointRegistrar
+com.wingflare.engine.task.client.spring.starter.scan.JobExecutorScanner
+com.wingflare.engine.task.client.spring.starter.TaskEngineClientJobCoreAutoConfiguration
+com.wingflare.engine.task.client.spring.starter.TaskEngineClientRetryCoreAutoConfiguration
+com.wingflare.engine.task.client.spring.starter.TaskNetworkProperties

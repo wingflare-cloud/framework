@@ -17,7 +17,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-engine-task-client-retry-core</artifactId>
+                <artifactId>wingflare-engine-task-client-retry</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
@@ -29,7 +29,7 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-engine-task-client-starter</artifactId>
+                <artifactId>wingflare-engine-task-client-spring-starter</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

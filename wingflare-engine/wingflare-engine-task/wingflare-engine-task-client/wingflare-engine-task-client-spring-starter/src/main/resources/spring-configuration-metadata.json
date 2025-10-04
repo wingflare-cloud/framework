@@ -1,0 +1,31 @@
+{
+  "groups": [
+    {
+      "name": "task",
+      "type": "com.wingflare.engine.task.client.common.config.TaskProperties",
+      "sourceType": "com.wingflare.engine.task.client.common.config.TaskProperties"
+    },
+    {
+      "name": "task.server",
+      "sourceMethod": "getServer()",
+      "type": "com.wingflare.engine.task.client.common.config.TaskProperties$ServerConfig",
+      "sourceType": "com.wingflare.engine.task.client.common.config.TaskProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "task.server.host",
+      "type": "java.lang.String",
+      "defaultValue": "127.0.0.1",
+      "description": "服务端的地址，若服务端集群部署则此处配置域名",
+      "sourceType": "com.wingflare.engine.task.client.common.config.TaskProperties$ServerConfig"
+    },
+    {
+      "name": "task.server.port",
+      "type": "com.wingflare.engine.task.client.common.config.TaskProperties.ServerConfig",
+      "sourceType": "com.wingflare.engine.task.client.common.config.TaskProperties",
+      "description": "服务端netty的端口号",
+      "defaultValue": "1788"
+    }
+  ]
+}

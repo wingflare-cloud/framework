@@ -1,7 +1,9 @@
 package com.wingflare.adapter.spring.common.container;
 
+
 import com.wingflare.adapter.spring.common.utils.SpringUtil;
 import com.wingflare.api.container.ContainerDrive;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
 import java.util.Map;
@@ -13,12 +15,20 @@ public final class SpringStaticContainer implements ContainerDrive {
 
     @Override
     public <T> T get(Class<T> clz) {
-        return SpringUtil.getBean(clz);
+        try {
+            return SpringUtil.getBean(clz);
+        } catch (NoSuchBeanDefinitionException exception) {
+            throw new com.wingflare.api.container.NoSuchBeanDefinitionException(exception);
+        }
     }
 
     @Override
     public <T> T get(String name, Class<T> clz) {
-        return SpringUtil.getBean(name);
+        try {
+            return SpringUtil.getBean(name);
+        } catch (NoSuchBeanDefinitionException exception) {
+            throw new com.wingflare.api.container.NoSuchBeanDefinitionException(exception);
+        }
     }
 
     @Override

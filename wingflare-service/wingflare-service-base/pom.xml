@@ -59,7 +59,7 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-client-core</artifactId>
+            <artifactId>wingflare-adapter-spring-common</artifactId>
         </dependency>
 
         <dependency>
@@ -75,6 +75,11 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-adapter-spring-http</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-engine-task-client-spring-starter</artifactId>
         </dependency>
 
     </dependencies>

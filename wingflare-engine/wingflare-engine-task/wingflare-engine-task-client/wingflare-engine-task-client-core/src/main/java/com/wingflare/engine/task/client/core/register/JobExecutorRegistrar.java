@@ -12,7 +12,6 @@ import com.wingflare.engine.task.common.core.enums.StatusEnum;
 import com.wingflare.engine.task.common.core.model.TaskRpcResult;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.JobExecutorRequest;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,11 +19,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * @author: opensnail
  * @date : 2022-02-10 09:12
  */
-@Component
 public class JobExecutorRegistrar implements Lifecycle {
     private final List<Scanner> scanners;
     private final List<JobExecutorRequest> contextList = new ArrayList<>();

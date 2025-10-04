@@ -1,0 +1,706 @@
+package com.wingflare.engine.task.client.common.config;
+
+
+import com.wingflare.engine.task.common.core.config.ForyProperties;
+import com.wingflare.engine.task.common.core.enums.RpcTypeEnum;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * 任务引擎客户端配置
+ *
+ * @author: opensnail
+ * @date : 2022-03-04 15:53
+ * @since 1.0.0
+ */
+public class TaskProperties {
+
+    /**
+     * 命名空间ID
+     * 若不填则默认为 SystemConstants::DEFAULT_NAMESPACE
+     */
+    protected String namespace;
+
+    /**
+     * 服务端对应的group
+     */
+    protected String group;
+
+    /**
+     * 令牌
+     * 若不填则默认为 SystemConstants::DEFAULT_TOKEN
+     */
+    protected String token;
+
+    /**
+     * 指定客户端IP，默认取本地IP
+     */
+    protected String host;
+
+    /**
+     * 指定客户端端口
+     */
+    protected Integer port = 17889;
+
+    /**
+     * 是否走新的openapi(1.7.0 暂时先关闭,1.8.0会默认打开)
+     */
+    protected boolean openapiV2 = false;
+
+    /**
+     * rpc类型
+     */
+    protected RpcTypeEnum rpcType = RpcTypeEnum.GRPC;
+
+    /**
+     * 标签
+     */
+    protected Map<String, String> labels = new HashMap<>();
+
+    /**
+     * 重试、调度日志远程上报滑动窗口配置
+     */
+    protected LogSlidingWindowConfig logSlidingWindow = new LogSlidingWindowConfig();
+
+    /**
+     * 服务端配置
+     */
+    protected ServerConfig server = new ServerConfig();
+
+    /**
+     * 内置http执行器自定义响应结果配置
+     */
+    protected HttpResponse httpResponse;
+
+    /**
+     * 重试模块配置
+     */
+    protected Retry retry = new Retry();
+
+    /**
+     * Fory 配置
+     */
+    protected ForyProperties fory = new ForyProperties();
+
+    /**
+     * openapi配置
+     */
+    protected TaskOpenApiConfig openapi = new TaskOpenApiConfig();
+
+    /**
+     * 客户端脚本存储位置
+     */
+    protected String workspace;
+
+    /**
+     * 客户端Rpc配置
+     */
+    protected RpcClientProperties clientRpc = new RpcClientProperties();
+
+    /**
+     * 服务端Rpc配置
+     */
+    protected RpcServerProperties serverRpc = new RpcServerProperties();
+
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public boolean isOpenapiV2() {
+        return openapiV2;
+    }
+
+    public void setOpenapiV2(boolean openapiV2) {
+        this.openapiV2 = openapiV2;
+    }
+
+    public RpcTypeEnum getRpcType() {
+        return rpcType;
+    }
+
+    public void setRpcType(RpcTypeEnum rpcType) {
+        this.rpcType = rpcType;
+    }
+
+    public Map<String, String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(Map<String, String> labels) {
+        this.labels = labels;
+    }
+
+    public LogSlidingWindowConfig getLogSlidingWindow() {
+        return logSlidingWindow;
+    }
+
+    public void setLogSlidingWindow(LogSlidingWindowConfig logSlidingWindow) {
+        this.logSlidingWindow = logSlidingWindow;
+    }
+
+    public ServerConfig getServer() {
+        return server;
+    }
+
+    public void setServer(ServerConfig server) {
+        this.server = server;
+    }
+
+    public HttpResponse getHttpResponse() {
+        return httpResponse;
+    }
+
+    public void setHttpResponse(HttpResponse httpResponse) {
+        this.httpResponse = httpResponse;
+    }
+
+    public Retry getRetry() {
+        return retry;
+    }
+
+    public void setRetry(Retry retry) {
+        this.retry = retry;
+    }
+
+    public ForyProperties getFory() {
+        return fory;
+    }
+
+    public void setFory(ForyProperties fory) {
+        this.fory = fory;
+    }
+
+    public TaskOpenApiConfig getOpenapi() {
+        return openapi;
+    }
+
+    public void setOpenapi(TaskOpenApiConfig openapi) {
+        this.openapi = openapi;
+    }
+
+    public String getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(String workspace) {
+        this.workspace = workspace;
+    }
+
+    public RpcClientProperties getClientRpc() {
+        return clientRpc;
+    }
+
+    public void setClientRpc(RpcClientProperties clientRpc) {
+        this.clientRpc = clientRpc;
+    }
+
+    public RpcServerProperties getServerRpc() {
+        return serverRpc;
+    }
+
+    public void setServerRpc(RpcServerProperties serverRpc) {
+        this.serverRpc = serverRpc;
+    }
+
+
+    public static class ServerConfig {
+        /**
+         * 服务端的地址，若服务端集群部署则此处配置域名
+         */
+        private String host = "127.0.0.1";
+
+        /**
+         * 服务端 rpc 的端口号
+         */
+        private int port = 17888;
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public void setPort(int port) {
+            this.port = port;
+        }
+    }
+
+    public static class HttpResponse {
+        /**
+         * 内置http执行器响应成功状态码，默认值200
+         */
+        private Integer code = 200;
+
+        /**
+         * 内置http执行器状态码字段名称，默认值code，只针对responseType等于json生效
+         */
+        private String field = "code";
+
+        /**
+         * 内置http执行器响应类型，可选值json或者text，默认值json
+         */
+        private String responseType = "json";
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public String getField() {
+            return field;
+        }
+
+        public void setField(String field) {
+            this.field = field;
+        }
+
+        public String getResponseType() {
+            return responseType;
+        }
+
+        public void setResponseType(String responseType) {
+            this.responseType = responseType;
+        }
+    }
+
+    public static class SlidingWindowConfig {
+
+        /**
+         * 总量窗口期阈值
+         */
+        private int totalThreshold = 50;
+
+        /**
+         * 窗口数量预警
+         */
+        private int windowTotalThreshold = 150;
+
+        /**
+         * 窗口期时间长度
+         */
+        private long duration = 10;
+
+        /**
+         * 窗口期单位
+         */
+        private ChronoUnit chronoUnit = ChronoUnit.SECONDS;
+
+        public int getTotalThreshold() {
+            return totalThreshold;
+        }
+
+        public void setTotalThreshold(int totalThreshold) {
+            this.totalThreshold = totalThreshold;
+        }
+
+        public int getWindowTotalThreshold() {
+            return windowTotalThreshold;
+        }
+
+        public void setWindowTotalThreshold(int windowTotalThreshold) {
+            this.windowTotalThreshold = windowTotalThreshold;
+        }
+
+        public long getDuration() {
+            return duration;
+        }
+
+        public void setDuration(long duration) {
+            this.duration = duration;
+        }
+
+        public ChronoUnit getChronoUnit() {
+            return chronoUnit;
+        }
+
+        public void setChronoUnit(ChronoUnit chronoUnit) {
+            this.chronoUnit = chronoUnit;
+        }
+    }
+
+
+    public static class LogSlidingWindowConfig {
+
+        /**
+         * 总量窗口期阈值
+         */
+        private int totalThreshold = 50;
+
+        /**
+         * 窗口数量预警
+         */
+        private int windowTotalThreshold = 150;
+
+        /**
+         * 窗口期时间长度
+         */
+        private long duration = 5;
+
+        /**
+         * 窗口期单位
+         */
+        private ChronoUnit chronoUnit = ChronoUnit.SECONDS;
+
+        public int getTotalThreshold() {
+            return totalThreshold;
+        }
+
+        public void setTotalThreshold(int totalThreshold) {
+            this.totalThreshold = totalThreshold;
+        }
+
+        public int getWindowTotalThreshold() {
+            return windowTotalThreshold;
+        }
+
+        public void setWindowTotalThreshold(int windowTotalThreshold) {
+            this.windowTotalThreshold = windowTotalThreshold;
+        }
+
+        public long getDuration() {
+            return duration;
+        }
+
+        public void setDuration(long duration) {
+            this.duration = duration;
+        }
+
+        public ChronoUnit getChronoUnit() {
+            return chronoUnit;
+        }
+
+        public void setChronoUnit(ChronoUnit chronoUnit) {
+            this.chronoUnit = chronoUnit;
+        }
+    }
+
+
+    public static class Retry {
+        /**
+         * 远程上报滑动窗口配置
+         */
+        private SlidingWindowConfig reportSlidingWindow = new SlidingWindowConfig();
+
+        /**
+         * 本地执行重试或者回调配置
+         */
+        private ThreadPoolConfig dispatcherThreadPool = new ThreadPoolConfig(32, 32, 1, TimeUnit.SECONDS , 10000);
+
+        public SlidingWindowConfig getReportSlidingWindow() {
+            return reportSlidingWindow;
+        }
+
+        public void setReportSlidingWindow(SlidingWindowConfig reportSlidingWindow) {
+            this.reportSlidingWindow = reportSlidingWindow;
+        }
+
+        public ThreadPoolConfig getDispatcherThreadPool() {
+            return dispatcherThreadPool;
+        }
+
+        public void setDispatcherThreadPool(ThreadPoolConfig dispatcherThreadPool) {
+            this.dispatcherThreadPool = dispatcherThreadPool;
+        }
+    }
+
+
+    public static class RpcServerProperties {
+
+        private int maxInboundMessageSize = 10 * 1024 * 1024;
+
+        private Duration keepAliveTime = Duration.of(2, ChronoUnit.HOURS);
+
+        private Duration keepAliveTimeout = Duration.of(20, ChronoUnit.SECONDS);
+
+        private Duration permitKeepAliveTime = Duration.of(5, ChronoUnit.MINUTES);
+
+        private ThreadPoolConfig dispatcherTp = new ThreadPoolConfig(16, 16, 1, TimeUnit.SECONDS , 10000);
+
+        public int getMaxInboundMessageSize() {
+            return maxInboundMessageSize;
+        }
+
+        public void setMaxInboundMessageSize(int maxInboundMessageSize) {
+            this.maxInboundMessageSize = maxInboundMessageSize;
+        }
+
+        public Duration getKeepAliveTime() {
+            return keepAliveTime;
+        }
+
+        public void setKeepAliveTime(Duration keepAliveTime) {
+            this.keepAliveTime = keepAliveTime;
+        }
+
+        public Duration getKeepAliveTimeout() {
+            return keepAliveTimeout;
+        }
+
+        public void setKeepAliveTimeout(Duration keepAliveTimeout) {
+            this.keepAliveTimeout = keepAliveTimeout;
+        }
+
+        public Duration getPermitKeepAliveTime() {
+            return permitKeepAliveTime;
+        }
+
+        public void setPermitKeepAliveTime(Duration permitKeepAliveTime) {
+            this.permitKeepAliveTime = permitKeepAliveTime;
+        }
+
+        public ThreadPoolConfig getDispatcherTp() {
+            return dispatcherTp;
+        }
+
+        public void setDispatcherTp(ThreadPoolConfig dispatcherTp) {
+            this.dispatcherTp = dispatcherTp;
+        }
+    }
+
+
+    public static class RpcClientProperties {
+
+        private int maxInboundMessageSize = 10 * 1024 * 1024;
+
+        private Duration keepAliveTime = Duration.of(30, ChronoUnit.SECONDS);
+
+        private Duration keepAliveTimeout = Duration.of(10, ChronoUnit.SECONDS);
+
+        private Duration permitKeepAliveTime = Duration.of(5, ChronoUnit.MINUTES);
+
+        private Duration idleTimeout = Duration.of(5, ChronoUnit.MINUTES);
+
+        private ThreadPoolConfig clientTp = new ThreadPoolConfig(16, 16, 1, TimeUnit.SECONDS , 10000);
+
+        public int getMaxInboundMessageSize() {
+            return maxInboundMessageSize;
+        }
+
+        public void setMaxInboundMessageSize(int maxInboundMessageSize) {
+            this.maxInboundMessageSize = maxInboundMessageSize;
+        }
+
+        public Duration getKeepAliveTime() {
+            return keepAliveTime;
+        }
+
+        public void setKeepAliveTime(Duration keepAliveTime) {
+            this.keepAliveTime = keepAliveTime;
+        }
+
+        public Duration getKeepAliveTimeout() {
+            return keepAliveTimeout;
+        }
+
+        public void setKeepAliveTimeout(Duration keepAliveTimeout) {
+            this.keepAliveTimeout = keepAliveTimeout;
+        }
+
+        public Duration getPermitKeepAliveTime() {
+            return permitKeepAliveTime;
+        }
+
+        public void setPermitKeepAliveTime(Duration permitKeepAliveTime) {
+            this.permitKeepAliveTime = permitKeepAliveTime;
+        }
+
+        public Duration getIdleTimeout() {
+            return idleTimeout;
+        }
+
+        public void setIdleTimeout(Duration idleTimeout) {
+            this.idleTimeout = idleTimeout;
+        }
+
+        public ThreadPoolConfig getClientTp() {
+            return clientTp;
+        }
+
+        public void setClientTp(ThreadPoolConfig clientTp) {
+            this.clientTp = clientTp;
+        }
+    }
+
+
+    public static class ThreadPoolConfig {
+
+        /**
+         * 核心线程池
+         */
+        private int corePoolSize = 16;
+
+        /**
+         * 最大线程数
+         */
+        private int maximumPoolSize = 16;
+
+        /**
+         * 线程存活时间
+         */
+        private long keepAliveTime = 1;
+
+        /**
+         * 线程存活时间(单位)
+         */
+        private TimeUnit timeUnit = TimeUnit.SECONDS;
+
+        /**
+         * 队列容量
+         */
+        private int queueCapacity = 10000;
+
+        public ThreadPoolConfig() {
+        }
+
+        public ThreadPoolConfig(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit timeUnit, int queueCapacity) {
+            this.corePoolSize = corePoolSize;
+            this.maximumPoolSize = maximumPoolSize;
+            this.keepAliveTime = keepAliveTime;
+            this.timeUnit = timeUnit;
+            this.queueCapacity = queueCapacity;
+        }
+
+        public int getCorePoolSize() {
+            return corePoolSize;
+        }
+
+        public void setCorePoolSize(int corePoolSize) {
+            this.corePoolSize = corePoolSize;
+        }
+
+        public int getMaximumPoolSize() {
+            return maximumPoolSize;
+        }
+
+        public void setMaximumPoolSize(int maximumPoolSize) {
+            this.maximumPoolSize = maximumPoolSize;
+        }
+
+        public long getKeepAliveTime() {
+            return keepAliveTime;
+        }
+
+        public void setKeepAliveTime(long keepAliveTime) {
+            this.keepAliveTime = keepAliveTime;
+        }
+
+        public TimeUnit getTimeUnit() {
+            return timeUnit;
+        }
+
+        public void setTimeUnit(TimeUnit timeUnit) {
+            this.timeUnit = timeUnit;
+        }
+
+        public int getQueueCapacity() {
+            return queueCapacity;
+        }
+
+        public void setQueueCapacity(int queueCapacity) {
+            this.queueCapacity = queueCapacity;
+        }
+    }
+
+
+    public static final class TaskOpenApiConfig {
+        /**
+         * 默认可以不配置，不配置则取{@link ServerConfig#getHost()}
+         */
+        private String host;
+        /**
+         * 默认是8080
+         */
+        private int port = 8080;
+        /**
+         * 是否是https协议
+         */
+        private boolean https;
+        /**
+         * 公共前缀
+         */
+        private String prefix = "snail-job";
+
+        public String getHost() {
+            return host;
+        }
+
+        public void setHost(String host) {
+            this.host = host;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public void setPort(int port) {
+            this.port = port;
+        }
+
+        public boolean isHttps() {
+            return https;
+        }
+
+        public void setHttps(boolean https) {
+            this.https = https;
+        }
+
+        public String getPrefix() {
+            return prefix;
+        }
+
+        public void setPrefix(String prefix) {
+            this.prefix = prefix;
+        }
+    }
+
+}

@@ -14,66 +14,31 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <wingflare.replace>true</wingflare.replace>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-engine-task-common-model</artifactId>
+            <artifactId>wingflare-engine-task-client-common</artifactId>
+        </dependency>
+
+        <!--    core    -->
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-task</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-validation</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-lifecycle</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-        </dependency>
-
-        <!--    libs    -->
-        <dependency>
-            <groupId>com.github.rholder</groupId>
-            <artifactId>guava-retrying</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>guava</artifactId>
-                    <groupId>com.google.guava</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jsr305</artifactId>
-                    <groupId>com.google.code.findbugs</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty-shaded</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-util</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-http</artifactId>
-        </dependency>
-
-
-        <!--    core    -->
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-task</artifactId>
         </dependency>
 
         <!--    libs    -->
@@ -115,23 +80,6 @@
             <artifactId>aviator</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-validation</artifactId>
-        </dependency>
-
-        <!-- retry core -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>
