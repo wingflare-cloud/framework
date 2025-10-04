@@ -8,7 +8,7 @@ import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 
 
 
-@TaskExecutor(name = "shellJobExecutor")
+@TaskExecutor(name = "ShellJobExecutor")
 public class ShellJobExecutor extends AbstractShellExecutor {
 
     public ExecuteResult taskExecute(JobArgs jobArgs) {
