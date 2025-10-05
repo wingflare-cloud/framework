@@ -55,7 +55,8 @@ public class TaskLogbackAppender<E> extends UnsynchronizedAppenderBase<E> {
         logContentDTO.addPortField(GrpcChannel.getClientPort());
 
         // slidingWindow syncReportLog
-        Optional.ofNullable(LogReportFactory.get()).ifPresent(logReport -> logReport.report(logContentDTO));
+        Optional.ofNullable(LogReportFactory.get())
+                .ifPresent(logReport -> logReport.report(logContentDTO));
     }
 
     private String getThrowableField(LoggingEvent event) {
