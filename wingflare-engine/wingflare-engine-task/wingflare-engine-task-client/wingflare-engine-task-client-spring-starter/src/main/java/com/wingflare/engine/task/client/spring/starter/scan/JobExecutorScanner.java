@@ -2,6 +2,11 @@ package com.wingflare.engine.task.client.spring.starter.scan;
 
 
 import cn.hutool.core.collection.CollUtil;
+import com.wingflare.api.task.JobArgs;
+import com.wingflare.api.task.MapArgs;
+import com.wingflare.api.task.MergeReduceArgs;
+import com.wingflare.api.task.ReduceArgs;
+import com.wingflare.api.task.ShardingJobArgs;
 import com.wingflare.engine.task.client.core.IJobExecutor;
 import com.wingflare.engine.task.client.core.Scanner;
 import com.wingflare.api.task.annotation.TaskExecutor;

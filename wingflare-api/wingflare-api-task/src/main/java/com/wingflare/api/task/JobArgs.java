@@ -1,7 +1,5 @@
-package com.wingflare.engine.task.client.core.dto;
+package com.wingflare.api.task;
 
-
-import cn.hutool.core.util.StrUtil;
 
 import java.util.Map;
 import java.util.Objects;
@@ -94,7 +92,7 @@ public class JobArgs {
     }
 
     public void appendContext(String key, Object value) {
-        if (Objects.isNull(wfContext) || StrUtil.isBlank(key) || Objects.isNull(value)) {
+        if (Objects.isNull(wfContext) || key == null || key.isBlank() || Objects.isNull(value)) {
             return;
         }
 
@@ -102,7 +100,7 @@ public class JobArgs {
     }
 
     public Object getWfContext(String key) {
-        if (Objects.isNull(wfContext) || StrUtil.isBlank(key)) {
+        if (Objects.isNull(wfContext) || key == null || key.isBlank()) {
             return null;
         }
 

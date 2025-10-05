@@ -1,4 +1,4 @@
-package com.wingflare.engine.task.client.core.dto;
+package com.wingflare.api.task;
 
 
 /**

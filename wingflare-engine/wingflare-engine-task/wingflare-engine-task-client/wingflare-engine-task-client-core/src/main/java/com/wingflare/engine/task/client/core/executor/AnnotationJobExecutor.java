@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.core.executor;
 
 
 import com.wingflare.engine.task.client.core.cache.JobExecutorInfoCache;
-import com.wingflare.engine.task.client.core.dto.JobArgs;
+import com.wingflare.api.task.JobArgs;
 import com.wingflare.engine.task.client.core.dto.JobExecutorInfo;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.lib.core.utils.ReflectionUtil;

@@ -23,7 +23,8 @@ public class JobExecutorInfo {
 
     private Object executor;
 
-    public JobExecutorInfo(String executorName, Method method, Map<String, Method> mapExecutorMap, Method reduceExecutor, Method mergeReduceExecutor, Object executor) {
+    public JobExecutorInfo(String executorName, Method method, Map<String, Method> mapExecutorMap,
+                           Method reduceExecutor, Method mergeReduceExecutor, Object executor) {
         this.executorName = executorName;
         this.method = method;
         this.mapExecutorMap = mapExecutorMap;

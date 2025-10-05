@@ -2,7 +2,7 @@ package com.wingflare.engine.task.client.core.executor;
 
 
 import com.wingflare.engine.task.client.core.MapHandler;
-import com.wingflare.engine.task.client.core.dto.MapArgs;
+import com.wingflare.api.task.MapArgs;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 
 /**
