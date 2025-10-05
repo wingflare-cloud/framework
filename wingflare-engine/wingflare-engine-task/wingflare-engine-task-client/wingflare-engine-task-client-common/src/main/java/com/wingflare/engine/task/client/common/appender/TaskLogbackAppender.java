@@ -38,7 +38,6 @@ public class TaskLogbackAppender<E> extends UnsynchronizedAppenderBase<E> {
             return;
         }
 
-        MDC.remove(LogFieldConstants.MDC_REMOTE);
         LogContentDTO logContentDTO = new LogContentDTO();
 
         // Prepare processing

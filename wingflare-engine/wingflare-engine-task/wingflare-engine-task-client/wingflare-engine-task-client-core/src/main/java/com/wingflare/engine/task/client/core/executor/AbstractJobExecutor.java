@@ -17,6 +17,7 @@ import com.wingflare.engine.task.common.core.enums.MapReduceStageEnum;
 import com.wingflare.engine.task.common.core.model.JobArgsHolder;
 import com.wingflare.engine.task.common.core.model.JobContext;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
+import com.wingflare.engine.task.common.log.constant.LogFieldConstants;
 import com.wingflare.engine.task.common.log.enums.LogTypeEnum;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.google.common.collect.Lists;
@@ -25,6 +26,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import org.slf4j.MDC;
 
 import java.util.List;
 import java.util.Objects;
@@ -79,8 +81,10 @@ public abstract class AbstractJobExecutor implements IJobExecutor {
             try {
                 // 初始化调度信息（日志上报LogUtil）
                 initLogContext(jobContext);
+                MDC.put(LogFieldConstants.MDC_REMOTE, Boolean.TRUE.toString());
                 return doJobExecute(jobArgs);
             } finally {
+                MDC.remove(LogFieldConstants.MDC_REMOTE);
                 TaskLogManager.removeLogMeta();
                 JobContextManager.removeJobContext();
             }
