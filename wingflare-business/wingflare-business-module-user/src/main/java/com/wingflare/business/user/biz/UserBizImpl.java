@@ -1,4 +1,3 @@
-/*
 package com.wingflare.business.user.biz;
 
 
@@ -42,8 +41,8 @@ import com.wingflare.lib.core.exceptions.DataNotFoundException;
 import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.StringUtil;
 import com.wingflare.lib.mybatis.plus.utils.PageUtil;
-import com.wingflare.lib.spring.configure.properties.BusinessSystemProperties;
 import com.wingflare.lib.standard.bo.IdBo;
+import com.wingflare.lib.standard.properties.BusinessSystemProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,13 +60,12 @@ import java.util.Optional;
 import java.util.Set;
 
 
-*/
 /**
  * 系统用户Biz
  *
  * @author naizui_ycx
  * @date Sun Mar 05 09:45:12 CST 2023
- *//*
+ */
 
 @Validated
 public class UserBizImpl implements UserBiz {
@@ -99,11 +97,9 @@ public class UserBizImpl implements UserBiz {
         this.roleServer = roleServer;
     }
 
-    */
-/**
+    /**
      * 查询系统用户列表
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -133,11 +129,9 @@ public class UserBizImpl implements UserBiz {
                 UserConvert.convert.doToDtoList(iPage.getRecords()));
     }
 
-    */
-/**
+    /**
      * 查询系统用户详情
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -175,11 +169,10 @@ public class UserBizImpl implements UserBiz {
         return userDto;
     }
 
-    */
-/**
+    /**
+     *
      * 通过条件查询单个系统用户详情
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -204,11 +197,9 @@ public class UserBizImpl implements UserBiz {
                 ));
     }
 
-    */
-/**
+    /**
      * 删除系统用户
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -276,11 +267,9 @@ public class UserBizImpl implements UserBiz {
     }
 
 
-    */
-/**
+    /**
      * 新增系统用户
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -359,11 +348,9 @@ public class UserBizImpl implements UserBiz {
         }
     }
 
-    */
-/**
+    /**
      * 更新系统用户
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -466,13 +453,9 @@ public class UserBizImpl implements UserBiz {
                 });
     }
 
-    */
-/**
+    /**
      * 更新用户密码
-     *
-     * @param bo
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -502,14 +485,9 @@ public class UserBizImpl implements UserBiz {
         return dto;
     }
 
-    */
-/**
+    /**
      * 判断是否存在符合条件的系统用户
-     *
-     * @param bo 查询参数
-     * @return 系统用户
-     *//*
-
+     */
     public boolean has(UserSearchBO bo) {
         return userServer.has(
                 UserWrapper.getLambdaQueryWrapper(bo)
@@ -562,14 +540,9 @@ public class UserBizImpl implements UserBiz {
     }
 
 
-    */
-/**
+    /**
      * 通过登录名获取登录用户
-     *
-     * @param loginName
-     * @return
-     *//*
-
+     */
     @Override
     @DesensitizeGroups(
             desensitizes = {
@@ -600,13 +573,9 @@ public class UserBizImpl implements UserBiz {
         return UserConvert.convert.doToDto(userDo);
     }
 
-    */
-/**
+    /**
      * 用户绑定角色
-     *
-     * @param bo
-     *//*
-
+     */
     @Override
     public void userBindRole(@Valid @NotNull UserBindRoleBO bo) {
         UserDO userDo = userServer.getById(bo.getUserId());
@@ -666,13 +635,9 @@ public class UserBizImpl implements UserBiz {
         return null;
     }
 
-    */
-/**
+    /**
      * 判断用户是否允许保存
-     *
-     * @param bo
-     *//*
-
+     */
     private void checkUserCanSave(UserBO bo, UserDO oldDo) {
         if (bo.getAccountType() != null) {
             if (bo.getAccountType().size() > 1
@@ -746,4 +711,4 @@ public class UserBizImpl implements UserBiz {
         }
     }
 
-}*/
+}

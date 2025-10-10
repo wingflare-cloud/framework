@@ -80,12 +80,6 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-api-security</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-starter-spring-security</artifactId>
         </dependency>
 

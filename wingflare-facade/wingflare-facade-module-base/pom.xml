@@ -14,6 +14,7 @@
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
+        <wingflare.replace>true</wingflare.replace>
     </properties>
 
     <dependencies>
@@ -38,16 +39,24 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-core</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-event</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-validation</artifactId>
             <scope>provided</scope>
         </dependency>
 

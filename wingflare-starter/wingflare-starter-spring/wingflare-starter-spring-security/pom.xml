@@ -27,11 +27,6 @@
             <artifactId>wingflare-adapter-spring-security</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-abstraction-security</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

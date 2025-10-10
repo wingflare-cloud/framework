@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-security</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

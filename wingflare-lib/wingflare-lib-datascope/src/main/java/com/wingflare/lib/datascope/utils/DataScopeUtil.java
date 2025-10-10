@@ -2,8 +2,8 @@ package com.wingflare.lib.datascope.utils;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.api.security.UserAuthServer;
 import com.wingflare.api.security.enums.Logical;
