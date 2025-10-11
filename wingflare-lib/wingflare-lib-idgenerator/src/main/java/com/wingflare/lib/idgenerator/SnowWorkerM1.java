@@ -56,13 +56,13 @@ public class SnowWorkerM1 implements IdGenerate {
     protected int _termIndex = 0;
 
     public SnowWorkerM1(IdGeneratorOption options) {
-        baseTime = options.baseTime != 0 ? options.baseTime : 1582136402000L;
-        workerIdBitLength = options.workerIdBitLength == 0 ? 6 : options.workerIdBitLength;
-        workerId = options.workerId;
-        seqBitLength = options.seqBitLength == 0 ? 6 : options.seqBitLength;
-        maxSeqNumber = options.maxSeqNumber <= 0 ? (1 << seqBitLength) - 1 : options.maxSeqNumber;
-        minSeqNumber = options.minSeqNumber;
-        topOverCostCount = options.topOverCostCount;
+        baseTime = options.getBaseTime() != 0 ? options.getBaseTime() : 1582136402000L;
+        workerIdBitLength = options.getWorkerIdBitLength() == 0 ? 6 : options.getWorkerIdBitLength();
+        workerId = options.getWorkerId();
+        seqBitLength = options.getSeqBitLength() == 0 ? 6 : options.getSeqBitLength();
+        maxSeqNumber = options.getMaxSeqNumber() <= 0 ? (1 << seqBitLength) - 1 : options.getMaxSeqNumber();
+        minSeqNumber = options.getMinSeqNumber();
+        topOverCostCount = options.getTopOverCostCount();
         _timestampShift = (byte) (workerIdBitLength + seqBitLength);
         _currentSeqNumber = minSeqNumber;
     }
