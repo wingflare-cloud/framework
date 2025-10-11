@@ -1,7 +1,9 @@
 package com.wingflare.api.security;
 
+import javax.security.auth.Subject;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +12,7 @@ import java.util.Map;
  * @date {2021/12/22}
  * @description 认证用户类
  */
-public class UserAuth implements Serializable
+public class UserAuth implements Principal, Serializable
 {
 
     private static final long serialVersionUID = 8618758262923854083L;
@@ -248,6 +250,16 @@ public class UserAuth implements Serializable
 
     public void setAttribute(Map<String, Object> attribute) {
         this.attribute = attribute;
+    }
+
+    @Override
+    public String getName() {
+        return getUserName();
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return Principal.super.implies(subject);
     }
 
 }
