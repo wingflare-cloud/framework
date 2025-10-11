@@ -21,13 +21,13 @@ public final class SpringConfigReader implements ConfigReader {
     }
 
     @Override
-    public Integer getIntProperty(String key) {
-        return SpringUtil.getBean(Environment.class).getProperty(key, Integer.class);
+    public Long getLongProperty(String key) {
+        return SpringUtil.getBean(Environment.class).getProperty(key, Long.class);
     }
 
     @Override
-    public Integer getIntProperty(String key, Integer defaultValue) {
-        return SpringUtil.getBean(Environment.class).getProperty(key, Integer.class, defaultValue);
+    public Long getLongProperty(String key, Long defaultValue) {
+        return SpringUtil.getBean(Environment.class).getProperty(key, Long.class, defaultValue);
     }
 
     @Override

@@ -25,12 +25,12 @@ public interface ConfigReader {
     /**
      * 获取整数类型的配置值
      */
-    Integer getIntProperty(String key);
+    Long getLongProperty(String key);
 
     /**
      * 获取整数类型的配置值，带默认值
      */
-    Integer getIntProperty(String key, Integer defaultValue);
+    Long getLongProperty(String key, Long defaultValue);
 
     /**
      * 获取布尔类型的配置值

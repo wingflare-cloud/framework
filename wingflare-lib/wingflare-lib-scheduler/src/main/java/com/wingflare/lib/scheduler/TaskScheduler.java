@@ -28,9 +28,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TaskScheduler extends TimingWheel {
 
     // 默认配置
-    private static final int DEFAULT_CORE_POOL_SIZE = Math.max(2, Runtime.getRuntime().availableProcessors());
-    private static final int DEFAULT_MAX_POOL_SIZE = DEFAULT_CORE_POOL_SIZE * 4;
-    private static final int DEFAULT_QUEUE_CAPACITY = 1024;
+    private static final long DEFAULT_CORE_POOL_SIZE = Math.max(2, Runtime.getRuntime().availableProcessors());
+    private static final long DEFAULT_MAX_POOL_SIZE = DEFAULT_CORE_POOL_SIZE * 4;
+    private static final long DEFAULT_QUEUE_CAPACITY = 1024L;
     private static final Logger logger = LoggerFactory.getLogger(TaskScheduler.class);
 
     // 调度器状态
@@ -59,7 +59,8 @@ public class TaskScheduler extends TimingWheel {
      */
     public TaskScheduler() {
         super();
-        this.readyTaskQueue = new ArrayBlockingQueue<>(ConfigUtil.getIntProperty("scheduler.queueCapacity", DEFAULT_QUEUE_CAPACITY));
+        this.readyTaskQueue = new ArrayBlockingQueue<>(ConfigUtil.getLongProperty("scheduler.queueCapacity", DEFAULT_QUEUE_CAPACITY)
+                .intValue());
 
         initializeThreadPools();
     }
@@ -69,8 +70,9 @@ public class TaskScheduler extends TimingWheel {
      */
     private void initializeThreadPools() {
         // 任务执行线程池
-        this.taskExecutor = new ThreadPoolExecutor(ConfigUtil.getIntProperty("scheduler.corePoolSize", DEFAULT_CORE_POOL_SIZE),
-                ConfigUtil.getIntProperty("scheduler.maxPoolSize", DEFAULT_MAX_POOL_SIZE),
+        this.taskExecutor = new ThreadPoolExecutor(ConfigUtil.getLongProperty("scheduler.corePoolSize", DEFAULT_CORE_POOL_SIZE)
+                .intValue(),
+                ConfigUtil.getLongProperty("scheduler.maxPoolSize", DEFAULT_MAX_POOL_SIZE).intValue(),
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(),
                 new NamedThreadFactory("TaskExecutor"));
@@ -80,8 +82,8 @@ public class TaskScheduler extends TimingWheel {
                 new NamedThreadFactory("WheelAdvancer"));
 
         // 超时检查线程池（单线程）
-        this.timeoutChecker = new ThreadPoolExecutor(ConfigUtil.getIntProperty("scheduler.timeoutChecker.corePoolSize", 1),
-                ConfigUtil.getIntProperty("scheduler.timeoutChecker.maxPoolSize", 1),
+        this.timeoutChecker = new ThreadPoolExecutor(ConfigUtil.getLongProperty("scheduler.timeoutChecker.corePoolSize", 1L).intValue(),
+                ConfigUtil.getLongProperty("scheduler.timeoutChecker.maxPoolSize", 1L).intValue(),
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(),
                 new NamedThreadFactory("TimeoutChecker"));

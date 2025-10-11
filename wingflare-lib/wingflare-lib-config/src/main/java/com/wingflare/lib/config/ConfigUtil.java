@@ -73,9 +73,9 @@ public class ConfigUtil {
     /**
      * 获取整数类型的配置值
      */
-    public static Integer getIntProperty(String key) {
+    public static Long getLongProperty(String key) {
         for (ConfigReader loader : getConfigs()) {
-            Integer config = loader.getIntProperty(key);
+            Long config = loader.getLongProperty(key);
             if (config != null) return config;
         }
 
@@ -85,9 +85,9 @@ public class ConfigUtil {
     /**
      * 获取整数类型的配置值，带默认值
      */
-    public static Integer getIntProperty(String key, Integer defaultValue) {
+    public static Long getLongProperty(String key, Long defaultValue) {
         for (ConfigReader loader : getConfigs()) {
-            Integer config = loader.getIntProperty(key);
+            Long config = loader.getLongProperty(key);
             if (config != null) return config;
         }
 

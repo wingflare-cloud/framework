@@ -119,14 +119,14 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
 
     private Integer getPoolConfigInt(String poolKey, String configKey, Integer defaultValue) {
         String specificKey = THREAD_POOL_CONFIG_PREFIX + poolKey + "." + configKey;
-        Integer value = ConfigUtil.getIntProperty(specificKey);
+        Long value = ConfigUtil.getLongProperty(specificKey);
 
         if (value == null) {
             String globalKey = THREAD_POOL_CONFIG_PREFIX + configKey;
-            value = ConfigUtil.getIntProperty(globalKey, defaultValue);
+            value = ConfigUtil.getLongProperty(globalKey, Long.valueOf(defaultValue));
         }
 
-        return value;
+        return value.intValue();
     }
 
     private Long getPoolConfigLong(String poolKey, String configKey, Long defaultValue) {

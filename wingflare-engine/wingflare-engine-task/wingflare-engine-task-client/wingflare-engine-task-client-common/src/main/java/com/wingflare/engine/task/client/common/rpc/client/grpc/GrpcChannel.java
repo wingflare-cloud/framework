@@ -123,7 +123,8 @@ public final class GrpcChannel {
         Integer port = taskProperties.getPort();
         // 获取客户端指定的端口
         if (Objects.isNull(port)) {
-            port = Optional.ofNullable(ConfigUtil.getIntProperty("server.port")).orElse(PORT);
+            Long sp = ConfigUtil.getLongProperty("server.port");
+            port = Optional.ofNullable(sp != null ? sp.intValue() : null).orElse(PORT);
             taskProperties.setPort(port);
             TaskEngineLog.LOCAL.info("task engine client port :{}", port);
         } else if (port.equals(RANDOM_CLIENT_PORT)) {
