@@ -15,7 +15,7 @@ public class IdGeneratorOption {
      * 基础时间（ms单位）
      * 不能超过当前系统时间
      */
-    protected long baseTime = 1758124800000L;
+    protected long baseTime = 1760025600000L;
 
     /**
      * 机器码

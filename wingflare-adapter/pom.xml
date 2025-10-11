@@ -16,7 +16,6 @@
         <module>wingflare-adapter-cloud-alibaba</module>
         <module>wingflare-adapter-cloud-tencent</module>
         <module>wingflare-adapter-module-base-nosql-redis</module>
-        <module>wingflare-adapter-session-nosql-redis</module>
         <module>wingflare-adapter-alarm</module>
         <module>wingflare-adapter-spring</module>
     </modules>

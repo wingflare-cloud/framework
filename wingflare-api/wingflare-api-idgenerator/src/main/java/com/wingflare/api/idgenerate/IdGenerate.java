@@ -7,4 +7,6 @@ public interface IdGenerate {
 
     long nextId();
 
+    long nextId(String key);
+
 }

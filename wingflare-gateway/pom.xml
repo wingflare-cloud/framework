@@ -136,7 +136,7 @@
 
                 <dependency>
                     <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-session-nosql-redis</artifactId>
+                    <artifactId>wingflare-adapter-spring-session-redis</artifactId>
                 </dependency>
 
             </dependencies>

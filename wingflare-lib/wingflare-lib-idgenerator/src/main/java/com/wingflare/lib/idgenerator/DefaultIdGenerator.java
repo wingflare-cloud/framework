@@ -86,4 +86,9 @@ public class DefaultIdGenerator implements IdGenerate {
         return _snowWorker.nextId();
     }
 
+    @Override
+    public long nextId(String key) {
+        return 0;
+    }
+
 }

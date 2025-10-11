@@ -67,32 +67,10 @@ public class SnowWorkerM1 implements IdGenerate {
         _currentSeqNumber = minSeqNumber;
     }
 
-    private void doGenIdAction(OverCostActionArg arg) {
-
-    }
-
-    private void beginOverCostAction(long useTimeTick) {
-
-    }
-
-    private void endOverCostAction(long useTimeTick) {
-
-    }
-
-    private void beginTurnBackAction(long useTimeTick) {
-
-    }
-
-    private void endTurnBackAction(long useTimeTick) {
-
-    }
-
     private long nextOverCostId() {
         long currentTimeTick = getCurrentTimeTick();
 
         if (currentTimeTick > _lastTimeTick) {
-            endOverCostAction(currentTimeTick);
-
             _lastTimeTick = currentTimeTick;
             _currentSeqNumber = minSeqNumber;
             _isOverCost = false;
@@ -103,8 +81,6 @@ public class SnowWorkerM1 implements IdGenerate {
         }
 
         if (_overCostCountInOneTerm >= topOverCostCount) {
-            endOverCostAction(currentTimeTick);
-
             _lastTimeTick = getNextTimeTick();
             _currentSeqNumber = minSeqNumber;
             _isOverCost = false;
@@ -147,7 +123,6 @@ public class SnowWorkerM1 implements IdGenerate {
 
         // 时间追平时，_turnBackTimeTick清零
         if (_turnBackTimeTick > 0) {
-            endTurnBackAction(_turnBackTimeTick);
             _turnBackTimeTick = 0;
         }
 
@@ -159,8 +134,6 @@ public class SnowWorkerM1 implements IdGenerate {
         }
 
         if (_currentSeqNumber > maxSeqNumber) {
-            beginOverCostAction(currentTimeTick);
-
             _termIndex++;
             _lastTimeTick++;
             _currentSeqNumber = minSeqNumber;
@@ -203,7 +176,7 @@ public class SnowWorkerM1 implements IdGenerate {
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new IdGeneratorException(e);
             }
             tempTimeTicker = getCurrentTimeTick();
         }
@@ -216,6 +189,11 @@ public class SnowWorkerM1 implements IdGenerate {
         synchronized (_syncLock) {
             return _isOverCost ? nextOverCostId() : NextNormalId();
         }
+    }
+
+    @Override
+    public long nextId(String key) {
+        return 0;
     }
 
 }
