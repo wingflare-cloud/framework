@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>wingflare-adapter</artifactId>
         <groupId>com.wingflare</groupId>
+        <artifactId>wingflare-adapter-spring</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
+    <artifactId>wingflare-adapter-spring-cloud-tencent</artifactId>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -18,16 +18,16 @@
     </properties>
 
     <dependencies>
-        <!-- SpringCloud Alibaba Nacos -->
+        <!-- SpringCloud tencent polaris discovery -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <groupId>com.tencent.cloud</groupId>
+            <artifactId>spring-cloud-starter-tencent-polaris-discovery</artifactId>
         </dependency>
 
-        <!-- SpringCloud Alibaba Nacos Config -->
+        <!-- SpringCloud tencent polaris config -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <groupId>com.tencent.cloud</groupId>
+            <artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
         </dependency>
     </dependencies>
 

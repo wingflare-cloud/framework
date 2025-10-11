@@ -20,18 +20,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-cloud-tencent</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-adapter-module-base-nosql-redis</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>

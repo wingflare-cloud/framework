@@ -107,7 +107,7 @@
             <dependencies>
                 <dependency>
                     <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-cloud-alibaba</artifactId>
+                    <artifactId>wingflare-adapter-spring-cloud-alibaba</artifactId>
                 </dependency>
             </dependencies>
 
@@ -121,7 +121,7 @@
             <dependencies>
                 <dependency>
                     <groupId>com.wingflare</groupId>
-                    <artifactId>wingflare-adapter-cloud-tencent</artifactId>
+                    <artifactId>wingflare-adapter-spring-cloud-tencent</artifactId>
                 </dependency>
             </dependencies>
         </profile>

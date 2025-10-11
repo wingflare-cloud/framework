@@ -30,6 +30,11 @@
 
         <dependency>
             <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-api-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-api-container</artifactId>
         </dependency>
 

@@ -23,6 +23,8 @@
         <module>wingflare-adapter-spring-webflux-session</module>
         <module>wingflare-adapter-spring-transaction</module>
         <module>wingflare-adapter-spring-session-redis</module>
+        <module>wingflare-adapter-spring-cloud-alibaba</module>
+        <module>wingflare-adapter-spring-cloud-tencent</module>
     </modules>
     <modelVersion>4.0.0</modelVersion>
 
