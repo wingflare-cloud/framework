@@ -19,11 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-facade-module-base</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.wingflare</groupId>
             <artifactId>wingflare-module-base</artifactId>
         </dependency>
 

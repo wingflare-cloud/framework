@@ -2,11 +2,17 @@ package com.wingflare.facade.module.user.biz;
 
 
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.facade.module.user.bo.JobLevelClassifyBO;
 import com.wingflare.facade.module.user.dto.JobLevelClassifyDTO;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBO;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 
 /**
  * <p>
@@ -16,18 +22,21 @@ import com.wingflare.facade.module.user.bo.JobLevelClassifySearchBO;
  * @author naizui_ycx
  * @since 2023-04-28
  */
+@Validated
 public interface JobLevelClassifyBiz {
 
-    PageDto<JobLevelClassifyDTO> list(JobLevelClassifySearchBO bo);
+    PageDto<JobLevelClassifyDTO> list(@Valid JobLevelClassifySearchBO bo);
 
-    JobLevelClassifyDTO get(IdBo bo);
+    JobLevelClassifyDTO get(@Valid @NotNull IdBo bo);
 
-    JobLevelClassifyDTO getOnlyOne(JobLevelClassifySearchBO bo);
+    JobLevelClassifyDTO getOnlyOne(@Valid @NotNull JobLevelClassifySearchBO bo);
 
-    JobLevelClassifyDTO create(JobLevelClassifyBO bo);
+    @Validated({Default.class, Create.class})
+    JobLevelClassifyDTO create(@Valid @NotNull JobLevelClassifyBO bo);
 
-    JobLevelClassifyDTO update(JobLevelClassifyBO bo);
+    @Validated({Default.class, Update.class})
+    JobLevelClassifyDTO update(@Valid @NotNull JobLevelClassifyBO bo);
 
-    JobLevelClassifyDTO delete(IdBo bo);
+    JobLevelClassifyDTO delete(@Valid @NotNull IdBo bo);
 
 }

@@ -69,6 +69,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-idgenerator</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

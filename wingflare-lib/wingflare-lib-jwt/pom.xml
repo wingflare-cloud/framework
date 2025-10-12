@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingfalre-lib-standard</artifactId>
+            <artifactId>wingflare-lib-core</artifactId>
             <scope>provided</scope>
         </dependency>
 
@@ -32,7 +32,6 @@
         <dependency>
             <groupId>com.wingflare</groupId>
             <artifactId>wingflare-lib-config</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>

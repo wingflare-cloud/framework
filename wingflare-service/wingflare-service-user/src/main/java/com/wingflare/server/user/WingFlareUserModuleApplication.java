@@ -1,9 +1,11 @@
 package com.wingflare.server.user;
 
 
-import com.wingflare.lib.security.annotation.EnableDataSecret;
-import com.wingflare.lib.security.annotation.EnableDataSensitive;
-import com.wingflare.lib.spring.annotation.BaseConfig;
+import com.wingflare.adapter.spring.common.annotation.BaseConfig;
+import com.wingflare.api.core.annotation.MicroserviceMode;
+import com.wingflare.api.security.annotation.EnableDataSecret;
+import com.wingflare.api.security.annotation.EnableDataSensitive;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +17,7 @@ import java.util.TimeZone;
 @EnableDataSecret
 @MicroserviceMode
 @SpringBootApplication
+@MapperScan("com.wingflare.business.user.mapper")
 public class WingFlareUserModuleApplication {
 
     public static void main(String[] args) {

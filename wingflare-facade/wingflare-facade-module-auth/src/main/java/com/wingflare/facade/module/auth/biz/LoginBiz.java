@@ -3,13 +3,15 @@ package com.wingflare.facade.module.auth.biz;
 
 import com.wingflare.api.core.PageResult;
 import com.wingflare.api.security.UserAuth;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.facade.module.auth.bo.GetLoginUsersBO;
 import com.wingflare.facade.module.auth.bo.LoginBO;
 import com.wingflare.facade.module.auth.bo.RefreshTokenBO;
 import com.wingflare.facade.module.auth.dto.TokenDTO;
 import com.wingflare.lib.standard.bo.StringIdBo;
 
-
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @ClassName LoginBiz
@@ -17,6 +19,7 @@ import com.wingflare.lib.standard.bo.StringIdBo;
  * @Date 2023/03/10
  * @Description 登陆业务
  */
+@Validated
 public interface LoginBiz {
 
     /**
@@ -25,14 +28,14 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    TokenDTO login(LoginBO bo);
+    TokenDTO login(@Valid @NotNull LoginBO bo);
 
     /**
      * 登出
      *
      * @param bo token id bo
      */
-    UserAuth logout(StringIdBo bo);
+    UserAuth logout(@Valid @NotNull StringIdBo bo);
 
     /**
      * 获取用户登录信息
@@ -41,7 +44,7 @@ public interface LoginBiz {
      *
      * @return
      */
-    UserAuth getUserLoginInfo(StringIdBo bo);
+    UserAuth getUserLoginInfo(@Valid @NotNull StringIdBo bo);
 
     /**
      * 刷新token
@@ -50,7 +53,7 @@ public interface LoginBiz {
      *
      * @return
      */
-    TokenDTO refreshToken(RefreshTokenBO bo);
+    TokenDTO refreshToken(@Valid @NotNull RefreshTokenBO bo);
 
     /**
      * 获取登录用户信息列表
@@ -58,7 +61,7 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    PageResult<UserAuth> getLoginUsers(GetLoginUsersBO bo);
+    public PageResult<UserAuth> getLoginUsers(@Valid @NotNull GetLoginUsersBO bo);
 
     /**
      * 获取指定用户登录用户信息列表
@@ -66,6 +69,6 @@ public interface LoginBiz {
      * @param bo
      * @return
      */
-    PageResult<UserAuth> getUserLoginInfos(GetLoginUsersBO bo);
+    public PageResult<UserAuth> getUserLoginInfos(@Valid @NotNull GetLoginUsersBO bo);
 
 }

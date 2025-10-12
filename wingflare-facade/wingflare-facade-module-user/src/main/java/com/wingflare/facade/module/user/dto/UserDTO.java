@@ -1,6 +1,7 @@
 package com.wingflare.facade.module.user.dto;
 
 
+import com.alibaba.fastjson2.JSONArray;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigInteger;
@@ -44,7 +45,7 @@ public class UserDTO
 	/**
      * 账户类型
      */
-    private List<String> accountType;
+    private JSONArray accountType;
 	
 	/**
      * 用户名
@@ -171,13 +172,13 @@ public class UserDTO
         return userChannel;
     }
 	
-    public UserDTO setAccountType(List<String> accountType)
+    public UserDTO setAccountType(JSONArray accountType)
     {
         this.accountType = accountType;
         return this;
     }
 
-    public List<String> getAccountType()
+    public JSONArray getAccountType()
     {
         return accountType;
     }

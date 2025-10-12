@@ -1,7 +1,7 @@
 package com.wingflare.adapter.spring.servlet.web.configure;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wingflare.adapter.spring.common.ResponseConverter;
 import com.wingflare.adapter.spring.common.annotation.ConditionalOnAnnotationPresent;
 import com.wingflare.adapter.spring.common.configure.properties.SystemContextProperties;
 import com.wingflare.adapter.spring.servlet.web.SpringServletHttpContainer;
@@ -24,12 +24,6 @@ public class MicroserviceImportConfig {
     @ConditionalOnAnnotationPresent(MicroserviceMode.class)
     public WebMvcConfig webMvcConfig(ObjectMapper objectMapper) {
         return new WebMvcConfig(objectMapper);
-    }
-
-    @Bean
-    @ConditionalOnAnnotationPresent(MicroserviceMode.class)
-    public ResponseConverter.Default responseConverter() {
-        return new ResponseConverter.Default();
     }
 
     @Bean

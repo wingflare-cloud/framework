@@ -1,5 +1,6 @@
 package com.wingflare.gateway.filter;
 
+
 import com.wingflare.adapter.spring.security.properties.AuthProperties;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.api.core.Std;
@@ -14,7 +15,6 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -57,10 +57,12 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                                 if (StringUtil.equals(authResponseDTO.getError(), ErrorCode.TOKEN_EXPIRATION)) {
                                     if (StringUtil.isNotEmpty(config.getRefreshTokenUrl()) &&
                                             !StringUtil.isMatch(config.getRefreshTokenUrl(), request.getURI().getPath())) {
-                                        return unauthorizedResponse(ctx, authResponseDTO.getError());
+                                        return WebFluxUtil.writeJSON(
+                                                ctx.getResponse(), HttpStatus.OK, R.fail(HttpStatus.UNAUTHORIZED.value(), authResponseDTO.getError()));
                                     }
                                 } else {
-                                    return loginLostResponse(ctx, authResponseDTO.getError());
+                                    return WebFluxUtil.writeJSON(
+                                            ctx.getResponse(), HttpStatus.OK, R.fail(HttpStatus.PAYMENT_REQUIRED.value(), authResponseDTO.getError()));
                                 }
                             }
                         }
@@ -92,16 +94,6 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthG
                         return chain.filter(ctx);
                     });
         });
-    }
-
-    private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
-        return WebFluxUtil.writeJSON(
-                exchange.getResponse(), HttpStatus.OK, R.fail(HttpStatus.UNAUTHORIZED.value(), msg));
-    }
-
-    private Mono<Void> loginLostResponse(ServerWebExchange exchange, String msg) {
-        return WebFluxUtil.writeJSON(
-                exchange.getResponse(), HttpStatus.OK, R.fail(HttpStatus.PAYMENT_REQUIRED.value(), msg));
     }
 
     private String getToken(ServerHttpRequest request, Config config) {

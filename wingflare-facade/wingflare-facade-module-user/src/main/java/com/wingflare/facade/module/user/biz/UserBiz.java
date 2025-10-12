@@ -2,6 +2,9 @@ package com.wingflare.facade.module.user.biz;
 
 
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.facade.module.user.bo.UpdatePasswdBO;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.bo.UserBindRoleBO;
@@ -9,6 +12,10 @@ import com.wingflare.facade.module.user.bo.UserSearchBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
 import com.wingflare.lib.standard.bo.IdBo;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 import java.util.Map;
 
 
@@ -18,44 +25,47 @@ import java.util.Map;
  * @author naizui_ycx
  * @date Sun Mar 05 09:45:12 CST 2023
  */
+@Validated
 public interface UserBiz {
 
     /**
      * 查询系统用户列表
      */
-    PageDto<UserDTO> list(UserSearchBO bo);
+    PageDto<UserDTO> list(@Valid UserSearchBO bo);
 
     /**
      * 查询系统用户详情
      */
-    UserDTO get(IdBo bo);
+    UserDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个系统用户详情
      */
-    UserDTO getOnlyOne(UserSearchBO searchBo);
+    UserDTO getOnlyOne(@Valid @NotNull UserSearchBO searchBo);
 
     /**
      * 删除系统用户
      */
-    UserDTO delete(IdBo bo);
+    UserDTO delete(@Valid @NotNull IdBo bo);
 
     /**
      * 新增系统用户
      */
-    UserDTO create(UserBO bo);
+    @Validated({Default.class, Create.class})
+    UserDTO create(@Valid @NotNull UserBO bo);
 
     /**
      * 更新系统用户
      */
-    UserDTO update(UserBO bo);
+    @Validated({Default.class, Update.class})
+    UserDTO update(@Valid @NotNull UserBO bo);
 
     /**
      * 更新用户密码
      *
      * @param bo
      */
-    UserDTO updatePasswd(UpdatePasswdBO bo);
+    UserDTO updatePasswd(@Valid @NotNull UpdatePasswdBO bo);
 
     /**
      * 通过登录名获取登录用户
@@ -63,7 +73,7 @@ public interface UserBiz {
      * @param loginName
      * @return
      */
-    UserDTO getUserByLoginName(String loginName);
+    UserDTO getUserByLoginName(@NotBlank String loginName);
 
     /**
      * 通过用户id获取用户附加属性
@@ -71,13 +81,13 @@ public interface UserBiz {
      * @param bo
      * @return
      */
-    Map<String, Object> getAttribute(IdBo bo);
+    Map<String, Object> getAttribute(@Valid @NotNull IdBo bo);
 
     /**
      * 用户绑定角色
      *
      * @param bo
      */
-    void userBindRole(UserBindRoleBO bo);
+    void userBindRole(@Valid @NotNull UserBindRoleBO bo);
 
 }

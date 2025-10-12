@@ -2,10 +2,17 @@ package com.wingflare.facade.module.user.biz;
 
 
 import com.wingflare.api.core.PageDto;
+import com.wingflare.api.core.validate.Create;
+import com.wingflare.api.core.validate.Update;
+import com.wingflare.api.validation.annotation.Validated;
 import com.wingflare.facade.module.user.bo.RoleBO;
 import com.wingflare.facade.module.user.bo.RoleSearchBO;
 import com.wingflare.facade.module.user.dto.RoleDTO;
 import com.wingflare.lib.standard.bo.IdBo;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 
 
 /**
@@ -14,36 +21,39 @@ import com.wingflare.lib.standard.bo.IdBo;
  * @author naizui_ycx
  * @date Thu Mar 09 10:04:01 CST 2023
  */
+@Validated
 public interface RoleBiz {
 
     /**
      * 查询系统角色列表
      */
-    PageDto<RoleDTO> list(RoleSearchBO bo);
+    PageDto<RoleDTO> list(@Valid RoleSearchBO bo);
 
     /**
      * 查询系统角色详情
      */
-    RoleDTO get(IdBo bo);
+    RoleDTO get(@Valid @NotNull IdBo bo);
 
     /**
      * 通过条件查询单个系统角色详情
      */
-    RoleDTO getOnlyOne(RoleSearchBO searchBo);
+    RoleDTO getOnlyOne(@Valid @NotNull RoleSearchBO searchBo);
 
     /**
      * 删除系统角色
      */
-    RoleDTO delete(IdBo bo);
+    RoleDTO delete(@Valid @NotNull IdBo bo);
 
     /**
      * 新增系统角色
      */
-    RoleDTO create(RoleBO bo);
+    @Validated({Default.class, Create.class})
+    RoleDTO create(@Valid @NotNull RoleBO bo);
 
     /**
      * 更新系统角色
      */
-    RoleDTO update(RoleBO bo);
+    @Validated({Default.class, Update.class})
+    RoleDTO update(@Valid @NotNull RoleBO bo);
 
 }

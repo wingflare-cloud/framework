@@ -67,6 +67,11 @@
             <artifactId>wingflare-adapter-spring-event</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-sdk-user</artifactId>
+        </dependency>
+
     </dependencies>
 
 
