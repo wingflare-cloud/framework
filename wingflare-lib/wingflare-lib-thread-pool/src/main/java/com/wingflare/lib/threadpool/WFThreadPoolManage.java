@@ -164,7 +164,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
             try {
                 return Boolean.parseBoolean(valueStr);
             } catch (NumberFormatException e) {
-                logger.warn("Invalid long value '{}' for config '{}' in pool '{}'",
+                logger.warn("Invalid boolean value '{}' for config '{}' in pool '{}'",
                         valueStr, configKey, poolKey);
             }
         }
@@ -176,7 +176,7 @@ public class WFThreadPoolManage implements ThreadPoolManageDrive {
             try {
                 return Boolean.parseBoolean(valueStr);
             } catch (NumberFormatException e) {
-                logger.warn("Invalid long value '{}' for global config '{}'", valueStr, configKey);
+                logger.warn("Invalid boolean value '{}' for global config '{}'", valueStr, configKey);
             }
         }
 
