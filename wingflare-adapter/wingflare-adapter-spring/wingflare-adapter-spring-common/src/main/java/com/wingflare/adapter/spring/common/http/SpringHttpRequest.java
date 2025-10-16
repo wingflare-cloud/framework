@@ -260,8 +260,7 @@ public class SpringHttpRequest implements HttpRequest {
                 break;
         }
 
-        if (header instanceof SpringHttpHeader) {
-            SpringHttpHeader springHeader = (SpringHttpHeader) header;
+        if (header instanceof SpringHttpHeader springHeader) {
             HttpHeaders httpHeaders = springHeader.getSpringHeaders();
             // 遍历所有请求头并添加到OkHttp请求中
             httpHeaders.forEach((name, values) -> {
