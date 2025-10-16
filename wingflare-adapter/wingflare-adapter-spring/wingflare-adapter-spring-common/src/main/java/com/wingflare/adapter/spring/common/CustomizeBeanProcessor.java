@@ -3,10 +3,10 @@ package com.wingflare.adapter.spring.common;
 
 import com.wingflare.api.core.annotation.PrototypeBean;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 
 
 /**
@@ -18,7 +18,7 @@ public class CustomizeBeanProcessor implements BeanDefinitionRegistryPostProcess
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         String[] beanNames = registry.getBeanDefinitionNames();
         for (String beanName : beanNames) {
-            RootBeanDefinition beanDefinition = (RootBeanDefinition) registry.getBeanDefinition(beanName);
+            BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
             String className = beanDefinition.getBeanClassName();
 
             if (className == null) {
