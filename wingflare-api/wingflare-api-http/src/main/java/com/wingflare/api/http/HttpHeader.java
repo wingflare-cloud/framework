@@ -1,13 +1,14 @@
 package com.wingflare.api.http;
 
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 /**
  * HTTP Header接口
  */
-public interface HttpHeader {
+public interface HttpHeader extends Iterable<HttpHeader.HeaderEntry> {
     /**
      * 添加头部值（不会覆盖现有值，而是追加）
      * @param name 头部名称
@@ -79,5 +80,31 @@ public interface HttpHeader {
      * 清空所有头部
      */
     HttpHeader clear();
+
+    /**
+     * 头部键值对条目接口，用于迭代器返回
+     * 包含规范化的头部名称和对应的所有值
+     */
+    interface HeaderEntry {
+        /**
+         * 获取规范化的头部名称
+         * @return 头部名称（如 "Content-Type"）
+         */
+        String getName();
+
+        /**
+         * 获取头部的所有值
+         * @return 不可修改的头部值列表（避免外部篡改）
+         */
+        List<String> getValues();
+    }
+
+    /**
+     * 返回迭代器，用于遍历所有头部键值对
+     * 迭代顺序与内部存储顺序一致（不保证有序，取决于实现）
+     * @return 头部条目迭代器
+     */
+    Iterator<HeaderEntry> iterator();
+
 }
 

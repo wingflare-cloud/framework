@@ -1,10 +1,9 @@
-package com.wingflare.adapter.spring.common.http;
+package com.wingflare.lib.http.client.okhttp;
 
 
 import com.wingflare.api.core.enums.Charset;
 import com.wingflare.api.core.enums.MimeType;
 import com.wingflare.api.http.HttpCookie;
-import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpResponse;
 import com.wingflare.api.http.HttpStatus;
@@ -22,18 +21,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class SpringHttpResponse implements HttpResponse {
+public class OkHttpResponse implements HttpResponse {
 
     private static final Pattern COOKIE_PATTERN = Pattern.compile("(\\w+)(=([^;]+))?;?");
     private final Response response;
-    private final HttpHeader header;
+    private final OkHttpHeader header;
     private final List<HttpCookie> cookies;
     private String responseBody;
 
     // 新增构造函数，接受OkHttp的Response对象
-    public SpringHttpResponse(Response response) {
+    public OkHttpResponse(Response response) {
         this.response = response;
-        this.header = new SpringHttpHeader();
+        this.header = new OkHttpHeader();
         this.cookies = new ArrayList<>();
 
         // 解析响应头
@@ -45,7 +44,7 @@ public class SpringHttpResponse implements HttpResponse {
 
                 // 解析Set-Cookie头
                 if (HttpHeaderConstants.RESPONSE_SET_COOKIE.equalsIgnoreCase(name)) {
-                    SpringHttpCookie springCookie = parseSingleCookie(value);
+                    OkHttpCookie springCookie = parseSingleCookie(value);
                     if (springCookie != null) {
                         cookies.add(springCookie);
                     }
@@ -130,7 +129,7 @@ public class SpringHttpResponse implements HttpResponse {
     }
 
     @Override
-    public HttpHeader getHeader() {
+    public OkHttpHeader getHeader() {
         return header;
     }
 
@@ -165,9 +164,9 @@ public class SpringHttpResponse implements HttpResponse {
         return false;
     }
 
-    private static SpringHttpCookie parseSingleCookie(String setCookie) {
+    private static OkHttpCookie parseSingleCookie(String setCookie) {
         Matcher matcher = COOKIE_PATTERN.matcher(setCookie);
-        SpringHttpCookie cookie = null;
+        OkHttpCookie cookie = null;
 
         while (matcher.find()) {
             String key = matcher.group(1);
@@ -178,7 +177,7 @@ public class SpringHttpResponse implements HttpResponse {
                 if (key == null || value == null) {
                     return null; // 无效的Cookie格式
                 }
-                cookie = new SpringHttpCookie(key);
+                cookie = new OkHttpCookie(key);
                 cookie.setValue(value);
             } else {
                 // 解析Cookie属性（Expires、Path、Domain等）
@@ -192,7 +191,7 @@ public class SpringHttpResponse implements HttpResponse {
     /**
      * 解析Cookie属性并设置到SpringHttpCookie对象
      */
-    private static void parseCookieAttribute(SpringHttpCookie cookie, String key, String value) {
+    private static void parseCookieAttribute(OkHttpCookie cookie, String key, String value) {
         switch (key.toLowerCase()) {
             case "expires":
                 // 解析Expires（格式：EEE, dd-MMM-yyyy HH:mm:ss zzz）

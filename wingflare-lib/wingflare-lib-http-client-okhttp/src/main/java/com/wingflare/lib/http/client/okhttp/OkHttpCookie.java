@@ -1,4 +1,4 @@
-package com.wingflare.adapter.spring.common.http;
+package com.wingflare.lib.http.client.okhttp;
 
 
 import com.wingflare.api.http.HttpCookie;
@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 /**
  * spring环境下cookie的实现
  */
-public class SpringHttpCookie implements HttpCookie {
+public class OkHttpCookie implements HttpCookie {
 
     private final String name;
     private String value;
@@ -21,7 +21,7 @@ public class SpringHttpCookie implements HttpCookie {
     private boolean httpOnly;
     private String sameSite;
 
-    public SpringHttpCookie(String name) {
+    public OkHttpCookie(String name) {
         this.name = name;
     }
 
@@ -31,7 +31,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setValue(String value) {
+    public OkHttpCookie setValue(String value) {
         this.value = value;
         return this;
     }
@@ -42,7 +42,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setExpiry(Instant expiry) {
+    public OkHttpCookie setExpiry(Instant expiry) {
         this.expiry = expiry;
         return this;
     }
@@ -53,7 +53,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setPath(String path) {
+    public OkHttpCookie setPath(String path) {
         this.path = path;
         return this;
     }
@@ -64,7 +64,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setDomain(String domain) {
+    public OkHttpCookie setDomain(String domain) {
         this.domain = domain;
         return this;
     }
@@ -75,7 +75,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setSecure(boolean secure) {
+    public OkHttpCookie setSecure(boolean secure) {
         this.secure = secure;
         return this;
     }
@@ -86,7 +86,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setHttpOnly(boolean httpOnly) {
+    public OkHttpCookie setHttpOnly(boolean httpOnly) {
         this.httpOnly = httpOnly;
         return this;
     }
@@ -97,7 +97,7 @@ public class SpringHttpCookie implements HttpCookie {
     }
 
     @Override
-    public HttpCookie setSameSite(String sameSite) {
+    public OkHttpCookie setSameSite(String sameSite) {
         this.sameSite = sameSite;
         return this;
     }

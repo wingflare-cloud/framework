@@ -1,12 +1,12 @@
-package com.wingflare.adapter.spring.common.http;
+package com.wingflare.lib.http.client.okhttp;
 
 
+import com.wingflare.api.core.annotation.PrototypeBean;
 import com.wingflare.api.core.enums.Charset;
 import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpMethod;
 import com.wingflare.api.http.HttpRequest;
-import com.wingflare.api.http.HttpResponse;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -14,9 +14,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,12 +24,12 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 
-@Scope(value = BeanDefinition.SCOPE_PROTOTYPE)
-public class SpringHttpRequest implements HttpRequest {
+@PrototypeBean
+public class OkHttpRequest implements HttpRequest {
 
     private String url;
     private HttpMethod method;
-    private HttpHeader header = new SpringHttpHeader();
+    private HttpHeader header = new OkHttpHeader();
     private String contentType;
     private Map<String, String> queryParams = new HashMap<>();
     private Map<String, String> formParams = new HashMap<>();
@@ -43,12 +40,12 @@ public class SpringHttpRequest implements HttpRequest {
     private Charset charset;
     private final OkHttpClient okHttpClient;
 
-    public SpringHttpRequest(OkHttpClient okHttpClient) {
+    public OkHttpRequest(OkHttpClient okHttpClient) {
         this.okHttpClient = okHttpClient;
     }
 
     @Override
-    public HttpRequest setUrl(String url) {
+    public OkHttpRequest setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -59,7 +56,7 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setMethod(HttpMethod method) {
+    public OkHttpRequest setMethod(HttpMethod method) {
         this.method = method;
         return this;
     }
@@ -70,19 +67,19 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest addHeader(String key, String value) {
+    public OkHttpRequest addHeader(String key, String value) {
         header.addHeader(key, value);
         return this;
     }
 
     @Override
-    public HttpRequest setHeader(HttpHeader header) {
+    public OkHttpRequest setHeader(HttpHeader header) {
         this.header = header;
         return this;
     }
 
     @Override
-    public HttpRequest setContentType(String contentType) {
+    public OkHttpRequest setContentType(String contentType) {
         this.contentType = contentType;
         return this;
     }
@@ -98,19 +95,19 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest addQueryParam(String key, String value) {
+    public OkHttpRequest addQueryParam(String key, String value) {
         queryParams.put(key, value);
         return this;
     }
 
     @Override
-    public HttpRequest addQueryParams(Map<String, String> params) {
+    public OkHttpRequest addQueryParams(Map<String, String> params) {
         queryParams.putAll(params);
         return this;
     }
 
     @Override
-    public HttpRequest setQueryParams(Map<String, String> params) {
+    public OkHttpRequest setQueryParams(Map<String, String> params) {
         queryParams = params;
         return this;
     }
@@ -121,19 +118,19 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest addFormParam(String key, String value) {
+    public OkHttpRequest addFormParam(String key, String value) {
         formParams.put(key, value);
         return this;
     }
 
     @Override
-    public HttpRequest addFormParams(Map<String, String> params) {
+    public OkHttpRequest addFormParams(Map<String, String> params) {
         formParams.putAll(params);
         return this;
     }
 
     @Override
-    public HttpRequest setFormParams(Map<String, String> params) {
+    public OkHttpRequest setFormParams(Map<String, String> params) {
         formParams = params;
         return this;
     }
@@ -144,7 +141,7 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setBody(String body) {
+    public OkHttpRequest setBody(String body) {
         this.body = body;
         return this;
     }
@@ -155,13 +152,13 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest addFile(String fieldName, File file) {
+    public OkHttpRequest addFile(String fieldName, File file) {
         files.put(fieldName, file);
         return this;
     }
 
     @Override
-    public HttpRequest setFiles(Map<String, File> files) {
+    public OkHttpRequest setFiles(Map<String, File> files) {
         this.files = files;
         return this;
     }
@@ -172,19 +169,19 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest addCookie(String name, String value) {
+    public OkHttpRequest addCookie(String name, String value) {
         cookies.put(name, value);
         return this;
     }
 
     @Override
-    public HttpRequest addCookies(Map<String, String> cookies) {
-        cookies.forEach((k, v) -> new SpringHttpCookie(k).setValue(v));
+    public OkHttpRequest addCookies(Map<String, String> cookies) {
+        cookies.forEach((k, v) -> new OkHttpCookie(k).setValue(v));
         return this;
     }
 
     @Override
-    public HttpRequest setCookie(Map<String, String> cookies) {
+    public OkHttpRequest setCookie(Map<String, String> cookies) {
         this.cookies = cookies;
         return this;
     }
@@ -195,7 +192,7 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setFollowRedirects(boolean follow) {
+    public OkHttpRequest setFollowRedirects(boolean follow) {
         this.followRedirects = follow;
         return this;
     }
@@ -206,7 +203,7 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpRequest setCharset(Charset charset) {
+    public OkHttpRequest setCharset(Charset charset) {
         this.charset = charset;
         return this;
     }
@@ -217,11 +214,11 @@ public class SpringHttpRequest implements HttpRequest {
     }
 
     @Override
-    public HttpResponse execute() {
+    public OkHttpResponse execute() {
         try {
             Request request = buildOkHttpRequest();
             Response response = okHttpClient.newCall(request).execute();
-            return new SpringHttpResponse(response);
+            return new OkHttpResponse(response);
         } catch (IOException e) {
             throw new RuntimeException("HTTP request failed", e);
         }
@@ -261,16 +258,8 @@ public class SpringHttpRequest implements HttpRequest {
                 break;
         }
 
-        if (header instanceof SpringHttpHeader springHeader) {
-            HttpHeaders httpHeaders = springHeader.getSpringHeaders();
-            // 遍历所有请求头并添加到OkHttp请求中
-            httpHeaders.forEach((name, values) -> {
-                if (values != null) {
-                    for (String value : values) {
-                        requestBuilder.addHeader(name, value);
-                    }
-                }
-            });
+        for (OkHttpHeader.HeaderEntry entry : header) {
+            entry.getValues().forEach(val -> requestBuilder.addHeader(entry.getName(), val));
         }
 
         if (contentType != null) {
