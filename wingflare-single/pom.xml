@@ -96,11 +96,6 @@
             <artifactId>wingflare-adapter-spring-event</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-adapter-spring-http</artifactId>
-        </dependency>
-
     </dependencies>
 
     <profiles>

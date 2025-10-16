@@ -77,18 +77,6 @@ public interface HttpRequest {
     // 获取所有上传文件
     Map<String, File> getFiles();
 
-    // 设置连接超时时间（毫秒）
-    HttpRequest setConnectTimeout(int timeoutMs);
-
-    // 获取连接超时时间
-    int getConnectTimeout();
-
-    // 设置读取超时时间（毫秒）
-    HttpRequest setReadTimeout(int timeoutMs);
-
-    // 获取读取超时时间
-    int getReadTimeout();
-
     // 添加Cookie
     HttpRequest addCookie(String name, String value);
 

@@ -35,12 +35,6 @@
 
             <dependency>
                 <groupId>com.wingflare</groupId>
-                <artifactId>wingflare-adapter-spring-http</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wingflare</groupId>
                 <artifactId>wingflare-adapter-spring-mail</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>

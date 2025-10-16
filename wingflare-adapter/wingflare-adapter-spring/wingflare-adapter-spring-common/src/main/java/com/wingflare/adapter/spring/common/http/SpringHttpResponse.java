@@ -1,4 +1,4 @@
-package com.wingflare.adapter.spring.http;
+package com.wingflare.adapter.spring.common.http;
 
 
 import com.wingflare.api.core.enums.Charset;
@@ -8,9 +8,11 @@ import com.wingflare.api.http.HttpHeader;
 import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpResponse;
 import com.wingflare.api.http.HttpStatus;
+import okhttp3.Response;
 import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -24,13 +26,54 @@ import java.util.regex.Pattern;
 public class SpringHttpResponse implements HttpResponse {
 
     private static final Pattern COOKIE_PATTERN = Pattern.compile("(\\w+)(=([^;]+))?;?");
+    private final Response response;
     private final ResponseEntity<String> responseEntity;
     private final HttpHeader header;
     private final List<HttpCookie> cookies;
+    private String responseBody;
 
+    // 新增构造函数，接受OkHttp的Response对象
+    public SpringHttpResponse(Response response) {
+        this.response = response;
+        this.responseEntity = null;
+        this.header = new SpringHttpHeader();
+        this.cookies = new ArrayList<>();
+
+        // 解析响应头
+        if (response.headers() != null) {
+            for (int i = 0; i < response.headers().size(); i++) {
+                String name = response.headers().name(i);
+                String value = response.headers().value(i);
+                this.header.addHeader(name, value);
+
+                // 解析Set-Cookie头
+                if (HttpHeaderConstants.RESPONSE_SET_COOKIE.equalsIgnoreCase(name)) {
+                    SpringHttpCookie springCookie = parseSingleCookie(value);
+                    if (springCookie != null) {
+                        cookies.add(springCookie);
+                    }
+                }
+            }
+        }
+
+        // 读取响应体
+        if (response.body() != null) {
+            try {
+                responseBody = response.body().string();
+            } catch (IOException e) {
+                responseBody = "";
+            }
+        } else {
+            responseBody = "";
+        }
+    }
+
+    // 保留原有的构造函数，兼容Spring的ResponseEntity
     public SpringHttpResponse(ResponseEntity<String> responseEntity) {
+        this.response = null;
         this.responseEntity = responseEntity;
         this.header = new SpringHttpHeader();
+        this.responseBody = responseEntity.getBody();
 
         List<String> setCookieHeaders = responseEntity.getHeaders().get(HttpHeaderConstants.RESPONSE_SET_COOKIE);
 
@@ -59,47 +102,91 @@ public class SpringHttpResponse implements HttpResponse {
 
     @Override
     public boolean isText() {
-        if (responseEntity.getHeaders().getContentType() == null) {
-            return false;
+        if (response != null) {
+            String contentType = header.getFirstHeader("Content-Type");
+            return contentType != null && (contentType.contains("text/") || contentType.contains("json") || contentType.contains("xml"));
+        } else if (responseEntity != null) {
+            if (responseEntity.getHeaders().getContentType() == null) {
+                return false;
+            }
+
+            String contentType = responseEntity.getHeaders().getContentType().toString();
+
+            return contentType.contains("text/") || responseEntity.getHeaders().getContentType().getSubtype().contains("json")
+                    || responseEntity.getHeaders().getContentType().getSubtype().contains("xml");
         }
-
-        String contentType = responseEntity.getHeaders().getContentType().toString();
-
-        return contentType.contains("text/") || responseEntity.getHeaders().getContentType().getSubtype().contains("json")
-                || responseEntity.getHeaders().getContentType().getSubtype().contains("xml");
+        return false;
     }
 
     @Override
     public boolean isOk() {
-        return responseEntity.getStatusCode().is2xxSuccessful();
+        if (response != null) {
+            return response.isSuccessful();
+        } else if (responseEntity != null) {
+            return responseEntity.getStatusCode().is2xxSuccessful();
+        }
+        return false;
     }
 
     @Override
     public Charset getCharset() {
-        if (responseEntity.getHeaders().getContentType() == null) {
+        if (response != null) {
+            String contentType = header.getFirstHeader("Content-Type");
+            if (contentType != null && contentType.contains("charset=")) {
+                String charsetStr = contentType.substring(contentType.indexOf("charset=") + 8);
+                return Charset.fromCharsetName(charsetStr);
+            }
             return null;
-        }
+        } else if (responseEntity != null) {
+            if (responseEntity.getHeaders().getContentType() == null) {
+                return null;
+            }
 
-        if (responseEntity.getHeaders().getContentType().getCharset() == null) {
-            return null;
-        }
+            if (responseEntity.getHeaders().getContentType().getCharset() == null) {
+                return null;
+            }
 
-        return Charset.fromCharsetName(responseEntity.getHeaders().getContentType().getCharset().name());
+            return Charset.fromCharsetName(responseEntity.getHeaders().getContentType().getCharset().name());
+        }
+        return null;
     }
 
     @Override
     public MimeType getContentType() {
-        if (responseEntity.getHeaders().getContentType() == null) {
+        if (response != null) {
+            String contentType = header.getFirstHeader("Content-Type");
+            if (contentType != null) {
+                // 简化处理，实际应该解析完整的MIME类型
+                if (contentType.contains("json")) {
+                    return MimeType.JSON;
+                } else if (contentType.contains("xml")) {
+                    return MimeType.XML;
+                } else if (contentType.contains("html")) {
+                    return MimeType.HTML;
+                } else if (contentType.startsWith("text/")) {
+                    return MimeType.TEXT;
+                }
+            }
             return null;
-        }
+        } else if (responseEntity != null) {
+            if (responseEntity.getHeaders().getContentType() == null) {
+                return null;
+            }
 
-        return MimeType.getByMimeType(String.format("%s/%s", responseEntity.getHeaders().getContentType().getType(),
-                responseEntity.getHeaders().getContentType().getSubtype()));
+            return MimeType.getByMimeType(String.format("%s/%s", responseEntity.getHeaders().getContentType().getType(),
+                    responseEntity.getHeaders().getContentType().getSubtype()));
+        }
+        return null;
     }
 
     @Override
     public HttpStatus getStatus() {
-        return HttpStatus.getByCode(responseEntity.getStatusCode().value());
+        if (response != null) {
+            return HttpStatus.getByCode(response.code());
+        } else if (responseEntity != null) {
+            return HttpStatus.getByCode(responseEntity.getStatusCode().value());
+        }
+        return null;
     }
 
     @Override
@@ -109,7 +196,7 @@ public class SpringHttpResponse implements HttpResponse {
 
     @Override
     public String getBody() {
-        return responseEntity.getBody();
+        return responseBody;
     }
 
     @Override

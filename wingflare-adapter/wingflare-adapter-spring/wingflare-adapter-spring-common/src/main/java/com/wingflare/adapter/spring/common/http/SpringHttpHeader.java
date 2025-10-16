@@ -1,4 +1,4 @@
-package com.wingflare.adapter.spring.http;
+package com.wingflare.adapter.spring.common.http;
 
 import com.wingflare.api.http.HttpHeader;
 import org.springframework.http.HttpHeaders;
