@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.client.core.executor.builtin;
 
+
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.client.common.config.TaskProperties;
 import com.wingflare.engine.task.common.core.exception.TaskInnerExecutorException;
@@ -8,7 +9,6 @@ import com.wingflare.engine.task.common.core.util.TaskSystemUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.lib.container.Container;
-import org.springframework.beans.factory.InitializingBean;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,11 +25,10 @@ import java.nio.file.Files;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public abstract class AbstractScriptExecutor implements InitializingBean {
+
+public abstract class AbstractScriptExecutor {
 
     protected static final String SH_SHELL = "/bin/sh";
-
-    private static String WORKER_DIR;
 
     // 下载脚本模式
     private static final String SCRIPT_DOWNLOAD_METHOD = "DOWNLOAD";
@@ -62,7 +61,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
     }
 
     private String prepareScriptFile(Long jobId, ScriptParams scriptParams) {
-        String scriptPath = WORKER_DIR + getScriptName(jobId);
+        String scriptPath = FileUtils.workspace() + "/script_processor/" + getScriptName(jobId);
         File script = new File(scriptPath);
         scriptPath = script.getAbsolutePath();
 
@@ -267,7 +266,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
         TaskEngineLog.REMOTE.warn("[wingflare-task] " + msg, params);
     }
 
-    public static class SnailFileUtils {
+    public static class FileUtils {
 
         /**
          * 获取工作目录
@@ -323,8 +322,4 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
         }
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        WORKER_DIR = SnailFileUtils.workspace() + "/script_processor/";
-    }
 }

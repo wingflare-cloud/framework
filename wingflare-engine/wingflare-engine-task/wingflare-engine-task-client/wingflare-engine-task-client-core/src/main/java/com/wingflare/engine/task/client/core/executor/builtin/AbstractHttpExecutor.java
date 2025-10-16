@@ -11,10 +11,7 @@ import com.wingflare.engine.task.common.core.util.JsonUtil;
 import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.dto.ExecuteResult;
 import com.wingflare.lib.container.Container;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
+import com.wingflare.lib.core.utils.StringUtil;
 
 import java.util.Base64;
 import java.util.Map;
@@ -23,11 +20,8 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 
-public abstract class AbstractHttpExecutor implements InitializingBean {
+public abstract class AbstractHttpExecutor {
 
-    private static final int DEFAULT_TIMEOUT = 60;
-    private static final Logger log = LoggerFactory.getLogger(AbstractHttpExecutor.class);
-    private static TaskProperties taskProperties;
     private static final String DEFAULT_REQUEST_METHOD = "GET";
     private static final String POST_REQUEST_METHOD = "POST";
     private static final String PUT_REQUEST_METHOD = "PUT";
@@ -40,6 +34,8 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
     private static final String RESPONSE_CODE_FIELD = "code";
     private static final String JSON_RESPONSE_TYPE = "json";
     private static final String TEXT_RESPONSE_TYPE = "text";
+
+
     public ExecuteResult process(HttpParams httpParams) {
         if (httpParams == null) {
             String message = "HttpParams is null. Verify jobParam configuration.";
@@ -52,11 +48,9 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
         // 设置默认Method及body
         setDefaultMethodAndBody(httpParams);
         setDefaultMediaType(httpParams);
-        setDefaultTimeout(httpParams);
         logInfo("Request URL: {}\nUsing request method: {}\nRequest timeout: {} seconds",
                 httpParams.getUrl(),
-                httpParams.getMethod(),
-                httpParams.getTimeout());
+                httpParams.getMethod());
 
         HttpRequest httpRequest = buildhutoolRequest(httpParams);
 
@@ -66,14 +60,14 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
     private ExecuteResult executeRequestAndHandleResponse(HttpRequest httpRequest) {
         try {
             HttpResponse response = httpRequest.execute();
-            return validateResponse(response, httpRequest, taskProperties.getHttpResponse());
+            return validateResponse(response, httpRequest, Container.get(TaskProperties.class).getHttpResponse());
         } catch (Exception e) {
             throw new TaskInnerExecutorException("[wingflare-task] HTTP internal executor failed", e);
         }
     }
 
     private void validateAndSetUrl(HttpParams httpParams) {
-        if (StringUtils.isEmpty(httpParams.getUrl())) {
+        if (StringUtil.isEmpty(httpParams.getUrl())) {
             throw new TaskInnerExecutorException("URL cannot be empty.");
         }
         httpParams.setUrl(httpParams.getUrl().startsWith(HTTP) ? httpParams.getUrl() : HTTP_PREFIX + httpParams.getUrl());
@@ -101,10 +95,10 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
             // 防止显示声明字段但是未配置值
             int code = Optional.ofNullable(httpResponse.getCode()).orElse(RESPONSE_SUCCESS_CODE);
             String field = Optional.ofNullable(httpResponse.getField())
-                    .filter(StringUtils::hasLength)
+                    .filter(StringUtil::hasLength)
                     .orElse(RESPONSE_CODE_FIELD);
             String responseType = Optional.ofNullable(httpResponse.getField())
-                    .filter(StringUtils::hasLength)
+                    .filter(StringUtil::hasLength)
                     .orElse(JSON_RESPONSE_TYPE);
             // 根据不同的响应类型进行验证
             if (JSON_RESPONSE_TYPE.equalsIgnoreCase(responseType)) {
@@ -158,7 +152,7 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
      */
     private ExecuteResult validateTextResponse(String body, int code, HttpRequest httpRequest) {
         // 检查响应体是否为空
-        if (!StringUtils.hasLength(body)) {
+        if (!StringUtil.hasLength(body)) {
             TaskEngineLog.LOCAL.error("the responseType is text，but the response body is empty");
             return ExecuteResult.failure("the responseType is text，but the response body is empty");
         }
@@ -172,28 +166,24 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
     }
 
     private void setDefaultMethodAndBody(HttpParams httpParams) {
-        if (StringUtils.isEmpty(httpParams.getMethod())) {
+        if (StringUtil.isEmpty(httpParams.getMethod())) {
             httpParams.setMethod(DEFAULT_REQUEST_METHOD);
         } else {
             httpParams.setMethod(httpParams.getMethod().toUpperCase());
         }
 
-        if (!DEFAULT_REQUEST_METHOD.equals(httpParams.getMethod()) && StringUtils.isEmpty(httpParams.getBody())) {
+        if (!DEFAULT_REQUEST_METHOD.equals(httpParams.getMethod()) && StringUtil.isEmpty(httpParams.getBody())) {
             httpParams.setBody(JsonUtil.toJSONString());
             logWarn("Using default request body: {}", httpParams.getBody());
         }
     }
 
     private void setDefaultMediaType(HttpParams httpParams) {
-        if (!DEFAULT_REQUEST_METHOD.equals(httpParams.getMethod()) && JsonUtil.isValidJson(httpParams.getBody()) && StringUtils.isEmpty(httpParams.getMediaType())) {
+        if (!DEFAULT_REQUEST_METHOD.equals(httpParams.getMethod()) && JsonUtil.isValidJson(httpParams.getBody())
+                && StringUtil.isEmpty(httpParams.getMediaType())) {
             httpParams.setMediaType(MimeType.JSON.getContentType());
             logWarn("Using 'application/json' as media type");
         }
-    }
-
-    private void setDefaultTimeout(HttpParams httpParams) {
-        // 使用milliseconds
-        httpParams.setTimeout(Objects.isNull(httpParams.getTimeout()) ? DEFAULT_TIMEOUT * 1000 : httpParams.getTimeout() * 1000);
     }
 
 
@@ -231,9 +221,6 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
             request.setBody(httpParams.getBody());
         }
 
-        request.setConnectTimeout(httpParams.getTimeout());
-        request.setReadTimeout(httpParams.getTimeout());
-
         return request;
     }
 
@@ -243,7 +230,6 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
         private String mediaType;
         private String body;
         private Map<String, String> headers;
-        private Integer timeout;
         private Map<String, Object> wfContext;
 
         public String getMethod() {
@@ -286,14 +272,6 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
             this.headers = headers;
         }
 
-        public Integer getTimeout() {
-            return timeout;
-        }
-
-        public void setTimeout(Integer timeout) {
-            this.timeout = timeout;
-        }
-
         public Map<String, Object> getWfContext() {
             return wfContext;
         }
@@ -303,7 +281,6 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
         }
     }
 
-    // Logging methods
     private void logInfo(String msg, Object... params) {
         TaskEngineLog.REMOTE.info("[wingflare-task] " + msg, params);
     }
@@ -312,8 +289,4 @@ public abstract class AbstractHttpExecutor implements InitializingBean {
         TaskEngineLog.REMOTE.warn("[wingflare-task] " + msg, params);
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        taskProperties =  Container.get(TaskProperties.class);
-    }
 }
