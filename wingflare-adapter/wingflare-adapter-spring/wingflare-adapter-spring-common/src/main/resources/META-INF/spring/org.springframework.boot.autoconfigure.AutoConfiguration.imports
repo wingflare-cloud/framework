@@ -12,3 +12,4 @@ com.wingflare.adapter.spring.common.configure.properties.OkHttpProperties
 com.wingflare.adapter.spring.common.configure.properties.WebProperties
 com.wingflare.adapter.spring.common.configure.OkHttpConfig
 com.wingflare.adapter.spring.common.feign.FeignRequestInterceptor
+com.wingflare.adapter.spring.common.http.SpringHttpRequest
