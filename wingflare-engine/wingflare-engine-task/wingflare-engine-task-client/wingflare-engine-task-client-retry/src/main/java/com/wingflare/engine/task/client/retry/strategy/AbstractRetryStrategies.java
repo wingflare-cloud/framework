@@ -51,7 +51,7 @@ public abstract class AbstractRetryStrategies implements RetryStrategy {
                     "> 时间:{}  \n" +
                     "> 异常:{}  \n";
 
-    private final List<TaskListener> taskListeners = TaskRetrySpiLoader.loadSnailJobListener();
+    private final List<TaskListener> taskListeners = TaskRetrySpiLoader.loadJobListener();
 
     private final static Logger log = LoggerFactory.getLogger(AbstractRetryStrategies.class);
 

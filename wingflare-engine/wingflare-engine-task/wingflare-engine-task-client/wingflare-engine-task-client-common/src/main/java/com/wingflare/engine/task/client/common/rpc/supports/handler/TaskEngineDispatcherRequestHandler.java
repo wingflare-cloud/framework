@@ -57,16 +57,16 @@ public class TaskEngineDispatcherRequestHandler {
 
         List<HandlerInterceptor> handlerInterceptors = handlerInterceptors();
 
-        TaskGrpcRequest snailJobRequest = request.getSnailJobRequest();
+        TaskGrpcRequest jobRequest = request.getJobRequest();
         EndPointInfo endPointInfo = null;
         Result resultObj = null;
         Throwable e = null;
         try {
-            Metadata metadata = snailJobRequest.getMetadata();
+            Metadata metadata = jobRequest.getMetadata();
             Map<String, String> headersMap = metadata.getHeadersMap();
-            String snailJobAuth = headersMap.get(SystemConstants.SNAIL_JOB_AUTH_TOKEN);
+            String jobAuth = headersMap.get(SystemConstants.JOB_AUTH_TOKEN);
             String configToken = Optional.ofNullable(taskProperties.getToken()).orElse(SystemConstants.DEFAULT_TOKEN);
-            if (!configToken.equals(snailJobAuth)) {
+            if (!configToken.equals(jobAuth)) {
                 throw new TaskClientException("Authentication failed. [Please check if the configured Token is correct]");
             }
 
@@ -78,7 +78,7 @@ public class TaskEngineDispatcherRequestHandler {
             }
 
             Class<?>[] paramTypes = endPointInfo.getMethod().getParameterTypes();
-            TaskGrpcRequest taskGrpcRequest = request.getSnailJobRequest();
+            TaskGrpcRequest taskGrpcRequest = request.getJobRequest();
             Object[] args = JsonUtil.parseObject(taskGrpcRequest.getBody(), Object[].class);
 
             Object[] deSerialize = (Object[]) deSerialize(JsonUtil.toJsonString(args), endPointInfo.getMethod(),
@@ -102,7 +102,7 @@ public class TaskEngineDispatcherRequestHandler {
                 handlerInterceptor.postHandle(httpRequest, httpResponse, endPointInfo);
             }
         } catch (Throwable ex) {
-            TaskEngineLog.LOCAL.error("http request error. [{}]", snailJobRequest, ex);
+            TaskEngineLog.LOCAL.error("http request error. [{}]", jobRequest, ex);
             taskRpcResult.setMessage(ex.getMessage()).setStatus(StatusEnum.NO.getStatus());
             e = ex;
         } finally {

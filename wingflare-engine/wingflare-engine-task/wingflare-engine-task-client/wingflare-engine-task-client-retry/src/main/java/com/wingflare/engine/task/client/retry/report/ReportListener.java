@@ -102,7 +102,7 @@ public class ReportListener implements Listener<RetryTaskRequest> {
                     public <V> void onRetry(Attempt<V> attempt) {
 
                         if (attempt.hasException()) {
-                            TaskEngineLog.LOCAL.error(" SnailJob reports an exception when reporting abnormal data, attempt [{}]", attempt.getAttemptNumber(), attempt.getExceptionCause());
+                            TaskEngineLog.LOCAL.error("Reports an exception when reporting abnormal data, attempt [{}]", attempt.getAttemptNumber(), attempt.getExceptionCause());
                         }
 
                     }

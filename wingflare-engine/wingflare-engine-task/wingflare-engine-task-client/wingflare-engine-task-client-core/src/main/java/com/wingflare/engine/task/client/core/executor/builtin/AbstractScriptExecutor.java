@@ -281,7 +281,7 @@ public abstract class AbstractScriptExecutor implements InitializingBean {
                 TaskEngineLog.LOCAL.info("[FileUtils] [workspace] use custom workspace: {}", workspaceByDKey);
                 return workspaceByDKey;
             }
-            final String userHome = System.getProperty("user.home").concat("/snailJob/worker");
+            final String userHome = System.getProperty("user.home").concat("/wingflare/worker");
             TaskEngineLog.LOCAL.info("[FileUtils] [workspace] use user.home as workspace: {}", userHome);
             return userHome;
         }

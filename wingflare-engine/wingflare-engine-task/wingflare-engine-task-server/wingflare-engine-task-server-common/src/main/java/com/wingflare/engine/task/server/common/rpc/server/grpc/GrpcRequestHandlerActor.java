@@ -44,7 +44,7 @@ public class GrpcRequestHandlerActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder().match(GrpcRequest.class, grpcRequest -> {
-            TaskGrpcRequest taskGrpcRequest = grpcRequest.getSnailJobRequest();
+            TaskGrpcRequest taskGrpcRequest = grpcRequest.getJobRequest();
             Metadata metadata = taskGrpcRequest.getMetadata();
             final String uri = metadata.getUri();
             if (StrUtil.isBlank(uri)) {

@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 负责SnailJob系统任务分发调度
+ * 负责系统任务分发调度
  *
  * @author opensnail
  * @date 2023-09-21 23:36:47

@@ -13,7 +13,7 @@ import com.wingflare.engine.task.common.core.grpc.auto.TaskGrpcRequest;
  */
 public class GrpcRequest {
 
-    private TaskGrpcRequest snailJobRequest;
+    private TaskGrpcRequest jobRequest;
     private final HttpResponse httpResponse;
     private final HttpRequest httpRequest;
 
@@ -22,12 +22,12 @@ public class GrpcRequest {
         this.httpRequest = httpRequest;
     }
 
-    public TaskGrpcRequest getSnailJobRequest() {
-        return snailJobRequest;
+    public TaskGrpcRequest getJobRequest() {
+        return jobRequest;
     }
 
-    public void setSnailJobRequest(TaskGrpcRequest snailJobRequest) {
-        this.snailJobRequest = snailJobRequest;
+    public void setJobRequest(TaskGrpcRequest jobRequest) {
+        this.jobRequest = jobRequest;
     }
 
     public HttpResponse getHttpResponse() {

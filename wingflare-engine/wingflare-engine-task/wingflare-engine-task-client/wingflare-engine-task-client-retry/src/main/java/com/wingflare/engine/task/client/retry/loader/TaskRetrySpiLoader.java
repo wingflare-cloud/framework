@@ -58,9 +58,9 @@ public class TaskRetrySpiLoader {
      * 加载重试监听器SPI类
      * 执行顺序按照文件中定义的实现类的先后顺序
      *
-     * @return {@link SimpleTaskRetryListener} 默认序列化类为SimpleSnailJobListener
+     * @return {@link SimpleTaskRetryListener} 默认序列化类为SimpleJobListener
      */
-    public static List<TaskListener> loadSnailJobListener() {
+    public static List<TaskListener> loadJobListener() {
         List<TaskListener> taskListeners = ServiceLoaderUtil.loadList(TaskListener.class);
         if (CollUtil.isEmpty(taskListeners)) {
             return Collections.singletonList(new SimpleTaskRetryListener());

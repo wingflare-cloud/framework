@@ -48,7 +48,7 @@ public class RequestHeaderPlugins {
                 }
             }
 
-            header.put(SystemConstants.SNAIL_JOB_HEAD_KEY, JsonUtil.toJsonString(retryHeader));
+            header.put(SystemConstants.JOB_HEAD_KEY, JsonUtil.toJsonString(retryHeader));
         }
 
         return header;

@@ -36,7 +36,7 @@ public class TaskRetryHeaderAspect {
             return;
         }
 
-        String xRetry = attributes.getRequest().getHeader(SystemConstants.SNAIL_JOB_HEAD_KEY);
+        String xRetry = attributes.getRequest().getHeader(SystemConstants.JOB_HEAD_KEY);
         if (Objects.nonNull(xRetry)) {
             // 标记进入方法的时间
             RetrySiteSnapshot.setEntryMethodTime(System.currentTimeMillis());
@@ -77,7 +77,7 @@ public class TaskRetryHeaderAspect {
 
         HttpServletResponse response = attributes.getResponse();
         if (Objects.nonNull(response)) {
-            response.addHeader(SystemConstants.SNAIL_JOB_STATUS_CODE_KEY, RetrySiteSnapshot.getRetryStatusCode());
+            response.addHeader(SystemConstants.JOB_STATUS_CODE_KEY, RetrySiteSnapshot.getRetryStatusCode());
         }
 
         if (skip()) {

@@ -14,17 +14,17 @@ public interface SystemConstants {
     /**
      * 请求头 key
      */
-    String SNAIL_JOB_HEAD_KEY = "snail-job";
+    String JOB_HEAD_KEY = "wf-job";
 
     /**
      * 异常重试码 key
      */
-    String SNAIL_JOB_STATUS_CODE_KEY = "snail-job-status";
+    String JOB_STATUS_CODE_KEY = "wf-job-status";
 
     /**
      * 异常重试码
      */
-    String SNAIL_JOB_STATUS_CODE = "519";
+    String JOB_STATUS_CODE = "519";
     /**
      * 默认的调用链超时时间 单位毫秒(ms)
      */
@@ -250,9 +250,9 @@ public interface SystemConstants {
     Integer WORKFLOW_TRIGGER_TYPE = 99;
 
     /**
-     * Snail Job 认证Token
+     * Job 认证Token
      */
-    String SNAIL_JOB_AUTH_TOKEN = "SJ-TOKEN";
+    String JOB_AUTH_TOKEN = "SJ-TOKEN";
 
     /**
      * 日志类型字段

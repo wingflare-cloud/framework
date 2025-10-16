@@ -75,7 +75,7 @@ public class GrpcChannel {
                 .setUri(url)
                 .putAllHeaders(headers)
                 .build();
-        TaskGrpcRequest snailJobRequest = TaskGrpcRequest
+        TaskGrpcRequest jobRequest = TaskGrpcRequest
                 .newBuilder()
                 .setMetadata(metadata)
                 .setReqId(reqId)
@@ -93,7 +93,7 @@ public class GrpcChannel {
         // 创建动态代理调用方法
         return io.grpc.stub.ClientCalls.futureUnaryCall(
                 channel.newCall(methodDescriptor, io.grpc.CallOptions.DEFAULT),
-                snailJobRequest);
+                jobRequest);
 
     }
 

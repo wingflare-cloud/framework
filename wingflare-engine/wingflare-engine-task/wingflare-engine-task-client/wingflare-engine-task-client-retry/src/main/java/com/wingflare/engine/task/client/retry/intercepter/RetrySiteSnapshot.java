@@ -196,7 +196,7 @@ public class RetrySiteSnapshot {
 
     public static boolean isRetryForStatusCode() {
         return Objects.nonNull(getRetryStatusCode()) && getRetryStatusCode()
-                .equals(SystemConstants.SNAIL_JOB_STATUS_CODE);
+                .equals(SystemConstants.JOB_STATUS_CODE);
     }
 
     public static Long getEntryMethodTime() {

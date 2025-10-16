@@ -17,12 +17,12 @@ import org.apache.pekko.actor.ActorRef;
 public class UnaryRequestHandler implements ServerCalls.UnaryMethod<TaskGrpcRequest, GrpcResult>{
 
     @Override
-    public void invoke(final TaskGrpcRequest snailJobRequest, final StreamObserver<GrpcResult> streamObserver) {
-        Metadata metadata = snailJobRequest.getMetadata();
+    public void invoke(final TaskGrpcRequest jobRequest, final StreamObserver<GrpcResult> streamObserver) {
+        Metadata metadata = jobRequest.getMetadata();
 
         GrpcRequest grpcRequest = Builder.of(GrpcRequest::new)
                 .with(GrpcRequest::setUri, metadata.getUri())
-                .with(GrpcRequest::setSnailJobRequest, snailJobRequest)
+                .with(GrpcRequest::setJobRequest, jobRequest)
                 .with(GrpcRequest::setStreamObserver, streamObserver)
                 .build();
 

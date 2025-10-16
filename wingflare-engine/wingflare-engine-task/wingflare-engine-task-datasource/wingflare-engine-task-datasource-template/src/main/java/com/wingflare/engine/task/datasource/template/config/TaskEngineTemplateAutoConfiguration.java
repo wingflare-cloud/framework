@@ -72,7 +72,7 @@ public class TaskEngineTemplateAutoConfiguration {
     }
 
     @Bean
-    public TaskEngineMybatisConfiguration snailJobMybatisConfiguration() {
+    public TaskEngineMybatisConfiguration jobMybatisConfiguration() {
         return new TaskEngineMybatisConfiguration();
     }
 

@@ -42,7 +42,7 @@ public class TaskEngineClientRetryCoreAutoConfiguration {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public Advisor snailJobPointcutAdvisor(
+    public Advisor jobPointcutAdvisor(
             @Qualifier("taskEngineRetryInterceptor") MethodInterceptor taskEngineRetryInterceptor) {
         return new TaskRetryPointcutAdvisor(taskEngineRetryInterceptor);
     }

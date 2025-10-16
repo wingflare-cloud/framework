@@ -14,18 +14,18 @@ import io.grpc.stub.StreamObserver;
  */
 public class GrpcRequest {
 
-    private TaskGrpcRequest snailJobRequest;
+    private TaskGrpcRequest jobRequest;
 
     private StreamObserver<GrpcResult> streamObserver;
 
     private String uri;
 
-    public TaskGrpcRequest getSnailJobRequest() {
-        return snailJobRequest;
+    public TaskGrpcRequest getJobRequest() {
+        return jobRequest;
     }
 
-    public void setSnailJobRequest(TaskGrpcRequest snailJobRequest) {
-        this.snailJobRequest = snailJobRequest;
+    public void setJobRequest(TaskGrpcRequest jobRequest) {
+        this.jobRequest = jobRequest;
     }
 
     public StreamObserver<GrpcResult> getStreamObserver() {

@@ -48,7 +48,7 @@ public class UnaryRequestHandler implements ServerCalls.UnaryMethod<TaskGrpcRequ
 
 
         GrpcRequest grpcRequest = new GrpcRequest(new HttpResponse(), new HttpRequest(metadata.getHeadersMap(), metadata.getUri()));
-        grpcRequest.setSnailJobRequest(taskGrpcRequest);
+        grpcRequest.setJobRequest(taskGrpcRequest);
 
         // 执行任务
         dispatcherThreadPool.execute(() -> {

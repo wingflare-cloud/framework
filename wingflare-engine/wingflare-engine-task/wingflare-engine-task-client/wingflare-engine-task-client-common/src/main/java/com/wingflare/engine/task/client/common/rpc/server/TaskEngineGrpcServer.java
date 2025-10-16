@@ -51,11 +51,11 @@ public class TaskEngineGrpcServer implements Lifecycle {
         this.taskEngineDispatcherRequestHandler = taskEngineDispatcherRequestHandler;
     }
 
-    public TaskProperties getSnailJobProperties() {
+    public TaskProperties getJobProperties() {
         return taskProperties;
     }
 
-    public TaskEngineDispatcherRequestHandler getSnailDispatcherRequestHandler() {
+    public TaskEngineDispatcherRequestHandler getDispatcherRequestHandler() {
         return taskEngineDispatcherRequestHandler;
     }
 

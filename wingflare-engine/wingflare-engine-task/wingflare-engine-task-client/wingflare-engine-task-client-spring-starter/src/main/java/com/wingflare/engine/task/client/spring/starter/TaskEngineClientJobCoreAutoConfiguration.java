@@ -25,7 +25,7 @@ public class TaskEngineClientJobCoreAutoConfiguration {
     private static final String TASK_ENGINE_CLIENT_HOST = "task.host";
 
     @Bean
-    public Object configureSnailJobHost(TaskEngineNetworkUtils networkUtils, TaskProperties taskProperties) {
+    public Object configureJobHost(TaskEngineNetworkUtils networkUtils, TaskProperties taskProperties) {
         String host = taskProperties.getHost();
         if (StrUtil.isBlank(host)) {
             host = System.getProperty(TASK_ENGINE_CLIENT_HOST);

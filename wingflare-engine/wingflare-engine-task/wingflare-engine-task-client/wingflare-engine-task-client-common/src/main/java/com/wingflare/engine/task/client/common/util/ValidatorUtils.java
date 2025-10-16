@@ -29,7 +29,7 @@ public class ValidatorUtils {
      * 校验对象
      *
      * @param object 待校验对象
-     * @throws TaskClientException 校验不通过，则报SnailJobClientException异常
+     * @throws TaskClientException 校验不通过，则报JobClientException异常
      */
     public static Pair<Boolean, String> validateEntity( Set<ConstraintViolation<Object>> constraintViolations, Object object) {
         if (!constraintViolations.isEmpty()) {

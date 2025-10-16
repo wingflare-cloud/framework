@@ -112,7 +112,7 @@ public class GrpcClientInvokeHandlerV2 implements InvocationHandler {
 
             Map<String, String> requestHeaders = parasResult.requestHeaders;
             // 统一设置Token
-            requestHeaders.put(SystemConstants.SNAIL_JOB_AUTH_TOKEN, CacheToken.get(groupName, namespaceId));
+            requestHeaders.put(SystemConstants.JOB_AUTH_TOKEN, CacheToken.get(groupName, namespaceId));
 
             long reqId = newId();
             Result result = retryer.call(() -> {
@@ -222,7 +222,7 @@ public class GrpcClientInvokeHandlerV2 implements InvocationHandler {
             if (parameter.isAnnotationPresent(Body.class)) {
                 body = args[i];
             } else if (parameter.isAnnotationPresent(Header.class)) {
-                requestHeaders.put(SystemConstants.SNAIL_JOB_HEAD_KEY, JsonUtil.toJsonString(args[i]));
+                requestHeaders.put(SystemConstants.JOB_HEAD_KEY, JsonUtil.toJsonString(args[i]));
             } else if (parameter.isAnnotationPresent(Param.class)) {
                 paramMap.put(parameter.getAnnotation(Param.class).name(), args[i]);
             } else {

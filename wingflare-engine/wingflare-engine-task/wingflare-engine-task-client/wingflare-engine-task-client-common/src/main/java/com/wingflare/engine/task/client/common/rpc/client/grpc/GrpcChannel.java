@@ -222,7 +222,7 @@ public final class GrpcChannel {
             .setUri(path)
             .putAllHeaders(headersMap)
             .build();
-        TaskGrpcRequest snailJobRequest = TaskGrpcRequest
+        TaskGrpcRequest jobRequest = TaskGrpcRequest
             .newBuilder()
             .setMetadata(metadata)
             .setReqId(reqId)
@@ -240,7 +240,7 @@ public final class GrpcChannel {
         // 创建动态代理调用方法
         return io.grpc.stub.ClientCalls.futureUnaryCall(
             channel.newCall(methodDescriptor, io.grpc.CallOptions.DEFAULT),
-            snailJobRequest);
+                jobRequest);
     }
 
 }
