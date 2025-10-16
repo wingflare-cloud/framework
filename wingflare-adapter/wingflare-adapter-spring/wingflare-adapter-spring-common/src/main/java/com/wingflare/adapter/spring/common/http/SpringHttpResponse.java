@@ -9,7 +9,6 @@ import com.wingflare.api.http.HttpHeaderConstants;
 import com.wingflare.api.http.HttpResponse;
 import com.wingflare.api.http.HttpStatus;
 import okhttp3.Response;
-import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,7 +26,6 @@ public class SpringHttpResponse implements HttpResponse {
 
     private static final Pattern COOKIE_PATTERN = Pattern.compile("(\\w+)(=([^;]+))?;?");
     private final Response response;
-    private final ResponseEntity<String> responseEntity;
     private final HttpHeader header;
     private final List<HttpCookie> cookies;
     private String responseBody;
@@ -35,7 +33,6 @@ public class SpringHttpResponse implements HttpResponse {
     // 新增构造函数，接受OkHttp的Response对象
     public SpringHttpResponse(Response response) {
         this.response = response;
-        this.responseEntity = null;
         this.header = new SpringHttpHeader();
         this.cookies = new ArrayList<>();
 
@@ -68,33 +65,6 @@ public class SpringHttpResponse implements HttpResponse {
         }
     }
 
-    // 保留原有的构造函数，兼容Spring的ResponseEntity
-    public SpringHttpResponse(ResponseEntity<String> responseEntity) {
-        this.response = null;
-        this.responseEntity = responseEntity;
-        this.header = new SpringHttpHeader();
-        this.responseBody = responseEntity.getBody();
-
-        List<String> setCookieHeaders = responseEntity.getHeaders().get(HttpHeaderConstants.RESPONSE_SET_COOKIE);
-
-        if (setCookieHeaders != null && !setCookieHeaders.isEmpty()) {
-            cookies = new ArrayList<>();
-            for (String setCookie : setCookieHeaders) {
-                SpringHttpCookie springCookie = parseSingleCookie(setCookie);
-                if (springCookie != null) {
-                    cookies.add(springCookie);
-                }
-            }
-
-            responseEntity.getHeaders().remove(HttpHeaderConstants.RESPONSE_SET_COOKIE);
-        } else {
-            cookies = null;
-        }
-
-        responseEntity.getHeaders().forEach((k, v) ->
-                v.forEach(val -> this.header.addHeader(k, val)));
-    }
-
     @Override
     public boolean isStream() {
         return false;
@@ -105,15 +75,6 @@ public class SpringHttpResponse implements HttpResponse {
         if (response != null) {
             String contentType = header.getFirstHeader("Content-Type");
             return contentType != null && (contentType.contains("text/") || contentType.contains("json") || contentType.contains("xml"));
-        } else if (responseEntity != null) {
-            if (responseEntity.getHeaders().getContentType() == null) {
-                return false;
-            }
-
-            String contentType = responseEntity.getHeaders().getContentType().toString();
-
-            return contentType.contains("text/") || responseEntity.getHeaders().getContentType().getSubtype().contains("json")
-                    || responseEntity.getHeaders().getContentType().getSubtype().contains("xml");
         }
         return false;
     }
@@ -122,8 +83,6 @@ public class SpringHttpResponse implements HttpResponse {
     public boolean isOk() {
         if (response != null) {
             return response.isSuccessful();
-        } else if (responseEntity != null) {
-            return responseEntity.getStatusCode().is2xxSuccessful();
         }
         return false;
     }
@@ -137,16 +96,6 @@ public class SpringHttpResponse implements HttpResponse {
                 return Charset.fromCharsetName(charsetStr);
             }
             return null;
-        } else if (responseEntity != null) {
-            if (responseEntity.getHeaders().getContentType() == null) {
-                return null;
-            }
-
-            if (responseEntity.getHeaders().getContentType().getCharset() == null) {
-                return null;
-            }
-
-            return Charset.fromCharsetName(responseEntity.getHeaders().getContentType().getCharset().name());
         }
         return null;
     }
@@ -168,13 +117,6 @@ public class SpringHttpResponse implements HttpResponse {
                 }
             }
             return null;
-        } else if (responseEntity != null) {
-            if (responseEntity.getHeaders().getContentType() == null) {
-                return null;
-            }
-
-            return MimeType.getByMimeType(String.format("%s/%s", responseEntity.getHeaders().getContentType().getType(),
-                    responseEntity.getHeaders().getContentType().getSubtype()));
         }
         return null;
     }
@@ -183,8 +125,6 @@ public class SpringHttpResponse implements HttpResponse {
     public HttpStatus getStatus() {
         if (response != null) {
             return HttpStatus.getByCode(response.code());
-        } else if (responseEntity != null) {
-            return HttpStatus.getByCode(responseEntity.getStatusCode().value());
         }
         return null;
     }
