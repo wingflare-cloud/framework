@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author naizui_ycx
@@ -133,5 +135,53 @@ public class ObjectUtil {
             return false;
         }
     }
+
+    /**
+     * 判断对象是否为null
+     *
+     * @param obj
+     * @return
+     */
+    public static boolean isNull(Object obj) {
+        return null == obj;
+    }
+
+    /**
+     * 判断对象不为null
+     *
+     * @param obj
+     * @return
+     */
+    public static boolean isNotNull(Object obj) {
+        return !isNull(obj);
+    }
+
+    /**
+     * 如果给定对象为{@code null}返回默认值
+     *
+     * @param object
+     * @param defaultValue
+     * @return
+     * @param <T>
+     */
+    public static <T> T defaultIfNull(final T object, final T defaultValue) {
+        return isNull(object) ? defaultValue : object;
+    }
+
+
+    public static <T> T defaultIfNull(T source, Supplier<? extends T> defaultValueSupplier) {
+        if (isNull(source)) {
+            return defaultValueSupplier.get();
+        }
+        return source;
+    }
+
+    public static <T> T defaultIfNull(T source, Function<T, ? extends T> defaultValueSupplier) {
+        if (isNull(source)) {
+            return defaultValueSupplier.apply(null);
+        }
+        return source;
+    }
+
 
 }
