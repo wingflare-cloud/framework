@@ -14,7 +14,6 @@ import com.wingflare.api.security.annotation.Desensitize;
 import com.wingflare.api.security.annotation.DesensitizeGroups;
 import com.wingflare.api.security.enums.SensitiveType;
 import com.wingflare.business.auth.ErrorCode;
-import com.wingflare.business.auth.SettingCode;
 import com.wingflare.facade.module.auth.biz.LoginBiz;
 import com.wingflare.facade.module.auth.bo.GetLoginUsersBO;
 import com.wingflare.facade.module.auth.bo.LoginBO;
@@ -25,6 +24,7 @@ import com.wingflare.facade.module.auth.event.UserLogoutEvent;
 import com.wingflare.facade.module.user.biz.UserBiz;
 import com.wingflare.facade.module.user.bo.UserBO;
 import com.wingflare.facade.module.user.dto.UserDTO;
+import com.wingflare.lib.config.ConfigUtil;
 import com.wingflare.lib.core.Assert;
 import com.wingflare.lib.core.Builder;
 import com.wingflare.lib.core.exceptions.BusinessLogicException;
@@ -32,7 +32,6 @@ import com.wingflare.lib.core.utils.CollectionUtil;
 import com.wingflare.lib.core.utils.DateUtil;
 import com.wingflare.lib.core.utils.ObjectUtil;
 import com.wingflare.lib.jwt.AuthTool;
-import com.wingflare.lib.standard.SettingUtil;
 import com.wingflare.lib.standard.bo.StringIdBo;
 import com.wingflare.lib.standard.bo.IdBo;
 import com.wingflare.lib.standard.utils.SecurityUtil;
@@ -58,8 +57,6 @@ public class LoginBizImpl implements LoginBiz {
 
     private final UserBiz userBiz;
 
-    private final SettingUtil settingUtil;
-
     private final IdGenerate idGenerate;
 
     private final AuthTool authTool;
@@ -69,10 +66,9 @@ public class LoginBizImpl implements LoginBiz {
     private final EventPublisher eventPublisher;
 
 
-    public LoginBizImpl(UserBiz userBiz, SettingUtil settingUtil, IdGenerate idGenerate, AuthTool authTool,
+    public LoginBizImpl(UserBiz userBiz, IdGenerate idGenerate, AuthTool authTool,
                         UserAuthServer userAuthServer, EventPublisher eventPublisher) {
         this.userBiz = userBiz;
-        this.settingUtil = settingUtil;
         this.idGenerate = idGenerate;
         this.authTool = authTool;
         this.userAuthServer = userAuthServer;
@@ -85,11 +81,11 @@ public class LoginBizImpl implements LoginBiz {
      * @return
      */
     public Long getTokenExpireTime() {
-        return settingUtil.get(SettingCode.TOKEN_EXPIRE_TIME, 300L, Long.class);
+        return ConfigUtil.getLongProperty("login.tokenExpireTime", 1800L);
     }
 
     public Long getMaxRefreshTokenExpireTime() {
-        return settingUtil.get(SettingCode.MAX_REFRESH_TOKEN_EXPIRE_TIME, 1800L, Long.class);
+        return ConfigUtil.getLongProperty("login.maxRefreshTokenExpireTime", 1800L);
     }
 
     /**
