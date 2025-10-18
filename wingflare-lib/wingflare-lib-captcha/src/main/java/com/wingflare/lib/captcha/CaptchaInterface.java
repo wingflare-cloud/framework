@@ -1,13 +1,13 @@
 package com.wingflare.lib.captcha;
 
+
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.function.BiFunction;
 
 /**
  * 验证码接口
  */
-public sealed interface CaptchaInterface permits ImagesAbstractCaptcha {
+public interface CaptchaInterface {
 
     /**
      * 输出验证码到输出流

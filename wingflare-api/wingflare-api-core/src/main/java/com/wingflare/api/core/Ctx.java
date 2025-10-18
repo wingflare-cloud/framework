@@ -38,6 +38,11 @@ public interface Ctx {
     String HEADER_KEY_CAPTCHA_URL = "x-captcha-url";
 
     /**
+     * 验证码保护过期时间头
+     */
+    String HEADER_KEY_CAPTCHA_EXPIRE = "x-captcha-expire";
+
+    /**
      * 用户信息
      */
     String CONTEXT_KEY_AUTH_USER = "authUser";

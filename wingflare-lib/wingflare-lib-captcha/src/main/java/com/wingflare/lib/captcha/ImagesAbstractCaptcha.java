@@ -8,7 +8,7 @@ import java.security.SecureRandom;
 /**
  * 验证码抽象类
  */
-public abstract non-sealed class ImagesAbstractCaptcha implements CaptchaInterface {
+public abstract class ImagesAbstractCaptcha implements CaptchaInterface {
 
     protected ImageCaptchaConfig config;
     protected static final SecureRandom random = new SecureRandom();

@@ -27,6 +27,11 @@
             <artifactId>wingflare-lib-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wingflare</groupId>
+            <artifactId>wingflare-lib-container</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

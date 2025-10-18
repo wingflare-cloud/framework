@@ -1,6 +1,8 @@
 package com.wingflare.lib.captcha;
 
+
 import com.wingflare.facade.lib.captcha.CaptchaStoreInterface;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.utils.StringUtil;
 
 import java.awt.*;
@@ -23,7 +25,7 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
                 config.width(), config.height(), BufferedImage.TYPE_INT_RGB
         );
 
-        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
         store.save(captchaId, new String(chars));
 
         Graphics2D g2d = image.createGraphics();
@@ -43,7 +45,7 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
 
     @Override
     public boolean verify(String captchaId, String value) {
-        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
         String captchaCode = store.get(captchaId);
 
         if (StringUtil.equals(captchaCode, value)) {

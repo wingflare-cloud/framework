@@ -1,6 +1,8 @@
 package com.wingflare.lib.captcha;
 
+
 import com.wingflare.facade.lib.captcha.CaptchaStoreInterface;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.utils.StringUtil;
 
 import java.awt.*;
@@ -21,7 +23,7 @@ public final class GifCaptcha extends ImagesAbstractCaptcha {
         char[] chars = generateChars();
         Color[] fontColors = new Color[chars.length];
 
-        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
         store.save(captchaId, new String(chars));
 
         for (int i = 0; i < chars.length; i++) {
@@ -50,7 +52,7 @@ public final class GifCaptcha extends ImagesAbstractCaptcha {
 
     @Override
     public boolean verify(String captchaId, String value) {
-        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
         String captchaCode = store.get(captchaId);
 
         if (StringUtil.equals(captchaCode, value)) {

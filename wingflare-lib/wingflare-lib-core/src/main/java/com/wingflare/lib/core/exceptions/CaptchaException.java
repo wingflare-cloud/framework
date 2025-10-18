@@ -10,7 +10,9 @@ public class CaptchaException extends RuntimeException {
 
     private static final long serialVersionUID = 2969128789378454154L;
 
-    public List<String> urls = new ArrayList<>();
+    private Long expire;
+
+    private List<String> urls = new ArrayList<>();
 
     public List<String> getUrls() {
         return urls;
@@ -18,5 +20,13 @@ public class CaptchaException extends RuntimeException {
 
     public void setUrls(List<String> urls) {
         this.urls = urls;
+    }
+
+    public Long getExpire() {
+        return expire;
+    }
+
+    public void setExpire(Long expire) {
+        this.expire = expire;
     }
 }

@@ -197,7 +197,7 @@ public class WebApiExceptionHandler {
     }
 
     /**
-     * 无权限异常
+     * 验证码异常
      * @param req
      * @param e
      * @return
@@ -215,8 +215,12 @@ public class WebApiExceptionHandler {
         HttpHeaders headers = new HttpHeaders();
         headers.add(Ctx.HEADER_KEY_CAPTCHA_OPEN, "true");
 
-        if (CollectionUtil.isNotEmpty(e.urls)) {
-            headers.add(Ctx.HEADER_KEY_CAPTCHA_URL, StringUtil.join(e.urls, ","));
+        if (CollectionUtil.isNotEmpty(e.getUrls())) {
+            headers.add(Ctx.HEADER_KEY_CAPTCHA_URL, StringUtil.join(e.getUrls(), ","));
+        }
+
+        if (e.getExpire() != null && e.getExpire() > 0) {
+            headers.add(Ctx.HEADER_KEY_CAPTCHA_EXPIRE, e.getExpire().toString());
         }
 
         return new ResponseEntity<>(null, headers, HttpStatus.LOCKED);

@@ -1,6 +1,8 @@
 package com.wingflare.lib.captcha;
 
+
 import com.wingflare.facade.lib.captcha.CaptchaStoreInterface;
+import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.utils.StringUtil;
 
 import java.awt.*;
@@ -24,7 +26,7 @@ public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
         Random random = new Random();
         int digit = config.arithmeticDigit();
         int maxNum = (int) Math.pow(10, digit) - 1;
-        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
 
         int a = random.nextInt(maxNum) + 1;
         int b = random.nextInt(maxNum) + 1;
@@ -78,7 +80,7 @@ public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
 
     @Override
     public boolean verify(String captchaId, String value) {
-        CaptchaStoreInterface store = CaptchaStoreUtil.getStore();
+        CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
         String captchaCode = store.get(captchaId);
 
         if (StringUtil.equals(captchaCode, value)) {

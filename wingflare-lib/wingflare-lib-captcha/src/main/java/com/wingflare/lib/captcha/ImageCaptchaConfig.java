@@ -1,5 +1,6 @@
 package com.wingflare.lib.captcha;
 
+
 import java.awt.*;
 
 /**
