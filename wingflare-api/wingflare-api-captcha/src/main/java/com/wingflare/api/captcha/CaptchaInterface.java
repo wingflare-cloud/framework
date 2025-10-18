@@ -1,4 +1,4 @@
-package com.wingflare.lib.captcha;
+package com.wingflare.api.captcha;
 
 
 /**

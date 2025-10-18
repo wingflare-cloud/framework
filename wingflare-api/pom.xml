@@ -48,6 +48,7 @@
         <module>wingflare-api-mq</module>
         <module>wingflare-api-lifecycle</module>
         <module>wingflare-api-retry</module>
+        <module>wingflare-api-captcha</module>
     </modules>
 
 </project>

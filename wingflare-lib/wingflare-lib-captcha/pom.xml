@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-facade-lib-captcha</artifactId>
+            <artifactId>wingflare-api-captcha</artifactId>
         </dependency>
 
         <dependency>

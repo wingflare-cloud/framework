@@ -1,7 +1,7 @@
 package com.wingflare.lib.captcha;
 
 
-import com.wingflare.facade.lib.captcha.CaptchaStoreInterface;
+import com.wingflare.api.captcha.CaptchaStoreInterface;
 import com.wingflare.lib.container.Container;
 import com.wingflare.lib.core.utils.StringUtil;
 

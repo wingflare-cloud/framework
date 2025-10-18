@@ -1,6 +1,8 @@
 package com.wingflare.lib.captcha;
 
 
+import com.wingflare.api.captcha.CaptchaInterface;
+
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;

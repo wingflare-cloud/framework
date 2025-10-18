@@ -1,4 +1,4 @@
-package com.wingflare.facade.lib.captcha;
+package com.wingflare.api.captcha;
 
 /**
  * 验证码存储SPI接口
