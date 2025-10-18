@@ -12,6 +12,8 @@ public class CaptchaException extends RuntimeException {
 
     private String scene;
 
+    private String receiver;
+
     private List<String> urls = new ArrayList<>();
 
     public List<String> getUrls() {
@@ -30,4 +32,11 @@ public class CaptchaException extends RuntimeException {
         this.scene = scene;
     }
 
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 }

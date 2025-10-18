@@ -38,9 +38,14 @@ public interface Ctx {
     String HEADER_KEY_CAPTCHA_URL = "x-captcha-url";
 
     /**
-     * 验证码保护过期时间头
+     * 验证码保护场景头
      */
     String HEADER_KEY_CAPTCHA_SCENE = "x-captcha-scene";
+
+    /**
+     * 验证码保护接收人头
+     */
+    String HEADER_KEY_CAPTCHA_RECEIVER = "x-captcha-receiver";
 
     /**
      * 用户信息
