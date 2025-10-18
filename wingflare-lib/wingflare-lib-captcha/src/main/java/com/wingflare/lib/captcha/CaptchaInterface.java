@@ -7,14 +7,21 @@ package com.wingflare.lib.captcha;
 public interface CaptchaInterface {
 
     /**
-     * 输出验证码到输出流
+     * 验证码生成
+     *
+     * @param captchaId 验证码id
+     * @param receiver 接收者
+     * @return 验证码对象
      */
-    Object generate(String captchaId);
+    Object generate(String captchaId, String receiver);
 
     /**
-     * 验证码验证
-     * @param captchaId
-     * @return
+     * 验证验证码
+     *
+     * @param captchaId 验证码id
+     * @param value 验证码值
+     *
+     * @return 验证结果
      */
     boolean verify(String captchaId, String value);
 

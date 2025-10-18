@@ -56,7 +56,7 @@ public final class ArithmeticCaptcha extends ImagesAbstractCaptcha {
     }
 
     @Override
-    public Object generate(String captchaId) {
+    public Object generate(String captchaId, String receiver) {
         BufferedImage image = new BufferedImage(
                 config.width(), config.height(), BufferedImage.TYPE_INT_RGB
         );
