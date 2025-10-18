@@ -9,7 +9,7 @@ public interface CaptchaInterface {
     /**
      * 输出验证码到输出流
      */
-    Object out(String captchaId);
+    Object generate(String captchaId);
 
     /**
      * 验证码验证

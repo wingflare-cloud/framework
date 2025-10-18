@@ -18,7 +18,7 @@ public final class GifCaptcha extends ImagesAbstractCaptcha {
     }
 
     @Override
-    public Object out(String captchaId) {
+    public Object generate(String captchaId) {
         char[] chars = generateChars();
         Color[] fontColors = new Color[chars.length];
 
