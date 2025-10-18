@@ -40,7 +40,7 @@ public interface Ctx {
     /**
      * 验证码保护过期时间头
      */
-    String HEADER_KEY_CAPTCHA_EXPIRE = "x-captcha-expire";
+    String HEADER_KEY_CAPTCHA_SCENE = "x-captcha-scene";
 
     /**
      * 用户信息

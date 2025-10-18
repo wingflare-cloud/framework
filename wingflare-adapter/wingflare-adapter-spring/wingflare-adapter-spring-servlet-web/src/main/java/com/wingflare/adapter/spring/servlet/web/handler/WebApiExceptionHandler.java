@@ -219,8 +219,8 @@ public class WebApiExceptionHandler {
             headers.add(Ctx.HEADER_KEY_CAPTCHA_URL, StringUtil.join(e.getUrls(), ","));
         }
 
-        if (e.getExpire() != null && e.getExpire() > 0) {
-            headers.add(Ctx.HEADER_KEY_CAPTCHA_EXPIRE, e.getExpire().toString());
+        if (StringUtil.isNotBlank(e.getScene())) {
+            headers.add(Ctx.HEADER_KEY_CAPTCHA_SCENE, e.getScene());
         }
 
         return new ResponseEntity<>(null, headers, HttpStatus.LOCKED);
