@@ -10,10 +10,9 @@ public interface CaptchaInterface {
      * 验证码生成
      *
      * @param captchaId 验证码id
-     * @param receiver 接收者
      * @return 验证码对象
      */
-    Object generate(String captchaId, String receiver);
+    Object generate(String captchaId);
 
     /**
      * 验证验证码

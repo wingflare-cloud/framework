@@ -16,7 +16,7 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
     }
 
     @Override
-    public Object generate(String captchaId, String receiver) {
+    public Object generate(String captchaId) {
         char[] chars = generateChars();
         BufferedImage image = new BufferedImage(
                 config.width(), config.height(), BufferedImage.TYPE_INT_RGB
