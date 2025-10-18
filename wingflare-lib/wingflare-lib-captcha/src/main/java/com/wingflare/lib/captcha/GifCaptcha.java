@@ -8,8 +8,7 @@ import com.wingflare.lib.core.utils.StringUtil;
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.ByteArrayOutputStream;
 
 
 public final class GifCaptcha extends ImagesAbstractCaptcha {
@@ -19,11 +18,12 @@ public final class GifCaptcha extends ImagesAbstractCaptcha {
     }
 
     @Override
-    public void out(String captchaId, OutputStream os) throws IOException {
+    public Object out(String captchaId) {
         char[] chars = generateChars();
         Color[] fontColors = new Color[chars.length];
 
         CaptchaStoreInterface store = Container.get(CaptchaStoreInterface.class);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
         store.save(captchaId, new String(chars));
 
         for (int i = 0; i < chars.length; i++) {
@@ -48,6 +48,8 @@ public final class GifCaptcha extends ImagesAbstractCaptcha {
         }
 
         gifEncoder.finish();
+
+        return os;
     }
 
     @Override

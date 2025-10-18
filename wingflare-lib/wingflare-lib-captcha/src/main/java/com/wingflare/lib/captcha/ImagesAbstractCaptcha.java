@@ -1,5 +1,6 @@
 package com.wingflare.lib.captcha;
 
+
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
@@ -120,10 +121,6 @@ public abstract class ImagesAbstractCaptcha implements CaptchaInterface {
      */
     protected int randomInt(int min, int max) {
         return min + random.nextInt(max - min + 1);
-    }
-
-    @Override
-    public void config(CaptchaConfigInterface config) {
     }
 
     public void config(ImageCaptchaConfig config) {

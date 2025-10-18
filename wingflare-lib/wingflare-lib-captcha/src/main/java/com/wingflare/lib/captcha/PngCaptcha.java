@@ -7,9 +7,6 @@ import com.wingflare.lib.core.utils.StringUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import javax.imageio.ImageIO;
 
 
 public final class PngCaptcha extends ImagesAbstractCaptcha {
@@ -19,7 +16,7 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
     }
 
     @Override
-    public void out(String captchaId, OutputStream os) throws IOException {
+    public Object out(String captchaId) {
         char[] chars = generateChars();
         BufferedImage image = new BufferedImage(
                 config.width(), config.height(), BufferedImage.TYPE_INT_RGB
@@ -39,8 +36,7 @@ public final class PngCaptcha extends ImagesAbstractCaptcha {
         drawCharacters(g2d, chars);
         // 完成绘制
         g2d.dispose();
-        ImageIO.write(image, "png", os);
-        os.flush();
+        return image;
     }
 
     @Override
