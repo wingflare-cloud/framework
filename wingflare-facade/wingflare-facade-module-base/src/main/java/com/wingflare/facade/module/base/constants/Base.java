@@ -9,11 +9,6 @@ package com.wingflare.facade.module.base.constants;
 public interface Base {
 
     /**
-     * 设置缓存key
-     */
-    String SETTING_CACHE_KEY = "wf:system:setting";
-
-    /**
      * 字典缓存key
      */
     String DICT_CACHE_KEY = "wf:system:dict";

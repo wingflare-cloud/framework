@@ -1,7 +1,4 @@
 com.wingflare.business.base.biz.DictBizImpl
 com.wingflare.business.base.biz.MenuBizImpl
-com.wingflare.business.base.biz.SettingBizImpl
-com.wingflare.business.base.listener.SettingRefresh
 com.wingflare.business.base.service.DictServer
 com.wingflare.business.base.service.MenuServer
-com.wingflare.business.base.service.SettingServer

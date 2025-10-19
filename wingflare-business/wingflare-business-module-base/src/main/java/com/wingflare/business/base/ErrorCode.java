@@ -9,26 +9,6 @@ package com.wingflare.business.base;
 public interface ErrorCode {
 
     /**
-     * 设置创建失败
-     */
-    String SYS_SETTING_CREATE_ERROR = "sys.setting.createError";
-
-    /**
-     * 设置更新失败
-     */
-    String SYS_SETTING_UPDATE_ERROR = "sys.setting.updateError";
-
-    /**
-     * 设置删除失败
-     */
-    String SYS_SETTING_DELETE_ERROR = "sys.setting.deleteError";
-
-    /**
-     * 设置重复
-     */
-    String SYS_SETTING_REPEAT = "sys.setting.repeat";
-
-    /**
      * 字典刷新失败
      */
     String SYS_DICT_REFRESH_ERROR = "sys.dict.refreshError";
