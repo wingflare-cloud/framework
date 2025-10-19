@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigInteger;
 
 /**
  * @ClassName LoginBo
@@ -24,7 +23,7 @@ public class GetLoginUsersBO {
 
     @NotNull(message = "id.notNull", groups = MustUserId.class)
     @Min(message = "id.error", value = 1, groups = MustUserId.class)
-    private BigInteger userId;
+    private String userId;
 
     public long getPageSize() {
         return pageSize;
@@ -42,11 +41,11 @@ public class GetLoginUsersBO {
         this.startIndex = startIndex;
     }
 
-    public BigInteger getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(BigInteger userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 }

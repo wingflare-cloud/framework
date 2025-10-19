@@ -25,7 +25,7 @@ public class AuthTool {
     }
 
     public AuthResponseDTO checkLogin(String token, String headerBusinessSystem) {
-        boolean hasToken = StringUtil.isNotEmpty(token);
+        boolean hasToken = StringUtil.isNotBlank(token);
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();
 
         if (hasToken) {

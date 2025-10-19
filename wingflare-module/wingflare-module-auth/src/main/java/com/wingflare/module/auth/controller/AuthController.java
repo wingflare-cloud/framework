@@ -65,7 +65,11 @@ public class AuthController {
     @RequiresLogin
     @ResponseBody
     public UserAuth logout() {
-        return loginBiz.logout(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
+        if (SecurityUtil.getUser() != null) {
+            return loginBiz.logout(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
+        }
+
+        return null;
     }
 
     /**

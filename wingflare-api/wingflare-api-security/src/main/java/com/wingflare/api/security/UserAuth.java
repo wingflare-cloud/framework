@@ -1,11 +1,14 @@
 package com.wingflare.api.security;
 
+
 import javax.security.auth.Subject;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * @author naizui_ycx
@@ -15,6 +18,7 @@ import java.util.Map;
 public class UserAuth implements Principal, Serializable
 {
 
+    @Serial
     private static final long serialVersionUID = 8618758262923854083L;
 
     /**

@@ -23,7 +23,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
 
-import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -238,27 +237,26 @@ public class DataSecretAspect implements ApplicationContextAware, Ordered {
                 Map<String, String> decryptMap = new HashMap<>();
                 Map<String, String> encryptionMap = new HashMap<>();
 
-                PropertyDescriptor[] descriptors = BeanUtil.getPropertyDescriptors(clz);
+                Field[] fields = clz.getDeclaredFields();
 
-                for (PropertyDescriptor desc : descriptors) {
-                    Field field = clz.getDeclaredField(desc.getName());
+                for (Field field : fields) {
                     boolean isDecrypt = field.isAnnotationPresent(Decrypt.class);
                     boolean isEncryption = field.isAnnotationPresent(Encryption.class);
                     if (isDecrypt || isEncryption) {
                         if (field.getGenericType().equals(String.class)) {
                             if (isDecrypt) {
                                 Decrypt decrypt = field.getAnnotation(Decrypt.class);
-                                decryptMap.put(desc.getName(), decrypt.type());
+                                decryptMap.put(field.getName(), decrypt.type());
                             }
 
                             if (isEncryption) {
                                 Encryption encryption = field.getAnnotation(Encryption.class);
-                                encryptionMap.put(desc.getName(), encryption.type());
+                                encryptionMap.put(field.getName(), encryption.type());
                             }
                         } else {
                             logger.error("不支持的解密类型数据", e(Map.of(
                                     "class", clz.getName(),
-                                    "descriptors", desc.getName()
+                                    "descriptors", field.getName()
                             )));
                         }
                     }
