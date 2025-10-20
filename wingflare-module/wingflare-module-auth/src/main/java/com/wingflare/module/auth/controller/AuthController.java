@@ -30,6 +30,8 @@ import com.wingflare.module.auth.PermissionCode;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigInteger;
+
 /**
  * @InterfaceName ErrorCode
  * @Author naizui_ycx
@@ -100,7 +102,12 @@ public class AuthController {
     @ResponseBody
     public UserDTO getLoginUser() {
         UserAuth userAuth = loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
-        return userBiz.get(new IdBo().setId(userAuth.getUserId()));
+
+        if (userAuth == null) {
+            return null;
+        }
+
+        return userBiz.get(new IdBo().setId(BigInteger.valueOf(Long.parseLong(userAuth.getUserId()))));
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

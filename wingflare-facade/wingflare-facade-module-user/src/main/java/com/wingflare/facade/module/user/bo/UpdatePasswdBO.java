@@ -4,7 +4,6 @@ package com.wingflare.facade.module.user.bo;
 import com.wingflare.api.security.annotation.Decrypt;
 import jakarta.validation.constraints.Min;
 
-import java.math.BigInteger;
 
 /**
  * @ClassName UpdatePasswdBo
@@ -15,7 +14,7 @@ import java.math.BigInteger;
 public class UpdatePasswdBO {
 
     @Min(message = "user.userId.error", value = 1)
-    private BigInteger userId;
+    private String userId;
 
     @Decrypt(type = "RSA")
     private String passwd;
@@ -24,11 +23,11 @@ public class UpdatePasswdBO {
     private String oldPasswd;
 
 
-    public BigInteger getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(BigInteger userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -16,7 +16,6 @@ import com.wingflare.lib.standard.utils.SecurityUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.math.BigInteger;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -223,7 +222,7 @@ public class UserAuthUtil implements UserAuthServer {
 
         if (user != null) {
             if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
-                if (StringUtil.isEmpty(businessSystem) || user.getUserId() == null || user.getUserId().compareTo(BigInteger.ZERO) == 0) {
+                if (StringUtil.isEmpty(businessSystem) || StringUtil.isBlank(user.getUserId())) {
                     return false;
                 }
 
@@ -248,7 +247,7 @@ public class UserAuthUtil implements UserAuthServer {
 
         if (user != null) {
             if (user.isSuperAdmin() == null || !user.isSuperAdmin()) {
-                if (StringUtil.isEmpty(businessSystem) || user.getUserId() == null || user.getUserId().compareTo(BigInteger.ZERO) == 0) {
+                if (StringUtil.isEmpty(businessSystem) || StringUtil.isBlank(user.getUserId())) {
                     return false;
                 }
 

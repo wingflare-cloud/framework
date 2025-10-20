@@ -475,9 +475,9 @@ public class UserBizImpl implements UserBiz {
     )
     public UserDTO updatePasswd(@Valid @NotNull UpdatePasswdBO bo) {
         if (userAuthServer.getUser() != null && !userAuthServer.getUser().isSuperAdmin()) {
-            BigInteger limitUserId = userAuthServer.getUser()
+            String limitUserId = userAuthServer.getUser()
                     .getUserId();
-            Assert.isTrue(bo.getUserId().compareTo(limitUserId) != 0, ErrorCode.SYS_USER_UPDATE_PASSWD_NO_POWER);
+            Assert.isTrue(StringUtil.compare(limitUserId, bo.getUserId()) != 0, ErrorCode.SYS_USER_UPDATE_PASSWD_NO_POWER);
         }
 
         UserDTO dto = updatePasswdHandle(bo);
