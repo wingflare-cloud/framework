@@ -305,7 +305,7 @@ public class DataScopeUtil {
      * @return
      */
     private Map<String, List<String>> getDPInfo(boolean isWhitelist, String type, String typeId) {
-        String lastStr = String.format(":%s", SecurityUtil.getUser() != null ? SecurityUtil.getUser().getUserId() : 0);
+        String lastStr = String.format(":%s", SecurityUtil.getUser() != null ? SecurityUtil.getUser().getUserId() : "");
 
         if (StringUtil.isBlank(type)) {
             if (StringUtil.isBlank(typeId)) {

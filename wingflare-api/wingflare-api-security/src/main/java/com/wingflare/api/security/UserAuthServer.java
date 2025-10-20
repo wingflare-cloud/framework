@@ -4,7 +4,6 @@ package com.wingflare.api.security;
 import com.wingflare.api.core.PageResult;
 import com.wingflare.api.security.annotation.RequiresPermissions;
 
-import java.math.BigInteger;
 import java.time.Duration;
 
 /**
@@ -44,7 +43,7 @@ public interface UserAuthServer {
      * @param startIndex
      * @return
      */
-    PageResult<UserAuth> getUserLoginInfos(BigInteger userId, long pageSize, long startIndex);
+    PageResult<UserAuth> getUserLoginInfos(String userId, long pageSize, long startIndex);
 
     /**
      * 设置登陆用户

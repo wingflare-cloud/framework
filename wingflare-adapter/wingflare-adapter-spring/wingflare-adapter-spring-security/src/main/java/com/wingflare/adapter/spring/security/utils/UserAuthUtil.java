@@ -91,7 +91,7 @@ public class UserAuthUtil implements UserAuthServer {
      * @param startIndex
      * @return
      */
-    public PageResult<UserAuth> getUserLoginInfos(BigInteger userId, long pageSize, long startIndex) {
+    public PageResult<UserAuth> getUserLoginInfos(String userId, long pageSize, long startIndex) {
         return securityCheck.getUserAllLoginInfo(userId, pageSize, startIndex);
     }
 

@@ -81,7 +81,7 @@ public class LoginBizImpl implements LoginBiz {
      * @return
      */
     public Long getTokenExpireTime() {
-        return ConfigUtil.getLongProperty("login.tokenExpireTime", 1800L);
+        return ConfigUtil.getLongProperty("login.tokenExpireTime", 604800L);
     }
 
     public Long getMaxRefreshTokenExpireTime() {
@@ -108,7 +108,7 @@ public class LoginBizImpl implements LoginBiz {
         Date now = new Date();
 
         UserAuth userAuth = Builder.of(UserAuth::new)
-                .with(UserAuth::setUserId, userDto.getUserId())
+                .with(UserAuth::setUserId, userDto.getUserId().toString())
                 .with(UserAuth::setUserName, userDto.getUserName())
                 .with(UserAuth::setClientId, SecurityUtil.getClientId())
                 .with(UserAuth::setSuperAdmin, OnOffEnum.ON.getValue().equals(userDto.getSuperAdministrator()))
@@ -156,25 +156,23 @@ public class LoginBizImpl implements LoginBiz {
         userAuth.setUserAgent(bo.getUserAgent());
 
         String tokenId = String.valueOf(idGenerate.nextId());
-        String refreshId = String.valueOf(idGenerate.nextId());
 
-        userAuth.setRefreshId(refreshId);
         userAuth.setTokenId(tokenId);
 
         Long tokenExpireTime = getTokenExpireTime();
         Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
-        Date tokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime));
         Date refreshTokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime));
 
         TokenDTO tokenDto = Builder.of(TokenDTO::new)
                 .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
                 .with(TokenDTO::setRefreshExpiresIn, Math.toIntExact(maxRefreshTokenExpireTime))
                 .with(TokenDTO::setToken, authTool.createLoginToken(tokenId, String.valueOf(userAuth.getUserId()),
-                        tokenExpireDate, SecurityUtil.getBusinessSystem()))
-                .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(refreshId, tokenId, refreshTokenExpireDate))
+                        refreshTokenExpireDate, SecurityUtil.getBusinessSystem()))
+                .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(tokenId, userAuth.getUserId(), refreshTokenExpireDate))
                 .build();
 
-        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, refreshTokenExpireDate)));
+        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now,
+                DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime)))));
 
         userBiz.update(new UserBO()
                 .setUserId(userDto.getUserId())
@@ -270,32 +268,22 @@ public class LoginBizImpl implements LoginBiz {
         Assert.isTrue(userAuth != null, ErrorCode.LOGIN_INFO_NOTFOUND_OR_EXPIRE);
 
         try {
-            authTool.verifyToken(bo.getRefreshToken(), userAuth.getRefreshId(), userAuth.getTokenId());
+            authTool.verifyToken(bo.getRefreshToken(), userAuth.getTokenId(), userAuth.getUserId());
         } catch (JWTVerificationException e) {
             throw new BusinessLogicException(ErrorCode.REFRESH_TOKEN_EXCEPTION);
         }
 
-        String refreshId = String.valueOf(idGenerate.nextId());
         Date now = new Date();
         Long tokenExpireTime = getTokenExpireTime();
         Long maxRefreshTokenExpireTime = getMaxRefreshTokenExpireTime();
-        Date tokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(tokenExpireTime));
         Date refreshTokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime));
-
-        String tokenId = String.valueOf(idGenerate.nextId());
-        String token = authTool.createLoginToken(tokenId, String.valueOf(userAuth.getUserId()),
-                tokenExpireDate, SecurityUtil.getBusinessSystem());
-
-        userAuthServer.removeToken(userAuth.getTokenId());
-        userAuth.setRefreshId(refreshId);
-        userAuth.setTokenId(tokenId);
-        userAuthServer.setUser(userAuth, Duration.ofSeconds(DateUtil.getOffsetSeconds(now, refreshTokenExpireDate)));
 
         return Builder.of(TokenDTO::new)
                 .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
                 .with(TokenDTO::setRefreshExpiresIn, DateUtil.getOffsetSeconds(now, refreshTokenExpireDate))
-                .with(TokenDTO::setToken, token)
-                .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(refreshId, tokenId, refreshTokenExpireDate))
+                .with(TokenDTO::setToken, authTool.createLoginToken(userAuth.getTokenId(), userAuth.getUserId(),
+                        refreshTokenExpireDate, SecurityUtil.getBusinessSystem()))
+                .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(userAuth.getTokenId(), userAuth.getUserId(), refreshTokenExpireDate))
                 .build();
     }
 

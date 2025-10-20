@@ -24,7 +24,7 @@ public class UserAuth implements Principal, Serializable
     /**
      * 用户名id
      */
-    private BigInteger userId;
+    private String userId;
 
     /**
      * tokenId
@@ -97,11 +97,6 @@ public class UserAuth implements Principal, Serializable
     private BigInteger currentOrg;
 
     /**
-     * 刷新id
-     */
-    private String refreshId;
-
-    /**
      * 登录用户代理
      */
     private String userAgent;
@@ -112,11 +107,11 @@ public class UserAuth implements Principal, Serializable
     private Map<String, Object> attribute;
 
 
-    public BigInteger getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(BigInteger userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -230,14 +225,6 @@ public class UserAuth implements Principal, Serializable
 
     public void setCurrentOrg(BigInteger currentOrg) {
         this.currentOrg = currentOrg;
-    }
-
-    public String getRefreshId() {
-        return refreshId;
-    }
-
-    public void setRefreshId(String refreshId) {
-        this.refreshId = refreshId;
     }
 
     public String getUserAgent() {

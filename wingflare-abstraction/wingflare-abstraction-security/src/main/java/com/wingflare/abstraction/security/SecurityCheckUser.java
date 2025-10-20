@@ -75,6 +75,6 @@ public interface SecurityCheckUser {
      *
      * @return
      */
-    PageResult<UserAuth> getUserAllLoginInfo(final BigInteger userId, final long pageSize, final long startIndex);
+    PageResult<UserAuth> getUserAllLoginInfo(final String userId, final long pageSize, final long startIndex);
 
 }

@@ -3,6 +3,7 @@ package com.wingflare.lib.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.wingflare.api.security.AuthResponseDTO;
@@ -33,6 +34,8 @@ public class AuthTool {
 
             try {
                 decodedJWT = verifyToken(token, headerBusinessSystem);
+            } catch (TokenExpiredException e) {
+                return authResponseDTO.setError(ErrorCode.TOKEN_EXPIRATION);
             } catch (JWTVerificationException e) {
                 return authResponseDTO.setError(ErrorCode.TOKEN_EXPIRATION_OR_ERROR);
             }
@@ -40,7 +43,7 @@ public class AuthTool {
             authResponseDTO.setUserAuth(userAuthServer.getUser(decodedJWT.getId()));
 
             if (authResponseDTO.getUserAuth() == null || authResponseDTO.getUserAuth().getUserId() == null
-                    || authResponseDTO.getUserAuth().getUserId().compareTo(BigInteger.ZERO) == 0
+                    || StringUtil.isBlank(authResponseDTO.getUserAuth().getUserId())
                     || StringUtil.isEmpty(authResponseDTO.getUserAuth().getUserName())) {
                 return authResponseDTO.setError(ErrorCode.TOKEN_LOGIN_EXPIRATION);
             }
@@ -73,16 +76,15 @@ public class AuthTool {
     /**
      * 创建刷新token
      *
-     * @param refreshId
      * @param tokenId
      * @return
      */
-    public String createRefreshToken(String refreshId, String tokenId, Date expireTime) {
+    public String createRefreshToken(String tokenId, String userId, Date expireTime) {
         return JWT.create()
                 .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
                 .withIssuedAt(new Date())
-                .withSubject(tokenId)
-                .withJWTId(refreshId)
+                .withSubject(userId)
+                .withJWTId(tokenId)
                 .withExpiresAt(expireTime)
                 .sign(AlgorithmFactory.getInstance().createAlgorithm());
     }
@@ -93,7 +95,7 @@ public class AuthTool {
      * @return 解析后的 JWT 对象
      * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
      */
-    public static DecodedJWT verifyToken(String token, String id, String subject) throws JWTVerificationException {
+    public DecodedJWT verifyToken(String token, String id, String subject) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
                 .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
                 .withSubject(subject)
@@ -109,7 +111,7 @@ public class AuthTool {
      * @return 解析后的 JWT 对象
      * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
      */
-    public static DecodedJWT verifyToken(String token, String audience) throws JWTVerificationException {
+    public DecodedJWT verifyToken(String token, String audience) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
                 .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
                 .withAnyOfAudience(audience)
@@ -124,7 +126,7 @@ public class AuthTool {
      * @return 解析后的 JWT 对象
      * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
      */
-    public static DecodedJWT verifyToken(String token) throws JWTVerificationException {
+    public DecodedJWT verifyToken(String token) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
                 .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
                 .build();
@@ -139,7 +141,7 @@ public class AuthTool {
      * @return 解析后的 JWT 对象
      * @throws com.auth0.jwt.exceptions.JWTVerificationException 验证失败时抛出
      */
-    public static DecodedJWT verifyToken(String token, String id, String subject, String audience) throws JWTVerificationException {
+    public DecodedJWT verifyToken(String token, String id, String subject, String audience) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(AlgorithmFactory.getInstance().createAlgorithm())
                 .withIssuer(ConfigUtil.getProperty("jwt.issuer", "wingflare"))
                 .withSubject(subject)

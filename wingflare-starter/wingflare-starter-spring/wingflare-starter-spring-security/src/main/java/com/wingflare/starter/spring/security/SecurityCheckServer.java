@@ -92,7 +92,7 @@ public class SecurityCheckServer implements SecurityCheckUser {
     }
 
     @Override
-    public PageResult<UserAuth> getUserAllLoginInfo(BigInteger userId, long pageSize, long startIndex) {
+    public PageResult<UserAuth> getUserAllLoginInfo(String userId, long pageSize, long startIndex) {
         String markKeyPrefix = getTokenMarkKeyPrefix(userId);
         PageResult<String> keysPageResult = cacheService.scanKey(markKeyPrefix, pageSize, startIndex);
         PageResult<UserAuth> pageResult = null;
@@ -133,11 +133,11 @@ public class SecurityCheckServer implements SecurityCheckUser {
      * @param id
      * @return
      */
-    public static String getTokenMarkKey(BigInteger userId, String id) {
+    public static String getTokenMarkKey(String userId, String id) {
         return String.format("%s%s", getTokenMarkKeyPrefix(userId), id);
     }
 
-    public static String getTokenMarkKeyPrefix(BigInteger userId) {
+    public static String getTokenMarkKeyPrefix(String userId) {
         return String.format("%s:%s:%s:", Ctx.PREFIX_ACCESS_TOKEN, Ctx.PREFIX_ACCESS_TOKEN_MARK, userId);
     }
 
