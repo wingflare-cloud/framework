@@ -12,14 +12,12 @@ import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.NamespaceMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.ServerNodeMapper;
-import com.wingflare.engine.task.datasource.template.persistence.mapper.SystemUserPermissionMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.GroupConfig;
 import com.wingflare.engine.task.datasource.template.persistence.po.Job;
 import com.wingflare.engine.task.datasource.template.persistence.po.Namespace;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.wingflare.engine.task.datasource.template.persistence.po.ServerNode;
-import com.wingflare.engine.task.datasource.template.persistence.po.SystemUserPermission;
 import com.wingflare.engine.task.datasource.template.persistence.po.Workflow;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
 import com.wingflare.engine.task.server.common.enums.IdGeneratorModeEnum;
@@ -83,13 +81,12 @@ public class GroupConfigServiceImpl implements GroupConfigService {
     private final NamespaceMapper namespaceMapper;
     private final JobMapper jobMapper;
     private final WorkflowMapper workflowMapper;
-    private final SystemUserPermissionMapper systemUserPermissionMapper;
     private final Environment environment;
 
     public GroupConfigServiceImpl(ServerNodeMapper serverNodeMapper, AccessTemplate accessTemplate,
                                   ConfigVersionSyncHandler configVersionSyncHandler, JdbcTemplate jdbcTemplate,
                                   NamespaceMapper namespaceMapper, JobMapper jobMapper, WorkflowMapper workflowMapper,
-                                  SystemUserPermissionMapper systemUserPermissionMapper, Environment environment) {
+                                  Environment environment) {
         this.serverNodeMapper = serverNodeMapper;
         this.accessTemplate = accessTemplate;
         this.configVersionSyncHandler = configVersionSyncHandler;
@@ -97,7 +94,6 @@ public class GroupConfigServiceImpl implements GroupConfigService {
         this.namespaceMapper = namespaceMapper;
         this.jobMapper = jobMapper;
         this.workflowMapper = workflowMapper;
-        this.systemUserPermissionMapper = systemUserPermissionMapper;
         this.environment = environment;
     }
 
@@ -276,17 +272,16 @@ public class GroupConfigServiceImpl implements GroupConfigService {
     @Override
     public List<String> getAllGroupNameList() {
 
-        UserSessionVO userSessionVO = UserSessionUtils.currentUserSession();
-        if (userSessionVO.isUser()) {
-            return userSessionVO.getGroupNames();
-        }
+        return new ArrayList<>(){{
+            add("snail_job_demo_group");
+        }};
 
-        ConfigAccess<GroupConfig> groupConfigAccess = accessTemplate.getGroupConfigAccess();
+        /*ConfigAccess<GroupConfig> groupConfigAccess = accessTemplate.getGroupConfigAccess();
         List<GroupConfig> groupConfigs = groupConfigAccess.list(new LambdaQueryWrapper<GroupConfig>()
                 .eq(GroupConfig::getNamespaceId, userSessionVO.getNamespaceId())
                 .select(GroupConfig::getGroupName));
 
-        return StreamUtils.toList(groupConfigs, GroupConfig::getGroupName);
+        return StreamUtils.toList(groupConfigs, GroupConfig::getGroupName);*/
     }
 
     @Override
@@ -404,12 +399,7 @@ public class GroupConfigServiceImpl implements GroupConfigService {
                         .eq(RetrySceneConfig::getNamespaceId, namespaceId)
                         .eq(RetrySceneConfig::getGroupName, groupName).orderByAsc(RetrySceneConfig::getId)).getRecords()),
                 () -> new TaskServerException("There are undeleted retry scenes. Please delete the current group's retry scenes before retrying deletion"));
-        // 4. 是否存在已分配的权限
-        Assert.isTrue(CollUtil.isEmpty(systemUserPermissionMapper.selectList(new PageDTO<>(1, 1), new LambdaQueryWrapper<SystemUserPermission>()
-                        .eq(SystemUserPermission::getNamespaceId, namespaceId)
-                        .eq(SystemUserPermission::getGroupName, groupName).orderByAsc(SystemUserPermission::getId))),
-                () -> new TaskServerException("There are allocated group permissions. Please delete the allocated group permissions before retrying deletion"));
-        // 5. 检查是否存活的客户端节点
+        // 4. 检查是否存活的客户端节点
         Assert.isTrue(CollUtil.isEmpty(serverNodeMapper.selectList(new PageDTO<>(1, 1), new LambdaQueryWrapper<ServerNode>()
                         .eq(ServerNode::getNamespaceId, namespaceId)
                         .eq(ServerNode::getGroupName, groupName).orderByAsc(ServerNode::getId))),

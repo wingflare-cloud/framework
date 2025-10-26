@@ -43,11 +43,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.wingflare</groupId>
-            <artifactId>wingflare-starter-spring-security</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

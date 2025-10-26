@@ -1,13 +1,12 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.wingflare.engine.task.common.core.enums.JobTaskBatchStatusEnum;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
-import com.wingflare.engine.task.server.job.support.handler.WorkflowBatchHandler;
 import com.wingflare.engine.task.server.web.service.WorkflowNodeService;
 import com.wingflare.engine.task.server.web.service.handler.JobHandler;
-import com.wingflare.engine.task.datasource.template.persistence.mapper.JobMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobTaskBatchMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.JobTaskBatch;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -25,14 +24,10 @@ import java.util.List;
 public class WorkflowNodeServiceImpl implements WorkflowNodeService {
 
     private final JobTaskBatchMapper jobTaskBatchMapper;
-    private final JobMapper jobMapper;
-    private final WorkflowBatchHandler workflowBatchHandler;
     private final JobHandler jobHandler;
 
-    public WorkflowNodeServiceImpl(JobTaskBatchMapper jobTaskBatchMapper, JobMapper jobMapper, WorkflowBatchHandler workflowBatchHandler, JobHandler jobHandler) {
+    public WorkflowNodeServiceImpl(JobTaskBatchMapper jobTaskBatchMapper, JobHandler jobHandler) {
         this.jobTaskBatchMapper = jobTaskBatchMapper;
-        this.jobMapper = jobMapper;
-        this.workflowBatchHandler = workflowBatchHandler;
         this.jobHandler = jobHandler;
     }
 

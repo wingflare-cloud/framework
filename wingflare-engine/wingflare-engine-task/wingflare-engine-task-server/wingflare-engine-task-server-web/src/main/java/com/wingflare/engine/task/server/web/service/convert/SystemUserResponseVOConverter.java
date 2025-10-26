@@ -1,12 +1,11 @@
 package com.wingflare.engine.task.server.web.service.convert;
 
+
 import com.wingflare.engine.task.server.web.model.request.UserSessionVO;
 import com.wingflare.engine.task.server.web.model.response.SystemUserResponseVO;
-import com.wingflare.engine.task.datasource.template.persistence.po.SystemUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 
 /**
  * @author opensnail
@@ -20,7 +19,4 @@ public interface SystemUserResponseVOConverter {
 
     SystemUserResponseVO convert(UserSessionVO systemUser);
 
-    SystemUserResponseVO convert(SystemUser systemUser);
-
-    List<SystemUserResponseVO> convertList(List<SystemUser> systemUsers);
 }

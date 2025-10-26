@@ -1,7 +1,9 @@
 package com.wingflare.engine.task.server.web.controller;
 
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.service.service.JobBatchService;
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.JobBatchQueryVO;
 import com.wingflare.engine.task.server.web.model.request.JobBatchResponseWebVO;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Set;
+
 
 /**
  * @author: opensnail
@@ -39,32 +42,37 @@ public class JobBatchController {
     }
 
     @GetMapping("/list")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobRecord.list")
     public PageResult<List<JobBatchResponseWebVO>> getJobBatchPage(JobBatchQueryVO jobQueryVO) {
         return jobWebBatchService.getJobBatchPage(jobQueryVO);
     }
 
     @GetMapping("{id}")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobRecord.detail")
     public JobBatchResponseWebVO getJobBatchDetail(@PathVariable("id") Long id) {
         return jobBatchService.getJobBatchById(id, JobBatchResponseWebVO.class);
     }
 
     @PostMapping("/stop/{taskBatchId}")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobRecord.stop")
     public Boolean stop(@PathVariable("taskBatchId") Long taskBatchId) {
         return jobWebBatchService.stop(taskBatchId);
     }
 
 
     @PostMapping("/retry/{taskBatchId}")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobRecord.retry")
     public Boolean retry(@PathVariable("taskBatchId") Long taskBatchId) {
         return jobWebBatchService.retry(taskBatchId);
     }
 
     @DeleteMapping("/ids")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobRecord.batchDelete")
     public Boolean deleteJobBatchByIds(@RequestBody
                                        @NotEmpty(message = "ids cannot be null")
                                        @Size(max = 100, message = "Maximum {max} deletions")

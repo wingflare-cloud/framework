@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.Assert;
@@ -69,6 +70,7 @@ import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 /**
  * @author: opensnail
  * @date : 2022-04-22 20:19
@@ -102,10 +104,11 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public DashboardCardResponseVO taskRetryJob() {
 
-        // 查询登录用户权限
-        UserSessionVO userSessionVO = UserSessionUtils.currentUserSession();
-        String namespaceId = userSessionVO.getNamespaceId();
-        List<String> groupNames = userSessionVO.isUser() ? userSessionVO.getGroupNames() : new ArrayList<>();
+        // TODO
+        String namespaceId = "764d604ec6fc45f68cd92514c40e9e1a";
+        List<String> groupNames = new ArrayList<>(){{
+            add("snail_job_demo_group");
+        }};
         DashboardCardResponseVO responseVO = new DashboardCardResponseVO();
 
         // 重试任务
@@ -159,7 +162,7 @@ public class DashboardServiceImpl implements DashboardService {
         // 在线Pods
         List<ActivePodQuantityResponseDO> activePodQuantityDO = serverNodeMapper.selectActivePodCount(
                 new LambdaQueryWrapper<ServerNode>()
-                        .in(ServerNode::getNamespaceId, Lists.newArrayList(userSessionVO.getNamespaceId(), ServerRegister.NAMESPACE_ID))
+                        .in(ServerNode::getNamespaceId, Lists.newArrayList(namespaceId, ServerRegister.NAMESPACE_ID))
                         .groupBy(ServerNode::getNodeType));
         Map<Integer, Long> map = StreamUtils.toMap(activePodQuantityDO,
                 ActivePodQuantityResponseDO::getNodeType, ActivePodQuantityResponseDO::getTotal);
@@ -174,10 +177,11 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public DashboardRetryLineResponseVO retryLineList(LineQueryVO queryVO) {
-        // 查询登录用户权限
-        UserSessionVO userSessionVO = UserSessionUtils.currentUserSession();
-        String namespaceId = userSessionVO.getNamespaceId();
-        List<String> groupNames = userSessionVO.isUser() ? userSessionVO.getGroupNames() : new ArrayList<>();
+        // TODO
+        String namespaceId = "764d604ec6fc45f68cd92514c40e9e1a";
+        List<String> groupNames = new ArrayList<>(){{
+            add("snail_job_demo_group");
+        }};
         DashboardRetryLineResponseVO responseVO = new DashboardRetryLineResponseVO();
 
         // 重试任务列表
@@ -232,10 +236,11 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public DashboardRetryLineResponseVO jobLineList(JobLineQueryVo queryVO) {
-        // 查询登录用户权限
-        UserSessionVO userSessionVO = UserSessionUtils.currentUserSession();
-        String namespaceId = userSessionVO.getNamespaceId();
-        List<String> groupNames = userSessionVO.isUser() ? userSessionVO.getGroupNames() : new ArrayList<>();
+        // TODO
+        String namespaceId = "764d604ec6fc45f68cd92514c40e9e1a";
+        List<String> groupNames = new ArrayList<>(){{
+            add("snail_job_demo_group");
+        }};
         DashboardRetryLineResponseVO responseVO = new DashboardRetryLineResponseVO();
 
         // 重试任务列表

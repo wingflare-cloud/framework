@@ -1,6 +1,7 @@
 package com.wingflare.adapter.spring.jwt;
 
-import com.alibaba.fastjson.JSONObject;
+
+import com.alibaba.fastjson2.JSONObject;
 import com.wingflare.adapter.spring.security.properties.AuthProperties;
 import com.wingflare.api.core.Ctx;
 import com.wingflare.api.core.R;
@@ -119,7 +120,7 @@ public class ReactiveAuthFilter implements WebFilter, Ordered {
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(Mono.create(monoSink -> {
             try {
-                DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONBytes(value));
+                DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(value).getBytes());
                 monoSink.success(dataBuffer);
             } catch (Throwable e) {
                 monoSink.error(e);

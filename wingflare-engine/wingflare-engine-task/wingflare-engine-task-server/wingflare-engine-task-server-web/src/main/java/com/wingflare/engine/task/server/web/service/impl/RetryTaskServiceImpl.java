@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjUtil;
@@ -23,7 +24,6 @@ import com.wingflare.engine.task.server.web.model.request.UserSessionVO;
 import com.wingflare.engine.task.server.web.model.response.RetryResponseWebVO;
 import com.wingflare.engine.task.server.web.model.response.RetryTaskResponseVO;
 import com.wingflare.engine.task.server.web.service.RetryTaskService;
-import com.wingflare.engine.task.server.web.service.RetryWebService;
 import com.wingflare.engine.task.server.web.service.convert.RetryTaskLogResponseVOConverter;
 import com.wingflare.engine.task.server.web.service.convert.RetryTaskResponseVOConverter;
 import com.wingflare.engine.task.server.web.timer.LogTimerWheel;
@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+
 /**
  * @author: opensnail
  * @date : 2022-02-28 09:10
@@ -65,16 +66,16 @@ public class RetryTaskServiceImpl implements RetryTaskService {
     private final RetryTaskLogMessageMapper retryTaskLogMessageMapper;
     private final RetryTaskStopHandler retryTaskStopHandler;
     private final AccessTemplate accessTemplate;
-    private final RetryWebService retryWebService;
     private final RetryArgsDeserializeHandler retryArgsDeserializeHandler;
 
-    public RetryTaskServiceImpl(RetryTaskMapper retryTaskMapper, RetryMapper retryMapper, RetryTaskLogMessageMapper retryTaskLogMessageMapper, RetryTaskStopHandler retryTaskStopHandler, AccessTemplate accessTemplate, RetryWebService retryWebService, RetryArgsDeserializeHandler retryArgsDeserializeHandler) {
+    public RetryTaskServiceImpl(RetryTaskMapper retryTaskMapper, RetryMapper retryMapper, RetryTaskLogMessageMapper retryTaskLogMessageMapper,
+                                RetryTaskStopHandler retryTaskStopHandler, AccessTemplate accessTemplate,
+                                RetryArgsDeserializeHandler retryArgsDeserializeHandler) {
         this.retryTaskMapper = retryTaskMapper;
         this.retryMapper = retryMapper;
         this.retryTaskLogMessageMapper = retryTaskLogMessageMapper;
         this.retryTaskStopHandler = retryTaskStopHandler;
         this.accessTemplate = accessTemplate;
-        this.retryWebService = retryWebService;
         this.retryArgsDeserializeHandler = retryArgsDeserializeHandler;
     }
 

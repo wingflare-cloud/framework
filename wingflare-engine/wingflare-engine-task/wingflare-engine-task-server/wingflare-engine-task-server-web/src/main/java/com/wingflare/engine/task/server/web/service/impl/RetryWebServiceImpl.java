@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -66,6 +67,7 @@ import java.util.regex.Pattern;
 
 import static com.wingflare.engine.task.common.core.enums.RetryStatusEnum.ALLOW_DELETE_STATUS;
 
+
 /**
  * @author opensnail
  * @date 2022-02-27
@@ -80,7 +82,9 @@ public class RetryWebServiceImpl extends AbstractRetryService implements RetryWe
     private final TransactionTemplate transactionTemplate;
     private final InstanceManager instanceManager;
 
-    public RetryWebServiceImpl(RetryTaskMapper retryTaskMapper, AccessTemplate accessTemplate, List<TaskGenerator> taskGenerators, RetryTaskLogMessageMapper retryTaskLogMessageMapper, TransactionTemplate transactionTemplate, InstanceManager instanceManager) {
+    public RetryWebServiceImpl(RetryTaskMapper retryTaskMapper, AccessTemplate accessTemplate, List<TaskGenerator> taskGenerators,
+                               RetryTaskLogMessageMapper retryTaskLogMessageMapper, TransactionTemplate transactionTemplate,
+                               InstanceManager instanceManager) {
         this.retryTaskMapper = retryTaskMapper;
         this.accessTemplate = accessTemplate;
         this.taskGenerators = taskGenerators;

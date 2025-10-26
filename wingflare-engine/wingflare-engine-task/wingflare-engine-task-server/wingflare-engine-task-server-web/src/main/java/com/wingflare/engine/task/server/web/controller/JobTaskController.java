@@ -1,6 +1,8 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.JobTaskQueryVO;
 import com.wingflare.engine.task.server.web.model.response.JobTaskResponseVO;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 
 /**
  * @author: opensnail
@@ -26,13 +29,15 @@ public class JobTaskController {
     }
 
     @GetMapping("/list")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.job.list")
     public PageResult<List<JobTaskResponseVO>> getJobTaskPage(JobTaskQueryVO jobTaskQueryVO) {
         return jobTaskService.getJobTaskPage(jobTaskQueryVO);
     }
 
     @GetMapping("/tree/list")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.job.list")
     public List<JobTaskResponseVO> getTreeJobTask(JobTaskQueryVO jobTaskQueryVO) {
         return jobTaskService.getTreeJobTask(jobTaskQueryVO);
     }

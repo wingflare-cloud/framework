@@ -1,6 +1,8 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.RetryTaskQueryVO;
 import com.wingflare.engine.task.server.web.model.response.RetryTaskResponseVO;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * 重试日志接口
  *
@@ -31,31 +34,36 @@ public class RetryTaskController {
     @Resource
     private RetryTaskService retryTaskService;
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.record.list")
     @GetMapping("list")
     public PageResult<List<RetryTaskResponseVO>> getRetryTaskPage(RetryTaskQueryVO queryVO) {
         return retryTaskService.getRetryTaskLogPage(queryVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.record.detail")
     @GetMapping("{id}")
     public RetryTaskResponseVO getRetryTaskById(@PathVariable("id") Long id) {
         return retryTaskService.getRetryTaskById(id);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.record.stop")
     @PostMapping("/stop/{id}")
     public Boolean stopById(@PathVariable("id") Long id) {
         return retryTaskService.stopById(id);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.record.delete")
     @DeleteMapping("{id}")
     public Boolean deleteById(@PathVariable("id") Long id) {
         return retryTaskService.deleteById(id);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.record.batchDelete")
     @DeleteMapping("ids")
     public Boolean batchDelete(@RequestBody @NotEmpty(message = "ids cannot be null") Set<Long> ids) {
         return retryTaskService.batchDelete(ids);

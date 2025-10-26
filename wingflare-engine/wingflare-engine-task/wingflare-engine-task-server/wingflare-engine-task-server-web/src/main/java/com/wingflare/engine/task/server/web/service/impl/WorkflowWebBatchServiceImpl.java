@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjUtil;
@@ -32,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * @author xiaowoniu
  * @date 2023-12-23 17:48:31
@@ -45,7 +47,8 @@ public class WorkflowWebBatchServiceImpl extends AbstractWorkflowBatchService im
     private final WorkflowBatchHandler workflowBatchHandler;
     private final JobHandler jobHandler;
 
-    public WorkflowWebBatchServiceImpl(WorkflowTaskBatchMapper workflowTaskBatchMapper, JobTaskBatchMapper jobTaskBatchMapper, WorkflowBatchHandler workflowBatchHandler, JobHandler jobHandler) {
+    public WorkflowWebBatchServiceImpl(WorkflowTaskBatchMapper workflowTaskBatchMapper, JobTaskBatchMapper jobTaskBatchMapper,
+                                       WorkflowBatchHandler workflowBatchHandler, JobHandler jobHandler) {
         this.workflowTaskBatchMapper = workflowTaskBatchMapper;
         this.jobTaskBatchMapper = jobTaskBatchMapper;
         this.workflowBatchHandler = workflowBatchHandler;

@@ -1,7 +1,8 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
-import com.wingflare.engine.task.server.web.annotation.RoleEnum;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.service.WorkflowNodeService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,14 +24,16 @@ public class WorkflowNodeController {
     }
 
     @PostMapping("/stop/{nodeId}/{workflowTaskBatchId}")
-    @LoginRequired(role = RoleEnum.USER)
+    @RequiresLogin
+    @RequiresPermissions("task.workflow.node.stop")
     public Boolean stop(@PathVariable("nodeId") Long nodeId,
                         @PathVariable("workflowTaskBatchId") Long workflowTaskBatchId) {
         return workflowNodeService.stop(nodeId, workflowTaskBatchId);
     }
 
     @PostMapping("/retry/{nodeId}/{workflowTaskBatchId}")
-    @LoginRequired(role = RoleEnum.USER)
+    @RequiresLogin
+    @RequiresPermissions("task.workflow.node.retry")
     public Boolean retry(@PathVariable("nodeId") Long nodeId,
                          @PathVariable("workflowTaskBatchId") Long workflowTaskBatchId) {
         return workflowNodeService.retry(nodeId, workflowTaskBatchId);

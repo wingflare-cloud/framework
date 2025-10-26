@@ -164,8 +164,8 @@ public class LoginBizImpl implements LoginBiz {
         Date refreshTokenExpireDate = DateUtil.rollSecond(now, Math.toIntExact(maxRefreshTokenExpireTime));
 
         TokenDTO tokenDto = Builder.of(TokenDTO::new)
-                .with(TokenDTO::setExpiresIn, tokenExpireTime.intValue())
-                .with(TokenDTO::setRefreshExpiresIn, Math.toIntExact(maxRefreshTokenExpireTime))
+                .with(TokenDTO::setExpiresIn, maxRefreshTokenExpireTime.intValue())
+                .with(TokenDTO::setRefreshExpiresIn, Math.toIntExact(tokenExpireTime))
                 .with(TokenDTO::setToken, authTool.createLoginToken(tokenId, String.valueOf(userAuth.getUserId()),
                         refreshTokenExpireDate, SecurityUtil.getBusinessSystem()))
                 .with(TokenDTO::setRefreshToken, authTool.createRefreshToken(tokenId, userAuth.getUserId(), refreshTokenExpireDate))

@@ -1,9 +1,10 @@
 package com.wingflare.engine.task.server.web.controller;
 
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.common.vo.WorkflowBatchResponseVO;
 import com.wingflare.engine.task.server.service.service.WorkflowBatchService;
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
-import com.wingflare.engine.task.server.web.annotation.RoleEnum;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.WorkflowBatchQueryVO;
 import com.wingflare.engine.task.server.web.model.response.WorkflowDetailResponseWebVO;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * @author xiaowoniu
  * @date 2023-12-23 17:47:51
@@ -38,26 +40,30 @@ public class WorkflowBatchController {
         this.workflowBatchService = workflowBatchService;
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.workflow.recordList")
     @GetMapping("/page/list")
     public PageResult<List<WorkflowBatchResponseVO>> listPage(WorkflowBatchQueryVO queryVO) {
         return workflowWebBatchService.listPage(queryVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.workflow.recordDetail")
     @GetMapping("{id}")
     public WorkflowDetailResponseWebVO getWorkflowBatchDetail(@PathVariable("id") Long id) {
         return workflowBatchService.getWorkflowBatchById(id, WorkflowDetailResponseWebVO.class);
     }
 
     @PostMapping("/stop/{id}")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.workflow.recordStop")
     public Boolean stop(@PathVariable("id") Long id) {
         return workflowWebBatchService.stop(id);
     }
 
     @DeleteMapping("/ids")
-    @LoginRequired(role = RoleEnum.USER)
+    @RequiresLogin
+    @RequiresPermissions("task.workflow.recordDeleteIds")
     public Boolean deleteByIds(@RequestBody
                                @NotEmpty(message = "ids cannot be null")
                                @Size(max = 100, message = "Maximum {max} deletions")

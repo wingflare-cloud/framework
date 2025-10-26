@@ -1,6 +1,8 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.JobExecutorQueryVO;
 import com.wingflare.engine.task.server.web.service.JobExecutorService;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * @Author：srzou
  * @Package：com.wingflare.engine.task.server.web.controller
@@ -32,25 +35,29 @@ public class JobExecutorController {
     private JobExecutorService jobExecutorService;
 
     @GetMapping("/page/list")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobExecutor.list")
     public PageResult<List<JobExecutor>> getJobPage(JobExecutorQueryVO executorQueryVO) {
         return jobExecutorService.getJobExecutorPage(executorQueryVO);
     }
 
     @GetMapping("/list")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobExecutor.list")
     public Set<String> getJobList(JobExecutorQueryVO executorQueryVO) {
         return jobExecutorService.getJobExecutorList(executorQueryVO);
     }
 
     @GetMapping("{id}")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobExecutor.detail")
     public JobExecutor getJobExecutorsDetail(@PathVariable("id") Long id) {
         return jobExecutorService.getJobExecutorDetail(id);
     }
 
     @DeleteMapping("/ids")
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.jobExecutor.batchDelete")
     public Boolean deleteJobExecutorsById(@RequestBody @NotEmpty(message = "ids cannot be null") Set<Long> ids) {
         return jobExecutorService.deleteJobExecutorByIds(ids);
     }

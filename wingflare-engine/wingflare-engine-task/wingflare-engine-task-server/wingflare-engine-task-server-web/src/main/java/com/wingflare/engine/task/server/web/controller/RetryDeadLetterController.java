@@ -1,6 +1,8 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.BatchDeleteRetryDeadLetterVO;
 import com.wingflare.engine.task.server.web.model.request.BatchRollBackRetryDeadLetterVO;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 /**
  * 死信队列接口
  *
@@ -34,26 +37,30 @@ public class RetryDeadLetterController {
         this.retryDeadLetterService = retryDeadLetterService;
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.deadLetter.list")
     @GetMapping("list")
     public PageResult<List<RetryDeadLetterResponseVO>> getRetryDeadLetterPage(RetryDeadLetterQueryVO queryVO) {
         return retryDeadLetterService.getRetryDeadLetterPage(queryVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.deadLetter.detail")
     @GetMapping("{id}")
     public RetryDeadLetterResponseVO getRetryDeadLetterById(@RequestParam("groupName") String groupName,
                                                             @PathVariable("id") Long id) {
         return retryDeadLetterService.getRetryDeadLetterById(groupName, id);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.deadLetter.rollback")
     @PostMapping("/batch/rollback")
     public int rollback(@RequestBody @Validated BatchRollBackRetryDeadLetterVO rollBackRetryDeadLetterVO) {
         return retryDeadLetterService.rollback(rollBackRetryDeadLetterVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.retry.deadLetter.batchDelete")
     @DeleteMapping("/batch")
     public boolean batchDelete(@RequestBody @Validated BatchDeleteRetryDeadLetterVO deadLetterVO) {
         return retryDeadLetterService.batchDelete(deadLetterVO);

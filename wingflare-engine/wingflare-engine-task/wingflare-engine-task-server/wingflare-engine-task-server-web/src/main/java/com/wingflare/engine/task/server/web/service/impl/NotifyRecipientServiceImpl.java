@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wingflare.engine.task.common.core.util.JsonUtil;
@@ -14,7 +15,6 @@ import com.wingflare.engine.task.server.web.model.response.CommonLabelValueRespo
 import com.wingflare.engine.task.server.web.model.response.NotifyRecipientResponseVO;
 import com.wingflare.engine.task.server.web.service.NotifyRecipientService;
 import com.wingflare.engine.task.server.web.service.convert.NotifyRecipientConverter;
-import com.wingflare.engine.task.server.web.service.handler.GroupHandler;
 import com.wingflare.engine.task.server.web.util.UserSessionUtils;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.NotifyRecipientMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.NotifyRecipient;
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+
 /**
  * @author opensnail
  * @date 2024-04-17 21:24:51
@@ -40,11 +41,9 @@ import java.util.Set;
 public class NotifyRecipientServiceImpl implements NotifyRecipientService {
 
     private final NotifyRecipientMapper notifyRecipientMapper;
-    private final GroupHandler groupHandler;
 
-    public NotifyRecipientServiceImpl(NotifyRecipientMapper notifyRecipientMapper, GroupHandler groupHandler) {
+    public NotifyRecipientServiceImpl(NotifyRecipientMapper notifyRecipientMapper) {
         this.notifyRecipientMapper = notifyRecipientMapper;
-        this.groupHandler = groupHandler;
     }
 
     @Override

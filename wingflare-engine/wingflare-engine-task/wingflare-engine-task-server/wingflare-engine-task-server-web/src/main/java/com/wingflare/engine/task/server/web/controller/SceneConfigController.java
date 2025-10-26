@@ -1,18 +1,16 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.common.core.annotation.OriginalControllerReturnValue;
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
-import com.wingflare.engine.task.server.web.model.request.ExportSceneVO;
 import com.wingflare.engine.task.server.web.model.request.SceneConfigQueryVO;
 import com.wingflare.engine.task.server.web.model.request.SceneConfigRequestVO;
 import com.wingflare.engine.task.server.web.model.response.SceneConfigResponseVO;
 import com.wingflare.engine.task.server.web.service.SceneConfigService;
-import com.wingflare.engine.task.server.web.util.ExportUtils;
 import com.wingflare.engine.task.server.web.util.ImportUtils;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +28,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * 重试场景接口
  *
@@ -45,57 +44,58 @@ public class SceneConfigController {
         this.sceneConfigService = sceneConfigService;
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.list")
     @GetMapping("page/list")
     public PageResult<List<SceneConfigResponseVO>> getSceneConfigPageList(SceneConfigQueryVO queryVO) {
         return sceneConfigService.getSceneConfigPageList(queryVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.list")
     @GetMapping("list")
     public List<SceneConfigResponseVO> getSceneConfigList(@RequestParam("groupName") String groupName) {
         return sceneConfigService.getSceneConfigList(groupName);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.detail")
     @GetMapping("{id}")
     public SceneConfigResponseVO getSceneConfigDetail(@PathVariable("id") Long id) {
         return sceneConfigService.getSceneConfigDetail(id);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.updateStatus")
     @PutMapping("/{id}/status/{status}")
     public Boolean updateStatus(@PathVariable("id") Long id, @PathVariable("status") Integer status) {
         return sceneConfigService.updateStatus(id, status);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.save")
     @PostMapping
     public Boolean saveSceneConfig(@RequestBody @Validated SceneConfigRequestVO requestVO) {
         return sceneConfigService.saveSceneConfig(requestVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.update")
     @PutMapping
     public Boolean updateSceneConfig(@RequestBody @Validated SceneConfigRequestVO requestVO) {
         return sceneConfigService.updateSceneConfig(requestVO);
     }
 
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.import")
     @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void importScene(@RequestPart("file") MultipartFile file) throws IOException {
         // 写入数据
         sceneConfigService.importSceneConfig(ImportUtils.parseList(file, SceneConfigRequestVO.class));
     }
 
-    @LoginRequired
-    @PostMapping("/export")
-    @OriginalControllerReturnValue
-    public ResponseEntity<String> export(@RequestBody ExportSceneVO exportSceneVO) {
-        return ExportUtils.doExport(sceneConfigService.exportSceneConfig(exportSceneVO));
-    }
-
-    @LoginRequired
+    @RequiresLogin
+    @RequiresPermissions("task.scene.config.deleteIds")
     @DeleteMapping("/ids")
     public boolean deleteByIds(@RequestBody @NotEmpty(message = "ids cannot be null") Set<Long> ids) {
         return sceneConfigService.deleteByIds(ids);

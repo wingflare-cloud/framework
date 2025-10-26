@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
@@ -10,7 +11,6 @@ import com.wingflare.engine.task.datasource.template.persistence.po.Retry;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetryDeadLetter;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySceneConfig;
 import com.wingflare.engine.task.datasource.template.persistence.po.RetrySummary;
-import com.wingflare.engine.task.datasource.template.persistence.po.SystemUser;
 import com.wingflare.engine.task.server.common.dto.PartitionTask;
 import com.wingflare.engine.task.server.common.exception.TaskServerException;
 import com.wingflare.engine.task.server.common.strategy.WaitStrategies;
@@ -32,7 +32,6 @@ import com.wingflare.engine.task.datasource.template.access.AccessTemplate;
 import com.wingflare.engine.task.datasource.template.access.ConfigAccess;
 import com.wingflare.engine.task.datasource.template.access.TaskAccess;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.RetrySummaryMapper;
-import com.wingflare.engine.task.datasource.template.persistence.mapper.SystemUserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
@@ -50,6 +49,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+
 /**
  * @author: opensnail
  * @date : 2022-03-03 10:55
@@ -61,13 +61,11 @@ public class SceneConfigServiceImpl implements SceneConfigService {
     private final AccessTemplate accessTemplate;
     private final GroupHandler groupHandler;
     private final RetrySummaryMapper retrySummaryMapper;
-    private final SystemUserMapper systemUserMapper;
 
-    public SceneConfigServiceImpl(AccessTemplate accessTemplate, GroupHandler groupHandler, RetrySummaryMapper retrySummaryMapper, SystemUserMapper systemUserMapper) {
+    public SceneConfigServiceImpl(AccessTemplate accessTemplate, GroupHandler groupHandler, RetrySummaryMapper retrySummaryMapper) {
         this.accessTemplate = accessTemplate;
         this.groupHandler = groupHandler;
         this.retrySummaryMapper = retrySummaryMapper;
-        this.systemUserMapper = systemUserMapper;
     }
 
     @Override
@@ -87,12 +85,6 @@ public class SceneConfigServiceImpl implements SceneConfigService {
                         .orderByDesc(RetrySceneConfig::getCreateDt));
 
         List<SceneConfigResponseVO> sceneConfigResponseVOList = SceneConfigResponseVOConverter.INSTANCE.convertList(pageDTO.getRecords());
-        for (SceneConfigResponseVO responseVO : sceneConfigResponseVOList) {
-            if (Objects.nonNull(responseVO.getOwnerId())) {
-                SystemUser systemUser = systemUserMapper.selectById(responseVO.getOwnerId());
-                responseVO.setOwnerName(systemUser.getUsername());
-            }
-        }
         return new PageResult<>(pageDTO, sceneConfigResponseVOList);
     }
 

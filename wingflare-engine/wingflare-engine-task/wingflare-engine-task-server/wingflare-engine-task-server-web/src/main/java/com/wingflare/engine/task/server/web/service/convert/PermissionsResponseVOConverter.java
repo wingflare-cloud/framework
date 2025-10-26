@@ -1,11 +1,9 @@
 package com.wingflare.engine.task.server.web.service.convert;
 
-import com.wingflare.engine.task.server.web.model.response.PermissionsResponseVO;
-import com.wingflare.engine.task.datasource.template.persistence.po.SystemUserPermission;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 
 /**
  * @author: xiaowoniu
@@ -16,7 +14,5 @@ import java.util.List;
 public interface PermissionsResponseVOConverter {
 
     PermissionsResponseVOConverter INSTANCE = Mappers.getMapper(PermissionsResponseVOConverter.class);
-
-    List<PermissionsResponseVO> convertList(List<SystemUserPermission> systemUserPermissionList);
 
 }

@@ -101,13 +101,7 @@ public class AuthController {
     @RequiresLogin
     @ResponseBody
     public UserDTO getLoginUser() {
-        UserAuth userAuth = loginBiz.getUserLoginInfo(new StringIdBo().setId(SecurityUtil.getUser().getTokenId()));
-
-        if (userAuth == null) {
-            return null;
-        }
-
-        return userBiz.get(new IdBo().setId(BigInteger.valueOf(Long.parseLong(userAuth.getUserId()))));
+        return userBiz.get(new IdBo().setId(BigInteger.valueOf(Long.parseLong(SecurityUtil.getUser().getUserId()))));
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

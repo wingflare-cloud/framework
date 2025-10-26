@@ -1,7 +1,8 @@
 package com.wingflare.engine.task.server.web.controller;
 
-import com.wingflare.engine.task.server.web.annotation.LoginRequired;
-import com.wingflare.engine.task.server.web.annotation.RoleEnum;
+
+import com.wingflare.api.security.annotation.RequiresLogin;
+import com.wingflare.api.security.annotation.RequiresPermissions;
 import com.wingflare.engine.task.server.web.model.base.PageResult;
 import com.wingflare.engine.task.server.web.model.request.NamespaceQueryVO;
 import com.wingflare.engine.task.server.web.model.request.NamespaceRequestVO;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 /**
  * @author: xiaowoniu
  * @date : 2023-11-21 15:02
@@ -32,31 +34,36 @@ public class NamespaceController {
     @Resource
     private NamespaceService namespaceService;
 
-    @LoginRequired(role = RoleEnum.ADMIN)
+    @RequiresLogin
+    @RequiresPermissions("task.namespace.save")
     @PostMapping
     public Boolean saveNamespace(@RequestBody @Validated NamespaceRequestVO namespaceRequestVO) {
         return namespaceService.saveNamespace(namespaceRequestVO);
     }
 
-    @LoginRequired(role = RoleEnum.ADMIN)
+    @RequiresLogin
+    @RequiresPermissions("task.namespace.update")
     @PutMapping
     public Boolean updateNamespace(@RequestBody @Validated NamespaceRequestVO namespaceRequestVO) {
         return namespaceService.updateNamespace(namespaceRequestVO);
     }
 
-    @LoginRequired(role = RoleEnum.ADMIN)
+    @RequiresLogin
+    @RequiresPermissions("task.namespace.list")
     @GetMapping("list")
     public PageResult<List<NamespaceResponseVO>> getNamespacePage(NamespaceQueryVO queryVO) {
         return namespaceService.getNamespacePage(queryVO);
     }
 
-    @LoginRequired(role = RoleEnum.ADMIN)
+    @RequiresLogin
+    @RequiresPermissions("task.namespace.delete")
     @DeleteMapping("{uniqueId}")
     public Boolean deleteByUniqueId(@PathVariable("uniqueId") String uniqueId) {
         return namespaceService.deleteByUniqueId(uniqueId);
     }
 
-    @LoginRequired(role = RoleEnum.ADMIN)
+    @RequiresLogin
+    @RequiresPermissions("task.namespace.list")
     @GetMapping("/all")
     public List<NamespaceResponseVO> getAllNamespace() {
         return namespaceService.getAllNamespace();

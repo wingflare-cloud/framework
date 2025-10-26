@@ -1,5 +1,6 @@
 package com.wingflare.engine.task.server.web.service.impl;
 
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Pair;
@@ -15,11 +16,9 @@ import com.wingflare.engine.task.common.log.TaskEngineLog;
 import com.wingflare.engine.task.common.model.request.JobTaskConfigRequest;
 import com.wingflare.engine.task.common.model.response.base.WorkflowDetailResponse;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.JobMapper;
-import com.wingflare.engine.task.datasource.template.persistence.mapper.SystemUserMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowMapper;
 import com.wingflare.engine.task.datasource.template.persistence.mapper.WorkflowNodeMapper;
 import com.wingflare.engine.task.datasource.template.persistence.po.Job;
-import com.wingflare.engine.task.datasource.template.persistence.po.SystemUser;
 import com.wingflare.engine.task.datasource.template.persistence.po.Workflow;
 import com.wingflare.engine.task.datasource.template.persistence.po.WorkflowNode;
 import com.wingflare.engine.task.server.common.config.SystemProperties;
@@ -70,6 +69,7 @@ import java.util.Set;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
 
+
 /**
  * @author xiaowoniu
  * @date 2023-12-12 21:54:05
@@ -85,18 +85,18 @@ public class WorkflowWebServiceImpl extends AbstractWorkflowService implements W
     private final WorkflowHandler workflowHandler;
     private final JobMapper jobMapper;
     private final GroupHandler groupHandler;
-    private final SystemUserMapper systemUserMapper;
 
     private final static Logger log = LoggerFactory.getLogger(WorkflowWebServiceImpl.class);
 
-    public WorkflowWebServiceImpl(WorkflowMapper workflowMapper, WorkflowNodeMapper workflowNodeMapper, SystemProperties systemProperties, WorkflowHandler workflowHandler, JobMapper jobMapper, GroupHandler groupHandler, SystemUserMapper systemUserMapper) {
+    public WorkflowWebServiceImpl(WorkflowMapper workflowMapper, WorkflowNodeMapper workflowNodeMapper,
+                                  SystemProperties systemProperties, WorkflowHandler workflowHandler,
+                                  JobMapper jobMapper, GroupHandler groupHandler) {
         this.workflowMapper = workflowMapper;
         this.workflowNodeMapper = workflowNodeMapper;
         this.systemProperties = systemProperties;
         this.workflowHandler = workflowHandler;
         this.jobMapper = jobMapper;
         this.groupHandler = groupHandler;
-        this.systemUserMapper = systemUserMapper;
     }
 
     @Override
@@ -189,12 +189,6 @@ public class WorkflowWebServiceImpl extends AbstractWorkflowService implements W
                         .orderByDesc(Workflow::getId));
 
         List<WorkflowResponseVO> workflowResponseVOList = WorkflowWebConverter.INSTANCE.convertListToWorkflowList(page.getRecords());
-        for (WorkflowResponseVO responseVO : workflowResponseVOList) {
-            if (Objects.nonNull(responseVO.getOwnerId()) && responseVO.getOwnerId() > 0) {
-                SystemUser systemUser = systemUserMapper.selectById(responseVO.getOwnerId());
-                responseVO.setOwnerName(systemUser.getUsername());
-            }
-        }
         return new PageResult<>(pageDTO, workflowResponseVOList);
     }
 

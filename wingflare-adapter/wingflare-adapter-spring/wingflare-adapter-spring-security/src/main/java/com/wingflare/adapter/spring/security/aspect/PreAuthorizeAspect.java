@@ -63,10 +63,10 @@ public class PreAuthorizeAspect implements Ordered {
     /**
      * 定义AOP签名 (切入所有使用鉴权注解的方法)
      */
-    public static final String POINTCUT_SIGN = "@annotation(com.wingflare.lib.security.annotation.RequiresLogin) || "
-            + "@annotation(com.wingflare.lib.security.annotation.RequiresPermissions) || "
-            + "@annotation(com.wingflare.lib.security.annotation.BusinessSystem) || "
-            + "@annotation(com.wingflare.lib.security.annotation.PermissionGroups)";
+    public static final String POINTCUT_SIGN = "@annotation(com.wingflare.api.security.annotation.RequiresLogin) || "
+            + "@annotation(com.wingflare.api.security.annotation.RequiresPermissions) || "
+            + "@annotation(com.wingflare.api.security.annotation.BusinessSystem) || "
+            + "@annotation(com.wingflare.api.security.annotation.PermissionGroups)";
 
 
     public PreAuthorizeAspect(UserAuthUtil userAuthUtil) {
